@@ -17,6 +17,8 @@
 
         public static readonly string CacheableAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Cacheable";
 
+        public static readonly string FragmentedAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Fragmented";
+
         public static readonly string IndirectAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Indirect";
 
         public static readonly string TransparentAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Transparent";
@@ -33,11 +35,21 @@
 
         public static readonly string ErrorResultAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:ErrorResult";
 
+        public static readonly string PropertyResultAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:PropertyResult";
+
+        public static readonly string PropertyValueAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:PropertyValue";
+
+        public static readonly string ReadErrorAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:ReadError";
+
+        public static readonly string WriteErrorAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:WriteError";
+
         public static readonly string ErrorCodeAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:ErrorCode";
 
         public static readonly string ErrorInfoAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:ErrorInfo";
 
         public static readonly string TelemTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:telemetryTopic";
+
+        public static readonly string PropTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:propertyTopic";
 
         public static readonly string CmdReqTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:commandTopic";
 

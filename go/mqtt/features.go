@@ -22,9 +22,7 @@ func WithPersist() PublishOption {
 func (o *SessionClientOptions) checkFeatures(p map[string]string) error {
 	if o.DisableAIOBrokerFeatures && p != nil {
 		if _, ok := p[AIOPersistence]; ok {
-			return &InvalidAIOBrokerFeature{
-				feature: AIOPersistence,
-			}
+			return &AIOBrokerFeatureError{AIOPersistence}
 		}
 	}
 	return nil

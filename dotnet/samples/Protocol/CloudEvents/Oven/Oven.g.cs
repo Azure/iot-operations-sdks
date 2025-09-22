@@ -116,6 +116,7 @@ namespace CloudEvents.Oven
                 this.mqttClient = mqttClient;
 
                 this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)

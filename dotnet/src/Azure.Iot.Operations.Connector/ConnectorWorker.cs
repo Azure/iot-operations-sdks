@@ -458,7 +458,10 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogInformation("Asset with name {0} deleted from endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                 await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
-                await _adrClient!.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
+
+                // Note that the connector does not unsubscribe from notifications about this now-deleted asset. In the near future,
+                // the ADR service itself will do this for the connector. Trying to unsubscribe would yield a 404 from the ADR service
+                // since the asset the notifications were about no longer exists.
             }
             else if (args.ChangeType == ChangeType.Updated)
             {

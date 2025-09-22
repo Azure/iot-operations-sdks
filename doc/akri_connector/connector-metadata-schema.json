@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://json.schemastore.org/aio-connector-metadata-5.0-preview.json",
+  "$id": "https://json.schemastore.org/aio-connector-metadata-7.0-preview.json",
   "type": "object",
-  "title": "JSON schema for Azure IoT Operations Connector Metadata 5.0-preview",
+  "title": "JSON schema for Azure IoT Operations Connector Metadata 7.0-preview",
   "description": "Schema that defines how to write a connector metadata document when writing connectors for Azure IoT Operations solutions",
   "definitions": {
     "modelLimits": {
@@ -34,7 +34,7 @@
         },
         "topic": {
           "type": "string",
-          "description": "The default MQTT topic that will be published to"
+          "description": "The default MQTT topic that will be published to. Values are allowed to contain deploy-time parameters like 'mqtt/{deviceName}/{inboundEndpointName}/myMessages'.  The supported parameter tokens are: {deviceName}, {inboundEndpointName}, {assetName}, {datasetName}, {eventName}, {streamName}, and {kubernetesNamespace}. Dataset/event/stream name tokens are only allowed if the configured destination is for a dataset/event/stream."
         },
         "qos": {
           "type": "integer",
@@ -66,7 +66,7 @@
         },
         "key": {
           "type": "string",
-          "description": "The default broker state store key that will be published to"
+          "description": "The default broker state store key that will be published to. Values are allowed to contain deploy-time parameters like 'dss/{deviceName}/{inboundEndpointName}'.  The supported parameter tokens are: {deviceName}, {inboundEndpointName}, {assetName}, {datasetName}, {eventName}, {streamName}, and {kubernetesNamespace}. Dataset/event/stream name tokens are only allowed if the configured destination is for a dataset/event/stream."
         }
       },
       "additionalProperties": false,
@@ -83,7 +83,7 @@
         },
         "path": {
           "type": "string",
-          "description": "The default path that storage will use"
+          "description": "The default path that storage will use. Values are allowed to contain deploy-time parameters like 'storage/{deviceName}/{inboundEndpointName}'.  The supported parameter tokens are: {deviceName}, {inboundEndpointName}, {assetName}, {datasetName}, {eventName}, {streamName}, and {kubernetesNamespace}. Dataset/event/stream name tokens are only allowed if the configured destination is for a dataset/event/stream."
         }
       },
       "additionalProperties": false,
@@ -138,7 +138,7 @@
       "type": "string",
       "description": "The version of AIO connector metadata schema that this connector metadata file adheres to.",
       "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$",
-      "default": "5.0-preview"
+      "default": "6.0-preview"
     },
     "name": {
       "type": "string",
@@ -358,6 +358,10 @@
         {
           "type": "object",
           "properties": {
+            "description": {
+              "description": "A human readable description of this inbound endpoint",
+              "type": "string"
+            },
             "endpointType": {
               "description": "Type of connection endpoint. Formatted as ABC.XYZ. For example, 'Microsoft.Media'",
               "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+",
@@ -390,67 +394,36 @@
               "type": "string",
               "description": "The version of the protocol of this inbound endpoint."
             },
-            "supportedModeling": {
+            "eventGroups": {
               "type": "object",
-              "description": "The list of models that this connector supports using and additional details for how to use each model. If a model type is not present, that indicates this connector doesn't support using that model at all. A connector must support at least one type of modeling. A connector may support more than one type of modeling.",
+              "description": "If present, this connector supports using event groups.",
               "properties": {
+                "limits": { "$ref": "#/definitions/modelLimits" },
                 "events": {
                   "type": "object",
                   "description": "If present, this connector supports using events.",
                   "properties": {
                     "limits": { "$ref": "#/definitions/modelLimits" },
-                    "supportedModeling": {
-                      "type": "object",
-                      "description": "The list of event-specific models that this connector supports using and additional details for how to use each model. If a model type is not present, that indicates this connector doesn't support using that model at all. If this field isn't present, then this connector does not support modeling of any sub-event types like event datapoints.",
-                      "properties": {
-                        "dataPoints": {
-                          "type": "object",
-                          "description": "If present, this connector supports using event datapoints.",
-                          "properties": {
-                            "limits": { "$ref": "#/definitions/modelLimits" },
-                            "dataPointConfigurationSchema": {
-                              "$ref": "http://json-schema.org/draft-07/schema#",
-                              "description": "The JSON schema for the \"dataPointConfigurationSchema\" field on an event's datapoint."
-                            },
-                            "alternativeTypeName": {
-                              "$ref": "#/definitions/alternativeTypeName",
-                              "description": "The alternative name to the type \"dataPoints\" within an event"
-                            },
-                            "fields": {
-                              "type": "object",
-                              "description": "Describes if this connector expects these fields to be provided in the data point definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
-                              "properties": {
-                                "dataSource": {
-                                  "$ref": "#/definitions/fieldNecessity"
-                                }
-                              },
-                              "required": ["dataSource"],
-                              "additionalProperties": false
-                            }
-                          },
-                          "required": ["fields", "limits"]
-                        }
-                      },
-                      "additionalProperties": false
+                    "eventConfigurationSchema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#",
+                      "description": "The JSON schema for the \"eventConfiguration\" field on an event group's event."
                     },
                     "alternativeTypeName": {
                       "$ref": "#/definitions/alternativeTypeName",
-                      "description": "The alternative name to the type \"events\" within an asset"
-                    },
-                    "eventConfigurationSchema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#",
-                      "description": "The JSON schema for the \"eventConfigurationSchema\" field on an event."
+                      "description": "The alternative name to the type \"event\" within an event group"
                     },
                     "fields": {
                       "type": "object",
                       "description": "Describes if this connector expects these fields to be provided in the event definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
                       "properties": {
-                        "eventNotifier": {
+                        "dataSource": {
                           "$ref": "#/definitions/fieldNecessity"
                         },
-                        "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                        "typeRef": {
+                          "$ref": "#/definitions/fieldNecessity"
+                        }
                       },
-                      "required": ["eventNotifier", "typeRef"],
+                      "required": ["dataSource", "typeRef"],
                       "additionalProperties": false
                     },
                     "destinations": {
@@ -479,218 +452,225 @@
                       "required": ["supportedDestinations"]
                     }
                   },
-                  "additionalProperties": false,
-                  "required": ["limits", "fields"]
+                  "required": ["fields", "limits"]
                 },
-                "datasets": {
+                "alternativeTypeName": {
+                  "$ref": "#/definitions/alternativeTypeName",
+                  "description": "The alternative name to the type \"eventGroups\" within an asset"
+                },
+                "eventGroupConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#",
+                  "description": "The JSON schema for the \"eventGroupConfiguration\" field on an event group."
+                },
+                "fields": {
                   "type": "object",
-                  "description": "If present, this connector supports using datasets.",
+                  "description": "Describes if this connector expects these fields to be provided in the event definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                  "properties": {
+                    "dataSource": {
+                      "$ref": "#/definitions/fieldNecessity"
+                    },
+                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                  },
+                  "required": ["dataSource", "typeRef"],
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false,
+              "required": ["limits", "fields"]
+            },
+            "datasets": {
+              "type": "object",
+              "description": "If present, this connector supports using datasets.",
+              "properties": {
+                "limits": { "$ref": "#/definitions/modelLimits" },
+                "datasetConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#",
+                  "description": "The JSON schema for the \"datasetConfiguration\" field on a dataset."
+                },
+                "dataPoints": {
+                  "type": "object",
+                  "description": "If present, this connector supports using dataset datapoints.",
                   "properties": {
                     "limits": { "$ref": "#/definitions/modelLimits" },
-                    "datasetConfigurationSchema": {
+                    "dataPointConfigurationSchema": {
                       "$ref": "http://json-schema.org/draft-07/schema#",
-                      "description": "The JSON schema for the \"datasetConfigurationSchema\" field on a dataset."
-                    },
-                    "supportedModeling": {
-                      "type": "object",
-                      "description": "The list of dataset-specific models that this connector supports using and additional details for how to use each model. If a model type is not present, that indicates this connector doesn't support using that model at all. If this field isn't present, then this connector does not support modeling of any sub-dataset types like dataset datapoints.",
-                      "properties": {
-                        "dataPoints": {
-                          "type": "object",
-                          "description": "If present, this connector supports using dataset datapoints.",
-                          "properties": {
-                            "limits": { "$ref": "#/definitions/modelLimits" },
-                            "dataPointConfigurationSchema": {
-                              "$ref": "http://json-schema.org/draft-07/schema#",
-                              "description": "The JSON schema for the \"dataPointConfigurationSchema\" field on a dataset's datapoint."
-                            },
-                            "alternativeTypeName": {
-                              "$ref": "#/definitions/alternativeTypeName",
-                              "description": "The alternative name to the type \"dataPoints\" within a dataset"
-                            },
-                            "fields": {
-                              "type": "object",
-                              "description": "Describes if this connector expects these fields to be provided in the data point definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
-                              "properties": {
-                                "dataSource": {
-                                  "$ref": "#/definitions/fieldNecessity"
-                                },
-                                "typeRef": {
-                                  "$ref": "#/definitions/fieldNecessity"
-                                }
-                              },
-                              "required": ["dataSource", "typeRef"],
-                              "additionalProperties": false
-                            }
-                          }
-                        }
-                      },
-                      "additionalProperties": false
+                      "description": "The JSON schema for the \"dataPointConfiguration\" field on a dataset's datapoint."
                     },
                     "alternativeTypeName": {
                       "$ref": "#/definitions/alternativeTypeName",
-                      "description": "The alternative name to the type \"datasets\" within an asset"
+                      "description": "The alternative name to the type \"dataPoints\" within a dataset"
                     },
                     "fields": {
                       "type": "object",
-                      "description": "Describes if this connector expects these fields to be provided in the dataset definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                      "description": "Describes if this connector expects these fields to be provided in the data point definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
                       "properties": {
                         "dataSource": {
                           "$ref": "#/definitions/fieldNecessity"
                         },
-                        "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                        "typeRef": {
+                          "$ref": "#/definitions/fieldNecessity"
+                        }
                       },
                       "required": ["dataSource", "typeRef"],
                       "additionalProperties": false
+                    }
+                  }
+                },
+                "alternativeTypeName": {
+                  "$ref": "#/definitions/alternativeTypeName",
+                  "description": "The alternative name to the type \"datasets\" within an asset"
+                },
+                "fields": {
+                  "type": "object",
+                  "description": "Describes if this connector expects these fields to be provided in the dataset definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                  "properties": {
+                    "dataSource": {
+                      "$ref": "#/definitions/fieldNecessity"
                     },
-                    "destinations": {
-                      "type": "object",
-                      "description": "Information about the supported and default destinations for asset datasets",
-                      "properties": {
-                        "supportedDestinations": {
-                          "type": "array",
-                          "description": "The array of destinations that this asset's datasets supports.",
-                          "items": {
-                            "type": "string",
-                            "enum": ["Mqtt", "BrokerStateStore", "Storage"]
-                          }
+                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                  },
+                  "required": ["dataSource", "typeRef"],
+                  "additionalProperties": false
+                },
+                "destinations": {
+                  "type": "object",
+                  "description": "Information about the supported and default destinations for asset datasets",
+                  "properties": {
+                    "supportedDestinations": {
+                      "type": "array",
+                      "description": "The array of destinations that this asset's datasets supports.",
+                      "items": {
+                        "type": "string",
+                        "enum": ["Mqtt", "BrokerStateStore", "Storage"]
+                      }
+                    },
+                    "defaultDestination": {
+                      "description": "The destination that this asset's datasets will go to by default unless specified otherwise in the asset or the dataset.",
+                      "oneOf": [
+                        { "$ref": "#/definitions/mqttDestinationDefaults" },
+                        {
+                          "$ref": "#/definitions/storageDestinationDefaults"
                         },
-                        "defaultDestination": {
-                          "description": "The destination that this asset's datasets will go to by default unless specified otherwise in the asset or the dataset.",
-                          "oneOf": [
-                            { "$ref": "#/definitions/mqttDestinationDefaults" },
-                            {
-                              "$ref": "#/definitions/storageDestinationDefaults"
-                            },
-                            {
-                              "$ref": "#/definitions/brokerStateStoreDestinationDefaults"
-                            }
-                          ]
+                        {
+                          "$ref": "#/definitions/brokerStateStoreDestinationDefaults"
                         }
-                      },
-                      "additionalProperties": false,
-                      "required": ["supportedDestinations"]
+                      ]
                     }
                   },
                   "additionalProperties": false,
-                  "required": ["limits", "fields"]
-                },
-                "managementGroups": {
-                  "type": "object",
-                  "description": "If present, this connector supports using management groups.",
-                  "properties": {
-                    "limits": { "$ref": "#/definitions/modelLimits" },
-                    "managementGroupConfigurationSchema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#",
-                      "description": "The JSON schema for the \"managementGroupConfigurationSchema\" field on a management group."
-                    },
-                    "alternativeTypeName": {
-                      "$ref": "#/definitions/alternativeTypeName",
-                      "description": "The alternative name to the type \"managementGroups\" within an asset"
-                    },
-                    "supportedModeling": {
-                      "type": "object",
-                      "description": "The list of management group-specific models that this connector supports using and additional details for how to use each model. If a model type is not present, that indicates this connector doesn't support using that model at all. If this field isn't present, then this connector does not support modeling of any sub-management group types like management group actions.",
-                      "properties": {
-                        "managementGroupActions": {
-                          "type": "object",
-                          "description": "If present, this connector supports using management group actions.",
-                          "properties": {
-                            "limits": { "$ref": "#/definitions/modelLimits" },
-                            "actionConfigurationSchema": {
-                              "$ref": "http://json-schema.org/draft-07/schema#",
-                              "description": "The JSON schema for the \"actionConfigurationSchema\" field on a management group's action."
-                            },
-                            "alternativeTypeName": {
-                              "$ref": "#/definitions/alternativeTypeName",
-                              "description": "The alternative name to the type \"actions\" within a management group"
-                            },
-                            "fields": {
-                              "type": "object",
-                              "description": "Describes if this connector expects these fields to be provided in the management group action definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
-                              "properties": {
-                                "targetUri": {
-                                  "$ref": "#/definitions/fieldNecessity"
-                                },
-                                "typeRef": {
-                                  "$ref": "#/definitions/fieldNecessity"
-                                }
-                              },
-                              "required": ["targetUri", "typeRef"],
-                              "additionalProperties": false
-                            }
-                          },
-                          "additionalProperties": false,
-                          "required": ["limits", "fields"]
-                        }
-                      },
-                      "additionalProperties": false
-                    },
-                    "fields": {
-                      "type": "object",
-                      "description": "Describes if this connector expects these fields to be provided in the management group definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
-                      "properties": {
-                        "typeRef": { "$ref": "#/definitions/fieldNecessity" }
-                      },
-                      "required": ["typeRef"],
-                      "additionalProperties": false
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": ["limits", "fields"]
-                },
-                "streams": {
-                  "type": "object",
-                  "description": "If present, this connector supports using streams.",
-                  "properties": {
-                    "limits": { "$ref": "#/definitions/modelLimits" },
-                    "streamConfigurationSchema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#",
-                      "description": "The JSON schema for the \"streamConfigurationSchema\" field on a stream."
-                    },
-                    "alternativeTypeName": {
-                      "$ref": "#/definitions/alternativeTypeName",
-                      "description": "The alternative name to the type \"stream\" within an asset"
-                    },
-                    "fields": {
-                      "type": "object",
-                      "description": "Describes if this connector expects these fields to be provided in the stream definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
-                      "properties": {
-                        "typeRef": { "$ref": "#/definitions/fieldNecessity" }
-                      },
-                      "required": ["typeRef"],
-                      "additionalProperties": false
-                    },
-                    "destinations": {
-                      "type": "object",
-                      "description": "Information about the supported and default destinations for asset streams",
-                      "properties": {
-                        "supportedDestinations": {
-                          "type": "array",
-                          "description": "The array of destinations that this asset's streams supports.",
-                          "items": {
-                            "type": "string",
-                            "enum": ["Mqtt", "Storage"]
-                          }
-                        },
-                        "defaultDestination": {
-                          "description": "The destination that this asset's streams will go to by default unless unless specified otherwise in the asset or the stream.",
-                          "oneOf": [
-                            { "$ref": "#/definitions/mqttDestinationDefaults" },
-                            {
-                              "$ref": "#/definitions/storageDestinationDefaults"
-                            }
-                          ]
-                        }
-                      },
-                      "additionalProperties": false,
-                      "required": ["supportedDestinations"]
-                    }
-                  },
-                  "required": ["fields", "limits"]
+                  "required": ["supportedDestinations"]
                 }
               },
-              "additionalProperties": false
+              "additionalProperties": false,
+              "required": ["limits", "fields"]
+            },
+            "managementGroups": {
+              "type": "object",
+              "description": "If present, this connector supports using management groups.",
+              "properties": {
+                "limits": { "$ref": "#/definitions/modelLimits" },
+                "managementGroupConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#",
+                  "description": "The JSON schema for the \"managementGroupConfiguration\" field on a management group."
+                },
+                "alternativeTypeName": {
+                  "$ref": "#/definitions/alternativeTypeName",
+                  "description": "The alternative name to the type \"managementGroups\" within an asset"
+                },
+                "managementGroupActions": {
+                  "type": "object",
+                  "description": "If present, this connector supports using management group actions.",
+                  "properties": {
+                    "limits": { "$ref": "#/definitions/modelLimits" },
+                    "actionConfigurationSchema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#",
+                      "description": "The JSON schema for the \"actionConfiguration\" field on a management group's action."
+                    },
+                    "alternativeTypeName": {
+                      "$ref": "#/definitions/alternativeTypeName",
+                      "description": "The alternative name to the type \"actions\" within a management group"
+                    },
+                    "fields": {
+                      "type": "object",
+                      "description": "Describes if this connector expects these fields to be provided in the management group action definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                      "properties": {
+                        "targetUri": {
+                          "$ref": "#/definitions/fieldNecessity"
+                        },
+                        "typeRef": {
+                          "$ref": "#/definitions/fieldNecessity"
+                        }
+                      },
+                      "required": ["targetUri", "typeRef"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": ["limits", "fields"]
+                },
+                "fields": {
+                  "type": "object",
+                  "description": "Describes if this connector expects these fields to be provided in the management group definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                  "properties": {
+                    "typeRef": { "$ref": "#/definitions/fieldNecessity" },
+                    "dataSource": { "$ref": "#/definitions/fieldNecessity" }
+                  },
+                  "required": ["typeRef"],
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false,
+              "required": ["limits", "fields"]
+            },
+            "streams": {
+              "type": "object",
+              "description": "If present, this connector supports using streams.",
+              "properties": {
+                "limits": { "$ref": "#/definitions/modelLimits" },
+                "streamConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#",
+                  "description": "The JSON schema for the \"streamConfiguration\" field on a stream."
+                },
+                "alternativeTypeName": {
+                  "$ref": "#/definitions/alternativeTypeName",
+                  "description": "The alternative name to the type \"stream\" within an asset"
+                },
+                "fields": {
+                  "type": "object",
+                  "description": "Describes if this connector expects these fields to be provided in the stream definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                  "properties": {
+                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                  },
+                  "required": ["typeRef"],
+                  "additionalProperties": false
+                },
+                "destinations": {
+                  "type": "object",
+                  "description": "Information about the supported and default destinations for asset streams",
+                  "properties": {
+                    "supportedDestinations": {
+                      "type": "array",
+                      "description": "The array of destinations that this asset's streams supports.",
+                      "items": {
+                        "type": "string",
+                        "enum": ["Mqtt", "Storage"]
+                      }
+                    },
+                    "defaultDestination": {
+                      "description": "The destination that this asset's streams will go to by default unless unless specified otherwise in the asset or the stream.",
+                      "oneOf": [
+                        { "$ref": "#/definitions/mqttDestinationDefaults" },
+                        {
+                          "$ref": "#/definitions/storageDestinationDefaults"
+                        }
+                      ]
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": ["supportedDestinations"]
+                }
+              },
+              "required": ["fields", "limits"]
             }
           },
           "additionalProperties": false,

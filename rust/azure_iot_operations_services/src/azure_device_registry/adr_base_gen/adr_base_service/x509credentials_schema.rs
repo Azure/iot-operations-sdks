@@ -16,4 +16,16 @@ pub struct X509credentialsSchema {
     /// The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).
     #[serde(rename = "certificateSecretName")]
     pub certificate_secret_name: String,
+
+    /// A reference to the secret containing the combined intermediate certificates in PEM format.
+    #[serde(rename = "intermediateCertificatesSecretName")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub intermediate_certificates_secret_name: Option<String>,
+
+    /// A reference to the secret containing the certificate private key in PEM or DER format.
+    #[serde(rename = "keySecretName")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub key_secret_name: Option<String>,
 }

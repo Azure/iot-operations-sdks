@@ -9,8 +9,12 @@
   "<#=InterfaceAnnex.ServiceName#>": "<#=this.serviceName.GetTypeName(TargetLanguage.Independent)#>",
   "<#=InterfaceAnnex.PayloadFormat#>": "<#=this.serializationFormat#>",
   "<#=InterfaceAnnex.TelemSeparate#>": <#=this.separateTelemetries ? "true" : "false"#>,
+  "<#=InterfaceAnnex.PropSeparate#>": <#=this.separateProperties ? "true" : "false"#>,
 <# if (this.telemTopicPattern != null) { #>
   "<#=InterfaceAnnex.TelemetryTopic#>": "<#=this.telemTopicPattern#>",
+<# } #>
+<# if (this.propTopicPattern != null) { #>
+  "<#=InterfaceAnnex.PropertyTopic#>": "<#=this.propTopicPattern#>",
 <# } #>
 <# if (this.cmdTopicPattern != null) { #>
   "<#=InterfaceAnnex.CommandRequestTopic#>": "<#=this.cmdTopicPattern#>",
@@ -29,6 +33,53 @@
 <# } #>
       "<#=InterfaceAnnex.TelemSchema#>": "<#=telemSchemaInfo.Schema.GetTypeName(TargetLanguage.Independent)#>"
     }<#=this.IsLastTelem(telemSchemaInfo) ? "" : ","#>
+<# } #>
+  ],
+  "<#=InterfaceAnnex.PropertyList#>": [
+<# foreach (var propSchemaInfo in this.propSchemaInfos) { #>
+    {
+<# if (propSchemaInfo.Name != null) { #>
+      "<#=InterfaceAnnex.PropName#>": "<#=propSchemaInfo.Name#>",
+<# } #>
+<# if (propSchemaInfo.PropSchema != null) { #>
+      "<#=InterfaceAnnex.PropSchema#>": "<#=propSchemaInfo.PropSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# } #>
+<# if (propSchemaInfo.PropValueName != null) { #>
+      "<#=InterfaceAnnex.PropValueName#>": "<#=propSchemaInfo.PropValueName.GetTypeName(TargetLanguage.Independent)#>",
+<# } #>
+<# if (propSchemaInfo.ReadErrorName != null) { #>
+      "<#=InterfaceAnnex.PropReadErrorName#>": "<#=propSchemaInfo.ReadErrorName.GetTypeName(TargetLanguage.Independent)#>",
+<# } #>
+<# if (propSchemaInfo.ReadErrorSchema != null) { #>
+      "<#=InterfaceAnnex.PropReadErrorSchema#>": "<#=propSchemaInfo.ReadErrorSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# string readErrorNamespace = this.GetNamespace(propSchemaInfo.ReadErrorSchema); if (readErrorNamespace != null) { #>
+      "<#=InterfaceAnnex.PropReadErrorNamespace#>": "<#=readErrorNamespace#>",
+<# } } #>
+<# if (propSchemaInfo.WriteErrorName != null) { #>
+      "<#=InterfaceAnnex.PropWriteErrorName#>": "<#=propSchemaInfo.WriteErrorName.GetTypeName(TargetLanguage.Independent)#>",
+<# } #>
+<# if (propSchemaInfo.WriteErrorSchema != null) { #>
+      "<#=InterfaceAnnex.PropWriteErrorSchema#>": "<#=propSchemaInfo.WriteErrorSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# string writeErrorNamespace = this.GetNamespace(propSchemaInfo.WriteErrorSchema); if (writeErrorNamespace != null) { #>
+      "<#=InterfaceAnnex.PropWriteErrorNamespace#>": "<#=writeErrorNamespace#>",
+<# } } #>
+<# if (propSchemaInfo.WriteReqSchema != null) { #>
+      "<#=InterfaceAnnex.PropWriteReqSchema#>": "<#=propSchemaInfo.WriteReqSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# string writeReqNamespace = this.GetNamespace(propSchemaInfo.WriteReqSchema); if (writeReqNamespace != null) { #>
+      "<#=InterfaceAnnex.PropWriteReqNamespace#>": "<#=writeReqNamespace#>",
+<# } } #>
+<# if (propSchemaInfo.WriteRespSchema != null) { #>
+      "<#=InterfaceAnnex.PropWriteRespSchema#>": "<#=propSchemaInfo.WriteRespSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# string writeRespNamespace = this.GetNamespace(propSchemaInfo.WriteRespSchema); if (writeRespNamespace != null) { #>
+      "<#=InterfaceAnnex.PropWriteRespNamespace#>": "<#=writeRespNamespace#>",
+<# } } #>
+<# string readRespNamespace = this.GetNamespace(propSchemaInfo.ReadRespSchema); if (readRespNamespace != null) { #>
+      "<#=InterfaceAnnex.PropReadRespSchema#>": "<#=propSchemaInfo.ReadRespSchema.GetTypeName(TargetLanguage.Independent)#>",
+      "<#=InterfaceAnnex.PropReadRespNamespace#>": "<#=readRespNamespace#>"
+<# } else { #>
+      "<#=InterfaceAnnex.PropReadRespSchema#>": "<#=propSchemaInfo.ReadRespSchema.GetTypeName(TargetLanguage.Independent)#>"
+<# } #>
+    }<#=this.IsLastProp(propSchemaInfo) ? "" : ","#>
 <# } #>
   ],
   "<#=InterfaceAnnex.CommandList#>": [
@@ -125,6 +176,24 @@
       "<#=InterfaceAnnex.ErrorSchema#>": "<#=errSchemaInfo.Schema.GetTypeName(TargetLanguage.Independent)#>"
     }<#=this.IsLastErr(errSchemaInfo) ? "" : ","#>
 <# } #>
+  ],
+  "<#=InterfaceAnnex.AggregateErrorList#>": [
+<# foreach (var aggregateErrSchemaInfo in this.aggregateErrSchemaInfos) { #>
+    {
+      "<#=InterfaceAnnex.ErrorSchema#>": "<#=aggregateErrSchemaInfo.Schema.GetTypeName(TargetLanguage.Independent)#>",
+<# string errNamespace = this.GetNamespace(aggregateErrSchemaInfo.Schema); if (errNamespace != null) { #>
+      "<#=InterfaceAnnex.ErrorNamespace#>": "<#=errNamespace#>",
+<# } #>
+      "<#=InterfaceAnnex.InnerErrorList#>": [
+<# int ix = 1; foreach ((string, CodeName) innerErr in aggregateErrSchemaInfo.InnerErrors) { #>
+        {
+          "<#=InterfaceAnnex.InnerErrorName#>": "<#=innerErr.Item1#>",
+          "<#=InterfaceAnnex.InnerErrorSchema#>": "<#=innerErr.Item2.GetTypeName(TargetLanguage.Independent)#>"
+        }<#=ix < aggregateErrSchemaInfo.InnerErrors.Count ? "," : ""#>
+<# ix++; } #>
+      ]
+    }<#=this.IsLastAggregateErr(aggregateErrSchemaInfo) ? "" : ","#>
+<# } #>
   ]
 }
 <#+
@@ -134,7 +203,11 @@
 
     private bool IsLastTelem(TelemetrySchemaInfo telemSchemaInfo) => telemSchemaInfo.Name == this.telemSchemaInfos.Last().Name;
 
+    private bool IsLastProp(PropertySchemaInfo propSchemaInfo) => propSchemaInfo.Name == this.propSchemaInfos.Last().Name;
+
     private bool IsLastCmd(CommandSchemaInfo cmdSchemaInfo) => cmdSchemaInfo.Name == this.cmdSchemaInfos.Last().Name;
 
     private bool IsLastErr(ErrorSchemaInfo errSchemaInfo) => errSchemaInfo.Schema == this.errSchemaInfos.Last().Schema;
+
+    private bool IsLastAggregateErr(AggregateErrorSchemaInfo aggregateErrSchemaInfo) => aggregateErrSchemaInfo.Schema == this.aggregateErrSchemaInfos.Last().Schema;
 #>

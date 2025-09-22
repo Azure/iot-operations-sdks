@@ -72,7 +72,7 @@
 <# if (this.serviceGroupId != null) { #>
           "x-serviceGroupId": "<#=this.serviceGroupId#>",
 <# } #>
-          "x-topic": "<#=this.commandTopic#>"
+          "x-topic": "<#=this.commandTopic ?? ""#>"
         }
       ]
     }

@@ -154,15 +154,25 @@ func (*PublishQueueFullError) Error() string {
 	return "publish queue full"
 }
 
-// InvalidAIOBrokerFeature indicates that a feature specific to the AIO Broker
-// was used when AIO Broker features were explicitly disabled.
-type InvalidAIOBrokerFeature struct {
+// AIOBrokerFeatureError indicates that a feature specific to the AIO Broker was
+// used when AIO Broker features were explicitly disabled.
+type AIOBrokerFeatureError struct {
 	feature string
 }
 
-func (e *InvalidAIOBrokerFeature) Error() string {
+func (e *AIOBrokerFeatureError) Error() string {
 	return fmt.Sprintf(
 		"%s was used with AIO Broker features disabled",
 		e.feature,
 	)
+}
+
+// HandlerPanicError indicates that a user-provided handler panicked. This error
+// will never be returned, only logged.
+type HandlerPanicError struct {
+	panic any
+}
+
+func (e *HandlerPanicError) Error() string {
+	return fmt.Sprintf("panic in user-provided handler: %v", e.panic)
 }

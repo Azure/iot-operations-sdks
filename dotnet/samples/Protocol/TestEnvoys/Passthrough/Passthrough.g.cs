@@ -124,6 +124,7 @@ namespace TestEnvoys.Passthrough
                 this.mqttClient = mqttClient;
 
                 this.passCommandInvoker = new PassCommandInvoker(applicationContext, mqttClient);
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)

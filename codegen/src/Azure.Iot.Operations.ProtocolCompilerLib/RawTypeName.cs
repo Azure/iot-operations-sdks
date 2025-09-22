@@ -6,11 +6,11 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
         public static RawTypeName Instance = new();
 
-        public string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, bool local = false)
+        public string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? suffix4 = null, bool local = false)
         {
             if (suffix1 != null)
             {
-                return "RawBytes" + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3);
+                return "RawBytes" + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3) + GetCapitalized(suffix4);
             }
             else
             {

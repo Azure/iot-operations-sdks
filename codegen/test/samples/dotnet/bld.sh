@@ -3,6 +3,8 @@
 dotnet build ./CommandVariantsSample
 dotnet build ./CommandComplexSchemasSample
 dotnet build ./CommandRawSample
+dotnet build ./PropertySeparateSample
+dotnet build ./PropertyTogetherSample
 dotnet build ./TelemetryAndCommandSample
 dotnet build ./TelemetryAndCommandSampleFromSchema
 dotnet build ./TelemetryAndCommandSampleClientOnly

@@ -16,10 +16,12 @@
         private CodeName genNamespace;
         private int mqttVersion;
         private string? telemetryTopic;
+        private string? propertyTopic;
         private string? commandTopic;
         private string? telemServiceGroupId;
         private string? cmdServiceGroupId;
         private bool separateTelemetries;
+        private bool separateProperties;
 
         public SchemaGenerator(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, string projectName, DTInterfaceInfo dtInterface, int mqttVersion, CodeName genNamespace)
         {
@@ -32,8 +34,10 @@
             payloadFormat = (string)dtInterface.SupplementalProperties[string.Format(DtdlMqttExtensionValues.PayloadFormatPropertyFormat, mqttVersion)];
 
             telemetryTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.TelemTopicPropertyFormat, mqttVersion), out object? telemTopicObj) ? (string)telemTopicObj : null;
+            propertyTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.PropTopicPropertyFormat, mqttVersion), out object? propTopicObj) ? (string)propTopicObj : null;
             commandTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.CmdReqTopicPropertyFormat, mqttVersion), out object? cmdTopicObj) ? (string)cmdTopicObj : null;
             separateTelemetries = telemetryTopic?.Contains(MqttTopicTokens.TelemetryName) ?? false;
+            separateProperties = propertyTopic?.Contains(MqttTopicTokens.PropertyName) ?? false;
 
             if (mqttVersion == 1)
             {
@@ -62,11 +66,50 @@
                 separateTelemetries ? dtInterface.Telemetries.Select(t => new TelemetrySchemaInfo((string?)t.Key, GetTelemSchema(t.Value))).ToList() :
                 new() { new TelemetrySchemaInfo(null, GetAggregateTelemSchema()) };
 
+            List<PropertySchemaInfo> propSchemaInfos =
+                !dtInterface.Properties.Any() ? new() :
+                separateProperties ? dtInterface.Properties.Select(p => GetPropSchemaInfo(p.Value)).ToList() :
+                new() { GetAggregatePropSchemaInfo() };
+
             List<CommandSchemaInfo> cmdSchemaInfos = dtInterface.Commands.Values.Select(c => GetCommandSchemaInfo(c)).ToList();
 
             List<ErrorSchemaInfo> errSchemaInfos = modelDict.Values.Where(e => e.EntityKind == DTEntityKind.Object && IsObjectError((DTObjectInfo)e)).Select(e => (DTObjectInfo)e).Select(o => new ErrorSchemaInfo(new CodeName(o.Id), o.Description.FirstOrDefault().Value, GetErrorMessageSchema(o))).ToList();
 
-            ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, sharedPrefix, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, telemServiceGroupId, cmdServiceGroupId, telemSchemaInfos, cmdSchemaInfos, errSchemaInfos, separateTelemetries);
+            List<AggregateErrorSchemaInfo> aggregateErrSchemaInfos = new ();
+            if (!separateProperties)
+            {
+                var propertyReadErrors = dtInterface.Properties.Values.Where(p => IsSchemaPropertyResult(p.Schema) && ((DTObjectInfo)p.Schema).Fields.Any(f => IsFieldReadError(f)));
+                if (propertyReadErrors.Any())
+                {
+                    aggregateErrSchemaInfos.Add(new AggregateErrorSchemaInfo(SchemaNames.AggregatePropReadErrSchema, propertyReadErrors.Select(p => (p.Name, new CodeName(((DTObjectInfo)p.Schema).Fields.First(f => IsFieldReadError(f)).Schema.Id))).ToList()));
+                }
+
+                var propertyWriteErrors = dtInterface.Properties.Values.Where(p => p.Writable && IsSchemaPropertyResult(p.Schema) && ((DTObjectInfo)p.Schema).Fields.Any(f => IsFieldWriteError(f)));
+                if (propertyWriteErrors.Any())
+                {
+                    aggregateErrSchemaInfos.Add(new AggregateErrorSchemaInfo(SchemaNames.AggregatePropWriteErrSchema, propertyWriteErrors.Select(p => (p.Name, new CodeName(((DTObjectInfo)p.Schema).Fields.First(f => IsFieldWriteError(f)).Schema.Id))).ToList()));
+                }
+            }
+
+            ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(
+                projectName,
+                genNamespace,
+                sharedPrefix,
+                dtInterface.Id.ToString(),
+                payloadFormat,
+                serviceName,
+                telemetryTopic,
+                propertyTopic,
+                commandTopic,
+                telemServiceGroupId,
+                cmdServiceGroupId,
+                telemSchemaInfos,
+                propSchemaInfos,
+                cmdSchemaInfos,
+                errSchemaInfos,
+                aggregateErrSchemaInfos,
+                separateTelemetries,
+                separateProperties);
             acceptor(interfaceAnnexTransform.TransformText(), interfaceAnnexTransform.FileName, interfaceAnnexTransform.FolderPath);
         }
 
@@ -89,6 +132,82 @@
                     int ix = nameDescSchemaRequiredIndices.FirstOrDefault().Item5;
                     nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 == 0 ? ++ix : x.Item5)).ToList();
                     WriteTelemetrySchema(GetAggregateTelemSchema(), nameDescSchemaRequiredIndices, acceptor, sharedPrefix, isSeparate: false);
+                }
+            }
+        }
+
+        public void GeneratePropertySchemas(Action<string, string, string> acceptor, CodeName? sharedPrefix)
+        {
+            if (dtInterface.Properties.Any())
+            {
+                if (separateProperties)
+                {
+                    foreach (KeyValuePair<string, DTPropertyInfo> dtProperty in dtInterface.Properties)
+                    {
+                        if (IsSchemaPropertyResult(dtProperty.Value.Schema) && ((DTObjectInfo)dtProperty.Value.Schema).Fields.Any(f => IsFieldPropertyValue(f)))
+                        {
+                            DTFieldInfo valueField = ((DTObjectInfo)dtProperty.Value.Schema).Fields.First(f => IsFieldPropertyValue(f));
+
+                            var propertyNSDIF = new List<(string, string, DTSchemaInfo, int, bool)> { (valueField.Name, dtProperty.Value.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{dtProperty.Key}' Property value.", valueField.Schema, 1, false) };
+                            WritePropertySchema(SchemaNames.GetPropSchema(dtProperty.Value.Name), propertyNSDIF, acceptor, sharedPrefix, required: true);
+
+                            if (IsPropertyOrFieldFragmented(valueField) && dtProperty.Value.Writable)
+                            {
+                                var writablePropertyNSDIF = new List<(string, string, DTSchemaInfo, int, bool)> { (valueField.Name, dtProperty.Value.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"Value for the '{dtProperty.Key}' Property.", valueField.Schema, 1, true) };
+                                WritePropertySchema(SchemaNames.GetWritablePropSchema(dtProperty.Value.Name), writablePropertyNSDIF, acceptor, sharedPrefix, required: true);
+                            }
+
+                            DTFieldInfo? readErrorField = ((DTObjectInfo)dtProperty.Value.Schema).Fields.FirstOrDefault(f => IsFieldReadError(f));
+                            if (readErrorField != null)
+                            {
+                                var readRespNSDIF = propertyNSDIF.Append((readErrorField.Name, $"Read error for the '{dtProperty.Key}' Property.", readErrorField.Schema, 1, false)).ToList();
+                                WritePropertySchema(SchemaNames.GetPropReadRespSchema(dtProperty.Value.Name), readRespNSDIF, acceptor, sharedPrefix, required: false);
+                            }
+
+                            DTFieldInfo? writeErrorField = ((DTObjectInfo)dtProperty.Value.Schema).Fields.FirstOrDefault(f => IsFieldWriteError(f));
+                            if (writeErrorField != null && dtProperty.Value.Writable)
+                            {
+                                var writeRespNSDIF = new List<(string, string, DTSchemaInfo, int, bool)> { (writeErrorField.Name, $"Write error for the '{dtProperty.Key}' Property.", writeErrorField.Schema, 1, false) };
+                                WritePropertySchema(SchemaNames.GetPropWriteRespSchema(dtProperty.Value.Name), writeRespNSDIF, acceptor, sharedPrefix, required: false);
+                            }
+                        }
+                        else
+                        {
+                            var propertyNSDIF = new List<(string, string, DTSchemaInfo, int, bool)> { (dtProperty.Key, dtProperty.Value.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{dtProperty.Key}' Property value.", dtProperty.Value.Schema, 1, false) };
+                            WritePropertySchema(SchemaNames.GetPropSchema(dtProperty.Value.Name), propertyNSDIF, acceptor, sharedPrefix, required: true);
+
+                            if (IsPropertyOrFieldFragmented(dtProperty.Value) && dtProperty.Value.Writable)
+                            {
+                                var writablePropertyNSDIF = new List<(string, string, DTSchemaInfo, int, bool)> { (dtProperty.Key, dtProperty.Value.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"Value for the '{dtProperty.Key}' Property.", dtProperty.Value.Schema, 1, true) };
+                                WritePropertySchema(SchemaNames.GetWritablePropSchema(dtProperty.Value.Name), writablePropertyNSDIF, acceptor, sharedPrefix, required: true);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    IEnumerable<DTPropertyInfo> allProperties = dtInterface.Properties.Values;
+                    WritePropertySchema(SchemaNames.AggregatePropSchema, GetNameDescSchemaIndexFrags(allProperties.Select(p => (p.Name, p.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{p.Name}' Property value.", IsSchemaPropertyResult(p.Schema) ? ((DTObjectInfo)p.Schema).Fields.FirstOrDefault(f => IsFieldPropertyValue(f))?.Schema ?? p.Schema : p.Schema, GetFieldIndex(p), false))), acceptor, sharedPrefix, required: true);
+
+                    IEnumerable<DTPropertyInfo> writableProperties = dtInterface.Properties.Values.Where(p => p.Writable);
+                    if (writableProperties.Any())
+                    {
+                        WritePropertySchema(SchemaNames.AggregatePropWriteSchema, GetNameDescSchemaIndexFrags(writableProperties.Select(p => (p.Name, p.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"Value for the '{p.Name}' Property.", IsSchemaPropertyResult(p.Schema) ? ((DTObjectInfo)p.Schema).Fields.FirstOrDefault(f => IsFieldPropertyValue(f))?.Schema ?? p.Schema : p.Schema, GetFieldIndex(p), IsPropertyOrFieldFragmented(IsSchemaPropertyResult(p.Schema) ? (DTEntityInfo?)((DTObjectInfo)p.Schema).Fields.FirstOrDefault(f => IsFieldPropertyValue(f)) ?? p : p)))), acceptor, sharedPrefix, required: false);
+                    }
+
+                    IEnumerable<DTPropertyInfo> propertyResults = dtInterface.Properties.Values.Where(p => IsSchemaPropertyResult(p.Schema) && ((DTObjectInfo)p.Schema).Fields.Any(f => IsFieldReadError(f)));
+                    if (propertyResults.Any())
+                    {
+                        WritePropertySchema(SchemaNames.AggregatePropReadErrSchema, GetNameDescSchemaIndexFrags(propertyResults.Select(p => (p.Name, $"Read error for the '{p.Name}' Property.", ((DTObjectInfo)p.Schema).Fields.First(f => IsFieldReadError(f)).Schema, GetFieldIndex(p), false))), acceptor, sharedPrefix, required: false);
+                        WriteSinglePropertyResponseSchema(SchemaNames.AggregatePropReadRespSchema, SchemaNames.AggregatePropReadErrSchema, acceptor, includeValue: true);
+                    }
+
+                    IEnumerable<DTPropertyInfo> writablePropertyResults = dtInterface.Properties.Values.Where(p => p.Writable && IsSchemaPropertyResult(p.Schema) && ((DTObjectInfo)p.Schema).Fields.Any(f => IsFieldWriteError(f)));
+                    if (writablePropertyResults.Any())
+                    {
+                        WritePropertySchema(SchemaNames.AggregatePropWriteErrSchema, GetNameDescSchemaIndexFrags(writablePropertyResults.Select(p => (p.Name, $"Write error for the '{p.Name}' Property.", ((DTObjectInfo)p.Schema).Fields.First(f => IsFieldWriteError(f)).Schema, GetFieldIndex(p), false))), acceptor, sharedPrefix, required: false);
+                        WriteSinglePropertyResponseSchema(SchemaNames.AggregatePropWriteRespSchema, SchemaNames.AggregatePropWriteErrSchema, acceptor, includeValue: false);
+                    }
                 }
             }
         }
@@ -221,9 +340,33 @@
             }
         }
 
+        private List<(string, string, DTSchemaInfo, int, bool)> GetNameDescSchemaIndexFrags(IEnumerable<(string, string, DTSchemaInfo, int, bool)> ndsif)
+        {
+            List<(string, string, DTSchemaInfo, int, bool)> nameDescSchemaIndices = ndsif.ToList();
+            nameDescSchemaIndices.Sort((x, y) => x.Item4 == 0 && y.Item4 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item4.CompareTo(x.Item4));
+            int ix = nameDescSchemaIndices.FirstOrDefault().Item4;
+            return nameDescSchemaIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4 == 0 ? ++ix : x.Item4, x.Item5)).ToList();
+        }
+
         private void WriteTelemetrySchema(ITypeName telemSchema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, Action<string, string, string> acceptor, CodeName? sharedPrefix, bool isSeparate)
         {
             foreach (ITemplateTransform templateTransform in SchemaTransformFactory.GetTelemetrySchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, telemSchema, nameDescSchemaRequiredIndices, sharedPrefix, isSeparate, mqttVersion))
+            {
+                acceptor(templateTransform.TransformText(), templateTransform.FileName, templateTransform.FolderPath);
+            }
+        }
+
+        private void WritePropertySchema(ITypeName propSchema, List<(string, string, DTSchemaInfo, int, bool)> nameDescSchemaIndexFrags, Action<string, string, string> acceptor, CodeName? sharedPrefix, bool required)
+        {
+            foreach (ITemplateTransform templateTransform in SchemaTransformFactory.GetPropertySchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, propSchema, nameDescSchemaIndexFrags, sharedPrefix, required, mqttVersion))
+            {
+                acceptor(templateTransform.TransformText(), templateTransform.FileName, templateTransform.FolderPath);
+            }
+        }
+
+        private void WriteSinglePropertyResponseSchema(ITypeName propSchema, CodeName errorSchema, Action<string, string, string> acceptor, bool includeValue)
+        {
+            foreach (ITemplateTransform templateTransform in SchemaTransformFactory.GetSinglePropertyResponseSchemaTransforms(propSchema, errorSchema, payloadFormat, genNamespace, includeValue))
             {
                 acceptor(templateTransform.TransformText(), templateTransform.FileName, templateTransform.FolderPath);
             }
@@ -282,6 +425,140 @@
                 PayloadFormat.Custom => CustomTypeName.Instance,
                 _ => SchemaNames.AggregateTelemSchema,
             };
+        }
+
+        private PropertySchemaInfo GetPropSchemaInfo(DTPropertyInfo dtProperty)
+        {
+            ITypeName? readResponseSchema = null;
+            ITypeName? writeRequestSchema = null;
+            ITypeName? writeResponseSchema = null;
+            CodeName? propValueName = null;
+            CodeName? readErrorName = null;
+            CodeName? readErrorSchema = null;
+            CodeName? writeErrorName = null;
+            CodeName? writeErrorSchema = null;
+
+            CodeName propSchema = SchemaNames.GetPropSchema(dtProperty.Name);
+
+            if (IsSchemaPropertyResult(dtProperty.Schema))
+            {
+                DTFieldInfo? valueField = ((DTObjectInfo)dtProperty.Schema).Fields.FirstOrDefault(f => IsFieldPropertyValue(f));
+                if (valueField == null)
+                {
+                    throw new Exception($"Object co-typed {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.PropertyResultAdjunctTypeFormat)} requires a Field co-typed {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.PropertyValueAdjunctTypeFormat)}");
+                }
+
+                propValueName = new CodeName(valueField.Name);
+
+                DTFieldInfo? readErrorField = ((DTObjectInfo)dtProperty.Schema).Fields.FirstOrDefault(f => IsFieldReadError(f));
+                if (readErrorField != null)
+                {
+                    readResponseSchema = SchemaNames.GetPropReadRespSchema(dtProperty.Name);
+
+                    readErrorName = new CodeName(readErrorField.Name);
+                    readErrorSchema = new CodeName(readErrorField.Schema.Id);
+                }
+                else
+                {
+                    readResponseSchema = SchemaNames.GetPropSchema(dtProperty.Name);
+                }
+
+                if (dtProperty.Writable)
+                {
+                    writeRequestSchema = IsPropertyOrFieldFragmented(IsSchemaPropertyResult(dtProperty.Schema) ? (DTEntityInfo?)((DTObjectInfo)dtProperty.Schema).Fields.FirstOrDefault(f => IsFieldPropertyValue(f)) ?? dtProperty : dtProperty) ? SchemaNames.GetWritablePropSchema(dtProperty.Name) : SchemaNames.GetPropSchema(dtProperty.Name);
+
+                    DTFieldInfo? writeErrorField = ((DTObjectInfo)dtProperty.Schema).Fields.FirstOrDefault(f => IsFieldWriteError(f));
+                    if (writeErrorField != null)
+                    {
+                        writeResponseSchema = SchemaNames.GetPropWriteRespSchema(dtProperty.Name);
+
+                        writeErrorName = new CodeName(writeErrorField.Name);
+                        writeErrorSchema = new CodeName(writeErrorField.Schema.Id);
+                    }
+                }
+            }
+            else
+            {
+                readResponseSchema = SchemaNames.GetPropSchema(dtProperty.Name);
+                if (dtProperty.Writable)
+                {
+                    writeRequestSchema = IsPropertyOrFieldFragmented(dtProperty) ? SchemaNames.GetWritablePropSchema(dtProperty.Name) : readResponseSchema;
+                }
+            }
+
+            return new PropertySchemaInfo(
+                dtProperty.Name,
+                propSchema,
+                readResponseSchema,
+                writeRequestSchema,
+                writeResponseSchema,
+                propValueName,
+                readErrorName,
+                readErrorSchema,
+                writeErrorName,
+                writeErrorSchema);
+        }
+
+        private PropertySchemaInfo GetAggregatePropSchemaInfo()
+        {
+            ITypeName? readResponseSchema = null;
+            ITypeName? writeRequestSchema = null;
+            ITypeName? writeResponseSchema = null;
+            CodeName? propValueName = null;
+            CodeName? readErrorName = null;
+            CodeName? readErrorSchema = null;
+            CodeName? writeErrorName = null;
+            CodeName? writeErrorSchema = null;
+
+            CodeName propSchema = SchemaNames.AggregatePropSchema;
+
+            if (dtInterface.Properties.Any(p => IsSchemaPropertyResult(p.Value.Schema)))
+            {
+                if (dtInterface.Properties.Values.Any(p => p.Writable))
+                {
+                    writeRequestSchema = SchemaNames.AggregatePropWriteSchema;
+                }
+
+                propValueName = SchemaNames.AggregateReadRespValueField;
+
+                if (dtInterface.Properties.Values.Any(p => IsSchemaPropertyResult(p.Schema) && ((DTObjectInfo)p.Schema).Fields.Any(f => IsFieldReadError(f))))
+                {
+                    readResponseSchema = SchemaNames.AggregatePropReadRespSchema;
+                    readErrorName = SchemaNames.AggregateRespErrorField;
+                    readErrorSchema = SchemaNames.AggregatePropReadErrSchema;
+                }
+                else
+                {
+                    readResponseSchema = SchemaNames.AggregatePropSchema;
+                }
+
+                if (dtInterface.Properties.Values.Any(p => p.Writable && IsSchemaPropertyResult(p.Schema) && ((DTObjectInfo)p.Schema).Fields.Any(f => IsFieldWriteError(f))))
+                {
+                    writeResponseSchema = SchemaNames.AggregatePropWriteRespSchema;
+                    writeErrorName = SchemaNames.AggregateRespErrorField;
+                    writeErrorSchema = SchemaNames.AggregatePropWriteErrSchema;
+                }
+            }
+            else
+            {
+                readResponseSchema = SchemaNames.AggregatePropSchema;
+                if (dtInterface.Properties.Any(p => p.Value.Writable))
+                {
+                    writeRequestSchema = SchemaNames.AggregatePropWriteSchema;
+                }
+            }
+
+            return new PropertySchemaInfo(
+                null,
+                propSchema,
+                readResponseSchema,
+                writeRequestSchema,
+                writeResponseSchema,
+                propValueName,
+                readErrorName,
+                readErrorSchema,
+                writeErrorName,
+                writeErrorSchema);
         }
 
         private CommandSchemaInfo GetCommandSchemaInfo(DTCommandInfo dtCommand)
@@ -393,6 +670,11 @@
 
         private void GenerateObject(DTObjectInfo dtObject, Action<string, string, string> acceptor, CodeName? sharedPrefix, string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId)
         {
+            if (IsSchemaPropertyResult(dtObject))
+            {
+                return;
+            }
+
             CodeName schemaName = new(dtObject.Id);
             string? description = dtObject.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value;
             bool isResult = IsSchemaResult(dtObject);
@@ -448,6 +730,11 @@
             return dtCommand.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.IdempotentAdjunctTypeFormat, mqttVersion)));
         }
 
+        private bool IsPropertyOrFieldFragmented(DTEntityInfo dtEntity)
+        {
+            return dtEntity.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.FragmentedAdjunctTypeFormat, mqttVersion)));
+        }
+
         private bool IsObjectError(DTObjectInfo dtObject)
         {
             return dtObject.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorAdjunctTypeFormat, mqttVersion)));
@@ -466,6 +753,26 @@
         private bool IsFieldErrorResult(DTFieldInfo dtField)
         {
             return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorResultAdjunctTypeFormat, mqttVersion)));
+        }
+
+        private bool IsSchemaPropertyResult(DTSchemaInfo? dtSchema)
+        {
+            return dtSchema != null && dtSchema.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.PropertyResultAdjunctTypeFormat, mqttVersion)));
+        }
+
+        private bool IsFieldPropertyValue(DTFieldInfo dtField)
+        {
+            return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.PropertyValueAdjunctTypeFormat, mqttVersion)));
+        }
+
+        private bool IsFieldReadError(DTFieldInfo dtField)
+        {
+            return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ReadErrorAdjunctTypeFormat, mqttVersion)));
+        }
+
+        private bool IsFieldWriteError(DTFieldInfo dtField)
+        {
+            return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.WriteErrorAdjunctTypeFormat, mqttVersion)));
         }
 
         private bool IsFieldErrorCode(DTFieldInfo dtField)

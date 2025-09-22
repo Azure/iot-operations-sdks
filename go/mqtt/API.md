@@ -9,6 +9,8 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 - [Constants](<#constants>)
 - [func IsTopicFilterMatch\(topicFilter, topicName string\) bool](<#IsTopicFilterMatch>)
 - [func RandomClientID\(\) string](<#RandomClientID>)
+- [type AIOBrokerFeatureError](<#AIOBrokerFeatureError>)
+  - [func \(e \*AIOBrokerFeatureError\) Error\(\) string](<#AIOBrokerFeatureError.Error>)
 - [type Ack](<#Ack>)
 - [type ClientState](<#ClientState>)
 - [type ClientStateError](<#ClientStateError>)
@@ -33,8 +35,8 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
   - [func \(e \*FatalConnackError\) Error\(\) string](<#FatalConnackError.Error>)
 - [type FatalDisconnectError](<#FatalDisconnectError>)
   - [func \(e \*FatalDisconnectError\) Error\(\) string](<#FatalDisconnectError.Error>)
-- [type InvalidAIOBrokerFeature](<#InvalidAIOBrokerFeature>)
-  - [func \(e \*InvalidAIOBrokerFeature\) Error\(\) string](<#InvalidAIOBrokerFeature.Error>)
+- [type HandlerPanicError](<#HandlerPanicError>)
+  - [func \(e \*HandlerPanicError\) Error\(\) string](<#HandlerPanicError.Error>)
 - [type InvalidArgumentError](<#InvalidArgumentError>)
   - [func \(e \*InvalidArgumentError\) Error\(\) string](<#InvalidArgumentError.Error>)
   - [func \(e \*InvalidArgumentError\) Unwrap\(\) error](<#InvalidArgumentError.Unwrap>)
@@ -126,6 +128,26 @@ func RandomClientID() string
 ```
 
 RandomClientID generates a random valid MQTT client ID. This should never be used in production \(as it fully invalidates all session guarantees\) but can be useful in testing to prevent parallel tests from conflicting.
+
+<a name="AIOBrokerFeatureError"></a>
+## type [AIOBrokerFeatureError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L159-L161>)
+
+AIOBrokerFeatureError indicates that a feature specific to the AIO Broker was used when AIO Broker features were explicitly disabled.
+
+```go
+type AIOBrokerFeatureError struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a name="AIOBrokerFeatureError.Error"></a>
+### func \(\*AIOBrokerFeatureError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L163>)
+
+```go
+func (e *AIOBrokerFeatureError) Error() string
+```
+
+
 
 <a name="Ack"></a>
 ## type [Ack](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L30>)
@@ -376,22 +398,22 @@ func (e *FatalDisconnectError) Error() string
 
 
 
-<a name="InvalidAIOBrokerFeature"></a>
-## type [InvalidAIOBrokerFeature](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L159-L161>)
+<a name="HandlerPanicError"></a>
+## type [HandlerPanicError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L172-L174>)
 
-InvalidAIOBrokerFeature indicates that a feature specific to the AIO Broker was used when AIO Broker features were explicitly disabled.
+HandlerPanicError indicates that a user\-provided handler panicked. This error will never be returned, only logged.
 
 ```go
-type InvalidAIOBrokerFeature struct {
+type HandlerPanicError struct {
     // contains filtered or unexported fields
 }
 ```
 
-<a name="InvalidAIOBrokerFeature.Error"></a>
-### func \(\*InvalidAIOBrokerFeature\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L163>)
+<a name="HandlerPanicError.Error"></a>
+### func \(\*HandlerPanicError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L176>)
 
 ```go
-func (e *InvalidAIOBrokerFeature) Error() string
+func (e *HandlerPanicError) Error() string
 ```
 
 
@@ -572,7 +594,7 @@ func (c *SessionClient) RegisterConnectEventHandler(handler ConnectEventHandler)
 RegisterConnectEventHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the session client successfully establishes an MQTT connection. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the session client.
 
 <a name="SessionClient.RegisterDisconnectEventHandler"></a>
-### func \(\*SessionClient\) [RegisterDisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L31-L33>)
+### func \(\*SessionClient\) [RegisterDisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L38-L40>)
 
 ```go
 func (c *SessionClient) RegisterDisconnectEventHandler(handler DisconnectEventHandler) func()
@@ -581,7 +603,7 @@ func (c *SessionClient) RegisterDisconnectEventHandler(handler DisconnectEventHa
 RegisterDisconnectEventHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the session client detects a disconnection from the MQTT server. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the session client.
 
 <a name="SessionClient.RegisterFatalErrorHandler"></a>
-### func \(\*SessionClient\) [RegisterFatalErrorHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L39-L41>)
+### func \(\*SessionClient\) [RegisterFatalErrorHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L53-L55>)
 
 ```go
 func (c *SessionClient) RegisterFatalErrorHandler(handler func(error)) func()
@@ -599,7 +621,7 @@ func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func()
 RegisterMessageHandler registers a message handler on this client. Returns a callback to remove the message handler.
 
 <a name="SessionClient.Start"></a>
-### func \(\*SessionClient\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L48>)
+### func \(\*SessionClient\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L69>)
 
 ```go
 func (c *SessionClient) Start() error
@@ -608,7 +630,7 @@ func (c *SessionClient) Start() error
 Start the session client, spawning any necessary background goroutines. In order to terminate the session client and clean up any running goroutines, Stop\(\) must be called after calling Start\(\).
 
 <a name="SessionClient.Stop"></a>
-### func \(\*SessionClient\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L73>)
+### func \(\*SessionClient\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L94>)
 
 ```go
 func (c *SessionClient) Stop() error
@@ -617,7 +639,7 @@ func (c *SessionClient) Stop() error
 Stop the session client, terminating any pending operations and cleaning up background goroutines.
 
 <a name="SessionClient.Subscribe"></a>
-### func \(\*SessionClient\) [Subscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L75-L79>)
+### func \(\*SessionClient\) [Subscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L80-L84>)
 
 ```go
 func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...SubscribeOption) (*Ack, error)
@@ -626,7 +648,7 @@ func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...Sub
 Subscribe to the given topic.
 
 <a name="SessionClient.Unsubscribe"></a>
-### func \(\*SessionClient\) [Unsubscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L118-L122>)
+### func \(\*SessionClient\) [Unsubscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L123-L127>)
 
 ```go
 func (c *SessionClient) Unsubscribe(ctx context.Context, topic string, opts ...UnsubscribeOption) (*Ack, error)

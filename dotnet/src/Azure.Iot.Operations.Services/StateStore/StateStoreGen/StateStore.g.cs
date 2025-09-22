@@ -124,6 +124,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 this.mqttClient = mqttClient;
 
                 this.invokeCommandInvoker = new InvokeCommandInvoker(applicationContext, mqttClient);
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)

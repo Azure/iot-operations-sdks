@@ -334,7 +334,7 @@ impl DeviceEndpointStatusReporter {
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
                         adr_device_status.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Update Device Status"))
@@ -442,7 +442,7 @@ impl DeviceEndpointClientCreationObservation {
                     .observe_device_update_notifications(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -464,7 +464,7 @@ impl DeviceEndpointClientCreationObservation {
                     .get_device(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Device Definition"))
@@ -493,7 +493,7 @@ impl DeviceEndpointClientCreationObservation {
                     .get_device_status(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Device Status"))
@@ -738,7 +738,7 @@ impl DeviceEndpointClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -761,7 +761,7 @@ impl DeviceEndpointClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Asset Definition"))
@@ -790,7 +790,7 @@ impl DeviceEndpointClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Asset Status"))
@@ -851,7 +851,7 @@ impl DeviceEndpointClient {
                     .unobserve_device_update_notifications(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -1006,7 +1006,7 @@ impl AssetStatusReporter {
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
                         adr_asset_status.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, &format!("Update Asset Status for {log_identifier}")))
@@ -1778,7 +1778,7 @@ impl AssetClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -2359,7 +2359,7 @@ impl DataOperationClient {
                     .schema_registry_client
                     .put(
                         new_message_schema.clone(),
-                        self.connector_context.default_timeout,
+                        self.connector_context.schema_registry_timeout,
                     )
                     .await
                     .map_err(|e| {
@@ -2990,8 +2990,17 @@ impl DeviceSpecification {
             adr_models::Authentication::Anonymous => Authentication::Anonymous,
             adr_models::Authentication::Certificate {
                 certificate_secret_name,
+                intermediate_certificates_secret_name,
+                key_secret_name,
             } => Authentication::Certificate {
                 certificate_path: device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is Certificate").as_path().join(certificate_secret_name),
+                intermediate_certificates_path: intermediate_certificates_secret_name.map(|intermediate_cert_secret_name| {
+                    device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is Certificate").as_path().join(intermediate_cert_secret_name)
+                }),
+                key_path: key_secret_name.map(|key_secret_name| {
+                    device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is Certificate").as_path().join(key_secret_name)
+                }),
+
             },
             adr_models::Authentication::UsernamePassword {
                 password_secret_name,
@@ -3067,8 +3076,12 @@ pub enum Authentication {
     Anonymous,
     /// Represents authentication using a certificate.
     Certificate {
-        /// The 'certificateSecretName' Field.
+        /// The path to a file containing containing the client certificate in PEM format.
         certificate_path: PathBuf, // different from adr
+        /// The path to a file containing the combined intermediate certificates in PEM format (if any).
+        intermediate_certificates_path: Option<PathBuf>, // different from adr
+        /// The path to a file containing the private key in PEM or DER format.
+        key_path: Option<PathBuf>, // different from adr
     },
     /// Represents authentication using a username and password.
     UsernamePassword {
