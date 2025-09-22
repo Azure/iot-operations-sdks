@@ -129,7 +129,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static Models.AssetEventGroup ToModel(this AdrBaseService.AssetEventGroupSchemaElementSchema source)
+    internal static Models.AssetEventGroup ToModel(this AdrBaseService.AssetEventGroupsSchemaElementSchema source)
     {
         return new AssetEventGroup()
         {
@@ -366,7 +366,9 @@ internal static class ModelsConverter
     {
         return new X509Credentials
         {
-            CertificateSecretName = source.CertificateSecretName
+            CertificateSecretName = source.CertificateSecretName,
+            IntermediateCertificatesSecretName = source.IntermediateCertificatesSecretName,
+            KeySecretName = source.KeySecretName,
         };
     }
 
