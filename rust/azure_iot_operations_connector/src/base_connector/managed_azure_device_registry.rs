@@ -3233,7 +3233,7 @@ pub struct EventSpecification {
     pub destinations: Vec<adr_models::EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// Stringified JSON that contains connector-specific configuration for the specific event.
     pub event_configuration: Option<String>,
-    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
+    /// Reference to a data source for a given event.
     pub data_source: Option<String>,
     /// The name of the event.
     pub name: String,
@@ -3260,7 +3260,7 @@ impl From<(adr_models::EventGroup, adr_models::Event)> for EventSpecification {
             name: val.1.name,
             type_ref: val.1.type_ref,
             event_group: EventGroupSpecification {
-                default_event_destinations: val.0.default_event_destinations,
+                default_events_destinations: val.0.default_events_destinations,
                 event_group_configuration: val.0.event_group_configuration,
                 data_source: val.0.data_source,
                 name: val.0.name,
@@ -3270,16 +3270,16 @@ impl From<(adr_models::EventGroup, adr_models::Event)> for EventSpecification {
     }
 }
 
-/// Represents the specification of an Event and its Event Group in the Azure Device Registry service.
+/// Represents the specification of an Event Group in the Azure Device Registry service.
 #[derive(Debug, Clone, PartialEq)]
 pub struct EventGroupSpecification {
     /// Default destinations for an event on this Event Group.
-    pub default_event_destinations: Vec<adr_models::EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    pub default_events_destinations: Vec<adr_models::EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// Stringified JSON that contains connector-specific configuration for the specific event group.
     pub event_group_configuration: Option<String>,
     /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
     pub data_source: Option<String>,
-    /// The name of the event.
+    /// The name of the event group.
     pub name: String,
     /// URI or type definition ID.
     pub type_ref: Option<String>,
