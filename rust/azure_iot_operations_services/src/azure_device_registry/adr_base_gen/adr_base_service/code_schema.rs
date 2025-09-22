@@ -12,6 +12,4 @@ pub enum CodeSchema {
     KubeError,
     #[serde(rename = "SerializationError")]
     SerializationError,
-    #[serde(rename = "Unauthorized")]
-    Unauthorized,
 }

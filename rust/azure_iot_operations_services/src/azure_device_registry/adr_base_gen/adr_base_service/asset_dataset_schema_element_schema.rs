@@ -27,7 +27,7 @@ pub struct AssetDatasetSchemaElementSchema {
     #[builder(default = "None")]
     pub dataset_configuration: Option<String>,
 
-    /// Reference to a data source for a given dataset.
+    /// Name of the data source within a dataset.
     #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
