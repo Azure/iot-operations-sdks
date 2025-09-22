@@ -14,11 +14,11 @@ use super::asset_dataset_event_stream_status::AssetDatasetEventStreamStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetEventGroupStatusSchemaElementSchema {
-    /// Array of event statuses that describe the status of each event.
+    /// Array of event statuses that describe the status of each event in the event group.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub events: Option<Vec<AssetDatasetEventStreamStatus>>,
 
-    /// The name of the eventGroup. Must be unique within the status.eventGroup array. This name is used to correlate between the spec and status event group information.
+    /// The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.
     pub name: String,
 }

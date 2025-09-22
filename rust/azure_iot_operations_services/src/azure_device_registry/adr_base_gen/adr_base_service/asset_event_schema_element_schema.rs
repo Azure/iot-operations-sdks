@@ -14,7 +14,7 @@ use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetEventSchemaElementSchema {
-    /// The address of the source of the data in the event (e.g. URL) so that a client can access the data source on the asset.
+    /// Reference to a data source for a given event.
     #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
@@ -25,13 +25,13 @@ pub struct AssetEventSchemaElementSchema {
     #[builder(default = "None")]
     pub destinations: Option<Vec<EventStreamDestination>>,
 
-    /// Stringified JSON that contains connector-specific configuration for the data point.
+    /// Stringified JSON that contains connector-specific configuration for the specific event.
     #[serde(rename = "eventConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub event_configuration: Option<String>,
 
-    /// The name of the data point.
+    /// The name of the event.
     pub name: String,
 
     /// URI or type definition ID.
