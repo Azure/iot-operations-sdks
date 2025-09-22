@@ -20,6 +20,20 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonRequired]
         public string CertificateSecretName { get; set; } = default!;
 
+        /// <summary>
+        /// A reference to the secret containing the combined intermediate certificates in PEM format.
+        /// </summary>
+        [JsonPropertyName("intermediateCertificatesSecretName")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? IntermediateCertificatesSecretName { get; set; } = default;
+
+        /// <summary>
+        /// A reference to the secret containing the certificate private key in PEM or DER format.
+        /// </summary>
+        [JsonPropertyName("keySecretName")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? KeySecretName { get; set; } = default;
+
         void IJsonOnDeserialized.OnDeserialized()
         {
             if (CertificateSecretName is null)

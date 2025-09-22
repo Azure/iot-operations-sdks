@@ -130,7 +130,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("eventGroups")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetEventGroupSchemaElementSchema>? EventGroups { get; set; } = default;
+        public List<AssetEventGroupsSchemaElementSchema>? EventGroups { get; set; } = default;
 
         /// <summary>
         /// Asset ID provided by the customer.

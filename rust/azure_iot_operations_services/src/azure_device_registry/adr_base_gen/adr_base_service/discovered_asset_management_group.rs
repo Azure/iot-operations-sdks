@@ -19,11 +19,17 @@ pub struct DiscoveredAssetManagementGroup {
     #[builder(default = "None")]
     pub actions: Option<Vec<DiscoveredAssetManagementGroupAction>>,
 
+    /// Reference to a data source for a given management group.
+    #[serde(rename = "dataSource")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub data_source: Option<String>,
+
     /// Default response timeout for all actions that are part of the management group.
     #[serde(rename = "defaultTimeoutInSeconds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub default_timeout_in_seconds: Option<u32>,
+    pub default_timeout_in_seconds: Option<u64>,
 
     /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
     #[serde(rename = "defaultTopic")]
