@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
@@ -34,7 +35,12 @@ public record DiscoveredAsset
 
     public string? DocumentationUri { get; set; }
 
-    public List<DetectedAssetEventSchemaElement>? Events { get; set; }
+    /// <summary>
+    /// Array of events that are part of the asset. Each event can have per-event configuration.
+    /// </summary>
+    public List<DiscoveredAssetEventGroup>? EventGroups { get; set; } = default;
+
+    public List<DiscoveredAssetEvent>? Events { get; set; }
 
     public string? HardwareRevision { get; set; }
 

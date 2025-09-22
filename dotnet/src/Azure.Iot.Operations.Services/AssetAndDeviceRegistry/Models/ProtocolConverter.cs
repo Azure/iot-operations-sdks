@@ -64,6 +64,19 @@ internal static class ProtocolConverter
         };
     }
 
+    internal static AdrBaseService.DiscoveredAssetEventGroup ToProtocol(this DiscoveredAssetEventGroup source)
+    {
+        return new AdrBaseService.DiscoveredAssetEventGroup()
+        {
+            DataSource = source.DataSource,
+            DefaultEventsDestinations = source.DefaultEventsDestinations?.Select(x => x.ToProtocol()).ToList(),
+            EventGroupConfiguration = source.EventGroupConfiguration,
+            Events = source.Events?.Select(x => x.ToProtocol()).ToList(),
+            Name = source.Name,
+            TypeRef = source.TypeRef,
+        };
+    }
+
     internal static AdrBaseService.DiscoveredAsset ToProtocol(this DiscoveredAsset source)
     {
         return new AdrBaseService.DiscoveredAsset
@@ -80,7 +93,7 @@ internal static class ProtocolConverter
             DefaultStreamsDestinations = source.DefaultStreamsDestinations?.Select(x => x.ToProtocol()).ToList(),
             DeviceRef = source.DeviceRef.ToProtocol(),
             DocumentationUri = source.DocumentationUri,
-            Events = source.Events?.Select(x => x.ToProtocol()).ToList(),
+            EventGroups = source.EventGroups?.Select(x => x.ToProtocol()).ToList(),
             HardwareRevision = source.HardwareRevision,
             ManagementGroups = source.ManagementGroups?.Select(x => x.ToProtocol()).ToList(),
             Manufacturer = source.Manufacturer,
@@ -93,30 +106,19 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetEvent ToProtocol(this DetectedAssetEventSchemaElement source)
+    internal static AdrBaseService.DiscoveredAssetEvent ToProtocol(this DiscoveredAssetEvent source)
     {
         return new AdrBaseService.DiscoveredAssetEvent
         {
-            DataPoints = source.DataPoints?.Select(x => x.ToProtocol()).ToList(),
             Destinations = source.Destinations?.Select(x => x.ToProtocol()).ToList(),
             EventConfiguration = source.EventConfiguration,
-            EventNotifier = source.EventNotifier,
+            DataSource = source.DataSource,
             LastUpdatedOn = source.LastUpdatedOn,
             Name = source.Name,
             TypeRef = source.TypeRef,
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetEventDataPoint ToProtocol(this DiscoveredAssetEventDataPoint source)
-    {
-        return new AdrBaseService.DiscoveredAssetEventDataPoint
-        {
-            DataPointConfiguration = source.DataPointConfiguration,
-            DataSource = source.DataSource,
-            LastUpdatedOn = source.LastUpdatedOn,
-            Name = source.Name,
-        };
-    }
     internal static AdrBaseService.DiscoveredAssetDataset ToProtocol(this DiscoveredAssetDataset source)
     {
         return new AdrBaseService.DiscoveredAssetDataset
@@ -308,9 +310,18 @@ internal static class ProtocolConverter
         {
             Config = source.Config?.ToProtocol(),
             Datasets = source.Datasets?.Select(x => x.ToProtocol()).ToList(),
-            Events = source.Events?.Select(x => x.ToProtocol()).ToList(),
+            EventGroups = source.EventGroups?.Select(x => x.ToProtocol()).ToList(),
             ManagementGroups = source.ManagementGroups?.Select(x => x.ToProtocol()).ToList(),
             Streams = source.Streams?.Select(x => x.ToProtocol()).ToList()
+        };
+    }
+
+    internal static AdrBaseService.AssetEventGroupStatusSchemaElementSchema ToProtocol(this AssetEventGroupStatus source)
+    {
+        return new AdrBaseService.AssetEventGroupStatusSchemaElementSchema
+        {
+            Events = source.Events?.Select(x => x.ToProtocol()).ToList(),
+            Name = source.Name
         };
     }
 
