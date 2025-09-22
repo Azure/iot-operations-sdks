@@ -20,11 +20,18 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public List<AssetManagementGroupActionSchemaElementSchema>? Actions { get; set; } = default;
 
         /// <summary>
+        /// Reference to a data source for a given management group.
+        /// </summary>
+        [JsonPropertyName("dataSource")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DataSource { get; set; } = default;
+
+        /// <summary>
         /// Default response timeout for all actions that are part of the management group.
         /// </summary>
         [JsonPropertyName("defaultTimeoutInSeconds")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public uint? DefaultTimeoutInSeconds { get; set; } = default;
+        public ulong? DefaultTimeoutInSeconds { get; set; } = default;
 
         /// <summary>
         /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
