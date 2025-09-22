@@ -1223,6 +1223,9 @@ impl AssetClient {
         asset_client
     }
 
+    /// Helper function to handle updates for event groups on an Asset
+    /// Transforms a list of `adr_models::EventGroup`s into a list of
+    /// [`EventSpecification`]s per Event and calls `handle_data_operation_kind_updates`
     fn handle_event_group_updates(
         &self,
         event_hashmap: &mut HashMap<
@@ -1238,12 +1241,13 @@ impl AssetClient {
     ) {
         let mut updated_asset_events = Vec::new();
         for event_group in updated_asset_event_groups {
-            // for each event in the event group
+            // Creates an [`EventSpecification`] for each event in the event group
             for event in &event_group.events {
                 updated_asset_events.push((event_group.clone(), event.clone()).into());
             }
         }
 
+        // Do the actual updates now that we have the correct data format
         self.handle_data_operation_kind_updates(
             event_hashmap,
             updated_asset,
@@ -2484,7 +2488,7 @@ impl DataOperationClient {
                         );
                     }
                 } else {
-                    // TODO: combine these else's somehow
+                    // If the event group doesn't exist in the current status, then add it
                     new_status.event_groups.get_or_insert_with(Vec::new).push(
                         adr_models::EventGroupStatus {
                             name: event_group_name.to_string(),
