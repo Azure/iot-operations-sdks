@@ -1,4 +1,4 @@
-# How to package connector metadata with 
+# How to package connector metadata with connector images
 
 In order for the user of a connector to access the metadata associated with it, the publisher of a connector must
 attach the metadata using ORAS like:
