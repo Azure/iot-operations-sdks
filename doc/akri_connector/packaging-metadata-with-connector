@@ -7,4 +7,4 @@ attach the metadata using ORAS like:
 oras attach <container_registry>/<container_name>:<version> <connector_metadata_file> --artifact-type application/json
 ```
 
-where the connector metadata file is a JSON file that adheres to the schema defined [here](connector-metadata-schema.json).
+where the connector metadata file is a JSON file that adheres to the schema defined [here](/doc/akri_connector/connector-metadata-schema.json).
