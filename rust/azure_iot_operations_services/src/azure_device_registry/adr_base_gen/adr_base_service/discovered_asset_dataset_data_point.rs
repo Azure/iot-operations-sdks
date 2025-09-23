@@ -21,7 +21,9 @@ pub struct DiscoveredAssetDatasetDataPoint {
 
     /// The address of the source of the data in the discovered asset (e.g. URL) so that a client can access the data source on the asset.
     #[serde(rename = "dataSource")]
-    pub data_source: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub data_source: Option<String>,
 
     /// UTC timestamp indicating when the data point was added or modified.
     #[serde(rename = "lastUpdatedOn")]

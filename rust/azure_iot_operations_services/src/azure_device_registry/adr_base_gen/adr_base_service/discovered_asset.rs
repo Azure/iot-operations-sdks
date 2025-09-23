@@ -13,7 +13,7 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 use super::asset_device_ref::AssetDeviceRef;
 use super::dataset_destination::DatasetDestination;
 use super::discovered_asset_dataset::DiscoveredAssetDataset;
-use super::discovered_asset_event::DiscoveredAssetEvent;
+use super::discovered_asset_event_group::DiscoveredAssetEventGroup;
 use super::discovered_asset_management_group::DiscoveredAssetManagementGroup;
 use super::discovered_asset_stream::DiscoveredAssetStream;
 use super::event_stream_destination::EventStreamDestination;
@@ -78,9 +78,20 @@ pub struct DiscoveredAsset {
     #[builder(default = "None")]
     pub default_streams_destinations: Option<Vec<EventStreamDestination>>,
 
+    /// Human-readable description of the asset.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub description: Option<String>,
+
     /// Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use.
     #[serde(rename = "deviceRef")]
     pub device_ref: AssetDeviceRef,
+
+    /// Human-readable display name.
+    #[serde(rename = "displayName")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub display_name: Option<String>,
 
     /// Asset documentation reference.
     #[serde(rename = "documentationUri")]
@@ -89,9 +100,16 @@ pub struct DiscoveredAsset {
     pub documentation_uri: Option<String>,
 
     /// Array of events that are part of the asset. Each event can have per-event configuration.
+    #[serde(rename = "eventGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub events: Option<Vec<DiscoveredAssetEvent>>,
+    pub event_groups: Option<Vec<DiscoveredAssetEventGroup>>,
+
+    /// Asset ID provided by the customer.
+    #[serde(rename = "externalAssetId")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub external_asset_id: Option<String>,
 
     /// Asset hardware revision number.
     #[serde(rename = "hardwareRevision")]

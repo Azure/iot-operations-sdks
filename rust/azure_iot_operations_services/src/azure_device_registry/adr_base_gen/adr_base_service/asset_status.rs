@@ -11,6 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::asset_dataset_event_stream_status::AssetDatasetEventStreamStatus;
+use super::asset_event_group_status_schema_element_schema::AssetEventGroupStatusSchemaElementSchema;
 use super::asset_management_group_status_schema_element_schema::AssetManagementGroupStatusSchemaElementSchema;
 use super::config_status::ConfigStatus;
 
@@ -26,10 +27,11 @@ pub struct AssetStatus {
     #[builder(default = "None")]
     pub datasets: Option<Vec<AssetDatasetEventStreamStatus>>,
 
-    /// Array of event statuses that describe the status of each event.
+    /// Array of event group statuses that describe the status of each event group.
+    #[serde(rename = "eventGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub events: Option<Vec<AssetDatasetEventStreamStatus>>,
+    pub event_groups: Option<Vec<AssetEventGroupStatusSchemaElementSchema>>,
 
     /// Array of management group statuses that describe the status of each management group.
     #[serde(rename = "managementGroups")]

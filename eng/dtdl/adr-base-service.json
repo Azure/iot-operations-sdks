@@ -1248,8 +1248,7 @@
                         },
                         {
                           "@type": [
-                            "Field",
-                            "Required"
+                            "Field"
                           ],
                           "name": "dataSource",
                           "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.",
@@ -1277,7 +1276,7 @@
                 {
                   "@type": "Field",
                   "name": "dataSource",
-                  "description": "Name of the data source within a dataset.",
+                  "description": "Reference to a data source for a given dataset.",
                   "schema": "string"
                 },
                 {
@@ -1409,8 +1408,8 @@
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetEvent;1",
-          "name": "events",
+          "@id": "dtmi:com:microsoft:akri:AssetEventGroup;1",
+          "name": "eventGroups",
           "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
           "schema": {
             "@type": "Array",
@@ -1419,9 +1418,30 @@
               "fields": [
                 {
                   "@type": "Field",
-                  "@id": "dtmi:com:microsoft:akri:AssetEventDataPoint;1",
-                  "name": "dataPoints",
-                  "description": "Array of data points that are part of the event. Each data point can have per-data-point configuration.",
+                  "name": "dataSource",
+                  "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Field",
+                  "name": "defaultEventsDestinations",
+                  "description": "Default destinations for an event.",
+                  "schema": {
+                    "@type": "Array",
+                    "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
+                  }
+                },
+                {
+                  "@type": "Field",
+                  "name": "eventGroupConfiguration",
+                  "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Field",
+                  "@id": "dtmi:com:microsoft:akri:AssetEvent;1",
+                  "name": "events",
+                  "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": {
@@ -1429,17 +1449,23 @@
                       "fields": [
                         {
                           "@type": "Field",
-                          "name": "dataPointConfiguration",
-                          "description": "Stringified JSON that contains connector-specific configuration for the data point.",
+                          "name": "dataSource",
+                          "description": "Reference to a data source for a given event.",
                           "schema": "string"
                         },
                         {
-                          "@type": [
-                            "Field",
-                            "Required"
-                          ],
-                          "name": "dataSource",
-                          "description": "The address of the source of the data in the event (e.g. URL) so that a client can access the data source on the asset.",
+                          "@type": "Field",
+                          "name": "destinations",
+                          "description": "Destinations for an event.",
+                          "schema": {
+                            "@type": "Array",
+                            "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
+                          }
+                        },
+                        {
+                          "@type": "Field",
+                          "name": "eventConfiguration",
+                          "description": "Stringified JSON that contains connector-specific configuration for the specific event.",
                           "schema": "string"
                         },
                         {
@@ -1448,7 +1474,13 @@
                             "Required"
                           ],
                           "name": "name",
-                          "description": "The name of the data point.",
+                          "description": "The name of the event.",
+                          "schema": "string"
+                        },
+                        {
+                          "@type": "Field",
+                          "name": "typeRef",
+                          "description": "URI or type definition ID.",
                           "schema": "string"
                         }
                       ]
@@ -1456,36 +1488,12 @@
                   }
                 },
                 {
-                  "@type": "Field",
-                  "name": "destinations",
-                  "description": "Destinations for an event.",
-                  "schema": {
-                    "@type": "Array",
-                    "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
-                  }
-                },
-                {
-                  "@type": "Field",
-                  "name": "eventConfiguration",
-                  "description": "Stringified JSON that contains connector-specific configuration for the specific event.",
-                  "schema": "string"
-                },
-                {
-                  "@type": [
-                    "Field",
-                    "Required"
-                  ],
-                  "name": "eventNotifier",
-                  "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.",
-                  "schema": "string"
-                },
-                {
                   "@type": [
                     "Field",
                     "Required"
                   ],
                   "name": "name",
-                  "description": "The name of the event.",
+                  "description": "Name of the event group.",
                   "schema": "string"
                 },
                 {
@@ -1573,7 +1581,7 @@
                           "@type": "Field",
                           "name": "timeoutInSeconds",
                           "description": "Response timeout for the action.",
-                          "schema": "unsignedInteger"
+                          "schema": "unsignedLong"
                         },
                         {
                           "@type": "Field",
@@ -1593,9 +1601,15 @@
                 },
                 {
                   "@type": "Field",
+                  "name": "dataSource",
+                  "description": "Reference to a data source for a given management group.",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Field",
                   "name": "defaultTimeoutInSeconds",
                   "description": "Default response timeout for all actions that are part of the management group.",
-                  "schema": "unsignedInteger"
+                  "schema": "unsignedLong"
                 },
                 {
                   "@type": "Field",
@@ -1744,12 +1758,35 @@
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetEventStatus;1",
-          "name": "events",
-          "description": "Array of event statuses that describe the status of each event.",
+          "@id": "dtmi:com:microsoft:akri:AssetEventGroupStatus;1",
+          "name": "eventGroups",
+          "description": "Array of event group statuses that describe the status of each event group.",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
+            "elementSchema": {
+              "@type": "Object",
+              "fields": [
+                {
+                  "@type": "Field",
+                  "@id": "dtmi:com:microsoft:akri:AssetEventStatus;1",
+                  "name": "events",
+                  "description": "Array of event statuses that describe the status of each event in the event group.",
+                  "schema": {
+                    "@type": "Array",
+                    "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
+                  }
+                },
+                {
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
+                  "name": "name",
+                  "description": "The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.",
+                  "schema": "string"
+                }
+              ]
+            }
           }
         },
         {
@@ -1945,6 +1982,12 @@
           }
         },
         {
+          "@type": "Field",
+          "name": "description",
+          "description": "Human-readable description of the asset.",
+          "schema": "string"
+        },
+        {
           "@type": [
             "Field",
             "Required"
@@ -1955,18 +1998,30 @@
         },
         {
           "@type": "Field",
+          "name": "displayName",
+          "description": "Human-readable display name.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
           "name": "documentationUri",
           "description": "Asset documentation reference.",
           "schema": "string"
         },
         {
           "@type": "Field",
-          "name": "events",
+          "name": "eventGroups",
           "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetEvent;1"
+            "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetEventGroup;1"
           }
+        },
+        {
+          "@type": "Field",
+          "name": "externalAssetId",
+          "description": "Asset ID provided by the customer.",
+          "schema": "string"
         },
         {
           "@type": "Field",
@@ -2099,8 +2154,7 @@
         },
         {
           "@type": [
-            "Field",
-            "Required"
+            "Field"
           ],
           "name": "dataSource",
           "description": "The address of the source of the data in the discovered asset (e.g. URL) so that a client can access the data source on the asset.",
@@ -2135,12 +2189,9 @@
       "fields": [
         {
           "@type": "Field",
-          "name": "dataPoints",
-          "description": "Array of data points that are part of the event. Each data point can have per-data-point configuration.",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetEventDataPoint;1"
-          }
+          "name": "dataSource",
+          "description": "Reference to a data source for a given event.",
+          "schema": "string"
         },
         {
           "@type": "Field",
@@ -2155,15 +2206,6 @@
           "@type": "Field",
           "name": "eventConfiguration",
           "description": "Stringified JSON that contains connector-specific configuration for the specific event.",
-          "schema": "string"
-        },
-        {
-          "@type": [
-            "Field",
-            "Required"
-          ],
-          "name": "eventNotifier",
-          "description": "The address of the notifier of the event in the discovered asset (e.g. URL) so that a client can access the notifier on the asset.",
           "schema": "string"
         },
         {
@@ -2190,29 +2232,38 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:DiscoveredAssetEventDataPoint;1",
+      "@id": "dtmi:com:microsoft:akri:DiscoveredAssetEventGroup;1",
       "@type": "Object",
       "fields": [
         {
           "@type": "Field",
-          "name": "dataPointConfiguration",
-          "description": "Stringified JSON that contains connector-specific configuration for the data point.",
-          "schema": "string"
-        },
-        {
-          "@type": [
-            "Field",
-            "Required"
-          ],
           "name": "dataSource",
-          "description": "The address of the source of the data in the discovered asset (e.g. URL) so that a client can access the data source on the asset.",
+          "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.",
           "schema": "string"
         },
         {
           "@type": "Field",
-          "name": "lastUpdatedOn",
-          "description": "UTC timestamp indicating when the data point was added or modified.",
-          "schema": "dateTime"
+          "name": "defaultEventsDestinations",
+          "description": "Default destinations for an event.",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
+          }
+        },
+        {
+          "@type": "Field",
+          "name": "eventGroupConfiguration",
+          "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "events",
+          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetEvent;1"
+          }
         },
         {
           "@type": [
@@ -2220,7 +2271,13 @@
             "Required"
           ],
           "name": "name",
-          "description": "The name of the data point.",
+          "description": "Name of the event group.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "typeRef",
+          "description": "URI or type definition ID.",
           "schema": "string"
         }
       ]
@@ -2240,9 +2297,15 @@
         },
         {
           "@type": "Field",
+          "name": "dataSource",
+          "description": "Reference to a data source for a given management group.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
           "name": "defaultTimeoutInSeconds",
           "description": "Default response timeout for all actions that are part of the management group.",
-          "schema": "unsignedInteger"
+          "schema": "unsignedLong"
         },
         {
           "@type": "Field",
@@ -2326,7 +2389,7 @@
           "@type": "Field",
           "name": "timeoutInSeconds",
           "description": "Response timeout for the action.",
-          "schema": "unsignedInteger"
+          "schema": "unsignedLong"
         },
         {
           "@type": "Field",
@@ -2432,6 +2495,10 @@
               {
                 "name": "SerializationError",
                 "enumValue": "SerializationError"
+              },
+              {
+                "name": "Unauthorized",
+                "enumValue": "Unauthorized"
               }
             ]
           }

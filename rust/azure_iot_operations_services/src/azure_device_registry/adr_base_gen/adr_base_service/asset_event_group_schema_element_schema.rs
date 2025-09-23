@@ -10,28 +10,35 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::asset_event_schema_element_schema::AssetEventSchemaElementSchema;
 use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct AssetEventSchemaElementSchema {
-    /// Reference to a data source for a given event.
+pub struct AssetEventGroupSchemaElementSchema {
+    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.
     #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub data_source: Option<String>,
 
-    /// Destinations for an event.
+    /// Default destinations for an event.
+    #[serde(rename = "defaultEventsDestinations")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub destinations: Option<Vec<EventStreamDestination>>,
+    pub default_events_destinations: Option<Vec<EventStreamDestination>>,
 
-    /// Stringified JSON that contains connector-specific configuration for the specific event.
-    #[serde(rename = "eventConfiguration")]
+    /// Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
+    #[serde(rename = "eventGroupConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub event_configuration: Option<String>,
+    pub event_group_configuration: Option<String>,
 
-    /// The name of the event.
+    /// Array of events that are part of the asset. Each event can have per-event configuration.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub events: Option<Vec<AssetEventSchemaElementSchema>>,
+
+    /// Name of the event group.
     pub name: String,
 
     /// URI or type definition ID.

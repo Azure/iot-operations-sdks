@@ -3,7 +3,7 @@
 
 //! Types for Azure IoT Operations Connectors.
 
-use std::{borrow::Cow, collections::HashMap, path::PathBuf, sync::Arc};
+use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Arc};
 
 use azure_iot_operations_services::{
     azure_device_registry::{
@@ -20,7 +20,7 @@ use tokio_retry2::{Retry, RetryError};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    AdrConfigError, Data, DataOperationKind, DataOperationRef, MessageSchema,
+    AdrConfigError, Data, DataOperationKind, DataOperationName, DataOperationRef, MessageSchema,
     MessageSchemaReference,
     base_connector::ConnectorContext,
     deployment_artifacts::{
@@ -1083,12 +1083,12 @@ pub struct AssetClient {
             watch::Sender<DataOperationUpdateNotification>,
         ),
     >,
-    /// hashmap of current event names to their current definition and a sender to send event updates
+    /// hashmap of current event/event group names to their current definitions and a sender to send event updates
     #[getter(skip)]
     event_hashmap: HashMap<
-        String,
+        (String, String), // (EventGroup name, Event name)
         (
-            adr_models::Event,
+            EventSpecification,
             watch::Sender<DataOperationUpdateNotification>,
         ),
     >,
@@ -1163,7 +1163,6 @@ impl AssetClient {
             // asset_client.dataset_hashmap will be empty, so all datasets will be treated as new (as it should be).
             // Note that I could use vec::new() for temp_dataset_hashmap, but for extra safety, I'll clone the asset's dataset hashmap instead
             asset_client.handle_data_operation_kind_updates(
-                DataOperationKind::Dataset,
                 &mut temp_dataset_hashmap,
                 &asset,
                 &asset.datasets,
@@ -1172,18 +1171,16 @@ impl AssetClient {
             asset_client.dataset_hashmap = temp_dataset_hashmap;
 
             let mut temp_event_hashmap = asset_client.event_hashmap.clone();
-            asset_client.handle_data_operation_kind_updates(
-                DataOperationKind::Event,
+            asset_client.handle_event_group_updates(
                 &mut temp_event_hashmap,
                 &asset,
-                &asset.events,
+                &asset.event_groups,
                 &mut updates,
             );
             asset_client.event_hashmap = temp_event_hashmap;
 
             let mut temp_stream_hashmap = asset_client.stream_hashmap.clone();
             asset_client.handle_data_operation_kind_updates(
-                DataOperationKind::Stream,
                 &mut temp_stream_hashmap,
                 &asset,
                 &asset.streams,
@@ -1226,6 +1223,39 @@ impl AssetClient {
         asset_client
     }
 
+    /// Helper function to handle updates for event groups on an Asset
+    /// Transforms a list of `adr_models::EventGroup`s into a list of
+    /// [`EventSpecification`]s per Event and calls `handle_data_operation_kind_updates`
+    fn handle_event_group_updates(
+        &self,
+        event_hashmap: &mut HashMap<
+            (String, String), // (eg name, event name)
+            (
+                EventSpecification,
+                watch::Sender<DataOperationUpdateNotification>,
+            ),
+        >,
+        updated_asset: &Asset,
+        updated_asset_event_groups: &[adr_models::EventGroup],
+        updates: &mut AssetDataOperationUpdates,
+    ) {
+        let mut updated_asset_events = Vec::new();
+        for event_group in updated_asset_event_groups {
+            // Creates an [`EventSpecification`] for each event in the event group
+            for event in &event_group.events {
+                updated_asset_events.push((event_group.clone(), event.clone()).into());
+            }
+        }
+
+        // Do the actual updates now that we have the correct data format
+        self.handle_data_operation_kind_updates(
+            event_hashmap,
+            updated_asset,
+            &updated_asset_events,
+            updates,
+        );
+    }
+
     /// Helper function to handle updates for all of a type of data operations on an Asset
     /// This reduces duplicate code for each data operation kind - instead this function is called once for each
     ///
@@ -1239,9 +1269,8 @@ impl AssetClient {
     /// Removes any deleted Data Operations from the `data_operation_hashmap` that can be applied after the update task can't be cancelled
     fn handle_data_operation_kind_updates<T: Clone + DataOperation + PartialEq>(
         &self,
-        data_operation_kind: DataOperationKind,
         data_operation_hashmap: &mut HashMap<
-            String,
+            T::HashName,
             (T, watch::Sender<DataOperationUpdateNotification>),
         >,
         updated_asset: &Asset,
@@ -1253,10 +1282,10 @@ impl AssetClient {
         data_operation_hashmap.retain(|data_operation_name, _| {
             updated_asset_data_operations
                 .iter()
-                .any(|data_operation| data_operation.name() == *data_operation_name)
+                .any(|data_operation| data_operation.hash_name() == data_operation_name)
         });
         // Get the new default data operation destinations and track whether they're different or not from the current one
-        let default_data_operation_destination_updated = match data_operation_kind {
+        let default_data_operation_destination_updated = match T::kind() {
             DataOperationKind::Dataset => {
                 updated_asset.default_datasets_destinations
                     != self
@@ -1283,7 +1312,7 @@ impl AssetClient {
             }
         };
 
-        let default_destinations_result = match data_operation_kind {
+        let default_destinations_result = match T::kind() {
             DataOperationKind::Dataset => {
                 destination_endpoint::Destination::new_dataset_destinations(
                     &updated_asset.default_datasets_destinations,
@@ -1292,6 +1321,10 @@ impl AssetClient {
                 )
             }
             DataOperationKind::Event => {
+                // TODO: To support default destinations on the event group in the future,
+                // we can create a hashmap of eventGroups to their default destinations here.
+                // However, any failures need to be reported only on an event that would actually
+                // use that bad configuration
                 destination_endpoint::Destination::new_event_stream_destinations(
                     &updated_asset.default_events_destinations,
                     &self.asset_ref.inbound_endpoint_name,
@@ -1328,13 +1361,17 @@ impl AssetClient {
 
         // For all received data operations, check if the existing data operation needs an update or if a new one needs to be created
         for received_data_operation in updated_asset_data_operations {
-            let data_operation_definition = received_data_operation
-                .clone()
-                .into_data_operation_definition();
             // it already exists
             if let Some((data_operation, data_operation_update_tx)) =
-                data_operation_hashmap.get_mut(received_data_operation.name())
+                data_operation_hashmap.get_mut(received_data_operation.hash_name())
             {
+                // TODO: To support default destinations on the event group in the future,
+                // we can check the previous event group default destinations hashmap here
+                // and overwrite the asset event default destination if it's present before
+                // sending the update.
+                // To support splitting updates for the eventGroup as a separate notification
+                // from updates on an event, that logic would need to be added here as well.
+
                 // if the default destination has changed, update all data operations. TODO: might be able to track whether a data operation uses a default to reduce updates needed here
                 // otherwise, only send an update if the data operation definition has changed
                 if default_data_operation_destination_updated
@@ -1347,17 +1384,20 @@ impl AssetClient {
                     updates.data_operation_updates.push((
                         data_operation_update_tx.clone(),
                         (
-                            data_operation_definition,
+                            received_data_operation.clone().into(),
                             default_data_operation_destinations.clone(),
                             self.release_data_operation_notifications_tx.subscribe(),
                         ),
                     ));
-                } else {
-                    // TODO: copy over the existing data operation status for a new status report? (other bug)
                 }
             }
             // it needs to be created
             else {
+                // TODO: To support default destinations on the event group in the future,
+                // here we also need to determine whether to pass in the asset or eventGroup
+                // default event destination
+
+                let data_operation_definition = received_data_operation.clone().into();
                 let (data_operation_update_watcher_tx, data_operation_update_watcher_rx) =
                     watch::channel((
                         data_operation_definition.clone(),
@@ -1378,7 +1418,7 @@ impl AssetClient {
                     Ok(new_data_operation_client) => {
                         // insert the data operation client into the hashmap so we can handle updates
                         data_operation_hashmap.insert(
-                            received_data_operation.name().to_string(),
+                            received_data_operation.hash_name().clone(),
                             (
                                 received_data_operation.clone(),
                                 data_operation_update_watcher_tx,
@@ -1395,25 +1435,33 @@ impl AssetClient {
                         // other data operations even if one isn't valid. Don't give this one to
                         // the application since we can't forward data on it. If there's an update to the
                         // definition, they'll get the create notification for it at that point if it's valid
-                        match data_operation_kind {
-                            DataOperationKind::Dataset => {
+                        match received_data_operation.data_operation_name() {
+                            DataOperationName::Dataset {
+                                name: ref dataset_name,
+                            } => {
                                 DataOperationClient::update_dataset_status(
                                     &mut updates.new_status,
-                                    received_data_operation.name(),
+                                    dataset_name,
                                     Err(e),
                                 );
                             }
-                            DataOperationKind::Event => {
+                            DataOperationName::Event {
+                                name: ref event_name,
+                                ref event_group_name,
+                            } => {
                                 DataOperationClient::update_event_status(
                                     &mut updates.new_status,
-                                    received_data_operation.name(),
+                                    event_group_name,
+                                    event_name,
                                     Err(e),
                                 );
                             }
-                            DataOperationKind::Stream => {
+                            DataOperationName::Stream {
+                                name: ref stream_name,
+                            } => {
                                 DataOperationClient::update_stream_status(
                                     &mut updates.new_status,
-                                    received_data_operation.name(),
+                                    stream_name,
                                     Err(e),
                                 );
                             }
@@ -1466,23 +1514,20 @@ impl AssetClient {
         // make changes to copies of the data operation hashmaps so that this function is cancel safe
         let mut temp_dataset_hashmap = self.dataset_hashmap.clone();
         self.handle_data_operation_kind_updates(
-            DataOperationKind::Dataset,
             &mut temp_dataset_hashmap,
             &updated_asset,
             &updated_asset.datasets,
             &mut updates,
         );
         let mut temp_event_hashmap = self.event_hashmap.clone();
-        self.handle_data_operation_kind_updates(
-            DataOperationKind::Event,
+        self.handle_event_group_updates(
             &mut temp_event_hashmap,
             &updated_asset,
-            &updated_asset.events,
+            &updated_asset.event_groups,
             &mut updates,
         );
         let mut temp_stream_hashmap = self.stream_hashmap.clone();
         self.handle_data_operation_kind_updates(
-            DataOperationKind::Stream,
             &mut temp_stream_hashmap,
             &updated_asset,
             &updated_asset.streams,
@@ -1915,32 +1960,44 @@ impl DataOperationStatusReporter {
         &self,
         current_status: &'a adr_models::AssetStatus,
     ) -> Option<Result<(), &'a AdrConfigError>> {
-        match self.data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => current_status
+        match self.data_operation_ref.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => current_status
                 .datasets
                 .as_ref()
                 .and_then(|datasets| {
-                    datasets.iter().find(|ds_status| {
-                        ds_status.name == self.data_operation_ref.data_operation_name
-                    })
+                    datasets
+                        .iter()
+                        .find(|ds_status| ds_status.name == *dataset_name)
                 })
                 .map(|ds_status| ds_status.error.as_ref().map_or(Ok(()), Err)),
-            DataOperationKind::Event => current_status
-                .events
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => current_status
+                .event_groups
                 .as_ref()
-                .and_then(|events| {
-                    events.iter().find(|e_status| {
-                        e_status.name == self.data_operation_ref.data_operation_name
+                .and_then(|event_groups| {
+                    event_groups
+                        .iter()
+                        .find(|eg_status| eg_status.name == *event_group_name)
+                })
+                .and_then(|eg_status| {
+                    eg_status.events.as_ref().and_then(|events| {
+                        events.iter().find(|e_status| e_status.name == *event_name)
                     })
                 })
                 .map(|e_status| e_status.error.as_ref().map_or(Ok(()), Err)),
-            DataOperationKind::Stream => current_status
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => current_status
                 .streams
                 .as_ref()
                 .and_then(|streams| {
-                    streams.iter().find(|s_status| {
-                        s_status.name == self.data_operation_ref.data_operation_name
-                    })
+                    streams
+                        .iter()
+                        .find(|s_status| s_status.name == *stream_name)
                 })
                 .map(|s_status| s_status.error.as_ref().map_or(Ok(()), Err)),
         }
@@ -1955,20 +2012,28 @@ impl DataOperationStatusReporter {
         desired_data_operation_status: Result<(), AdrConfigError>,
         log_identifier: &str,
     ) -> Result<(), azure_device_registry::Error> {
-        match data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => DataOperationClient::update_dataset_status(
+        match data_operation_ref.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => DataOperationClient::update_dataset_status(
                 &mut adr_asset_status,
-                &data_operation_ref.data_operation_name,
+                dataset_name,
                 desired_data_operation_status,
             ),
-            DataOperationKind::Event => DataOperationClient::update_event_status(
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => DataOperationClient::update_event_status(
                 &mut adr_asset_status,
-                &data_operation_ref.data_operation_name,
+                event_group_name,
+                event_name,
                 desired_data_operation_status,
             ),
-            DataOperationKind::Stream => DataOperationClient::update_stream_status(
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => DataOperationClient::update_stream_status(
                 &mut adr_asset_status,
-                &data_operation_ref.data_operation_name,
+                stream_name,
                 desired_data_operation_status,
             ),
         }
@@ -2037,10 +2102,8 @@ impl DataOperationClient {
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new data_operation
-        let kind;
         let forwarder = match definition {
             DataOperationDefinition::Dataset(ref dataset) => {
-                kind = DataOperationKind::Dataset;
                 destination_endpoint::Forwarder::new_dataset_forwarder(
                     &dataset.destinations,
                     &asset_ref.inbound_endpoint_name,
@@ -2049,7 +2112,6 @@ impl DataOperationClient {
                 )
             }
             DataOperationDefinition::Event(ref event) => {
-                kind = DataOperationKind::Event;
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &event.destinations,
                     &asset_ref.inbound_endpoint_name,
@@ -2058,7 +2120,6 @@ impl DataOperationClient {
                 )
             }
             DataOperationDefinition::Stream(ref stream) => {
-                kind = DataOperationKind::Stream;
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &stream.destinations,
                     &asset_ref.inbound_endpoint_name,
@@ -2069,8 +2130,7 @@ impl DataOperationClient {
         }?;
         Ok(Self {
             data_operation_ref: DataOperationRef {
-                data_operation_name: definition.name().to_string(),
-                data_operation_kind: kind,
+                data_operation_name: definition.name(),
                 asset_name: asset_ref.name.clone(),
                 device_name: asset_ref.device_name.clone(),
                 inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
@@ -2085,6 +2145,12 @@ impl DataOperationClient {
             data_operation_update_watcher_rx,
             connector_context,
         })
+    }
+
+    /// Returns the kind of data operation this client represents
+    #[must_use]
+    pub fn kind(&self) -> DataOperationKind {
+        self.definition.kind()
     }
 
     /// Used to conditionally report the message schema of a data operation as an existing schema reference
@@ -2369,12 +2435,14 @@ impl DataOperationClient {
 
         // if data operation is already in the current status, then update the existing data operation with the new message schema
         // Otherwise if the data operation isn't present, or no data operations of that kind have been reported yet, then add it with the new message schema
-        match data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => {
+        match data_operation_ref.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => {
                 if let Some(dataset_status) = new_status.datasets.as_mut().and_then(|datasets| {
                     datasets
                         .iter_mut()
-                        .find(|dataset| dataset.name == data_operation_ref.data_operation_name)
+                        .find(|dataset| dataset.name == *dataset_name)
                 }) {
                     // If the dataset already has a status, update the existing dataset with the new message schema
                     dataset_status.message_schema_reference =
@@ -2383,37 +2451,63 @@ impl DataOperationClient {
                     // If the dataset doesn't exist in the current status, then add it
                     new_status.datasets.get_or_insert_with(Vec::new).push(
                         adr_models::DatasetEventStreamStatus {
-                            name: data_operation_ref.data_operation_name.clone(),
+                            name: dataset_name.to_string(),
                             message_schema_reference: Some(message_schema_reference.clone()),
                             error: None,
                         },
                     );
                 }
             }
-            DataOperationKind::Event => {
-                if let Some(event_status) = new_status.events.as_mut().and_then(|events| {
-                    events
-                        .iter_mut()
-                        .find(|event| event.name == data_operation_ref.data_operation_name)
-                }) {
-                    // If the event already has a status, update the existing event with the new message schema
-                    event_status.message_schema_reference = Some(message_schema_reference.clone());
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => {
+                if let Some(event_group_status) =
+                    new_status.event_groups.as_mut().and_then(|event_groups| {
+                        event_groups
+                            .iter_mut()
+                            .find(|event_group| event_group.name == *event_group_name)
+                    })
+                {
+                    if let Some(event_status) =
+                        event_group_status.events.as_mut().and_then(|events| {
+                            events.iter_mut().find(|event| event.name == *event_name)
+                        })
+                    {
+                        // If the event already has a status, update the existing event with the new message schema
+                        event_status.message_schema_reference =
+                            Some(message_schema_reference.clone());
+                    } else {
+                        // If the event doesn't exist in the current status, then add it
+                        event_group_status.events.get_or_insert_with(Vec::new).push(
+                            adr_models::DatasetEventStreamStatus {
+                                name: event_name.to_string(),
+                                message_schema_reference: Some(message_schema_reference.clone()),
+                                error: None,
+                            },
+                        );
+                    }
                 } else {
-                    // If the event doesn't exist in the current status, then add it
-                    new_status.events.get_or_insert_with(Vec::new).push(
-                        adr_models::DatasetEventStreamStatus {
-                            name: data_operation_ref.data_operation_name.clone(),
-                            message_schema_reference: Some(message_schema_reference.clone()),
-                            error: None,
+                    // If the event group doesn't exist in the current status, then add it
+                    new_status.event_groups.get_or_insert_with(Vec::new).push(
+                        adr_models::EventGroupStatus {
+                            name: event_group_name.to_string(),
+                            events: Some(vec![adr_models::DatasetEventStreamStatus {
+                                name: event_name.to_string(),
+                                message_schema_reference: Some(message_schema_reference.clone()),
+                                error: None,
+                            }]),
                         },
                     );
                 }
             }
-            DataOperationKind::Stream => {
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => {
                 if let Some(stream_status) = new_status.streams.as_mut().and_then(|streams| {
                     streams
                         .iter_mut()
-                        .find(|stream| stream.name == data_operation_ref.data_operation_name)
+                        .find(|stream| stream.name == *stream_name)
                 }) {
                     // If the stream already has a status, update the existing stream with the new message schema
                     stream_status.message_schema_reference = Some(message_schema_reference.clone());
@@ -2421,7 +2515,7 @@ impl DataOperationClient {
                     // If the stream doesn't exist in the current status, then add it
                     new_status.streams.get_or_insert_with(Vec::new).push(
                         adr_models::DatasetEventStreamStatus {
-                            name: data_operation_ref.data_operation_name.clone(),
+                            name: stream_name.to_string(),
                             message_schema_reference: Some(message_schema_reference.clone()),
                             error: None,
                         },
@@ -2450,32 +2544,44 @@ impl DataOperationClient {
         &self,
         asset_status: &'a adr_models::AssetStatus,
     ) -> Option<&'a adr_models::MessageSchemaReference> {
-        match self.data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => asset_status
+        match self.data_operation_ref.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => asset_status
                 .datasets
                 .as_ref()
                 .and_then(|datasets| {
-                    datasets.iter().find(|ds_status| {
-                        ds_status.name == self.data_operation_ref.data_operation_name
-                    })
+                    datasets
+                        .iter()
+                        .find(|ds_status| ds_status.name == *dataset_name)
                 })
                 .and_then(|ds_status| ds_status.message_schema_reference.as_ref()),
-            DataOperationKind::Event => asset_status
-                .events
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => asset_status
+                .event_groups
                 .as_ref()
-                .and_then(|events| {
-                    events.iter().find(|e_status| {
-                        e_status.name == self.data_operation_ref.data_operation_name
+                .and_then(|event_groups| {
+                    event_groups
+                        .iter()
+                        .find(|eg_status| eg_status.name == *event_group_name)
+                })
+                .and_then(|eg_status| {
+                    eg_status.events.as_ref().and_then(|events| {
+                        events.iter().find(|e_status| e_status.name == *event_name)
                     })
                 })
                 .and_then(|e_status| e_status.message_schema_reference.as_ref()),
-            DataOperationKind::Stream => asset_status
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => asset_status
                 .streams
                 .as_ref()
                 .and_then(|streams| {
-                    streams.iter().find(|s_status| {
-                        s_status.name == self.data_operation_ref.data_operation_name
-                    })
+                    streams
+                        .iter()
+                        .find(|s_status| s_status.name == *stream_name)
                 })
                 .and_then(|s_status| s_status.message_schema_reference.as_ref()),
         }
@@ -2650,35 +2756,46 @@ impl DataOperationClient {
     #[must_use]
     pub async fn message_schema_reference(&self) -> Option<MessageSchemaReference> {
         // unwrap can't fail unless lock is poisoned
-        match self.data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => self
+        match self.data_operation_ref.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => self
                 .asset_status
                 .read()
                 .await
                 .datasets
                 .as_ref()?
                 .iter()
-                .find(|dataset| dataset.name == self.data_operation_ref.data_operation_name)?
+                .find(|dataset| dataset.name == *dataset_name)?
                 .message_schema_reference
                 .clone(),
-            DataOperationKind::Event => self
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => self
                 .asset_status
                 .read()
                 .await
+                .event_groups
+                .as_ref()?
+                .iter()
+                .find(|event_group| event_group.name == *event_group_name)?
                 .events
                 .as_ref()?
                 .iter()
-                .find(|event| event.name == self.data_operation_ref.data_operation_name)?
+                .find(|event| event.name == *event_name)?
                 .message_schema_reference
                 .clone(),
-            DataOperationKind::Stream => self
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => self
                 .asset_status
                 .read()
                 .await
                 .streams
                 .as_ref()?
                 .iter()
-                .find(|stream| stream.name == self.data_operation_ref.data_operation_name)?
+                .find(|stream| stream.name == *stream_name)?
                 .message_schema_reference
                 .clone(),
         }
@@ -2748,25 +2865,49 @@ impl DataOperationClient {
     /// Helper function to update the specific event status within the asset status
     fn update_event_status(
         asset_status_to_update: &mut adr_models::AssetStatus,
+        event_group_name: &str,
         event_name: &str,
         event_status: Result<(), AdrConfigError>,
     ) {
-        if let Some(curr_event_status) = asset_status_to_update
-            .events
+        if let Some(curr_event_group_status) = asset_status_to_update
+            .event_groups
             .as_mut()
-            .and_then(|events| events.iter_mut().find(|event| event.name == event_name))
+            .and_then(|event_groups| {
+                event_groups
+                    .iter_mut()
+                    .find(|event_group| event_group.name == event_group_name)
+            })
         {
-            // If the event already has a status, update the existing event with the new error
-            curr_event_status.error = event_status.err();
-        } else {
-            // If the event doesn't exist in the current status, then add it
-            asset_status_to_update
+            if let Some(curr_event_status) = curr_event_group_status
                 .events
+                .as_mut()
+                .and_then(|events| events.iter_mut().find(|event| event.name == event_name))
+            {
+                // If the event already has a status, update the existing event with the new error
+                curr_event_status.error = event_status.err();
+            } else {
+                // If the event doesn't exist in the current event group status, then add it
+                curr_event_group_status
+                    .events
+                    .get_or_insert_with(Vec::new)
+                    .push(adr_models::DatasetEventStreamStatus {
+                        name: event_name.to_string(),
+                        message_schema_reference: None,
+                        error: event_status.err(),
+                    });
+            }
+        } else {
+            // If the event group doesn't exist in the current status, then add it
+            asset_status_to_update
+                .event_groups
                 .get_or_insert_with(Vec::new)
-                .push(adr_models::DatasetEventStreamStatus {
-                    name: event_name.to_string(),
-                    message_schema_reference: None,
-                    error: event_status.err(),
+                .push(adr_models::EventGroupStatus {
+                    name: event_group_name.to_string(),
+                    events: Some(vec![adr_models::DatasetEventStreamStatus {
+                        name: event_name.to_string(),
+                        message_schema_reference: None,
+                        error: event_status.err(),
+                    }]),
                 });
         }
     }
@@ -3102,25 +3243,101 @@ impl From<adr_models::Asset> for AssetSpecification {
     }
 }
 
+/// Represents the specification of an Event and its Event Group in the Azure Device Registry service.
+#[derive(Debug, Clone, PartialEq)]
+pub struct EventSpecification {
+    /// Destinations for an event.
+    pub destinations: Vec<adr_models::EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    /// Stringified JSON that contains connector-specific configuration for the specific event.
+    pub event_configuration: Option<String>,
+    /// Reference to a data source for a given event.
+    pub data_source: Option<String>,
+    /// The name of the event.
+    pub name: String,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
+    /// The Event Group this event belongs to.
+    pub event_group: EventGroupSpecification,
+    name_tuple: (String, String),
+}
+
+impl EventSpecification {
+    pub(crate) fn hash_name(&self) -> &(String, String) {
+        &self.name_tuple
+    }
+}
+
+impl From<(adr_models::EventGroup, adr_models::Event)> for EventSpecification {
+    fn from(val: (adr_models::EventGroup, adr_models::Event)) -> Self {
+        EventSpecification {
+            name_tuple: (val.0.name.clone(), val.1.name.clone()),
+            destinations: val.1.destinations,
+            event_configuration: val.1.event_configuration,
+            data_source: val.1.data_source,
+            name: val.1.name,
+            type_ref: val.1.type_ref,
+            event_group: EventGroupSpecification {
+                default_events_destinations: val.0.default_events_destinations,
+                event_group_configuration: val.0.event_group_configuration,
+                data_source: val.0.data_source,
+                name: val.0.name,
+                type_ref: val.0.type_ref,
+            },
+        }
+    }
+}
+
+/// Represents the specification of an Event Group in the Azure Device Registry service.
+#[derive(Debug, Clone, PartialEq)]
+pub struct EventGroupSpecification {
+    /// Default destinations for an event on this Event Group.
+    pub default_events_destinations: Vec<adr_models::EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    /// Stringified JSON that contains connector-specific configuration for the specific event group.
+    pub event_group_configuration: Option<String>,
+    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
+    pub data_source: Option<String>,
+    /// The name of the event group.
+    pub name: String,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
+}
+
 /// Holds the `DataOperation`'s definition, regardless of the type
 #[derive(Debug, Clone)]
 pub enum DataOperationDefinition {
     /// Dataset definition
     Dataset(adr_models::Dataset),
     /// Event definition
-    Event(adr_models::Event),
+    Event(EventSpecification),
     /// Stream definition
     Stream(adr_models::Stream),
 }
 
 impl DataOperationDefinition {
-    /// Returns the name of the data operation
+    /// Returns the [`DataOperationName`] of the data operation
     #[must_use]
-    pub fn name(&self) -> &str {
+    pub fn name(&self) -> DataOperationName {
         match self {
-            DataOperationDefinition::Dataset(dataset) => &dataset.name,
-            DataOperationDefinition::Event(event) => &event.name,
-            DataOperationDefinition::Stream(stream) => &stream.name,
+            DataOperationDefinition::Dataset(dataset) => DataOperationName::Dataset {
+                name: dataset.name.clone(),
+            },
+            DataOperationDefinition::Event(event) => DataOperationName::Event {
+                name: event.name.clone(),
+                event_group_name: event.event_group.name.clone(),
+            },
+            DataOperationDefinition::Stream(stream) => DataOperationName::Stream {
+                name: stream.name.clone(),
+            },
+        }
+    }
+
+    /// Returns the [`DataOperationKind`] of the data operation definition
+    #[must_use]
+    pub fn kind(&self) -> DataOperationKind {
+        match self {
+            DataOperationDefinition::Dataset(_) => DataOperationKind::Dataset,
+            DataOperationDefinition::Event(_) => DataOperationKind::Event,
+            DataOperationDefinition::Stream(_) => DataOperationKind::Stream,
         }
     }
 }
@@ -3135,32 +3352,73 @@ impl DataOperationDefinition {
 /// Unlike directly implementing methods on the `DataOperationDefinition` enum,
 /// this trait allows individual data operation types (e.g., `Dataset`, `Event`, `Stream`)
 /// to define their own behavior while still conforming to a common interface.
-trait DataOperation {
-    fn name(&self) -> &str;
-    fn into_data_operation_definition(self) -> DataOperationDefinition;
+trait DataOperation: Into<DataOperationDefinition> {
+    type HashName: PartialEq + Eq + Hash + Clone + std::fmt::Debug;
+    fn kind() -> DataOperationKind;
+    fn hash_name(&self) -> &Self::HashName;
+    fn data_operation_name(&self) -> DataOperationName;
+}
+
+impl From<adr_models::Dataset> for DataOperationDefinition {
+    fn from(val: adr_models::Dataset) -> Self {
+        DataOperationDefinition::Dataset(val)
+    }
 }
 impl DataOperation for adr_models::Dataset {
-    fn name(&self) -> &str {
+    type HashName = String;
+    fn kind() -> DataOperationKind {
+        DataOperationKind::Dataset
+    }
+    fn hash_name(&self) -> &Self::HashName {
         &self.name
     }
-    fn into_data_operation_definition(self) -> DataOperationDefinition {
-        DataOperationDefinition::Dataset(self)
+    fn data_operation_name(&self) -> DataOperationName {
+        DataOperationName::Dataset {
+            name: self.name.clone(),
+        }
     }
 }
-impl DataOperation for adr_models::Event {
-    fn name(&self) -> &str {
-        &self.name
+
+impl From<EventSpecification> for DataOperationDefinition {
+    fn from(val: EventSpecification) -> Self {
+        DataOperationDefinition::Event(val)
     }
-    fn into_data_operation_definition(self) -> DataOperationDefinition {
-        DataOperationDefinition::Event(self)
+}
+
+impl DataOperation for EventSpecification {
+    type HashName = (String, String);
+    fn kind() -> DataOperationKind {
+        DataOperationKind::Event
+    }
+    fn hash_name(&self) -> &Self::HashName {
+        self.hash_name()
+    }
+
+    fn data_operation_name(&self) -> DataOperationName {
+        DataOperationName::Event {
+            name: self.name.clone(),
+            event_group_name: self.event_group.name.clone(),
+        }
+    }
+}
+
+impl From<adr_models::Stream> for DataOperationDefinition {
+    fn from(val: adr_models::Stream) -> Self {
+        DataOperationDefinition::Stream(val)
     }
 }
 impl DataOperation for adr_models::Stream {
-    fn name(&self) -> &str {
+    type HashName = String;
+    fn kind() -> DataOperationKind {
+        DataOperationKind::Stream
+    }
+    fn hash_name(&self) -> &Self::HashName {
         &self.name
     }
-    fn into_data_operation_definition(self) -> DataOperationDefinition {
-        DataOperationDefinition::Stream(self)
+    fn data_operation_name(&self) -> DataOperationName {
+        DataOperationName::Stream {
+            name: self.name.clone(),
+        }
     }
 }
 
