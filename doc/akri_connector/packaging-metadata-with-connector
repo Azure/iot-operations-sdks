@@ -1,0 +1,10 @@
+# How to package connector metadata with 
+
+In order for the user of a connector to access the metadata associated with it, the publisher of a connector must
+attach the metadata using ORAS like:
+
+```bash
+oras attach <container_registry>/<container_name>:<version> <connector_metadata_file> --artifact-type application/json
+```
+
+where the connector metadata file is a JSON file that adheres to the schema defined [here](connector-metadata-schema.json).
