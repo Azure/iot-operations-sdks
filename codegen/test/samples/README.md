@@ -40,7 +40,7 @@ To build the generated Go samples, run the `bld.sh` file from within the `go` fo
 
 ## Rust
 
-To generate C# source files, run the `gen.sh` file from within the `rust` folder.
+To generate Rust source files, run the `gen.sh` file from within the `rust` folder.
 This will generate a bunch of subfolders containing generated Rust code.
 For example, the subfolder `TelemetryAndCommandSample` will contain:
 
