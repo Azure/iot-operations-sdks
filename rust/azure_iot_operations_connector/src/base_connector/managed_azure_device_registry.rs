@@ -3353,7 +3353,6 @@ impl DataOperationDefinition {
 /// this trait allows individual data operation types (e.g., `Dataset`, `Event`, `Stream`)
 /// to define their own behavior while still conforming to a common interface.
 trait DataOperation: Into<DataOperationDefinition> {
-    // trait DataOperation: Into<DataOperationDefinition> {
     type HashName: PartialEq + Eq + Hash + Clone + std::fmt::Debug;
     fn kind() -> DataOperationKind;
     fn hash_name(&self) -> &Self::HashName;
