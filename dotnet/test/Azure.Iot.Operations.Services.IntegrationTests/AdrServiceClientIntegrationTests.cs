@@ -434,7 +434,7 @@ public class AdrServiceClientIntegrationTests
 
     private CreateOrUpdateDiscoveredAssetRequest CreateCreateDetectedAssetRequest()
     {
-        return new CreateOrUpdateDiscoveredAssetRequest
+        var asset = new CreateOrUpdateDiscoveredAssetRequest
         {
             DiscoveredAssetName = TestAssetName,
             DiscoveredAsset = new DiscoveredAsset
@@ -443,9 +443,88 @@ public class AdrServiceClientIntegrationTests
                 {
                     DeviceName = TestDevice_1_Name,
                     EndpointName = TestEndpointName
-                }
+                },
+                EventGroups = new(),
+                Datasets = new(),
+                ManagementGroups = new(),
+                Streams = new(),
             },
         };
+
+        var assetEvent = new DiscoveredAssetEvent()
+        {
+            DataSource = "someEventGroupDataSource",
+            Name = "someEvent",
+        };
+
+        var eventGroup = new DiscoveredAssetEventGroup
+        {
+            DataSource = "someEventDataSource",
+            Events = new()
+        };
+
+        eventGroup.Events.Add(assetEvent);
+
+        asset.DiscoveredAsset.EventGroups.Add(eventGroup);
+
+        var dataset = new DiscoveredAssetDataset()
+        {
+            Name = "someDatasetName",
+            DataSource = "someDatasetDatasource",
+            DataPoints = new()
+        };
+
+        var datapoint = new DiscoveredAssetDatasetDataPoint()
+        {
+            DataSource = "someDatasetDatapointDatasource",
+            Name = "someDatasetDatapointName"
+        };
+
+        dataset.DataPoints.Add(datapoint);
+
+        asset.DiscoveredAsset.Datasets.Add(dataset);
+
+
+        var managementGroup = new DiscoveredAssetManagementGroup()
+        {
+            Name = "someManagementGroup",
+            DataSource = "someManagementGroupDataSource",
+            DefaultTopic = "someDefaultTopic",
+            Actions = new()
+        };
+
+        var action = new DiscoveredAssetManagementGroupAction()
+        {
+            ActionType = AssetManagementGroupActionType.Read,
+            Name = "someManagementGroupAction",
+            Topic = "someTopic",
+        };
+
+        managementGroup.Actions.Add(action);
+
+        asset.DiscoveredAsset.ManagementGroups.Add(managementGroup);
+
+        var stream = new DiscoveredAssetStream()
+        {
+            Name = "someAssetStreamName",
+            Destinations = new(),
+        };
+
+        stream.Destinations.Add(new EventStreamDestination()
+        {
+            Configuration = new DestinationConfiguration()
+            {
+                Topic = "someMqttTopic",
+                Qos = QoS.Qos1,
+                Retain = Retain.Keep,
+                Ttl = 10,
+            },
+            Target = EventStreamTarget.Mqtt
+        });
+
+        asset.DiscoveredAsset.Streams.Add(stream);
+
+        return asset;
     }
 
     private static DeviceStatus CreateDeviceStatus(DateTime timeStamp)
