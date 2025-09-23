@@ -34,7 +34,7 @@ For example, the subfolder `TelemetryAndCommandSample` will contain:
 * `go/TelemetryAndCommandSample/akri/TelemetryAndCommand/*.schema.json` &mdash;  JSON Schema files generated from DTDL model `dtdl/TelemetryAndCommand.json`
 * `go/TelemetryAndCommandSample/akri/TelemetryAndCommand/TelemetryAndCommand.annex.json` &mdash;  supplementary information file generated from DTDL model `dtdl/TelemetryAndCommand.json`
 * `go/TelemetryAndCommandSample/akri/TelemetryAndCommand.TD.json` &mdash;  WoT Thing Description file translated from DTDL model `dtdl/TelemetryAndCommand.json`
-* `go/TelemetryAndCommandSample/telemetryandcommand/*.go` &mdash;  C# source files generated from DTDL model `dtdl/TelemetryAndCommand.json`
+* `go/TelemetryAndCommandSample/telemetryandcommand/*.go` &mdash;  Go source files generated from DTDL model `dtdl/TelemetryAndCommand.json`
 
 To build the generated Go samples, run the `bld.sh` file from within the `go` folder.
 
