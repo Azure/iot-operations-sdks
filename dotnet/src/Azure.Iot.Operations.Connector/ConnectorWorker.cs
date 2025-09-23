@@ -631,6 +631,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     if (assetEventGroup.Events == null)
                     {
+                        _logger.LogInformation($"Event group with name {assetEventGroup.Name} has no events to register message schemas for");
                         continue;
                     }
 
