@@ -100,7 +100,7 @@ The proposed RDF term prefix is "dtv:", derived from scheme "dtmi:" according to
 
 ### AIO Protocol Binding
 
-The proposed AIO Protocol Binding introduces 7 new RDF terms.
+The proposed AIO Protocol Binding introduces 8 new RDF terms.
 The first TD example illustrates 4 terms that are used within "forms" elements, namely "dtv:topic", "dtv:serviceGroupId", "dtv:headerCode", and "dtv:headerInfo".
 
 ```json
@@ -155,7 +155,7 @@ In the action response, the MQTT user header ["AppErrCode"](https://github.com/A
 The MQTT user header ["AppErrPayload"](https://github.com/Azure/iot-operations-sdks/blob/main/doc/dev/adr/0021-error-modeling-headers.md) is defined by the "dtv:headerInfo" property to be a JSON string satisfying schema CounterInfo.
 The CounterInfo schema is defined in the "schemaDefinitions" section of the TD (shown below), in the same manner as schemas used within values of "additionalResponses".
 
-The second TD example illustrates the term "dtv:errorMessage", which is used inside a value within the "schemaDefinitions" object.
+The second TD example illustrates two terms that are used within an ObjectSchema definition, namely "dtv:errorMessage" and "dtv:additionalProperties".
 
 ```json
 "schemaDefinitions": {
@@ -164,7 +164,7 @@ The second TD example illustrates the term "dtv:errorMessage", which is used ins
       "en": "The requested counter operation could not be completed."
     },
     "type": "object",
-    "additionalProperties": false,
+    "dtv:additionalProperties": false,
     "dtv:errorMessage": "explanation",
     "properties": {
       "explanation": {
@@ -177,10 +177,13 @@ The second TD example illustrates the term "dtv:errorMessage", which is used ins
   },
   "CounterInfo": {
     "type": "object",
-    "additionalProperties": false,
+    "dtv:additionalProperties": false,
     "properties": {
-      "errorCount": {
-        "type": "integer"
+      "errorTypeCounts": {
+        "type": "object",
+        "dtv:additionalProperties": {
+          "type": "integer"
+        }
       }
     }
   },
@@ -195,7 +198,14 @@ This information is used by the ProtocolCompiler to generate programming-languag
 In the proposed Protocol Binding, when an object schema in a "schemaDefinitions" value contains a "dtv:errorMessage" property, the value of this property indicates the name of an object property that will be used to convey an error message, analogous to the ErrorMessage type in the DTDL Mqtt extension.
 The presence of the "dtv:errorMessage" property can be used to infer that the containing object is an error object, so no type property analogous to the Mqtt extension adjunct type Error is needed.
 
-The third and final example illustrates 2 terms that are used within an affordance definition, namely "dtv:ref", "dtv:placeholder".
+The above example also illustrates the two permitted forms of the "dtv:additionalProperties" property, which match forms of "additionalProperties" used in JSON Schema.
+When "dtv:additionalProperties" has a boolean value of false, this indicates that instances of the object type being defined are not permitted to include any properties other than those defined by the type, like a DTDL Object.
+This form is generally used when the ObjectSchema also contains a "properties" property.
+
+When "dtv:additionalProperties" has an object value that is a DataSchema definition, this indicates that the type being defined is a map from string to the specified DataSchema, like a DTDL Map.
+This form is generally used when the ObjectSchema does not contain a "properties" property.
+
+The third and final TD example illustrates 2 terms that are used within an affordance definition, namely "dtv:ref" and "dtv:placeholder".
 
 ```json
 "properties": {
@@ -237,7 +247,7 @@ The following table summarizes the mapping between DTDL and WoT as proposed abov
 | Array | DTDL core | ArraySchema | WoT native |
 | Object | DTDL core | ObjectSchema | WoT native |
 | Enum | DTDL core | enum | WoT native |
-| Map | DTDL core | (via external schema) | WoT AIO Protocol Binding |
+| Map | DTDL core | dtv:additionalProperties | WoT AIO Protocol Binding |
 | telemServiceGroupId | DTDL Mqtt extension | dtv:serviceGroupId | WoT AIO Protocol Binding |
 | cmdServiceGroupId | DTDL Mqtt extension | dtv:serviceGroupId | WoT AIO Protocol Binding |
 | telemetryTopic | DTDL Mqtt extension | dtv:topic | WoT AIO Protocol Binding |
