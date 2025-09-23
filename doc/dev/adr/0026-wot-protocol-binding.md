@@ -71,7 +71,9 @@ The WoT Thing Description format defines types and properties that correspond to
 * [ObjectSchema](https://www.w3.org/TR/wot-thing-description/#objectschema) &mdash; a complex schema type analogous to DTDL Object
 * [enum](https://www.w3.org/TR/wot-thing-description/#dataschema) &mdash; a property that declares a restricted set of values for a schema, analogous to DTDL Enum
 
-> Note: There is no WoT type or property analogous to DTDL Map
+> Note: The WoT enum mechanism is much less flexible than the DTDL Enum type, as discussed below.
+
+> Note: There is no WoT native type or property analogous to DTDL Map.
 
 The WoT Thing Description format has several properties that express analogous semantics to aspects of the DTDL Mqtt extension:
 
@@ -100,7 +102,10 @@ The proposed RDF term prefix is "dtv:", derived from scheme "dtmi:" according to
 
 ### AIO Protocol Binding
 
-The proposed AIO Protocol Binding introduces 8 new RDF terms.
+The proposed AIO Protocol Binding introduces 8 new RDF terms, which are illustrated in the following TD examples.
+
+#### MQTT topic pattern, service group ID, and header schemas
+
 The first TD example illustrates 4 terms that are used within "forms" elements, namely "dtv:topic", "dtv:serviceGroupId", "dtv:headerCode", and "dtv:headerInfo".
 
 ```json
@@ -155,6 +160,8 @@ In the action response, the MQTT user header ["AppErrCode"](https://github.com/A
 The MQTT user header ["AppErrPayload"](https://github.com/Azure/iot-operations-sdks/blob/main/doc/dev/adr/0021-error-modeling-headers.md) is defined by the "dtv:headerInfo" property to be a JSON string satisfying schema CounterInfo.
 The CounterInfo schema is defined in the "schemaDefinitions" section of the TD (shown below), in the same manner as schemas used within values of "additionalResponses".
 
+#### Error type information and Maps vs. Objects
+
 The second TD example illustrates two terms that are used within an ObjectSchema definition, namely "dtv:errorMessage" and "dtv:additionalProperties".
 
 ```json
@@ -205,7 +212,9 @@ This form is generally used when the ObjectSchema also contains a "properties" p
 When "dtv:additionalProperties" has an object value that is a DataSchema definition, this indicates that the type being defined is a map from string to the specified DataSchema, like a DTDL Map.
 This form is generally used when the ObjectSchema does not contain a "properties" property.
 
-The third and final TD example illustrates 2 terms that are used within an affordance definition, namely "dtv:ref" and "dtv:placeholder".
+#### External schema references and placeholders
+
+The third TD example illustrates 2 terms that are used within an affordance definition, namely "dtv:ref" and "dtv:placeholder".
 
 ```json
 "properties": {
@@ -233,6 +242,78 @@ For example, if the "contentType" is "application/json", the format of the exter
 When the "dtv:placeholder" boolean property is included and assigned a value of true, this indicates that the event, action, or property is a placeholder for a dynamic collection of events, actions, or properties.
 Placeholders ([optional](https://reference.opcfoundation.org/Core/Part3/v105/docs/6.4.4.4.4) and [mandatory](https://reference.opcfoundation.org/Core/Part3/v105/docs/6.4.4.4.5)) are a feature of OPC UA.
 Since we intend to map OPC UA companion specifications to WoT TDs, the TD requires a way to indicate when an affordance is a placeholder for a collection.
+
+#### Enum support
+
+The fourth and final TD example does not introduce any new terms.
+Instead, it illustrates how some of the flexibility of DTDL Enum can be supported in WoT.
+
+DTDL Enum is more flexible than most standard enum schema representations.
+It supports integer representations with corresponding symbols, and it also supports string representations with corresponding symbols that may differ from the representation values.
+In contrast:
+
+* JSON Schema supports both integer and string representations, but it does not permit specifying symbols.
+* AVSC supports only specifying symbols, with no mechanism to designate a representation.
+* WoT natively aligns with JSON Schema.
+
+Because we wish to support both JSON and AVRO serialization, the proposed Protocol Binding does not add any terms to increase the expressiveness of WoT enum.
+Instead, the expressiveness is effectively decreased because only a restricted form of WoT enum definition will be accepted by the ProtocolCompiler.
+In particular, only string enum values will be supported.
+When serializing to JSON, the string values will be used as enum representations.
+When serializing to AVRO, the string values will be used as symbols.
+
+However, there are some use cases for enum declarations in which each value requires a specific integer representation and a specific symbol, as shown in the following snippet of DTDL:
+
+```json
+"schema": {
+  "@id": "dtmi:ms:adr:SchemaRegistry:SchemaRegistryErrorCode;1",
+  "@type": "Enum",
+  "valueSchema": "integer",
+  "enumValues": [
+    {
+      "name": "BadRequest",
+      "enumValue": 400,
+      "description": "The request is invalid or malformed."
+    },
+    {
+      "name": "NotFound",
+      "enumValue": 404,
+      "description": "The target resource was not found."
+    },
+    {
+      "name": "InternalError",
+      "enumValue": 500,
+      "description": "An internal server error occurred."
+    }
+  ]
+}
+```
+
+Although the above DTDL cannot be fully expressed in JSON Schema, AVSC, or native WoT, it is possible to achieve a close analogue.
+In a WoT TD, the schema type can be set to "integer" to indicate that the on-wire representation is integer.
+Separately, manifest constant values can be associated with symbols using the WoT const property, as follows:
+
+```json
+"schemaDefinitions": {
+  "BadRequest": {
+    "type": "integer",
+    "const": 400,
+    "description": "The request is invalid or malformed."
+  },
+  "NotFound": {
+    "type": "integer",
+    "const": 404,
+    "description": "The target resource was not found."
+  },
+  "InternalError": {
+    "type": "integer",
+    "const": 500,
+    "description": "An internal server error occurred."
+  }
+}
+```
+
+Responsibility for writing only the defined constant values to the integer property is relegated to user code, as is the responsibility for validating received values against the defined constants.
 
 ### Mapping DTDL to WoT
 
