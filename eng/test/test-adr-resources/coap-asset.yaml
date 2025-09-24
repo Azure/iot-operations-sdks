@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: List
 items:
-  - apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+  - apiVersion: namespaces.deviceregistry.microsoft.com/v1
     kind: Asset
     metadata:
       name: my-coap-thermostat-asset
@@ -38,7 +38,7 @@ items:
         deviceName: my-thermostat
         endpointName: my-coap-endpoint
       version: 6
-  - apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+  - apiVersion: namespaces.deviceregistry.microsoft.com/v1
     kind: Asset
     metadata:
       name: my-coap-thermostat-asset
