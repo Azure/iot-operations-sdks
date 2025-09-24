@@ -587,7 +587,7 @@ public class AdrServiceClientIntegrationTests
                                 Address = "http://example.com",
                                 EndpointType = "my-rest-endpoint",
                                 Version = "1.0",
-                                SupportedAuthenticationMethods = new List<string> { "Basic", "OAuth2" }
+                                SupportedAuthenticationMethods = new List<string> { "Anonymous" }
                             }
                         }
                     },
