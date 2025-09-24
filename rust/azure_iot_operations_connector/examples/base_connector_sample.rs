@@ -262,10 +262,7 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
                 log::info!(
                     "{data_operation_log_identifier} Data Operation Created: {data_operation_client:?}"
                 );
-                if let DataOperationKind::Dataset = data_operation_client
-                    .data_operation_ref()
-                    .data_operation_kind
-                {
+                if let DataOperationKind::Dataset = data_operation_client.kind() {
                     tokio::task::spawn(run_dataset(
                         data_operation_log_identifier,
                         data_operation_client,
@@ -400,8 +397,7 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                 match data_operation_client.forward_data(sample_data).await {
                     Ok(()) => {
                         log::info!(
-                            "{log_identifier} data {count} for {} forwarded",
-                            data_operation_client.data_operation_ref().data_operation_name
+                            "{log_identifier} data {count} forwarded"
                         );
                         count += 1;
                     }
@@ -417,13 +413,7 @@ async fn handle_unsupported_data_operation(
     log_identifier: String,
     mut data_operation_client: DataOperationClient,
 ) {
-    let data_operation_kind = data_operation_client
-        .data_operation_ref()
-        .data_operation_kind;
-    let data_operation_name = data_operation_client
-        .data_operation_ref()
-        .data_operation_name
-        .clone();
+    let data_operation_kind = data_operation_client.kind();
     log::warn!(
         "{log_identifier} Data Operation kind {data_operation_kind:?} not supported for this connector"
     );
@@ -443,9 +433,7 @@ async fn handle_unsupported_data_operation(
         .report_status_if_modified(report_status_if_changed!(&log_identifier, &error_status))
         .await
     {
-        log::error!(
-            "{log_identifier} Error reporting {data_operation_kind:?} {data_operation_name} status: {e}"
-        );
+        log::error!("{log_identifier} Error reporting status: {e}");
     }
 
     // While the unsupported data operation client is active, we should keep polling for updates
@@ -455,7 +443,7 @@ async fn handle_unsupported_data_operation(
         match data_operation_client.recv_notification().await {
             DataOperationNotification::Updated => {
                 log::warn!(
-                    "{log_identifier} {data_operation_name} update notification received. {data_operation_kind:?} is not supported for the this Connector",
+                    "{log_identifier} update notification received. {data_operation_kind:?} is not supported for the this Connector",
                 );
 
                 let error_status = Err(AdrConfigError {
@@ -472,20 +460,14 @@ async fn handle_unsupported_data_operation(
                     ))
                     .await
                 {
-                    log::error!(
-                        "{log_identifier} Error reporting {data_operation_kind:?} {data_operation_name} status: {e}"
-                    );
+                    log::error!("{log_identifier} Error reporting status: {e}");
                 }
             }
             DataOperationNotification::UpdatedInvalid => {
-                log::info!(
-                    "{log_identifier} {data_operation_kind:?} {data_operation_name} update invalid notification received"
-                );
+                log::info!("{log_identifier} update invalid notification received");
             }
             DataOperationNotification::Deleted => {
-                log::info!(
-                    "{log_identifier} {data_operation_kind:?} {data_operation_name} deleted notification received"
-                );
+                log::info!("{log_identifier} deleted notification received");
                 break;
             }
         }

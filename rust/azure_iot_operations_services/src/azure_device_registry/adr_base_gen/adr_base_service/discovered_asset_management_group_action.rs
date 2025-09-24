@@ -41,7 +41,7 @@ pub struct DiscoveredAssetManagementGroupAction {
     #[serde(rename = "timeoutInSeconds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub timeout_in_seconds: Option<u32>,
+    pub timeout_in_seconds: Option<u64>,
 
     /// The MQTT topic path on which a client will receive the request for the action.
     #[serde(skip_serializing_if = "Option::is_none")]

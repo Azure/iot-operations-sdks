@@ -10,19 +10,15 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::asset_dataset_event_stream_status::AssetDatasetEventStreamStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct AssetEventDataPointSchemaElementSchema {
-    /// Stringified JSON that contains connector-specific configuration for the data point.
-    #[serde(rename = "dataPointConfiguration")]
+pub struct AssetEventGroupStatusSchemaElementSchema {
+    /// Array of event statuses that describe the status of each event in the event group.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub data_point_configuration: Option<String>,
+    pub events: Option<Vec<AssetDatasetEventStreamStatus>>,
 
-    /// The address of the source of the data in the event (e.g. URL) so that a client can access the data source on the asset.
-    #[serde(rename = "dataSource")]
-    pub data_source: String,
-
-    /// The name of the data point.
+    /// The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.
     pub name: String,
 }
