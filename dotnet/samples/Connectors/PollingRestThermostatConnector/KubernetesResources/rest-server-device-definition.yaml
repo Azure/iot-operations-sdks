@@ -13,6 +13,7 @@ spec:
       my-rest-thermostat-endpoint-name:
         additionalConfiguration: '{}'
         address: http://rest-server-service.azure-iot-operations.svc.cluster.local:80
+        version: "0.0.1"
         authentication:
           method: UsernamePassword
           usernamePasswordCredentials:
