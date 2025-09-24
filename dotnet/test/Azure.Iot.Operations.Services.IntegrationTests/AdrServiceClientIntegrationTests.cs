@@ -444,28 +444,8 @@ public class AdrServiceClientIntegrationTests
                     DeviceName = TestDevice_1_Name,
                     EndpointName = TestEndpointName
                 },
-                EventGroups = new(),
-                Datasets = new(),
-                ManagementGroups = new(),
-                Streams = new(),
             },
         };
-
-        var assetEvent = new DiscoveredAssetEvent()
-        {
-            DataSource = "someEventGroupDataSource",
-            Name = "someEvent",
-        };
-
-        var eventGroup = new DiscoveredAssetEventGroup
-        {
-            DataSource = "someEventDataSource",
-            Events = new()
-        };
-
-        eventGroup.Events.Add(assetEvent);
-
-        asset.DiscoveredAsset.EventGroups.Add(eventGroup);
 
         return asset;
     }
