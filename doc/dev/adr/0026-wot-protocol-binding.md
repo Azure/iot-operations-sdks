@@ -18,6 +18,22 @@ WoT defines three types of bindings:
 * [Payload Bindings](https://www.w3.org/TR/wot-binding-templates/#payload-bindings) define payload formats and media types that can be represented in a TD.
 * [Platform Bindings](https://www.w3.org/TR/wot-binding-templates/#platform-bindings) combine the use of protocols and payloads to comprehensively describe application-specific Thing Models.
 
+> Note: There is a [WoT Protocol Binding for MQTT](https://w3c.github.io/wot-binding-templates/bindings/protocols/mqtt/), but it specifies bindings for direct use of the MQTT protocol, which is a level below the AIO protocol.
+> For example, the MQTT Protocol Binding maps a WoT "readproperty" operation to an MQTT "subscribe" control packet.
+> By contrast, reading a property in the AIO protocol employs an AIO RPC, which maps to the following sequence in MQTT:
+>
+> * Server: "subscribe" to a request topic filter
+> * Client: "subscribe" to a designated response topic
+> * Client: "publish" a Read request that also indicates the designated response topic
+> * Server: receive request and perform Read
+> * Server: "publish" Read response on indicated response topic
+> * Client: receive response
+>
+> Some of the terms defined by the MQTT Protocol Binding are close to those propopsed herein, but the semantics are different because the protocol layers are different.
+> For example, the MQTT Protocol Binding defines "mqv:topic" and "mqv:filter" for publication topics and subscription filters.
+> By contrast, the DTDL Mqtt extension enables a model to specify topic _patterns_ that contain templates.
+> The templates are replaced with specific values on "publish" and with either specific values or wildcards on "subscribe".
+
 To enable WoT to achieve expressive parity with DTDL and its Mqtt extension, and to further provide support for external schema definitions, we need to define a new Protocol Binding.
 This requires:
 
