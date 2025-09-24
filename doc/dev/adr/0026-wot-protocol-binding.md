@@ -29,7 +29,7 @@ WoT defines three types of bindings:
 > * Server: "publish" Read response on indicated response topic
 > * Client: receive response
 >
-> Some of the terms defined by the MQTT Protocol Binding are close to those propopsed herein, but the semantics are different because the protocol layers are different.
+> Some of the terms defined by the MQTT Protocol Binding are close to those proposed herein, but the semantics are different because the protocol layers are different.
 > For example, the MQTT Protocol Binding defines "mqv:topic" and "mqv:filter" for publication topics and subscription filters.
 > By contrast, the DTDL Mqtt extension enables a model to specify topic _patterns_ that contain templates.
 > The templates are replaced with specific values on "publish" and with either specific values or wildcards on "subscribe".
