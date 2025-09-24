@@ -4,7 +4,6 @@ metadata:
   name: tcp-ctemplate
   namespace: azure-iot-operations
 spec:
-  version: "0.0.1"
   deviceInboundEndpointTypes:
   - endpointType: Microsoft.Tcp
     version: "2"

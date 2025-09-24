@@ -4,7 +4,6 @@ metadata:
   name: sql-ctemplate
   namespace: azure-iot-operations
 spec:
-  version: "0.0.1"
   deviceInboundEndpointTypes:
   - endpointType: qualityanalyzer-profile-sql-server
     version: "0.0.1"
