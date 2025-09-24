@@ -50,6 +50,8 @@ internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, I
         {
             Trace.TraceInformation("Received update with no event groups: ");
             Trace.TraceInformation(JsonSerializer.Serialize(telemetry));
+            Console.WriteLine("Received update with no event groups: ");
+            Console.WriteLine(JsonSerializer.Serialize(telemetry));
         }
 
         if (OnReceiveAssetUpdateEventTelemetry != null)
