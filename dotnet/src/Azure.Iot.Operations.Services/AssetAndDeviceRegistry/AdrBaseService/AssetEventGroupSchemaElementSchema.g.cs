@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "0.10.0.0")]
-    public partial class AssetEventGroupsSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class AssetEventGroupSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.
