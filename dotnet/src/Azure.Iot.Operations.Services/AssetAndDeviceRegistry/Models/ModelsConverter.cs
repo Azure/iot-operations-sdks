@@ -129,7 +129,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static Models.AssetEventGroup ToModel(this AdrBaseService.AssetEventGroupsSchemaElementSchema source)
+    internal static Models.AssetEventGroup ToModel(this AdrBaseService.AssetEventGroupSchemaElementSchema source)
     {
         return new AssetEventGroup()
         {
