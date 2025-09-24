@@ -23,13 +23,19 @@
           "@type": "Object",
           "fields": [
             {
-              "@type": [ "Field", "Required" ],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "discoveredDeviceName",
               "description": "The name of the discovered device to create or update. This field is used to perform deduplication of discovered devices.",
               "schema": "string"
             },
             {
-              "@type": [ "Field", "Required" ],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "discoveredDevice",
               "description": "The discovered device resource to create or update. Fields omitted in the request will be removed. The specified inbound endpoint will be added or updated in the inbound endpoints map.",
               "schema": "dtmi:com:microsoft:akri:DiscoveredDevice;1"
@@ -41,23 +47,35 @@
         "name": "createOrUpdateDiscoveredDeviceResponse",
         "description": "Response containing the discovered device response or error details if the operation failed.",
         "schema": {
-          "@type": [ "Object", "Result" ],
+          "@type": [
+            "Object",
+            "Result"
+          ],
           "fields": [
             {
-              "@type": [ "Field", "NormalResult" ],
+              "@type": [
+                "Field",
+                "NormalResult"
+              ],
               "name": "discoveredDeviceResponse",
               "description": "The discovered device response.",
               "schema": {
                 "@type": "Object",
                 "fields": [
                   {
-                    "@type": [ "Field", "Required" ],
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
                     "name": "discoveryId",
                     "description": "The unique identifier for the discovered device.",
                     "schema": "string"
                   },
                   {
-                    "@type": [ "Field", "Required" ],
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
                     "name": "version",
                     "description": "The version of the discovered device resource.",
                     "schema": "unsignedLong"
@@ -66,7 +84,10 @@
               }
             },
             {
-              "@type": [ "Field", "ErrorResult" ],
+              "@type": [
+                "Field",
+                "ErrorResult"
+              ],
               "name": "createOrUpdateDiscoveredDeviceError",
               "description": "Error details, if the discovered device creation or update failed.",
               "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
@@ -164,13 +185,19 @@
                     "schema": "string"
                   },
                   {
-                    "@type": [ "Field", "Required" ],
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
                     "name": "address",
                     "description": "The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).",
                     "schema": "string"
                   },
                   {
-                    "@type": [ "Field", "Required" ],
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
                     "name": "endpointType",
                     "description": "Type of connection endpoint.",
                     "schema": "string"
@@ -210,7 +237,10 @@
             "@type": "Object",
             "fields": [
               {
-                "@type": ["Field", "Required"],
+                "@type": [
+                  "Field",
+                  "Required"
+                ],
                 "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceAssignedOutboundEndpoints;1",
                 "name": "assigned",
                 "description": "Endpoints the device can connect to.",
@@ -237,7 +267,10 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "address",
           "description": "The endpoint address to connect to.",
           "schema": "string"
@@ -252,10 +285,16 @@
     },
     {
       "@id": "dtmi:com:microsoft:akri:AkriServiceError;1",
-      "@type": [ "Object", "Error" ],
+      "@type": [
+        "Object",
+        "Error"
+      ],
       "fields": [
         {
-          "@type": [ "Field", "Required" ],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "code",
           "description": "The error code that identifies the error.",
           "schema": {
@@ -277,22 +316,25 @@
               {
                 "name": "SerializationError",
                 "enumValue": "SerializationError"
-              },
-              {
-                "name": "Unauthorized",
-                "enumValue": "Unauthorized"
               }
             ]
           }
         },
         {
-          "@type": [ "Field", "Required", "ErrorMessage" ],
+          "@type": [
+            "Field",
+            "Required",
+            "ErrorMessage"
+          ],
           "name": "message",
           "description": "A human-readable description of the error.",
           "schema": "string"
         },
         {
-          "@type": [ "Field", "Required" ],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "timestamp",
           "description": "The timestamp (in UTC) when the error occurred.",
           "schema": "dateTime"
