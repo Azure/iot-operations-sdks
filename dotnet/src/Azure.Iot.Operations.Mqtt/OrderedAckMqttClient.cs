@@ -7,7 +7,6 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Converters;
 using System.Diagnostics;
 using Azure.Iot.Operations.Protocol;
-using System.Text;
 
 namespace Azure.Iot.Operations.Mqtt;
 
@@ -220,13 +219,6 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
             {
                 try
                 {
-                    if (mqttNetArgs.ApplicationMessage.Topic.Contains("getAsset"))
-                    {
-                        Trace.TraceInformation("#####");
-                        Trace.TraceInformation(Encoding.UTF8.GetString(mqttNetArgs.ApplicationMessage.Payload));
-                        Trace.TraceInformation("#####");
-                    }
-
                     await ApplicationMessageReceivedAsync.Invoke(
                         MqttNetConverter.ToGeneric(
                             mqttNetArgs,
