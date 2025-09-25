@@ -947,10 +947,10 @@
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>ObjectThingSchema.tt</DependentUpon>
 		</Compile>
-		<Compile Update="T4\translation\Telemetry\t4\TelemetriesAffordance.cs">
+		<Compile Update="T4\translation\Property\t4\PropertyAffordance.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
-		  <DependentUpon>TelemetriesAffordance.tt</DependentUpon>
+		  <DependentUpon>PropertyAffordance.tt</DependentUpon>
 		</Compile>
 		<Compile Update="T4\translation\Telemetry\t4\TelemetryAffordance.cs">
 		  <DesignTime>True</DesignTime>
@@ -1008,9 +1008,9 @@
 		  <LastGenOutput>ObjectThingSchema.cs</LastGenOutput>
 		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
 		</None>
-		<None Update="T4\translation\Telemetry\t4\TelemetriesAffordance.tt">
+		<None Update="T4\translation\Property\t4\PropertyAffordance.tt">
 		  <Generator>TextTemplatingFilePreprocessor</Generator>
-		  <LastGenOutput>TelemetriesAffordance.cs</LastGenOutput>
+		  <LastGenOutput>PropertyAffordance.cs</LastGenOutput>
 		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
 		</None>
 		<None Update="T4\translation\Telemetry\t4\TelemetryAffordance.tt">

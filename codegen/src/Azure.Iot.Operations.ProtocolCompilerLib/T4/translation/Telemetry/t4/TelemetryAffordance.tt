@@ -21,9 +21,12 @@
           "href": "<#=this.dtTelemetry.Id#>",
           "contentType": "<#=this.contentType#>",
 <# if (this.serviceGroupId != null) { #>
-          "x-serviceGroupId": "<#=this.serviceGroupId#>",
+          "dtv:serviceGroupId": "<#=this.serviceGroupId#>",
 <# } #>
-          "x-topic": "<#=this.telemetryTopic#>"
+<# if (this.separate) { #>
+          "dtv:topic": "<#=this.telemetryTopic#>",
+<# } #>
+          "op": "subscribeevent"
         }
       ]
     }

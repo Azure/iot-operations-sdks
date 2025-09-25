@@ -16,7 +16,7 @@
 <#=this.thingDescriber.GetTypeAndAddenda(this.dtCommand.Request.Schema, 8)#>
 <# } else { #>
         "type": "object",
-        "additionalProperties": false,
+        "dtv:additionalProperties": false,
 <# if (!this.dtCommand.Request.Nullable) { #>
         "required": [ "<#=this.dtCommand.Request.Name#>" ],
 <# } #>
@@ -38,7 +38,7 @@
 <#=this.thingDescriber.GetTypeAndAddenda(this.dtCommand.Response.Schema, 8)#>
 <# } else { #>
         "type": "object",
-        "additionalProperties": false,
+        "dtv:additionalProperties": false,
 <# if (!this.dtCommand.Response.Nullable) { #>
         "required": [ "<#=this.responseName#>" ],
 <# } #>
@@ -56,23 +56,43 @@
 <# if (this.isCommandIdempotent) { #>
       "idempotent": true,
 <# } #>
+<# if (this.isCommandCacheable) { #>
+      "safe": true,
+<# } #>
       "forms": [
         {
           "href": "<#=this.dtCommand.Id#>",
           "contentType": "<#=this.contentType#>",
-<# if (this.isResponseSchemaResult && this.errorSchemaName != null) { #>
+<# if (this.isResponseSchemaResult) { #>
+<# if (this.errorSchemaName != null) { #>
           "additionalResponses": [
             {
               "success": false,
-              "contentType": "<#=this.contentType#>",
               "schema": "<#=this.errorSchemaName#>"
             }
           ],
 <# } #>
-<# if (this.serviceGroupId != null) { #>
-          "x-serviceGroupId": "<#=this.serviceGroupId#>",
+<# if (this.infoSchemaName != null) { #>
+          "dtv:headerInfo": [
+            {
+              "contentType": "application/json",
+              "schema": "<#=this.infoSchemaName#>"
+            }
+          ],
 <# } #>
-          "x-topic": "<#=this.commandTopic ?? ""#>"
+<# if (this.codeEnumeration.Count > 0) { #>
+          "dtv:headerCode": [
+<# int ix = 1; foreach (KeyValuePair<string, string> kvp in this.codeEnumeration) { #>
+            "<#=kvp.Key#>"<#=ix < this.codeEnumeration.Count ? "," : ""#>
+<# ix++; } #>
+          ],
+<# } #>
+<# } #>
+<# if (this.serviceGroupId != null) { #>
+          "dtv:serviceGroupId": "<#=this.serviceGroupId#>",
+<# } #>
+          "dtv:topic": "<#=this.commandTopic ?? ""#>",
+          "op": "<#=this.isCommandCacheable ? "queryaction" : "invokeaction"#>"
         }
       ]
     }

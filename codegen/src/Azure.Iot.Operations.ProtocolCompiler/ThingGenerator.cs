@@ -21,7 +21,7 @@
         {
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[interfaceId];
 
-            ITemplateTransform interfaceThingTransform = new InterfaceThing(dtInterface, this.mqttVersion);
+            ITemplateTransform interfaceThingTransform = new InterfaceThing(modelDict, interfaceId, this.mqttVersion);
 
             string interfaceThingText;
             try

@@ -45,9 +45,8 @@
         public void ValidateGeneratedThingDescription(string fileName, string modelText, int mqttVersion)
         {
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = modelParser.Parse(modelText);
-            DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            ITemplateTransform interfaceThingTransform = new InterfaceThing(dtInterface, mqttVersion);
+            ITemplateTransform interfaceThingTransform = new InterfaceThing(modelDict, testInterfaceId, mqttVersion);
 
             string thingDescription = interfaceThingTransform.TransformText();
 
@@ -61,9 +60,7 @@
         {
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = modelParser.Parse(modelText);
 
-            DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
-
-            ITemplateTransform interfaceThingTransform = new InterfaceThing(dtInterface, mqttVersion);
+            ITemplateTransform interfaceThingTransform = new InterfaceThing(modelDict, testInterfaceId, mqttVersion);
 
             RecursionException rex = Assert.Throws<RecursionException>(interfaceThingTransform.TransformText);
             Assert.Equal(faultyId, rex.SchemaName.AsDtmi);
