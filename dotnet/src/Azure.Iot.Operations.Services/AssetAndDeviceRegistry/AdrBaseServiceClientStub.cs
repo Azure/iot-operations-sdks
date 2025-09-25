@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Diagnostics;
-using System.Text.Json;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
@@ -45,12 +44,6 @@ internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, I
     {
         string assetName = telemetry.AssetUpdateEvent.AssetName;
         Models.Asset asset = telemetry.AssetUpdateEvent.Asset.ToModel();
-
-        if (telemetry.AssetUpdateEvent.Asset.EventGroups == null || telemetry.AssetUpdateEvent.Asset.EventGroups.Count != 0)
-        {
-            Trace.TraceInformation("Received update with no event groups: ");
-            Trace.TraceInformation(JsonSerializer.Serialize(telemetry));
-        }
 
         if (OnReceiveAssetUpdateEventTelemetry != null)
         {
