@@ -7,15 +7,15 @@ spec:
   attributes:
     assetId: my-tcp-thermostat-asset
     assetType: thermostat
-    eventGroups:
-      - name: my-event-group  
-        events:
-          - name: thermostat_status_changed
-            destinations:
-              - configuration:
-                  topic: /mqtt/machine/status/change_event
-                target: Mqtt
-            dataSource: "80"
+  eventGroups:
+    - name: my-event-group  
+      events:
+        - name: thermostat_status_changed
+          destinations:
+            - configuration:
+                topic: /mqtt/machine/status/change_event
+              target: Mqtt
+          dataSource: "80"
   defaultDatasetsConfiguration: '{}'
   deviceRef:
     deviceName: my-tcp-thermostat
