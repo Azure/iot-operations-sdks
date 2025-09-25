@@ -78,7 +78,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
         public string GetPropertyAffordance(DTPropertyInfo dtProperty, bool usesTypes, string contentType, string propertyTopic)
         {
-            var templateTransform = new PropertyAffordance(dtProperty, mqttVersion, usesTypes, contentType, propertyTopic, this);
+            var templateTransform = new PropertyAffordance(dtProperty, this.mqttVersion, usesTypes, contentType, propertyTopic, this);
             return templateTransform.TransformText();
         }
 
