@@ -211,6 +211,13 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     private async Task OnMessageReceived(MQTTnet.MqttApplicationMessageReceivedEventArgs mqttNetArgs)
     {
+        if (mqttNetArgs.ApplicationMessage.Topic.Contains("getAsset"))
+        {
+            Trace.TraceInformation("#####");
+            Trace.TraceInformation(Encoding.UTF8.GetString(mqttNetArgs.ApplicationMessage.Payload));
+            Trace.TraceInformation("#####");
+        }
+
         // Never let MQTTnet auto ack a message because it may do so out-of-order
         mqttNetArgs.AutoAcknowledge = false;
         if (mqttNetArgs.ApplicationMessage.QualityOfServiceLevel == MQTTnet.Protocol.MqttQualityOfServiceLevel.AtMostOnce)
@@ -220,13 +227,6 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
             {
                 try
                 {
-                    if (mqttNetArgs.ApplicationMessage.Topic.Contains("getAsset"))
-                    {
-                        Trace.TraceInformation("#####");
-                        Trace.TraceInformation(Encoding.UTF8.GetString(mqttNetArgs.ApplicationMessage.Payload));
-                        Trace.TraceInformation("#####");
-                    }
-
                     await ApplicationMessageReceivedAsync.Invoke(
                         MqttNetConverter.ToGeneric(
                             mqttNetArgs,
