@@ -5,15 +5,13 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record DetectedAssetEventSchemaElement
+public record DiscoveredAssetEvent
 {
-    public List<DiscoveredAssetEventDataPoint>? DataPoints { get; set; }
-
     public List<EventStreamDestination>? Destinations { get; set; }
 
     public string? EventConfiguration { get; set; }
 
-    public required string EventNotifier { get; set; }
+    public required string DataSource { get; set; }
 
     public DateTime? LastUpdatedOn { get; set; }
 

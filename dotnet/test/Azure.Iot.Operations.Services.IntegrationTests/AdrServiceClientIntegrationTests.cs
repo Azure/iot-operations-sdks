@@ -39,7 +39,7 @@ public class AdrServiceClientIntegrationTests
         await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         // Act
-        var device = await client.GetDeviceAsync(TestDevice_1_Name, "my-rest-endpoint");
+        var device = await client.GetDeviceAsync(TestDevice_1_Name, TestEndpointName);
 
         // Assert
         _output.WriteLine($"Device: {TestDevice_1_Name}");
@@ -59,7 +59,7 @@ public class AdrServiceClientIntegrationTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<AkriServiceErrorException>(
-            () => client.GetDeviceAsync("non-existent-device", "my-rest-endpoint"));
+            () => client.GetDeviceAsync("non-existent-device", TestEndpointName));
 
         _output.WriteLine($"Expected exception: {exception.Message}");
         Assert.NotNull(exception.AkriServiceError);
@@ -373,7 +373,7 @@ public class AdrServiceClientIntegrationTests
         var request = CreateCreateDiscoveredDeviceRequest();
 
         // Act
-        var response = await client.CreateOrUpdateDiscoveredDeviceAsync(request, "my-rest-endpoint");
+        var response = await client.CreateOrUpdateDiscoveredDeviceAsync(request, TestEndpointName);
 
         // Assert
         Assert.NotNull(response);
@@ -434,7 +434,7 @@ public class AdrServiceClientIntegrationTests
 
     private CreateOrUpdateDiscoveredAssetRequest CreateCreateDetectedAssetRequest()
     {
-        return new CreateOrUpdateDiscoveredAssetRequest
+        var asset = new CreateOrUpdateDiscoveredAssetRequest
         {
             DiscoveredAssetName = TestAssetName,
             DiscoveredAsset = new DiscoveredAsset
@@ -443,9 +443,11 @@ public class AdrServiceClientIntegrationTests
                 {
                     DeviceName = TestDevice_1_Name,
                     EndpointName = TestEndpointName
-                }
+                },
             },
         };
+
+        return asset;
     }
 
     private static DeviceStatus CreateDeviceStatus(DateTime timeStamp)
@@ -508,7 +510,7 @@ public class AdrServiceClientIntegrationTests
                                 Address = "http://example.com",
                                 EndpointType = "my-rest-endpoint",
                                 Version = "1.0",
-                                SupportedAuthenticationMethods = new List<string> { "Basic", "OAuth2" }
+                                SupportedAuthenticationMethods = new List<string> { "Anonymous" }
                             }
                         }
                     },

@@ -128,9 +128,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// <summary>
         /// Array of events that are part of the asset. Each event can have per-event configuration.
         /// </summary>
-        [JsonPropertyName("events")]
+        [JsonPropertyName("eventGroups")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetEventSchemaElementSchema>? Events { get; set; } = default;
+        public List<AssetEventGroupSchemaElementSchema>? EventGroups { get; set; } = default;
 
         /// <summary>
         /// Asset ID provided by the customer.

@@ -10,25 +10,17 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "0.10.0.0")]
-    public partial class AssetEventDataPointSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class AssetEventGroupStatusSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Stringified JSON that contains connector-specific configuration for the data point.
+        /// Array of event statuses that describe the status of each event in the event group.
         /// </summary>
-        [JsonPropertyName("dataPointConfiguration")]
+        [JsonPropertyName("events")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DataPointConfiguration { get; set; } = default;
+        public List<AssetDatasetEventStreamStatus>? Events { get; set; } = default;
 
         /// <summary>
-        /// The address of the source of the data in the event (e.g. URL) so that a client can access the data source on the asset.
-        /// </summary>
-        [JsonPropertyName("dataSource")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string DataSource { get; set; } = default!;
-
-        /// <summary>
-        /// The name of the data point.
+        /// The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -37,10 +29,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
         void IJsonOnDeserialized.OnDeserialized()
         {
-            if (DataSource is null)
-            {
-                throw new ArgumentNullException("dataSource field cannot be null");
-            }
             if (Name is null)
             {
                 throw new ArgumentNullException("name field cannot be null");
@@ -49,10 +37,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
         void IJsonOnSerializing.OnSerializing()
         {
-            if (DataSource is null)
-            {
-                throw new ArgumentNullException("dataSource field cannot be null");
-            }
             if (Name is null)
             {
                 throw new ArgumentNullException("name field cannot be null");

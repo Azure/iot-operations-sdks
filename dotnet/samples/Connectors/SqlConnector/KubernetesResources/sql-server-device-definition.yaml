@@ -13,6 +13,7 @@ spec:
       my-sql-endpoint:
         additionalConfiguration: '{}'
         address: Server=mssql-deployment.azure-iot-operations.svc.cluster.local,1433;Database=MySampleDB; # Server=mssqlinst,1433;Database=master; # Server=mssql-deployment.azure-iot-operations.svc.cluster.local,1433;Database=master; # Server=mssqlinst,1433;Database=MySampleDB; # sql-server.yaml => <Service.metadata.name>.<namespace>.svc.cluster.local:<port>)
+        version: "0.0.1"
         authentication:
           method: UsernamePassword
           usernamePasswordCredentials:

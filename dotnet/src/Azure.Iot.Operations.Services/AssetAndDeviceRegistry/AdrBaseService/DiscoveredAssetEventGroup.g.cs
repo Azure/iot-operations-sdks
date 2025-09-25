@@ -10,38 +10,38 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "0.10.0.0")]
-    public partial class AssetDatasetSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class DiscoveredAssetEventGroup : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'dataPoints' Field.
-        /// </summary>
-        [JsonPropertyName("dataPoints")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetDatasetDataPointSchemaElementSchema>? DataPoints { get; set; } = default;
-
-        /// <summary>
-        /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset.
-        /// </summary>
-        [JsonPropertyName("datasetConfiguration")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DatasetConfiguration { get; set; } = default;
-
-        /// <summary>
-        /// Reference to a data source for a given dataset.
+        /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.
         /// </summary>
         [JsonPropertyName("dataSource")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DataSource { get; set; } = default;
 
         /// <summary>
-        /// Destinations for a dataset.
+        /// Default destinations for an event.
         /// </summary>
-        [JsonPropertyName("destinations")]
+        [JsonPropertyName("defaultEventsDestinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DatasetDestination>? Destinations { get; set; } = default;
+        public List<EventStreamDestination>? DefaultEventsDestinations { get; set; } = default;
 
         /// <summary>
-        /// Name of the dataset.
+        /// Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
+        /// </summary>
+        [JsonPropertyName("eventGroupConfiguration")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? EventGroupConfiguration { get; set; } = default;
+
+        /// <summary>
+        /// Array of events that are part of the asset. Each event can have per-event configuration.
+        /// </summary>
+        [JsonPropertyName("events")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<DiscoveredAssetEvent>? Events { get; set; } = default;
+
+        /// <summary>
+        /// Name of the event group.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

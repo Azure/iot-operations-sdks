@@ -27,17 +27,23 @@ namespace EventDrivenTcpThermostatConnector
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (args.Asset.Events == null)
+            if (args.Asset.EventGroups == null || args.Asset.EventGroups.Count != 1)
             {
-                // If the asset has no datasets to sample, then do nothing
-                _logger.LogError("Asset with name {0} does not have the expected event", args.AssetName);
+                _logger.LogError("Asset with name {0} does not have the expected event group", args.AssetName);
+                return;
+            }
+
+            var eventGroup = args.Asset.EventGroups.First();
+            if (eventGroup.Events == null || eventGroup.Events.Count != 1)
+            {
+                _logger.LogError("Asset with name {0} does not have the expected event within its event group", args.AssetName);
                 return;
             }
 
             // This sample only has one asset with one event
-            var assetEvent = args.Asset.Events[0];
+            var assetEvent = eventGroup.Events[0];
 
-            if (assetEvent.EventNotifier == null || !int.TryParse(assetEvent.EventNotifier, out int port))
+            if (assetEvent.DataSource == null || !int.TryParse(assetEvent.DataSource, out int port))
             {
                 // If the asset's has no event doesn't specify a port, then do nothing
                 _logger.LogInformation("Asset with name {0} has an event, but the event didn't configure a port, so the connector won't handle these events", args.AssetName);
