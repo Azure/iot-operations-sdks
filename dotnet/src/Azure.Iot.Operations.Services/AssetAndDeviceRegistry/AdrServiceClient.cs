@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.Text.Json;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Retry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
@@ -284,13 +282,6 @@ public class AdrServiceClient : IAdrServiceClient
                     additionalTopicTokenMap,
                     commandTimeout ?? _defaultTimeout,
                     cancellationToken);
-
-                if (result.Asset.EventGroups != null && result.Asset.EventGroups.Count > 0)
-                {
-                    Trace.TraceInformation("$$$$$$Event group found");
-                    Trace.TraceInformation(JsonSerializer.Serialize(result.Asset.EventGroups.Count));
-                }
-
                 return result.Asset.ToModel();
             }
             catch (DeviceDiscoveryService.AkriServiceErrorException exception)
