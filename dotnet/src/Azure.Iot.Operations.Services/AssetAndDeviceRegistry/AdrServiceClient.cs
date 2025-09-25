@@ -288,7 +288,11 @@ public class AdrServiceClient : IAdrServiceClient
                 if (result.Asset.EventGroups != null && result.Asset.EventGroups.Count > 0)
                 {
                     Trace.TraceInformation("$$$$$$Event group found");
-                    Trace.TraceInformation(JsonSerializer.Serialize(result.Asset.EventGroups.Count));
+                }
+                else
+                {
+                    Trace.TraceInformation("$$$$$$Event group not found");
+                    Trace.TraceInformation(JsonSerializer.Serialize(result.Asset));
                 }
 
                 return result.Asset.ToModel();
