@@ -1,0 +1,107 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Azure.Iot.Operations.CodeGeneration\Azure.Iot.Operations.CodeGeneration.csproj" />
+    <ProjectReference Include="..\Azure.Iot.Operations.Serialization\Azure.Iot.Operations.Serialization.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dotnet\t4\DotNetBareEnum.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetBareEnum.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\t4\DotNetIntegerEnum.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetIntegerEnum.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\t4\DotNetObject.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetObject.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\t4\DotNetStringEnum.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetStringEnum.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\t4\RustBareEnum.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustBareEnum.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\t4\RustIntegerEnum.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustIntegerEnum.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\t4\RustObject.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustObject.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\t4\RustStringEnum.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustStringEnum.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="dotnet\t4\DotNetBareEnum.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetBareEnum.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\t4\DotNetIntegerEnum.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetIntegerEnum.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\t4\DotNetObject.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetObject.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\t4\DotNetStringEnum.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetStringEnum.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustBareEnum.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustBareEnum.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustIntegerEnum.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustIntegerEnum.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustObject.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustObject.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustStringEnum.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustStringEnum.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

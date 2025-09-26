@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.TDParser", "src\Azure.Iot.Operations.TDParser\Azure.Iot.Operations.TDParser.csproj", "{D100A0D2-9E52-4FF4-8964-C4DE816DC0D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDParse", "src\TDParse\TDParse.csproj", "{9F1A48E4-A681-4FCF-B0FF-1ECBF57E614D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.CodeGeneration", "src\Azure.Iot.Operations.CodeGeneration\Azure.Iot.Operations.CodeGeneration.csproj", "{FAACC86C-C974-4FE5-B7C4-6C59D7983D82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.TypeGenerator", "src\Azure.Iot.Operations.TypeGenerator\Azure.Iot.Operations.TypeGenerator.csproj", "{6C3D81EA-5950-4AFA-AA0F-75EBFB5C1732}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Serialization", "src\Azure.Iot.Operations.Serialization\Azure.Iot.Operations.Serialization.csproj", "{A89E4840-D578-4323-AB95-35220A87DD7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D100A0D2-9E52-4FF4-8964-C4DE816DC0D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D100A0D2-9E52-4FF4-8964-C4DE816DC0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D100A0D2-9E52-4FF4-8964-C4DE816DC0D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D100A0D2-9E52-4FF4-8964-C4DE816DC0D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F1A48E4-A681-4FCF-B0FF-1ECBF57E614D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F1A48E4-A681-4FCF-B0FF-1ECBF57E614D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F1A48E4-A681-4FCF-B0FF-1ECBF57E614D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F1A48E4-A681-4FCF-B0FF-1ECBF57E614D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAACC86C-C974-4FE5-B7C4-6C59D7983D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAACC86C-C974-4FE5-B7C4-6C59D7983D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAACC86C-C974-4FE5-B7C4-6C59D7983D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAACC86C-C974-4FE5-B7C4-6C59D7983D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3D81EA-5950-4AFA-AA0F-75EBFB5C1732}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3D81EA-5950-4AFA-AA0F-75EBFB5C1732}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3D81EA-5950-4AFA-AA0F-75EBFB5C1732}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3D81EA-5950-4AFA-AA0F-75EBFB5C1732}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A89E4840-D578-4323-AB95-35220A87DD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A89E4840-D578-4323-AB95-35220A87DD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A89E4840-D578-4323-AB95-35220A87DD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A89E4840-D578-4323-AB95-35220A87DD7A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DBD77462-D0B0-41D2-BC2B-EF17A519C667}
+	EndGlobalSection
+EndGlobal
