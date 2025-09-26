@@ -1,0 +1,69 @@
+{
+  "aggregateEventSchema": "EventCollection",
+  "aggregatePropName": "Properties",
+  "aggregatePropSchema": "PropertyCollection",
+  "aggregatePropWriteSchema": "PropertyUpdate",
+  "aggregatePropReadRespSchema": "PropertyCollectionReadRespSchema",
+  "aggregatePropWriteRespSchema": "PropertyCollectionWriteRespSchema",
+  "aggregatePropReadErrSchema": "PropertyCollectionReadError",
+  "aggregatePropWriteErrSchema": "PropertyCollectionWriteError",
+  "aggregateReadRespValueField": "_properties",
+  "aggregateRespErrorField": "_errors",
+  "propRespErrorField": "_error",
+  "actionRespErrorField": "_error",
+  "eventSchema": {
+    "in": [ "eventName" ],
+    "out": "{eventName}Event",
+    "capitalize": true
+  },
+  "propSchema": {
+    "in": [ "propName" ],
+    "out": "{propName}Property",
+    "capitalize": true
+  },
+  "eventValueSchema": {
+    "in": [ "eventName" ],
+    "out": "Event{eventName}Value",
+    "capitalize": true
+  },
+  "writablePropSchema": {
+    "in": [ "propName" ],
+    "out": "{propName}WritableProperty",
+    "capitalize": true
+  },
+  "propReadRespSchema": {
+    "in": [ "propName" ],
+    "out": "{propName}ReadRespSchema",
+    "capitalize": true
+  },
+  "propWriteRespSchema": {
+    "in": [ "propName" ],
+    "out": "{propName}WriteRespSchema",
+    "capitalize": true
+  },
+  "propValueSchema": {
+    "in": [ "propName" ],
+    "out": "Property{propName}Value",
+    "capitalize": true
+  },
+  "actionInSchema": {
+    "in": [ "actionName" ],
+    "out": "{actionName}InputArgs",
+    "capitalize": true
+  },
+  "actionOutSchema": {
+    "in": [ "actionName" ],
+    "out": "{actionName}OutputArgs",
+    "capitalize": true
+  },
+  "actionRespSchema": {
+    "in": [ "actionName" ],
+    "out": "{actionName}ResponseSchema",
+    "capitalize": true
+  },
+  "backupSchemaName": {
+    "in": [ "parentSchemaName", "childName" ],
+    "out": "{parentSchemaName}{childName}",
+    "capitalize": true
+  }
+}

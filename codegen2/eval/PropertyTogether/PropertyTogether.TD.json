@@ -1,0 +1,228 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "id": "dtmi:test:PropertyTogether;1",
+  "title": "PropertyTogether",
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": [
+    "nosec_sc"
+  ],
+  "schemaDefinitions": {
+    "PropertyError": {
+      "description": "The requested property read/write could not be completed.",
+      "type": "object",
+      "dtv:additionalProperties": false,
+      "dtv:errorMessage": "explanation",
+      "properties": {
+        "explanation": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        }
+      }
+    },
+    "MultiWriteErrorRef": {
+      "title": "MultiWriteError",
+      "description": "The requested multiple property write could not be completed.",
+      "type": "object",
+      "dtv:additionalProperties": false,
+      "dtv:errorMessage": "explanation",
+      "properties": {
+        "explanation": {
+          "type": "string"
+        },
+        "attemptedWriteCount": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "failedWriteCount": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        }
+      }
+    }
+  },
+  "forms": [
+    {
+      "href": "dtmi:test:PropertyTogether;1",
+      "contentType": "application/json",
+      "additionalResponses": [
+        {
+          "success": false
+        }
+      ],
+      "dtv:topic": "test/PropertyTogether/write",
+      "op": "writemultipleproperties"
+    },
+    {
+      "href": "dtmi:test:PropertyTogether;1",
+      "contentType": "application/json",
+      "additionalResponses": [
+        {
+          "success": false
+        }
+      ],
+      "dtv:topic": "test/PropertyTogether/read",
+      "op": "readallproperties"
+    }
+  ],
+  "actions": {
+  },
+  "properties": {
+    "Alpha": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "readOnly": true,
+      "forms": [
+        {
+          "href": "dtmi:test:PropertyTogether:_contents:__Alpha;1",
+          "op": "readproperty"
+        }
+      ]
+    },
+    "Beta": {
+      "type": "object",
+      "title": "Coordinates",
+      "dtv:additionalProperties": false,
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        }
+      },
+      "readOnly": false,
+      "forms": [
+        {
+          "href": "dtmi:test:PropertyTogether:_contents:__Beta;1",
+          "op": "writeproperty"
+        },
+        {
+          "href": "dtmi:test:PropertyTogether:_contents:__Beta;1",
+          "op": "readproperty"
+        }
+      ]
+    },
+    "Gamma": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "readOnly": true,
+      "forms": [
+        {
+          "href": "dtmi:test:PropertyTogether:_contents:__Gamma;1",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "PropertyError"
+            }
+          ],
+          "op": "readproperty"
+        }
+      ]
+    },
+    "Delta": {
+      "type": "object",
+      "title": "Coordinates",
+      "dtv:additionalProperties": false,
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        }
+      },
+      "readOnly": false,
+      "forms": [
+        {
+          "href": "dtmi:test:PropertyTogether:_contents:__Delta;1",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "PropertyError"
+            }
+          ],
+          "op": "writeproperty"
+        },
+        {
+          "href": "dtmi:test:PropertyTogether:_contents:__Delta;1",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "PropertyError"
+            }
+          ],
+          "op": "readproperty"
+        }
+      ]
+    },
+    "Zeta": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "readOnly": false,
+      "dtv:placeholder": true,
+      "forms": [
+        {
+          "href": "dtmi:test:PropertyTogether:_contents:__Zeta;1",
+          "op": "writeproperty"
+        },
+        {
+          "href": "dtmi:test:PropertyTogether:_contents:__Zeta;1",
+          "op": "readproperty"
+        }
+      ]
+    },
+    "Eta": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "readOnly": false,
+      "dtv:placeholder": true,
+      "forms": [
+        {
+          "href": "dtmi:test:PropertyTogether:_contents:__Eta;1",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "MultiWriteErrorRef"
+            }
+          ],
+          "op": "writeproperty"
+        },
+        {
+          "href": "dtmi:test:PropertyTogether:_contents:__Eta;1",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "PropertyError"
+            }
+          ],
+          "op": "readproperty"
+        }
+      ]
+    }
+  },
+  "events": {
+  }
+}

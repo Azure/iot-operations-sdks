@@ -1,0 +1,4 @@
+**/*.const.json
+**/*.schema.json
+**/*.g.cs
+**/*.rs

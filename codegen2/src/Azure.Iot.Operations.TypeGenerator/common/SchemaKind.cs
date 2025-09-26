@@ -1,0 +1,31 @@
+namespace Azure.Iot.Operations.TypeGenerator
+{
+    internal enum SchemaKind
+    {
+        Array,
+        Boolean,
+        Bytes,
+        Byte,
+        DateTime,
+        Date,
+        Decimal,
+        Double,
+        Duration,
+        Enum,
+        Float,
+        Integer,
+        Long,
+        Map,
+        Object,
+        Reference,
+        Schema,
+        Short,
+        String,
+        Time,
+        UnsignedByte,
+        UnsignedInteger,
+        UnsignedLong,
+        UnsignedShort,
+        Uuid,
+    }
+}

@@ -1,0 +1,27 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "<#=this.schemaName#>",
+<# if (this.objectSpec.Description != null) { #>
+  "description": "<#=this.objectSpec.Description#>",
+<# } #>
+  "type": "object",
+  "additionalProperties": false,
+<# if (this.objectSpec.Fields.Any(f => f.Value.Require || f.Value.Fragment)) { #>
+  "required": [ <#=string.Join(", ", this.objectSpec.Fields.Where(f => f.Value.Require || f.Value.Fragment).Select(f => $"\"{f.Key}\""))#> ],
+<# } #>
+  "properties": {
+<# int ix = 1; foreach (KeyValuePair<string, FieldSpec> field in this.objectSpec.Fields) { #>
+    "<#=field.Key#>": {
+      "description": "<#=field.Value.Description#>",
+<# if (field.Value.Fragment) { #>
+      <#=JsonSchemaSupport.GetFragmented(JsonSchemaSupport.GetTypeAndAddenda(field.Value.Schema, field.Value.BackupSchemaName), field.Value.Require)#>
+<# } else { #>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(field.Value.Schema, field.Value.BackupSchemaName)#>
+<# } #>
+    }<#=ix < this.objectSpec.Fields.Count ? "," : ""#>
+<# ix++; } #>
+  }
+}

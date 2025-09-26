@@ -1,0 +1,8 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Azure.Iot.Operations.TDParser.Model" #>
+{
+<# int ix = 1; foreach ((string, int) constValue in this.constValues) { #>
+  "<#=constValue.Item1#>": <#=constValue.Item2#><#=ix < this.constValues.Count ? "," : ""#>
+<# ix++; } #>
+}

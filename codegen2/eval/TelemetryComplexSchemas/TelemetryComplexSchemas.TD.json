@@ -1,0 +1,181 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "id": "dtmi:jsonTest:TelemetryComplexSchemas;1",
+  "title": "TelemetryComplexSchemas",
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": [
+    "nosec_sc"
+  ],
+  "schemaDefinitions": {
+    "near": {
+      "type": "integer",
+      "const": 1
+    },
+    "far": {
+      "type": "integer",
+      "const": 2
+    }
+  },
+  "forms": [
+    {
+      "href": "dtmi:jsonTest:TelemetryComplexSchemas;1",
+      "contentType": "application/json",
+      "dtv:topic": "sample/{senderId}/telemetry",
+      "op": "subscribeallevents"
+    }
+  ],
+  "actions": {
+  },
+  "properties": {
+  },
+  "events": {
+    "resultArray": {
+      "data": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "success",
+            "failure"
+          ]
+        }
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__resultArray;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/resultArray",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "doubleArray2D": {
+      "data": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__doubleArray2D;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/doubleArray2D",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "doubleMap": {
+      "data": {
+        "type": "object",
+        "dtv:additionalProperties": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        }
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__doubleMap;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/doubleMap",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "doubleMapArray": {
+      "data": {
+        "type": "object",
+        "dtv:additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__doubleMapArray;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/doubleMapArray",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "coordinates": {
+      "data": {
+        "type": "object",
+        "dtv:additionalProperties": false,
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "longitude": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__coordinates;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/coordinates",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "proximity": {
+      "data": {
+        "descriptions": {
+          "en": "An enumerated value for expressing qualitative distance."
+        },
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__proximity;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/proximity",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "speed": {
+      "data": {
+        "type": "string",
+        "enum": [
+          "slow",
+          "fast"
+        ]
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__speed;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/speed",
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}

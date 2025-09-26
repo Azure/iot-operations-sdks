@@ -1,0 +1,62 @@
+﻿namespace TypeTester
+{
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TypeGenerator;
+
+    internal class Program
+    {
+        static Dictionary<SerializationFormat, string> FormatFilters = new()
+        {
+            { SerializationFormat.Json, "*.schema.json" },
+        };
+
+        static void Main(string[] args)
+        {
+            if (args.Length < 3)
+            {
+                Console.WriteLine("Usage: TypeTester <schema folder> <output folder> C#|Rust");
+                return;
+            }
+
+            DirectoryInfo schemaFolder = new DirectoryInfo(args[0]);
+            if (!schemaFolder.Exists)
+            {
+                Console.WriteLine($"Folder not found: {schemaFolder.FullName}");
+                return;
+            }
+
+            DirectoryInfo outputFolder = new DirectoryInfo(args[1]);
+
+            TargetLanguage targetLanguage = args[2].ToLower() switch
+            {
+                "c#" => TargetLanguage.CSharp,
+                "rust" => TargetLanguage.Rust,
+                _ => throw new NotSupportedException($"Target language {args[3]} is not supported."),
+            };
+
+            foreach (KeyValuePair<SerializationFormat, string> formatFilter in FormatFilters)
+            {
+                TypeGenerator typeGenerator = new TypeGenerator(formatFilter.Key, targetLanguage);
+
+                Dictionary<string, string> schemaTextsByName = schemaFolder.GetFiles(formatFilter.Value).ToDictionary(f => f.Name, f => File.ReadAllText(f.FullName));
+
+                foreach (GeneratedType genType in typeGenerator.GenerateTypes(schemaTextsByName, new CodeName("Namespace"), "GeneratedProject"))
+                {
+                    DirectoryInfo folderPath = new DirectoryInfo(Path.Combine(outputFolder.FullName, genType.FolderPath));
+                    if (!folderPath.Exists)
+                    {
+                        folderPath.Create();
+                    }
+
+                    string filePath = Path.Combine(folderPath.FullName, genType.FileName);
+                    File.WriteAllText(filePath, genType.Content);
+                    Console.WriteLine($"Generated {filePath}");
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Azure.Iot.Operations.CodeGeneration\Azure.Iot.Operations.CodeGeneration.csproj" />
+    <ProjectReference Include="..\Azure.Iot.Operations.TDParser\Azure.Iot.Operations.TDParser.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="free\t4\ConstSchema.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ConstSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.SchemaGenerator</CustomToolNamespace>
+    </None>
+    <None Update="json\t4\EnumJsonSchema.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>EnumJsonSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.SchemaGenerator</CustomToolNamespace>
+    </None>
+    <None Update="json\t4\ObjectJsonSchema.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ObjectJsonSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.SchemaGenerator</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="free\t4\ConstSchema.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ConstSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Update="json\t4\EnumJsonSchema.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EnumJsonSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Update="json\t4\ObjectJsonSchema.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ObjectJsonSchema.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
