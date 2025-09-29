@@ -9,7 +9,9 @@ WORKDIR /app
 # Install additional deps
 RUN tdnf install -y openssl-devel clang
 
-RUN cargo build -p "statestore-cli" --release
+RUN --mount=type=secret,id=CARGO_TOKEN,target=/run/secrets/cargo_token \
+    CARGO_REGISTRIES_AIO_SDKS_TOKEN=$(cat /run/secrets/cargo_token) \
+    cargo build -p "statestore-cli" --release
 
 # Finalize image
 FROM mcr.microsoft.com/azurelinux/distroless/base:3.0 AS final
