@@ -1,5 +1,5 @@
 {
-  "aioConnectorMetadataSchemaVersion": "7.0-preview",
+  "$schema": "./connector-metadata-schema.json",
   "name": "RestConnector",
   "description": "Connector for polling a REST server for information",
   "version": "1.0.0",
@@ -9,7 +9,7 @@
     "imageName": "RestConnector",
     "tag": "1.0.0"
   },
-  "supportedArchitectures": ["linux/amd64"],
+  "supportedArchitectures": ["linux/amd64", "linux/arm64"],
   "sourceCode": {
     "language": ".NET",
     "languageVersion": ".NET 8.0",

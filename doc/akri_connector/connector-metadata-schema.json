@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://json.schemastore.org/aio-connector-metadata-7.0-preview.json",
+  "$id": "https://json.schemastore.org/aio-connector-metadata-8.0-preview.json",
   "type": "object",
-  "title": "JSON schema for Azure IoT Operations Connector Metadata 7.0-preview",
+  "title": "JSON schema for Azure IoT Operations Connector Metadata 8.0-preview",
   "description": "Schema that defines how to write a connector metadata document when writing connectors for Azure IoT Operations solutions",
   "definitions": {
     "modelLimits": {
@@ -134,11 +134,10 @@
     }
   },
   "properties": {
-    "aioConnectorMetadataSchemaVersion": {
+    "$schema": {
       "type": "string",
-      "description": "The version of AIO connector metadata schema that this connector metadata file adheres to.",
-      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$",
-      "default": "6.0-preview"
+      "description": "The address of the AIO connector metadata schema that this connector metadata file adheres to.",
+      "default": "https://raw.githubusercontent.com/Azure/iot-operations-sdks/refs/heads/main/doc/akri_connector/connector-metadata-schema.json"
     },
     "name": {
       "type": "string",
@@ -264,7 +263,6 @@
         }
       ],
       "minItems": 1,
-      "additionalItems": false,
       "uniqueItems": true
     },
     "sourceCode": {
