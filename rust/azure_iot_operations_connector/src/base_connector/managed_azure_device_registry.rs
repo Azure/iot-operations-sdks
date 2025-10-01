@@ -914,6 +914,7 @@ impl AssetStatusReporter {
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
 
             let modify_input = Self::get_modify_input(&current_asset_status);
+            log::info!("asset1 modify_input: {modify_input:?}");
 
             // We do not use the result since the status once we acquire the read lock might change
             // and we will have to re-evaluate
@@ -944,6 +945,7 @@ impl AssetStatusReporter {
 
         let modify_result = {
             let modify_input = Self::get_modify_input(&current_asset_status);
+            log::info!("asset2 modify_input: {modify_input:?}");
 
             let Some(modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
@@ -1537,8 +1539,9 @@ impl AssetClient {
         // if there were any config errors, report them to the ADR service together
         if updates.status_updated {
             log::debug!(
-                "Reporting error asset status on recv_notification for {:?}",
-                self.asset_ref
+                "Reporting error asset status on recv_notification for {:?}. {:?}",
+                self.asset_ref,
+                updates.new_status
             );
             if let Err(e) = AssetStatusReporter::internal_report_status(
                 updates.new_status,
@@ -1554,6 +1557,11 @@ impl AssetClient {
                     self.asset_ref
                 );
             }
+        } else {
+            log::info!(
+                "No config errors found on asset update for {:?}",
+                self.asset_ref
+            );
         }
 
         // update specification
@@ -1753,16 +1761,22 @@ impl AssetClient {
         match &current_status.config {
             Some(config) => {
                 if config.version == adr_version {
+                    log::info!("Config version == adr version {adr_version:?}. {current_status:?}");
                     // If the version in our config matches the one in ADR we return our current
                     // asset status
                     Cow::Borrowed(current_status)
                 } else {
+                    log::info!(
+                        "Config version {:?} != adr version {adr_version:?}",
+                        config.version
+                    );
                     // If the version doesn't match, the config version we are holding is stale so
                     // we pass a cleared version
                     Cow::Owned(adr_models::AssetStatus::default())
                 }
             }
             None => {
+                log::info!("No Config version. adr version: {adr_version:?}.  {current_status:?}");
                 // If there is no config, then the status is not set, we can pass our current asset
                 // status
                 Cow::Borrowed(current_status)
@@ -1884,6 +1898,7 @@ impl DataOperationStatusReporter {
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
 
             let modify_input = self.get_modify_input(&current_asset_status);
+            log::info!("data_operation1 modify_input: {modify_input:?}");
 
             // We do not use the result since the status once we acquire the read lock might change
             // and we will have to re-evaluate
@@ -1914,6 +1929,7 @@ impl DataOperationStatusReporter {
 
         let modify_result = {
             let modify_input = self.get_modify_input(&current_asset_status);
+            log::info!("data_operation2 modify_input: {modify_input:?}");
 
             let Some(modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
@@ -2304,6 +2320,7 @@ impl DataOperationClient {
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
 
             let modify_input = self.get_schema_reference_modify_input(&current_asset_status);
+            log::info!("data_operation ms1 modify_input: {modify_input:?}");
 
             if modify(modify_input).is_some() {
                 // A modification was made, we proceed to report schema
@@ -2332,6 +2349,7 @@ impl DataOperationClient {
             AssetClient::get_current_asset_status(&status_write_guard, cached_version);
 
         let modify_input = self.get_schema_reference_modify_input(&current_asset_status);
+        log::info!("data_operation ms2 modify_input: {modify_input:?}");
 
         let Some(new_message_schema) = modify(modify_input) else {
             // No modification was made, so no need to report schema
