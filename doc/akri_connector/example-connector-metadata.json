@@ -192,7 +192,7 @@
           "input": "required",
           "exampleValue": "tcp://example.com:8080/resource?key=value",
           "regex": ["someRegex", "someOtherRegex"],
-          "description": "The HTTP address to connect to"
+          "description": "The TCP address to connect to"
         }
       },
       "supportedAuthenticationTypes": ["usernamePassword", "x509", "anonymous"],
