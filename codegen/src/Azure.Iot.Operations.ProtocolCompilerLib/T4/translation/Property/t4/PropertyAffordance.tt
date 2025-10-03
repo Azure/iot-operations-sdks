@@ -1,0 +1,52 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser" #>
+<#@ import namespace="DTDLParser.Models" #>
+    "<#=this.dtProperty.Name#>": {
+<# if (this.dtProperty.Description.Any()) { #>
+      "descriptions": {
+<# int ix = 1; foreach (KeyValuePair<string, string> kvp in this.dtProperty.Description) { #>
+        "<#=kvp.Key#>": "<#=kvp.Value#>"<#=ix < this.dtProperty.Description.Count ? "," : ""#>
+<# ix++; } #>
+      },
+<# } #>
+<# if (this.usesTypes) { #>
+<#=this.thingDescriber.GetTypeAndAddenda(this.valueSchema, 6)#>,
+      "readOnly": <#=this.dtProperty.Writable ? "false" : "true"#>,
+<# } #>
+      "forms": [
+<# if (this.dtProperty.Writable) { #>
+        {
+          "href": "<#=this.dtProperty.Id#>",
+          "contentType": "<#=this.contentType#>",
+<# if (this.isSchemaPropertyResult && this.writeErrorSchemaName != null) { #>
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "<#=this.writeErrorSchemaName#>"
+            }
+          ],
+<# } #>
+<# if (this.separate) { #>
+          "dtv:topic": "<#=this.propertyTopic.Replace(MqttTopicTokens.PropertyAction, "write")#>",
+<# } #>
+          "op": "writeproperty"
+        },
+<# } #>
+        {
+          "href": "<#=this.dtProperty.Id#>",
+          "contentType": "<#=this.contentType#>",
+<# if (this.isSchemaPropertyResult && this.readErrorSchemaName != null) { #>
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "<#=this.readErrorSchemaName#>"
+            }
+          ],
+<# } #>
+<# if (this.separate) { #>
+          "dtv:topic": "<#=this.propertyTopic.Replace(MqttTopicTokens.PropertyAction, "read")#>",
+<# } #>
+          "op": "readproperty"
+        }
+      ]
+    }

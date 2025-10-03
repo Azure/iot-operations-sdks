@@ -2,7 +2,10 @@
 <#@ import namespace="DTDLParser" #>
 <#@ import namespace="DTDLParser.Models" #>
 {
-  "@context": "https://www.w3.org/2022/wot/td/v1.1",
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
   "id": "<#=this.dtInterface.Id.ToString()#>",
   "title": "<#=this.serviceName.AsGiven#>",
   "securityDefinitions": {
@@ -13,29 +16,83 @@
   "security": [
     "nosec_sc"
   ],
-<# if (this.errorSchemas.Any()) { #>
+<# if (this.errorSchemas.Any() || this.enumValues.Any()) { #>
   "schemaDefinitions": {
 <# int ix1 = 1; foreach (KeyValuePair<string, DTSchemaInfo> errorSchema in this.errorSchemas) { #>
     "<#=errorSchema.Key#>": {
 <#=this.thingDescriber.GetTypeAndAddenda(errorSchema.Value, 6)#>
-    }<#=ix1 < this.errorSchemas.Count ? "," : ""#>
+    }<#=ix1 < this.errorSchemas.Count + this.enumValues.Count ? "," : ""#>
+<# ix1++; } #>
+<# foreach (DTEnumValueInfo enumValue in this.enumValues) { #>
+    "<#=enumValue.Name#>": {
+      "type": "integer",
+      "const": <#=enumValue.EnumValue#>
+    }<#=ix1 < this.errorSchemas.Count + this.enumValues.Count ? "," : ""#>
 <# ix1++; } #>
   },
+<# } #>
+<# if (this.aggregateTelemetries || this.aggregateProperties) { #>
+  "forms": [
+<# if (this.aggregateTelemetries) { #>
+    {
+      "href": "<#=this.dtInterface.Id#>",
+      "contentType": "<#=this.contentType#>",
+      "dtv:topic": "<#=this.telemetryTopic#>",
+      "op": "subscribeallevents"
+    }<#=this.aggregateProperties ? "," : ""#>
+<# } #>
+<# if (this.aggregateProperties) { #>
+<# if (this.dtInterface.Properties.Any(p => p.Value.Writable)) { #>
+    {
+      "href": "<#=this.dtInterface.Id#>",
+      "contentType": "<#=this.contentType#>",
+<# if (this.dtInterface.Properties.Values.Any(p => p.Writable && IsSchemaPropertyResult(p.Schema) && ((DTObjectInfo)p.Schema).Fields.Any(f => IsFieldWriteError(f)))) { #>
+      "additionalResponses": [
+        {
+          "success": false
+        }
+      ],
+<# } #>
+      "dtv:topic": "<#=this.propertyTopic.Replace(MqttTopicTokens.PropertyAction, "write")#>",
+      "op": "writemultipleproperties"
+    },
+<# } #>
+    {
+      "href": "<#=this.dtInterface.Id#>",
+      "contentType": "<#=this.contentType#>",
+<# if (this.dtInterface.Properties.Values.Any(p => IsSchemaPropertyResult(p.Schema) && ((DTObjectInfo)p.Schema).Fields.Any(f => IsFieldReadError(f)))) { #>
+      "additionalResponses": [
+        {
+          "success": false
+        }
+      ],
+<# } #>
+      "dtv:topic": "<#=this.propertyTopic.Replace(MqttTopicTokens.PropertyAction, "read")#>",
+      "op": "readallproperties"
+    }
+<# } #>
+  ],
 <# } #>
   "actions": {
 <# int ix = 1; foreach (KeyValuePair<string, DTCommandInfo> dtCommand in this.dtInterface.Commands) { #>
 <#=this.thingDescriber.GetCommandAffordance(dtCommand.Value, this.usesTypes, this.contentType, this.commandTopic, this.cmdServiceGroupId)#><#=ix < this.dtInterface.Commands.Count ? "," : ""#>
 <# ix++; } #>
   },
+  "properties": {
+<# ix = 1; foreach (KeyValuePair<string, DTPropertyInfo> dtProperty in this.dtInterface.Properties) { #>
+<#=this.thingDescriber.GetPropertyAffordance(dtProperty.Value, this.usesTypes, this.contentType, this.propertyTopic)#><#=ix < this.dtInterface.Properties.Count ? "," : ""#>
+<# ix++; } #>
+  },
   "events": {
-<# if (this.dtInterface.Telemetries.Any()) { #>
-<# if (this.telemetryTopic?.Contains(MqttTopicTokens.TelemetryName) ?? false) { #>
 <# ix = 1; foreach (KeyValuePair<string, DTTelemetryInfo> dtTelemetry in this.dtInterface.Telemetries) { #>
 <#=this.thingDescriber.GetTelemetryAffordance(dtTelemetry.Value, this.usesTypes, this.contentType, this.telemetryTopic, this.telemServiceGroupId)#><#=ix < this.dtInterface.Telemetries.Count ? "," : ""#>
 <# ix++; } #>
-<# } else { #>
-<#=this.thingDescriber.GetTelemetriesAffordance(this.dtInterface.Telemetries, this.usesTypes, this.contentType, this.telemetryTopic, this.telemServiceGroupId, $"{this.dtInterface.Id.Versionless}:_telemetry;{this.dtInterface.Id.MajorVersion}")#>
-<# } #>
-<# } #>
   }
 }
+<#+
+private bool IsSchemaPropertyResult(DTSchemaInfo dtSchema) => dtSchema != null && dtSchema.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.PropertyResultAdjunctTypeFormat, this.mqttVersion)));
+
+private bool IsFieldReadError(DTFieldInfo dtField) => dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ReadErrorAdjunctTypeFormat, this.mqttVersion)));
+
+private bool IsFieldWriteError(DTFieldInfo dtField) => dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.WriteErrorAdjunctTypeFormat, this.mqttVersion)));
+#>
