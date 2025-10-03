@@ -1,0 +1,10 @@
+{
+    "dataValues": {
+        "FastUInt1": {
+            "value": 7
+        },
+        "FastUInt23": {
+            "value": 42
+        }
+    }
+}

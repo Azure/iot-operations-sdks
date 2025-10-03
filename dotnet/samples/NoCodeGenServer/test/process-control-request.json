@@ -1,0 +1,7 @@
+{
+    "input1": "foo",
+    "input2": 42.5,
+    "input3": {
+        "nested": true
+    }
+}
