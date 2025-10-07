@@ -1,5 +1,5 @@
 {
-  "aioConnectorMetadataSchemaVersion": "7.0-preview",
+  "$schema": "./connector-metadata-schema.json",
   "name": "RestConnector",
   "description": "Connector for polling a REST server for information",
   "version": "1.0.0",
@@ -9,7 +9,7 @@
     "imageName": "RestConnector",
     "tag": "1.0.0"
   },
-  "supportedArchitectures": ["linux/amd64"],
+  "supportedArchitectures": ["linux/amd64", "linux/arm64"],
   "sourceCode": {
     "language": ".NET",
     "languageVersion": ".NET 8.0",
@@ -182,6 +182,116 @@
           }
         }
       }
+    },
+    {
+      "endpointType": "Microsoft.TCP",
+      "description": "A TCP endpoint",
+      "version": "2.0",
+      "fields": {
+        "address": {
+          "input": "required",
+          "exampleValue": "tcp://example.com:8080/resource?key=value",
+          "regex": ["someRegex", "someOtherRegex"],
+          "description": "The TCP address to connect to"
+        }
+      },
+      "supportedAuthenticationTypes": ["usernamePassword", "x509", "anonymous"],
+      "eventGroups": {
+        "limits": { 
+          "minimum": 1
+        },
+        "fields": {
+          "dataSource": {
+            "input": "required",
+            "exampleValue": "some/path"
+          },
+          "typeRef": {
+            "input": "unsupported"
+          }
+        },
+        "eventGroupConfigurationSchema" : {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "$id": "https://contoso.com/eventConfig.schema.json",
+          "title": "Event Config Schema",
+          "description": "The JSON schema for both the default event group configuration field and all event group-specific configuration fields",
+          "type": "object",
+          "properties": {
+            "SomeEventGroupsProperty": {
+              "description": "Some configuration that is relevant to event groups",
+              "type": "integer"
+            }
+          }
+        },
+        "events": {
+          "destinations": {
+            "supportedDestinations" : ["Mqtt"],
+            "defaultDestination" : {
+              "destination": "Mqtt",
+              "topic": "{namespace}/{deviceName}/myDefaultPath",
+              "qos": 1,
+              "ttl": 10,
+              "retain": "never"
+            }
+          },
+          "limits": { 
+            "minimum": 0
+          },
+          "fields": {
+            "dataSource": {
+              "input": "required",
+              "exampleValue": "some/path"
+            },
+            "typeRef": {
+              "input": "unsupported"
+            }
+          },
+          "eventConfigurationSchema" : {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/eventConfig.schema.json",
+            "title": "Event Datapoint Config Schema",
+            "description": "The JSON schema for both the default event configuration field and all event-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "SomeEventsProperty": {
+                "description": "Some configuration that is relevant to events",
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "secrets": [
+    {
+      "secretAlias": "someSecretAlias",
+      "secretDescription": "some secret's description",
+      "isOptional": false
+    },
+    {
+      "secretAlias": "someOptionalSecretAlias",
+      "secretDescription": "some optional secret's description",
+      "isOptional": true
+    }
+  ],
+  "storageVolumes": [
+    {
+        "mountPath": "somePath",
+        "description": "some description"
+    },
+    {
+        "mountPath": "someOtherPath",
+        "description": "some other description"
+    }
+  ],
+  "connectorConfigurationKeys": [
+    {
+      "key": "someKey",
+      "description": "someDescription"
+    },
+    {
+      "key": "someOtherKey",
+      "description": "someDescription"
     }
   ],
   "recommendedAllocationPolicy": "bucketized",
