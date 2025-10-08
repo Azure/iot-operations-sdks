@@ -875,7 +875,7 @@ impl DeviceEndpointClient {
             // call unobserve in these cases to clean up our local state, but for now this call is needed and the error should be ignored.
             if is_device_endpoint_deleted {
                 match e.kind() {
-                    azure_device_registry::ErrorKind::ServiceError(_) =>  {
+                    azure_device_registry::ErrorKind::ServiceError(_) => {
                         log::debug!("Expected failure unobserving device update notifications for {device_endpoint_ref:?}. Since the device/endpoint has been deleted, this is expected and not an error if the error indicates that the device/endpoint is not found: {e}");
                     },
                     _ => {
@@ -1824,7 +1824,7 @@ impl AssetClient {
             // call unobserve in these cases to clean up our local state, but for now this call is needed and the error should be ignored.
             if is_asset_deleted {
                 match e.kind() {
-                    azure_device_registry::ErrorKind::ServiceError(_) =>  {
+                    azure_device_registry::ErrorKind::ServiceError(_) => {
                         log::debug!("Expected failure unobserving asset update notifications for {asset_ref:?}. Since the asset has been deleted, this is expected and not an error if the error indicates that the asset is not found: {e}");
                     },
                     _ => {
