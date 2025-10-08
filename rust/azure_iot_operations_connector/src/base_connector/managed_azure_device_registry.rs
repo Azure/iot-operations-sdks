@@ -478,8 +478,12 @@ impl DeviceEndpointClientCreationObservation {
                     "Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device definition after retries: {e}"
                 );
                 // unobserve as cleanup
-                DeviceEndpointClient::unobserve_device(&connector_context, &device_endpoint_ref)
-                    .await;
+                DeviceEndpointClient::unobserve_device(
+                    &connector_context,
+                    &device_endpoint_ref,
+                    false,
+                )
+                .await;
                 return None;
             }
         };
@@ -507,7 +511,8 @@ impl DeviceEndpointClientCreationObservation {
                 // unobserve as cleanup
                 DeviceEndpointClient::unobserve_device(
                     &connector_context,
-                    &device_endpoint_ref)
+                    &device_endpoint_ref,
+                    false)
                 .await;
                 return None;
             }
@@ -530,8 +535,12 @@ impl DeviceEndpointClientCreationObservation {
                     "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
                 );
                 // unobserve as cleanup
-                DeviceEndpointClient::unobserve_device(&connector_context, &device_endpoint_ref)
-                    .await;
+                DeviceEndpointClient::unobserve_device(
+                    &connector_context,
+                    &device_endpoint_ref,
+                    false,
+                )
+                .await;
                 None
             }
         }
@@ -638,7 +647,7 @@ impl DeviceEndpointClient {
                                 let connector_context_clone = self.connector_context.clone();
                                 let device_endpoint_ref_clone = self.device_endpoint_ref.clone();
                                 async move {
-                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone).await;
+                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone, true).await;
                                 }
                             }
                         );
@@ -677,7 +686,7 @@ impl DeviceEndpointClient {
                                 let connector_context_clone = self.connector_context.clone();
                                 let device_endpoint_ref_clone = self.device_endpoint_ref.clone();
                                 async move {
-                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone).await;
+                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone, true).await;
                                 }
                             }
                         );
@@ -775,7 +784,7 @@ impl DeviceEndpointClient {
                     "Dropping asset create notification: {asset_ref:?}. Failed to get Asset definition after retries: {e}"
                 );
                 // unobserve as cleanup
-                AssetClient::unobserve_asset(&connector_context, &asset_ref).await;
+                AssetClient::unobserve_asset(&connector_context, &asset_ref, false).await;
                 return None;
             }
         };
@@ -801,7 +810,7 @@ impl DeviceEndpointClient {
             Err(e) => {
                 log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset status after retries: {e}");
                 // unobserve as cleanup
-                AssetClient::unobserve_asset(&connector_context, &asset_ref).await;
+                AssetClient::unobserve_asset(&connector_context, &asset_ref, false).await;
                 return None;
             },
         };
@@ -842,6 +851,7 @@ impl DeviceEndpointClient {
     async fn unobserve_device(
         connector_context: &Arc<ConnectorContext>,
         device_endpoint_ref: &DeviceEndpointRef,
+        is_device_endpoint_deleted: bool,
     ) {
         let _ = Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
@@ -860,7 +870,21 @@ impl DeviceEndpointClient {
         )
         .await
         .inspect_err(|e| {
-            log::error!("Failed to unobserve device update notifications for {device_endpoint_ref:?} after retries: {e}");
+            // If this unobserve is happening because the device_endpoint has been deleted, the unobserve call isn't necessary and will likely return
+            // an error indicating that the device_endpoint can't be found. In the future, we may have a service change to allow us to not need to
+            // call unobserve in these cases to clean up our local state, but for now this call is needed and the error should be ignored.
+            if is_device_endpoint_deleted {
+                match e.kind() {
+                    azure_device_registry::ErrorKind::ServiceError(_) =>  {
+                        log::debug!("Expected failure unobserving device update notifications for {device_endpoint_ref:?}. Since the device/endpoint has been deleted, this is expected and not an error if the error indicates that the device/endpoint is not found: {e}");
+                    },
+                    _ => {
+                        log::warn!("Failed to unobserve device update notifications for deleted {device_endpoint_ref:?} after retries. If error indicates that the device/endpoint is not found, this is expected and not a true error: {e}");
+                    }
+                }
+            } else {
+                log::error!("Failed to unobserve device update notifications for {device_endpoint_ref:?} after retries. If error indicates that the device/endpoint is not found, this may be expected and not a true error: {e}");
+            }
         });
     }
 }
@@ -1632,7 +1656,7 @@ impl AssetClient {
                         let connector_context_clone = self.connector_context.clone();
                         let asset_ref_clone = self.asset_ref.clone();
                         async move {
-                            Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                            Self::unobserve_asset(&connector_context_clone, &asset_ref_clone, true).await;
                         }
                     }
                 );
@@ -1657,7 +1681,7 @@ impl AssetClient {
                             let connector_context_clone = self.connector_context.clone();
                             let asset_ref_clone = self.asset_ref.clone();
                             async move {
-                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone, true).await;
                             }
                         }
                     );
@@ -1685,7 +1709,7 @@ impl AssetClient {
                             let connector_context_clone = self.connector_context.clone();
                             let asset_ref_clone = self.asset_ref.clone();
                             async move {
-                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone, true).await;
                             }
                         }
                     );
@@ -1771,7 +1795,11 @@ impl AssetClient {
     }
 
     /// Internal convenience function to unobserve from an asset's update notifications for cleanup
-    async fn unobserve_asset(connector_context: &Arc<ConnectorContext>, asset_ref: &AssetRef) {
+    async fn unobserve_asset(
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        is_asset_deleted: bool,
+    ) {
         // unobserve as cleanup
         let _ = Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
@@ -1791,7 +1819,21 @@ impl AssetClient {
         )
         .await
         .inspect_err(|e| {
-            log::error!("Failed to unobserve asset update notifications for {asset_ref:?} after retries: {e}");
+            // If this unobserve is happening because the asset has been deleted, the unobserve call isn't necessary and will likely return
+            // an error indicating that the asset can't be found. In the future, we may have a service change to allow us to not need to
+            // call unobserve in these cases to clean up our local state, but for now this call is needed and the error should be ignored.
+            if is_asset_deleted {
+                match e.kind() {
+                    azure_device_registry::ErrorKind::ServiceError(_) =>  {
+                        log::debug!("Expected failure unobserving asset update notifications for {asset_ref:?}. Since the asset has been deleted, this is expected and not an error if the error indicates that the asset is not found: {e}");
+                    },
+                    _ => {
+                        log::warn!("Failed to unobserve asset update notifications for deleted {asset_ref:?} after retries. If error indicates that the asset is not found, this is expected and not a true error: {e}");
+                    }
+                }
+            } else {
+                log::error!("Failed to unobserve asset update notifications for {asset_ref:?} after retries. If error indicates that the asset is not found, this may be expected and not a true error: {e}");
+            }
         });
     }
 }

@@ -750,6 +750,10 @@ where
     }
 
     /// Stops observation of a [`Device`]'s updates from the Azure Device Registry service.
+    /// Once this request has been sent, no more notifications will be received, regardless
+    /// of whether the service successfully processes it or not. However, if the request
+    /// is not sent due to input validation errors, the observation will continue because
+    /// the request could not be sent.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
@@ -790,14 +794,12 @@ where
                 .timeout(timeout)
                 .build()
                 .map_err(ErrorKind::from)?;
-        let _ = self
+        let result = self
             .notify_on_device_update_command_invoker
             .invoke(unobserve_request)
-            .await
-            .map_err(ErrorKind::from)?
-            .map_err(ErrorKind::from)?;
+            .await;
 
-        // unobserve was successful, remove this device from our dispatcher
+        // Remove this device from our dispatcher whether or not the unobserve was successful to clear this from the dispatcher so that a new observation can be created later
         let receiver_id = DeviceRef {
             device_name,
             endpoint_name: inbound_endpoint_name,
@@ -810,6 +812,8 @@ where
         } else {
             log::debug!("`{receiver_id:?}` not in observed list");
         }
+        // still return any errors from executing the request after removing from dispatcher
+        result.map_err(ErrorKind::from)?.map_err(ErrorKind::from)?;
         Ok(())
     }
 
@@ -1164,6 +1168,10 @@ where
     }
 
     /// Stops observation of an [`Asset`]'s updates from the Azure Device Registry service.
+    /// Once this request has been sent, no more notifications will be received, regardless
+    /// of whether the service successfully processes it or not. However, if the request
+    /// is not sent due to input validation errors, the observation will continue because
+    /// the request could not be sent.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
@@ -1199,17 +1207,18 @@ where
             )));
         }
 
-        let payload = base_client_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
-            notification_preference_request:
-                base_client_gen::SetNotificationPreferenceForAssetUpdatesRequestSchema {
-                    asset_name: asset_name.clone(),
-                    notification_preference: base_client_gen::NotificationPreference::Off,
-                },
-        };
+        let unobserve_payload =
+            base_client_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
+                notification_preference_request:
+                    base_client_gen::SetNotificationPreferenceForAssetUpdatesRequestSchema {
+                        asset_name: asset_name.clone(),
+                        notification_preference: base_client_gen::NotificationPreference::Off,
+                    },
+            };
 
-        let command_request =
+        let unobserve_request =
             base_client_gen::SetNotificationPreferenceForAssetUpdatesRequestBuilder::default()
-                .payload(payload)
+                .payload(unobserve_payload)
                 .map_err(ErrorKind::from)?
                 .topic_tokens(Self::get_base_service_topic_tokens(
                     device_name.clone(),
@@ -1219,14 +1228,12 @@ where
                 .build()
                 .map_err(ErrorKind::from)?;
 
-        let _ = self
+        let result = self
             .notify_on_asset_update_command_invoker
-            .invoke(command_request)
-            .await
-            .map_err(ErrorKind::from)?
-            .map_err(ErrorKind::from)?; // TODO: deregister on failure as well so that a new observation can be created later?
+            .invoke(unobserve_request)
+            .await;
 
-        // unobserve was successful, remove this asset from our dispatcher
+        // Remove this asset from our dispatcher whether or not the unobserve was successful to clear this from the dispatcher so that a new observation can be created later
         let receiver_id = AssetRef {
             device_name,
             inbound_endpoint_name,
@@ -1244,6 +1251,8 @@ where
                 "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
             );
         }
+        // still return any errors from executing the request after removing from dispatcher
+        result.map_err(ErrorKind::from)?.map_err(ErrorKind::from)?;
         Ok(())
     }
 
