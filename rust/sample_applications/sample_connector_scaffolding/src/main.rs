@@ -44,7 +44,8 @@ use azure_iot_operations_connector::{
         BaseConnector,
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
-            DeviceEndpointClient, DeviceEndpointClientCreationObservation,
+            DeviceEndpointClient, DeviceEndpointClientCreationObservation, ModifyResult,
+            SchemaModifyResult,
         },
     },
     data_processor::derived_json,
@@ -60,6 +61,34 @@ const DEFAULT_SAMPLING_INTERVAL: Duration = Duration::from_millis(10000); // Def
 const OTEL_TAG: &str = "connector_scaffolding_template"; // IMPLEMENT: Change this to a unique tag for your connector
 const DEFAULT_LOG_LEVEL: &str =
     "warn,sample_connector_scaffolding=info,azure_iot_operations_connector=info"; // IMPLEMENT: Change this to a unique log level for your connector and change the tag to match the crate name
+
+/// Macro that generates closures for reporting status with one-way transitions.
+///
+/// A one-way transition means that we can only go from None to Ok, None to Err, and from Ok to Err.
+///
+/// Reports Ok only if status is None
+/// Reports Err if status is None or Ok (errors are sticky once set)
+macro_rules! report_status_one_way {
+    ($new_status:expr) => {
+        |status| {
+            let should_report = match (&status, &$new_status) {
+                // Report Ok only if current status is None
+                (None, Ok(())) => true,
+                // Report Err if current status is None or Ok
+                (None, Err(_)) => true,
+                (Some(Ok(())), Err(_)) => true,
+                // Don't report anything else
+                _ => false,
+            };
+
+            if should_report {
+                Some($new_status)
+            } else {
+                None
+            }
+        }
+    };
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -155,6 +184,9 @@ async fn device_handler(
     device_endpoint_log_identifier: String,
     mut device_endpoint_client: DeviceEndpointClient,
 ) {
+    // Get the status reporter for the device endpoint
+    let device_endpoint_status_reporter = device_endpoint_client.get_status_reporter();
+
     // This watcher is used to notify the dataset handler whether the device endpoint is healthy and sampling should happen
     let device_endpoint_ready_watcher_tx = watch::Sender::new(false);
 
@@ -187,13 +219,32 @@ async fn device_handler(
     }
 
     // If the connection is successful or the device wasn't enabled and there weren't configuration errors, report the device and endpoint statuses.
-    // Modify this to report any errors if there are any
-    match device_endpoint_client.report_status(Ok(()), Ok(())).await {
-        Ok(()) => {
-            log::debug!("{device_endpoint_log_identifier} Endpoint status reported as OK");
+    // Modify this to report any configuration errors if there are any
+    // Report device status
+    match device_endpoint_status_reporter
+        .report_device_status_if_modified(report_status_one_way!(Ok::<(), AdrConfigError>(())))
+        .await
+    {
+        Ok(ModifyResult::Reported) => {
+            log::info!("{device_endpoint_log_identifier} Device status reported as OK");
         }
+        Ok(ModifyResult::NotModified) => {} // No change, do nothing
         Err(e) => {
-            log::error!("{device_endpoint_log_identifier} Failed to report endpoint status: {e}");
+            log::error!("{device_endpoint_log_identifier} Failed to report Device status: {e}");
+        }
+    }
+
+    // Report endpoint status
+    match device_endpoint_status_reporter
+        .report_endpoint_status_if_modified(report_status_one_way!(Ok::<(), AdrConfigError>(())))
+        .await
+    {
+        Ok(ModifyResult::Reported) => {
+            log::info!("{device_endpoint_log_identifier} Endpoint status reported as OK");
+        }
+        Ok(ModifyResult::NotModified) => {} // No change, do nothing
+        Err(e) => {
+            log::error!("{device_endpoint_log_identifier} Failed to report Endpoint status: {e}");
         }
     }
 
@@ -224,15 +275,46 @@ async fn device_handler(
                 }
 
                 // For this example, we will assume that the device endpoint specification is OK. Modify this to report any errors
-                match device_endpoint_client.report_status(Ok(()), Ok(())).await {
-                    Ok(()) => {
-                        log::debug!(
+                // Report device status
+                match device_endpoint_status_reporter
+                    .report_device_status_if_modified(report_status_one_way!(Ok::<
+                        (),
+                        AdrConfigError,
+                    >(
+                        ()
+                    )))
+                    .await
+                {
+                    Ok(ModifyResult::Reported) => {
+                        log::info!("{device_endpoint_log_identifier} Device status reported as OK");
+                    }
+                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
+                    Err(e) => {
+                        log::error!(
+                            "{device_endpoint_log_identifier} Failed to report Device status: {e}"
+                        );
+                    }
+                }
+
+                // Report endpoint status
+                match device_endpoint_status_reporter
+                    .report_endpoint_status_if_modified(report_status_one_way!(Ok::<
+                        (),
+                        AdrConfigError,
+                    >(
+                        ()
+                    )))
+                    .await
+                {
+                    Ok(ModifyResult::Reported) => {
+                        log::info!(
                             "{device_endpoint_log_identifier} Endpoint status reported as OK"
                         );
                     }
+                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
                     Err(e) => {
                         log::error!(
-                            "{device_endpoint_log_identifier} Failed to report endpoint status: {e}"
+                            "{device_endpoint_log_identifier} Failed to report Endpoint status: {e}"
                         );
                     }
                 }
@@ -273,25 +355,42 @@ async fn asset_handler(
     mut asset_client: AssetClient,
     device_endpoint_ready_watcher_rx: watch::Receiver<bool>,
 ) {
-    // This watcher is used to notify the dataset handler whether the asset is healthy and sampling should happen
-    let asset_ready_watcher_tx = watch::Sender::new(false);
+    // Get the status reporter for the asset
+    let asset_status_reporter = asset_client.get_status_reporter();
+
     // IMPLEMENT: add any Asset validation here and report errors or Ok status
     // If the asset specification has a default_dataset_configuration, then the asset status
     // may not be able to be reported until the dataset level can validate this field.
 
+    // Here is one thing that should be validated for most connectors, although it won't be a config error if it's not enabled
+    let mut is_asset_ready = if asset_client
+        .specification()
+        .enabled
+        .is_some_and(|enabled| !enabled)
+    {
+        log::warn!("{asset_log_identifier} Asset is disabled, waiting for update");
+        false
+    } else {
+        true
+    };
+
     // For this example, we will assume that the asset specification is OK. Modify this to report any errors
-    match asset_client.report_status(Ok(())).await {
-        Ok(()) => {
-            log::debug!("{asset_log_identifier} Asset status reported as OK");
+    match asset_status_reporter
+        .report_status_if_modified(report_status_one_way!(Ok::<(), AdrConfigError>(())))
+        .await
+    {
+        Ok(ModifyResult::Reported) => {
+            log::info!("{asset_log_identifier} Asset status reported as OK");
         }
+        Ok(ModifyResult::NotModified) => {} // No change, do nothing
         Err(e) => {
             log::error!("{asset_log_identifier} Failed to report asset status: {e}");
         }
     }
-    // Notify any datasets that the asset is in a ready state
-    asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(true));
-    // If there was an error, notify any lower components that the asset is not in a ready state while we wait for an update
-    // asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
+
+    // This watcher is used to notify the data operation handlers whether the asset is healthy and sampling should happen or if there are any updates
+    // Initialize it with the initial readiness state
+    let asset_update_watcher_tx = watch::Sender::new(is_asset_ready);
 
     // Receive asset updates and dataset creation notifications
     loop {
@@ -301,26 +400,40 @@ async fn asset_handler(
 
                 // IMPLEMENT: Add custom asset update/validation logic here
 
+                // Update asset ready state for data operations
+                is_asset_ready = if asset_client
+                    .specification()
+                    .enabled
+                    .is_some_and(|enabled| !enabled)
+                {
+                    log::warn!("{asset_log_identifier} Asset is disabled, waiting for update");
+                    false
+                } else {
+                    true
+                };
+
                 // For this example, we will assume that the asset specification is OK. Modify this to report any errors
-                match asset_client.report_status(Ok(())).await {
-                    Ok(()) => {
-                        log::debug!("{asset_log_identifier} Asset status reported as OK");
+                match asset_status_reporter
+                    .report_status_if_modified(report_status_one_way!(Ok::<(), AdrConfigError>(())))
+                    .await
+                {
+                    Ok(ModifyResult::Reported) => {
+                        log::info!("{asset_log_identifier} Asset status reported as OK");
                     }
+                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
                     Err(e) => {
                         log::error!("{asset_log_identifier} Failed to report asset status: {e}");
                     }
                 }
-                // Notify any datasets that the asset is in a ready state (this notification will only be sent if that wasn't already true)
-                asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(true));
-                // If there was an error, notify any lower components that the asset is not in a ready state while we wait for another update
-                // asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
+
+                // Notify any data operations that the asset has been updated and its ready state
+                asset_update_watcher_tx.send_modify(|asset_ready| *asset_ready = is_asset_ready);
             }
             ClientNotification::Created(data_operation_client) => {
                 let data_operation_ref = data_operation_client.data_operation_ref();
                 let data_operation_log_identifier = {
                     format!(
-                        "{asset_log_identifier}[{:?}: {}]",
-                        data_operation_ref.data_operation_kind,
+                        "{asset_log_identifier}[{}]",
                         data_operation_ref.data_operation_name
                     )
                 };
@@ -329,13 +442,13 @@ async fn asset_handler(
                 // Handle the new data operation
                 // IMPLEMENT: For this scaffolding a dataset handler is provided, other
                 // data operation handlers should be implemented as needed.
-                match data_operation_ref.data_operation_kind {
+                match data_operation_client.kind() {
                     azure_iot_operations_connector::DataOperationKind::Dataset => {
                         // Handle the new dataset
                         tokio::task::spawn(handle_dataset(
                             data_operation_log_identifier,
                             data_operation_client,
-                            asset_ready_watcher_tx.subscribe(),
+                            asset_update_watcher_tx.subscribe(),
                             device_endpoint_ready_watcher_rx.clone(),
                         ));
                     }
@@ -347,6 +460,7 @@ async fn asset_handler(
                         tokio::task::spawn(handle_unsupported_data_operation(
                             data_operation_log_identifier,
                             data_operation_client,
+                            asset_update_watcher_tx.subscribe(),
                         ));
                     }
                 }
@@ -355,7 +469,7 @@ async fn asset_handler(
                 log::info!(
                     "{asset_log_identifier} Asset deleted notification received, ending asset handler"
                 );
-                // The asset ready state does not need to be updated here because all datasets will also get deleted
+                // The asset ready state does not need to be updated here because all data operations will also get deleted
                 break;
             }
         }
@@ -367,40 +481,46 @@ async fn asset_handler(
 /// # Arguments
 /// * `dataset_log_identifier` - A string identifier for the dataset, used for logging.
 /// * `data_operation_client` - The data operation client we use for operations related to the dataset.
-/// * `asset_ready_watcher_rx` - A watcher for the asset readiness state.
+/// * `asset_update_watcher_rx` - A watcher for asset updates and readiness state.
 /// * `device_endpoint_ready_watcher_rx` - A watcher for the device endpoint readiness state.
 async fn handle_dataset(
     dataset_log_identifier: String,
     mut data_operation_client: DataOperationClient,
-    mut asset_ready_watcher_rx: watch::Receiver<bool>,
+    mut asset_update_watcher_rx: watch::Receiver<bool>,
     mut device_endpoint_ready_watcher_rx: watch::Receiver<bool>,
 ) {
-    let mut is_asset_ready = *asset_ready_watcher_rx.borrow_and_update();
+    // Get the status reporter for the data operation
+    let data_operation_status_reporter = data_operation_client.get_status_reporter();
+
+    let mut is_asset_ready = *asset_update_watcher_rx.borrow_and_update();
     let mut is_device_endpoint_ready = *device_endpoint_ready_watcher_rx.borrow_and_update();
     // This boolean tracks if the dataset is ready to be sampled.
     let mut is_dataset_ready;
-    // This boolean tracks if the status for the dataset has been reported.
-    let mut is_dataset_reported = false;
+    // This variable keeps track of the latest reported schema.
+    let mut last_reported_schema = None;
+    // This variable keeps track of the latest reported schema reference.
+    let mut last_reported_schema_reference = None;
 
     // Extract the dataset definition from the dataset client
     let mut _local_dataset_definition = data_operation_client.definition().clone();
-    // IMPLEMENT: Verify the dataset definition is OK
+    // IMPLEMENT: Verify the dataset definition is OK. For this example, we will assume that the dataset definition is Ok
+    // This variable keeps track of the latest reported dataset status.
+    let mut last_reported_dataset_status = Ok(());
+    is_dataset_ready = last_reported_dataset_status.is_ok();
 
-    // For this example, we will assume that the dataset definition is OK, see below for how to handle a bad definition.
-    is_dataset_ready = true;
-    // // If the dataset definition is not OK, report it and await for a new one
-    // match data_operation_client.report_status(Err(e)).await {
-    //     Ok(()) => {
-    //         log::info!("{dataset_log_identifier} Dataset status reported as error");
-    //     }
-    //     Err(e) => {
-    //         log::error!("{dataset_log_identifier} Failed to report dataset status: {e}");
-    //     }
-    // }
-    // is_dataset_ready = false;
-
-    // This variable keeps track of the latest reported schema.
-    let mut current_schema = None;
+    // Report the dataset status based on validation.
+    match data_operation_status_reporter
+        .report_status_if_modified(report_status_one_way!(last_reported_dataset_status.clone()))
+        .await
+    {
+        Ok(ModifyResult::Reported) => {
+            log::info!("{dataset_log_identifier} Dataset status reported");
+        }
+        Ok(ModifyResult::NotModified) => {} // No change, do nothing
+        Err(e) => {
+            log::error!("{dataset_log_identifier} Failed to report Dataset status: {e}");
+        }
+    }
 
     // NOTE: This could be read from the dataset_configuration instead if it's desired to be configurable
     let mut timer = tokio::time::interval(DEFAULT_SAMPLING_INTERVAL);
@@ -409,6 +529,9 @@ async fn handle_dataset(
     timer.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
     loop {
         tokio::select! {
+            // When sampling at high frequency, multiple samples may occur before updates are handled.
+            // Using 'biased;' ensures updates are prioritized over sampling.
+            biased;
             // Monitor for device endpoint readiness changes
             _ = device_endpoint_ready_watcher_rx.changed() => {
                 // Update our local device endpoint readiness state
@@ -416,12 +539,29 @@ async fn handle_dataset(
 
                 log::info!("{dataset_log_identifier} Device endpoint ready state changed to {is_device_endpoint_ready}");
             },
-            // Monitor for device endpoint readiness changes
-            _ = asset_ready_watcher_rx.changed() => {
+            // Monitor for asset updates and readiness changes
+            _ = asset_update_watcher_rx.changed() => {
                 // Update our local asset readiness state
-                is_asset_ready = *asset_ready_watcher_rx.borrow_and_update();
+                is_asset_ready = *asset_update_watcher_rx.borrow_and_update();
+                log::debug!("{dataset_log_identifier} Asset update notification received. Current ready state is {is_asset_ready}");
 
-                log::info!("{dataset_log_identifier} Asset ready state changed to {is_asset_ready}");
+                // Re-report dataset status as status has been cleared
+                match data_operation_status_reporter
+                    .report_status_if_modified(report_status_one_way!(
+                        last_reported_dataset_status.clone()
+                    ))
+                    .await
+                {
+                    Ok(ModifyResult::Reported) => {
+                        log::info!("{dataset_log_identifier} Dataset status reported");
+                    }
+                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
+                    Err(e) => {
+                        log::error!(
+                            "{dataset_log_identifier} Failed to report Dataset status: {e}"
+                        );
+                    }
+                }
             },
             data_operation_notification = data_operation_client.recv_notification() => {
                 // Match the data operation notification to handle updates, deletions, or invalid updates
@@ -429,15 +569,30 @@ async fn handle_dataset(
                     DataOperationNotification::Updated => {
                         log::info!("{dataset_log_identifier} Dataset update notification received");
 
-                        // IMPLEMENT: Verify the dataset specification is OK and send an error report if needed
-                        // If the dataset specification is not OK, we will set the boolean to false
-                        is_dataset_ready = true;
-
                         // Update the local dataset definition
                         _local_dataset_definition = data_operation_client.definition().clone();
 
-                        // Reset the dataset reported flag
-                        is_dataset_reported = false;
+                        // IMPLEMENT: Verify the dataset specification is OK and send an error report if needed
+                        last_reported_dataset_status = Ok(());
+                        is_dataset_ready = last_reported_dataset_status.is_ok();
+
+                        // Report the dataset status based on validation.
+                        match data_operation_status_reporter
+                            .report_status_if_modified(report_status_one_way!(
+                                last_reported_dataset_status.clone()
+                            ))
+                            .await
+                        {
+                            Ok(ModifyResult::Reported) => {
+                                log::info!("{dataset_log_identifier} Dataset status reported");
+                            }
+                            Ok(ModifyResult::NotModified) => {} // No change, do nothing
+                            Err(e) => {
+                                log::error!(
+                                    "{dataset_log_identifier} Failed to report Dataset status: {e}"
+                                );
+                            }
+                        }
                     },
                     DataOperationNotification::Deleted => {
                         // The dataset client has been deleted, we need to end the dataset handler
@@ -458,8 +613,9 @@ async fn handle_dataset(
                 // IMPLEMENT: This should be replaced with the actual sampling logic.
                 let bytes = mock_sample();
 
-                // IMPLEMENT: If there are any configuration related errors while sampling those should be
-                // reported to ADR on the appropriate level (e.g., device endpoint, asset, dataset).
+                // IMPLEMENT: If there are any configuration related errors found while sampling those should be
+                // reported to ADR on the appropriate level (e.g., device endpoint, asset, dataset). Status reporters
+                // for higher levels can be cloned and passed down to use on this level
 
                 // Create a data structure with the sampled data
                 let data = Data {
@@ -479,34 +635,30 @@ async fn handle_dataset(
                     continue;
                 };
 
-                // If we've already reported the dataset status, we will not report it again until an update occurs.
-                if !is_dataset_reported {
-                    log::info!("{dataset_log_identifier} Reporting dataset status as OK");
-                    match data_operation_client.report_status(Ok(())).await {
-                        Ok(()) => {
-                            log::debug!("{dataset_log_identifier} Dataset status reported as OK");
-                            is_dataset_reported = true;
+                // Report the message schema if needed
+                match data_operation_client.report_message_schema_if_modified(|schema_ref| {
+                    // Report unless we've already reported this exact schema with the same reference
+                    if let (Some(schema_ref), Some(last_reported_ref), Some(last_reported_schema)) = (schema_ref, &last_reported_schema_reference, last_reported_schema.as_ref()) {
+                        if schema_ref == last_reported_ref && message_schema == *last_reported_schema {
+                            // Already reported this exact schema
+                            None
+                        } else {
+                            Some(message_schema.clone())
                         }
-                        Err(e) => {
-                            log::error!("{dataset_log_identifier} Failed to report dataset status as OK, attempting in next sampling interval: {e}");
-                        }
+                    } else {
+                        Some(message_schema.clone()) // Always report if we don't have the complete state
                     }
-                }
-
-                // If the current schema is None or different from the message schema, we will report the message schema.
-                if current_schema.is_none() || current_schema.as_ref() != Some(&message_schema) {
-                    // Note, this operation already retries internally.
-                    log::info!("{dataset_log_identifier} Reporting message schema");
-                    match data_operation_client.report_message_schema(message_schema.clone()).await {
-                        Ok(_) => {
-                            log::debug!("{dataset_log_identifier} Successfully reported message schema");
-                            current_schema = Some(message_schema);
-                        }
-                        Err(e) => {
-                            log::error!("{dataset_log_identifier} Failed to report message schema, attempting in next interval: {e}");
-                            // If we fail to report the message schema, we will not be able to forward the data
-                            continue;
-                        }
+                }).await {
+                    Ok(SchemaModifyResult::Reported(new_schema_reference)) => {
+                        log::info!("{dataset_log_identifier} Message schema reported");
+                        last_reported_schema = Some(message_schema);
+                        last_reported_schema_reference = Some(new_schema_reference);
+                    }
+                    Ok(SchemaModifyResult::NotModified) => {} // No change, do nothing
+                    Err(e) => {
+                        log::error!("{dataset_log_identifier} Failed to report message schema: {e}");
+                        // If we fail to report the message schema, we will not be able to forward the data
+                        continue;
                     }
                 }
 
@@ -550,10 +702,12 @@ fn send_if_modified_fn(desired_state: bool) -> impl FnOnce(&mut bool) -> bool {
 async fn handle_unsupported_data_operation(
     data_operation_log_identifier: String,
     mut data_operation_client: DataOperationClient,
+    mut asset_update_watcher_rx: watch::Receiver<bool>,
 ) {
-    let data_operation_kind = data_operation_client
-        .data_operation_ref()
-        .data_operation_kind;
+    // Get the status reporter for the unsupported data operation
+    let data_operation_status_reporter = data_operation_client.get_status_reporter();
+
+    let data_operation_kind = data_operation_client.kind();
     log::warn!(
         "{data_operation_log_identifier} Data Operation kind {data_operation_kind:?} not supported for this scaffolding"
     );
@@ -566,35 +720,65 @@ async fn handle_unsupported_data_operation(
     });
 
     // Report invalid definition to adr
-    match data_operation_client
-        .report_status(error_status.clone())
+    match data_operation_status_reporter
+        .report_status_if_modified(report_status_one_way!(error_status.clone()))
         .await
     {
-        Ok(()) => log::debug!("{data_operation_log_identifier} Status reported"),
-        Err(e) => log::error!("{data_operation_log_identifier} Failed to report status: {e}"),
+        Ok(ModifyResult::Reported) => {
+            log::debug!("{data_operation_log_identifier} Status reported");
+        }
+        Ok(ModifyResult::NotModified) => {} // No change, do nothing
+        Err(e) => {
+            log::error!("{data_operation_log_identifier} Failed to report status: {e}");
+        }
     }
+
     loop {
-        match data_operation_client.recv_notification().await {
-            DataOperationNotification::Updated => {
-                log::warn!(
-                    "{data_operation_log_identifier} update notification received. {data_operation_kind:?} is not supported for this scaffolding",
-                );
-                match data_operation_client
-                    .report_status(error_status.clone())
+        tokio::select! {
+            biased;
+            // Monitor for asset updates to trigger re-reporting the status
+            _ = asset_update_watcher_rx.changed() => {
+                // Re-report the data operation status as status has been cleared
+                match data_operation_status_reporter
+                    .report_status_if_modified(report_status_one_way!(error_status.clone()))
                     .await
                 {
-                    Ok(()) => log::debug!("{data_operation_log_identifier} Status reported"),
+                    Ok(ModifyResult::Reported) => {
+                        log::debug!("{data_operation_log_identifier} Status reported");
+                    }
+                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
                     Err(e) => {
                         log::error!("{data_operation_log_identifier} Failed to report status: {e}");
                     }
                 }
             }
-            DataOperationNotification::UpdatedInvalid => {
-                log::info!("{data_operation_log_identifier} Update invalid notification received");
-            }
-            DataOperationNotification::Deleted => {
-                log::info!("{data_operation_log_identifier} Deleted notification received");
-                break;
+            data_operation_notification = data_operation_client.recv_notification() => {
+                match data_operation_notification {
+                    DataOperationNotification::Updated => {
+                        log::warn!(
+                            "{data_operation_log_identifier} update notification received. {data_operation_kind:?} is not supported for this scaffolding",
+                        );
+                        match data_operation_status_reporter
+                            .report_status_if_modified(report_status_one_way!(error_status.clone()))
+                            .await
+                        {
+                            Ok(ModifyResult::Reported) => {
+                                log::debug!("{data_operation_log_identifier} Status reported");
+                            }
+                            Ok(ModifyResult::NotModified) => {} // No change, do nothing
+                            Err(e) => {
+                                log::error!("{data_operation_log_identifier} Failed to report status: {e}");
+                            }
+                        }
+                    }
+                    DataOperationNotification::UpdatedInvalid => {
+                        log::info!("{data_operation_log_identifier} Update invalid notification received");
+                    }
+                    DataOperationNotification::Deleted => {
+                        log::info!("{data_operation_log_identifier} Deleted notification received");
+                        break;
+                    }
+                }
             }
         }
     }
