@@ -3,7 +3,7 @@
 
 [package]
 name = "azure_iot_operations_services"
-version = "0.13.0-rc"
+version = "0.13.1"
 edition = "2024"
 license = "MIT"
 description = "Azure IoT Operations Services"
