@@ -1660,6 +1660,10 @@ impl AssetClient {
                         }
                     }
                 );
+                // send deletion for all data operations
+                self.dataset_hashmap.clear();
+                self.event_hashmap.clear();
+                self.stream_hashmap.clear();
                 ClientNotification::Deleted
             },
             notification = self.asset_update_observation.recv_notification() => {
@@ -1687,6 +1691,10 @@ impl AssetClient {
                     );
                     // Asset update has been fully processed, mark as seen.
                     self.asset_update_watcher_rx.mark_unchanged();
+                    // send deletion for all data operations
+                    self.dataset_hashmap.clear();
+                    self.event_hashmap.clear();
+                    self.stream_hashmap.clear();
                     ClientNotification::Deleted
                 }
             },
@@ -1713,6 +1721,10 @@ impl AssetClient {
                             }
                         }
                     );
+                    // send deletion for all data operations
+                    self.dataset_hashmap.clear();
+                    self.event_hashmap.clear();
+                    self.stream_hashmap.clear();
                     return ClientNotification::Deleted;
                 };
                 ClientNotification::Created(data_operation_client)
