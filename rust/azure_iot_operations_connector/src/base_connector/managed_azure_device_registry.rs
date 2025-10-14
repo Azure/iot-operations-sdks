@@ -2175,7 +2175,7 @@ impl DataOperationClient {
                     connector_context.clone(),
                 )
             }
-        }.inspect_err(|e| log::error!("Invalid data_operation destination for new data_operation: {data_operation_ref:?} {e:?}"))?;
+        }.inspect_err(|e| log::error!("Invalid data_operation destination for data_operation: {data_operation_ref:?} {e:?}"))?;
         Ok(Self {
             data_operation_ref,
             definition,
