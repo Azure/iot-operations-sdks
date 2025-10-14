@@ -11,27 +11,22 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::config_error::ConfigError;
-use super::message_schema_reference::MessageSchemaReference;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct AssetManagementGroupActionStatusSchemaElementSchema {
-    /// The last error that occurred while processing the action.
+pub struct ConfigStatusResponse {
+    /// The last error that occurred while processing the configuration.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub error: Option<ConfigError>,
 
-    /// The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.
-    pub name: String,
-
-    /// The request message schema reference object.
-    #[serde(rename = "requestMessageSchemaReference")]
+    /// A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.
+    #[serde(rename = "lastTransitionTime")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub request_message_schema_reference: Option<MessageSchemaReference>,
+    pub last_transition_time: Option<DateTime<Utc>>,
 
-    /// The response message schema reference object.
-    #[serde(rename = "responseMessageSchemaReference")]
+    /// A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub response_message_schema_reference: Option<MessageSchemaReference>,
+    pub version: Option<u64>,
 }

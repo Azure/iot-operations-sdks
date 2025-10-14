@@ -76,7 +76,5 @@ pub struct Device {
     pub uuid: Option<String>,
 
     /// An integer that is incremented each time the resource is modified.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub version: Option<u64>,
+    pub version: u64,
 }

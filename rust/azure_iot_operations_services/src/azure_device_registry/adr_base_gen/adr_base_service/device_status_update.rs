@@ -10,20 +10,16 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::akri_service_error::AkriServiceError;
-use super::asset_status_response::AssetStatusResponse;
+use super::config_status_update::ConfigStatusUpdate;
+use super::device_status_update_endpoint_schema::DeviceStatusUpdateEndpointSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct GetAssetStatusResponseSchema {
-    /// The asset status
-    #[serde(rename = "assetStatus")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub asset_status: Option<AssetStatusResponse>,
+pub struct DeviceStatusUpdate {
+    /// The configuration status of the device.
+    pub config: ConfigStatusUpdate,
 
-    /// Error details, if the asset status could not be retrieved.
-    #[serde(rename = "getAssetStatusError")]
+    /// Defines the device status for inbound/outbound endpoints.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub get_asset_status_error: Option<AkriServiceError>,
+    pub endpoints: Option<DeviceStatusUpdateEndpointSchema>,
 }

@@ -69,7 +69,7 @@
               ],
               "name": "deviceStatus",
               "description": "The device status, containing the specific inbound endpoint status as specified by the request.",
-              "schema": "dtmi:com:microsoft:akri:DeviceStatus;1"
+              "schema": "dtmi:com:microsoft:akri:DeviceStatusResponse;1"
             },
             {
               "@type": [
@@ -149,7 +149,7 @@
               ],
               "name": "assetStatus",
               "description": "The asset status",
-              "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
+              "schema": "dtmi:com:microsoft:akri:AssetStatusResponse;1"
             },
             {
               "@type": [
@@ -171,7 +171,7 @@
       "request": {
         "name": "deviceStatusUpdate",
         "description": "The device status to update. Fields omitted in the request will be removed. The specified inbound endpoint status will be added or updated in the inbound endpoints map.",
-        "schema": "dtmi:com:microsoft:akri:DeviceStatus;1"
+        "schema": "dtmi:com:microsoft:akri:DeviceStatusUpdate;1"
       },
       "response": {
         "name": "updateDeviceStatusResponse",
@@ -189,7 +189,7 @@
               ],
               "name": "updatedDeviceStatus",
               "description": "The updated device status containing the specific inbound endpoint status as specified by the request.",
-              "schema": "dtmi:com:microsoft:akri:DeviceStatus;1"
+              "schema": "dtmi:com:microsoft:akri:DeviceStatusResponse;1"
             },
             {
               "@type": [
@@ -230,7 +230,7 @@
               ],
               "name": "assetStatus",
               "description": "The asset status to update. Fields omitted in the request will be removed.",
-              "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
+              "schema": "dtmi:com:microsoft:akri:AssetStatusUpdate;1"
             }
           ]
         }
@@ -251,7 +251,7 @@
               ],
               "name": "updatedAssetStatus",
               "description": "The updated asset status.",
-              "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
+              "schema": "dtmi:com:microsoft:akri:AssetStatusResponse;1"
             },
             {
               "@type": [
@@ -711,7 +711,7 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:ConfigStatus;1",
+      "@id": "dtmi:com:microsoft:akri:ConfigStatusResponse;1",
       "@type": "Object",
       "fields": [
         {
@@ -728,6 +728,36 @@
         },
         {
           "@type": "Field",
+          "name": "version",
+          "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
+          "schema": "unsignedLong"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:ConfigStatusUpdate;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "error",
+          "description": "The last error that occurred while processing the configuration.",
+          "schema": "dtmi:com:microsoft:akri:ConfigError;1"
+        },
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "lastTransitionTime",
+          "description": "A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.",
+          "schema": "dateTime"
+        },
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "version",
           "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
           "schema": "unsignedLong"
@@ -1135,7 +1165,10 @@
           "schema": "string"
         },
         {
-          "@type": "Field",
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "version",
           "description": "An integer that is incremented each time the resource is modified.",
           "schema": "unsignedLong"
@@ -1143,18 +1176,18 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:DeviceStatus;1",
+      "@id": "dtmi:com:microsoft:akri:DeviceStatusResponse;1",
       "@type": "Object",
       "fields": [
         {
           "@type": "Field",
           "name": "config",
           "description": "The configuration status of the device.",
-          "schema": "dtmi:com:microsoft:akri:ConfigStatus;1"
+          "schema": "dtmi:com:microsoft:akri:ConfigStatusResponse;1"
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:DeviceStatusEndpoint;1",
+          "@id": "dtmi:com:microsoft:akri:DeviceStatusEndpointResponse;1",
           "name": "endpoints",
           "description": "Defines the device status for inbound/outbound endpoints.",
           "schema": {
@@ -1162,7 +1195,60 @@
             "fields": [
               {
                 "@type": "Field",
-                "@id": "dtmi:com:microsoft:akri:DeviceStatusInboundEndpoint;1",
+                "@id": "dtmi:com:microsoft:akri:DeviceStatusResponseInboundEndpoint;1",
+                "name": "inbound",
+                "schema": {
+                  "@type": "Map",
+                  "mapKey": {
+                    "name": "inboundEndpointName",
+                    "schema": "string"
+                  },
+                  "mapValue": {
+                    "name": "inboundEndpointStatus",
+                    "description": "Defines the device status for specific endpoint.",
+                    "schema": {
+                      "@type": "Object",
+                      "fields": [
+                        {
+                          "@type": "Field",
+                          "name": "error",
+                          "description": "The last error that occurred while processing the endpoint.",
+                          "schema": "dtmi:com:microsoft:akri:ConfigError;1"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:DeviceStatusUpdate;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "config",
+          "description": "The configuration status of the device.",
+          "schema": "dtmi:com:microsoft:akri:ConfigStatusUpdate;1"
+        },
+        {
+          "@type": "Field",
+          "@id": "dtmi:com:microsoft:akri:DeviceStatusUpdateEndpoint;1",
+          "name": "endpoints",
+          "description": "Defines the device status for inbound/outbound endpoints.",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": "Field",
+                "@id": "dtmi:com:microsoft:akri:DeviceStatusUpdateInboundEndpoint;1",
                 "name": "inbound",
                 "schema": {
                   "@type": "Map",
@@ -1729,7 +1815,10 @@
           "schema": "string"
         },
         {
-          "@type": "Field",
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "version",
           "description": "A read-only integer that is incremented each time the resource is modified the cloud.",
           "schema": "unsignedLong"
@@ -1737,18 +1826,18 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:AssetStatus;1",
+      "@id": "dtmi:com:microsoft:akri:AssetStatusResponse;1",
       "@type": "Object",
       "fields": [
         {
           "@type": "Field",
           "name": "config",
           "description": "The configuration status of the asset.",
-          "schema": "dtmi:com:microsoft:akri:ConfigStatus;1"
+          "schema": "dtmi:com:microsoft:akri:ConfigStatusResponse;1"
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetDatasetStatus;1",
+          "@id": "dtmi:com:microsoft:akri:AssetDatasetStatusResponse;1",
           "name": "datasets",
           "description": "Array of dataset statuses that describe the status of each dataset.",
           "schema": {
@@ -1758,7 +1847,7 @@
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetEventGroupStatus;1",
+          "@id": "dtmi:com:microsoft:akri:AssetEventGroupStatusResponse;1",
           "name": "eventGroups",
           "description": "Array of event group statuses that describe the status of each event group.",
           "schema": {
@@ -1768,7 +1857,7 @@
               "fields": [
                 {
                   "@type": "Field",
-                  "@id": "dtmi:com:microsoft:akri:AssetEventStatus;1",
+                  "@id": "dtmi:com:microsoft:akri:AssetEventStatusResponse;1",
                   "name": "events",
                   "description": "Array of event statuses that describe the status of each event in the event group.",
                   "schema": {
@@ -1791,7 +1880,7 @@
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetManagementGroupStatus;1",
+          "@id": "dtmi:com:microsoft:akri:AssetManagementGroupStatusResponse;1",
           "name": "managementGroups",
           "description": "Array of management group statuses that describe the status of each management group.",
           "schema": {
@@ -1801,7 +1890,7 @@
               "fields": [
                 {
                   "@type": "Field",
-                  "@id": "dtmi:com:microsoft:akri:AssetManagementGroupActionStatus;1",
+                  "@id": "dtmi:com:microsoft:akri:AssetManagementGroupActionStatusResponse;1",
                   "name": "actions",
                   "description": "Array of action statuses that describe the status of each action.",
                   "schema": {
@@ -1855,7 +1944,139 @@
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetStreamStatus;1",
+          "@id": "dtmi:com:microsoft:akri:AssetStreamStatusResponse;1",
+          "name": "streams",
+          "description": "Array of stream statuses that describe the status of each stream.",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:AssetStatusUpdate;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "config",
+          "description": "The configuration status of the asset.",
+          "schema": "dtmi:com:microsoft:akri:ConfigStatusUpdate;1"
+        },
+        {
+          "@type": "Field",
+          "@id": "dtmi:com:microsoft:akri:AssetDatasetStatusUpdate;1",
+          "name": "datasets",
+          "description": "Array of dataset statuses that describe the status of each dataset.",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
+          }
+        },
+        {
+          "@type": "Field",
+          "@id": "dtmi:com:microsoft:akri:AssetEventGroupStatusUpdate;1",
+          "name": "eventGroups",
+          "description": "Array of event group statuses that describe the status of each event group.",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": {
+              "@type": "Object",
+              "fields": [
+                {
+                  "@type": "Field",
+                  "@id": "dtmi:com:microsoft:akri:AssetEventStatusUpdate;1",
+                  "name": "events",
+                  "description": "Array of event statuses that describe the status of each event in the event group.",
+                  "schema": {
+                    "@type": "Array",
+                    "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
+                  }
+                },
+                {
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
+                  "name": "name",
+                  "description": "The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.",
+                  "schema": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Field",
+          "@id": "dtmi:com:microsoft:akri:AssetManagementGroupStatusUpdate;1",
+          "name": "managementGroups",
+          "description": "Array of management group statuses that describe the status of each management group.",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": {
+              "@type": "Object",
+              "fields": [
+                {
+                  "@type": "Field",
+                  "@id": "dtmi:com:microsoft:akri:AssetManagementGroupActionStatusUpdate;1",
+                  "name": "actions",
+                  "description": "Array of action statuses that describe the status of each action.",
+                  "schema": {
+                    "@type": "Array",
+                    "elementSchema": {
+                      "@type": "Object",
+                      "fields": [
+                        {
+                          "@type": "Field",
+                          "name": "error",
+                          "description": "The last error that occurred while processing the action.",
+                          "schema": "dtmi:com:microsoft:akri:ConfigError;1"
+                        },
+                        {
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
+                          "name": "name",
+                          "description": "The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.",
+                          "schema": "string"
+                        },
+                        {
+                          "@type": "Field",
+                          "name": "requestMessageSchemaReference",
+                          "description": "The request message schema reference object.",
+                          "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
+                        },
+                        {
+                          "@type": "Field",
+                          "name": "responseMessageSchemaReference",
+                          "description": "The response message schema reference object.",
+                          "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
+                  "name": "name",
+                  "description": "The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.",
+                  "schema": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Field",
+          "@id": "dtmi:com:microsoft:akri:AssetStreamStatusUpdate;1",
           "name": "streams",
           "description": "Array of stream statuses that describe the status of each stream.",
           "schema": {

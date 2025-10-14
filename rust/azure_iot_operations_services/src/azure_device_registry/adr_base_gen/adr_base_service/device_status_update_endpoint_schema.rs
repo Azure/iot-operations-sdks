@@ -10,15 +10,12 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::asset_dataset_event_stream_status::AssetDatasetEventStreamStatus;
+use super::device_status_update_inbound_endpoint_schema_map_value_schema::DeviceStatusUpdateInboundEndpointSchemaMapValueSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct AssetEventGroupStatusSchemaElementSchema {
-    /// Array of event statuses that describe the status of each event in the event group.
+pub struct DeviceStatusUpdateEndpointSchema {
+    /// The 'inbound' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub events: Option<Vec<AssetDatasetEventStreamStatus>>,
-
-    /// The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.
-    pub name: String,
+    pub inbound: Option<HashMap<String, DeviceStatusUpdateInboundEndpointSchemaMapValueSchema>>,
 }

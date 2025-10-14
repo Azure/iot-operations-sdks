@@ -10,18 +10,12 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::config_status::ConfigStatus;
-use super::device_status_endpoint_schema::DeviceStatusEndpointSchema;
+use super::config_error::ConfigError;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct DeviceStatus {
-    /// The configuration status of the device.
+pub struct DeviceStatusUpdateInboundEndpointSchemaMapValueSchema {
+    /// The last error that occurred while processing the endpoint.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub config: Option<ConfigStatus>,
-
-    /// Defines the device status for inbound/outbound endpoints.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub endpoints: Option<DeviceStatusEndpointSchema>,
+    pub error: Option<ConfigError>,
 }

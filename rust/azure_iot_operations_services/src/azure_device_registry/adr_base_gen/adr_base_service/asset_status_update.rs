@@ -11,16 +11,14 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::asset_dataset_event_stream_status::AssetDatasetEventStreamStatus;
-use super::asset_event_group_status_schema_element_schema::AssetEventGroupStatusSchemaElementSchema;
-use super::asset_management_group_status_schema_element_schema::AssetManagementGroupStatusSchemaElementSchema;
-use super::config_status::ConfigStatus;
+use super::asset_event_group_status_update_schema_element_schema::AssetEventGroupStatusUpdateSchemaElementSchema;
+use super::asset_management_group_status_update_schema_element_schema::AssetManagementGroupStatusUpdateSchemaElementSchema;
+use super::config_status_update::ConfigStatusUpdate;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct AssetStatus {
+pub struct AssetStatusUpdate {
     /// The configuration status of the asset.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub config: Option<ConfigStatus>,
+    pub config: ConfigStatusUpdate,
 
     /// Array of dataset statuses that describe the status of each dataset.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -31,13 +29,13 @@ pub struct AssetStatus {
     #[serde(rename = "eventGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub event_groups: Option<Vec<AssetEventGroupStatusSchemaElementSchema>>,
+    pub event_groups: Option<Vec<AssetEventGroupStatusUpdateSchemaElementSchema>>,
 
     /// Array of management group statuses that describe the status of each management group.
     #[serde(rename = "managementGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub management_groups: Option<Vec<AssetManagementGroupStatusSchemaElementSchema>>,
+    pub management_groups: Option<Vec<AssetManagementGroupStatusUpdateSchemaElementSchema>>,
 
     /// Array of stream statuses that describe the status of each stream.
     #[serde(skip_serializing_if = "Option::is_none")]

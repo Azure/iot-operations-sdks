@@ -10,20 +10,15 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::akri_service_error::AkriServiceError;
-use super::asset_status_response::AssetStatusResponse;
+use super::asset_dataset_event_stream_status::AssetDatasetEventStreamStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct GetAssetStatusResponseSchema {
-    /// The asset status
-    #[serde(rename = "assetStatus")]
+pub struct AssetEventGroupStatusResponseSchemaElementSchema {
+    /// Array of event statuses that describe the status of each event in the event group.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub asset_status: Option<AssetStatusResponse>,
+    pub events: Option<Vec<AssetDatasetEventStreamStatus>>,
 
-    /// Error details, if the asset status could not be retrieved.
-    #[serde(rename = "getAssetStatusError")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub get_asset_status_error: Option<AkriServiceError>,
+    /// The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.
+    pub name: String,
 }

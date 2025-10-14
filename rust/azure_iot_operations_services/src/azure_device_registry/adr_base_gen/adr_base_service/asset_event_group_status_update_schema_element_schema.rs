@@ -10,15 +10,15 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::asset_management_group_action_status_schema_element_schema::AssetManagementGroupActionStatusSchemaElementSchema;
+use super::asset_dataset_event_stream_status::AssetDatasetEventStreamStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct AssetManagementGroupStatusSchemaElementSchema {
-    /// Array of action statuses that describe the status of each action.
+pub struct AssetEventGroupStatusUpdateSchemaElementSchema {
+    /// Array of event statuses that describe the status of each event in the event group.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub actions: Option<Vec<AssetManagementGroupActionStatusSchemaElementSchema>>,
+    pub events: Option<Vec<AssetDatasetEventStreamStatus>>,
 
-    /// The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.
+    /// The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.
     pub name: String,
 }

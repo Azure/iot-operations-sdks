@@ -11,7 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::akri_service_error::AkriServiceError;
-use super::asset_status::AssetStatus;
+use super::asset_status_response::AssetStatusResponse;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UpdateAssetStatusResponseSchema {
@@ -25,5 +25,5 @@ pub struct UpdateAssetStatusResponseSchema {
     #[serde(rename = "updatedAssetStatus")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub updated_asset_status: Option<AssetStatus>,
+    pub updated_asset_status: Option<AssetStatusResponse>,
 }

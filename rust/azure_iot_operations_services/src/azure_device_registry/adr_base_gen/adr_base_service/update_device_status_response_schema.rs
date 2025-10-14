@@ -11,7 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::akri_service_error::AkriServiceError;
-use super::device_status::DeviceStatus;
+use super::device_status_response::DeviceStatusResponse;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UpdateDeviceStatusResponseSchema {
@@ -19,7 +19,7 @@ pub struct UpdateDeviceStatusResponseSchema {
     #[serde(rename = "updatedDeviceStatus")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub updated_device_status: Option<DeviceStatus>,
+    pub updated_device_status: Option<DeviceStatusResponse>,
 
     /// Error details, if the device status update failed.
     #[serde(rename = "updateDeviceStatusError")]
