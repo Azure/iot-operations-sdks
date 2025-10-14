@@ -2144,6 +2144,12 @@ impl DataOperationClient {
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new data_operation
+        let data_operation_ref = DataOperationRef {
+            data_operation_name: definition.name(),
+            asset_name: asset_ref.name.clone(),
+            device_name: asset_ref.device_name.clone(),
+            inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
+        };
         let forwarder = match definition {
             DataOperationDefinition::Dataset(ref dataset) => {
                 destination_endpoint::Forwarder::new_dataset_forwarder(
@@ -2169,23 +2175,18 @@ impl DataOperationClient {
                     connector_context.clone(),
                 )
             }
-        }?;
+        }.inspect_err(|e| log::error!("Invalid data_operation destination for new data_operation: {data_operation_ref:?} {e:?}"))?;
         Ok(Self {
-            data_operation_ref: DataOperationRef {
-                data_operation_name: definition.name(),
-                asset_name: asset_ref.name.clone(),
-                device_name: asset_ref.device_name.clone(),
-                inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
-            },
-            asset_ref,
+            data_operation_ref,
             definition,
             asset_status,
             asset_specification,
             device_specification,
             device_status,
             forwarder,
-            data_operation_update_watcher_rx,
             connector_context,
+            asset_ref,
+            data_operation_update_watcher_rx,
         })
     }
 
