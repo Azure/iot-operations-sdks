@@ -10,12 +10,12 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::config_error::ConfigError;
+use super::inbound_schema_map_value_schema::InboundSchemaMapValueSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct DeviceStatusResponseInboundEndpointSchemaMapValueSchema {
-    /// The last error that occurred while processing the endpoint.
+pub struct DeviceStatusInboundEndpoint {
+    /// Defines the device status for inbound endpoints.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub error: Option<ConfigError>,
+    pub inbound: Option<HashMap<String, InboundSchemaMapValueSchema>>,
 }

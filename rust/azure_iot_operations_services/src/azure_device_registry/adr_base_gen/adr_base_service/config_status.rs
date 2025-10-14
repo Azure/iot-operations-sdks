@@ -13,7 +13,7 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 use super::config_error::ConfigError;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct ConfigStatusResponse {
+pub struct ConfigStatus {
     /// The last error that occurred while processing the configuration.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
@@ -21,12 +21,8 @@ pub struct ConfigStatusResponse {
 
     /// A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.
     #[serde(rename = "lastTransitionTime")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub last_transition_time: Option<DateTime<Utc>>,
+    pub last_transition_time: DateTime<Utc>,
 
     /// A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub version: Option<u64>,
+    pub version: u64,
 }

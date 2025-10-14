@@ -511,6 +511,154 @@
   ],
   "schemas": [
     {
+      "@id": "dtmi:com:microsoft:akri:DeviceInboundEndpoint;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "additionalConfiguration",
+          "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, ONVIF).",
+          "schema": "string"
+        },
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "address",
+          "description": "The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "authentication",
+          "description": "Defines the client authentication mechanism to the server.",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [
+                  "Field",
+                  "Required"
+                ],
+                "name": "method",
+                "description": "Defines the method to authenticate the user of the client at the server.",
+                "schema": {
+                  "@type": "Enum",
+                  "valueSchema": "string",
+                  "enumValues": [
+                    {
+                      "name": "Anonymous",
+                      "enumValue": "Anonymous"
+                    },
+                    {
+                      "name": "Certificate",
+                      "enumValue": "Certificate"
+                    },
+                    {
+                      "name": "UsernamePassword",
+                      "enumValue": "UsernamePassword"
+                    }
+                  ]
+                }
+              },
+              {
+                "@type": "Field",
+                "name": "usernamePasswordCredentials",
+                "description": "The credentials for authentication mode UsernamePassword.",
+                "schema": {
+                  "@type": "Object",
+                  "fields": [
+                    {
+                      "@type": [
+                        "Field",
+                        "Required"
+                      ],
+                      "name": "usernameSecretName",
+                      "description": "The name of the secret containing the username.",
+                      "schema": "string"
+                    },
+                    {
+                      "@type": [
+                        "Field",
+                        "Required"
+                      ],
+                      "name": "passwordSecretName",
+                      "description": "The name of the secret containing the password.",
+                      "schema": "string"
+                    }
+                  ]
+                }
+              },
+              {
+                "@type": "Field",
+                "name": "x509Credentials",
+                "description": "The x509 certificate for authentication mode Certificate.",
+                "schema": {
+                  "@type": "Object",
+                  "fields": [
+                    {
+                      "@type": [
+                        "Field",
+                        "Required"
+                      ],
+                      "name": "certificateSecretName",
+                      "description": "The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).",
+                      "schema": "string"
+                    },
+                    {
+                      "@type": "Field",
+                      "name": "intermediateCertificatesSecretName",
+                      "description": "A reference to the secret containing the combined intermediate certificates in PEM format.",
+                      "schema": "string"
+                    },
+                    {
+                      "@type": "Field",
+                      "name": "keySecretName",
+                      "description": "A reference to the secret containing the certificate private key in PEM or DER format.",
+                      "schema": "string"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "@id": "dtmi:com:microsoft:akri:DeviceInboundEndpointType;1",
+          "name": "endpointType",
+          "description": "Type of connection endpoint.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "trustSettings",
+          "description": "Defines server trust settings for the endpoint.",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": "Field",
+                "name": "trustList",
+                "description": "Secret reference to certificates list to trust.",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "Field",
+          "name": "version",
+          "description": "Version associated with device endpoint.",
+          "schema": "string"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:com:microsoft:akri:AssetDeviceRef;1",
       "@type": "Object",
       "description": "A reference to the Device and Endpoint within the device (connection information) used by brokers to connect that provides data points for this asset.",
@@ -711,31 +859,7 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:ConfigStatusResponse;1",
-      "@type": "Object",
-      "fields": [
-        {
-          "@type": "Field",
-          "name": "error",
-          "description": "The last error that occurred while processing the configuration.",
-          "schema": "dtmi:com:microsoft:akri:ConfigError;1"
-        },
-        {
-          "@type": "Field",
-          "name": "lastTransitionTime",
-          "description": "A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.",
-          "schema": "dateTime"
-        },
-        {
-          "@type": "Field",
-          "name": "version",
-          "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
-          "schema": "unsignedLong"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:com:microsoft:akri:ConfigStatusUpdate;1",
+      "@id": "dtmi:com:microsoft:akri:ConfigStatus;1",
       "@type": "Object",
       "fields": [
         {
@@ -924,153 +1048,7 @@
                   },
                   "mapValue": {
                     "name": "inboundEndpoint",
-                    "schema": {
-                      "@type": "Object",
-                      "fields": [
-                        {
-                          "@type": "Field",
-                          "name": "additionalConfiguration",
-                          "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, ONVIF).",
-                          "schema": "string"
-                        },
-                        {
-                          "@type": [
-                            "Field",
-                            "Required"
-                          ],
-                          "name": "address",
-                          "description": "The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).",
-                          "schema": "string"
-                        },
-                        {
-                          "@type": "Field",
-                          "name": "authentication",
-                          "description": "Defines the client authentication mechanism to the server.",
-                          "schema": {
-                            "@type": "Object",
-                            "fields": [
-                              {
-                                "@type": [
-                                  "Field",
-                                  "Required"
-                                ],
-                                "name": "method",
-                                "description": "Defines the method to authenticate the user of the client at the server.",
-                                "schema": {
-                                  "@type": "Enum",
-                                  "valueSchema": "string",
-                                  "enumValues": [
-                                    {
-                                      "name": "Anonymous",
-                                      "enumValue": "Anonymous"
-                                    },
-                                    {
-                                      "name": "Certificate",
-                                      "enumValue": "Certificate"
-                                    },
-                                    {
-                                      "name": "UsernamePassword",
-                                      "enumValue": "UsernamePassword"
-                                    }
-                                  ]
-                                }
-                              },
-                              {
-                                "@type": "Field",
-                                "name": "usernamePasswordCredentials",
-                                "description": "The credentials for authentication mode UsernamePassword.",
-                                "schema": {
-                                  "@type": "Object",
-                                  "fields": [
-                                    {
-                                      "@type": [
-                                        "Field",
-                                        "Required"
-                                      ],
-                                      "name": "usernameSecretName",
-                                      "description": "The name of the secret containing the username.",
-                                      "schema": "string"
-                                    },
-                                    {
-                                      "@type": [
-                                        "Field",
-                                        "Required"
-                                      ],
-                                      "name": "passwordSecretName",
-                                      "description": "The name of the secret containing the password.",
-                                      "schema": "string"
-                                    }
-                                  ]
-                                }
-                              },
-                              {
-                                "@type": "Field",
-                                "name": "x509Credentials",
-                                "description": "The x509 certificate for authentication mode Certificate.",
-                                "schema": {
-                                  "@type": "Object",
-                                  "fields": [
-                                    {
-                                      "@type": [
-                                        "Field",
-                                        "Required"
-                                      ],
-                                      "name": "certificateSecretName",
-                                      "description": "The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).",
-                                      "schema": "string"
-                                    },
-                                    {
-                                      "@type": "Field",
-                                      "name": "intermediateCertificatesSecretName",
-                                      "description": "A reference to the secret containing the combined intermediate certificates in PEM format.",
-                                      "schema": "string"
-                                    },
-                                    {
-                                      "@type": "Field",
-                                      "name": "keySecretName",
-                                      "description": "A reference to the secret containing the certificate private key in PEM or DER format.",
-                                      "schema": "string"
-                                    }
-                                  ]
-                                }
-                              }
-                            ]
-                          }
-                        },
-                        {
-                          "@type": [
-                            "Field",
-                            "Required"
-                          ],
-                          "@id": "dtmi:com:microsoft:akri:DeviceInboundEndpointType;1",
-                          "name": "endpointType",
-                          "description": "Type of connection endpoint.",
-                          "schema": "string"
-                        },
-                        {
-                          "@type": "Field",
-                          "name": "trustSettings",
-                          "description": "Defines server trust settings for the endpoint.",
-                          "schema": {
-                            "@type": "Object",
-                            "fields": [
-                              {
-                                "@type": "Field",
-                                "name": "trustList",
-                                "description": "Secret reference to certificates list to trust.",
-                                "schema": "string"
-                              }
-                            ]
-                          }
-                        },
-                        {
-                          "@type": "Field",
-                          "name": "version",
-                          "description": "Version associated with device endpoint.",
-                          "schema": "string"
-                        }
-                      ]
-                    }
+                    "schema": "dtmi:com:microsoft:akri:DeviceInboundEndpoint;1"
                   }
                 }
               },
@@ -1176,6 +1154,39 @@
       ]
     },
     {
+      "@id": "dtmi:com:microsoft:akri:DeviceStatusInboundEndpoint;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "inbound",
+          "description": "Defines the device status for inbound endpoints.",
+          "schema": {
+            "@type": "Map",
+            "mapKey": {
+              "name": "inboundEndpointName",
+              "schema": "string"
+            },
+            "mapValue": {
+              "name": "inboundEndpointStatus",
+              "description": "Defines the device status for specific endpoint.",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "@type": "Field",
+                    "name": "error",
+                    "description": "The last error that occurred while processing the endpoint.",
+                    "schema": "dtmi:com:microsoft:akri:ConfigError;1"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       "@id": "dtmi:com:microsoft:akri:DeviceStatusResponse;1",
       "@type": "Object",
       "fields": [
@@ -1183,45 +1194,13 @@
           "@type": "Field",
           "name": "config",
           "description": "The configuration status of the device.",
-          "schema": "dtmi:com:microsoft:akri:ConfigStatusResponse;1"
+          "schema": "dtmi:com:microsoft:akri:ConfigStatus;1"
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:DeviceStatusEndpointResponse;1",
           "name": "endpoints",
           "description": "Defines the device status for inbound/outbound endpoints.",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": "Field",
-                "@id": "dtmi:com:microsoft:akri:DeviceStatusResponseInboundEndpoint;1",
-                "name": "inbound",
-                "schema": {
-                  "@type": "Map",
-                  "mapKey": {
-                    "name": "inboundEndpointName",
-                    "schema": "string"
-                  },
-                  "mapValue": {
-                    "name": "inboundEndpointStatus",
-                    "description": "Defines the device status for specific endpoint.",
-                    "schema": {
-                      "@type": "Object",
-                      "fields": [
-                        {
-                          "@type": "Field",
-                          "name": "error",
-                          "description": "The last error that occurred while processing the endpoint.",
-                          "schema": "dtmi:com:microsoft:akri:ConfigError;1"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            ]
-          }
+          "schema": "dtmi:com:microsoft:akri:DeviceStatusInboundEndpoint;1"
         }
       ]
     },
@@ -1236,45 +1215,13 @@
           ],
           "name": "config",
           "description": "The configuration status of the device.",
-          "schema": "dtmi:com:microsoft:akri:ConfigStatusUpdate;1"
+          "schema": "dtmi:com:microsoft:akri:ConfigStatus;1"
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:DeviceStatusUpdateEndpoint;1",
           "name": "endpoints",
           "description": "Defines the device status for inbound/outbound endpoints.",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": "Field",
-                "@id": "dtmi:com:microsoft:akri:DeviceStatusUpdateInboundEndpoint;1",
-                "name": "inbound",
-                "schema": {
-                  "@type": "Map",
-                  "mapKey": {
-                    "name": "inboundEndpointName",
-                    "schema": "string"
-                  },
-                  "mapValue": {
-                    "name": "inboundEndpointStatus",
-                    "description": "Defines the device status for specific endpoint.",
-                    "schema": {
-                      "@type": "Object",
-                      "fields": [
-                        {
-                          "@type": "Field",
-                          "name": "error",
-                          "description": "The last error that occurred while processing the endpoint.",
-                          "schema": "dtmi:com:microsoft:akri:ConfigError;1"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            ]
-          }
+          "schema": "dtmi:com:microsoft:akri:DeviceStatusInboundEndpoint;1"
         }
       ]
     },
@@ -1826,6 +1773,97 @@
       ]
     },
     {
+      "@id": "dtmi:com:microsoft:akri:AssetStatusDatasets;1",
+      "@type": "Array",
+      "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:AssetStatusEventGroup;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "events",
+          "description": "Array of event statuses that describe the status of each event in the event group.",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
+          }
+        },
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "name",
+          "description": "The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:AssetStatusManagementGroupAction;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "error",
+          "description": "The last error that occurred while processing the action.",
+          "schema": "dtmi:com:microsoft:akri:ConfigError;1"
+        },
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "name",
+          "description": "The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "requestMessageSchemaReference",
+          "description": "The request message schema reference object.",
+          "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
+        },
+        {
+          "@type": "Field",
+          "name": "responseMessageSchemaReference",
+          "description": "The response message schema reference object.",
+          "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:AssetStatusManagementGroup;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "actions",
+          "description": "Array of action statuses that describe the status of each action.",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:com:microsoft:akri:AssetStatusManagementGroupAction;1"
+          }
+        },
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "name",
+          "description": "The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:AssetStatusStreams;1",
+      "@type": "Array",
+      "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
+    },
+    {
       "@id": "dtmi:com:microsoft:akri:AssetStatusResponse;1",
       "@type": "Object",
       "fields": [
@@ -1833,124 +1871,37 @@
           "@type": "Field",
           "name": "config",
           "description": "The configuration status of the asset.",
-          "schema": "dtmi:com:microsoft:akri:ConfigStatusResponse;1"
+          "schema": "dtmi:com:microsoft:akri:ConfigStatus;1"
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetDatasetStatusResponse;1",
           "name": "datasets",
           "description": "Array of dataset statuses that describe the status of each dataset.",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
-          }
+          "schema": "dtmi:com:microsoft:akri:AssetStatusDatasets;1"
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetEventGroupStatusResponse;1",
           "name": "eventGroups",
           "description": "Array of event group statuses that describe the status of each event group.",
           "schema": {
             "@type": "Array",
-            "elementSchema": {
-              "@type": "Object",
-              "fields": [
-                {
-                  "@type": "Field",
-                  "@id": "dtmi:com:microsoft:akri:AssetEventStatusResponse;1",
-                  "name": "events",
-                  "description": "Array of event statuses that describe the status of each event in the event group.",
-                  "schema": {
-                    "@type": "Array",
-                    "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
-                  }
-                },
-                {
-                  "@type": [
-                    "Field",
-                    "Required"
-                  ],
-                  "name": "name",
-                  "description": "The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.",
-                  "schema": "string"
-                }
-              ]
-            }
+            "elementSchema": "dtmi:com:microsoft:akri:AssetStatusEventGroup;1"
           }
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetManagementGroupStatusResponse;1",
           "name": "managementGroups",
           "description": "Array of management group statuses that describe the status of each management group.",
           "schema": {
             "@type": "Array",
-            "elementSchema": {
-              "@type": "Object",
-              "fields": [
-                {
-                  "@type": "Field",
-                  "@id": "dtmi:com:microsoft:akri:AssetManagementGroupActionStatusResponse;1",
-                  "name": "actions",
-                  "description": "Array of action statuses that describe the status of each action.",
-                  "schema": {
-                    "@type": "Array",
-                    "elementSchema": {
-                      "@type": "Object",
-                      "fields": [
-                        {
-                          "@type": "Field",
-                          "name": "error",
-                          "description": "The last error that occurred while processing the action.",
-                          "schema": "dtmi:com:microsoft:akri:ConfigError;1"
-                        },
-                        {
-                          "@type": [
-                            "Field",
-                            "Required"
-                          ],
-                          "name": "name",
-                          "description": "The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.",
-                          "schema": "string"
-                        },
-                        {
-                          "@type": "Field",
-                          "name": "requestMessageSchemaReference",
-                          "description": "The request message schema reference object.",
-                          "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
-                        },
-                        {
-                          "@type": "Field",
-                          "name": "responseMessageSchemaReference",
-                          "description": "The response message schema reference object.",
-                          "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
-                        }
-                      ]
-                    }
-                  }
-                },
-                {
-                  "@type": [
-                    "Field",
-                    "Required"
-                  ],
-                  "name": "name",
-                  "description": "The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.",
-                  "schema": "string"
-                }
-              ]
-            }
+            "elementSchema": "dtmi:com:microsoft:akri:AssetStatusManagementGroup;1"
           }
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetStreamStatusResponse;1",
           "name": "streams",
           "description": "Array of stream statuses that describe the status of each stream.",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
-          }
+          "schema": "dtmi:com:microsoft:akri:AssetStatusStreams;1"
         }
       ]
     },
@@ -1965,124 +1916,37 @@
           ],
           "name": "config",
           "description": "The configuration status of the asset.",
-          "schema": "dtmi:com:microsoft:akri:ConfigStatusUpdate;1"
+          "schema": "dtmi:com:microsoft:akri:ConfigStatus;1"
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetDatasetStatusUpdate;1",
           "name": "datasets",
           "description": "Array of dataset statuses that describe the status of each dataset.",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
-          }
+          "schema": "dtmi:com:microsoft:akri:AssetStatusDatasets;1"
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetEventGroupStatusUpdate;1",
           "name": "eventGroups",
           "description": "Array of event group statuses that describe the status of each event group.",
           "schema": {
             "@type": "Array",
-            "elementSchema": {
-              "@type": "Object",
-              "fields": [
-                {
-                  "@type": "Field",
-                  "@id": "dtmi:com:microsoft:akri:AssetEventStatusUpdate;1",
-                  "name": "events",
-                  "description": "Array of event statuses that describe the status of each event in the event group.",
-                  "schema": {
-                    "@type": "Array",
-                    "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
-                  }
-                },
-                {
-                  "@type": [
-                    "Field",
-                    "Required"
-                  ],
-                  "name": "name",
-                  "description": "The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.",
-                  "schema": "string"
-                }
-              ]
-            }
+            "elementSchema": "dtmi:com:microsoft:akri:AssetStatusEventGroup;1"
           }
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetManagementGroupStatusUpdate;1",
           "name": "managementGroups",
           "description": "Array of management group statuses that describe the status of each management group.",
           "schema": {
             "@type": "Array",
-            "elementSchema": {
-              "@type": "Object",
-              "fields": [
-                {
-                  "@type": "Field",
-                  "@id": "dtmi:com:microsoft:akri:AssetManagementGroupActionStatusUpdate;1",
-                  "name": "actions",
-                  "description": "Array of action statuses that describe the status of each action.",
-                  "schema": {
-                    "@type": "Array",
-                    "elementSchema": {
-                      "@type": "Object",
-                      "fields": [
-                        {
-                          "@type": "Field",
-                          "name": "error",
-                          "description": "The last error that occurred while processing the action.",
-                          "schema": "dtmi:com:microsoft:akri:ConfigError;1"
-                        },
-                        {
-                          "@type": [
-                            "Field",
-                            "Required"
-                          ],
-                          "name": "name",
-                          "description": "The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.",
-                          "schema": "string"
-                        },
-                        {
-                          "@type": "Field",
-                          "name": "requestMessageSchemaReference",
-                          "description": "The request message schema reference object.",
-                          "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
-                        },
-                        {
-                          "@type": "Field",
-                          "name": "responseMessageSchemaReference",
-                          "description": "The response message schema reference object.",
-                          "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
-                        }
-                      ]
-                    }
-                  }
-                },
-                {
-                  "@type": [
-                    "Field",
-                    "Required"
-                  ],
-                  "name": "name",
-                  "description": "The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.",
-                  "schema": "string"
-                }
-              ]
-            }
+            "elementSchema": "dtmi:com:microsoft:akri:AssetStatusManagementGroup;1"
           }
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetStreamStatusUpdate;1",
           "name": "streams",
           "description": "Array of stream statuses that describe the status of each stream.",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
-          }
+          "schema": "dtmi:com:microsoft:akri:AssetStatusStreams;1"
         }
       ]
     },

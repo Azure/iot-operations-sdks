@@ -10,12 +10,15 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::config_error::ConfigError;
+use super::asset_status_management_group_action::AssetStatusManagementGroupAction;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct DeviceStatusUpdateInboundEndpointSchemaMapValueSchema {
-    /// The last error that occurred while processing the endpoint.
+pub struct AssetStatusManagementGroup {
+    /// Array of action statuses that describe the status of each action.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub error: Option<ConfigError>,
+    pub actions: Option<Vec<AssetStatusManagementGroupAction>>,
+
+    /// The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.
+    pub name: String,
 }

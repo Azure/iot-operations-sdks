@@ -10,37 +10,12 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::authentication_schema::AuthenticationSchema;
-use super::trust_settings_schema::TrustSettingsSchema;
+use super::config_error::ConfigError;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct InboundSchemaMapValueSchema {
-    /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, ONVIF).
-    #[serde(rename = "additionalConfiguration")]
+    /// The last error that occurred while processing the endpoint.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub additional_configuration: Option<String>,
-
-    /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
-    pub address: String,
-
-    /// Defines the client authentication mechanism to the server.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub authentication: Option<AuthenticationSchema>,
-
-    /// Type of connection endpoint.
-    #[serde(rename = "endpointType")]
-    pub endpoint_type: String,
-
-    /// Defines server trust settings for the endpoint.
-    #[serde(rename = "trustSettings")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub trust_settings: Option<TrustSettingsSchema>,
-
-    /// Version associated with device endpoint.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub version: Option<String>,
+    pub error: Option<ConfigError>,
 }
