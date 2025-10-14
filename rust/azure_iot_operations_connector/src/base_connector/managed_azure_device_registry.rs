@@ -2177,7 +2177,7 @@ impl DataOperationClient {
             }
         }
         .inspect_err(|e| {
-            log::error!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}")
+            log::error!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
         })?;
         Ok(Self {
             data_operation_ref,
