@@ -13,7 +13,7 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 use super::asset_dataset_event_stream_status::AssetDatasetEventStreamStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct AssetStatusEventGroup {
+pub struct AssetEventGroupStatus {
     /// Array of event statuses that describe the status of each event in the event group.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

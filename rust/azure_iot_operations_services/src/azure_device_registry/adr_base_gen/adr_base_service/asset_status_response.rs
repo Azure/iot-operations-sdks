@@ -11,8 +11,8 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::asset_dataset_event_stream_status::AssetDatasetEventStreamStatus;
-use super::asset_status_event_group::AssetStatusEventGroup;
-use super::asset_status_management_group::AssetStatusManagementGroup;
+use super::asset_event_group_status::AssetEventGroupStatus;
+use super::asset_management_group_status::AssetManagementGroupStatus;
 use super::config_status::ConfigStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
@@ -31,13 +31,13 @@ pub struct AssetStatusResponse {
     #[serde(rename = "eventGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub event_groups: Option<Vec<AssetStatusEventGroup>>,
+    pub event_groups: Option<Vec<AssetEventGroupStatus>>,
 
     /// Array of management group statuses that describe the status of each management group.
     #[serde(rename = "managementGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub management_groups: Option<Vec<AssetStatusManagementGroup>>,
+    pub management_groups: Option<Vec<AssetManagementGroupStatus>>,
 
     /// Array of stream statuses that describe the status of each stream.
     #[serde(skip_serializing_if = "Option::is_none")]

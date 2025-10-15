@@ -10,14 +10,14 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::asset_status_management_group_action::AssetStatusManagementGroupAction;
+use super::asset_management_group_action_status::AssetManagementGroupActionStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct AssetStatusManagementGroup {
+pub struct AssetManagementGroupStatus {
     /// Array of action statuses that describe the status of each action.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub actions: Option<Vec<AssetStatusManagementGroupAction>>,
+    pub actions: Option<Vec<AssetManagementGroupActionStatus>>,
 
     /// The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.
     pub name: String,

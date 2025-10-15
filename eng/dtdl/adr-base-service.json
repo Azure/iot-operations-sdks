@@ -1773,12 +1773,12 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:AssetStatusDatasets;1",
+      "@id": "dtmi:com:microsoft:akri:AssetDatasetStatus;1",
       "@type": "Array",
       "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
     },
     {
-      "@id": "dtmi:com:microsoft:akri:AssetStatusEventGroup;1",
+      "@id": "dtmi:com:microsoft:akri:AssetEventGroupStatus;1",
       "@type": "Object",
       "fields": [
         {
@@ -1802,7 +1802,7 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:AssetStatusManagementGroupAction;1",
+      "@id": "dtmi:com:microsoft:akri:AssetManagementGroupActionStatus;1",
       "@type": "Object",
       "fields": [
         {
@@ -1835,7 +1835,7 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:AssetStatusManagementGroup;1",
+      "@id": "dtmi:com:microsoft:akri:AssetManagementGroupStatus;1",
       "@type": "Object",
       "fields": [
         {
@@ -1844,7 +1844,7 @@
           "description": "Array of action statuses that describe the status of each action.",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:AssetStatusManagementGroupAction;1"
+            "elementSchema": "dtmi:com:microsoft:akri:AssetManagementGroupActionStatus;1"
           }
         },
         {
@@ -1859,7 +1859,7 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:AssetStatusStreams;1",
+      "@id": "dtmi:com:microsoft:akri:AssetStreamsStatus;1",
       "@type": "Array",
       "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
     },
@@ -1877,7 +1877,7 @@
           "@type": "Field",
           "name": "datasets",
           "description": "Array of dataset statuses that describe the status of each dataset.",
-          "schema": "dtmi:com:microsoft:akri:AssetStatusDatasets;1"
+          "schema": "dtmi:com:microsoft:akri:AssetDatasetStatus;1"
         },
         {
           "@type": "Field",
@@ -1885,7 +1885,7 @@
           "description": "Array of event group statuses that describe the status of each event group.",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:AssetStatusEventGroup;1"
+            "elementSchema": "dtmi:com:microsoft:akri:AssetEventGroupStatus;1"
           }
         },
         {
@@ -1894,14 +1894,14 @@
           "description": "Array of management group statuses that describe the status of each management group.",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:AssetStatusManagementGroup;1"
+            "elementSchema": "dtmi:com:microsoft:akri:AssetManagementGroupStatus;1"
           }
         },
         {
           "@type": "Field",
           "name": "streams",
           "description": "Array of stream statuses that describe the status of each stream.",
-          "schema": "dtmi:com:microsoft:akri:AssetStatusStreams;1"
+          "schema": "dtmi:com:microsoft:akri:AssetStreamsStatus;1"
         }
       ]
     },
@@ -1922,7 +1922,7 @@
           "@type": "Field",
           "name": "datasets",
           "description": "Array of dataset statuses that describe the status of each dataset.",
-          "schema": "dtmi:com:microsoft:akri:AssetStatusDatasets;1"
+          "schema": "dtmi:com:microsoft:akri:AssetDatasetStatus;1"
         },
         {
           "@type": "Field",
@@ -1930,7 +1930,7 @@
           "description": "Array of event group statuses that describe the status of each event group.",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:AssetStatusEventGroup;1"
+            "elementSchema": "dtmi:com:microsoft:akri:AssetEventGroupStatus;1"
           }
         },
         {
@@ -1939,14 +1939,14 @@
           "description": "Array of management group statuses that describe the status of each management group.",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:AssetStatusManagementGroup;1"
+            "elementSchema": "dtmi:com:microsoft:akri:AssetManagementGroupStatus;1"
           }
         },
         {
           "@type": "Field",
           "name": "streams",
           "description": "Array of stream statuses that describe the status of each stream.",
-          "schema": "dtmi:com:microsoft:akri:AssetStatusStreams;1"
+          "schema": "dtmi:com:microsoft:akri:AssetStreamsStatus;1"
         }
       ]
     },
