@@ -13,7 +13,8 @@ use derive_builder::Builder;
 use tokio::sync::Notify;
 
 use crate::azure_device_registry::models::{
-    Asset, AssetStatus, Device, DeviceRef, DeviceStatus, DiscoveredAsset, DiscoveredDevice,
+    Asset, AssetStatusResponse, AssetStatusUpdate, Device, DeviceRef, DeviceStatusResponse,
+    DeviceStatusUpdate, DiscoveredAsset, DiscoveredDevice,
 };
 use crate::azure_device_registry::{
     AssetRef, AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
@@ -573,14 +574,14 @@ where
         Ok(response.payload.device.into())
     }
 
-    /// Retrieves a [`DeviceStatus`] from the Azure Device Registry service.
+    /// Retrieves a [`DeviceStatusResponse`] from the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`DeviceStatus`] if the device was found.
+    /// Returns the [`DeviceStatusResponse`] if the device was found.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
@@ -597,7 +598,7 @@ where
         device_name: String,
         inbound_endpoint_name: String,
         timeout: Duration,
-    ) -> Result<DeviceStatus, Error> {
+    ) -> Result<DeviceStatusResponse, Error> {
         let get_device_status_request = base_client_gen::GetDeviceStatusRequestBuilder::default()
             .topic_tokens(Self::get_base_service_topic_tokens(
                 device_name,
@@ -621,10 +622,10 @@ where
     /// # Arguments
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
-    /// * `status` - A [`DeviceStatus`] containing all status information for the device.
+    /// * `status` - A [`DeviceStatusUpdate`] containing all status information for the device.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the updated [`DeviceStatus`] once updated.
+    /// Returns the updated [`DeviceStatusResponse`] once updated.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
@@ -640,9 +641,9 @@ where
         &self,
         device_name: String,
         inbound_endpoint_name: String,
-        status: DeviceStatus,
+        status: DeviceStatusUpdate,
         timeout: Duration,
-    ) -> Result<DeviceStatus, Error> {
+    ) -> Result<DeviceStatusResponse, Error> {
         let status_payload = base_client_gen::UpdateDeviceStatusRequestPayload {
             device_status_update: status.into(),
         };
@@ -942,7 +943,7 @@ where
         Ok(response.payload.asset.into())
     }
 
-    /// Retrieves an [`AssetStatus`] from the Azure Device Registry service.
+    /// Retrieves an [`AssetStatusResponse`] from the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
@@ -950,7 +951,7 @@ where
     /// * `asset_name` - The name of the asset.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns an [`AssetStatus`] if the the asset was found.
+    /// Returns an [`AssetStatusResponse`] if the the asset was found.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
@@ -971,7 +972,7 @@ where
         inbound_endpoint_name: String,
         asset_name: String,
         timeout: Duration,
-    ) -> Result<AssetStatus, Error> {
+    ) -> Result<AssetStatusResponse, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -1006,10 +1007,10 @@ where
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `status` - An [`AssetStatus`] containing the status of an asset for the update.
+    /// * `status` - An [`AssetStatusUpdate`] containing the status of an asset for the update.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the updated [`AssetStatus`] once updated.
+    /// Returns the updated [`AssetStatusResponse`] once updated.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
@@ -1029,9 +1030,9 @@ where
         device_name: String,
         inbound_endpoint_name: String,
         asset_name: String,
-        status: AssetStatus,
+        status: AssetStatusUpdate,
         timeout: Duration,
-    ) -> Result<AssetStatus, Error> {
+    ) -> Result<AssetStatusResponse, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -1329,12 +1330,15 @@ where
 
 #[cfg(test)]
 mod tests {
+    use crate::azure_device_registry::ConfigStatus;
+
     use super::*;
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
     use azure_iot_operations_mqtt::session::SessionManagedClient;
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
     use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind;
+    use chrono::Utc;
     use test_case::test_case;
 
     const DEVICE_NAME: &str = "test-device";
@@ -1558,7 +1562,7 @@ mod tests {
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 String::new(),
-                AssetStatus::default(),
+                AssetStatusUpdate { config: ConfigStatus { error: None, last_transition_time: Utc::now(), version: 0 }, datasets: None, event_groups: None, management_groups: None, streams: None },
                 DURATION,
             )
             .await;
@@ -1579,7 +1583,7 @@ mod tests {
                 device_name.to_string(),
                 endpoint_name.to_string(),
                 ASSET_NAME.to_string(),
-                AssetStatus::default(),
+                AssetStatusUpdate { config: ConfigStatus { error: None, last_transition_time: Utc::now(), version: 0 }, datasets: None, event_groups: None, management_groups: None, streams: None },
                 DURATION,
             )
             .await;
@@ -1598,7 +1602,7 @@ mod tests {
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 ASSET_NAME.to_string(),
-                AssetStatus::default(),
+                AssetStatusUpdate { config: ConfigStatus { error: None, last_transition_time: Utc::now(), version: 0 }, datasets: None, event_groups: None, management_groups: None, streams: None },
                 Duration::from_secs(0),
             )
             .await;
@@ -1862,7 +1866,7 @@ mod tests {
             .update_device_plus_endpoint_status(
                 device_name.to_string(),
                 endpoint_name.to_string(),
-                DeviceStatus::default(),
+                DeviceStatusUpdate { config: ConfigStatus { error: None, last_transition_time: Utc::now(), version: 0 }, endpoints: HashMap::new() },
                 DURATION,
             )
             .await;
@@ -1880,7 +1884,7 @@ mod tests {
             .update_device_plus_endpoint_status(
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
-                DeviceStatus::default(),
+                DeviceStatusUpdate { config: ConfigStatus { error: None, last_transition_time: Utc::now(), version: 0 }, endpoints: HashMap::new() },
                 Duration::from_secs(0),
             )
             .await;

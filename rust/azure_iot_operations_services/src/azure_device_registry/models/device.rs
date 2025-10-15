@@ -43,7 +43,7 @@ pub struct Device {
     /// A unique identifier for this resource.
     pub uuid: Option<String>,
     /// An integer that is incremented each time the resource is modified.
-    pub version: Option<u64>,
+    pub version: u64,
 }
 
 #[derive(Debug, Clone)]
@@ -270,8 +270,8 @@ impl From<OutboundEndpoint> for discovery_client_gen::DeviceOutboundEndpoint {
     }
 }
 
-impl From<base_client_gen::InboundSchemaMapValueSchema> for InboundEndpoint {
-    fn from(value: base_client_gen::InboundSchemaMapValueSchema) -> Self {
+impl From<base_client_gen::DeviceInboundEndpoint> for InboundEndpoint {
+    fn from(value: base_client_gen::DeviceInboundEndpoint) -> Self {
         InboundEndpoint {
             additional_configuration: value.additional_configuration,
             address: value.address,
@@ -354,9 +354,18 @@ impl From<base_client_gen::AuthenticationSchema> for Authentication {
 }
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint Status DTDL Equivalent Structs~~~~
+#[derive(Clone, Debug, PartialEq)]
+/// Represents the status of a Device to report in the ADR Service.
+pub struct DeviceStatusUpdate {
+    ///  The configuration status of the device.
+    pub config: ConfigStatus,
+    /// Defines the device status for inbound/outbound endpoints.
+    pub endpoints: HashMap<String, Option<ConfigError>>,
+}
+
 #[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the observed status of a Device in the ADR Service.
-pub struct DeviceStatus {
+pub struct DeviceStatusResponse {
     ///  The configuration status of the device.
     pub config: Option<ConfigStatus>,
     /// Defines the device status for inbound/outbound endpoints.
@@ -364,12 +373,12 @@ pub struct DeviceStatus {
 }
 
 // ~~ From impls ~~
-impl From<DeviceStatus> for base_client_gen::DeviceStatus {
-    fn from(value: DeviceStatus) -> Self {
+impl From<DeviceStatusUpdate> for base_client_gen::DeviceStatusUpdate {
+    fn from(value: DeviceStatusUpdate) -> Self {
         let endpoints = if value.endpoints.is_empty() {
             None
         } else {
-            Some(base_client_gen::DeviceStatusEndpointSchema {
+            Some(base_client_gen::DeviceStatusInboundEndpoint {
                 inbound: Some(
                     value
                         .endpoints
@@ -377,7 +386,7 @@ impl From<DeviceStatus> for base_client_gen::DeviceStatus {
                         .map(|(k, v)| {
                             (
                                 k,
-                                base_client_gen::DeviceStatusInboundEndpointSchemaMapValueSchema {
+                                base_client_gen::InboundSchemaMapValueSchema {
                                     error: v.map(ConfigError::into),
                                 },
                             )
@@ -386,15 +395,15 @@ impl From<DeviceStatus> for base_client_gen::DeviceStatus {
                 ),
             })
         };
-        base_client_gen::DeviceStatus {
-            config: value.config.map(ConfigStatus::into),
+        base_client_gen::DeviceStatusUpdate {
+            config: ConfigStatus::into(value.config),
             endpoints,
         }
     }
 }
 
-impl From<base_client_gen::DeviceStatus> for DeviceStatus {
-    fn from(value: base_client_gen::DeviceStatus) -> Self {
+impl From<base_client_gen::DeviceStatusResponse> for DeviceStatusResponse {
+    fn from(value: base_client_gen::DeviceStatusResponse) -> Self {
         let endpoints = match value.endpoints {
             Some(endpoint_status) => match endpoint_status.inbound {
                 Some(inbound_endpoints) => inbound_endpoints
@@ -405,7 +414,7 @@ impl From<base_client_gen::DeviceStatus> for DeviceStatus {
             },
             None => HashMap::new(),
         };
-        DeviceStatus {
+        DeviceStatusResponse {
             config: value.config.map(base_client_gen::ConfigStatus::into),
             endpoints,
         }

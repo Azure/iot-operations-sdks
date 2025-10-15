@@ -129,15 +129,15 @@ impl AssetUpdateObservation {
 }
 
 // ~~~~~~~~~~~~~~~~~~Status/ConfigError DTDL Equivalent Structs~~~~~~~~~~~~~
-#[derive(Clone, Debug, Default, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the configuration status.
 pub struct ConfigStatus {
     /// The last error that occurred while processing the configuration.
     pub error: Option<ConfigError>,
     /// A timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD.
-    pub last_transition_time: Option<DateTime<Utc>>,
+    pub last_transition_time: DateTime<Utc>,
     /// The version of the Device or Asset configuration that this Status pertains to.
-    pub version: Option<u64>,
+    pub version: u64,
 }
 
 // TODO: we cannot make a meaningful error message if everything is optional.

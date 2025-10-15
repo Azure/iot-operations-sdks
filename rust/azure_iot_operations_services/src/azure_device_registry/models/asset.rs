@@ -74,7 +74,7 @@ pub struct Asset {
     /// Globally unique, immutable, non-reusable id.
     pub uuid: Option<String>,
     /// An integer that is incremented each time the resource is modified in the cloud.
-    pub version: Option<u64>,
+    pub version: u64,
 }
 
 /// Represents a Discovered Asset in the Azure Device Registry service.
@@ -441,9 +441,24 @@ pub struct DestinationConfiguration {
 }
 
 // ~~~~~~~~~~~~~~~~~~~Asset Status DTDL Equivalent Structs~~~~~~~
+#[derive(Clone, Debug, PartialEq)]
+/// Represents the status of an asset to report.
+pub struct AssetStatusUpdate {
+    /// The configuration status of the asset.
+    pub config: ConfigStatus,
+    /// Array of dataset statuses that describe the status of each dataset.
+    pub datasets: Option<Vec<DatasetEventStreamStatus>>,
+    /// Array of event group statuses that describe the status of each event group.
+    pub event_groups: Option<Vec<EventGroupStatus>>,
+    /// Array of management group statuses that describe the status of each management group.
+    pub management_groups: Option<Vec<ManagementGroupStatus>>,
+    /// Array of stream statuses that describe the status of each stream.
+    pub streams: Option<Vec<DatasetEventStreamStatus>>,
+}
+
 #[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the observed status of an asset.
-pub struct AssetStatus {
+pub struct AssetStatusResponse {
     /// The configuration status of the asset.
     pub config: Option<ConfigStatus>,
     /// Array of dataset statuses that describe the status of each dataset.
@@ -511,10 +526,27 @@ pub struct MessageSchemaReference {
     pub registry_namespace: String,
 }
 
-impl From<AssetStatus> for base_client_gen::AssetStatus {
-    fn from(value: AssetStatus) -> Self {
-        base_client_gen::AssetStatus {
-            config: value.config.map(Into::into),
+impl TryFrom<AssetStatusResponse> for AssetStatusUpdate {
+    type Error = String;
+
+    fn try_from(value: AssetStatusResponse) -> Result<Self, Self::Error> {
+        let Some(config) = value.config else {
+            return Err("AssetStatusResponse missing config".to_string());
+        };
+        Ok(AssetStatusUpdate {
+            config,
+            datasets: value.datasets,
+            event_groups: value.event_groups,
+            streams: value.streams,
+            management_groups: value.management_groups,
+        })
+    }
+}
+
+impl From<AssetStatusUpdate> for base_client_gen::AssetStatusUpdate {
+    fn from(value: AssetStatusUpdate) -> Self {
+        base_client_gen::AssetStatusUpdate {
+            config: value.config.into(),
             datasets: value.datasets.option_vec_into(),
             event_groups: value.event_groups.option_vec_into(),
             management_groups: value.management_groups.option_vec_into(),
@@ -533,29 +565,27 @@ impl From<DatasetEventStreamStatus> for base_client_gen::AssetDatasetEventStream
     }
 }
 
-impl From<EventGroupStatus> for base_client_gen::AssetEventGroupStatusSchemaElementSchema {
+impl From<EventGroupStatus> for base_client_gen::AssetEventGroupStatus {
     fn from(value: EventGroupStatus) -> Self {
-        base_client_gen::AssetEventGroupStatusSchemaElementSchema {
+        base_client_gen::AssetEventGroupStatus {
             events: value.events.option_vec_into(),
             name: value.name,
         }
     }
 }
 
-impl From<ManagementGroupStatus>
-    for base_client_gen::AssetManagementGroupStatusSchemaElementSchema
-{
+impl From<ManagementGroupStatus> for base_client_gen::AssetManagementGroupStatus {
     fn from(value: ManagementGroupStatus) -> Self {
-        base_client_gen::AssetManagementGroupStatusSchemaElementSchema {
+        base_client_gen::AssetManagementGroupStatus {
             actions: value.actions.option_vec_into(),
             name: value.name,
         }
     }
 }
 
-impl From<ActionStatus> for base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema {
+impl From<ActionStatus> for base_client_gen::AssetManagementGroupActionStatus {
     fn from(value: ActionStatus) -> Self {
-        base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema {
+        base_client_gen::AssetManagementGroupActionStatus {
             error: value.error.map(Into::into),
             name: value.name,
             request_message_schema_reference: value
@@ -640,9 +670,9 @@ impl From<Retain> for base_client_gen::Retain {
     }
 }
 
-impl From<base_client_gen::AssetStatus> for AssetStatus {
-    fn from(value: base_client_gen::AssetStatus) -> Self {
-        AssetStatus {
+impl From<base_client_gen::AssetStatusResponse> for AssetStatusResponse {
+    fn from(value: base_client_gen::AssetStatusResponse) -> Self {
+        AssetStatusResponse {
             config: value.config.map(Into::into),
             datasets: value.datasets.option_vec_into(),
             event_groups: value.event_groups.option_vec_into(),
@@ -652,8 +682,8 @@ impl From<base_client_gen::AssetStatus> for AssetStatus {
     }
 }
 
-impl From<base_client_gen::AssetEventGroupStatusSchemaElementSchema> for EventGroupStatus {
-    fn from(value: base_client_gen::AssetEventGroupStatusSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetEventGroupStatus> for EventGroupStatus {
+    fn from(value: base_client_gen::AssetEventGroupStatus) -> Self {
         EventGroupStatus {
             events: value.events.option_vec_into(),
             name: value.name,
@@ -661,10 +691,8 @@ impl From<base_client_gen::AssetEventGroupStatusSchemaElementSchema> for EventGr
     }
 }
 
-impl From<base_client_gen::AssetManagementGroupStatusSchemaElementSchema>
-    for ManagementGroupStatus
-{
-    fn from(value: base_client_gen::AssetManagementGroupStatusSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetManagementGroupStatus> for ManagementGroupStatus {
+    fn from(value: base_client_gen::AssetManagementGroupStatus) -> Self {
         ManagementGroupStatus {
             actions: value.actions.option_vec_into(),
             name: value.name,
@@ -672,8 +700,8 @@ impl From<base_client_gen::AssetManagementGroupStatusSchemaElementSchema>
     }
 }
 
-impl From<base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema> for ActionStatus {
-    fn from(value: base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetManagementGroupActionStatus> for ActionStatus {
+    fn from(value: base_client_gen::AssetManagementGroupActionStatus) -> Self {
         ActionStatus {
             error: value.error.map(Into::into),
             name: value.name,
