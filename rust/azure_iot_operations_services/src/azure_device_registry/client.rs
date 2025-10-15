@@ -1562,7 +1562,17 @@ mod tests {
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 String::new(),
-                AssetStatusUpdate { config: ConfigStatus { error: None, last_transition_time: Utc::now(), version: 0 }, datasets: None, event_groups: None, management_groups: None, streams: None },
+                AssetStatusUpdate {
+                    config: ConfigStatus {
+                        error: None,
+                        last_transition_time: Utc::now(),
+                        version: 0,
+                    },
+                    datasets: None,
+                    event_groups: None,
+                    management_groups: None,
+                    streams: None,
+                },
                 DURATION,
             )
             .await;
@@ -1583,7 +1593,17 @@ mod tests {
                 device_name.to_string(),
                 endpoint_name.to_string(),
                 ASSET_NAME.to_string(),
-                AssetStatusUpdate { config: ConfigStatus { error: None, last_transition_time: Utc::now(), version: 0 }, datasets: None, event_groups: None, management_groups: None, streams: None },
+                AssetStatusUpdate {
+                    config: ConfigStatus {
+                        error: None,
+                        last_transition_time: Utc::now(),
+                        version: 0,
+                    },
+                    datasets: None,
+                    event_groups: None,
+                    management_groups: None,
+                    streams: None,
+                },
                 DURATION,
             )
             .await;
@@ -1602,7 +1622,17 @@ mod tests {
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 ASSET_NAME.to_string(),
-                AssetStatusUpdate { config: ConfigStatus { error: None, last_transition_time: Utc::now(), version: 0 }, datasets: None, event_groups: None, management_groups: None, streams: None },
+                AssetStatusUpdate {
+                    config: ConfigStatus {
+                        error: None,
+                        last_transition_time: Utc::now(),
+                        version: 0,
+                    },
+                    datasets: None,
+                    event_groups: None,
+                    management_groups: None,
+                    streams: None,
+                },
                 Duration::from_secs(0),
             )
             .await;
@@ -1866,7 +1896,14 @@ mod tests {
             .update_device_plus_endpoint_status(
                 device_name.to_string(),
                 endpoint_name.to_string(),
-                DeviceStatusUpdate { config: ConfigStatus { error: None, last_transition_time: Utc::now(), version: 0 }, endpoints: HashMap::new() },
+                DeviceStatusUpdate {
+                    config: ConfigStatus {
+                        error: None,
+                        last_transition_time: Utc::now(),
+                        version: 0,
+                    },
+                    endpoints: HashMap::new(),
+                },
                 DURATION,
             )
             .await;
@@ -1884,7 +1921,14 @@ mod tests {
             .update_device_plus_endpoint_status(
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
-                DeviceStatusUpdate { config: ConfigStatus { error: None, last_transition_time: Utc::now(), version: 0 }, endpoints: HashMap::new() },
+                DeviceStatusUpdate {
+                    config: ConfigStatus {
+                        error: None,
+                        last_transition_time: Utc::now(),
+                        version: 0,
+                    },
+                    endpoints: HashMap::new(),
+                },
                 Duration::from_secs(0),
             )
             .await;
