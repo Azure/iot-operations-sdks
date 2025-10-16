@@ -33,14 +33,14 @@
   "actions": {
     "doSomething": {
       "input": {
-        "title": "UserInput",
+        "title": "DoSomethingRequestPayload",
         "type": "object",
         "dtv:additionalProperties": false,
         "required": [ "input" ],
         "properties": {
           "input": {
             "type": "object",
-            "title": "UserInputProp",
+            "title": "DoSomethingRequestSchema",
             "dtv:additionalProperties": false,
             "properties": {
               "when": {
@@ -59,12 +59,13 @@
         }
       },
       "output": {
+        "title": "SomeResponseInfo",
         "type": "object",
         "description": "The result of the doSomething command.",
         "dtv:additionalProperties": false,
         "properties": {
           "overallResult": {
-            "title": "ResultValue",
+            "title": "Results",
             "type": "string",
             "enum": [
               "success",
@@ -84,7 +85,7 @@
           "details": {
             "type": "object",
             "dtv:additionalProperties": {
-              "title": "ResultValue",
+              "title": "Results",
               "type": "string",
               "enum": [
                 "success",

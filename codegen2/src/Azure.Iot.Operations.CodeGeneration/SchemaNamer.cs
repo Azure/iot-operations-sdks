@@ -32,10 +32,6 @@
 
         public string AggregateRespErrorField { get => this.schemaNameInfo?.AggregateRespErrorField ?? "_errors"; }
 
-        public string PropRespErrorField { get => this.schemaNameInfo?.PropRespErrorField ?? "_error"; }
-
-        public string ActionRespErrorField { get => this.schemaNameInfo?.ActionRespErrorField ?? "_error"; }
-
         public string GetEventSchema(string eventName) => Expand(this.schemaNameInfo?.EventSchema, $"{Cap(eventName)}Event", eventName);
 
         public string GetEventValueSchema(string eventName) => Expand(this.schemaNameInfo?.EventValueSchema, $"Event{Cap(eventName)}Value", eventName);
@@ -57,6 +53,10 @@
         public string GetActionRespSchema(string actionName) => Expand(this.schemaNameInfo?.ActionRespSchema, $"{Cap(actionName)}ResponseSchema", actionName);
 
         public string GetBackupSchemaName(string parentSchemaName, string childName) => Expand(this.schemaNameInfo?.BackupSchemaName, $"{Cap(parentSchemaName)}{Cap(childName)}", parentSchemaName, childName);
+
+        public string GetPropRespErrorField(string propName, string errorSchemaName) => Expand(this.schemaNameInfo?.PropRespErrorField, "_error", propName, errorSchemaName);
+
+        public string GetActionRespErrorField(string actionName, string errorSchemaName) => Expand(this.schemaNameInfo?.ActionRespErrorField, "_error", actionName, errorSchemaName);
 
         private static string Expand(FuncInfo? funcInfo, string defaultOut, params string[] args)
         {

@@ -28,6 +28,7 @@
       "href": "dtmi:jsonTest:TelemetryComplexSchemas;1",
       "contentType": "application/json",
       "dtv:topic": "sample/{senderId}/telemetry",
+      "dtv:serviceGroupId": "AggregTelemGroup",
       "op": "subscribeallevents"
     }
   ],
@@ -138,6 +139,7 @@
           "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__coordinates;1",
           "contentType": "application/json",
           "dtv:topic": "sample/{senderId}/telemetry/coordinates",
+          "dtv:serviceGroupId": "CoordTelemGroup",
           "op": "subscribeevent"
         }
       ]
@@ -173,6 +175,7 @@
           "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__speed;1",
           "contentType": "application/json",
           "dtv:topic": "sample/{senderId}/telemetry/speed",
+          "dtv:serviceGroupId": "SpeedTelemGroup",
           "op": "subscribeevent"
         }
       ]

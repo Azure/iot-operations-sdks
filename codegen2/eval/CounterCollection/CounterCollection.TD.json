@@ -13,8 +13,24 @@
   "security": [
     "nosec_sc"
   ],
+  "links": [
+    {
+      "rel": "service-desc",
+      "href": "../SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
   "schemaDefinitions": {
-    "CounterList": {
+    "condition": {
+      "title": "ErrorCondition",
+      "type": "string",
+      "enum": [
+        "NotFound",
+        "Overflow"
+      ]
+    },
+    "extantCounters": {
+      "title": "CounterList",
       "type": "object",
       "dtv:additionalProperties": false,
       "properties": {
@@ -26,10 +42,9 @@
         }
       }
     },
-    "CounterError": {
-      "descriptions": {
-        "en": "The requested counter operation could not be completed."
-      },
+    "locationError": {
+      "title": "CounterError",
+      "description": "The requested counter operation could not be completed.",
       "type": "object",
       "dtv:additionalProperties": false,
       "dtv:errorMessage": "explanation",
@@ -71,13 +86,10 @@
           "dtv:headerInfo": [
             {
               "contentType": "application/json",
-              "schema": "CounterList"
+              "schema": "extantCounters"
             }
           ],
-          "dtv:headerCode": [
-            "counterNotFound",
-            "counterOverflow"
-          ],
+          "dtv:headerCode": "condition",
           "dtv:topic": "test/CounterCollection/increment",
           "op": "invokeaction"
         }
@@ -90,6 +102,7 @@
         "required": [ "counterName" ],
         "properties": {
           "counterName": {
+            "description": "Name of counter whose location to determine",
             "type": "string"
           }
         }
@@ -97,9 +110,10 @@
       "output": {
         "type": "object",
         "dtv:additionalProperties": false,
-        "required": [ "counterLocation" ],
         "properties": {
           "counterLocation": {
+            "title": "CounterLocation",
+            "description": "Location of counter, null if not deployed",
             "type": "object",
             "dtv:additionalProperties": false,
             "required": [ "latitude", "longitude" ],
@@ -125,9 +139,16 @@
           "additionalResponses": [
             {
               "success": false,
-              "schema": "CounterError"
+              "schema": "locationError"
             }
           ],
+          "dtv:headerInfo": [
+            {
+              "contentType": "application/json",
+              "schema": "extantCounters"
+            }
+          ],
+          "dtv:headerCode": "condition",
           "dtv:topic": "test/CounterCollection/getLocation",
           "op": "invokeaction"
         }

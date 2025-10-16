@@ -16,9 +16,9 @@
 
         static void Main(string[] args)
         {
-            if (args.Length < 3)
+            if (args.Length < 4)
             {
-                Console.WriteLine("Usage: TypeTester <schema folder> <output folder> C#|Rust");
+                Console.WriteLine("Usage: TypeTester <schema folder> <output folder> <project name> C#|Rust");
                 return;
             }
 
@@ -31,7 +31,9 @@
 
             DirectoryInfo outputFolder = new DirectoryInfo(args[1]);
 
-            TargetLanguage targetLanguage = args[2].ToLower() switch
+            string projectName = args[2];
+
+            TargetLanguage targetLanguage = args[3].ToLower() switch
             {
                 "c#" => TargetLanguage.CSharp,
                 "rust" => TargetLanguage.Rust,
@@ -44,7 +46,7 @@
 
                 Dictionary<string, string> schemaTextsByName = schemaFolder.GetFiles(formatFilter.Value).ToDictionary(f => f.Name, f => File.ReadAllText(f.FullName));
 
-                foreach (GeneratedType genType in typeGenerator.GenerateTypes(schemaTextsByName, new CodeName("Namespace"), "GeneratedProject"))
+                foreach (GeneratedItem genType in typeGenerator.GenerateTypes(schemaTextsByName, new CodeName("Namespace"), projectName))
                 {
                     DirectoryInfo folderPath = new DirectoryInfo(Path.Combine(outputFolder.FullName, genType.FolderPath));
                     if (!folderPath.Exists)

@@ -9,8 +9,6 @@
   "aggregatePropWriteErrSchema": "PropertyCollectionWriteError",
   "aggregateReadRespValueField": "_properties",
   "aggregateRespErrorField": "_errors",
-  "propRespErrorField": "_error",
-  "actionRespErrorField": "_error",
   "eventSchema": {
     "in": [ "eventName" ],
     "out": "{eventName}Event",
@@ -48,12 +46,12 @@
   },
   "actionInSchema": {
     "in": [ "actionName" ],
-    "out": "{actionName}InputArgs",
+    "out": "{actionName}RequestPayload",
     "capitalize": true
   },
   "actionOutSchema": {
     "in": [ "actionName" ],
-    "out": "{actionName}OutputArgs",
+    "out": "{actionName}ResponsePayload",
     "capitalize": true
   },
   "actionRespSchema": {
@@ -65,5 +63,15 @@
     "in": [ "parentSchemaName", "childName" ],
     "out": "{parentSchemaName}{childName}",
     "capitalize": true
+  },
+  "propRespErrorField": {
+    "in": [ "propName", "errorSchemaName" ],
+    "out": "_error",
+    "capitalize": false
+  },
+  "actionRespErrorField": {
+    "in": [ "actionName", "errorSchemaName" ],
+    "out": "{errorSchemaName}",
+    "capitalize": false
   }
 }

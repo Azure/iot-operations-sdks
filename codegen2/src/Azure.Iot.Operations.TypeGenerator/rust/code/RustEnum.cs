@@ -1,5 +1,6 @@
 namespace Azure.Iot.Operations.TypeGenerator
 {
+    using System.IO;
     using Azure.Iot.Operations.CodeGeneration;
 
     public partial class RustEnum : ITypeTemplateTransform
@@ -13,6 +14,6 @@ namespace Azure.Iot.Operations.TypeGenerator
 
         public string FileName { get => $"{this.enumType.SchemaName.GetFileName(TargetLanguage.Rust)}.rs"; }
 
-        public string FolderPath { get => this.enumType.Namespace.GetFolderName(TargetLanguage.Rust); }
+        public string FolderPath { get => Path.Combine("src", this.enumType.Namespace.GetFolderName(TargetLanguage.Rust)); }
     }
 }

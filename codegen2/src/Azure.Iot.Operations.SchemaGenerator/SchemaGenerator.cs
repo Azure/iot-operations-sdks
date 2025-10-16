@@ -7,7 +7,7 @@
 
     public static class SchemaGenerator
     {
-        public static List<GeneratedSchema> GenerateSchemas(TDThing tdThing, SchemaNamer schemaNamer, string projectName, string genNamespace)
+        public static List<GeneratedItem> GenerateSchemas(TDThing tdThing, SchemaNamer schemaNamer, string projectName, string genNamespace)
         {
             Dictionary<string, SchemaSpec> schemaSpecs = new();
             Dictionary<string, HashSet<SerializationFormat>> referencedSchemas = new();
@@ -34,18 +34,18 @@
                 ComputeClosureOfSchemaSpec(schemaNamer, schemaSpec.Key, schemaSpec.Value, closedSchemaSpecs);
             }
 
-            List<GeneratedSchema> generatedSchemas = new();
+            List<GeneratedItem> generatedSchemas = new();
 
             foreach (KeyValuePair<string, SchemaSpec> schemaSpec in closedSchemaSpecs)
             {
                 ISchemaTemplateTransform schema = SchemaTransformFactory.GetSchemaTransform(schemaSpec.Key, schemaSpec.Value, genNamespace);
-                generatedSchemas.Add(new GeneratedSchema(schema.TransformText(), schema.FileName, schema.FolderPath));
+                generatedSchemas.Add(new GeneratedItem(schema.TransformText(), schema.FileName, schema.FolderPath));
             }
 
             if (tdThing.SchemaDefinitions?.Any(d => d.Value.Type == TDValues.TypeInteger && d.Value.Const != null) ?? false)
             {
                 ISchemaTemplateTransform schema = new ConstSchema(projectName, tdThing.SchemaDefinitions, genNamespace);
-                generatedSchemas.Add(new GeneratedSchema(schema.TransformText(), schema.FileName, schema.FolderPath));
+                generatedSchemas.Add(new GeneratedItem(schema.TransformText(), schema.FileName, schema.FolderPath));
             }
 
             return generatedSchemas;

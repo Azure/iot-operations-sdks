@@ -34,12 +34,6 @@
         [JsonPropertyName("aggregateRespErrorField")]
         public string? AggregateRespErrorField { get; set; }
 
-        [JsonPropertyName("propRespErrorField")]
-        public string? PropRespErrorField { get; set; }
-
-        [JsonPropertyName("actionRespErrorField")]
-        public string? ActionRespErrorField { get; set; }
-
         [JsonPropertyName("eventSchema")]
         public FuncInfo? EventSchema { get; set; }
 
@@ -72,5 +66,11 @@
 
         [JsonPropertyName("backupSchemaName")]
         public FuncInfo? BackupSchemaName { get; set; }
+
+        [JsonPropertyName("propRespErrorField")]
+        public FuncInfo? PropRespErrorField { get; set; }
+
+        [JsonPropertyName("actionRespErrorField")]
+        public FuncInfo? ActionRespErrorField { get; set; }
     }
 }

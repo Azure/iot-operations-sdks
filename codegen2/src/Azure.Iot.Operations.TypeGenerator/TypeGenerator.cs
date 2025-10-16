@@ -25,9 +25,9 @@
             };
         }
 
-        public List<GeneratedType> GenerateTypes(Dictionary<string, string> schemaTextsByName, CodeName genNamespace, string projectName)
+        public List<GeneratedItem> GenerateTypes(Dictionary<string, string> schemaTextsByName, CodeName genNamespace, string projectName)
         {
-            List<GeneratedType> generatedTypes = new();
+            List<GeneratedItem> generatedTypes = new();
 
             foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaTextsByName, genNamespace))
             {

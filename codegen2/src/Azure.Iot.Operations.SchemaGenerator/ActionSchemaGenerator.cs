@@ -9,13 +9,6 @@
     {
         internal static void GenerateActionSchemas(TDThing tdThing, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
-            Dictionary<string, FieldSpec> readValueFields = new();
-            Dictionary<string, FieldSpec> writeValueFields = new();
-            Dictionary<string, FieldSpec> readErrorFields = new();
-            Dictionary<string, FieldSpec> writeErrorFields = new();
-            HashSet<string> readErrorSchemaNames = new();
-            HashSet<string> writeErrorSchemaNames = new();
-
             if (tdThing.Actions != null)
             {
                 foreach (KeyValuePair<string, TDAction> propKvp in tdThing.Actions)
@@ -61,12 +54,12 @@
                     responseFields = outputObjectSpec.Fields.ToDictionary(f => f.Key, f => f.Value with { Require = false });
                 }
 
-                if (actionForm?.ErrorSchema != null)
+                if (actionForm?.ErrorRespSchema != null)
                 {
-                    responseFields[schemaNamer.ActionRespErrorField] = new FieldSpec(
+                    responseFields[schemaNamer.GetActionRespErrorField(actionName, actionForm.ErrorRespName!)] = new FieldSpec(
                         tdAction.Description ?? $"Read error for the '{actionName}' Action.",
-                        actionForm.ErrorSchema,
-                        BackupSchemaName: actionForm.ErrorSchemaName!,
+                        actionForm.ErrorRespSchema,
+                        BackupSchemaName: actionForm.ErrorRespName!,
                         Require: false);
 
                     string respSchemaName = schemaNamer.GetActionRespSchema(actionName);
@@ -77,12 +70,17 @@
                         respSchemaName);
                     schemaSpecs[respSchemaName] = propReadRespObjectSpec;
 
-                    SchemaGenerationSupport.AddSchemaReference(actionForm.ErrorSchemaName!, actionForm.ErrorSchemaFormat, referencedSchemas);
+                    SchemaGenerationSupport.AddSchemaReference(actionForm.ErrorRespName!, actionForm.ErrorRespFormat, referencedSchemas);
                 }
 
-                if (actionForm?.HeaderSchema != null)
+                if (actionForm?.HeaderInfoSchema != null)
                 {
-                    SchemaGenerationSupport.AddSchemaReference(actionForm.HeaderSchemaName!, actionForm.HeaderSchemaFormat, referencedSchemas);
+                    SchemaGenerationSupport.AddSchemaReference(actionForm.HeaderInfoName!, actionForm.HeaderInfoFormat, referencedSchemas);
+                }
+
+                if (actionForm?.HeaderCodeSchema != null)
+                {
+                    SchemaGenerationSupport.AddSchemaReference(actionForm.HeaderCodeName!, SerializationFormat.Json, referencedSchemas);
                 }
             }
         }

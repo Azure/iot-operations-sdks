@@ -7,12 +7,15 @@
     public record FormInfo(
         SerializationFormat Format,
         bool HasErrorResponse,
-        string? ErrorSchemaName,
-        TDDataSchema? ErrorSchema,
-        SerializationFormat ErrorSchemaFormat,
-        string? HeaderSchemaName,
-        TDDataSchema? HeaderSchema,
-        SerializationFormat HeaderSchemaFormat,
+        string? ErrorRespName,
+        TDDataSchema? ErrorRespSchema,
+        SerializationFormat ErrorRespFormat,
+        string? HeaderInfoName,
+        TDDataSchema? HeaderInfoSchema,
+        SerializationFormat HeaderInfoFormat,
+        string? HeaderCodeName,
+        TDDataSchema? HeaderCodeSchema,
+        string? ServiceGroupId,
         string? TopicPattern)
     {
         public static FormInfo? CreateFromForm(TDForm? form, Dictionary<string, TDDataSchema>? schemaDefinitions)
@@ -22,23 +25,37 @@
                 return null;
             }
 
-            SerializationFormat format = ContentTypeToFormat(form.ContentType);
+            SerializationFormat format = ThingSupport.ContentTypeToFormat(form.ContentType);
 
             bool hasErrorResponse = form.AdditionalResponses?.Any(r => !r.Success) ?? false;
 
             TDSchemaReference? errorSchemaRef = form.AdditionalResponses?.FirstOrDefault(r => !r.Success && r.Schema != null);
-            var (errorSchemaName, errorSchema, errorSchemaFormat) = GetSchemaAndFormat(errorSchemaRef, form, schemaDefinitions);
+            var (errorRespName, errorRespSchema, errorRespFormat) = GetSchemaAndFormat(errorSchemaRef, form, schemaDefinitions);
 
             TDSchemaReference? headerSchemaRef = form.HeaderInfo?.FirstOrDefault(r => r.Schema != null);
-            var (headerSchemaName, headerSchema, headerSchemaFormat) = GetSchemaAndFormat(headerSchemaRef, form, schemaDefinitions);
+            var (headerInfoName, headerInfoSchema, headerInfoFormat) = GetSchemaAndFormat(headerSchemaRef, form, schemaDefinitions);
 
-            return new FormInfo(format, hasErrorResponse, errorSchemaName, errorSchema, errorSchemaFormat, headerSchemaName, headerSchema, headerSchemaFormat, form.Topic);
+            TDDataSchema? headerCodeSchema = GetSchema(form.HeaderCode, schemaDefinitions);
+
+            return new FormInfo(
+                format,
+                hasErrorResponse,
+                errorRespName,
+                errorRespSchema,
+                errorRespFormat,
+                headerInfoName,
+                headerInfoSchema,
+                headerInfoFormat,
+                form.HeaderCode,
+                headerCodeSchema,
+                form.ServiceGroupId,
+                form.Topic);
         }
 
         private static (string?, TDDataSchema?, SerializationFormat) GetSchemaAndFormat(TDSchemaReference? schemaRef, TDForm? form, Dictionary<string, TDDataSchema>? schemaDefinitions)
         {
             string? schemaName = schemaRef?.Schema;
-            SerializationFormat schemaFormat = ContentTypeToFormat(schemaRef?.ContentType ?? form?.ContentType);
+            SerializationFormat schemaFormat = ThingSupport.ContentTypeToFormat(schemaRef?.ContentType ?? form?.ContentType);
 
             TDDataSchema? schema = null;
             schemaDefinitions?.TryGetValue(schemaName ?? string.Empty, out schema);
@@ -46,13 +63,9 @@
             return (schemaName, schema, schemaFormat);
         }
 
-        private static SerializationFormat ContentTypeToFormat(string? contentType)
+        private static TDDataSchema? GetSchema(string? schemaName, Dictionary<string, TDDataSchema>? schemaDefinitions)
         {
-            return contentType switch
-            {
-                TDValues.ContentTypeJson => SerializationFormat.Json,
-                _ => SerializationFormat.None,
-            };
+            return schemaDefinitions?.TryGetValue(schemaName ?? string.Empty, out TDDataSchema? schema) ?? false ? schema : null;
         }
     }
 }
