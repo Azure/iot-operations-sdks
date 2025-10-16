@@ -9,8 +9,8 @@
     {
         internal static void GeneratePropertySchemas(TDThing tdThing, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
-            FormInfo? readAllPropsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op == TDValues.OpReadAllProps), tdThing.SchemaDefinitions);
-            FormInfo? writeMultPropsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op == TDValues.OpWriteMultProps), tdThing.SchemaDefinitions);
+            FormInfo? readAllPropsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpReadAllProps) ?? false), tdThing.SchemaDefinitions);
+            FormInfo? writeMultPropsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpWriteMultProps) ?? false), tdThing.SchemaDefinitions);
 
             Dictionary<string, FieldSpec> readValueFields = new();
             Dictionary<string, FieldSpec> writeValueFields = new();
@@ -31,12 +31,23 @@
                         tdThing.SchemaDefinitions,
                         schemaSpecs,
                         readValueFields,
-                        writeValueFields,
                         readErrorFields,
-                        writeErrorFields,
                         referencedSchemas,
                         readErrorSchemaNames,
-                        writeErrorSchemaNames);
+                        isRead: true);
+
+                    ProcessProperty(
+                        schemaNamer,
+                        propKvp.Key,
+                        propKvp.Value,
+                        projectName,
+                        tdThing.SchemaDefinitions,
+                        schemaSpecs,
+                        writeValueFields,
+                        writeErrorFields,
+                        referencedSchemas,
+                        writeErrorSchemaNames,
+                        isRead: false);
                 }
             }
 
@@ -79,105 +90,73 @@
             string projectName,
             Dictionary<string, TDDataSchema>? schemaDefinitions,
             Dictionary<string, SchemaSpec> schemaSpecs,
-            Dictionary<string, FieldSpec> readValueFields,
-            Dictionary<string, FieldSpec> writeValueFields,
-            Dictionary<string, FieldSpec> readErrorFields,
-            Dictionary<string, FieldSpec> writeErrorFields,
+            Dictionary<string, FieldSpec> valueFields,
+            Dictionary<string, FieldSpec> errorFields,
             Dictionary<string, HashSet<SerializationFormat>> referencedSchemas,
-            HashSet<string> readErrorSchemaNames,
-            HashSet<string> writeErrorSchemaNames)
+            HashSet<string> errorSchemaNames,
+            bool isRead)
         {
-            FormInfo? readPropForm = FormInfo.CreateFromForm(tdProperty.Forms?.FirstOrDefault(f => f.Op == TDValues.OpReadProp), schemaDefinitions);
-            FormInfo? writePropForm = FormInfo.CreateFromForm(tdProperty.Forms?.FirstOrDefault(f => f.Op == TDValues.OpWriteProp), schemaDefinitions);
+            if (tdProperty.ReadOnly && !isRead)
+            {
+                return;
+            }
+
+            string operation = isRead ? TDValues.OpReadProp : TDValues.OpWriteProp;
+            FormInfo? propForm = FormInfo.CreateFromForm(tdProperty.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(operation) ?? false), schemaDefinitions);
+            propForm ??= FormInfo.CreateFromForm(tdProperty.Forms?.FirstOrDefault(f => f.Op == null), schemaDefinitions);
 
             FieldSpec propFieldSpec = new(
-                tdProperty.Description ?? $"The '{propName}' Property value.",
+                tdProperty.Description ?? (isRead ? $"The '{propName}' Property value." : $"Value for the '{propName}' Property."),
                 tdProperty as TDDataSchema,
                 BackupSchemaName: schemaNamer.GetPropValueSchema(propName),
-                Require: true,
+                Require: isRead,
                 Fragment: tdProperty.Placeholder);
-            readValueFields[propName] = propFieldSpec;
+            valueFields[propName] = propFieldSpec;
 
-            if (readPropForm?.TopicPattern != null)
+            if (propForm?.TopicPattern != null && (isRead || tdProperty.Placeholder))
             {
-                string propSchemaName = schemaNamer.GetPropSchema(propName);
+                string propSchemaName = isRead ? schemaNamer.GetPropSchema(propName) : schemaNamer.GetWritablePropSchema(propName);
                 ObjectSpec propObjectSpec = new(
-                    tdProperty.Description ?? $"Container for the '{propName}' Property.",
+                    tdProperty.Description ?? $"Container for{(isRead ? "" : "writing to")} the '{propName}' Property.",
                     new Dictionary<string, FieldSpec> { { propName, propFieldSpec } },
-                    readPropForm.Format,
+                    propForm.Format,
                     propSchemaName);
                 schemaSpecs[propSchemaName] = propObjectSpec;
             }
 
-            if (readPropForm?.ErrorSchema != null)
+            if (propForm?.ErrorRespSchema != null)
             {
-                FieldSpec propReadRespFieldSpec = new(
-                    tdProperty.Description ?? $"Read error for the '{propName}' Property.",
-                    readPropForm.ErrorSchema,
-                    BackupSchemaName: readPropForm.ErrorSchemaName!,
+                FieldSpec respFieldSpec = new(
+                    tdProperty.Description ?? $"{(isRead ? "Read" : "Write")} error for the '{propName}' Property.",
+                    propForm.ErrorRespSchema,
+                    BackupSchemaName: propForm.ErrorRespName!,
                     Require: false);
-                readErrorFields[propName] = propReadRespFieldSpec;
+                errorFields[propName] = respFieldSpec;
 
-                readErrorSchemaNames.Add(readPropForm.ErrorSchemaName!);
+                errorSchemaNames.Add(propForm.ErrorRespName!);
 
-                if (readPropForm?.TopicPattern != null)
+                if (propForm?.TopicPattern != null)
                 {
-                    string propReadRespSchemaName = schemaNamer.GetPropReadRespSchema(propName);
-                    ObjectSpec propReadRespObjectSpec = new(
-                        tdProperty.Description ?? $"Response to a '{propName}' Property read.",
-                        new Dictionary<string, FieldSpec> { { propName, propFieldSpec with { Require = false } }, { schemaNamer.PropRespErrorField, propReadRespFieldSpec } },
-                        readPropForm.Format,
-                        propReadRespSchemaName);
-                    schemaSpecs[propReadRespSchemaName] = propReadRespObjectSpec;
-
-                    SchemaGenerationSupport.AddSchemaReference(readPropForm.ErrorSchemaName!, readPropForm.ErrorSchemaFormat, referencedSchemas);
-                }
-            }
-
-            if (!tdProperty.ReadOnly)
-            {
-                FieldSpec writablePropFieldSpec = new(
-                    tdProperty.Description ?? $"Value for the '{propName}' Property.",
-                    tdProperty as TDDataSchema,
-                    BackupSchemaName: schemaNamer.GetPropValueSchema(propName),
-                    Require: false,
-                    Fragment: tdProperty.Placeholder);
-                writeValueFields[propName] = writablePropFieldSpec;
-
-                if (tdProperty.Placeholder && writePropForm?.TopicPattern != null)
-                {
-                    string writablePropSchemaName = schemaNamer.GetWritablePropSchema(propName);
-                    ObjectSpec writablePropObjectSpec = new(
-                        tdProperty.Description ?? $"Container for writing to the '{propName}' Property.",
-                        new Dictionary<string, FieldSpec> { { propName, writablePropFieldSpec } },
-                        writePropForm.Format,
-                        writablePropSchemaName);
-                    schemaSpecs[writablePropSchemaName] = writablePropObjectSpec;
-                }
-
-                if (writePropForm?.ErrorSchema != null)
-                {
-                    FieldSpec propWriteRespFieldSpec = new(
-                        tdProperty.Description ?? $"Write error for the '{propName}' Property.",
-                        writePropForm.ErrorSchema,
-                        BackupSchemaName: writePropForm.ErrorSchemaName!,
-                        Require: false);
-                    writeErrorFields[propName] = propWriteRespFieldSpec;
-
-                    writeErrorSchemaNames.Add(writePropForm.ErrorSchemaName!);
-
-                    if (writePropForm?.TopicPattern != null)
+                    Dictionary<string, FieldSpec> responseFields = new();
+                    if (isRead)
                     {
-                        string propWriteRespSchemaName = schemaNamer.GetPropWriteRespSchema(propName);
-                        ObjectSpec propWriteRespObjectSpec = new(
-                            tdProperty.Description ?? $"Response to a '{propName}' Property write.",
-                            new Dictionary<string, FieldSpec> { { schemaNamer.PropRespErrorField, propWriteRespFieldSpec } },
-                            writePropForm.Format,
-                            propWriteRespSchemaName);
-                        schemaSpecs[propWriteRespSchemaName] = propWriteRespObjectSpec;
-
-                        SchemaGenerationSupport.AddSchemaReference(writePropForm.ErrorSchemaName!, writePropForm.ErrorSchemaFormat, referencedSchemas);
+                        responseFields[propName] = propFieldSpec with { ForceOption = true };
+                        responseFields[schemaNamer.GetPropReadRespErrorField(propName, propForm.ErrorRespName!)] = respFieldSpec;
                     }
+                    else
+                    {
+                        responseFields[schemaNamer.GetPropWriteRespErrorField(propName, propForm.ErrorRespName!)] = respFieldSpec;
+                    }
+
+                    string respSchemaName = isRead ? schemaNamer.GetPropReadRespSchema(propName) : schemaNamer.GetPropWriteRespSchema(propName);
+                    ObjectSpec respObjectSpec = new(
+                        tdProperty.Description ?? $"Response to a '{propName}' Property {(isRead ? "read" : "write")}.",
+                        responseFields,
+                        propForm.Format,
+                        respSchemaName);
+                    schemaSpecs[respSchemaName] = respObjectSpec;
+
+                    SchemaGenerationSupport.AddSchemaReference(propForm.ErrorRespName!, propForm.ErrorRespFormat, referencedSchemas);
                 }
             }
         }
@@ -209,7 +188,7 @@
                         propsSchema);
                 }
 
-                if (topLevelPropsForm.HasErrorResponse && errorFields.Any())
+                if (topLevelPropsForm.HasErrorResponse)
                 {
                     schemaSpecs[errorSchema] = new ObjectSpec(
                         $"Errors from any Property {operation}.",

@@ -17,20 +17,20 @@ namespace Azure.Iot.Operations.SchemaGenerator
             return $"\"type\": \"object\", \"additionalProperties\": {{ {addProps} }}";
         }
 
-        internal static string GetTypeAndAddenda(TDDataSchema tdSchema, string? backupSchemaName)
+        internal static string GetTypeAndAddenda(SchemaNamer schemaNamer, TDDataSchema tdSchema, string backupSchemaName)
         {
             if ((tdSchema.Type == TDValues.TypeObject && tdSchema.AdditionalProperties?.Boolean == false) ||
                 (tdSchema.Type == TDValues.TypeString && tdSchema.Enum != null))
             {
-                return $"\"$ref\": \"{tdSchema.Title ?? backupSchemaName}.schema.json\"";
+                return $"\"$ref\": \"{schemaNamer.ApplyBackupSchemaName(tdSchema.Title, backupSchemaName)}.schema.json\"";
             }
 
             switch (tdSchema.Type ?? string.Empty)
             {
                 case TDValues.TypeObject:
-                    return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(tdSchema.AdditionalProperties!.DataSchema!, backupSchemaName)} }}";
+                    return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(schemaNamer, tdSchema.AdditionalProperties!.DataSchema!, backupSchemaName)} }}";
                 case TDValues.TypeArray:
-                    string itemsProp = tdSchema.Items != null ? $", \"items\": {{ {GetTypeAndAddenda(tdSchema.Items, backupSchemaName)} }}" : string.Empty;
+                    string itemsProp = tdSchema.Items != null ? $", \"items\": {{ {GetTypeAndAddenda(schemaNamer, tdSchema.Items, backupSchemaName)} }}" : string.Empty;
                     return $"\"type\": \"array\"{itemsProp}";
                 case TDValues.TypeString:
                     string formatProp = TDValues.FormatValues.Contains(tdSchema.Format ?? string.Empty) ? $", \"format\": \"{tdSchema.Format}\"" :
@@ -43,8 +43,8 @@ namespace Azure.Iot.Operations.SchemaGenerator
                     string numberFormat = tdSchema.Minimum >= -3.40e+38 && tdSchema.Maximum <= 3.40e+38 ? "float" : "double";
                     return $"\"type\": \"number\", \"format\": \"{numberFormat}\"";
                 case TDValues.TypeInteger:
-                    string minProp = tdSchema.Minimum != null ? $", \"minimum\": {(int)tdSchema.Minimum}" : string.Empty;
-                    string maxProp = tdSchema.Maximum != null ? $", \"maximum\": {(int)tdSchema.Maximum}" : string.Empty;
+                    string minProp = tdSchema.Minimum != null ? $", \"minimum\": {(long)tdSchema.Minimum}" : string.Empty;
+                    string maxProp = tdSchema.Maximum != null ? $", \"maximum\": {(long)tdSchema.Maximum}" : string.Empty;
                     return $"\"type\": \"integer\"{minProp}{maxProp}";
                 case TDValues.TypeBoolean:
                     return @"""type"": ""boolean""";

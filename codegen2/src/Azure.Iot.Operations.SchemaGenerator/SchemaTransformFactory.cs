@@ -5,21 +5,21 @@ namespace Azure.Iot.Operations.SchemaGenerator
 
     internal static class SchemaTransformFactory
     {
-        internal static ISchemaTemplateTransform GetSchemaTransform(string schemaName, SchemaSpec schemaSpec, string genNamespace)
+        internal static ISchemaTemplateTransform GetSchemaTransform(SchemaNamer schemaNamer, string schemaName, SchemaSpec schemaSpec, string genNamespace)
         {
             return schemaSpec switch
             {
-                ObjectSpec objectSpec => GetObjectSchemaTransform(schemaName, objectSpec, genNamespace),
+                ObjectSpec objectSpec => GetObjectSchemaTransform(schemaNamer, schemaName, objectSpec, genNamespace),
                 EnumSpec enumSpec => GetEnumSchemaTransform(schemaName, enumSpec, genNamespace),
                 _ => throw new NotSupportedException($"Unable to transform schema spec of type {schemaSpec.GetType()}."),
             };
         }
 
-        internal static ISchemaTemplateTransform GetObjectSchemaTransform(string schemaName, ObjectSpec objectSpec, string genNamespace)
+        internal static ISchemaTemplateTransform GetObjectSchemaTransform(SchemaNamer schemaNamer, string schemaName, ObjectSpec objectSpec, string genNamespace)
         {
             return objectSpec.Format switch
             {
-                SerializationFormat.Json => new ObjectJsonSchema(schemaName, objectSpec, genNamespace),
+                SerializationFormat.Json => new ObjectJsonSchema(schemaNamer, schemaName, objectSpec, genNamespace),
                 _ => throw new NotSupportedException($"Serialization format {objectSpec.Format} is not supported."),
             };
         }

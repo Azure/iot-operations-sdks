@@ -17,7 +17,7 @@
         public TDSchemaReference[]? HeaderInfo { get; set; }
 
         [JsonPropertyName("dtv:headerCode")]
-        public string[]? HeaderCode { get; set; }
+        public string? HeaderCode { get; set; }
 
         [JsonPropertyName("dtv:serviceGroupId")]
         public string? ServiceGroupId { get; set; }
@@ -26,6 +26,6 @@
         public string? Topic { get; set; }
 
         [JsonPropertyName("op")]
-        public string? Op { get; set; }
+        public TDStringArray? Op { get; set; }
     }
 }

@@ -5,6 +5,6 @@
 
     internal interface ITypeGenerator
     {
-        GeneratedType GenerateTypeFromSchema(SchemaType schemaType, string projectName, SerializationFormat serFormat);
+        GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, SerializationFormat serFormat, string srcSubdir);
     }
 }

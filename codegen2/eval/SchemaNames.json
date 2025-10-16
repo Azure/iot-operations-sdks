@@ -1,4 +1,7 @@
 {
+  "suppressTitles": false,
+  "constantsSchema": "Constants",
+  "aggregateEventName": "Events",
   "aggregateEventSchema": "EventCollection",
   "aggregatePropName": "Properties",
   "aggregatePropSchema": "PropertyCollection",
@@ -7,23 +10,35 @@
   "aggregatePropWriteRespSchema": "PropertyCollectionWriteRespSchema",
   "aggregatePropReadErrSchema": "PropertyCollectionReadError",
   "aggregatePropWriteErrSchema": "PropertyCollectionWriteError",
+  "readRequesterBinder": "ReadRequester",
+  "readResponderBinder": "ReadResponder",
+  "writeRequesterBinder": "WriteRequester",
+  "writeResponderBinder": "WriteResponder",
   "aggregateReadRespValueField": "_properties",
   "aggregateRespErrorField": "_errors",
-  "propRespErrorField": "_error",
-  "actionRespErrorField": "_error",
   "eventSchema": {
     "in": [ "eventName" ],
     "out": "{eventName}Event",
     "capitalize": true
   },
+  "eventValueSchema": {
+    "in": [ "eventSchema" ],
+    "out": "Event{eventSchema}Value",
+    "capitalize": true
+  },
+  "eventSenderBinder": {
+    "in": [ "eventSchema" ],
+    "out": "{eventSchema}Sender",
+    "capitalize": true
+  },
+  "eventReceiverBinder": {
+    "in": [ "eventSchema" ],
+    "out": "{eventSchema}Receiver",
+    "capitalize": true
+  },
   "propSchema": {
     "in": [ "propName" ],
     "out": "{propName}Property",
-    "capitalize": true
-  },
-  "eventValueSchema": {
-    "in": [ "eventName" ],
-    "out": "Event{eventName}Value",
     "capitalize": true
   },
   "writablePropSchema": {
@@ -46,20 +61,65 @@
     "out": "Property{propName}Value",
     "capitalize": true
   },
+  "propReadActName": {
+    "in": [ "propName" ],
+    "out": "Read{propName}",
+    "capitalize": true
+  },
+  "propWriteActName": {
+    "in": [ "propName" ],
+    "out": "Write{propName}",
+    "capitalize": true
+  },
+  "propMaintainerBinder": {
+    "in": [ "propSchema" ],
+    "out": "{propSchema}Maintainer",
+    "capitalize": true
+  },
+  "propConsumerBinder": {
+    "in": [ "propSchema" ],
+    "out": "{propSchema}Consumer",
+    "capitalize": true
+  },
   "actionInSchema": {
     "in": [ "actionName" ],
-    "out": "{actionName}InputArgs",
+    "out": "{actionName}InputArguments",
     "capitalize": true
   },
   "actionOutSchema": {
     "in": [ "actionName" ],
-    "out": "{actionName}OutputArgs",
+    "out": "{actionName}OutputArguments",
     "capitalize": true
   },
   "actionRespSchema": {
     "in": [ "actionName" ],
     "out": "{actionName}ResponseSchema",
     "capitalize": true
+  },
+  "actionExecutorBinder": {
+    "in": [ "actionName" ],
+    "out": "{actionName}ActionExecutor",
+    "capitalize": true
+  },
+  "actionInvokerBinder": {
+    "in": [ "actionName" ],
+    "out": "{actionName}ActionInvoker",
+    "capitalize": true
+  },
+  "propReadRespErrorField": {
+    "in": [ "propName", "errorSchemaName" ],
+    "out": "_error",
+    "capitalize": false
+  },
+  "propWriteRespErrorField": {
+    "in": [ "propName", "errorSchemaName" ],
+    "out": "_error",
+    "capitalize": false
+  },
+  "actionRespErrorField": {
+    "in": [ "actionName", "errorSchemaName" ],
+    "out": "_error",
+    "capitalize": false
   },
   "backupSchemaName": {
     "in": [ "parentSchemaName", "childName" ],

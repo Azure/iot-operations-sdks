@@ -1,0 +1,112 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "id": "dtmi:jsonTest:CommandComplexSchemas;1",
+  "title": "CommandComplexSchemas",
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": [
+    "nosec_sc"
+  ],
+  "links": [
+    {
+      "rel": "service-desc",
+      "href": "./CommandComplexSchemas.SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
+  "schemaDefinitions": {
+    "WhenNow": {
+      "description": "Indicates that the action should be performed immediately.",
+      "type": "integer",
+      "const": 1
+    },
+    "WhenLater": {
+      "description": "Indicates that the action should be performed after a deferral.",
+      "type": "integer",
+      "const": 2
+    },
+    "Hello": {
+      "type": "string",
+      "const": "Hello, World!"
+    }
+  },
+  "actions": {
+    "doSomething": {
+      "input": {
+        "title": "DoSomethingRequestPayload",
+        "type": "object",
+        "dtv:additionalProperties": false,
+        "required": [ "input" ],
+        "properties": {
+          "input": {
+            "type": "object",
+            "title": "DoSomethingRequestSchema",
+            "dtv:additionalProperties": false,
+            "properties": {
+              "actions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "when": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          }
+        }
+      },
+      "output": {
+        "title": "SomeResponseInfo",
+        "type": "object",
+        "description": "The result of the doSomething command.",
+        "dtv:additionalProperties": false,
+        "properties": {
+          "details": {
+            "type": "object",
+            "dtv:additionalProperties": {
+              "title": "Results",
+              "type": "string",
+              "enum": [
+                "success",
+                "failure"
+              ]
+            }
+          },
+          "magnitude": {
+            "type": "string",
+            "pattern": "^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$"
+          },
+          "overallResult": {
+            "title": "Results",
+            "type": "string",
+            "enum": [
+              "success",
+              "failure"
+            ]
+          }
+        }
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:CommandComplexSchemas:_contents:__doSomething;1",
+          "contentType": "application/json",
+          "dtv:topic": "samples/command/doSomething",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

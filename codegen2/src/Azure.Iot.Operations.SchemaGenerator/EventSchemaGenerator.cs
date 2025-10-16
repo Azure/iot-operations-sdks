@@ -9,7 +9,7 @@
     {
         internal static void GenerateEventSchemas(TDThing tdThing, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
-            FormInfo? subAllEventsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op == TDValues.OpSubAllEvents), tdThing.SchemaDefinitions);
+            FormInfo? subAllEventsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpSubAllEvents) ?? false), tdThing.SchemaDefinitions);
 
             Dictionary<string, FieldSpec> valueFields = new();
 
@@ -44,7 +44,8 @@
             Dictionary<string, SchemaSpec> schemaSpecs,
             Dictionary<string, FieldSpec> valueFields)
         {
-            FormInfo? subEventForm = FormInfo.CreateFromForm(tdEvent.Forms?.FirstOrDefault(f => f.Op == TDValues.OpSubEvent), schemaDefinitions);
+            FormInfo? subEventForm = FormInfo.CreateFromForm(tdEvent.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpSubEvent) ?? false), schemaDefinitions);
+            subEventForm ??= FormInfo.CreateFromForm(tdEvent.Forms?.FirstOrDefault(f => f.Op == null), schemaDefinitions);
 
             FieldSpec dataFieldSpec = new(
                 tdEvent.Description ?? $"The '{eventName}' Event data value.",

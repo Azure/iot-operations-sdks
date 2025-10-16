@@ -1,0 +1,14 @@
+{
+  "aggregateEventName": "EventsOne",
+  "aggregateEventSchema": "EventCollectionOne",
+  "eventSchema": {
+    "in": [ "eventName" ],
+    "out": "{eventName}EventOne",
+    "capitalize": true
+  },
+  "eventValueSchema": {
+    "in": [ "eventSchema" ],
+    "out": "EventOne{eventSchema}Value",
+    "capitalize": true
+  }
+}

@@ -1,7 +1,9 @@
 ﻿namespace TDParse
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
@@ -23,9 +25,10 @@
             }
 
             string tdJson = File.ReadAllText(file.FullName);
-            TDThing? thing = TDParser.Parse(tdJson);
-            if (thing != null)
+            List<TDThing>? things = TDParser.ParseMultiple(tdJson);
+            if (things != null)
             {
+                TDThing? thing = things.First();
                 if (thing.Context != null)
                 {
                     foreach (var context in thing.Context)

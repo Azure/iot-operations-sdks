@@ -1,16 +1,23 @@
 ﻿namespace Azure.Iot.Operations.CodeGeneration
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Text.Json;
     using System.Linq;
 
     public class SchemaNamer
     {
         private SchemaNameInfo? schemaNameInfo;
+        private bool suppressTitles;
 
         public SchemaNamer(string? schemaNameInfoText)
         {
             this.schemaNameInfo = schemaNameInfoText != null ? JsonSerializer.Deserialize<SchemaNameInfo>(schemaNameInfoText) : null;
+            this.suppressTitles = this.schemaNameInfo?.SuppressTitles ?? false;
         }
+
+        public string ConstantsSchema { get => this.schemaNameInfo?.ConstantsSchema ?? "Constants"; }
+
+        public string AggregateEventName { get => this.schemaNameInfo?.AggregateEventName ?? "Events"; }
 
         public string AggregateEventSchema { get => this.schemaNameInfo?.AggregateEventSchema ?? "EventCollection"; }
 
@@ -28,38 +35,74 @@
 
         public string AggregatePropWriteErrSchema { get => this.schemaNameInfo?.AggregatePropWriteErrSchema ?? "PropertyCollectionWriteError"; }
 
+        public string ReadRequesterBinder { get => this.schemaNameInfo?.ReadRequesterBinder ?? "ReadRequester"; }
+
+        public string ReadResponderBinder { get => this.schemaNameInfo?.ReadResponderBinder ?? "ReadResponder"; }
+
+        public string WriteRequesterBinder { get => this.schemaNameInfo?.WriteRequesterBinder ?? "WriteRequester"; }
+
+        public string WriteResponderBinder { get => this.schemaNameInfo?.WriteResponderBinder ?? "WriteResponder"; }
+
         public string AggregateReadRespValueField { get => this.schemaNameInfo?.AggregateReadRespValueField ?? "_properties"; }
 
         public string AggregateRespErrorField { get => this.schemaNameInfo?.AggregateRespErrorField ?? "_errors"; }
 
-        public string PropRespErrorField { get => this.schemaNameInfo?.PropRespErrorField ?? "_error"; }
+        public string GetEventSchema(string eventName) => Expand(null, this.schemaNameInfo?.EventSchema, $"{Cap(eventName)}Event", eventName);
 
-        public string ActionRespErrorField { get => this.schemaNameInfo?.ActionRespErrorField ?? "_error"; }
+        public string GetEventValueSchema(string eventSchema) => Expand(null, this.schemaNameInfo?.EventValueSchema, $"{Cap(eventSchema)}Value", eventSchema);
 
-        public string GetEventSchema(string eventName) => Expand(this.schemaNameInfo?.EventSchema, $"{Cap(eventName)}Event", eventName);
+        public string GetEventSenderBinder(string eventSchema) => Expand(null, this.schemaNameInfo?.EventSenderBinder, $"{Cap(eventSchema)}Sender", eventSchema);
 
-        public string GetEventValueSchema(string eventName) => Expand(this.schemaNameInfo?.EventValueSchema, $"Event{Cap(eventName)}Value", eventName);
+        public string GetEventReceiverBinder(string eventSchema) => Expand(null, this.schemaNameInfo?.EventReceiverBinder, $"{Cap(eventSchema)}Receiver", eventSchema);
 
-        public string GetPropSchema(string propName) => Expand(this.schemaNameInfo?.PropSchema, $"{Cap(propName)}Property", propName);
+        public string GetPropSchema(string propName) => Expand(null, this.schemaNameInfo?.PropSchema, $"{Cap(propName)}Property", propName);
 
-        public string GetWritablePropSchema(string propName) => Expand(this.schemaNameInfo?.WritablePropSchema, $"{Cap(propName)}WritableProperty", propName);
+        public string GetWritablePropSchema(string propName) => Expand(null, this.schemaNameInfo?.WritablePropSchema, $"{Cap(propName)}WritableProperty", propName);
 
-        public string GetPropReadRespSchema(string propName) => Expand(this.schemaNameInfo?.PropReadRespSchema, $"{Cap(propName)}ReadResponseSchema", propName);
+        public string GetPropReadRespSchema(string propName) => Expand(null, this.schemaNameInfo?.PropReadRespSchema, $"{Cap(propName)}ReadResponseSchema", propName);
 
-        public string GetPropWriteRespSchema(string propName) => Expand(this.schemaNameInfo?.PropWriteRespSchema, $"{Cap(propName)}WriteResponseSchema", propName);
+        public string GetPropWriteRespSchema(string propName) => Expand(null, this.schemaNameInfo?.PropWriteRespSchema, $"{Cap(propName)}WriteResponseSchema", propName);
 
-        public string GetPropValueSchema(string propName) => Expand(this.schemaNameInfo?.PropValueSchema, $"Property{Cap(propName)}Value", propName);
+        public string GetPropValueSchema(string propName) => Expand(null, this.schemaNameInfo?.PropValueSchema, $"Property{Cap(propName)}Value", propName);
 
-        public string GetActionInSchema(string actionName) => Expand(this.schemaNameInfo?.ActionInSchema, $"{Cap(actionName)}InputArguments", actionName);
+        public string GetPropReadActName(string propName) => Expand(null, this.schemaNameInfo?.PropReadActName, $"Read{Cap(propName)}", propName);
 
-        public string GetActionOutSchema(string actionName) => Expand(this.schemaNameInfo?.ActionOutSchema, $"{Cap(actionName)}OutputArguments", actionName);
+        public string GetPropWriteActName(string propName) => Expand(null, this.schemaNameInfo?.PropWriteActName, $"Write{Cap(propName)}", propName);
 
-        public string GetActionRespSchema(string actionName) => Expand(this.schemaNameInfo?.ActionRespSchema, $"{Cap(actionName)}ResponseSchema", actionName);
+        public string GetPropMaintainerBinder(string propSchema) => Expand(null, this.schemaNameInfo?.PropMaintainerBinder, $"{Cap(propSchema)}Maintainer", propSchema);
 
-        public string GetBackupSchemaName(string parentSchemaName, string childName) => Expand(this.schemaNameInfo?.BackupSchemaName, $"{Cap(parentSchemaName)}{Cap(childName)}", parentSchemaName, childName);
+        public string GetPropConsumerBinder(string propSchema) => Expand(null, this.schemaNameInfo?.PropConsumerBinder, $"{Cap(propSchema)}Consumer", propSchema);
 
-        private static string Expand(FuncInfo? funcInfo, string defaultOut, params string[] args)
+        public string GetActionInSchema(string? title, string actionName) => Expand(title, this.schemaNameInfo?.ActionInSchema, $"{Cap(actionName)}InputArguments", actionName);
+
+        public string GetActionOutSchema(string? title, string actionName) => Expand(title, this.schemaNameInfo?.ActionOutSchema, $"{Cap(actionName)}OutputArguments", actionName);
+
+        public string GetActionRespSchema(string actionName) => Expand(null, this.schemaNameInfo?.ActionRespSchema, $"{Cap(actionName)}ResponseSchema", actionName);
+
+        public string GetActionExecutorBinder(string actionName) => Expand(null, this.schemaNameInfo?.ActionExecutorBinder, $"{Cap(actionName)}ActionExecutor", actionName);
+
+        public string GetActionInvokerBinder(string actionName) => Expand(null, this.schemaNameInfo?.ActionInvokerBinder, $"{Cap(actionName)}ActionInvoker", actionName);
+
+        public string GetPropReadRespErrorField(string propName, string errorSchemaName) => Expand(null, this.schemaNameInfo?.PropReadRespErrorField, "_error", propName, errorSchemaName);
+
+        public string GetPropWriteRespErrorField(string propName, string errorSchemaName) => Expand(null, this.schemaNameInfo?.PropWriteRespErrorField, "_error", propName, errorSchemaName);
+
+        public string GetActionRespErrorField(string actionName, string errorSchemaName) => Expand(null, this.schemaNameInfo?.ActionRespErrorField, "_error", actionName, errorSchemaName);
+
+        public string GetBackupSchemaName(string parentSchemaName, string childName) => Expand(null, this.schemaNameInfo?.BackupSchemaName, $"{Cap(parentSchemaName)}{Cap(childName)}", parentSchemaName, childName);
+
+        public string ApplyBackupSchemaName(string? title, string backupName) => ChooseTitleOrName(title, backupName);
+
+        [return: NotNullIfNotNull(nameof(name))]
+        public string? ChooseTitleOrName(string? title, string? name) => this.suppressTitles ? name : title ?? name;
+
+        private string Expand(string? title, FuncInfo? funcInfo, string defaultOut, params string[] args)
         {
+            if (!this.suppressTitles && title != null)
+            {
+                return title;
+            }
+
             if (funcInfo == null || funcInfo.Output == null || funcInfo.Input == null || funcInfo.Input.Length < args.Length)
             {
                 return defaultOut;
@@ -74,7 +117,7 @@
             return outString;
         }
 
-        private static string Cap(string input) => char.ToUpper(input[0]) + input.Substring(1);
+        private static string Cap(string input) => input.Length == 0 ? input : char.ToUpper(input[0]) + input.Substring(1);
 
         private static string MaybeCap(string input, bool capitalize) => capitalize ? Cap(input) : input;
     }

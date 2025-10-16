@@ -1,0 +1,310 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <VersionPrefix>0.10.0</VersionPrefix>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Azure.Iot.Operations.CodeGeneration\Azure.Iot.Operations.CodeGeneration.csproj" />
+    <ProjectReference Include="..\Azure.Iot.Operations.TDParser\Azure.Iot.Operations.TDParser.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dotnet\Actions\t4\DotNetCommandExecutor.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetCommandExecutor.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\Actions\t4\DotNetCommandInvoker.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetCommandInvoker.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\Actions\t4\DotNetResponseExtension.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetResponseExtension.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\Constants\t4\DotNetConstants.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetConstants.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\Error\t4\DotNetAggregateError.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetAggregateError.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\Error\t4\DotNetError.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetError.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\Events\t4\DotNetTelemetryReceiver.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetTelemetryReceiver.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\Events\t4\DotNetTelemetrySender.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetTelemetrySender.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\Project\t4\DotNetProject.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetProject.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\Properties\t4\DotNetPropertyConsumer.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetPropertyConsumer.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\Properties\t4\DotNetPropertyMaintainer.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetPropertyMaintainer.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\Service\t4\DotNetService.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetService.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Actions\t4\RustCommandExecutor.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustCommandExecutor.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Actions\t4\RustCommandExecutorHeaders.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustCommandExecutorHeaders.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Actions\t4\RustCommandInvoker.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustCommandInvoker.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Actions\t4\RustCommandInvokerHeaders.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustCommandInvokerHeaders.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Constants\t4\RustConstants.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustConstants.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Error\t4\RustAggregateError.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustAggregateError.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Error\t4\RustError.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustError.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Events\t4\RustTelemetryReceiver.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustTelemetryReceiver.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Events\t4\RustTelemetrySender.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustTelemetrySender.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Project\t4\RustCargoToml.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustCargoToml.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Project\t4\RustLib.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustLib.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Properties\t4\RustPropertyConsumer.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustPropertyConsumer.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Properties\t4\RustPropertyMaintainer.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustPropertyMaintainer.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Serialization\t4\RustSerialization.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustSerialization.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\Project\t4\RustIndex.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustIndex.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.EnvoyGenerator</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="dotnet\Actions\t4\DotNetCommandExecutor.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetCommandExecutor.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\Actions\t4\DotNetCommandInvoker.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetCommandInvoker.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\Actions\t4\DotNetResponseExtension.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetResponseExtension.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\Constants\t4\DotNetConstants.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetConstants.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\Error\t4\DotNetAggregateError.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetAggregateError.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\Error\t4\DotNetError.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetError.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\Events\t4\DotNetTelemetryReceiver.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetTelemetryReceiver.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\Events\t4\DotNetTelemetrySender.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetTelemetrySender.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\Project\t4\DotNetProject.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetProject.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\Properties\t4\DotNetPropertyConsumer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetPropertyConsumer.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\Properties\t4\DotNetPropertyMaintainer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetPropertyMaintainer.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\Service\t4\DotNetService.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetService.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Actions\t4\RustCommandExecutor.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustCommandExecutor.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Actions\t4\RustCommandExecutorHeaders.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustCommandExecutorHeaders.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Actions\t4\RustCommandInvoker.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustCommandInvoker.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Actions\t4\RustCommandInvokerHeaders.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustCommandInvokerHeaders.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Constants\t4\RustConstants.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustConstants.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Error\t4\RustAggregateError.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustAggregateError.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Error\t4\RustError.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustError.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Events\t4\RustTelemetryReceiver.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustTelemetryReceiver.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Events\t4\RustTelemetrySender.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustTelemetrySender.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Project\t4\RustCargoToml.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustCargoToml.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Project\t4\RustLib.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustLib.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Properties\t4\RustPropertyConsumer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustPropertyConsumer.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Properties\t4\RustPropertyMaintainer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustPropertyMaintainer.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Serialization\t4\RustSerialization.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustSerialization.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\Project\t4\RustIndex.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustIndex.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\..\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Serializers\*\*.cs">
+      <Link>LanguageResources\csharp\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Support\*.cs">
+      <Link>LanguageResources\csharp\common\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\res\rust\**\*.rs">
+      <Link>LanguageResources\rust\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

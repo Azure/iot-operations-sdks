@@ -6,7 +6,7 @@
 
     internal class DotNetTypeGenerator : ITypeGenerator
     {
-        public GeneratedType GenerateTypeFromSchema(SchemaType schemaType, string projectName, SerializationFormat serFormat)
+        public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, SerializationFormat serFormat, string _)
         {
             ITypeTemplateTransform templateTransform = schemaType switch
             {
@@ -15,7 +15,7 @@
                 _ => throw new Exception("unrecognized schema type"),
             };
 
-            return new GeneratedType(templateTransform.TransformText(), templateTransform.FileName, templateTransform.FolderPath);
+            return new GeneratedItem(templateTransform.TransformText(), templateTransform.FileName, templateTransform.FolderPath);
         }
     }
 }

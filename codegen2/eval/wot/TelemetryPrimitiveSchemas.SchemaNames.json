@@ -1,0 +1,22 @@
+{
+  "eventSchema": {
+    "in": [ "eventName" ],
+    "out": "{eventName}Telemetry",
+    "capitalize": true
+  },
+  "eventValueSchema": {
+    "in": [ "eventSchema" ],
+    "out": "{eventSchema}Schema",
+    "capitalize": true
+  },
+  "eventSenderBinder": {
+    "in": [ "eventSchema" ],
+    "out": "{eventSchema}TelemetrySender",
+    "capitalize": true
+  },
+  "eventReceiverBinder": {
+    "in": [ "eventSchema" ],
+    "out": "{eventSchema}TelemetryReceiver",
+    "capitalize": true
+  }
+}

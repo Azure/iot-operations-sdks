@@ -15,7 +15,7 @@
             }
             else if (dataSchema.Type == TDValues.TypeString && dataSchema.Enum != null)
             {
-                schemaSpec = EnumSpec.CreateFromDataSchema(dataSchema, format, backupName);
+                schemaSpec = EnumSpec.CreateFromDataSchema(schemaNamer, dataSchema, format, backupName);
                 return true;
             }
             else

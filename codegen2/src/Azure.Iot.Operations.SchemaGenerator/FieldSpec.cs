@@ -3,7 +3,7 @@
     using Azure.Iot.Operations.CodeGeneration;
     using Azure.Iot.Operations.TDParser.Model;
 
-    internal record FieldSpec(string Description, TDDataSchema Schema, bool Require, string BackupSchemaName, bool Fragment = false)
+    internal record FieldSpec(string Description, TDDataSchema Schema, bool Require, string BackupSchemaName, bool Fragment = false, bool ForceOption = false)
     {
         internal static FieldSpec CreateFixed(string title, string description, string backupSchemaName)
         {

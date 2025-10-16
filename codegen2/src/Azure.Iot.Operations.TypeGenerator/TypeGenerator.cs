@@ -25,13 +25,13 @@
             };
         }
 
-        public List<GeneratedType> GenerateTypes(Dictionary<string, string> schemaTextsByName, CodeName genNamespace, string projectName)
+        public List<GeneratedItem> GenerateTypes(Dictionary<string, string> schemaTextsByName, CodeName genNamespace, string projectName, string srcSubdir)
         {
-            List<GeneratedType> generatedTypes = new();
+            List<GeneratedItem> generatedTypes = new();
 
             foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaTextsByName, genNamespace))
             {
-                generatedTypes.Add(this.typeGenerator.GenerateTypeFromSchema(schemaType, projectName, schemaStandardizer.SerializationFormat));
+                generatedTypes.Add(this.typeGenerator.GenerateTypeFromSchema(schemaType, projectName, schemaStandardizer.SerializationFormat, srcSubdir));
             }
 
             return generatedTypes;

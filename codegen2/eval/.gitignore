@@ -1,4 +1,6 @@
 **/*.const.json
 **/*.schema.json
-**/*.g.cs
+**/*.cs
+**/*.csproj
 **/*.rs
+**/Cargo.toml

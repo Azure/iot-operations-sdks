@@ -1,0 +1,17 @@
+{
+  "aggregateEventName": "Telemetry",
+  "aggregateEventSchema": "TelemetryCollection",
+  "eventValueSchema": {
+    "in": [ "eventSchema" ],
+    "out": "{eventSchema}Schema",
+    "capitalize": true
+  },
+  "eventSenderBinder": {
+    "in": [ "eventSchema" ],
+    "out": "TelemetrySender"
+  },
+  "eventReceiverBinder": {
+    "in": [ "eventSchema" ],
+    "out": "TelemetryReceiver"
+  }
+}
