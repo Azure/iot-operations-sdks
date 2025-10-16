@@ -1,0 +1,199 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "id": "dtmi:jsonTest:TelemetryPrimitiveSchemas;1",
+  "title": "TelemetryPrimitiveSchemas",
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": [
+    "nosec_sc"
+  ],
+  "links": [
+    {
+      "rel": "service-desc",
+      "href": "./TelemetryPrimitiveSchemas.SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
+  "actions": {
+  },
+  "properties": {
+  },
+  "events": {
+    "endDate": {
+      "data": {
+        "type": "string",
+        "format": "date"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryPrimitiveSchemas:_contents:__endDate;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/endDate",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "startDateTime": {
+      "data": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryPrimitiveSchemas:_contents:__startDateTime;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/startDateTime",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "targetTime": {
+      "data": {
+        "type": "string",
+        "format": "time"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryPrimitiveSchemas:_contents:__targetTime;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/targetTime",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "allottedDuration": {
+      "data": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryPrimitiveSchemas:_contents:__allottedDuration;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/allottedDuration",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "identifier": {
+      "data": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryPrimitiveSchemas:_contents:__identifier;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/identifier",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "data": {
+      "data": {
+        "type": "string",
+        "contentEncoding": "base64"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryPrimitiveSchemas:_contents:__data;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/data",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "flipflop": {
+      "data": {
+        "type": "boolean"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryNativeSchemas:_contents:__flipflop;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/flipflop",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "absoluteDistance": {
+      "data": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryNativeSchemas:_contents:__absoluteDistance;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/absoluteDistance",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "relativeDistance": {
+      "data": {
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryNativeSchemas:_contents:__relativeDistance;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/relativeDistance",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "count": {
+      "data": {
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryNativeSchemas:_contents:__count;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/count",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "totalCount": {
+      "data": {
+        "type": "integer",
+        "minimum": -9223372036854775808,
+        "maximum": 9223372036854775807
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryNativeSchemas:_contents:__totalCount;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/totalCount",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "notes": {
+      "data": {
+        "type": "string"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:TelemetryNativeSchemas:_contents:__notes;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/notes",
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}

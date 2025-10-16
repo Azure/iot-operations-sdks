@@ -16,7 +16,7 @@
         public string? Type { get; set; }
 
         [JsonPropertyName("const")]
-        public int? Const { get; set; }
+        public object? Const { get; set; }
 
         [JsonPropertyName("minimum")]
         public double? Minimum { get; set; }

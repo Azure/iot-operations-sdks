@@ -109,28 +109,28 @@
                 schemaSpecs[propSchemaName] = propObjectSpec;
             }
 
-            if (readPropForm?.ErrorSchema != null)
+            if (readPropForm?.ErrorRespSchema != null)
             {
                 FieldSpec propReadRespFieldSpec = new(
                     tdProperty.Description ?? $"Read error for the '{propName}' Property.",
-                    readPropForm.ErrorSchema,
-                    BackupSchemaName: readPropForm.ErrorSchemaName!,
+                    readPropForm.ErrorRespSchema,
+                    BackupSchemaName: readPropForm.ErrorRespName!,
                     Require: false);
                 readErrorFields[propName] = propReadRespFieldSpec;
 
-                readErrorSchemaNames.Add(readPropForm.ErrorSchemaName!);
+                readErrorSchemaNames.Add(readPropForm.ErrorRespName!);
 
                 if (readPropForm?.TopicPattern != null)
                 {
                     string propReadRespSchemaName = schemaNamer.GetPropReadRespSchema(propName);
                     ObjectSpec propReadRespObjectSpec = new(
                         tdProperty.Description ?? $"Response to a '{propName}' Property read.",
-                        new Dictionary<string, FieldSpec> { { propName, propFieldSpec with { Require = false } }, { schemaNamer.PropRespErrorField, propReadRespFieldSpec } },
+                        new Dictionary<string, FieldSpec> { { propName, propFieldSpec with { Require = false } }, { schemaNamer.GetPropRespErrorField(propName, readPropForm.ErrorRespName!), propReadRespFieldSpec } },
                         readPropForm.Format,
                         propReadRespSchemaName);
                     schemaSpecs[propReadRespSchemaName] = propReadRespObjectSpec;
 
-                    SchemaGenerationSupport.AddSchemaReference(readPropForm.ErrorSchemaName!, readPropForm.ErrorSchemaFormat, referencedSchemas);
+                    SchemaGenerationSupport.AddSchemaReference(readPropForm.ErrorRespName!, readPropForm.ErrorRespFormat, referencedSchemas);
                 }
             }
 
@@ -155,28 +155,28 @@
                     schemaSpecs[writablePropSchemaName] = writablePropObjectSpec;
                 }
 
-                if (writePropForm?.ErrorSchema != null)
+                if (writePropForm?.ErrorRespSchema != null)
                 {
                     FieldSpec propWriteRespFieldSpec = new(
                         tdProperty.Description ?? $"Write error for the '{propName}' Property.",
-                        writePropForm.ErrorSchema,
-                        BackupSchemaName: writePropForm.ErrorSchemaName!,
+                        writePropForm.ErrorRespSchema,
+                        BackupSchemaName: writePropForm.ErrorRespName!,
                         Require: false);
                     writeErrorFields[propName] = propWriteRespFieldSpec;
 
-                    writeErrorSchemaNames.Add(writePropForm.ErrorSchemaName!);
+                    writeErrorSchemaNames.Add(writePropForm.ErrorRespName!);
 
                     if (writePropForm?.TopicPattern != null)
                     {
                         string propWriteRespSchemaName = schemaNamer.GetPropWriteRespSchema(propName);
                         ObjectSpec propWriteRespObjectSpec = new(
                             tdProperty.Description ?? $"Response to a '{propName}' Property write.",
-                            new Dictionary<string, FieldSpec> { { schemaNamer.PropRespErrorField, propWriteRespFieldSpec } },
+                            new Dictionary<string, FieldSpec> { { schemaNamer.GetPropRespErrorField(propName, writePropForm.ErrorRespName!), propWriteRespFieldSpec } },
                             writePropForm.Format,
                             propWriteRespSchemaName);
                         schemaSpecs[propWriteRespSchemaName] = propWriteRespObjectSpec;
 
-                        SchemaGenerationSupport.AddSchemaReference(writePropForm.ErrorSchemaName!, writePropForm.ErrorSchemaFormat, referencedSchemas);
+                        SchemaGenerationSupport.AddSchemaReference(writePropForm.ErrorRespName!, writePropForm.ErrorRespFormat, referencedSchemas);
                     }
                 }
             }

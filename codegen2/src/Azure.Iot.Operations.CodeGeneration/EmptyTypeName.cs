@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             public override string GetAllocator(TargetLanguage language) => language switch
             {
                 TargetLanguage.CSharp => "new EmptyAvro()",
-                TargetLanguage.Rust => "EmptyAvro{}",
+                TargetLanguage.Rust => "EmptyAvro {}",
                 _ => throw new InvalidOperationException($"There is no {language} allocator for {typeof(EmptyAvroTypeName)}"),
             };
         }
@@ -72,7 +72,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             public override string GetAllocator(TargetLanguage language) => language switch
             {
                 TargetLanguage.CSharp => "new EmptyJson()",
-                TargetLanguage.Rust => "EmptyJson{}",
+                TargetLanguage.Rust => "EmptyJson {}",
                 _ => throw new InvalidOperationException($"There is no {language} allocator for {typeof(EmptyAvroTypeName)}"),
             };
         }
@@ -112,7 +112,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             public override string GetAllocator(TargetLanguage language) => language switch
             {
                 TargetLanguage.CSharp => "Array.Empty<byte>()",
-                TargetLanguage.Rust => "byte[]{}",
+                TargetLanguage.Rust => "byte[] {}",
                 _ => throw new InvalidOperationException($"There is no {language} allocator for {typeof(EmptyAvroTypeName)}"),
             };
         }
@@ -132,7 +132,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             public override string GetAllocator(TargetLanguage language) => language switch
             {
                 TargetLanguage.CSharp => "ExternalSerializer.EmptyValue",
-                TargetLanguage.Rust => "CustomPayload{}",
+                TargetLanguage.Rust => "CustomPayload {}",
                 _ => throw new InvalidOperationException($"There is no {language} allocator for {typeof(EmptyAvroTypeName)}"),
             };
         }

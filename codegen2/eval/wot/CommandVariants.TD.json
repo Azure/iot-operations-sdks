@@ -1,0 +1,117 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "id": "dtmi:jsonTest:CommandVariants;1",
+  "title": "CommandVariants",
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": [
+    "nosec_sc"
+  ],
+  "links": [
+    {
+      "rel": "service-desc",
+      "href": "./CommandVariants.SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
+  "actions": {
+    "noop": {
+      "idempotent": true,
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:CommandVariants:_contents:__noop;1",
+          "contentType": "application/json",
+          "dtv:topic": "samples/command/noop/{executorId}",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "peek": {
+      "output": {
+        "type": "object",
+        "dtv:additionalProperties": false,
+        "required": [ "outVal" ],
+        "properties": {
+          "outVal": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "idempotent": true,
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:CommandVariants:_contents:__peek;1",
+          "contentType": "application/json",
+          "dtv:topic": "samples/command/peek/{executorId}",
+          "dtv:serviceGroupId": "PeekCmdGroup",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "poke": {
+      "input": {
+        "type": "object",
+        "dtv:additionalProperties": false,
+        "required": [ "inVal" ],
+        "properties": {
+          "inVal": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:CommandVariants:_contents:__poke;1",
+          "contentType": "application/json",
+          "dtv:topic": "samples/command/poke/{executorId}",
+          "dtv:serviceGroupId": "PokeCmdGroup",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "setColor": {
+      "input": {
+        "type": "object",
+        "dtv:additionalProperties": false,
+        "required": [ "newColor" ],
+        "properties": {
+          "newColor": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "dtv:additionalProperties": false,
+        "required": [ "oldColor" ],
+        "properties": {
+          "oldColor": {
+            "type": "string"
+          }
+        }
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:CommandVariants:_contents:__setColor;1",
+          "contentType": "application/json",
+          "dtv:topic": "samples/command/setColor/{executorId}",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

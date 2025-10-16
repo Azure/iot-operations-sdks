@@ -7,22 +7,53 @@
 
     public static class SchemaGenerator
     {
-        public static List<GeneratedSchema> GenerateSchemas(TDThing tdThing, SchemaNamer schemaNamer, string projectName, string genNamespace)
+        public static Dictionary<SerializationFormat, List<GeneratedItem>> GenerateSchemas(List<ParsedThing> parsedThings, string projectName, string genNamespace)
         {
-            Dictionary<string, SchemaSpec> schemaSpecs = new();
-            Dictionary<string, HashSet<SerializationFormat>> referencedSchemas = new();
+            Dictionary<string, ISchemaTemplateTransform> transforms = new();
 
-            PropertySchemaGenerator.GeneratePropertySchemas(tdThing, schemaNamer, projectName, schemaSpecs, referencedSchemas);
-            ActionSchemaGenerator.GenerateActionSchemas(tdThing, schemaNamer, projectName, schemaSpecs, referencedSchemas);
-            EventSchemaGenerator.GenerateEventSchemas(tdThing, schemaNamer, projectName, schemaSpecs, referencedSchemas);
+            foreach (ParsedThing parsedThing in parsedThings)
+            {
+                Dictionary<string, SchemaSpec> schemaSpecs = new();
+                Dictionary<string, HashSet<SerializationFormat>> referencedSchemas = new();
 
+                PropertySchemaGenerator.GeneratePropertySchemas(parsedThing.Thing, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
+                ActionSchemaGenerator.GenerateActionSchemas(parsedThing.Thing, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
+                EventSchemaGenerator.GenerateEventSchemas(parsedThing.Thing, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
+
+                Dictionary<string, SchemaSpec> closedSchemaSpecs = ComputeClosedSchemaSpecs(parsedThing.Thing, parsedThing.SchemaNamer, schemaSpecs, referencedSchemas);
+
+                foreach (KeyValuePair<string, SchemaSpec> schemaSpec in closedSchemaSpecs)
+                {
+                    ISchemaTemplateTransform transform = SchemaTransformFactory.GetSchemaTransform(parsedThing.SchemaNamer, schemaSpec.Key, schemaSpec.Value, genNamespace);
+                    transforms[transform.FileName] = transform;
+                }
+            }
+
+            Dictionary<SerializationFormat, List<GeneratedItem>> generatedSchemas = new();
+
+            foreach (KeyValuePair<string, ISchemaTemplateTransform> transform in transforms)
+            {
+                if (!generatedSchemas.TryGetValue(transform.Value.Format, out List<GeneratedItem>? schemas))
+                {
+                    schemas = new();
+                    generatedSchemas[transform.Value.Format] = schemas;
+                }
+
+                schemas.Add(new GeneratedItem(transform.Value.TransformText(), transform.Key, transform.Value.FolderPath));
+            }
+
+            return generatedSchemas;
+        }
+
+        private static Dictionary<string, SchemaSpec> ComputeClosedSchemaSpecs(TDThing thing, SchemaNamer schemaNamer, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        {
             Dictionary<string, SchemaSpec> closedSchemaSpecs = new();
 
             foreach (KeyValuePair<string, HashSet<SerializationFormat>> referencedSchema in referencedSchemas)
             {
                 foreach (SerializationFormat format in referencedSchema.Value)
                 {
-                    if (tdThing.SchemaDefinitions?.TryGetValue(referencedSchema.Key, out TDDataSchema? dataSchema) ?? false)
+                    if (thing.SchemaDefinitions?.TryGetValue(referencedSchema.Key, out TDDataSchema? dataSchema) ?? false)
                     {
                         ComputeClosureOfDataSchema(schemaNamer, referencedSchema.Key, dataSchema, format, closedSchemaSpecs);
                     }
@@ -34,21 +65,7 @@
                 ComputeClosureOfSchemaSpec(schemaNamer, schemaSpec.Key, schemaSpec.Value, closedSchemaSpecs);
             }
 
-            List<GeneratedSchema> generatedSchemas = new();
-
-            foreach (KeyValuePair<string, SchemaSpec> schemaSpec in closedSchemaSpecs)
-            {
-                ISchemaTemplateTransform schema = SchemaTransformFactory.GetSchemaTransform(schemaSpec.Key, schemaSpec.Value, genNamespace);
-                generatedSchemas.Add(new GeneratedSchema(schema.TransformText(), schema.FileName, schema.FolderPath));
-            }
-
-            if (tdThing.SchemaDefinitions?.Any(d => d.Value.Type == TDValues.TypeInteger && d.Value.Const != null) ?? false)
-            {
-                ISchemaTemplateTransform schema = new ConstSchema(projectName, tdThing.SchemaDefinitions, genNamespace);
-                generatedSchemas.Add(new GeneratedSchema(schema.TransformText(), schema.FileName, schema.FolderPath));
-            }
-
-            return generatedSchemas;
+            return closedSchemaSpecs;
         }
 
         private static void ComputeClosureOfSchemaSpec(SchemaNamer schemaNamer, string schemaName, SchemaSpec schemaSpec, Dictionary<string, SchemaSpec> closedSchemaSpecs)
@@ -76,7 +93,7 @@
                 return;
             }
 
-            string schemaName = dataSchema.Title ?? backupName;
+            string schemaName = schemaNamer.ApplyBackupSchemaName(dataSchema.Title, backupName);
 
             if (SchemaSpec.TryCreateFromDataSchema(schemaNamer, dataSchema, format, backupName, out SchemaSpec? schemaSpec))
             {

@@ -4,6 +4,15 @@
 
     public class SchemaNameInfo
     {
+        [JsonPropertyName("suppressTitles")]
+        public bool SuppressTitles { get; set; }
+
+        [JsonPropertyName("constantsSchema")]
+        public string? ConstantsSchema { get; set; }
+
+        [JsonPropertyName("aggregateEventName")]
+        public string? AggregateEventName { get; set; }
+
         [JsonPropertyName("aggregateEventSchema")]
         public string? AggregateEventSchema { get; set; }
 
@@ -34,14 +43,14 @@
         [JsonPropertyName("aggregateRespErrorField")]
         public string? AggregateRespErrorField { get; set; }
 
-        [JsonPropertyName("propRespErrorField")]
-        public string? PropRespErrorField { get; set; }
-
-        [JsonPropertyName("actionRespErrorField")]
-        public string? ActionRespErrorField { get; set; }
-
         [JsonPropertyName("eventSchema")]
         public FuncInfo? EventSchema { get; set; }
+
+        [JsonPropertyName("eventSenderBinder")]
+        public FuncInfo? EventSenderBinder { get; set; }
+
+        [JsonPropertyName("eventReceiverBinder")]
+        public FuncInfo? EventReceiverBinder { get; set; }
 
         [JsonPropertyName("eventValueSchema")]
         public FuncInfo? EventValueSchema { get; set; }
@@ -70,7 +79,19 @@
         [JsonPropertyName("actionRespSchema")]
         public FuncInfo? ActionRespSchema { get; set; }
 
+        [JsonPropertyName("actionExecutorBinder")]
+        public FuncInfo? ActionExecutorBinder { get; set; }
+
+        [JsonPropertyName("actionInvokerBinder")]
+        public FuncInfo? ActionInvokerBinder { get; set; }
+
         [JsonPropertyName("backupSchemaName")]
         public FuncInfo? BackupSchemaName { get; set; }
+
+        [JsonPropertyName("propRespErrorField")]
+        public FuncInfo? PropRespErrorField { get; set; }
+
+        [JsonPropertyName("actionRespErrorField")]
+        public FuncInfo? ActionRespErrorField { get; set; }
     }
 }

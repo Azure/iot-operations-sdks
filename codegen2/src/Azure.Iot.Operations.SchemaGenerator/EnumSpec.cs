@@ -8,9 +8,9 @@
 
     internal record EnumSpec(string? Description, List<string> Values, SerializationFormat Format, string SchemaName) : SchemaSpec(Format)
     {
-        internal static EnumSpec CreateFromDataSchema(TDDataSchema dataSchema, SerializationFormat format, string backupName, string? defaultDescription = null)
+        internal static EnumSpec CreateFromDataSchema(SchemaNamer schemaNamer, TDDataSchema dataSchema, SerializationFormat format, string backupName, string? defaultDescription = null)
         {
-            string schemaName = dataSchema.Title ?? backupName;
+            string schemaName = schemaNamer.ApplyBackupSchemaName(dataSchema.Title, backupName);
 
             if (dataSchema.Type != TDValues.TypeString || dataSchema.Enum == null)
             {
