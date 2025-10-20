@@ -27,7 +27,6 @@ public interface ISchemaRegistryClient : IAsyncDisposable
     /// <param name="schemaFormat">The format of the schema. Specifies how the schema content should be interpreted.</param>
     /// <param name="schemaType">The type of the schema, such as message schema or data schema. Defaults to <see cref="SchemaType.MessageSchema"/>.</param>
     /// <param name="version">The version of the schema to add or update. If not specified, defaults to "1". Values are expected to be whole integers.</param>
-    /// 
     /// <param name="tags">Optional metadata tags to associate with the schema. These tags can be used to store additional information 
     /// about the schema in key-value format.</param>
     /// <param name="description">The optional description of the schema.</param>
