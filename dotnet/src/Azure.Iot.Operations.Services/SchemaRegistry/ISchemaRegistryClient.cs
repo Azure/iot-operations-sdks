@@ -14,7 +14,7 @@ public interface ISchemaRegistryClient : IAsyncDisposable
     /// </summary>
     /// <param name="schemaId">The unique identifier of the schema to retrieve. This is required to locate the schema in the registry.</param>
     /// <param name="version">The version of the schema to fetch. If not specified, defaults to "1". Values are expected to be whole integers.</param>
-    /// <param name="timeout">>An optional timeout for the operation, which specifies the maximum time allowed for the request to complete.</param>
+    /// <param name="timeout">An optional timeout for the operation, which specifies the maximum time allowed for the request to complete.</param>
     /// <param name="cancellationToken">A token that can be used to cancel the operation before completion if needed.</param>
     /// <returns>Information about the requested schema</returns>
     /// <exception cref="Models.SchemaRegistryErrorException">If the requested schema does not exist</exception>
@@ -31,7 +31,7 @@ public interface ISchemaRegistryClient : IAsyncDisposable
     /// about the schema in key-value format.</param>
     /// <param name="description">The optional description of the schema.</param>
     /// <param name="displayName">The optional display name of the schema.</param>
-    /// <param name="timeout">>An optional timeout for the operation, which specifies the maximum time allowed for the request to complete.</param>
+    /// <param name="timeout">An optional timeout for the operation, which specifies the maximum time allowed for the request to complete.</param>
     /// <param name="cancellationToken">A token that can be used to cancel the operation before completion if needed.</param>
     /// <returns>Information about the created/updated schema</returns>
     Task<SchemaInfo> PutAsync(string schemaContent, SchemaFormat schemaFormat, SchemaType schemaType = SchemaType.MessageSchema, string version = "1", Dictionary<string, string> tags = default!, string? displayName = null, string? description = null, TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
