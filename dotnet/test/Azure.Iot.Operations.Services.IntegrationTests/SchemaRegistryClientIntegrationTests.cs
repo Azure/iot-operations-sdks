@@ -137,7 +137,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         Assert.Contains("temperature", getSchemaResponse2?.SchemaContent);
         Assert.Equal(SchemaFormat.JsonSchemaDraft07, getSchemaResponse2?.Format);
         Assert.Equal(SchemaType.MessageSchema, getSchemaResponse2?.SchemaType);
-        Assert.Equal(jsonSchema1, getSchemaResponse2?.SchemaContent);
+        Assert.Equal(jsonSchema2, getSchemaResponse2?.SchemaContent);
         Assert.NotNull(getSchemaResponse2);
         Assert.Equal("DefaultSRNamespace", getSchemaResponse2.Namespace);
         Assert.Equal(defaultSchemaVersion, getSchemaResponse2.Version);
