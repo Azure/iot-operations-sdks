@@ -202,12 +202,13 @@ namespace Azure.Iot.Operations.Connector
 
                 if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
                 {
+                    string compositeDeviceName = e.DeviceName + "_" + e.InboundEndpointName;
                     if (!_observedAssets.ContainsKey(e.DeviceName))
                     {
-                        _observedAssets.TryAdd(e.DeviceName, new());
+                        _observedAssets.TryAdd(compositeDeviceName, new());
                     }
 
-                    if (_observedAssets.TryGetValue(e.DeviceName, out var assets))
+                    if (_observedAssets.TryGetValue(compositeDeviceName, out var assets))
                     {
                         assets.Add(e.AssetName);
                     }
@@ -233,7 +234,7 @@ namespace Azure.Iot.Operations.Connector
 
                 if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    _observedDevices.TryAdd(e.DeviceName, _dummyByte);
+                    _observedDevices.TryAdd(e.DeviceName + "_" + e.InboundEndpointName, _dummyByte);
                     var device = await _client.GetDeviceAsync(e.DeviceName, e.InboundEndpointName);
                     DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device));
                 }
