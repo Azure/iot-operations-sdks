@@ -129,7 +129,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         // Test using the default params as defined by the concrete implementation of the schema registry client
         await using SchemaRegistryClient schemaRegistryImplementation = new SchemaRegistryClient(applicationContext, mqttClient);
 
-        Schema? res2 = await schemaRegistryInterface.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07);
+        Schema? res2 = await schemaRegistryInterface.PutAsync(jsonSchema2, SchemaFormat.JsonSchemaDraft07);
         string schemaId2 = res2?.Name!;
         Schema? getSchemaResponse2 = await schemaRegistryInterface.GetAsync(schemaId2);
 
