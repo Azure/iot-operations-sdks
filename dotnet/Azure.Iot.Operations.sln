@@ -93,9 +93,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventDrivenTelemetryConnect
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PollingTelemetryConnector", "PollingTelemetryConnector", "{8826F302-A3F9-4543-90EE-27196D9179EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Templates.EventDrivenConnectorTemplate", "templates\content\EventDrivenConnectorTemplate\Azure.Iot.Operations.Templates.EventDrivenConnectorTemplate\Azure.Iot.Operations.Templates.EventDrivenConnectorTemplate.csproj", "{ADDAE3BF-371C-4D4C-913E-9D165F28D6F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Templates.EventDrivenConnectorTemplate", "templates\content\EventDrivenConnectorTemplate\Azure.Iot.Operations.Templates.EventDrivenConnectorTemplate.csproj", "{ADDAE3BF-371C-4D4C-913E-9D165F28D6F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Templates.PollingConnectorTemplate", "templates\content\PollingConnectorTemplate\Azure.Iot.Operations.Templates.PollingConnectorTemplate\Azure.Iot.Operations.Templates.PollingConnectorTemplate.csproj", "{2D62BB36-B1A0-4A57-9F13-EA37A6E6FD51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Templates.PollingConnectorTemplate", "templates\content\PollingConnectorTemplate\Azure.Iot.Operations.Templates.PollingConnectorTemplate.csproj", "{2D62BB36-B1A0-4A57-9F13-EA37A6E6FD51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
