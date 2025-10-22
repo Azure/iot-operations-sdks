@@ -93,10 +93,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventDrivenTelemetryConnect
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PollingTelemetryConnector", "PollingTelemetryConnector", "{8826F302-A3F9-4543-90EE-27196D9179EA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure.Iot.Operations.Templates.EventDrivenTelemetryConnector", "Azure.Iot.Operations.Templates.EventDrivenTelemetryConnector", "{51EB46E0-8EA4-4CEF-BA3E-A7C525AAF04D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure.Iot.Operations.Templates.PollingTelemetryConnector", "Azure.Iot.Operations.Templates.PollingTelemetryConnector", "{AE5D8BA0-9763-472D-98AA-7BABE4C1EE46}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Templates.EventDrivenConnectorTemplate", "templates\content\EventDrivenConnectorTemplate\Azure.Iot.Operations.Templates.EventDrivenConnectorTemplate\Azure.Iot.Operations.Templates.EventDrivenConnectorTemplate.csproj", "{ADDAE3BF-371C-4D4C-913E-9D165F28D6F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Templates.PollingConnectorTemplate", "templates\content\PollingConnectorTemplate\Azure.Iot.Operations.Templates.PollingConnectorTemplate\Azure.Iot.Operations.Templates.PollingConnectorTemplate.csproj", "{2D62BB36-B1A0-4A57-9F13-EA37A6E6FD51}"
@@ -288,10 +284,8 @@ Global
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
 		{4117C707-7647-4CB7-9933-A00D7730664C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{8826F302-A3F9-4543-90EE-27196D9179EA} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{51EB46E0-8EA4-4CEF-BA3E-A7C525AAF04D} = {4117C707-7647-4CB7-9933-A00D7730664C}
-		{AE5D8BA0-9763-472D-98AA-7BABE4C1EE46} = {8826F302-A3F9-4543-90EE-27196D9179EA}
-		{ADDAE3BF-371C-4D4C-913E-9D165F28D6F2} = {51EB46E0-8EA4-4CEF-BA3E-A7C525AAF04D}
-		{2D62BB36-B1A0-4A57-9F13-EA37A6E6FD51} = {AE5D8BA0-9763-472D-98AA-7BABE4C1EE46}
+		{ADDAE3BF-371C-4D4C-913E-9D165F28D6F2} = {4117C707-7647-4CB7-9933-A00D7730664C}
+		{2D62BB36-B1A0-4A57-9F13-EA37A6E6FD51} = {8826F302-A3F9-4543-90EE-27196D9179EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2687BCD-45E3-4094-9656-BF183C816BA0}
