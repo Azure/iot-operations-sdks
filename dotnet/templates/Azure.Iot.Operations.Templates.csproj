@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <PackageId>Azure.Iot.Operations.Templates</PackageId>
@@ -6,9 +6,9 @@
     <Title>Azure IoT Operations Templates</Title>
     <Authors>Microsoft</Authors>
     <Description>.NET project templates for creating Azure IoT Operations solutions</Description>
+    <PackageTags>azure;iot;sdk;edge</PackageTags>
     <PackageProjectUrl>https://github.com/Azure/iot-operations-sdks</PackageProjectUrl>
 
-    <!-- Keep package type as 'Template' to show the package as a template package on nuget.org and make your template available in dotnet new search.-->
     <PackageType>Template</PackageType>
     <TargetFramework>net9.0</TargetFramework>
     <IncludeContentInPack>true</IncludeContentInPack>
