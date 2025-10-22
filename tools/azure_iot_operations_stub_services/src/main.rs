@@ -8,7 +8,7 @@ use azure_iot_operations_stub_services::{
     schema_registry::{self},
 };
 use clap::{Arg, Command};
-use log::LevelFilter;
+use log::{LevelFilter, info};
 use log4rs::{
     Config,
     append::console::ConsoleAppender,
@@ -153,6 +153,9 @@ fn process_arguments() -> CommandLineArguments {
 
     let broker_port = matches.get_one::<String>("broker_port").unwrap().to_owned();
     let broker_addr = matches.get_one::<String>("broker_addr").unwrap().to_owned();
+
+    info!("Broker Address {:?}", &broker_addr);
+    info!("Broker Port {:?}", &broker_port);
 
     let broker_port = broker_port.parse::<u16>().unwrap_or_else(|_| {
         panic!(
