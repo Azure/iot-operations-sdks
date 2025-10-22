@@ -14,7 +14,7 @@ namespace PollingTelemetryConnectorTemplate
 
         public ConnectorLeaderElectionConfiguration GetLeaderElectionConfiguration()
         {
-            return new("some-http-leadership-position-id", TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(9));
+            return new("some-leadership-position-id", TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(9));
         }
     }
 }
