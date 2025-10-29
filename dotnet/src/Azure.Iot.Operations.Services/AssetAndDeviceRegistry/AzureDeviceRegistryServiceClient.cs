@@ -14,7 +14,7 @@ using DeviceStatus = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-public class AdrServiceClient : IAdrServiceClient
+public class AzureDeviceRegistryServiceClient : IAzureDeviceRegistryServiceClient
 {
     private const string _connectorClientIdTokenKey = "connectorClientId";
     private const string _discoveryClientIdTokenKey = "discoveryClientId";
@@ -40,18 +40,18 @@ public class AdrServiceClient : IAdrServiceClient
     /// <param name="retryPolicy">
     /// The retry policy to apply to all operations. By default, <see cref="ExponentialBackoffRetryPolicy"/>
     /// will be used if none is provided. <see cref="NoRetryPolicy"/> can be provided if no retry is desired.</param>
-    public AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IRetryPolicy? retryPolicy = null)
+    public AzureDeviceRegistryServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IRetryPolicy? retryPolicy = null)
     {
         _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(10, TimeSpan.FromSeconds(5));
         _applicationContext = applicationContext;
         _connectorClientId = mqttClient.ClientId ?? throw new ArgumentException("Must provide an MQTT client Id in the IMqttPubSubClient");
 
-        _adrBaseServiceClient = new AdrBaseServiceClientStub(_applicationContext, mqttClient);
+        _adrBaseServiceClient = new AzureDeviceRegistryBaseServiceClientStub(_applicationContext, mqttClient);
         _deviceDiscoveryServiceClient = new DeviceDiscoveryServiceClientStub(_applicationContext, mqttClient);
     }
 
     // For unit test purposes only
-    internal AdrServiceClient(ApplicationContext applicationContext, string connectorClientId, IAdrBaseServiceClientStub baseServiceClient, IDeviceDiscoveryServiceClientStub deviceDiscoveryServiceClientStub, IRetryPolicy? retryPolicy = null)
+    internal AzureDeviceRegistryServiceClient(ApplicationContext applicationContext, string connectorClientId, IAdrBaseServiceClientStub baseServiceClient, IDeviceDiscoveryServiceClientStub deviceDiscoveryServiceClientStub, IRetryPolicy? retryPolicy = null)
     {
         _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(3, TimeSpan.FromMilliseconds(5));
         _applicationContext = applicationContext;

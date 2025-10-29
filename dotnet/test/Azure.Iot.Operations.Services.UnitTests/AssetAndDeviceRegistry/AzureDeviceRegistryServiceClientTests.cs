@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry;
 
-public class AdrServiceClientTests
+public class AzureDeviceRegistryServiceClientTests
 {
     [Fact]
     public async Task AdrServiceClientThrowsIfAccessedWhenDisposed()
@@ -21,7 +21,7 @@ public class AdrServiceClientTests
         Mock<IMqttPubSubClient> mqttClient = new();
         mqttClient.Setup(mock => mock.ClientId).Returns("ConnectorClientId");
         ApplicationContext applicationContext = new();
-        AdrServiceClient client = new(applicationContext, mqttClient.Object);
+        AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient.Object);
 
         // Act - Dispose
         await client.DisposeAsync();
@@ -40,7 +40,7 @@ public class AdrServiceClientTests
         Mock<IMqttPubSubClient> mqttClient = new();
         mqttClient.Setup(mock => mock.ClientId).Returns("ConnectorClientId");
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient.Object);
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient.Object);
 
         CancellationTokenSource cts = new CancellationTokenSource();
         cts.Cancel();
@@ -61,7 +61,7 @@ public class AdrServiceClientTests
         Mock<IDeviceDiscoveryServiceClientStub> mockDeviceDiscoveryService = new Mock<IDeviceDiscoveryServiceClientStub>();
         Mock<IAdrBaseServiceClientStub> mockBaseServiceClient = new Mock<IAdrBaseServiceClientStub>();
 
-        await using AdrServiceClient client = new(applicationContext, connectorClientId, mockBaseServiceClient.Object, mockDeviceDiscoveryService.Object);
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, connectorClientId, mockBaseServiceClient.Object, mockDeviceDiscoveryService.Object);
 
         // Setup the underlying mock client to throw on the first attempt, but return successfully on the second attempt
         int attemptCount = 0;
@@ -116,7 +116,7 @@ public class AdrServiceClientTests
         Mock<IDeviceDiscoveryServiceClientStub> mockDeviceDiscoveryService = new Mock<IDeviceDiscoveryServiceClientStub>();
         Mock<IAdrBaseServiceClientStub> mockBaseServiceClient = new Mock<IAdrBaseServiceClientStub>();
 
-        await using AdrServiceClient client = new(applicationContext, connectorClientId, mockBaseServiceClient.Object, mockDeviceDiscoveryService.Object);
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, connectorClientId, mockBaseServiceClient.Object, mockDeviceDiscoveryService.Object);
 
         // Setup the underlying mock client to always throw
         mockBaseServiceClient.Setup(mock =>

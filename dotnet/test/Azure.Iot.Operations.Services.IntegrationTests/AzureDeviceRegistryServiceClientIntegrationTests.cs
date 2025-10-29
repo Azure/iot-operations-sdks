@@ -16,7 +16,7 @@ using Xunit.Abstractions;
 using Azure.Iot.Operations.Protocol.Retry;
 
 [Trait("Category", "ADR")]
-public class AdrServiceClientIntegrationTests
+public class AzureDeviceRegistryServiceClientIntegrationTests
 {
     private readonly ITestOutputHelper _output;
     private const string ConnectorClientId = "test-connector-client";
@@ -25,7 +25,7 @@ public class AdrServiceClientIntegrationTests
     private const string TestEndpointName = "my-rest-endpoint";
     private const string TestAssetName = "my-rest-thermostat-asset";
 
-    public AdrServiceClientIntegrationTests(ITestOutputHelper output)
+    public AzureDeviceRegistryServiceClientIntegrationTests(ITestOutputHelper output)
     {
         _output = output;
     }
@@ -36,7 +36,7 @@ public class AdrServiceClientIntegrationTests
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         // Act
         var device = await client.GetDeviceAsync(TestDevice_1_Name, TestEndpointName);
@@ -55,7 +55,7 @@ public class AdrServiceClientIntegrationTests
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<AkriServiceErrorException>(
@@ -73,7 +73,7 @@ public class AdrServiceClientIntegrationTests
         var expectedTime = DateTime.Parse("2023-10-01T00:00:00Z");
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         var status = new DeviceStatus
         {
@@ -107,7 +107,7 @@ public class AdrServiceClientIntegrationTests
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         var eventReceived = new TaskCompletionSource<bool>();
         client.OnReceiveDeviceUpdateEventTelemetry += (deviceName, inboundEndpointName, _) =>
@@ -141,7 +141,7 @@ public class AdrServiceClientIntegrationTests
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         var firstEventReceived = new TaskCompletionSource<bool>();
         var secondEventReceived = new TaskCompletionSource<bool>();
@@ -208,7 +208,7 @@ public class AdrServiceClientIntegrationTests
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         // Act
         var asset = await client.GetAssetAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
@@ -226,7 +226,7 @@ public class AdrServiceClientIntegrationTests
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         var expectedTime = DateTime.UtcNow;
 
@@ -247,7 +247,7 @@ public class AdrServiceClientIntegrationTests
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         var eventReceived = new TaskCompletionSource<bool>();
         client.OnReceiveAssetUpdateEventTelemetry += (source, _) =>
@@ -281,7 +281,7 @@ public class AdrServiceClientIntegrationTests
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         var firstEventReceived = new TaskCompletionSource<bool>();
         var secondEventReceived = new TaskCompletionSource<bool>();
@@ -349,7 +349,7 @@ public class AdrServiceClientIntegrationTests
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         var request = CreateCreateDetectedAssetRequest();
 
@@ -368,7 +368,7 @@ public class AdrServiceClientIntegrationTests
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         var request = CreateCreateDiscoveredDeviceRequest();
 
@@ -389,7 +389,7 @@ public class AdrServiceClientIntegrationTests
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+        await using AzureDeviceRegistryServiceClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
         var receivedEvents = new Dictionary<string, Device>();
         var eventReceived = new TaskCompletionSource<bool>();

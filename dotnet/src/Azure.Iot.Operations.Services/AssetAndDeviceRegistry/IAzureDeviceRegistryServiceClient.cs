@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 /// <summary>
 /// Defines methods and events for interacting with the Asset and Device Registry (ADR) service.
 /// </summary>
-public interface IAdrServiceClient : IAsyncDisposable
+public interface IAzureDeviceRegistryServiceClient : IAsyncDisposable
 {
     /// <summary>
     /// Observe or unobserve updates for a specific device endpoint.

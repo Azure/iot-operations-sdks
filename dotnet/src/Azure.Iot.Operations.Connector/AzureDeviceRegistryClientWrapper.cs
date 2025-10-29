@@ -10,9 +10,9 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class AdrClientWrapper : IAdrClientWrapper // TODO naming
+    public class AzureDeviceRegistryClientWrapper : IAzureDeviceRegistryClientWrapper
     {
-        private readonly IAdrServiceClient _client;
+        private readonly IAzureDeviceRegistryServiceClient _client;
         private readonly IAssetFileMonitor _monitor;
 
         private const byte _dummyByte = 1;
@@ -23,9 +23,9 @@ namespace Azure.Iot.Operations.Connector
 
         public event EventHandler<DeviceChangedEventArgs>? DeviceChanged;
 
-        public AdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
+        public AzureDeviceRegistryClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
         {
-            _client = new AdrServiceClient(applicationContext, mqttPubSubClient);
+            _client = new AzureDeviceRegistryServiceClient(applicationContext, mqttPubSubClient);
             _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived;
             _client.OnReceiveDeviceUpdateEventTelemetry += DeviceUpdateReceived;
             _monitor = new AssetFileMonitor();
@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.Connector
             _monitor.AssetFileChanged += AssetFileChanged;
         }
 
-        public AdrClientWrapper(IAdrServiceClient adrServiceClient, IAssetFileMonitor? assetFileMonitor = null)
+        public AzureDeviceRegistryClientWrapper(IAzureDeviceRegistryServiceClient adrServiceClient, IAssetFileMonitor? assetFileMonitor = null)
         {
             _client = adrServiceClient;
             _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived;

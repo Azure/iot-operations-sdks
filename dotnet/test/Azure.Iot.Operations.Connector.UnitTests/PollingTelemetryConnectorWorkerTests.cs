@@ -21,16 +21,16 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Environment.SetEnvironmentVariable(ConnectorFileMountSettings.ConnectorClientIdEnvVar, "someClientId");
         }
 
-        private class MockAdrClientFactory : IAdrClientWrapperProvider
+        private class MockAdrClientFactory : IAzureDeviceRegistryClientWrapperProvider
         {
-            private readonly IAdrClientWrapper _mockAdrClientWrapper;
+            private readonly IAzureDeviceRegistryClientWrapper _mockAdrClientWrapper;
 
-            public MockAdrClientFactory(IAdrClientWrapper mockAdrClientWrapper)
+            public MockAdrClientFactory(IAzureDeviceRegistryClientWrapper mockAdrClientWrapper)
             {
                 _mockAdrClientWrapper = mockAdrClientWrapper;
             }
 
-            public IAdrClientWrapper CreateAdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
+            public IAzureDeviceRegistryClientWrapper CreateAdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
             {
                 return _mockAdrClientWrapper;
             }
