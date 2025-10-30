@@ -317,6 +317,9 @@ namespace Azure.Iot.Operations.Connector
                     }
 
                     // Use TelemetrySender to publish the telemetry
+                    // Note: A new instance is created for each message to support dynamic topics.
+                    // The overhead is minimal since the MQTT client is shared and not disposed.
+                    // If performance becomes a concern, consider caching instances by topic.
                     await using var telemetrySender = new ConnectorTelemetrySender(_applicationContext, _mqttClient, topic);
                     await telemetrySender.SendTelemetryAsync(serializedPayload, metadata, null, MqttQualityOfServiceLevel.AtLeastOnce, telemetryTimeout, cancellationToken);
 
@@ -411,6 +414,9 @@ namespace Azure.Iot.Operations.Connector
                     }
 
                     // Use TelemetrySender to publish the telemetry
+                    // Note: A new instance is created for each message to support dynamic topics.
+                    // The overhead is minimal since the MQTT client is shared and not disposed.
+                    // If performance becomes a concern, consider caching instances by topic.
                     await using var telemetrySender = new ConnectorTelemetrySender(_applicationContext, _mqttClient, topic);
                     await telemetrySender.SendTelemetryAsync(serializedPayload, metadata, null, MqttQualityOfServiceLevel.AtLeastOnce, null, cancellationToken);
 
