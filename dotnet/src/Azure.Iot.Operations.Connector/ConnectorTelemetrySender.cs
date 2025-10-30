@@ -22,6 +22,16 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
+        /// Override DisposeAsync to prevent disposal of the shared MQTT client.
+        /// The MQTT client is owned by the ConnectorWorker and should not be disposed by individual telemetry senders.
+        /// </summary>
+        protected override ValueTask DisposeAsyncCore(bool disposing)
+        {
+            // Do not dispose the MQTT client as it's shared across multiple telemetry sends
+            return ValueTask.CompletedTask;
+        }
+
+        /// <summary>
         /// A passthrough serializer that handles byte arrays without any conversion.
         /// </summary>
         private class PassthroughSerializer : IPayloadSerializer
@@ -32,23 +42,29 @@ namespace Azure.Iot.Operations.Connector
             public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, Protocol.Models.MqttPayloadFormatIndicator payloadFormatIndicator)
                 where T : class
             {
+                if (typeof(T) != typeof(byte[]))
+                {
+                    throw new NotSupportedException($"PassthroughSerializer only supports byte[] payloads, but was asked to deserialize to {typeof(T).Name}");
+                }
+
                 if (payload.IsEmpty)
                 {
                     return (Array.Empty<byte>() as T)!;
                 }
-                else if (typeof(T) == typeof(byte[]))
-                {
-                    return (payload.ToArray() as T)!;
-                }
                 else
                 {
-                    return default!;
+                    return (payload.ToArray() as T)!;
                 }
             }
 
             public SerializedPayloadContext ToBytes<T>(T? payload)
                 where T : class
             {
+                if (typeof(T) != typeof(byte[]))
+                {
+                    throw new NotSupportedException($"PassthroughSerializer only supports byte[] payloads, but was asked to serialize {typeof(T).Name}");
+                }
+
                 if (payload is byte[] payload1)
                 {
                     return new(new(payload1), ContentType, PayloadFormatIndicator);
