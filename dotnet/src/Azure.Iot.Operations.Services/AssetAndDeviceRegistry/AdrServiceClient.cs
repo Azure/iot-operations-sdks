@@ -77,6 +77,16 @@ public class AdrServiceClient : IAdrServiceClient
     /// <inheritdoc />
     public async Task<Models.SetNotificationPreferenceForDeviceUpdatesResponsePayload> SetNotificationPreferenceForDeviceUpdatesAsync(string deviceName, string inboundEndpointName, Models.NotificationPreference notificationPreference, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
         return await RunWithRetryAsync<Models.SetNotificationPreferenceForDeviceUpdatesResponsePayload>(async () =>
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -116,6 +126,21 @@ public class AdrServiceClient : IAdrServiceClient
 
     public async Task<Models.SetNotificationPreferenceForAssetUpdatesResponsePayload> SetNotificationPreferenceForAssetUpdatesAsync(string deviceName, string inboundEndpointName, string assetName, Models.NotificationPreference notificationPreference, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
+        if (string.IsNullOrWhiteSpace(assetName))
+        {
+            throw new ArgumentException("Asset name cannot be null or empty", nameof(assetName));
+        }
+
         return await RunWithRetryAsync<Models.SetNotificationPreferenceForAssetUpdatesResponsePayload>(async () =>
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -161,6 +186,16 @@ public class AdrServiceClient : IAdrServiceClient
     public async Task<Device> GetDeviceAsync(string deviceName, string inboundEndpointName, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
         return await RunWithRetryAsync<Device>(async () =>
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -191,6 +226,16 @@ public class AdrServiceClient : IAdrServiceClient
     public async Task<DeviceStatus> UpdateDeviceStatusAsync(string deviceName, string inboundEndpointName,
         DeviceStatus status, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
         return await RunWithRetryAsync<DeviceStatus>(async () =>
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -228,6 +273,16 @@ public class AdrServiceClient : IAdrServiceClient
 
     public async Task<DeviceStatus> GetDeviceStatusAsync(string deviceName, string inboundEndpointName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
         return await RunWithRetryAsync<DeviceStatus>(async () =>
         {
 
@@ -262,6 +317,21 @@ public class AdrServiceClient : IAdrServiceClient
     public async Task<Asset> GetAssetAsync(string deviceName, string inboundEndpointName, string assetName, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
+        if (string.IsNullOrWhiteSpace(assetName))
+        {
+            throw new ArgumentException("Asset name cannot be null or empty", nameof(assetName));
+        }
+
         return await RunWithRetryAsync<Asset>(async () =>
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -298,6 +368,16 @@ public class AdrServiceClient : IAdrServiceClient
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
         return await RunWithRetryAsync<AssetStatus>(async () =>
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -332,6 +412,21 @@ public class AdrServiceClient : IAdrServiceClient
     /// <inheritdoc />
     public async Task<AssetStatus> GetAssetStatusAsync(string deviceName, string inboundEndpointName, string assetName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
+        if (string.IsNullOrWhiteSpace(assetName))
+        {
+            throw new ArgumentException("Asset name cannot be null or empty", nameof(assetName));
+        }
+
         return await RunWithRetryAsync<AssetStatus>(async () =>
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -371,6 +466,16 @@ public class AdrServiceClient : IAdrServiceClient
     public async Task<Models.CreateOrUpdateDiscoveredAssetResponsePayload> CreateOrUpdateDiscoveredAssetAsync(string deviceName, string inboundEndpointName, CreateOrUpdateDiscoveredAssetRequest request,
         TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
         return await RunWithRetryAsync<Models.CreateOrUpdateDiscoveredAssetResponsePayload>(async () =>
         {
             cancellationToken.ThrowIfCancellationRequested();
