@@ -77,8 +77,7 @@ jobs:
 
     - name: Install .NET connector templates
       run: |
-        dotnet new install dotnet/templates/EventDrivenTelemetryConnector
-        dotnet new install dotnet/templates/PollingTelemetryConnector
+        dotnet new install dotnet/templates
  
     - name: Build Faultable MQTT Broker
       run: dotnet build eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj
