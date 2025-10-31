@@ -90,6 +90,32 @@ macro_rules! report_status_one_way {
     };
 }
 
+/// Macro that generates closures for reporting status any time it's different than the current status
+///
+/// This means that unless the statuses match exactly, the new status will be reported
+///
+/// Reports Ok in any case where status is not Ok
+/// Reports Err in any case where the status is not the same exact Err
+macro_rules! report_status_if_different {
+    ($new_status:expr) => {
+        |status| {
+            let should_report = match (&status, &$new_status) {
+                // Report Ok(()) in all cases unless it's already Ok
+                (Some(Ok(())), Ok(())) => false,
+                // If the current status is Err, only don't report if they match
+                (Some(Err(curr_err)), Err(new_err)) => *curr_err != new_err,
+                // Report anything else
+                _ => true,
+            };
+            if should_report {
+                Some($new_status)
+            } else {
+                None
+            }
+        }
+    };
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create the connector artifacts from the deployment, IMPLEMENT: Use them as needed
@@ -533,35 +559,16 @@ async fn handle_dataset(
             // Using 'biased;' ensures updates are prioritized over sampling.
             biased;
             // Monitor for device endpoint readiness changes
-            _ = device_endpoint_ready_watcher_rx.changed() => {
+            res = device_endpoint_ready_watcher_rx.changed() => {
+                if res.is_err() {
+                    // While this signals that the device endpoint has been deleted, the associated dataset will be deleted momentarily as well.
+                    log::info!("{dataset_log_identifier} Device Endpoint deleted notification received, ending dataset handler");
+                    break;
+                }
                 // Update our local device endpoint readiness state
                 is_device_endpoint_ready = *device_endpoint_ready_watcher_rx.borrow_and_update();
 
-                log::info!("{dataset_log_identifier} Device endpoint ready state changed to {is_device_endpoint_ready}");
-            },
-            // Monitor for asset updates and readiness changes
-            _ = asset_update_watcher_rx.changed() => {
-                // Update our local asset readiness state
-                is_asset_ready = *asset_update_watcher_rx.borrow_and_update();
-                log::debug!("{dataset_log_identifier} Asset update notification received. Current ready state is {is_asset_ready}");
-
-                // Re-report dataset status as status has been cleared
-                match data_operation_status_reporter
-                    .report_status_if_modified(report_status_one_way!(
-                        last_reported_dataset_status.clone()
-                    ))
-                    .await
-                {
-                    Ok(ModifyResult::Reported) => {
-                        log::info!("{dataset_log_identifier} Dataset status reported");
-                    }
-                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
-                    Err(e) => {
-                        log::error!(
-                            "{dataset_log_identifier} Failed to report Dataset status: {e}"
-                        );
-                    }
-                }
+                log::debug!("{dataset_log_identifier} Device endpoint ready state changed to {is_device_endpoint_ready}");
             },
             data_operation_notification = data_operation_client.recv_notification() => {
                 // Match the data operation notification to handle updates, deletions, or invalid updates
@@ -578,7 +585,7 @@ async fn handle_dataset(
 
                         // Report the dataset status based on validation.
                         match data_operation_status_reporter
-                            .report_status_if_modified(report_status_one_way!(
+                            .report_status_if_modified(report_status_if_different!(
                                 last_reported_dataset_status.clone()
                             ))
                             .await
@@ -605,6 +612,35 @@ async fn handle_dataset(
                         is_dataset_ready = false;
                         // Continue to wait for a valid update
                     },
+                }
+            },
+            // Monitor for asset updates and readiness changes
+            res = asset_update_watcher_rx.changed() => {
+                if res.is_err() {
+                    // The asset client has been deleted, we need to end the data operation handler
+                    log::info!("{dataset_log_identifier} Asset deleted notification received, ending dataset handler");
+                    break;
+                }
+                // Update our local asset readiness state
+                is_asset_ready = *asset_update_watcher_rx.borrow_and_update();
+                log::debug!("{dataset_log_identifier} Asset update notification received. Current ready state is {is_asset_ready}");
+
+                // Re-report dataset status as status has been cleared
+                match data_operation_status_reporter
+                    .report_status_if_modified(report_status_one_way!(
+                        last_reported_dataset_status.clone()
+                    ))
+                    .await
+                {
+                    Ok(ModifyResult::Reported) => {
+                        log::info!("{dataset_log_identifier} Dataset status reported");
+                    }
+                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
+                    Err(e) => {
+                        log::error!(
+                            "{dataset_log_identifier} Failed to report Dataset status: {e}"
+                        );
+                    }
                 }
             },
             _ = timer.tick(), if is_dataset_ready && is_asset_ready && is_device_endpoint_ready => {
