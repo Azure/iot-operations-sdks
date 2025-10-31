@@ -561,7 +561,7 @@ async fn handle_dataset(
             // Monitor for device endpoint readiness changes
             res = device_endpoint_ready_watcher_rx.changed() => {
                 if res.is_err() {
-                    // While this signals that the device endpoint has been deleted, the associated dataset will be deleted as momentarily as well.
+                    // While this signals that the device endpoint has been deleted, the associated dataset will be deleted momentarily as well.
                     log::info!("{dataset_log_identifier} Device Endpoint deleted notification received, ending dataset handler");
                     break;
                 }
