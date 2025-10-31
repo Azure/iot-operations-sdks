@@ -235,7 +235,7 @@ where
         //  we won't want to keep entire copies of all Publishes, so we will just copy the
         //  properties once.
 
-        let publish_properties = value.properties.ok_or("Publish contains no properties")?;
+        let publish_properties = value.properties.unwrap_or_default();
 
         // Parse user properties
         let expected_aio_properties = [
