@@ -285,49 +285,41 @@ namespace Azure.Iot.Operations.Connector
                 if (destination.Target == DatasetTarget.Mqtt)
                 {
                     string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {dataset.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
-                    var mqttMessage = new MqttApplicationMessage(topic)
+
+                    var messageMetadata = new OutgoingTelemetryMetadata
                     {
-                        PayloadSegment = serializedPayload,
+                        CloudEvent = cloudEvent
                     };
 
                     Retain? retain = destination.Configuration.Retain;
                     if (retain != null)
                     {
-                        mqttMessage.Retain = retain == Retain.Keep;
-                    }
-
-                    ulong? ttl = destination.Configuration.Ttl;
-                    if (ttl != null)
-                    {
-                        mqttMessage.MessageExpiryInterval = (uint)ttl.Value;
-                    }
-
-                    if (cloudEvent != null)
-                    {
-                        mqttMessage.AddCloudEvents(cloudEvent);
+                        messageMetadata.Retain = retain == Retain.Keep;
                     }
 
                     if (userData != null)
                     {
                         foreach (string key in userData.Keys)
                         {
-                            mqttMessage.AddUserProperty(key, userData[key]);
+                            messageMetadata.UserData[key] = userData[key];
                         }
                     }
 
-                    MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
+                    TimeSpan? telemetryTimeout = null;
+                    ulong? ttl = destination.Configuration.Ttl;
+                    if (ttl != null)
+                    {
+                        telemetryTimeout = TimeSpan.FromSeconds(ttl.Value);
+                    }
 
-                    if (puback.ReasonCode == MqttClientPublishReasonCode.Success
-                        || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
-                    {
-                        // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
-                        // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString} on topic {mqttMessage.Topic}");
-                    }
-                    else
-                    {
-                        _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
-                    }
+                    // Use TelemetrySender to publish the telemetry
+                    // Note: A new instance is created for each message to support dynamic topics.
+                    // The overhead is minimal since the MQTT client is shared and not disposed.
+                    // If performance becomes a concern, consider caching instances by topic.
+                    await using var telemetrySender = new ConnectorTelemetrySender(_applicationContext, _mqttClient, topic);
+                    await telemetrySender.SendTelemetryAsync(serializedPayload, messageMetadata, null, MqttQualityOfServiceLevel.AtLeastOnce, telemetryTimeout, cancellationToken);
+
+                    _logger.LogInformation($"Message was successfully sent to MQTT broker on topic {topic}");
                 }
                 else if (destination.Target == DatasetTarget.BrokerStateStore)
                 {
@@ -394,43 +386,34 @@ namespace Azure.Iot.Operations.Connector
                 if (destination.Target == EventStreamTarget.Mqtt)
                 {
                     string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {assetEvent.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
-                    var mqttMessage = new MqttApplicationMessage(topic)
+
+                    var messageMetadata = new OutgoingTelemetryMetadata
                     {
-                        PayloadSegment = serializedPayload,
+                        CloudEvent = cloudEvent
                     };
 
                     Retain? retain = destination.Configuration.Retain;
                     if (retain != null)
                     {
-                        mqttMessage.Retain = retain == Retain.Keep;
-                    }
-
-                    if (cloudEvent != null)
-                    {
-                        mqttMessage.AddCloudEvents(cloudEvent);
+                        messageMetadata.Retain = retain == Retain.Keep;
                     }
 
                     if (userData != null)
                     {
                         foreach (string key in userData.Keys)
                         {
-                            mqttMessage.AddUserProperty(key, userData[key]);
+                            messageMetadata.UserData[key] = userData[key];
                         }
                     }
 
-                    MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
+                    // Use TelemetrySender to publish the telemetry
+                    // Note: A new instance is created for each message to support dynamic topics.
+                    // The overhead is minimal since the MQTT client is shared and not disposed.
+                    // If performance becomes a concern, consider caching instances by topic.
+                    await using var telemetrySender = new ConnectorTelemetrySender(_applicationContext, _mqttClient, topic);
+                    await telemetrySender.SendTelemetryAsync(serializedPayload, messageMetadata, null, MqttQualityOfServiceLevel.AtLeastOnce, null, cancellationToken);
 
-                    if (puback.ReasonCode == MqttClientPublishReasonCode.Success
-                        || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
-                    {
-                        // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
-                        // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString} on topic {mqttMessage.Topic}");
-                    }
-                    else
-                    {
-                        _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
-                    }
+                    _logger.LogInformation($"Message was successfully sent to MQTT broker on topic {topic}");
                 }
                 else if (destination.Target == EventStreamTarget.Storage)
                 {
