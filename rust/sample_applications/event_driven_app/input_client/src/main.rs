@@ -8,7 +8,7 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
-    session::{Session, SessionConnectionMonitor, SessionManagedClient, SessionOptionsBuilder},
+    session::{Session, SessionMonitor, SessionManagedClient, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
     application::{ApplicationContext, ApplicationContextBuilder},
@@ -64,7 +64,7 @@ async fn main() {
     let process_sensor_data_handle = tokio::task::spawn(process_sensor_data(
         application_context.clone(),
         session.create_managed_client(),
-        session.create_connection_monitor(),
+        session.create_session_monitor(),
         sensor_data_processing_rx,
     ));
 
@@ -109,13 +109,13 @@ async fn receive_telemetry(
 async fn process_sensor_data(
     application_context: ApplicationContext,
     client: SessionManagedClient,
-    connection_monitor: SessionConnectionMonitor,
+    session_monitor: SessionMonitor,
     mut sensor_data_processing_rx: mpsc::UnboundedReceiver<SensorData>,
 ) {
     let state_store_client = state_store::Client::new(
         application_context,
         client,
-        connection_monitor,
+        session_monitor,
         state_store::ClientOptionsBuilder::default()
             .build()
             .expect("default state store options should not fail"),
