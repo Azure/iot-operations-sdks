@@ -6,16 +6,52 @@
 use std::{sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::session::{
-    Session, SessionError, SessionManagedClient, SessionOptionsBuilder,
+    AIOBrokerFeatures, AIOBrokerFeaturesBuilder, Session, SessionError, SessionManagedClient,
+    SessionOptionsBuilder,
+    reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy},
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::{azure_device_registry, schema_registry, state_store};
+use derive_builder::Builder;
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 
 use crate::deployment_artifacts::connector::ConnectorArtifacts;
 
 pub mod adr_discovery;
 pub mod managed_azure_device_registry;
+
+/// Options for configuring a new [`BaseConnector`]
+#[derive(Builder)]
+#[builder(pattern = "owned")]
+pub struct Options {
+    // Options for configuring the MQTT session
+    /// Maximum number of outgoing messages not yet accepted by the
+    #[builder(default = "100")]
+    outgoing_max: usize,
+    /// Reconnect policy for the MQTT session
+    #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
+    reconnect_policy: Box<dyn ReconnectPolicy>,
+    /// Options for configuring features on the underlying [`Session`] that are specific to the AIO broker
+    #[builder(default = "Some(AIOBrokerFeaturesBuilder::default().build().unwrap())")]
+    aio_broker_features: Option<AIOBrokerFeatures>,
+
+    // Timeouts for underlying service operations
+    /// Timeout for Azure Device Registry operations
+    #[builder(default = "Duration::from_secs(10)")]
+    azure_device_registry_timeout: Duration,
+    // NOTE (2025-09-12): Schema Registry has an issue with scale causing throttling,
+    // so this value has been set very high. This is probably not ideal.
+    /// Timeout for Schema Registry operations
+    #[builder(default = "Duration::from_secs(90)")]
+    schema_registry_timeout: Duration,
+    /// Timeout for State Store operations
+    #[builder(default = "Duration::from_secs(10)")]
+    state_store_timeout: Duration,
+
+    /// Debounce duration for filemount operations for the connector
+    #[builder(default = "Duration::from_secs(5)")]
+    debounce_duration: Duration,
+}
 
 /// Context required to run the base connector operations
 pub(crate) struct ConnectorContext {
@@ -68,6 +104,7 @@ impl BaseConnector {
     pub fn new(
         application_context: ApplicationContext,
         connector_artifacts: ConnectorArtifacts,
+        base_connector_options: Options,
     ) -> Result<Self, String> {
         // Create Session
         let mqtt_connection_settings = connector_artifacts
@@ -75,8 +112,9 @@ impl BaseConnector {
             .map_err(|e| e.to_string())?;
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(mqtt_connection_settings)
-            // TODO: reconnect policy
-            // TODO: outgoing_max
+            .reconnect_policy(base_connector_options.reconnect_policy)
+            .outgoing_max(base_connector_options.outgoing_max)
+            .aio_broker_features(base_connector_options.aio_broker_features)
             .build()
             .map_err(|e| e.to_string())?;
         let session = Session::new(session_options).map_err(|e| e.to_string())?;
@@ -109,15 +147,10 @@ impl BaseConnector {
 
         Ok(Self {
             connector_context: Arc::new(ConnectorContext {
-                // TODO: These timeouts should come from somewhere, specifically, probably the artifacts.
-                // These will need to be configured by the connector deployer, not the connector author,
-                // so exposing them through API is not the correct solution.
-                debounce_duration: Duration::from_secs(5),
-                azure_device_registry_timeout: Duration::from_secs(10),
-                // NOTE (2025-09-12): Schema Registry has an issue with scale causing throttling,
-                // so this value has been set very high. This is probably not ideal.
-                schema_registry_timeout: Duration::from_secs(90),
-                state_store_timeout: Duration::from_secs(10),
+                debounce_duration: base_connector_options.debounce_duration,
+                azure_device_registry_timeout: base_connector_options.azure_device_registry_timeout,
+                schema_registry_timeout: base_connector_options.schema_registry_timeout,
+                state_store_timeout: base_connector_options.state_store_timeout,
                 application_context,
                 managed_client: session.create_managed_client(),
                 connector_artifacts,

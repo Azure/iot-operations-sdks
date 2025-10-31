@@ -74,8 +74,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create an ApplicationContext
     let application_context = ApplicationContextBuilder::default().build()?;
 
+    // Create options for the base connector
+    let base_connector_options = base_connector::OptionsBuilder::default().build().unwrap();
+
     // Create the BaseConnector
-    let base_connector = BaseConnector::new(application_context, connector_artifacts)?;
+    let base_connector = BaseConnector::new(
+        application_context,
+        connector_artifacts,
+        base_connector_options,
+    )?;
 
     // Create a device endpoint client creation observation
     let device_creation_observation =
