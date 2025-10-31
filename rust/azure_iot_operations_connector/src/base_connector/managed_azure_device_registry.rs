@@ -2153,25 +2153,35 @@ impl DataOperationClient {
         let forwarder = match definition {
             DataOperationDefinition::Dataset(ref dataset) => {
                 destination_endpoint::Forwarder::new_dataset_forwarder(
-                    &dataset.destinations,
-                    &asset_ref.inbound_endpoint_name,
+                    dataset,
                     default_destinations,
+                    &asset_ref.inbound_endpoint_name,
+                    device_specification.read().unwrap().uuid.clone(),
+                    asset_specification.read().unwrap().uuid.clone(),
                     connector_context.clone(),
                 )
             }
             DataOperationDefinition::Event(ref event) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &event.destinations,
-                    &asset_ref.inbound_endpoint_name,
                     default_destinations,
+                    &data_operation_ref,
+                    event.data_source.clone(),
+                    event.type_ref.clone(),
+                    device_specification.read().unwrap().uuid.clone(),
+                    asset_specification.read().unwrap().uuid.clone(),
                     connector_context.clone(),
                 )
             }
             DataOperationDefinition::Stream(ref stream) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &stream.destinations,
-                    &asset_ref.inbound_endpoint_name,
                     default_destinations,
+                    &data_operation_ref,
+                    None,
+                    stream.type_ref.clone(),
+                    device_specification.read().unwrap().uuid.clone(),
+                    asset_specification.read().unwrap().uuid.clone(),
                     connector_context.clone(),
                 )
             }
@@ -2694,25 +2704,35 @@ impl DataOperationClient {
         let forwarder_result = match updated_data_operation {
             DataOperationDefinition::Dataset(ref updated_dataset) => {
                 destination_endpoint::Forwarder::new_dataset_forwarder(
-                    &updated_dataset.destinations,
-                    &self.asset_ref.inbound_endpoint_name,
+                    updated_dataset,
                     &default_destinations,
+                    &self.asset_ref.inbound_endpoint_name,
+                    self.device_specification.read().unwrap().uuid.clone(),
+                    self.asset_specification.read().unwrap().uuid.clone(),
                     self.connector_context.clone(),
                 )
             }
             DataOperationDefinition::Event(ref updated_event) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &updated_event.destinations,
-                    &self.asset_ref.inbound_endpoint_name,
                     &default_destinations,
+                    &self.data_operation_ref,
+                    updated_event.data_source.clone(),
+                    updated_event.type_ref.clone(),
+                    self.device_specification.read().unwrap().uuid.clone(),
+                    self.asset_specification.read().unwrap().uuid.clone(),
                     self.connector_context.clone(),
                 )
             }
             DataOperationDefinition::Stream(ref updated_stream) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &updated_stream.destinations,
-                    &self.asset_ref.inbound_endpoint_name,
                     &default_destinations,
+                    &self.data_operation_ref,
+                    None,
+                    updated_stream.type_ref.clone(),
+                    self.device_specification.read().unwrap().uuid.clone(),
+                    self.asset_specification.read().unwrap().uuid.clone(),
                     self.connector_context.clone(),
                 )
             }

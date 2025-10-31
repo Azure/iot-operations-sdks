@@ -18,7 +18,9 @@ use azure_iot_operations_services::{azure_device_registry::models as adr_models,
 use chrono::{DateTime, Utc};
 use thiserror::Error;
 
-use crate::{AdrConfigError, Data, DataOperationName, base_connector::ConnectorContext};
+use crate::{
+    AdrConfigError, Data, DataOperationName, DataOperationRef, base_connector::ConnectorContext,
+};
 
 /// Represents an error that occurred in the [`Forwarder`].
 #[derive(Debug, Error)]
@@ -58,6 +60,8 @@ pub enum ErrorKind {
 pub(crate) struct Forwarder {
     message_schema_reference: Option<adr_models::MessageSchemaReference>,
     destination: ForwarderDestination,
+    device_uuid: Option<String>,
+    asset_uuid: Option<String>,
     data_source: Option<String>,
     data_operation_name: DataOperationName,
     data_operation_type_ref: Option<String>,
@@ -76,8 +80,8 @@ impl Forwarder {
         dataset: &adr_models::Dataset,
         default_destinations: &[Arc<Destination>],
         inbound_endpoint_name: &str,
-        device_uuid: &Option<String>,
-        asset_uuid: &Option<String>,
+        device_uuid: Option<String>,
+        asset_uuid: Option<String>,
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Use internal new fn with dataset destinations
@@ -85,11 +89,11 @@ impl Forwarder {
             Destination::new_dataset_destinations(
                 &dataset.destinations,
                 inbound_endpoint_name,
-                device_uuid,
-                asset_uuid,
                 &connector_context,
             )?,
             default_destinations,
+            device_uuid,
+            asset_uuid,
             dataset.data_source.clone(),
             DataOperationName::Dataset {
                 name: dataset.name.clone(),
@@ -109,26 +113,25 @@ impl Forwarder {
     pub(crate) fn new_event_stream_forwarder(
         event_stream_destinations: &[adr_models::EventStreamDestination],
         default_destinations: &[Arc<Destination>],
-        data_operation_name: DataOperationName,
+        data_operation_ref: &DataOperationRef,
         data_source: Option<String>,
         data_operation_type_ref: Option<String>,
-        inbound_endpoint_name: &str,
-        device_uuid: &Option<String>,
-        asset_uuid: &Option<String>,
+        device_uuid: Option<String>,
+        asset_uuid: Option<String>,
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Use internal new fn with event/stream destinations
         Self::new_data_operation_forwarder(
             Destination::new_event_stream_destinations(
                 event_stream_destinations,
-                inbound_endpoint_name,
-                device_uuid,
-                asset_uuid,
+                &data_operation_ref.inbound_endpoint_name,
                 &connector_context,
             )?,
             default_destinations,
+            device_uuid,
+            asset_uuid,
             data_source,
-            data_operation_name,
+            data_operation_ref.data_operation_name.clone(),
             data_operation_type_ref,
             connector_context,
         )
@@ -137,6 +140,8 @@ impl Forwarder {
     fn new_data_operation_forwarder(
         mut data_operation_destinations: Vec<Destination>,
         default_destinations: &[Arc<Destination>],
+        device_uuid: Option<String>,
+        asset_uuid: Option<String>,
         data_source: Option<String>,
         data_operation_name: DataOperationName,
         data_operation_type_ref: Option<String>,
@@ -164,6 +169,8 @@ impl Forwarder {
         Ok(Self {
             message_schema_reference: None,
             destination,
+            device_uuid,
+            asset_uuid,
             data_source,
             data_operation_name,
             data_operation_type_ref,
@@ -223,51 +230,10 @@ impl Forwarder {
                 ttl,
                 inbound_endpoint_name,
                 telemetry_sender,
-                device_uuid,
-                asset_uuid,
             } => {
                 // create MQTT message, setting schema id to response from SR (message_schema_uri)
-                // // TODO: remove once message schema validation is turned back on
-                // #[allow(clippy::manual_map)]
-                // let message_schema_uri =
-                //     if let Some(message_schema_reference) = &self.message_schema_reference {
-                //         Some(format!(
-                //             "aio-sr://{}/{}:{}",
-                //             message_schema_reference.registry_namespace,
-                //             message_schema_reference.name,
-                //             message_schema_reference.version
-                //         ))
-                //     } else {
-                //         // TODO: validate this for other destinations as well
-                //         // Commented out to remove the requirement for message schema temporarily
-                //         // return Err(Error(ErrorKind::MissingMessageSchema));
-                //         None
-                //     };
-                // let mut cloud_event_builder = telemetry::sender::CloudEventBuilder::default();
-                // cloud_event_builder.source(inbound_endpoint_name);
-                // // .event_type("something?")
-                // if let Some(message_schema_uri) = message_schema_uri {
-                //     cloud_event_builder.data_schema(message_schema_uri);
-                // }
-                // if let Some(hlc) = data.timestamp {
-                //     cloud_event_builder.time(DateTime::<Utc>::from(hlc.timestamp));
-                // }
-                // let cloud_event = cloud_event_builder.build().map_err(|e| {
-                //     match e {
-                //         // since we specify `source`, all required fields will always be present
-                //         telemetry::sender::CloudEventBuilderError::UninitializedField(_) => {
-                //             unreachable!()
-                //         }
-                //         // This can be caused by a
-                //         // source that isn't a uri reference
-                //         // data_schema that isn't a valid uri - don't think this is possible since we create it
-                //         telemetry::sender::CloudEventBuilderError::ValidationError(e) => {
-                //             Error(ErrorKind::ValidationError(e))
-                //         }
-                //         e => Error(ErrorKind::ValidationError(e.to_string())),
-                //     }
-                // })?;
-                let cloud_event = self.build_cloud_event_headers(inbound_endpoint_name, device_uuid, asset_uuid, data.timestamp)?;
+                let cloud_event =
+                    self.build_cloud_event_headers(inbound_endpoint_name, data.timestamp)?;
                 let mut message_builder = telemetry::sender::MessageBuilder::default();
                 if let Some(qos) = qos {
                     message_builder.qos(*qos);
@@ -319,10 +285,10 @@ impl Forwarder {
     fn build_cloud_event_headers(
         &self,
         inbound_endpoint_name: &String,
-        device_uuid: &Option<String>,
-        asset_uuid: &Option<String>,
         data_timestamp: Option<HybridLogicalClock>,
     ) -> Result<telemetry::sender::CloudEvent, Error> {
+        // TODO: remove once message schema validation is turned back on
+        #[allow(clippy::manual_map)]
         let message_schema_uri =
             if let Some(message_schema_reference) = &self.message_schema_reference {
                 Some(format!(
@@ -340,7 +306,7 @@ impl Forwarder {
         let mut cloud_event_builder = telemetry::sender::CloudEventBuilder::default();
 
         let mut source = "ms-aio".to_string();
-        if let Some(device_uuid) = device_uuid {
+        if let Some(device_uuid) = &self.device_uuid {
             source = format!("{source}:{device_uuid}_{inbound_endpoint_name}");
         } else {
             source = format!("{source}:{inbound_endpoint_name}");
@@ -363,7 +329,7 @@ impl Forwarder {
         }
         cloud_event_builder.event_type(event_type);
 
-        let subject = if let Some(asset_uuid) = asset_uuid {
+        let subject = if let Some(asset_uuid) = &self.asset_uuid {
             format!("{asset_uuid}/{data_operation_name}")
         } else {
             data_operation_name
@@ -446,11 +412,6 @@ pub(crate) enum Destination {
         retain: Option<bool>,
         ttl: Option<u64>,
         inbound_endpoint_name: String,
-        device_uuid: Option<String>,
-        asset_uuid: Option<String>,
-        // data_source: Option<String>,
-        // data_operation_kind: DataOperationName,
-        // data_operation_type_ref: Option<String>,
         telemetry_sender: telemetry::Sender<BypassPayload, SessionManagedClient>,
     },
     Storage {
@@ -470,8 +431,6 @@ impl Destination {
     pub(crate) fn new_dataset_destinations(
         dataset_destinations: &[adr_models::DatasetDestination],
         inbound_endpoint_name: &str,
-        device_uuid: &Option<String>,
-        asset_uuid: &Option<String>,
         connector_context: &Arc<ConnectorContext>,
     ) -> Result<Vec<Self>, AdrConfigError> {
         // Create a new forwarder
@@ -483,8 +442,6 @@ impl Destination {
             let destination = Self::new_data_operation_destination(
                 &DataOperationDestinationDefinition::Dataset(definition_destination.clone()),
                 inbound_endpoint_name,
-                device_uuid,
-                asset_uuid,
                 connector_context,
             )?;
             Ok(vec![destination])
@@ -502,8 +459,6 @@ impl Destination {
     pub(crate) fn new_event_stream_destinations(
         event_stream_destinations: &[adr_models::EventStreamDestination],
         inbound_endpoint_name: &str,
-        device_uuid: &Option<String>,
-        asset_uuid: &Option<String>,
         connector_context: &Arc<ConnectorContext>,
     ) -> Result<Vec<Self>, AdrConfigError> {
         // Create a new forwarder
@@ -515,8 +470,6 @@ impl Destination {
             let destination = Self::new_data_operation_destination(
                 &DataOperationDestinationDefinition::EventStream(definition_destination.clone()),
                 inbound_endpoint_name,
-                device_uuid,
-                asset_uuid,
                 connector_context,
             )?;
             Ok(vec![destination])
@@ -526,8 +479,6 @@ impl Destination {
     fn new_data_operation_destination(
         data_operation_destination_definition: &DataOperationDestinationDefinition,
         inbound_endpoint_name: &str,
-        device_uuid: &Option<String>,
-        asset_uuid: &Option<String>,
         connector_context: &Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         Ok(match data_operation_destination_definition.target() {
@@ -584,8 +535,6 @@ impl Destination {
                         .map(|r| matches!(r, adr_models::Retain::Keep)),
                     ttl: data_operation_destination_definition.configuration().ttl,
                     inbound_endpoint_name: inbound_endpoint_name.to_string(),
-                    device_uuid: device_uuid.clone(),
-                    asset_uuid: asset_uuid.clone(),
                     telemetry_sender,
                 }
             }
