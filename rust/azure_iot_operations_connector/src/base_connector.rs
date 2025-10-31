@@ -20,39 +20,6 @@ use crate::deployment_artifacts::connector::ConnectorArtifacts;
 pub mod adr_discovery;
 pub mod managed_azure_device_registry;
 
-/// Options for configuring a new [`BaseConnector`]
-#[derive(Builder)]
-#[builder(pattern = "owned")]
-pub struct Options {
-    // Options for configuring the MQTT session
-    /// Maximum number of outgoing messages not yet accepted by the
-    #[builder(default = "100")]
-    outgoing_max: usize,
-    /// Reconnect policy for the MQTT session
-    #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
-    reconnect_policy: Box<dyn ReconnectPolicy>,
-    /// Options for configuring features on the underlying [`Session`] that are specific to the AIO broker
-    #[builder(default = "Some(AIOBrokerFeaturesBuilder::default().build().unwrap())")]
-    aio_broker_features: Option<AIOBrokerFeatures>,
-
-    // Timeouts for underlying service operations
-    /// Timeout for Azure Device Registry operations
-    #[builder(default = "Duration::from_secs(10)")]
-    azure_device_registry_timeout: Duration,
-    // NOTE (2025-09-12): Schema Registry has an issue with scale causing throttling,
-    // so this value has been set very high. This is probably not ideal.
-    /// Timeout for Schema Registry operations
-    #[builder(default = "Duration::from_secs(90)")]
-    schema_registry_timeout: Duration,
-    /// Timeout for State Store operations
-    #[builder(default = "Duration::from_secs(10)")]
-    state_store_timeout: Duration,
-
-    /// Debounce duration for filemount operations for the connector
-    #[builder(default = "Duration::from_secs(5)")]
-    debounce_duration: Duration,
-}
-
 /// Context required to run the base connector operations
 pub(crate) struct ConnectorContext {
     /// Application context used for creating new clients and envoys
@@ -88,6 +55,39 @@ impl std::fmt::Debug for ConnectorContext {
             .field("state_store_timeout", &self.state_store_timeout)
             .finish()
     }
+}
+
+/// Options for configuring a new [`BaseConnector`]
+#[derive(Builder)]
+#[builder(pattern = "owned")]
+pub struct Options {
+    // Options for configuring the MQTT session
+    /// Maximum number of outgoing messages not yet accepted by the
+    #[builder(default = "100")]
+    outgoing_max: usize,
+    /// Reconnect policy for the MQTT session
+    #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
+    reconnect_policy: Box<dyn ReconnectPolicy>,
+    /// Options for configuring features on the underlying [`Session`] that are specific to the AIO broker
+    #[builder(default = "Some(AIOBrokerFeaturesBuilder::default().build().unwrap())")]
+    aio_broker_features: Option<AIOBrokerFeatures>,
+
+    // Timeouts for underlying service operations
+    /// Timeout for Azure Device Registry operations
+    #[builder(default = "Duration::from_secs(10)")]
+    azure_device_registry_timeout: Duration,
+    // NOTE (2025-09-12): Schema Registry has an issue with scale causing throttling,
+    // so this value has been set very high. This is probably not ideal.
+    /// Timeout for Schema Registry operations
+    #[builder(default = "Duration::from_secs(90)")]
+    schema_registry_timeout: Duration,
+    /// Timeout for State Store operations
+    #[builder(default = "Duration::from_secs(10)")]
+    state_store_timeout: Duration,
+
+    /// Debounce duration for filemount operations for the connector
+    #[builder(default = "Duration::from_secs(5)")]
+    debounce_duration: Duration,
 }
 
 /// Base Connector for Azure IoT Operations
