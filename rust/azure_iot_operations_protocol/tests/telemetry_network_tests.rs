@@ -142,7 +142,7 @@ async fn telemetry_basic_send_receive_network_tests() {
         // Network tests disabled, skipping tests
         return;
     };
-    let monitor = session.create_connection_monitor();
+    let monitor = session.create_session_monitor();
 
     let test_task = tokio::task::spawn({
         async move {
@@ -300,7 +300,7 @@ async fn telemetry_complex_send_receive_network_tests() {
         // Network tests disabled, skipping tests
         return;
     };
-    let monitor = session.create_connection_monitor();
+    let monitor = session.create_session_monitor();
 
     let test_payload1 = DataPayload {
         external_temperature: 100.0,
@@ -521,7 +521,7 @@ async fn telemetry_retained_message_test() {
 
     // === 1: Publisher sending a retained message ===
     let (publisher_session, pub_session_exit_handle) = setup_session_and_handle(publisher_id);
-    let publisher_monitor = publisher_session.create_connection_monitor();
+    let publisher_monitor = publisher_session.create_session_monitor();
 
     let publisher: telemetry::Sender<DataPayload, _> = telemetry::Sender::new(
         application_context.clone(),
