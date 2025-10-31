@@ -286,29 +286,25 @@ namespace Azure.Iot.Operations.Connector
                 {
                     string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {dataset.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
 
-                    // Create telemetry metadata
-                    var metadata = new OutgoingTelemetryMetadata
+                    var messageMetadata = new OutgoingTelemetryMetadata
                     {
                         CloudEvent = cloudEvent
                     };
 
-                    // Set retain if configured
                     Retain? retain = destination.Configuration.Retain;
                     if (retain != null)
                     {
-                        metadata.Retain = retain == Retain.Keep;
+                        messageMetadata.Retain = retain == Retain.Keep;
                     }
 
-                    // Add user properties if provided
                     if (userData != null)
                     {
                         foreach (string key in userData.Keys)
                         {
-                            metadata.UserData[key] = userData[key];
+                            messageMetadata.UserData[key] = userData[key];
                         }
                     }
 
-                    // Determine the message expiry interval (TTL)
                     TimeSpan? telemetryTimeout = null;
                     ulong? ttl = destination.Configuration.Ttl;
                     if (ttl != null)
@@ -321,7 +317,7 @@ namespace Azure.Iot.Operations.Connector
                     // The overhead is minimal since the MQTT client is shared and not disposed.
                     // If performance becomes a concern, consider caching instances by topic.
                     await using var telemetrySender = new ConnectorTelemetrySender(_applicationContext, _mqttClient, topic);
-                    await telemetrySender.SendTelemetryAsync(serializedPayload, metadata, null, MqttQualityOfServiceLevel.AtLeastOnce, telemetryTimeout, cancellationToken);
+                    await telemetrySender.SendTelemetryAsync(serializedPayload, messageMetadata, null, MqttQualityOfServiceLevel.AtLeastOnce, telemetryTimeout, cancellationToken);
 
                     _logger.LogInformation($"Message was successfully sent to MQTT broker on topic {topic}");
                 }
@@ -391,25 +387,22 @@ namespace Azure.Iot.Operations.Connector
                 {
                     string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {assetEvent.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
 
-                    // Create telemetry metadata
-                    var metadata = new OutgoingTelemetryMetadata
+                    var messageMetadata = new OutgoingTelemetryMetadata
                     {
                         CloudEvent = cloudEvent
                     };
 
-                    // Set retain if configured
                     Retain? retain = destination.Configuration.Retain;
                     if (retain != null)
                     {
-                        metadata.Retain = retain == Retain.Keep;
+                        messageMetadata.Retain = retain == Retain.Keep;
                     }
 
-                    // Add user properties if provided
                     if (userData != null)
                     {
                         foreach (string key in userData.Keys)
                         {
-                            metadata.UserData[key] = userData[key];
+                            messageMetadata.UserData[key] = userData[key];
                         }
                     }
 
@@ -418,7 +411,7 @@ namespace Azure.Iot.Operations.Connector
                     // The overhead is minimal since the MQTT client is shared and not disposed.
                     // If performance becomes a concern, consider caching instances by topic.
                     await using var telemetrySender = new ConnectorTelemetrySender(_applicationContext, _mqttClient, topic);
-                    await telemetrySender.SendTelemetryAsync(serializedPayload, metadata, null, MqttQualityOfServiceLevel.AtLeastOnce, null, cancellationToken);
+                    await telemetrySender.SendTelemetryAsync(serializedPayload, messageMetadata, null, MqttQualityOfServiceLevel.AtLeastOnce, null, cancellationToken);
 
                     _logger.LogInformation($"Message was successfully sent to MQTT broker on topic {topic}");
                 }

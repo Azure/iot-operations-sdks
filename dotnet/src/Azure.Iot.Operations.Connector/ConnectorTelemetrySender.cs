@@ -36,8 +36,8 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         private class PassthroughSerializer : IPayloadSerializer
         {
-            public const string ContentType = "application/octet-stream";
-            public const Protocol.Models.MqttPayloadFormatIndicator PayloadFormatIndicator = Protocol.Models.MqttPayloadFormatIndicator.Unspecified;
+            private const string ContentType = "application/octet-stream";
+            private const Protocol.Models.MqttPayloadFormatIndicator PayloadFormatIndicator = Protocol.Models.MqttPayloadFormatIndicator.Unspecified;
 
             public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, Protocol.Models.MqttPayloadFormatIndicator payloadFormatIndicator)
                 where T : class
