@@ -246,23 +246,6 @@ async fn device_handler(
 
     // If the connection is successful or the device wasn't enabled and there weren't configuration errors, report the device and endpoint statuses.
     // Modify this to report any configuration errors if there are any
-    // Report endpoint status
-    match device_endpoint_status_reporter
-        .report_endpoint_status_if_modified(report_status_one_way!(Ok::<(), AdrConfigError>(())))
-        .await
-    {
-        Ok(ModifyResult::Reported) => {
-            log::info!("{device_endpoint_log_identifier} Endpoint status reported as OK");
-        }
-        Ok(ModifyResult::NotModified) => {} // No change, do nothing
-        Err(e) => {
-            log::error!("{device_endpoint_log_identifier} Failed to report Endpoint status: {e}");
-        }
-    }
-
-    // NOTE: 10/28/2025 - For now, on the initial status report and after every update, the Endpoint Status MUST be reported BEFORE the
-    // Device Status is reported, otherwise the service will now return an error. This should get enforced in the SDK
-    // soon, at which point the order will not matter again and this comment will be removed.
     // Report device status
     match device_endpoint_status_reporter
         .report_device_status_if_modified(report_status_one_way!(Ok::<(), AdrConfigError>(())))
@@ -274,6 +257,20 @@ async fn device_handler(
         Ok(ModifyResult::NotModified) => {} // No change, do nothing
         Err(e) => {
             log::error!("{device_endpoint_log_identifier} Failed to report Device status: {e}");
+        }
+    }
+
+    // Report endpoint status
+    match device_endpoint_status_reporter
+        .report_endpoint_status_if_modified(report_status_one_way!(Ok::<(), AdrConfigError>(())))
+        .await
+    {
+        Ok(ModifyResult::Reported) => {
+            log::info!("{device_endpoint_log_identifier} Endpoint status reported as OK");
+        }
+        Ok(ModifyResult::NotModified) => {} // No change, do nothing
+        Err(e) => {
+            log::error!("{device_endpoint_log_identifier} Failed to report Endpoint status: {e}");
         }
     }
 
@@ -304,6 +301,27 @@ async fn device_handler(
                 }
 
                 // For this example, we will assume that the device endpoint specification is OK. Modify this to report any errors
+                // Report device status
+                match device_endpoint_status_reporter
+                    .report_device_status_if_modified(report_status_one_way!(Ok::<
+                        (),
+                        AdrConfigError,
+                    >(
+                        ()
+                    )))
+                    .await
+                {
+                    Ok(ModifyResult::Reported) => {
+                        log::info!("{device_endpoint_log_identifier} Device status reported as OK");
+                    }
+                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
+                    Err(e) => {
+                        log::error!(
+                            "{device_endpoint_log_identifier} Failed to report Device status: {e}"
+                        );
+                    }
+                }
+
                 // Report endpoint status
                 match device_endpoint_status_reporter
                     .report_endpoint_status_if_modified(report_status_one_way!(Ok::<
@@ -323,30 +341,6 @@ async fn device_handler(
                     Err(e) => {
                         log::error!(
                             "{device_endpoint_log_identifier} Failed to report Endpoint status: {e}"
-                        );
-                    }
-                }
-
-                // NOTE: 10/28/2025 - For now, on the initial status report and after every update, the Endpoint Status MUST be reported BEFORE the
-                // Device Status is reported, otherwise the service will now return an error. This should get enforced in the SDK
-                // soon, at which point the order will not matter again and this comment will be removed.
-                // Report device status
-                match device_endpoint_status_reporter
-                    .report_device_status_if_modified(report_status_one_way!(Ok::<
-                        (),
-                        AdrConfigError,
-                    >(
-                        ()
-                    )))
-                    .await
-                {
-                    Ok(ModifyResult::Reported) => {
-                        log::info!("{device_endpoint_log_identifier} Device status reported as OK");
-                    }
-                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
-                    Err(e) => {
-                        log::error!(
-                            "{device_endpoint_log_identifier} Failed to report Device status: {e}"
                         );
                     }
                 }
