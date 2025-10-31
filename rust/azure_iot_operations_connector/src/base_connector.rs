@@ -62,15 +62,15 @@ impl std::fmt::Debug for ConnectorContext {
 #[builder(pattern = "owned")]
 pub struct Options {
     // Options for configuring the MQTT session
-    /// Maximum number of outgoing messages not yet accepted by the
+    /// Maximum number of outgoing messages not yet accepted by the broker
     #[builder(default = "100")]
     outgoing_max: usize,
     /// Reconnect policy for the MQTT session
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Options for configuring features on the underlying [`Session`] that are specific to the AIO broker
-    #[builder(default = "Some(AIOBrokerFeaturesBuilder::default().build().unwrap())")]
-    aio_broker_features: Option<AIOBrokerFeatures>,
+    #[builder(default = "AIOBrokerFeaturesBuilder::default().build().unwrap()")]
+    aio_broker_features: AIOBrokerFeatures,
 
     // Timeouts for underlying service operations
     /// Timeout for Azure Device Registry operations
@@ -114,7 +114,7 @@ impl BaseConnector {
             .connection_settings(mqtt_connection_settings)
             .reconnect_policy(base_connector_options.reconnect_policy)
             .outgoing_max(base_connector_options.outgoing_max)
-            .aio_broker_features(base_connector_options.aio_broker_features)
+            .aio_broker_features(Some(base_connector_options.aio_broker_features))
             .build()
             .map_err(|e| e.to_string())?;
         let session = Session::new(session_options).map_err(|e| e.to_string())?;

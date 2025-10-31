@@ -75,7 +75,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let application_context = ApplicationContextBuilder::default().build()?;
 
     // Create options for the base connector
-    let base_connector_options = base_connector::OptionsBuilder::default().build().unwrap();
+    let base_connector_options = base_connector::OptionsBuilder::default().build()?;
 
     // Create the BaseConnector
     let base_connector = BaseConnector::new(
