@@ -25,10 +25,11 @@ namespace Azure.Iot.Operations.Connector
         /// Override DisposeAsync to prevent disposal of the shared MQTT client.
         /// The MQTT client is owned by the ConnectorWorker and should not be disposed by individual telemetry senders.
         /// </summary>
-        protected override ValueTask DisposeAsyncCore(bool disposing)
+        public override ValueTask DisposeAsync()
         {
-            // Do not dispose the MQTT client as it's shared across multiple telemetry sends
-            return ValueTask.CompletedTask;
+            // Do not dispose the MQTT client as it's shared across multiple telemetry senders.
+            // Call base.DisposeAsync() to ensure any other resources are cleaned up.
+            return base.DisposeAsync();
         }
 
         /// <summary>
