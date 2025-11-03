@@ -636,7 +636,7 @@ async fn telemetry_no_message_properties_receive_network_tests() {
         // Network tests disabled, skipping tests
         return;
     };
-    let monitor = session.create_connection_monitor();
+    let monitor = session.create_session_monitor();
 
     // Use a managed client to publish raw MQTT messages
     let sender = session.create_managed_client();
