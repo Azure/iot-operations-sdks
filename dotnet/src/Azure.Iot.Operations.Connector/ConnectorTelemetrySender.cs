@@ -58,14 +58,12 @@ namespace Azure.Iot.Operations.Connector
                     throw new NotSupportedException($"PassthroughSerializer only supports byte[] payloads, but was asked to serialize {typeof(T).Name}");
                 }
 
-                if (payload is byte[] payload1)
-                {
-                    return new(new(payload1), ContentType, PayloadFormatIndicator);
-                }
-                else
+                var bytes = payload as byte[];
+                if (bytes == null)
                 {
                     return new(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator);
                 }
+                return new(new(bytes), ContentType, PayloadFormatIndicator);
             }
         }
     }
