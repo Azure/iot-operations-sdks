@@ -31,25 +31,28 @@ namespace Azure.Iot.Operations.Connector
             public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, Protocol.Models.MqttPayloadFormatIndicator payloadFormatIndicator)
                 where T : class
             {
-                if (typeof(T) != typeof(byte[]))
+                if (payload.IsEmpty)
                 {
-                    throw new NotSupportedException($"PassthroughSerializer only supports byte[] payloads, but was asked to deserialize to {typeof(T).Name}");
+                    return (Array.Empty<byte>() as T)!;
                 }
 
-                return ((payload.IsEmpty ? [] : payload.ToArray()) as T)!;
+                if (typeof(T) == typeof(byte[]))
+                {
+                    return (payload.ToArray() as T)!;
+                }
+
+                return null!;
             }
 
             public SerializedPayloadContext ToBytes<T>(T? payload)
                 where T : class
             {
-                if (typeof(T) != typeof(byte[]))
+                if (payload is byte[] payload1)
                 {
-                    throw new NotSupportedException($"PassthroughSerializer only supports byte[] payloads, but was asked to serialize {typeof(T).Name}");
+                    return new SerializedPayloadContext(new ReadOnlySequence<byte>(payload1), ContentType, PayloadFormatIndicator);
                 }
 
-                return payload is not byte[] bytes
-                    ? new SerializedPayloadContext(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator)
-                    : new SerializedPayloadContext(new ReadOnlySequence<byte>(bytes), ContentType, PayloadFormatIndicator);
+                return new SerializedPayloadContext(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator);
             }
         }
     }
