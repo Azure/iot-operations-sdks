@@ -2,5 +2,5 @@
 # Licensed under the MIT License.
 
 [toolchain]
-channel = "1.85"
+channel = "stable"
 components = ["clippy", "llvm-tools-preview", "rustfmt"]
