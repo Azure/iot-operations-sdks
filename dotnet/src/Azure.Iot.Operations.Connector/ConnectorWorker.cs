@@ -413,7 +413,7 @@ namespace Azure.Iot.Operations.Connector
                     await using var telemetrySender = new ConnectorTelemetrySender(_applicationContext, _mqttClient, topic);
                     await telemetrySender.SendTelemetryAsync(serializedPayload, messageMetadata, null, MqttQualityOfServiceLevel.AtLeastOnce, null, cancellationToken);
 
-                    _logger.LogInformation($"Message was successfully sent to MQTT broker on topic {topic}");
+                    _logger.LogInformation("Message was successfully sent to MQTT broker on topic {Topic}", topic);
                 }
                 else if (destination.Target == EventStreamTarget.Storage)
                 {
