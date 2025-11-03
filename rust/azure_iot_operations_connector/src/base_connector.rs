@@ -6,9 +6,7 @@
 use std::{sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::session::{
-    AIOBrokerFeatures, AIOBrokerFeaturesBuilder, Session, SessionError, SessionManagedClient,
-    SessionOptionsBuilder,
-    reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy},
+    Session, SessionError, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::{azure_device_registry, schema_registry, state_store};
@@ -59,19 +57,8 @@ impl std::fmt::Debug for ConnectorContext {
 
 /// Options for configuring a new [`BaseConnector`]
 #[derive(Builder)]
-#[builder(pattern = "owned")]
+#[builder(pattern = "owned")] // Keep for when we have more options like reconnect policy
 pub struct Options {
-    // Options for configuring the MQTT session
-    /// Maximum number of outgoing messages not yet accepted by the broker
-    #[builder(default = "100")]
-    outgoing_max: usize,
-    /// Reconnect policy for the MQTT session
-    #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
-    reconnect_policy: Box<dyn ReconnectPolicy>,
-    /// Options for configuring features on the underlying [`Session`] that are specific to the AIO broker
-    #[builder(default = "AIOBrokerFeaturesBuilder::default().build().unwrap()")]
-    aio_broker_features: AIOBrokerFeatures,
-
     // Timeouts for underlying service operations
     /// Timeout for Azure Device Registry operations
     #[builder(default = "Duration::from_secs(10)")]
@@ -87,7 +74,7 @@ pub struct Options {
 
     /// Debounce duration for filemount operations for the connector
     #[builder(default = "Duration::from_secs(5)")]
-    debounce_duration: Duration,
+    filemount_debounce_duration: Duration,
 }
 
 /// Base Connector for Azure IoT Operations
@@ -101,6 +88,7 @@ impl BaseConnector {
     ///
     /// # Errors
     /// Returns a String error if any of the setup fails, detailing the cause.
+    #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
         connector_artifacts: ConnectorArtifacts,
@@ -112,9 +100,6 @@ impl BaseConnector {
             .map_err(|e| e.to_string())?;
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(mqtt_connection_settings)
-            .reconnect_policy(base_connector_options.reconnect_policy)
-            .outgoing_max(base_connector_options.outgoing_max)
-            .aio_broker_features(Some(base_connector_options.aio_broker_features))
             .build()
             .map_err(|e| e.to_string())?;
         let session = Session::new(session_options).map_err(|e| e.to_string())?;
@@ -147,7 +132,7 @@ impl BaseConnector {
 
         Ok(Self {
             connector_context: Arc::new(ConnectorContext {
-                debounce_duration: base_connector_options.debounce_duration,
+                debounce_duration: base_connector_options.filemount_debounce_duration,
                 azure_device_registry_timeout: base_connector_options.azure_device_registry_timeout,
                 schema_registry_timeout: base_connector_options.schema_registry_timeout,
                 state_store_timeout: base_connector_options.state_store_timeout,
