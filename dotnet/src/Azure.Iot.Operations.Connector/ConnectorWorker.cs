@@ -35,6 +35,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
         private bool _isDisposed = false;
         private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration;
+        private readonly ConcurrentDictionary<string, ConnectorTelemetrySender> _telemetrySenderCache = new();
 
         // Keys are <deviceName>_<inboundEndpointName> and values are the running task and their cancellation token to signal once the device is no longer available or the connector is shutting down
         private readonly ConcurrentDictionary<string, UserTaskContext> _deviceTasks = new();
@@ -284,7 +285,9 @@ namespace Azure.Iot.Operations.Connector
             {
                 if (destination.Target == DatasetTarget.Mqtt)
                 {
-                    string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {dataset.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
+                    var topic = destination.Configuration.Topic ??
+                                throw new AssetConfigurationException(
+                                    $"Dataset with name {dataset.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
 
                     var messageMetadata = new OutgoingTelemetryMetadata
                     {
@@ -312,12 +315,14 @@ namespace Azure.Iot.Operations.Connector
                         telemetryTimeout = TimeSpan.FromSeconds(ttl.Value);
                     }
 
-                    // Use TelemetrySender to publish the telemetry
-                    // Note: A new instance is created for each message to support dynamic topics.
-                    // The overhead is minimal since the MQTT client is shared and not disposed.
-                    // If performance becomes a concern, consider caching instances by topic.
-                    await using var telemetrySender = new ConnectorTelemetrySender(_applicationContext, _mqttClient, topic);
-                    await telemetrySender.SendTelemetryAsync(serializedPayload, messageMetadata, null, MqttQualityOfServiceLevel.AtLeastOnce, telemetryTimeout, cancellationToken);
+                    var telemetrySender = _telemetrySenderCache.GetOrAdd(topic, t => new ConnectorTelemetrySender(_applicationContext, _mqttClient, t));
+                    await telemetrySender.SendTelemetryAsync(
+                        serializedPayload,
+                        messageMetadata,
+                        null,
+                        MqttQualityOfServiceLevel.AtLeastOnce,
+                        telemetryTimeout,
+                        cancellationToken);
 
                     _logger.LogInformation("Message was successfully sent to MQTT broker on topic {Topic}", topic);
                 }
@@ -385,7 +390,9 @@ namespace Azure.Iot.Operations.Connector
             {
                 if (destination.Target == EventStreamTarget.Mqtt)
                 {
-                    string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {assetEvent.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
+                    string topic = destination.Configuration.Topic ??
+                                   throw new AssetConfigurationException(
+                                       $"Dataset with name {assetEvent.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
 
                     var messageMetadata = new OutgoingTelemetryMetadata
                     {
@@ -406,12 +413,14 @@ namespace Azure.Iot.Operations.Connector
                         }
                     }
 
-                    // Use TelemetrySender to publish the telemetry
-                    // Note: A new instance is created for each message to support dynamic topics.
-                    // The overhead is minimal since the MQTT client is shared and not disposed.
-                    // If performance becomes a concern, consider caching instances by topic.
-                    await using var telemetrySender = new ConnectorTelemetrySender(_applicationContext, _mqttClient, topic);
-                    await telemetrySender.SendTelemetryAsync(serializedPayload, messageMetadata, null, MqttQualityOfServiceLevel.AtLeastOnce, null, cancellationToken);
+                    var telemetrySender = _telemetrySenderCache.GetOrAdd(topic, t => new ConnectorTelemetrySender(_applicationContext, _mqttClient, t));
+                    await telemetrySender.SendTelemetryAsync(
+                        serializedPayload,
+                        messageMetadata,
+                        null,
+                        MqttQualityOfServiceLevel.AtLeastOnce,
+                        null,
+                        cancellationToken);
 
                     _logger.LogInformation("Message was successfully sent to MQTT broker on topic {Topic}", topic);
                 }
@@ -425,10 +434,30 @@ namespace Azure.Iot.Operations.Connector
         public override void Dispose()
         {
             base.Dispose();
-            _isDisposed = true;
-        }
 
-        private async void OnAssetChanged(object? _, AssetChangedEventArgs args)
+            try
+            {
+                Task.WhenAll(_telemetrySenderCache.Values.Select(ts => ts.DisposeAsync().AsTask()))
+                    .GetAwaiter()
+                    .GetResult();
+            }
+            catch (AggregateException ex)
+            {
+                foreach (var innerException in ex.InnerExceptions)
+                {
+                    _logger.LogError(innerException, "Error disposing telemetry sender");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error disposing telemetry senders");
+            }
+            finally
+            {
+                _telemetrySenderCache.Clear();
+                _isDisposed = true;
+            }
+}        private async void OnAssetChanged(object? _, AssetChangedEventArgs args)
         {
             string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
             if (args.ChangeType == ChangeType.Created)

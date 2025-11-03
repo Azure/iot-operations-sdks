@@ -17,19 +17,7 @@ namespace Azure.Iot.Operations.Connector
         public ConnectorTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string topicPattern)
             : base(applicationContext, mqttClient, new PassthroughSerializer())
         {
-            // Override the topic pattern with the one provided
             TopicPattern = topicPattern;
-        }
-
-        /// <summary>
-        /// Override DisposeAsync to prevent disposal of the shared MQTT client.
-        /// The MQTT client is owned by the ConnectorWorker and should not be disposed by individual telemetry senders.
-        /// </summary>
-        public override ValueTask DisposeAsync()
-        {
-            // Do not dispose the MQTT client as it's shared across multiple telemetry senders.
-            // Call base.DisposeAsync() to ensure any other resources are cleaned up.
-            return base.DisposeAsync();
         }
 
         /// <summary>
@@ -48,7 +36,7 @@ namespace Azure.Iot.Operations.Connector
                     throw new NotSupportedException($"PassthroughSerializer only supports byte[] payloads, but was asked to deserialize to {typeof(T).Name}");
                 }
 
-                return (payload.IsEmpty ? Array.Empty<byte>() : payload.ToArray()) as T!;
+                return ((payload.IsEmpty ? [] : payload.ToArray()) as T)!;
             }
 
             public SerializedPayloadContext ToBytes<T>(T? payload)
@@ -59,12 +47,9 @@ namespace Azure.Iot.Operations.Connector
                     throw new NotSupportedException($"PassthroughSerializer only supports byte[] payloads, but was asked to serialize {typeof(T).Name}");
                 }
 
-                var bytes = payload as byte[];
-                if (bytes == null)
-                {
-                    return new(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator);
-                }
-                return new(new(bytes), ContentType, PayloadFormatIndicator);
+                return payload is not byte[] bytes
+                    ? new SerializedPayloadContext(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator)
+                    : new SerializedPayloadContext(new ReadOnlySequence<byte>(bytes), ContentType, PayloadFormatIndicator);
             }
         }
     }
