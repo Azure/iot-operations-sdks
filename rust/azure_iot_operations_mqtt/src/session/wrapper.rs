@@ -6,12 +6,12 @@ use async_trait::async_trait;
 use bytes::Bytes;
 
 use crate::MqttConnectionSettings;
+use crate::az_mqtt_adapter as adapter;
 use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::{PublishError, SubscribeError, UnsubscribeError};
 use crate::interface::{AckToken, CompletionToken, ManagedClient, MqttPubSub, PubReceiver};
-use crate::rumqttc_adapter as adapter;
 use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
 use crate::session::session;
@@ -157,61 +157,39 @@ impl ManagedClient for SessionManagedClient {
 
 #[async_trait]
 impl MqttPubSub for SessionManagedClient {
-    async fn publish(
+    async fn publish_qos0(
         &self,
         topic: impl Into<String> + Send,
-        qos: QoS,
-        retain: bool,
-        payload: impl Into<Bytes> + Send,
-    ) -> Result<CompletionToken, PublishError> {
-        self.0.publish(topic, qos, retain, payload).await
-    }
-
-    async fn publish_with_properties(
-        &self,
-        topic: impl Into<String> + Send,
-        qos: QoS,
-        retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
     ) -> Result<CompletionToken, PublishError> {
-        self.0
-            .publish_with_properties(topic, qos, retain, payload, properties)
-            .await
+        self.0.publish_qos0(topic, payload, properties).await
+    }
+
+    async fn publish_qos1(
+        &self,
+        topic: impl Into<String> + Send,
+        payload: impl Into<Bytes> + Send,
+        properties: PublishProperties,
+    ) -> Result<CompletionToken, PublishError> {
+        self.0.publish_qos1(topic, payload, properties).await
     }
 
     async fn subscribe(
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, SubscribeError> {
-        self.0.subscribe(topic, qos).await
-    }
-
-    async fn subscribe_with_properties(
-        &self,
-        topic: impl Into<String> + Send,
-        qos: QoS,
         properties: SubscribeProperties,
     ) -> Result<CompletionToken, SubscribeError> {
-        self.0
-            .subscribe_with_properties(topic, qos, properties)
-            .await
+        self.0.subscribe(topic, qos, properties).await
     }
 
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, UnsubscribeError> {
-        self.0.unsubscribe(topic).await
-    }
-
-    async fn unsubscribe_with_properties(
-        &self,
-        topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
     ) -> Result<CompletionToken, UnsubscribeError> {
-        self.0.unsubscribe_with_properties(topic, properties).await
+        self.0.unsubscribe(topic, properties).await
     }
 }
 

@@ -66,23 +66,18 @@ pub trait MqttPubSub {
     ///
     /// If connection is unavailable, publish will be queued and delivered when connection is re-established.
     /// Blocks if at capacity for queueing.
-    async fn publish(
+    async fn publish_qos0(
         &self,
         topic: impl Into<String> + Send,
-        qos: QoS,
-        retain: bool,
+        // retain: bool,
         payload: impl Into<Bytes> + Send,
+        properties: PublishProperties,
     ) -> Result<CompletionToken, PublishError>;
 
-    /// MQTT Publish
-    ///
-    /// If connection is unavailable, publish will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
-    async fn publish_with_properties(
+    async fn publish_qos1(
         &self,
         topic: impl Into<String> + Send,
-        qos: QoS,
-        retain: bool,
+        // retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
     ) -> Result<CompletionToken, PublishError>;
@@ -95,16 +90,6 @@ pub trait MqttPubSub {
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, SubscribeError>;
-
-    /// MQTT Subscribe
-    ///
-    /// If connection is unavailable, subscribe will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
-    async fn subscribe_with_properties(
-        &self,
-        topic: impl Into<String> + Send,
-        qos: QoS,
         properties: SubscribeProperties,
     ) -> Result<CompletionToken, SubscribeError>;
 
@@ -113,15 +98,6 @@ pub trait MqttPubSub {
     /// If connection is unavailable, unsubscribe will be queued and delivered when connection is re-established.
     /// Blocks if at capacity for queueing.
     async fn unsubscribe(
-        &self,
-        topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, UnsubscribeError>;
-
-    /// MQTT Unsubscribe
-    ///
-    /// If connection is unavailable, unsubscribe will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
-    async fn unsubscribe_with_properties(
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
@@ -152,21 +128,21 @@ pub trait MqttClient: MqttPubSub + MqttAck + MqttDisconnect {
     async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ReauthError>;
 }
 
-/// MQTT Event Loop manipulation
-#[async_trait]
-pub trait MqttEventLoop {
-    /// Poll the event loop for the next [`Event`]
-    async fn poll(&mut self) -> Result<Event, ConnectionError>;
+// /// MQTT Event Loop manipulation
+// #[async_trait]
+// pub trait MqttEventLoop {
+// /// Poll the event loop for the next [`Event`]
+// async fn poll(&mut self) -> Result<Event, ConnectionError>;
 
-    /// Modify the clean start flag for subsequent MQTT connection attempts
-    fn set_clean_start(&mut self, clean_start: bool);
+// /// Modify the clean start flag for subsequent MQTT connection attempts
+// fn set_clean_start(&mut self, clean_start: bool);
 
-    /// Set the authentication method
-    fn set_authentication_method(&mut self, authentication_method: Option<String>);
+// /// Set the authentication method
+// fn set_authentication_method(&mut self, authentication_method: Option<String>);
 
-    /// Set the authentication data
-    fn set_authentication_data(&mut self, authentication_data: Option<Bytes>);
-}
+// /// Set the authentication data
+// fn set_authentication_data(&mut self, authentication_data: Option<Bytes>);
+// }
 
 // ---------- Higher level MQTT abstractions ----------
 

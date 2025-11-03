@@ -6,21 +6,21 @@
 // TODO: Re-implement these instead of just aliasing / add to rumqttc adapter
 
 /// Quality of Service
-pub type QoS = rumqttc::v5::mqttbytes::QoS;
+pub type QoS = azure_mqtt::QoS;
 
 /// PUBLISH packet
-pub type Publish = rumqttc::v5::mqttbytes::v5::Publish;
+pub type Publish = azure_mqtt::Publish;
 
 /// Properties for a CONNECT packet
-pub type ConnectProperties = rumqttc::v5::mqttbytes::v5::ConnectProperties;
+pub type ConnectProperties = azure_mqtt::ConnectProperties;
 /// Properties for a PUBLISH packet
-pub type PublishProperties = rumqttc::v5::mqttbytes::v5::PublishProperties;
+pub type PublishProperties = azure_mqtt::PublishProperties;
 /// Properties for a SUBSCRIBE packet
-pub type SubscribeProperties = rumqttc::v5::mqttbytes::v5::SubscribeProperties;
+pub type SubscribeProperties = azure_mqtt::SubscribeProperties;
 /// Properties for a UNSUBSCRIBE packet
-pub type UnsubscribeProperties = rumqttc::v5::mqttbytes::v5::UnsubscribeProperties;
+pub type UnsubscribeProperties = azure_mqtt::UnsubscribeProperties;
 /// Properties for an AUTH packet
-pub type AuthProperties = rumqttc::v5::mqttbytes::v5::AuthProperties;
+pub type AuthProperties = azure_mqtt::AuthProperties;
 
 /// Connect Return Code
-pub type ConnectReturnCode = rumqttc::v5::mqttbytes::v5::ConnectReturnCode;
+pub type ConnectReturnCode = azure_mqtt::ConnAckReason;
