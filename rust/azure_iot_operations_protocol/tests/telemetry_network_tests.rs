@@ -3,10 +3,10 @@
 
 use std::{env, time::Duration};
 
-use azure_iot_operations_mqtt::interface::MqttPubSub;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::interface::MqttPubSub;
 use azure_iot_operations_mqtt::{
     control_packet::QoS,
     session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
