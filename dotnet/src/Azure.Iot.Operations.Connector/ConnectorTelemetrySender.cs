@@ -47,14 +47,7 @@ namespace Azure.Iot.Operations.Connector
                     throw new NotSupportedException($"PassthroughSerializer only supports byte[] payloads, but was asked to deserialize to {typeof(T).Name}");
                 }
 
-                if (payload.IsEmpty)
-                {
-                    return (Array.Empty<byte>() as T)!;
-                }
-                else
-                {
-                    return (payload.ToArray() as T)!;
-                }
+                return (payload.IsEmpty ? Array.Empty<byte>() : payload.ToArray()) as T!;
             }
 
             public SerializedPayloadContext ToBytes<T>(T? payload)
