@@ -60,7 +60,7 @@
 
                 List<SerializationFormat> serializationFormats = ThingSupport.GetSerializationFormats(new List<TDThing> { thing });
 
-                foreach (GeneratedItem genEnvoy in EnvoyGenerator.GenerateEnvoys(new List<ParsedThing> { new ParsedThing(thing, schemaNamer) }, serializationFormats, targetLanguage, "Namespace", projectName, sdkPath, typeFileNames, srcSubdir, true, true, true, false))
+                foreach (GeneratedItem genEnvoy in EnvoyGenerator.GenerateEnvoys(new List<ParsedThing> { new ParsedThing(thing, modelFolder.FullName, schemaNamer) }, serializationFormats, targetLanguage, "Namespace", projectName, sdkPath, typeFileNames, srcSubdir, true, true, true, false))
                 {
                     DirectoryInfo folderPath = new DirectoryInfo(Path.Combine(outputFolder.FullName, genEnvoy.FolderPath));
                     if (!folderPath.Exists)

@@ -1,0 +1,69 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "id": "dtmi:jsonTest:ExternalSchemas;1",
+  "title": "ExternalSchemas",
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": [
+    "nosec_sc"
+  ],
+  "actions": {
+    "DoSomething": {
+      "input": {
+        "dtv:ref": "./ExternalSchemas/DoSomethingInput.schema.json"
+      },
+      "output": {
+        "dtv:ref": "./ExternalSchemas/DoSomethingOuput.schema.json"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__doSomething;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{modelId}/command/doSomething",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+    "Aleph": {
+      "dtv:ref": "./ExternalSchemas/AlephProp.schema.json",
+      "readOnly": false,
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Aleph;1",
+          "contentType": "application/json",
+          "dtv:topic": "test/ExternalSchemas/Aleph/write",
+          "op": "writeproperty"
+        },
+        {
+          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Aleph;1",
+          "contentType": "application/json",
+          "dtv:topic": "test/ExternalSchemas/Aleph/read",
+          "op": "readproperty"
+        }
+      ]
+    }
+  },
+  "events": {
+    "Beth": {
+      "data": {
+        "dtv:ref": "./ExternalSchemas/BethData.schema.json"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Beth;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{modelId}/{senderId}/telemetry/{telemetryName}",
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}

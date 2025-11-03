@@ -6,6 +6,9 @@
 
     public class TDDataSchema
     {
+        [JsonPropertyName("dtv:ref")]
+        public string? Ref { get; set; }
+
         [JsonPropertyName("title")]
         public string? Title { get; set; }
 

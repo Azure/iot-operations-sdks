@@ -1,36 +1,52 @@
 namespace Azure.Iot.Operations.SchemaGenerator
 {
+    using System.IO;
     using System.Text.RegularExpressions;
     using Azure.Iot.Operations.CodeGeneration;
     using Azure.Iot.Operations.TDParser.Model;
 
-    internal static class JsonSchemaSupport
+    internal class JsonSchemaSupport
     {
         private const string Iso8601DurationExample = "P3Y6M4DT12H30M5S";
         private const string DecimalExample = "1234567890.0987654321";
         private const string AnArbitraryString = "HelloWorld";
         private const string DecimalPattern = @"^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$";
 
-        internal static string GetFragmented(string typeAndAddenda, bool require)
+        private readonly SchemaNamer schemaNamer;
+        private readonly DirectoryInfo workingDir;
+
+        internal JsonSchemaSupport(SchemaNamer schemaNamer, DirectoryInfo workingDir)
+        {
+            this.schemaNamer = schemaNamer;
+            this.workingDir = workingDir;
+        }
+
+        internal string GetFragmented(string typeAndAddenda, bool require)
         {
             string addProps = require ? typeAndAddenda : $"\"anyOf\": [ {{ \"type\": \"null\" }}, {{ {typeAndAddenda} }} ]";
             return $"\"type\": \"object\", \"additionalProperties\": {{ {addProps} }}";
         }
 
-        internal static string GetTypeAndAddenda(SchemaNamer schemaNamer, TDDataSchema tdSchema, string backupSchemaName)
+        internal string GetTypeAndAddenda(TDDataSchema tdSchema, string backupSchemaName, string refBase)
         {
+            if (tdSchema.Ref != null)
+            {
+                string schemaDir = Path.GetRelativePath(this.workingDir.FullName, Path.Combine(refBase, tdSchema.Ref)).Replace('\\', '/');
+                return $"\"$ref\": \"{schemaDir}\"";
+            }
+
             if ((tdSchema.Type == TDValues.TypeObject && tdSchema.AdditionalProperties?.Boolean == false) ||
                 (tdSchema.Type == TDValues.TypeString && tdSchema.Enum != null))
             {
-                return $"\"$ref\": \"{schemaNamer.ApplyBackupSchemaName(tdSchema.Title, backupSchemaName)}.schema.json\"";
+                return $"\"$ref\": \"{this.schemaNamer.ApplyBackupSchemaName(tdSchema.Title, backupSchemaName)}.schema.json\"";
             }
 
             switch (tdSchema.Type ?? string.Empty)
             {
                 case TDValues.TypeObject:
-                    return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(schemaNamer, tdSchema.AdditionalProperties!.DataSchema!, backupSchemaName)} }}";
+                    return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(tdSchema.AdditionalProperties!.DataSchema!, backupSchemaName, refBase)} }}";
                 case TDValues.TypeArray:
-                    string itemsProp = tdSchema.Items != null ? $", \"items\": {{ {GetTypeAndAddenda(schemaNamer, tdSchema.Items, backupSchemaName)} }}" : string.Empty;
+                    string itemsProp = tdSchema.Items != null ? $", \"items\": {{ {GetTypeAndAddenda(tdSchema.Items, backupSchemaName, refBase)} }}" : string.Empty;
                     return $"\"type\": \"array\"{itemsProp}";
                 case TDValues.TypeString:
                     string formatProp = TDValues.FormatValues.Contains(tdSchema.Format ?? string.Empty) ? $", \"format\": \"{tdSchema.Format}\"" :

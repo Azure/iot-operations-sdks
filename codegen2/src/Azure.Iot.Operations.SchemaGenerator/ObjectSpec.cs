@@ -20,7 +20,7 @@
             Dictionary<string, FieldSpec> fieldSpecs = new();
             foreach (KeyValuePair<string, TDDataSchema> property in dataSchema.Properties ?? new Dictionary<string, TDDataSchema>())
             {
-                fieldSpecs[property.Key] = new FieldSpec(property.Value.Description ?? $"The '{property.Key}' Field.", property.Value, Require: dataSchema.Required?.Contains(property.Key) ?? false, schemaNamer.GetBackupSchemaName(schemaName, property.Key));
+                fieldSpecs[property.Key] = new FieldSpec(property.Value.Description ?? $"The '{property.Key}' Field.", property.Value, Require: dataSchema.Required?.Contains(property.Key) ?? false, schemaNamer.GetBackupSchemaName(schemaName, property.Key), string.Empty);
             }
 
             return new ObjectSpec(dataSchema.Description ?? defaultDescription, fieldSpecs, format, schemaName);

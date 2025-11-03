@@ -17,9 +17,9 @@
     "<#=field.Key#>": {
       "description": "<#=field.Value.Description#>",
 <# if (field.Value.Fragment) { #>
-      <#=JsonSchemaSupport.GetFragmented(JsonSchemaSupport.GetTypeAndAddenda(this.schemaNamer, field.Value.Schema, field.Value.BackupSchemaName), field.Value.Require)#>
+      <#=this.schemaSupport.GetFragmented(this.schemaSupport.GetTypeAndAddenda(field.Value.Schema, field.Value.BackupSchemaName, field.Value.Base), field.Value.Require)#>
 <# } else { #>
-      <#=JsonSchemaSupport.GetTypeAndAddenda(this.schemaNamer, field.Value.Schema, field.Value.BackupSchemaName)#>
+      <#=this.schemaSupport.GetTypeAndAddenda(field.Value.Schema, field.Value.BackupSchemaName, field.Value.Base)#>
 <# } #>
     }<#=ix < this.objectSpec.Fields.Count ? "," : ""#>
 <# ix++; } #>

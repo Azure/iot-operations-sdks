@@ -49,3 +49,9 @@ $gen --thingFiles wot/TwoThings.TD.json --outDir dotnet/TwoThingsSample --lang c
 
 [[ -d rust/two_things_gen ]] && rm -r rust/two_things_gen
 $gen --thingFiles wot/TwoThings.TD.json --outDir rust/two_things_gen --lang rust --namespace TwoThings --sdkPath ../../rust --srcSubdir src
+
+[[ -d dotnet/ExternalSchemasSample ]] && rm -r dotnet/ExternalSchemasSample
+$gen --thingFiles wot/ExternalSchemas.TD.json --extSchemas wot/ExternalSchemas/*.schema.json --outDir dotnet/ExternalSchemasSample --lang csharp --namespace ExternalSchemas --sdkPath ../../dotnet/src/Azure.Iot.Operations.Protocol
+
+[[ -d rust/external_schemas_gen ]] && rm -r rust/external_schemas_gen
+$gen --thingFiles wot/ExternalSchemas.TD.json --extSchemas wot/ExternalSchemas/*.schema.json --outDir rust/external_schemas_gen --lang rust --namespace ExternalSchemas --sdkPath ../../rust --srcSubdir src

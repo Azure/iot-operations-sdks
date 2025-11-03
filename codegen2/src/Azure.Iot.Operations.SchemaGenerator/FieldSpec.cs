@@ -3,7 +3,7 @@
     using Azure.Iot.Operations.CodeGeneration;
     using Azure.Iot.Operations.TDParser.Model;
 
-    internal record FieldSpec(string Description, TDDataSchema Schema, bool Require, string BackupSchemaName, bool Fragment = false, bool ForceOption = false)
+    internal record FieldSpec(string Description, TDDataSchema Schema, bool Require, string BackupSchemaName, string Base, bool Fragment = false, bool ForceOption = false)
     {
         internal static FieldSpec CreateFixed(string title, string description, string backupSchemaName)
         {
@@ -16,7 +16,8 @@
                     AdditionalProperties = new TDAdditionalPropSpecifier { Boolean = false },
                 },
                 Require: false,
-                backupSchemaName);
+                backupSchemaName,
+                string.Empty);
         }
 
         public override int GetHashCode()

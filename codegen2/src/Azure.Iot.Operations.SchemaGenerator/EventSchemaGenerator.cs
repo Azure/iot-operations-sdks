@@ -7,7 +7,7 @@
 
     internal static class EventSchemaGenerator
     {
-        internal static void GenerateEventSchemas(TDThing tdThing, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        internal static void GenerateEventSchemas(TDThing tdThing, string dirName, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
             FormInfo? subAllEventsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpSubAllEvents) ?? false), tdThing.SchemaDefinitions);
 
@@ -22,6 +22,7 @@
                         eventKvp.Key,
                         eventKvp.Value,
                         projectName,
+                        dirName,
                         tdThing.SchemaDefinitions,
                         schemaSpecs,
                         valueFields);
@@ -40,6 +41,7 @@
             string eventName,
             TDEvent tdEvent,
             string projectName,
+            string dirName,
             Dictionary<string, TDDataSchema>? schemaDefinitions,
             Dictionary<string, SchemaSpec> schemaSpecs,
             Dictionary<string, FieldSpec> valueFields)
@@ -52,6 +54,7 @@
                 tdEvent.Data!,
                 BackupSchemaName: schemaNamer.GetEventValueSchema(eventName),
                 Require: true,
+                Base: dirName,
                 Fragment: tdEvent.Placeholder);
             valueFields[eventName] = dataFieldSpec with { Require = false };
 

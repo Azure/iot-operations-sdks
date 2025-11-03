@@ -4,23 +4,19 @@ namespace Azure.Iot.Operations.SchemaGenerator
 
     public partial class ObjectJsonSchema : ISchemaTemplateTransform
     {
-        SchemaNamer schemaNamer;
-        string schemaName;
-        ObjectSpec objectSpec;
-        string genNamespace;
+        private readonly JsonSchemaSupport schemaSupport;
+        private readonly string schemaName;
+        private readonly ObjectSpec objectSpec;
 
-        internal ObjectJsonSchema(SchemaNamer schemaNamer, string schemaName, ObjectSpec objectSpec, string genNamespace)
+        internal ObjectJsonSchema(JsonSchemaSupport schemaSupport, string schemaName, ObjectSpec objectSpec)
         {
-            this.schemaNamer = schemaNamer;
+            this.schemaSupport = schemaSupport;
             this.schemaName = schemaName;
             this.objectSpec = objectSpec;
-            this.genNamespace = genNamespace;
         }
 
         public SerializationFormat Format { get => SerializationFormat.Json; }
 
         public string FileName { get => $"{this.schemaName}.schema.json"; }
-
-        public string FolderPath { get => this.genNamespace; }
     }
 }

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "BethData",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "eta", "theta" ],
+  "properties": {
+    "eta": {
+      "description": "The 'eta' Field.",
+      "type": "string"
+    },
+    "theta": {
+      "description": "The 'theta' Field.",
+      "type": "integer", "minimum": -2147483648, "maximum": 2147483647
+    }
+  }
+}

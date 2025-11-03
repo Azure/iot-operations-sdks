@@ -18,8 +18,8 @@
 
                 if (actionForm?.TopicPattern != null && actionForm.Format != SerializationFormat.None)
                 {
-                    string? inputSchemaType = actionKvp.Value.Input != null ? schemaNamer.GetActionInSchema(actionKvp.Value.Input.Title, actionKvp.Key) : null;
-                    string? outArgsType = actionKvp.Value.Output != null ? schemaNamer.GetActionOutSchema(actionKvp.Value.Output.Title, actionKvp.Key) : null;
+                    string? inputSchemaType = actionKvp.Value.Input != null ? schemaNamer.GetActionInSchema(actionKvp.Value.Input, actionKvp.Key) : null;
+                    string? outArgsType = actionKvp.Value.Output != null ? schemaNamer.GetActionOutSchema(actionKvp.Value.Output, actionKvp.Key) : null;
                     string? outputSchemaType = actionForm.ErrorRespSchema != null ? schemaNamer.GetActionRespSchema(actionKvp.Key) : outArgsType;
                     string? errSchemaName = schemaNamer.ChooseTitleOrName(actionForm.ErrorRespSchema?.Title, actionForm.ErrorRespName);
 

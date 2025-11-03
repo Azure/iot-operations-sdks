@@ -39,17 +39,17 @@
 
             if (actionForm?.TopicPattern != null)
             {
-                if (tdAction.Input != null)
+                if (tdAction.Input != null && tdAction.Input.Ref == null)
                 {
-                    string inputSchemaName = schemaNamer.GetActionInSchema(tdAction.Input.Title, actionName);
+                    string inputSchemaName = schemaNamer.GetActionInSchema(tdAction.Input, actionName);
                     ObjectSpec inputObjectSpec = ObjectSpec.CreateFromDataSchema(schemaNamer, tdAction.Input, actionForm.Format, inputSchemaName, tdAction.Input.Description ?? $"Input arguments for action '{actionName}'");
                     schemaSpecs[inputSchemaName] = inputObjectSpec;
                 }
 
                 Dictionary<string, FieldSpec> responseFields = new();
-                if (tdAction.Output != null)
+                if (tdAction.Output != null && tdAction.Output.Ref == null)
                 {
-                    string outputSchemaName = schemaNamer.GetActionOutSchema(tdAction.Output.Title, actionName);
+                    string outputSchemaName = schemaNamer.GetActionOutSchema(tdAction.Output, actionName);
                     ObjectSpec outputObjectSpec = ObjectSpec.CreateFromDataSchema(schemaNamer, tdAction.Output, actionForm.Format, outputSchemaName, tdAction.Output.Description ?? $"Output arguments for action '{actionName}'");
                     schemaSpecs[outputSchemaName] = outputObjectSpec;
                     responseFields = outputObjectSpec.Fields.ToDictionary(f => f.Key, f => f.Value with { Require = false });
@@ -60,8 +60,9 @@
                     responseFields[schemaNamer.GetActionRespErrorField(actionName, actionForm.ErrorRespName!)] = new FieldSpec(
                         tdAction.Description ?? $"Read error for the '{actionName}' Action.",
                         actionForm.ErrorRespSchema,
+                        Require: false,
                         BackupSchemaName: actionForm.ErrorRespName!,
-                        Require: false);
+                        Base: string.Empty);
 
                     string respSchemaName = schemaNamer.GetActionRespSchema(actionName);
                     ObjectSpec propReadRespObjectSpec = new(

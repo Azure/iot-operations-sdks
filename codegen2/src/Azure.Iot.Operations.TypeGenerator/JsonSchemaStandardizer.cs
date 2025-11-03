@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Text.Json;
     using System.Text.RegularExpressions;
@@ -102,7 +103,8 @@
 
             if (internalDefsKey == null || !refString.StartsWith($"#/{internalDefsKey}/"))
             {
-                using (JsonDocument refDoc = JsonDocument.Parse(schemaTextsByName[refString]))
+                string refName = Path.GetFileName(refString);
+                using (JsonDocument refDoc = JsonDocument.Parse(schemaTextsByName[refName]))
                 {
                     string title = refDoc.RootElement.GetProperty("title").GetString()!;
                     string type = refDoc.RootElement.GetProperty("type").GetString()!;

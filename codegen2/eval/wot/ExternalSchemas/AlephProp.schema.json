@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "AlephProp",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "epsilon", "zeta" ],
+  "properties": {
+    "epsilon": {
+      "description": "The 'epsilon' Field.",
+      "type": "string"
+    },
+    "zeta": {
+      "description": "The 'zeta' Field.",
+      "type": "integer", "minimum": -2147483648, "maximum": 2147483647
+    }
+  }
+}

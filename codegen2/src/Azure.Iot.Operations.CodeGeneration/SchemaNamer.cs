@@ -1,8 +1,10 @@
 ﻿namespace Azure.Iot.Operations.CodeGeneration
 {
     using System.Diagnostics.CodeAnalysis;
-    using System.Text.Json;
+    using System.IO;
     using System.Linq;
+    using System.Text.Json;
+    using Azure.Iot.Operations.TDParser.Model;
 
     public class SchemaNamer
     {
@@ -73,9 +75,9 @@
 
         public string GetPropConsumerBinder(string propSchema) => Expand(null, this.schemaNameInfo?.PropConsumerBinder, $"{Cap(propSchema)}Consumer", propSchema);
 
-        public string GetActionInSchema(string? title, string actionName) => Expand(title, this.schemaNameInfo?.ActionInSchema, $"{Cap(actionName)}InputArguments", actionName);
+        public string GetActionInSchema(TDDataSchema? dataSchema, string actionName) => Expand(dataSchema, this.schemaNameInfo?.ActionInSchema, $"{Cap(actionName)}InputArguments", actionName);
 
-        public string GetActionOutSchema(string? title, string actionName) => Expand(title, this.schemaNameInfo?.ActionOutSchema, $"{Cap(actionName)}OutputArguments", actionName);
+        public string GetActionOutSchema(TDDataSchema? dataSchema, string actionName) => Expand(dataSchema, this.schemaNameInfo?.ActionOutSchema, $"{Cap(actionName)}OutputArguments", actionName);
 
         public string GetActionRespSchema(string actionName) => Expand(null, this.schemaNameInfo?.ActionRespSchema, $"{Cap(actionName)}ResponseSchema", actionName);
 
@@ -96,11 +98,17 @@
         [return: NotNullIfNotNull(nameof(name))]
         public string? ChooseTitleOrName(string? title, string? name) => this.suppressTitles ? name : title ?? name;
 
-        private string Expand(string? title, FuncInfo? funcInfo, string defaultOut, params string[] args)
+        private string Expand(TDDataSchema? dataSchema, FuncInfo? funcInfo, string defaultOut, params string[] args)
         {
-            if (!this.suppressTitles && title != null)
+            if (dataSchema?.Ref != null)
             {
-                return title;
+                string filename = Path.GetFileName(dataSchema.Ref);
+                return filename.Substring(0, filename.IndexOf('.'));
+            }
+
+            if (!this.suppressTitles && dataSchema?.Title != null)
+            {
+                return dataSchema.Title;
             }
 
             if (funcInfo == null || funcInfo.Output == null || funcInfo.Input == null || funcInfo.Input.Length < args.Length)

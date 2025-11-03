@@ -2,5 +2,5 @@
 {
     using Azure.Iot.Operations.TDParser.Model;
 
-    public record ParsedThing(TDThing Thing, SchemaNamer SchemaNamer);
+    public record ParsedThing(TDThing Thing, string DirectoryName, SchemaNamer SchemaNamer);
 }

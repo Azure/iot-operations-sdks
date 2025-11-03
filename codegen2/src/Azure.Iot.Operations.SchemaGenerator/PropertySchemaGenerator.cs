@@ -7,7 +7,7 @@
 
     internal static class PropertySchemaGenerator
     {
-        internal static void GeneratePropertySchemas(TDThing tdThing, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        internal static void GeneratePropertySchemas(TDThing tdThing, string dirName, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
             FormInfo? readAllPropsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpReadAllProps) ?? false), tdThing.SchemaDefinitions);
             FormInfo? writeMultPropsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpWriteMultProps) ?? false), tdThing.SchemaDefinitions);
@@ -28,6 +28,7 @@
                         propKvp.Key,
                         propKvp.Value,
                         projectName,
+                        dirName,
                         tdThing.SchemaDefinitions,
                         schemaSpecs,
                         readValueFields,
@@ -41,6 +42,7 @@
                         propKvp.Key,
                         propKvp.Value,
                         projectName,
+                        dirName,
                         tdThing.SchemaDefinitions,
                         schemaSpecs,
                         writeValueFields,
@@ -88,6 +90,7 @@
             string propName,
             TDProperty tdProperty,
             string projectName,
+            string dirName,
             Dictionary<string, TDDataSchema>? schemaDefinitions,
             Dictionary<string, SchemaSpec> schemaSpecs,
             Dictionary<string, FieldSpec> valueFields,
@@ -110,6 +113,7 @@
                 tdProperty as TDDataSchema,
                 BackupSchemaName: schemaNamer.GetPropValueSchema(propName),
                 Require: isRead,
+                Base: dirName,
                 Fragment: tdProperty.Placeholder);
             valueFields[propName] = propFieldSpec;
 
@@ -130,7 +134,8 @@
                     tdProperty.Description ?? $"{(isRead ? "Read" : "Write")} error for the '{propName}' Property.",
                     propForm.ErrorRespSchema,
                     BackupSchemaName: propForm.ErrorRespName!,
-                    Require: false);
+                    Require: false,
+                    Base: dirName);
                 errorFields[propName] = respFieldSpec;
 
                 errorSchemaNames.Add(propForm.ErrorRespName!);

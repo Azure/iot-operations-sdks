@@ -8,8 +8,6 @@ namespace Azure.Iot.Operations.SchemaGenerator
 
         string FileName { get; }
 
-        string FolderPath { get; }
-
         string TransformText();
     }
 }

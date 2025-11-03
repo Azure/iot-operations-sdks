@@ -47,7 +47,7 @@
                 string? schemaNameInfoText = schemaNamesFilename != null ? File.ReadAllText(Path.Combine(modelFolder.FullName, schemaNamesFilename)) : null;
                 SchemaNamer schemaNamer = new SchemaNamer(schemaNameInfoText);
 
-                foreach (KeyValuePair<SerializationFormat, List<GeneratedItem>> schemaSet in SchemaGenerator.GenerateSchemas(new List<ParsedThing> { new ParsedThing(thing, schemaNamer) }, projectName, "Namespace"))
+                foreach (KeyValuePair<SerializationFormat, List<GeneratedItem>> schemaSet in SchemaGenerator.GenerateSchemas(new List<ParsedThing> { new ParsedThing(thing, modelFolder.FullName, schemaNamer) }, projectName, outputFolder))
                 {
                     foreach (GeneratedItem genSchema in schemaSet.Value)
                     {

@@ -1,13 +1,13 @@
 ﻿namespace Azure.Iot.Operations.SchemaGenerator
 {
     using System.Collections.Generic;
-    using System.Linq;
+    using System.IO;
     using Azure.Iot.Operations.CodeGeneration;
     using Azure.Iot.Operations.TDParser.Model;
 
     public static class SchemaGenerator
     {
-        public static Dictionary<SerializationFormat, List<GeneratedItem>> GenerateSchemas(List<ParsedThing> parsedThings, string projectName, string genNamespace)
+        public static Dictionary<SerializationFormat, List<GeneratedItem>> GenerateSchemas(List<ParsedThing> parsedThings, string projectName, DirectoryInfo workingDir)
         {
             Dictionary<string, ISchemaTemplateTransform> transforms = new();
 
@@ -16,15 +16,17 @@
                 Dictionary<string, SchemaSpec> schemaSpecs = new();
                 Dictionary<string, HashSet<SerializationFormat>> referencedSchemas = new();
 
-                PropertySchemaGenerator.GeneratePropertySchemas(parsedThing.Thing, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
+                PropertySchemaGenerator.GeneratePropertySchemas(parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
                 ActionSchemaGenerator.GenerateActionSchemas(parsedThing.Thing, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
-                EventSchemaGenerator.GenerateEventSchemas(parsedThing.Thing, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
+                EventSchemaGenerator.GenerateEventSchemas(parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
 
                 Dictionary<string, SchemaSpec> closedSchemaSpecs = ComputeClosedSchemaSpecs(parsedThing.Thing, parsedThing.SchemaNamer, schemaSpecs, referencedSchemas);
 
+                SchemaTransformFactory transformFactory = new(parsedThing.SchemaNamer, workingDir);
+
                 foreach (KeyValuePair<string, SchemaSpec> schemaSpec in closedSchemaSpecs)
                 {
-                    ISchemaTemplateTransform transform = SchemaTransformFactory.GetSchemaTransform(parsedThing.SchemaNamer, schemaSpec.Key, schemaSpec.Value, genNamespace);
+                    ISchemaTemplateTransform transform = transformFactory.GetSchemaTransform(schemaSpec.Key, schemaSpec.Value);
                     transforms[transform.FileName] = transform;
                 }
             }
@@ -39,7 +41,7 @@
                     generatedSchemas[transform.Value.Format] = schemas;
                 }
 
-                schemas.Add(new GeneratedItem(transform.Value.TransformText(), transform.Key, transform.Value.FolderPath));
+                schemas.Add(new GeneratedItem(transform.Value.TransformText(), transform.Key));
             }
 
             return generatedSchemas;

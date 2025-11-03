@@ -33,20 +33,21 @@
                     return 1;
                 }
 
-                // TODO must do something with these
-                // The formats must be inferred from the file names
-                // Should I copy them to the working dir?
-                FileInfo[] extSchemaFiles = options.ExtSchemaFiles.SelectMany(fs => Directory.GetFiles(Path.GetDirectoryName(fs) ?? string.Empty, Path.GetFileName(fs)), (_, f) => new FileInfo(f)).ToArray();
-
                 string projectName = LegalizeProjectName(options.OutputDir.Name);
                 TargetLanguage targetLanguage = LanguageMap[options.Language.ToLowerInvariant()];
 
                 List<ParsedThing> parsedThings = ParseThings(options.ThingFiles);
 
-                Dictionary<SerializationFormat, List<GeneratedItem>> generatedSchemas = SchemaGenerator.GenerateSchemas(parsedThings, projectName, options.GenNamespace);
+                Dictionary<SerializationFormat, List<GeneratedItem>> generatedSchemas = SchemaGenerator.GenerateSchemas(parsedThings, projectName, options.WorkingDir);
                 foreach (List<GeneratedItem> schemas in generatedSchemas.Values)
                 {
                     WriteItems(schemas, options.WorkingDir);
+                }
+
+                FileInfo[] extSchemaFiles = options.ExtSchemaFiles.SelectMany(fs => Directory.GetFiles(Path.GetDirectoryName(fs) ?? string.Empty, Path.GetFileName(fs)), (_, f) => new FileInfo(f)).ToArray();
+                if (extSchemaFiles.Length > 0)
+                {
+                    ImportSchemas(extSchemaFiles, generatedSchemas);
                 }
 
                 List<GeneratedItem> generatedTypes = new();
@@ -105,7 +106,7 @@
                         string? schemaNameInfoText = schemaNamesFilename != null ? File.ReadAllText(Path.Combine(thingFile.DirectoryName!, schemaNamesFilename)) : null;
                         SchemaNamer schemaNamer = new SchemaNamer(schemaNameInfoText);
 
-                        parsedThings.Add(new ParsedThing(thing, schemaNamer));
+                        parsedThings.Add(new ParsedThing(thing, thingFile.DirectoryName!, schemaNamer));
                     }
 
                     Console.WriteLine($" {things.Count} {(things.Count == 1 ? "TD" : "TDs")} parsed");
@@ -128,6 +129,26 @@
                 string filePath = Path.Combine(folderPath.FullName, genItem.FileName);
                 File.WriteAllText(filePath, genItem.Content);
                 Console.WriteLine($"  Generated {filePath}");
+            }
+        }
+
+        private static void ImportSchemas(FileInfo[] extSchemaFiles, Dictionary<SerializationFormat, List<GeneratedItem>> generatedSchemas)
+        {
+            foreach (FileInfo schemaFile in extSchemaFiles)
+            {
+                SerializationFormat format = schemaFile.Name switch
+                {
+                    string n when n.EndsWith(".schema.json", StringComparison.OrdinalIgnoreCase) => SerializationFormat.Json,
+                    _ => SerializationFormat.None,
+                };
+
+                if (!generatedSchemas.TryGetValue(format, out List<GeneratedItem>? schemas))
+                {
+                    schemas = new();
+                    generatedSchemas[format] = schemas;
+                }
+
+                schemas.Add(new GeneratedItem(schemaFile.OpenText().ReadToEnd(), schemaFile.Name, schemaFile.Directory!.FullName));
             }
         }
 
