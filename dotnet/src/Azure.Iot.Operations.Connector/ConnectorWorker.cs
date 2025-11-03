@@ -307,7 +307,7 @@ namespace Azure.Iot.Operations.Connector
 
                     TimeSpan? telemetryTimeout = null;
                     ulong? ttl = destination.Configuration.Ttl;
-                    if (ttl != null)
+                    if (ttl != null && ttl.Value > 0)
                     {
                         telemetryTimeout = TimeSpan.FromSeconds(ttl.Value);
                     }
