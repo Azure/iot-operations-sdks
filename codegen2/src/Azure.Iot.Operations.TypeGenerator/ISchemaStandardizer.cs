@@ -7,6 +7,6 @@
     {
         SerializationFormat SerializationFormat { get; }
 
-        List<SchemaType> GetStandardizedSchemas(Dictionary<string, string> schemaTextsByName, CodeName genNamespace);
+        List<SchemaType> GetStandardizedSchemas(Dictionary<string, string> schemaTextsByName);
     }
 }

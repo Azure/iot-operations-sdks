@@ -7,7 +7,7 @@
 
     internal static class ActionSchemaGenerator
     {
-        internal static void GenerateActionSchemas(TDThing tdThing, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        internal static void GenerateActionSchemas(TDThing tdThing, string dirName, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
             if (tdThing.Actions != null)
             {
@@ -18,6 +18,7 @@
                         propKvp.Key,
                         propKvp.Value,
                         projectName,
+                        dirName,
                         tdThing.SchemaDefinitions,
                         schemaSpecs,
                         referencedSchemas);
@@ -30,6 +31,7 @@
             string actionName,
             TDAction tdAction,
             string projectName,
+            string dirName,
             Dictionary<string, TDDataSchema>? schemaDefinitions,
             Dictionary<string, SchemaSpec> schemaSpecs,
             Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
@@ -39,7 +41,12 @@
 
             if (actionForm?.TopicPattern != null)
             {
-                if (tdAction.Input != null && tdAction.Input.Ref == null)
+                if (tdAction.Input?.Ref != null)
+                {
+                    string inputSchemaName = schemaNamer.GetActionInSchema(null, actionName);
+                    schemaSpecs[inputSchemaName] = new AliasSpec(null, tdAction.Input.Ref, actionForm.Format, inputSchemaName, dirName);
+                }
+                else if (tdAction.Input != null)
                 {
                     string inputSchemaName = schemaNamer.GetActionInSchema(tdAction.Input, actionName);
                     ObjectSpec inputObjectSpec = ObjectSpec.CreateFromDataSchema(schemaNamer, tdAction.Input, actionForm.Format, inputSchemaName, tdAction.Input.Description ?? $"Input arguments for action '{actionName}'");
@@ -47,7 +54,12 @@
                 }
 
                 Dictionary<string, FieldSpec> responseFields = new();
-                if (tdAction.Output != null && tdAction.Output.Ref == null)
+                if (tdAction.Output?.Ref != null)
+                {
+                    string outputSchemaName = schemaNamer.GetActionOutSchema(null, actionName);
+                    schemaSpecs[outputSchemaName] = new AliasSpec(null, tdAction.Output.Ref, actionForm.Format, outputSchemaName, dirName);
+                }
+                else if (tdAction.Output != null)
                 {
                     string outputSchemaName = schemaNamer.GetActionOutSchema(tdAction.Output, actionName);
                     ObjectSpec outputObjectSpec = ObjectSpec.CreateFromDataSchema(schemaNamer, tdAction.Output, actionForm.Format, outputSchemaName, tdAction.Output.Description ?? $"Output arguments for action '{actionName}'");

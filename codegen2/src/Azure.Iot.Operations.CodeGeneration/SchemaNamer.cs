@@ -100,13 +100,7 @@
 
         private string Expand(TDDataSchema? dataSchema, FuncInfo? funcInfo, string defaultOut, params string[] args)
         {
-            if (dataSchema?.Ref != null)
-            {
-                string filename = Path.GetFileName(dataSchema.Ref);
-                return filename.Substring(0, filename.IndexOf('.'));
-            }
-
-            if (!this.suppressTitles && dataSchema?.Title != null)
+            if (!this.suppressTitles && dataSchema?.Ref == null && dataSchema?.Title != null)
             {
                 return dataSchema.Title;
             }

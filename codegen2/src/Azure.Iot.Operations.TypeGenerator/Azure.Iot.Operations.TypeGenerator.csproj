@@ -15,6 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="dotnet\t4\DotNetAlias.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetAlias.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
     <None Update="dotnet\t4\DotNetEnum.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DotNetEnum.cs</LastGenOutput>
@@ -23,6 +28,11 @@
     <None Update="dotnet\t4\DotNetObject.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DotNetObject.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\t4\RustAlias.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustAlias.cs</LastGenOutput>
       <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
     </None>
     <None Update="rust\t4\RustEnum.tt">
@@ -42,6 +52,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="dotnet\t4\DotNetAlias.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetAlias.tt</DependentUpon>
+    </Compile>
     <Compile Update="dotnet\t4\DotNetEnum.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -51,6 +66,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DotNetObject.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustAlias.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustAlias.tt</DependentUpon>
     </Compile>
     <Compile Update="rust\t4\RustEnum.cs">
       <DesignTime>True</DesignTime>

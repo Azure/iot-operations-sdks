@@ -6,13 +6,15 @@ namespace Azure.Iot.Operations.TypeGenerator
 
     public partial class RustObject : ITypeTemplateTransform
     {
+        private readonly CodeName genNamespace;
         private readonly ObjectType objectType;
         private readonly IReadOnlyCollection<ReferenceType> referencedSchemas;
         private readonly bool allowSkipping;
         private readonly string srcSubdir;
 
-        internal RustObject(ObjectType objectType, bool allowSkipping, string srcSubdir)
+        internal RustObject(CodeName genNamespace, ObjectType objectType, bool allowSkipping, string srcSubdir)
         {
+            this.genNamespace = genNamespace;
             this.objectType = objectType;
             this.referencedSchemas = TypeGeneratorSupport.GetReferencedSchemas(objectType);
             this.allowSkipping = allowSkipping;
@@ -21,6 +23,6 @@ namespace Azure.Iot.Operations.TypeGenerator
 
         public string FileName { get => $"{this.objectType.SchemaName.GetFileName(TargetLanguage.Rust)}.rs"; }
 
-        public string FolderPath { get => Path.Combine(this.srcSubdir, this.objectType.Namespace.GetFolderName(TargetLanguage.Rust)); }
+        public string FolderPath { get => Path.Combine(this.srcSubdir, this.genNamespace.GetFolderName(TargetLanguage.Rust)); }
     }
 }

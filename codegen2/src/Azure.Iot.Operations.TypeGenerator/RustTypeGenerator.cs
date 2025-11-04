@@ -6,12 +6,13 @@
 
     internal class RustTypeGenerator : ITypeGenerator
     {
-        public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, SerializationFormat serFormat, string srcSubdir)
+        public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, CodeName genNamespace, SerializationFormat serFormat, string srcSubdir)
         {
             ITypeTemplateTransform templateTransform = schemaType switch
             {
-                ObjectType objectType => new RustObject(objectType, allowSkipping: serFormat == SerializationFormat.Json, srcSubdir),
-                EnumType enumType => new RustEnum(enumType, srcSubdir),
+                AliasType aliasType => new RustAlias(genNamespace, aliasType, srcSubdir),
+                ObjectType objectType => new RustObject(genNamespace, objectType, allowSkipping: serFormat == SerializationFormat.Json, srcSubdir),
+                EnumType enumType => new RustEnum(genNamespace, enumType, srcSubdir),
                 _ => throw new Exception("unrecognized schema type"),
             };
 

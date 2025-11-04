@@ -11,7 +11,15 @@
     },
     "zeta": {
       "description": "The 'zeta' Field.",
-      "type": "integer", "minimum": -2147483648, "maximum": 2147483647
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "iota": {
+      "$ref": "./BethData.schema.json#/definitions/HeaterState"
+    },
+    "kappa": {
+      "$ref": "./BethData.schema.json#/definitions/org.opcfoundation.UA.Int32"
     }
   }
 }

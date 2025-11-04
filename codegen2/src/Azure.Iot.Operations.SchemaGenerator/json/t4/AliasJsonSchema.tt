@@ -1,0 +1,9 @@
+<#@ template language="C#" linePragmas="false" #>
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "<#=this.schemaName#>",
+<# if (this.aliasSpec.Description != null) { #>
+  "description": "<#=this.aliasSpec.Description#>",
+<# } #>
+  "$ref": "<#=this.schemaSupport.GetReferencePath(this.aliasSpec.Ref, this.aliasSpec.Base)#>"
+}

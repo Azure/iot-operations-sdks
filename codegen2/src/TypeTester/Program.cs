@@ -44,7 +44,7 @@
             {
                 TypeGenerator typeGenerator = new TypeGenerator(formatFilter.Key, targetLanguage);
 
-                Dictionary<string, string> schemaTextsByName = schemaFolder.GetFiles(formatFilter.Value).ToDictionary(f => f.Name, f => File.ReadAllText(f.FullName));
+                Dictionary<string, string> schemaTextsByName = schemaFolder.GetFiles(formatFilter.Value).ToDictionary(f => f.FullName.Replace('\\', '/'), f => File.ReadAllText(f.FullName));
 
                 foreach (GeneratedItem genType in typeGenerator.GenerateTypes(schemaTextsByName, new CodeName("Namespace"), projectName, srcSubdir))
                 {

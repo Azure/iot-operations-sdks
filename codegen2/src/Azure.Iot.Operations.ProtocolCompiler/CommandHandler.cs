@@ -53,7 +53,7 @@
                 List<GeneratedItem> generatedTypes = new();
                 foreach (KeyValuePair<SerializationFormat, List<GeneratedItem>> schemaSet in generatedSchemas)
                 {
-                    Dictionary<string, string> schemaTextsByName = schemaSet.Value.ToDictionary(s => s.FileName, s => s.Content);
+                    Dictionary<string, string> schemaTextsByName = schemaSet.Value.ToDictionary(s => Path.GetFullPath(Path.Combine(options.WorkingDir.FullName, s.FolderPath, s.FileName)).Replace('\\', '/'), s => s.Content);
                     TypeGenerator typeGenerator = new TypeGenerator(schemaSet.Key, targetLanguage);
                     generatedTypes.AddRange(typeGenerator.GenerateTypes(schemaTextsByName, new CodeName(options.GenNamespace), projectName, options.OutputSourceSubdir));
                 }

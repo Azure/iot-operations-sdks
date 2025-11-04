@@ -20,6 +20,11 @@
       <LastGenOutput>ConstSchema.cs</LastGenOutput>
       <CustomToolNamespace>Azure.Iot.Operations.SchemaGenerator</CustomToolNamespace>
     </None>
+    <None Update="json\t4\AliasJsonSchema.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>AliasJsonSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.SchemaGenerator</CustomToolNamespace>
+    </None>
     <None Update="json\t4\EnumJsonSchema.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>EnumJsonSchema.cs</LastGenOutput>
@@ -41,6 +46,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ConstSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Update="json\t4\AliasJsonSchema.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AliasJsonSchema.tt</DependentUpon>
     </Compile>
     <Compile Update="json\t4\EnumJsonSchema.cs">
       <DesignTime>True</DesignTime>

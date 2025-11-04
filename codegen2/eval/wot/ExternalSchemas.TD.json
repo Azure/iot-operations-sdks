@@ -60,7 +60,33 @@
         {
           "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Beth;1",
           "contentType": "application/json",
-          "dtv:topic": "sample/{modelId}/{senderId}/telemetry/{telemetryName}",
+          "dtv:topic": "sample/{modelId}/{senderId}/telemetry/Beth",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "Gimel": {
+      "data": {
+        "dtv:ref": "./ExternalSchemas/BethData.schema.json#/definitions/Temperature"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Gimel;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{modelId}/{senderId}/telemetry/Gimel",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "Dalet": {
+      "data": {
+        "dtv:ref": "./ExternalSchemas/BethData.schema.json#/definitions/org.opcfoundation.UA.DateTime"
+      },
+      "forms": [
+        {
+          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Dalet;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{modelId}/{senderId}/telemetry/Dalet",
           "op": "subscribeevent"
         }
       ]

@@ -2,6 +2,7 @@ namespace Azure.Iot.Operations.TypeGenerator
 {
     internal enum SchemaKind
     {
+        Alias,
         Array,
         Boolean,
         Bytes,

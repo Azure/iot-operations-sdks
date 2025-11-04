@@ -14,34 +14,24 @@
 
         public SerializationFormat SerializationFormat { get => SerializationFormat.Json; }
 
-        public List<SchemaType> GetStandardizedSchemas(Dictionary<string, string> schemaTextsByName, CodeName genNamespace)
+        public List<SchemaType> GetStandardizedSchemas(Dictionary<string, string> schemaTextsByName)
         {
+            Dictionary<string, JsonElement> rootElementsByName = GetRootElementsFromSchemaTexts(schemaTextsByName);
+
             List<SchemaType> schemaTypes = new();
 
-            foreach (string schemaText in schemaTextsByName.Values)
+            foreach (KeyValuePair<string, JsonElement> namedRootElt in rootElementsByName)
             {
-                using (JsonDocument schemaDoc = JsonDocument.Parse(schemaText))
+                CollateAliasTypes(namedRootElt.Key, namedRootElt.Value, schemaTypes, rootElementsByName);
+                CollateSchemaTypes(namedRootElt.Key, namedRootElt.Value, schemaTypes, rootElementsByName);
+
+                foreach (string internalDefsKey in InternalDefsKeys)
                 {
-                    string? internalDefsKey = null;
-                    foreach (string key in InternalDefsKeys)
+                    if (namedRootElt.Value.TryGetProperty(internalDefsKey, out JsonElement defsElt))
                     {
-                        if (schemaDoc.RootElement.TryGetProperty(key, out _))
+                        foreach (JsonProperty defProp in defsElt.EnumerateObject())
                         {
-                            internalDefsKey = key;
-                            break;
-                        }
-                    }
-
-                    CollateSchemaTypes(schemaDoc.RootElement, schemaDoc.RootElement, internalDefsKey, genNamespace, schemaTypes, schemaTextsByName);
-
-                    if (internalDefsKey != null)
-                    {
-                        if (schemaDoc.RootElement.TryGetProperty(internalDefsKey, out JsonElement defsElt))
-                        {
-                            foreach (JsonProperty defProp in defsElt.EnumerateObject())
-                            {
-                                CollateSchemaTypes(schemaDoc.RootElement, defProp.Value, internalDefsKey, genNamespace, schemaTypes, schemaTextsByName);
-                            }
+                            CollateSchemaTypes(namedRootElt.Key, defProp.Value, schemaTypes, rootElementsByName);
                         }
                     }
                 }
@@ -50,78 +40,125 @@
             return schemaTypes;
         }
 
-        internal void CollateSchemaTypes(JsonElement rootElt, JsonElement schemaElt, string? internalDefsKey, CodeName genNamespace, List<SchemaType> schemaTypes, Dictionary<string, string> schemaTextsByName)
+        private Dictionary<string, JsonElement> GetRootElementsFromSchemaTexts(Dictionary<string, string> schemaTextsByName)
         {
-            string? title = schemaElt.GetProperty("title").GetString();
-            if (string.IsNullOrEmpty(title))
+            Dictionary<string, JsonElement> rootElementsByName = new();
+
+            foreach (KeyValuePair<string, string> namedSchemaText in schemaTextsByName)
             {
-                throw new InvalidOperationException($"The 'title' property is missing or empty in the JSON schema.");
+                using (JsonDocument schemaDoc = JsonDocument.Parse(namedSchemaText.Value))
+                {
+                    rootElementsByName[namedSchemaText.Key] = schemaDoc.RootElement.Clone();
+                }
             }
+
+            return rootElementsByName;
+        }
+
+        internal void CollateAliasTypes(string docName, JsonElement schemaElt, List<SchemaType> schemaTypes, Dictionary<string, JsonElement> rootElementsByName)
+        {
+            if (!schemaElt.TryGetProperty("title", out JsonElement titleElt) || !schemaElt.TryGetProperty("$ref", out JsonElement referencingElt))
+            {
+                return;
+            }
+
+            string title = titleElt.GetString()!;
+
+            JsonElement referencedElt = GetReferencedElement(docName, referencingElt, rootElementsByName);
+            string refTitle = referencedElt.GetProperty("title").GetString()!;
+
+            string? description = schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null;
+
+            schemaTypes.Add(new AliasType(new CodeName(title), description, new CodeName(refTitle)));
+        }
+
+        internal void CollateSchemaTypes(string docName, JsonElement schemaElt, List<SchemaType> schemaTypes, Dictionary<string, JsonElement> rootElementsByName)
+        {
+            if (!schemaElt.TryGetProperty("type", out JsonElement typeElt))
+            {
+                return;
+            }
+
+            string type = typeElt.GetString()!;
+            if (type == "object" && schemaElt.TryGetProperty("additionalProperties", out JsonElement addlPropsElt) && addlPropsElt.ValueKind == JsonValueKind.Object)
+            {
+                CollateSchemaTypes(docName, addlPropsElt, schemaTypes, rootElementsByName);
+                return;
+            }
+            else if (type == "array" && schemaElt.TryGetProperty("items", out JsonElement itemsElt) && itemsElt.ValueKind == JsonValueKind.Object)
+            {
+                CollateSchemaTypes(docName, itemsElt, schemaTypes, rootElementsByName);
+                return;
+            }
+
+            string title = schemaElt.TryGetProperty("title", out JsonElement titleElt) ? titleElt.GetString()! : "SomeDefaultTitleShouldNotBeConstValue";
             CodeName schemaName = new CodeName((char.IsNumber(title[0]) ? "_" : "") + Regex.Replace(title, "[^a-zA-Z0-9]+", "_", RegexOptions.CultureInvariant));
 
             string? description = schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null;
 
-            if (schemaElt.TryGetProperty("properties", out JsonElement propertiesElt) && schemaElt.GetProperty("type").GetString() == "object")
+            if (schemaElt.TryGetProperty("properties", out JsonElement propertiesElt) && typeElt.GetString() == "object")
             {
+                foreach (JsonProperty objProp in propertiesElt.EnumerateObject())
+                {
+                    CollateSchemaTypes(docName, objProp.Value, schemaTypes, rootElementsByName);
+                }
+
                 HashSet<string> indirectFields = schemaElt.TryGetProperty("x-indirect", out JsonElement indirectElt) ? indirectElt.EnumerateArray().Select(e => e.GetString()!).ToHashSet() : new HashSet<string>();
                 HashSet<string> requiredFields = schemaElt.TryGetProperty("required", out JsonElement requiredElt) ? requiredElt.EnumerateArray().Select(e => e.GetString()!).ToHashSet() : new HashSet<string>();
                 schemaTypes.Add(new ObjectType(
                     schemaName,
-                    genNamespace,
                     description,
-                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(rootElt, p.Name, p.Value, internalDefsKey, indirectFields, requiredFields, genNamespace, schemaTextsByName))));
+                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(docName, p.Name, p.Value, indirectFields, requiredFields, rootElementsByName))));
             }
             else if (schemaElt.TryGetProperty("enum", out JsonElement enumElt))
             {
                 CodeName[] enumValues = enumElt.EnumerateArray().Select(e => new CodeName(e.GetString()!)).ToArray();
                 schemaTypes.Add(new EnumType(
                     schemaName,
-                    genNamespace,
                     description,
                     enumValues));
             }
         }
 
-        private ObjectType.FieldInfo GetObjectTypeFieldInfo(JsonElement rootElt, string fieldName, JsonElement schemaElt, string? internalDefsKey, HashSet<string> indirectFields, HashSet<string> requiredFields, CodeName genNamespace, Dictionary<string, string> schemaTextsByName)
+        private ObjectType.FieldInfo GetObjectTypeFieldInfo(string docName, string fieldName, JsonElement schemaElt, HashSet<string> indirectFields, HashSet<string> requiredFields, Dictionary<string, JsonElement> rootElementsByName)
         {
             return new ObjectType.FieldInfo(
-                GetSchemaTypeFromJsonElement(rootElt, schemaElt, internalDefsKey, genNamespace, schemaTextsByName),
+                GetSchemaTypeFromJsonElement(docName, schemaElt, rootElementsByName),
                 indirectFields.Contains(fieldName),
                 requiredFields.Contains(fieldName),
                 schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null,
                 schemaElt.TryGetProperty("index", out JsonElement indexElt) ? indexElt.GetInt32() : null);
         }
 
-        private SchemaType GetSchemaTypeFromJsonElement(JsonElement rootElt, JsonElement schemaElt, string? internalDefsKey, CodeName genNamespace, Dictionary<string, string> schemaTextsByName)
+        private SchemaType GetSchemaTypeFromJsonElement(string docName, JsonElement schemaElt, Dictionary<string, JsonElement> rootElementsByName)
         {
             if (!schemaElt.TryGetProperty("$ref", out JsonElement referencingElt))
             {
-                return GetPrimitiveTypeFromJsonElement(rootElt, schemaElt, internalDefsKey, genNamespace, schemaTextsByName);
-            }
-
-            string refString = referencingElt.GetString()!;
-
-            if (internalDefsKey == null || !refString.StartsWith($"#/{internalDefsKey}/"))
-            {
-                string refName = Path.GetFileName(refString);
-                using (JsonDocument refDoc = JsonDocument.Parse(schemaTextsByName[refName]))
+                if (schemaElt.TryGetProperty("title", out JsonElement titleElt) && schemaElt.TryGetProperty("type", out JsonElement typeElt))
                 {
-                    string title = refDoc.RootElement.GetProperty("title").GetString()!;
-                    string type = refDoc.RootElement.GetProperty("type").GetString()!;
-                    return new ReferenceType(new CodeName(title), genNamespace, isNullable: type == "object");
+                    if (typeElt.GetString() == "object" && (!schemaElt.TryGetProperty("additionalProperties", out JsonElement addlPropsElt) || addlPropsElt.ValueKind == JsonValueKind.False))
+                    {
+                        return new ReferenceType(new CodeName(titleElt.GetString()!), isNullable: true);
+                    }
+                    else if (typeElt.GetString() == "string" && schemaElt.TryGetProperty("enum", out _))
+                    {
+                        return new ReferenceType(new CodeName(titleElt.GetString()!), isNullable: false);
+                    }
                 }
+
+                return GetPrimitiveTypeFromJsonElement(docName, schemaElt, rootElementsByName);
             }
 
-            JsonElement referencedElt = rootElt.GetProperty(internalDefsKey).GetProperty(refString.Substring($"#/{internalDefsKey}/".Length));
+            JsonElement referencedElt = GetReferencedElement(docName, referencingElt, rootElementsByName);
 
             if (referencedElt.TryGetProperty("properties", out _) || referencedElt.TryGetProperty("enum", out _))
             {
                 string title = referencedElt.GetProperty("title").GetString()!;
                 string type = referencedElt.GetProperty("type").GetString()!;
-                return new ReferenceType(new CodeName(title), genNamespace, isNullable: type == "object");
+                return new ReferenceType(new CodeName(title), isNullable: type == "object");
             }
 
-            return GetPrimitiveTypeFromJsonElement(rootElt, referencedElt, internalDefsKey, genNamespace, schemaTextsByName);
+            return GetPrimitiveTypeFromJsonElement(docName, referencedElt, rootElementsByName);
         }
 
         private bool TryGetNestedNullableJsonElement(ref JsonElement jsonElement)
@@ -143,16 +180,16 @@
             return false;
         }
 
-        private SchemaType GetPrimitiveTypeFromJsonElement(JsonElement rootElt, JsonElement schemaElt, string? internalDefsKey, CodeName genNamespace, Dictionary<string, string> schemaTextsByName)
+        private SchemaType GetPrimitiveTypeFromJsonElement(string docName, JsonElement schemaElt, Dictionary<string, JsonElement> rootElementsByName)
         {
             switch (schemaElt.GetProperty("type").GetString())
             {
                 case "array":
-                    return new ArrayType(GetSchemaTypeFromJsonElement(rootElt, schemaElt.GetProperty("items"), internalDefsKey, genNamespace, schemaTextsByName));
+                    return new ArrayType(GetSchemaTypeFromJsonElement(docName, schemaElt.GetProperty("items"), rootElementsByName));
                 case "object":
                     JsonElement typeAndAddendaElt = schemaElt.GetProperty("additionalProperties");
                     bool nullValues = TryGetNestedNullableJsonElement(ref typeAndAddendaElt);
-                    return new MapType(GetSchemaTypeFromJsonElement(rootElt, typeAndAddendaElt, internalDefsKey, genNamespace, schemaTextsByName), nullValues);
+                    return new MapType(GetSchemaTypeFromJsonElement(docName, typeAndAddendaElt, rootElementsByName), nullValues);
                 case "boolean":
                     return new BooleanType();
                 case "number":
@@ -205,6 +242,28 @@
                 default:
                     throw new Exception($"unrecognized schema (type = {schemaElt.GetProperty("type").GetString()})");
             }
+        }
+
+        private JsonElement GetReferencedElement(string docName, JsonElement referencingElt, Dictionary<string, JsonElement> rootElementsByName)
+        {
+            string refString = referencingElt.GetString()!;
+            int fragIx = refString.IndexOf('#');
+
+            string baseRef = fragIx switch
+            {
+                < 0 => refString,
+                > 0 => refString.Substring(0, fragIx),
+                0 => docName,
+            };
+            string fragment = fragIx < 0 ? string.Empty : refString.Substring(fragIx + 2);
+
+            string refName = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(docName)!, baseRef)).Replace('\\', '/');
+            JsonElement rootElt = rootElementsByName[refName];
+
+            int sepIx = fragment.IndexOf('/');
+            JsonElement referencedElt = sepIx > 0 ? rootElt.GetProperty(fragment.Substring(0, sepIx)).GetProperty(fragment.Substring(sepIx + 1)) : rootElt;
+
+            return referencedElt;
         }
     }
 }

@@ -27,12 +27,16 @@ namespace Azure.Iot.Operations.SchemaGenerator
             return $"\"type\": \"object\", \"additionalProperties\": {{ {addProps} }}";
         }
 
+        internal string GetReferencePath(string reference, string refBase)
+        {
+            return Path.GetRelativePath(this.workingDir.FullName, Path.Combine(refBase, reference)).Replace('\\', '/');
+        }
+
         internal string GetTypeAndAddenda(TDDataSchema tdSchema, string backupSchemaName, string refBase)
         {
             if (tdSchema.Ref != null)
             {
-                string schemaDir = Path.GetRelativePath(this.workingDir.FullName, Path.Combine(refBase, tdSchema.Ref)).Replace('\\', '/');
-                return $"\"$ref\": \"{schemaDir}\"";
+                return $"\"$ref\": \"{GetReferencePath(tdSchema.Ref, refBase)}\"";
             }
 
             if ((tdSchema.Type == TDValues.TypeObject && tdSchema.AdditionalProperties?.Boolean == false) ||

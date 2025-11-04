@@ -19,6 +19,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
             {
                 ObjectSpec objectSpec => GetObjectSchemaTransform(schemaName, objectSpec),
                 EnumSpec enumSpec => GetEnumSchemaTransform(schemaName, enumSpec),
+                AliasSpec aliasSpec => GetAliasSchemaTransform(schemaName, aliasSpec),
                 _ => throw new NotSupportedException($"Unable to transform schema spec of type {schemaSpec.GetType()}."),
             };
         }
@@ -38,6 +39,15 @@ namespace Azure.Iot.Operations.SchemaGenerator
             {
                 SerializationFormat.Json => new EnumJsonSchema(schemaName, enumSpec),
                 _ => throw new NotSupportedException($"Serialization format {enumSpec.Format} is not supported."),
+            };
+        }
+
+        internal ISchemaTemplateTransform GetAliasSchemaTransform(string schemaName, AliasSpec aliasSpec)
+        {
+            return aliasSpec.Format switch
+            {
+                SerializationFormat.Json => new AliasJsonSchema(this.jsonSchemaSupport, schemaName, aliasSpec),
+                _ => throw new NotSupportedException($"Serialization format {aliasSpec.Format} is not supported."),
             };
         }
     }

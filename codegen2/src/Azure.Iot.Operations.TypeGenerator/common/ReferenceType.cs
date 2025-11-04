@@ -6,17 +6,14 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Reference; }
 
-        internal ReferenceType(CodeName schemaName, CodeName genNamespace, bool isNullable = true, bool isEnum = false)
+        internal ReferenceType(CodeName schemaName, bool isNullable = true, bool isEnum = false)
         {
             SchemaName = schemaName;
-            Namespace = genNamespace;
             IsNullable = isNullable;
             IsEnum = isEnum;
         }
 
         internal CodeName SchemaName { get; }
-
-        internal CodeName Namespace { get; }
 
         internal bool IsNullable { get; }
 
@@ -29,12 +26,12 @@ namespace Azure.Iot.Operations.TypeGenerator
 
         internal bool Equals(ReferenceType? other)
         {
-            return !ReferenceEquals(null, other) && SchemaName.Equals(other.SchemaName) && Namespace.Equals(other.Namespace);
+            return !ReferenceEquals(null, other) && SchemaName.Equals(other.SchemaName);
         }
 
         public override int GetHashCode()
         {
-            return SchemaName.GetHashCode() ^ Namespace.GetHashCode();
+            return SchemaName.GetHashCode();
         }
     }
 }

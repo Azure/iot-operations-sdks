@@ -24,6 +24,6 @@
 
 # odd ../../codegen/test/samples/rust/PropertySeparateSample/property_separate_gen/src rust/property_separate_gen/src &
 
-# odd ../../codegen/test/samples/dotnet/PropertyTogetherSample dotnet/PropertyTogetherSample &
+odd ../../codegen/test/samples/dotnet/PropertyTogetherSample dotnet/PropertyTogetherSample &
 
-# odd ../../codegen/test/samples/rust/PropertyTogetherSample/property_together_gen/src rust/property_together_gen/src &
+odd ../../codegen/test/samples/rust/PropertyTogetherSample/property_together_gen/src rust/property_together_gen/src &

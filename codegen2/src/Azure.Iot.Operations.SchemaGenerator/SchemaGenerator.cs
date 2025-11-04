@@ -17,7 +17,7 @@
                 Dictionary<string, HashSet<SerializationFormat>> referencedSchemas = new();
 
                 PropertySchemaGenerator.GeneratePropertySchemas(parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
-                ActionSchemaGenerator.GenerateActionSchemas(parsedThing.Thing, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
+                ActionSchemaGenerator.GenerateActionSchemas(parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
                 EventSchemaGenerator.GenerateEventSchemas(parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
 
                 Dictionary<string, SchemaSpec> closedSchemaSpecs = ComputeClosedSchemaSpecs(parsedThing.Thing, parsedThing.SchemaNamer, schemaSpecs, referencedSchemas);

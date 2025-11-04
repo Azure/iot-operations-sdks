@@ -6,12 +6,13 @@
 
     internal class DotNetTypeGenerator : ITypeGenerator
     {
-        public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, SerializationFormat serFormat, string _)
+        public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, CodeName genNamespace, SerializationFormat serFormat, string _)
         {
             ITypeTemplateTransform templateTransform = schemaType switch
             {
-                ObjectType objectType => new DotNetObject(projectName, objectType, serFormat),
-                EnumType enumType => new DotNetEnum(projectName, enumType),
+                AliasType aliasType => new DotNetAlias(projectName, genNamespace, aliasType),
+                ObjectType objectType => new DotNetObject(projectName, genNamespace, objectType, serFormat),
+                EnumType enumType => new DotNetEnum(projectName, genNamespace, enumType),
                 _ => throw new Exception("unrecognized schema type"),
             };
 

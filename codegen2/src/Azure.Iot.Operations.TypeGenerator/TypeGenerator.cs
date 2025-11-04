@@ -29,9 +29,9 @@
         {
             List<GeneratedItem> generatedTypes = new();
 
-            foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaTextsByName, genNamespace))
+            foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaTextsByName))
             {
-                generatedTypes.Add(this.typeGenerator.GenerateTypeFromSchema(schemaType, projectName, schemaStandardizer.SerializationFormat, srcSubdir));
+                generatedTypes.Add(this.typeGenerator.GenerateTypeFromSchema(schemaType, projectName, genNamespace, schemaStandardizer.SerializationFormat, srcSubdir));
             }
 
             return generatedTypes;
