@@ -22,6 +22,7 @@ pub mod topic;
 
 // TODO: put behind `use-rumqttc` feature flag
 mod rumqttc_adapter;
+mod azure_mqtt_adapter;
 
 #[cfg(feature = "test-utils")]
 pub mod interface_mocks;
