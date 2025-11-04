@@ -7,7 +7,7 @@
 //! * [`Session`] - Manages the lifetime of the MQTT session
 //! * [`SessionManagedClient`] - Sends MQTT messages to the broker
 //! * [`SessionPubReceiver`] - Receives MQTT messages from the broker
-//! * [`SessionConnectionMonitor`] - Provides information about MQTT connection state
+//! * [`SessionMonitor`] - Provides information about the MQTT session's state
 //! * [`SessionExitHandle`] - Allows the user to exit the session gracefully
 //!
 //! # [`Session`] lifespan

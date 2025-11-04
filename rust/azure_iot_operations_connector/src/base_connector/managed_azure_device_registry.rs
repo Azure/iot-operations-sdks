@@ -152,8 +152,8 @@ impl DeviceEndpointStatusReporter {
                     inbound_endpoint_status.err(),
                 )])
             } else {
-                // If the inbound endpoint status is not present, exclude it from the report
-                HashMap::new()
+                // If the inbound endpoint status is not present, we still have to include it in the report
+                HashMap::from([(self.device_endpoint_ref.inbound_endpoint_name.clone(), None)])
             }
         };
 
