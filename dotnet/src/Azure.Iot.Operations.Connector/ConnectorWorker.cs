@@ -320,7 +320,7 @@ namespace Azure.Iot.Operations.Connector
                         serializedPayload,
                         messageMetadata,
                         null,
-                        MqttQualityOfServiceLevel.AtLeastOnce,
+                        destination.Configuration.Qos == QoS.Qos1 ? MqttQualityOfServiceLevel.AtLeastOnce : MqttQualityOfServiceLevel.AtMostOnce,
                         telemetryTimeout,
                         cancellationToken);
 
@@ -418,7 +418,7 @@ namespace Azure.Iot.Operations.Connector
                         serializedPayload,
                         messageMetadata,
                         null,
-                        MqttQualityOfServiceLevel.AtLeastOnce,
+                        destination.Configuration.Qos == QoS.Qos1 ? MqttQualityOfServiceLevel.AtLeastOnce : MqttQualityOfServiceLevel.AtMostOnce,
                         null,
                         cancellationToken);
 

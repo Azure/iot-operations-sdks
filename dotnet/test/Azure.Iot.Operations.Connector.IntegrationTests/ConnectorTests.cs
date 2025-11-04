@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         {
             await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
-            string asset1TelemetryTopic = "/mqtt/machine/asset1/status";
+            string asset1TelemetryTopic = "mqtt/machine/asset1/status";
             TaskCompletionSource<MqttApplicationMessage> asset1TelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
@@ -86,7 +86,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         {
             await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
-            string assetTelemetryTopic = "/mqtt/machine/status/change_event";
+            string assetTelemetryTopic = "mqtt/machine/status/change_event";
             TaskCompletionSource<MqttApplicationMessage> assetTelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
