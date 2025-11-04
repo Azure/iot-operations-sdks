@@ -7,7 +7,10 @@
     <Authors>Microsoft</Authors>
     <Description>.NET project templates for creating Azure IoT Operations solutions</Description>
     <PackageTags>azure;iot;sdk;edge</PackageTags>
-    <PackageProjectUrl>https://github.com/Azure/iot-operations-sdks</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Azure/iot-operations-sdks/</PackageProjectUrl>
+    <LicenseUrl>https://github.com/Azure/iot-operations-sdks/blob/main/LICENSE</LicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
 
     <PackageType>Template</PackageType>
     <TargetFramework>net9.0</TargetFramework>
