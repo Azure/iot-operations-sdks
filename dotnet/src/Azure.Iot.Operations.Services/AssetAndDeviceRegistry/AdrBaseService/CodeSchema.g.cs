@@ -19,5 +19,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         KubeError = 2,
         [EnumMember(Value = @"SerializationError")]
         SerializationError = 3,
+        [EnumMember(Value = @"Unauthorized")]
+        Unauthorized = 4,
     }
 }

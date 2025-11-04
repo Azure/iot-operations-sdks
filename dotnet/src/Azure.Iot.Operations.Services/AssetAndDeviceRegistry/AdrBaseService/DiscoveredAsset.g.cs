@@ -83,12 +83,26 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public List<EventStreamDestination>? DefaultStreamsDestinations { get; set; } = default;
 
         /// <summary>
+        /// Human-readable description of the asset.
+        /// </summary>
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Description { get; set; } = default;
+
+        /// <summary>
         /// Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use.
         /// </summary>
         [JsonPropertyName("deviceRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
         public AssetDeviceRef DeviceRef { get; set; } = default!;
+
+        /// <summary>
+        /// Human-readable display name.
+        /// </summary>
+        [JsonPropertyName("displayName")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DisplayName { get; set; } = default;
 
         /// <summary>
         /// Asset documentation reference.
@@ -100,9 +114,16 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// <summary>
         /// Array of events that are part of the asset. Each event can have per-event configuration.
         /// </summary>
-        [JsonPropertyName("events")]
+        [JsonPropertyName("eventGroups")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DiscoveredAssetEvent>? Events { get; set; } = default;
+        public List<DiscoveredAssetEventGroup>? EventGroups { get; set; } = default;
+
+        /// <summary>
+        /// Asset ID provided by the customer.
+        /// </summary>
+        [JsonPropertyName("externalAssetId")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? ExternalAssetId { get; set; } = default;
 
         /// <summary>
         /// Asset hardware revision number.

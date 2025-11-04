@@ -32,11 +32,11 @@ pub struct Session(session::Session<adapter::ClientAlias, adapter::EventLoopAlia
 #[derive(Clone)]
 pub struct SessionExitHandle(session::SessionExitHandle<adapter::ClientAlias>);
 
-/// Monitor for connection changes in the [`Session`].
+/// Monitor for session state changes in the [`Session`].
 ///
 /// This is largely for informational purposes.
 #[derive(Clone)]
-pub struct SessionConnectionMonitor(session::SessionConnectionMonitor);
+pub struct SessionMonitor(session::SessionMonitor);
 
 /// An MQTT client that has it's connection state externally managed by a [`Session`].
 /// Can be used to send messages and create receivers for incoming messages.
@@ -113,9 +113,9 @@ impl Session {
         SessionExitHandle(self.0.create_exit_handle())
     }
 
-    /// Return a new instance of [`SessionConnectionMonitor`] that can be used to monitor the connection state
-    pub fn create_connection_monitor(&self) -> SessionConnectionMonitor {
-        SessionConnectionMonitor(self.0.create_connection_monitor())
+    /// Return a new instance of [`SessionMonitor`] that can be used to monitor the session's state
+    pub fn create_session_monitor(&self) -> SessionMonitor {
+        SessionMonitor(self.0.create_session_monitor())
     }
 
     /// Return a new instance of [`SessionManagedClient`] that can be used to send and receive messages
@@ -283,7 +283,7 @@ impl SessionExitHandle {
     }
 }
 
-impl SessionConnectionMonitor {
+impl SessionMonitor {
     /// Returns true if the [`Session`] is currently connected.
     /// Note that this may not be accurate if connection has been recently lost.
     #[must_use]

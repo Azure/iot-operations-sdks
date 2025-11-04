@@ -27,11 +27,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public List<AssetDatasetEventStreamStatus>? Datasets { get; set; } = default;
 
         /// <summary>
-        /// Array of event statuses that describe the status of each event.
+        /// Array of event group statuses that describe the status of each event group.
         /// </summary>
-        [JsonPropertyName("events")]
+        [JsonPropertyName("eventGroups")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetDatasetEventStreamStatus>? Events { get; set; } = default;
+        public List<AssetEventGroupStatusSchemaElementSchema>? EventGroups { get; set; } = default;
 
         /// <summary>
         /// Array of management group statuses that describe the status of each management group.

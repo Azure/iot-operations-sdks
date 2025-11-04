@@ -159,6 +159,10 @@ pub enum Authentication {
     Certificate {
         /// The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).
         certificate_secret_name: String,
+        /// A reference to the secret containing the combined intermediate certificates in PEM format.
+        intermediate_certificates_secret_name: Option<String>,
+        /// A reference to the secret containing the certificate private key in PEM or DER format.
+        key_secret_name: Option<String>,
     },
     /// Represents authentication using a username and password.
     UsernamePassword {
@@ -308,16 +312,25 @@ impl From<base_client_gen::AuthenticationSchema> for Authentication {
     fn from(value: base_client_gen::AuthenticationSchema) -> Self {
         match value.method {
             base_client_gen::MethodSchema::Anonymous => Authentication::Anonymous,
-            base_client_gen::MethodSchema::Certificate => Authentication::Certificate {
-                certificate_secret_name: if let Some(x509credentials) = value.x509credentials {
-                    x509credentials.certificate_secret_name
+            base_client_gen::MethodSchema::Certificate => {
+                if let Some(x509credential) = value.x509credentials {
+                    Authentication::Certificate {
+                        certificate_secret_name: x509credential.certificate_secret_name,
+                        intermediate_certificates_secret_name: x509credential
+                            .intermediate_certificates_secret_name,
+                        key_secret_name: x509credential.key_secret_name,
+                    }
                 } else {
                     log::error!(
                         "Authentication method 'Certificate', but no 'x509Credentials' provided"
                     );
-                    String::new()
-                },
-            },
+                    Authentication::Certificate {
+                        certificate_secret_name: String::new(),
+                        intermediate_certificates_secret_name: None,
+                        key_secret_name: None,
+                    }
+                }
+            }
 
             base_client_gen::MethodSchema::UsernamePassword => {
                 if let Some(username_password_credentials) = value.username_password_credentials {

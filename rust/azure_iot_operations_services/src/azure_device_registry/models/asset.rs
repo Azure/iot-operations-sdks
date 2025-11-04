@@ -48,7 +48,7 @@ pub struct Asset {
     /// Enabled/Disabled status of the asset.
     pub enabled: Option<bool>, // TODO: just bool?
     /// Array of events that are part of the asset. Each event can have per-event configuration.
-    pub events: Vec<Event>, // if None on generated model, we can represent as empty vec
+    pub event_groups: Vec<EventGroup>, // if None on generated model, we can represent as empty vec
     /// Asset ID provided by the customer.
     pub external_asset_id: Option<String>,
     /// Revision number of the hardware.
@@ -105,13 +105,19 @@ pub struct DiscoveredAsset {
     pub default_streams_configuration: Option<String>,
     /// Default destinations for a stream.
     pub default_streams_destinations: Vec<EventStreamDestination>, // if empty, we can represent as None on generated model.
+    /// Human-readable description of the asset.
+    pub description: Option<String>,
     /// Reference to the device that provides data for this asset.
     /// Must provide device name & endpoint on the device to use.
     pub device_ref: DeviceRef,
+    /// Human-readable display name.
+    pub display_name: Option<String>,
     /// Asset documentation reference.
     pub documentation_uri: Option<String>,
     /// Array of events that are part of the asset. Each event can have per-event configuration.
-    pub events: Vec<DiscoveredEvent>, // if empty, we can represent as None on generated model.
+    pub event_groups: Vec<DiscoveredEventGroup>, // if empty, we can represent as None on generated model.
+    /// Asset ID provided by the customer.
+    pub external_asset_id: Option<String>,
     /// Asset hardware revision number.
     pub hardware_revision: Option<String>,
     /// Array of management groups that are part of the asset.
@@ -140,7 +146,7 @@ pub struct Dataset {
     pub dataset_configuration: Option<String>,
     /// Array of data points that are part of the dataset.
     pub data_points: Vec<DatasetDataPoint>, // if None on generated model, we can represent as empty vec
-    /// Name of the data source within a dataset.
+    /// Reference to a data source for a given dataset.
     pub data_source: Option<String>,
     /// Destinations for a dataset.
     pub destinations: Vec<DatasetDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
@@ -175,7 +181,7 @@ pub struct DatasetDataPoint {
     /// Stringified JSON that contains connector-specific configuration for the data point.
     pub data_point_configuration: Option<String>,
     /// The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.
-    pub data_source: String,
+    pub data_source: Option<String>,
     /// The name of the data point.
     pub name: String,
     /// URI or type definition ID.
@@ -188,7 +194,7 @@ pub struct DiscoveredDatasetDataPoint {
     /// Stringified JSON that contains connector-specific configuration for the data point.
     pub data_point_configuration: Option<String>,
     /// The address of the source of the data in the discovered asset (e.g. URL) so that a client can access the data source on the asset.
-    pub data_source: String,
+    pub data_source: Option<String>,
     /// UTC timestamp indicating when the data point was added or modified.
     pub last_updated_on: Option<DateTime<Utc>>,
     /// The name of the data point
@@ -242,17 +248,49 @@ pub struct DeviceRef {
     pub endpoint_name: String,
 }
 
-/// Represents an event in an asset.
+/// Represents an event group in an asset.
+#[derive(Clone, Debug, PartialEq)]
+pub struct EventGroup {
+    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.
+    pub data_source: Option<String>,
+    /// Default destinations for an event.
+    pub default_events_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    /// Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
+    pub event_group_configuration: Option<String>,
+    /// Array of events that are part of the asset. Each event can have per-event configuration.
+    pub events: Vec<Event>, // if None on generated model, we can represent as empty vec
+    /// Name of the event group.
+    pub name: String,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
+}
+
+/// Represents an event group in an asset.
+#[derive(Clone, Debug)]
+pub struct DiscoveredEventGroup {
+    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.
+    pub data_source: Option<String>,
+    /// Default destinations for an event.
+    pub default_events_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    /// Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
+    pub event_group_configuration: Option<String>,
+    /// Array of events that are part of the asset. Each event can have per-event configuration.
+    pub events: Vec<DiscoveredEvent>, // if None on generated model, we can represent as empty vec
+    /// Name of the event group.
+    pub name: String,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
+}
+
+/// Represents an event in an event group.
 #[derive(Clone, Debug, PartialEq)]
 pub struct Event {
-    /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
-    pub data_points: Vec<EventDataPoint>, // if None on generated model, we can represent as empty vec
+    /// Reference to a data source for a given event.
+    pub data_source: Option<String>,
     /// Destinations for an event.
     pub destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// Stringified JSON that contains connector-specific configuration for the specific event.
     pub event_configuration: Option<String>,
-    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
-    pub event_notifier: String,
     /// The name of the event.
     pub name: String,
     /// URI or type definition ID.
@@ -262,14 +300,12 @@ pub struct Event {
 /// Represents an event in a discovered asset.
 #[derive(Clone, Debug)]
 pub struct DiscoveredEvent {
-    /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
-    pub data_points: Vec<DiscoveredEventDataPoint>, // if empty, we can represent as None on generated model
+    /// Reference to a data source for a given event.
+    pub data_source: Option<String>,
     /// The destination for the event.
     pub destinations: Vec<EventStreamDestination>, // if empty, we can represent as None on generated model.
     /// Stringified JSON that contains connector-specific configuration for the specific event.
     pub event_configuration: Option<String>,
-    /// The address of the notifier of the event in the discovered asset (e.g. URL) so that a client can access the notifier on the asset.
-    pub event_notifier: String,
     /// UTC timestamp indicating when the event was added or modified.
     pub last_updated_on: Option<DateTime<Utc>>,
     /// The name of the event.
@@ -283,8 +319,10 @@ pub struct DiscoveredEvent {
 pub struct ManagementGroup {
     /// Array of actions that are part of the management group. Each action can have an individual configuration.
     pub actions: Vec<ManagementGroupAction>, // if None on generated model, we can represent as empty vec
+    /// Reference to a data source for a given management group.
+    pub data_source: Option<String>,
     /// Default response timeout for all actions that are part of the management group.
-    pub default_timeout_in_seconds: Option<u32>,
+    pub default_timeout_in_seconds: Option<u64>,
     /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
     pub default_topic: Option<String>,
     /// Stringified JSON that contains connector-specific configuration for the management group.
@@ -300,8 +338,10 @@ pub struct ManagementGroup {
 pub struct DiscoveredManagementGroup {
     /// Array of actions that are part of the management group. Each action can have an individual configuration.
     pub actions: Vec<DiscoveredManagementGroupAction>, // if None on generated model, we can represent as empty vec
+    /// Reference to a data source for a given management group.
+    pub data_source: Option<String>,
     /// Default response timeout for all actions that are part of the management group.
-    pub default_timeout_in_seconds: Option<u32>,
+    pub default_timeout_in_seconds: Option<u64>,
     /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
     pub default_topic: Option<String>,
     /// Timestamp (in UTC) indicating when the management group was added or modified.
@@ -326,7 +366,7 @@ pub struct ManagementGroupAction {
     /// The target URI on which a client can invoke the specific action.
     pub target_uri: String,
     /// Response timeout for the action.
-    pub timeout_in_seconds: Option<u32>,
+    pub timeout_in_seconds: Option<u64>,
     /// The MQTT topic path on which a client will receive the request for the action.
     pub topic: Option<String>,
     /// URI or type definition ID.
@@ -347,7 +387,7 @@ pub struct DiscoveredManagementGroupAction {
     /// The target URI on which a client can invoke the specific action.
     pub target_uri: String,
     /// Response timeout for the action.
-    pub timeout_in_seconds: Option<u32>,
+    pub timeout_in_seconds: Option<u64>,
     /// The MQTT topic path on which a client will receive the request for the action.
     pub topic: Option<String>,
     /// URI or type definition id of the management group action
@@ -382,30 +422,6 @@ pub struct DiscoveredStream {
     pub type_ref: Option<String>,
 }
 
-/// A data point in an event.
-#[derive(Clone, Debug, PartialEq)]
-pub struct EventDataPoint {
-    /// Stringified JSON that contains connector-specific configuration for the data point.
-    pub data_point_configuration: Option<String>,
-    /// The address of the source of the data in the event (e.g. URL) so that a client can access the data source on the asset.
-    pub data_source: String,
-    /// The name of the data point.
-    pub name: String,
-}
-
-/// A data point in a discovered event.
-#[derive(Clone, Debug)]
-pub struct DiscoveredEventDataPoint {
-    /// Stringified JSON that contains connector-specific configuration for the data point.
-    pub data_point_configuration: Option<String>,
-    /// The address of the source of the data in the discovered asset (e.g. URL) so that a client can access the data source on the asset.
-    pub data_source: String,
-    /// UTC timestamp indicating when the data point was added or modified.
-    pub last_updated_on: Option<DateTime<Utc>>,
-    /// The name of the data point.
-    pub name: String,
-}
-
 // TODO: turn into rust enums for which of these options can correlate to which destination enums
 /// The configuration for the destination
 #[derive(Clone, Debug, PartialEq)]
@@ -432,8 +448,8 @@ pub struct AssetStatus {
     pub config: Option<ConfigStatus>,
     /// Array of dataset statuses that describe the status of each dataset.
     pub datasets: Option<Vec<DatasetEventStreamStatus>>,
-    /// Array of event statuses that describe the status of each event.
-    pub events: Option<Vec<DatasetEventStreamStatus>>,
+    /// Array of event group statuses that describe the status of each event group.
+    pub event_groups: Option<Vec<EventGroupStatus>>,
     /// Array of management group statuses that describe the status of each management group.
     pub management_groups: Option<Vec<ManagementGroupStatus>>,
     /// Array of stream statuses that describe the status of each stream.
@@ -451,6 +467,15 @@ pub struct DatasetEventStreamStatus {
     pub message_schema_reference: Option<MessageSchemaReference>,
     /// The last error that occurred while processing the dataset/event/stream.
     pub error: Option<ConfigError>,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+/// Represents the status for an event group
+pub struct EventGroupStatus {
+    /// Array of event statuses that describe the status of each event in the event group.
+    pub events: Option<Vec<DatasetEventStreamStatus>>,
+    /// The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.
+    pub name: String,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -491,7 +516,7 @@ impl From<AssetStatus> for base_client_gen::AssetStatus {
         base_client_gen::AssetStatus {
             config: value.config.map(Into::into),
             datasets: value.datasets.option_vec_into(),
-            events: value.events.option_vec_into(),
+            event_groups: value.event_groups.option_vec_into(),
             management_groups: value.management_groups.option_vec_into(),
             streams: value.streams.option_vec_into(),
         }
@@ -504,6 +529,15 @@ impl From<DatasetEventStreamStatus> for base_client_gen::AssetDatasetEventStream
             name: value.name,
             message_schema_reference: value.message_schema_reference.map(Into::into),
             error: value.error.map(Into::into),
+        }
+    }
+}
+
+impl From<EventGroupStatus> for base_client_gen::AssetEventGroupStatusSchemaElementSchema {
+    fn from(value: EventGroupStatus) -> Self {
+        base_client_gen::AssetEventGroupStatusSchemaElementSchema {
+            events: value.events.option_vec_into(),
+            name: value.name,
         }
     }
 }
@@ -611,9 +645,18 @@ impl From<base_client_gen::AssetStatus> for AssetStatus {
         AssetStatus {
             config: value.config.map(Into::into),
             datasets: value.datasets.option_vec_into(),
-            events: value.events.option_vec_into(),
+            event_groups: value.event_groups.option_vec_into(),
             management_groups: value.management_groups.option_vec_into(),
             streams: value.streams.option_vec_into(),
+        }
+    }
+}
+
+impl From<base_client_gen::AssetEventGroupStatusSchemaElementSchema> for EventGroupStatus {
+    fn from(value: base_client_gen::AssetEventGroupStatusSchemaElementSchema) -> Self {
+        EventGroupStatus {
+            events: value.events.option_vec_into(),
+            name: value.name,
         }
     }
 }
@@ -692,7 +735,7 @@ impl From<base_client_gen::Asset> for Asset {
             display_name: value.display_name,
             documentation_uri: value.documentation_uri,
             enabled: value.enabled,
-            events: value.events.option_vec_into().unwrap_or_default(),
+            event_groups: value.event_groups.option_vec_into().unwrap_or_default(),
             external_asset_id: value.external_asset_id,
             hardware_revision: value.hardware_revision,
             last_transition_time: value.last_transition_time,
@@ -726,9 +769,12 @@ impl From<DiscoveredAsset> for base_client_gen::DiscoveredAsset {
             default_management_groups_configuration: value.default_management_groups_configuration,
             default_streams_configuration: value.default_streams_configuration,
             default_streams_destinations: value.default_streams_destinations.option_vec_into(),
+            description: value.description,
             device_ref: value.device_ref.into(),
+            display_name: value.display_name,
             documentation_uri: value.documentation_uri,
-            events: value.events.option_vec_into(),
+            event_groups: value.event_groups.option_vec_into(),
+            external_asset_id: value.external_asset_id,
             hardware_revision: value.hardware_revision,
             management_groups: value.management_groups.option_vec_into(),
             manufacturer: value.manufacturer,
@@ -828,13 +874,41 @@ impl From<DeviceRef> for base_client_gen::AssetDeviceRef {
     }
 }
 
+impl From<base_client_gen::AssetEventGroupSchemaElementSchema> for EventGroup {
+    fn from(value: base_client_gen::AssetEventGroupSchemaElementSchema) -> Self {
+        EventGroup {
+            events: value.events.option_vec_into().unwrap_or_default(),
+            default_events_destinations: value
+                .default_events_destinations
+                .option_vec_into()
+                .unwrap_or_default(),
+            event_group_configuration: value.event_group_configuration,
+            data_source: value.data_source,
+            name: value.name,
+            type_ref: value.type_ref,
+        }
+    }
+}
+
+impl From<DiscoveredEventGroup> for base_client_gen::DiscoveredAssetEventGroup {
+    fn from(value: DiscoveredEventGroup) -> Self {
+        base_client_gen::DiscoveredAssetEventGroup {
+            events: value.events.option_vec_into(),
+            default_events_destinations: value.default_events_destinations.option_vec_into(),
+            event_group_configuration: value.event_group_configuration,
+            data_source: value.data_source,
+            name: value.name,
+            type_ref: value.type_ref,
+        }
+    }
+}
+
 impl From<base_client_gen::AssetEventSchemaElementSchema> for Event {
     fn from(value: base_client_gen::AssetEventSchemaElementSchema) -> Self {
         Event {
-            data_points: value.data_points.option_vec_into().unwrap_or_default(),
             destinations: value.destinations.option_vec_into().unwrap_or_default(),
             event_configuration: value.event_configuration,
-            event_notifier: value.event_notifier,
+            data_source: value.data_source,
             name: value.name,
             type_ref: value.type_ref,
         }
@@ -844,10 +918,9 @@ impl From<base_client_gen::AssetEventSchemaElementSchema> for Event {
 impl From<DiscoveredEvent> for base_client_gen::DiscoveredAssetEvent {
     fn from(value: DiscoveredEvent) -> Self {
         base_client_gen::DiscoveredAssetEvent {
-            data_points: value.data_points.option_vec_into(),
+            data_source: value.data_source,
             destinations: value.destinations.option_vec_into(),
             event_configuration: value.event_configuration,
-            event_notifier: value.event_notifier,
             last_updated_on: value.last_updated_on,
             name: value.name,
             type_ref: value.type_ref,
@@ -873,31 +946,11 @@ impl From<EventStreamDestination> for base_client_gen::EventStreamDestination {
     }
 }
 
-impl From<base_client_gen::AssetEventDataPointSchemaElementSchema> for EventDataPoint {
-    fn from(value: base_client_gen::AssetEventDataPointSchemaElementSchema) -> Self {
-        EventDataPoint {
-            data_point_configuration: value.data_point_configuration,
-            data_source: value.data_source,
-            name: value.name,
-        }
-    }
-}
-
-impl From<DiscoveredEventDataPoint> for base_client_gen::DiscoveredAssetEventDataPoint {
-    fn from(value: DiscoveredEventDataPoint) -> Self {
-        base_client_gen::DiscoveredAssetEventDataPoint {
-            data_point_configuration: value.data_point_configuration,
-            data_source: value.data_source,
-            last_updated_on: value.last_updated_on,
-            name: value.name,
-        }
-    }
-}
-
 impl From<base_client_gen::AssetManagementGroupSchemaElementSchema> for ManagementGroup {
     fn from(value: base_client_gen::AssetManagementGroupSchemaElementSchema) -> Self {
         ManagementGroup {
             actions: value.actions.option_vec_into().unwrap_or_default(),
+            data_source: value.data_source,
             default_timeout_in_seconds: value.default_timeout_in_seconds,
             default_topic: value.default_topic,
             management_group_configuration: value.management_group_configuration,
@@ -911,6 +964,7 @@ impl From<DiscoveredManagementGroup> for base_client_gen::DiscoveredAssetManagem
     fn from(value: DiscoveredManagementGroup) -> Self {
         base_client_gen::DiscoveredAssetManagementGroup {
             actions: value.actions.option_vec_into(),
+            data_source: value.data_source,
             default_timeout_in_seconds: value.default_timeout_in_seconds,
             default_topic: value.default_topic,
             last_updated_on: value.last_updated_on,

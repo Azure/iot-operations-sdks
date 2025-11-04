@@ -621,41 +621,50 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            if (asset.Events == null)
+            if (asset.EventGroups == null)
             {
                 _logger.LogInformation($"Asset with name {assetName} has no events to listen for");
             }
             else
             {
-                foreach (var assetEvent in asset!.Events)
+                foreach (var assetEventGroup in asset.EventGroups)
                 {
-                    // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                    var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, assetEvent.Name, assetEvent);
-                    if (eventMessageSchema != null)
+                    if (assetEventGroup.Events == null)
                     {
-                        try
-                        {
-                            _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
-                            await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
-                            var registeredEventSchema = await schemaRegistryClient.PutAsync(
-                                eventMessageSchema.SchemaContent,
-                                eventMessageSchema.SchemaFormat,
-                                eventMessageSchema.SchemaType,
-                                eventMessageSchema.Version ?? "1",
-                                eventMessageSchema.Tags);
-
-                            _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
-
-                            _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", registeredEventSchema);
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError($"Failed to register message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
-                        }
+                        _logger.LogInformation($"Event group with name {assetEventGroup.Name} has no events to register message schemas for");
+                        continue;
                     }
-                    else
+
+                    foreach (var assetEvent in assetEventGroup.Events)
                     {
-                        _logger.LogInformation($"No message schema will be registered for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                        // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
+                        var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, assetEvent.Name, assetEvent);
+                        if (eventMessageSchema != null)
+                        {
+                            try
+                            {
+                                _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                                await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
+                                var registeredEventSchema = await schemaRegistryClient.PutAsync(
+                                    eventMessageSchema.SchemaContent,
+                                    eventMessageSchema.SchemaFormat,
+                                    eventMessageSchema.SchemaType,
+                                    eventMessageSchema.Version ?? "1",
+                                    eventMessageSchema.Tags);
+
+                                _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
+
+                                _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", registeredEventSchema);
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogError($"Failed to register message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
+                            }
+                        }
+                        else
+                        {
+                            _logger.LogInformation($"No message schema will be registered for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                        }
                     }
                 }
             }

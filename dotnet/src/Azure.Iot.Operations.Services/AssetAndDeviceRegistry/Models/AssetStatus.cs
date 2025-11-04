@@ -9,7 +9,7 @@ public record AssetStatus
 
     public List<AssetDatasetEventStreamStatus>? Datasets { get; set; }
 
-    public List<AssetDatasetEventStreamStatus>? Events { get; set; }
+    public List<AssetEventGroupStatus>? EventGroups { get; set; } = default;
 
     public List<AssetManagementGroupStatusSchemaElement>? ManagementGroups { get; set; }
 

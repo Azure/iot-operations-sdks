@@ -53,7 +53,7 @@ runs:
     - name: Install Akri
       uses: ./action-deploy
       with:
-        akri: 2504
+        akri: 2510
         install_aio: "false"
         install_akri: "true"
 
