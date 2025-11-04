@@ -457,7 +457,8 @@ namespace Azure.Iot.Operations.Connector
                 _telemetrySenderCache.Clear();
                 _isDisposed = true;
             }
-}        private async void OnAssetChanged(object? _, AssetChangedEventArgs args)
+        }
+        private async void OnAssetChanged(object? _, AssetChangedEventArgs args)
         {
             string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
             if (args.ChangeType == ChangeType.Created)
