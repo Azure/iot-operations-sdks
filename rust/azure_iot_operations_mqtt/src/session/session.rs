@@ -13,7 +13,9 @@ use tokio_util::sync::CancellationToken;
 use crate::auth::{self, SatAuthContext};
 use crate::control_packet::{ConnectReturnCode, QoS};
 use crate::error::ConnectionError;
-use crate::interface::{Event, Incoming, MqttClient, MqttDisconnect, MqttEventLoop};
+use crate::interface::{
+    Event, Incoming, MqttClient, MqttConnectHandle, MqttDisconnect, MqttReceiver,
+};
 use crate::session::managed_client::SessionManagedClient;
 use crate::session::receiver::{IncomingPublishDispatcher, PublishReceiverManager};
 use crate::session::reconnect_policy::ReconnectPolicy;
@@ -24,15 +26,20 @@ use crate::session::{SessionError, SessionErrorRepr, SessionExitError, SessionEx
 ///
 /// Use this centrally in an application to control the session and to create
 /// instances of [`SessionManagedClient`] and [`SessionExitHandle`].
-pub struct Session<C, EL>
+pub struct Session<C, R, CH>
 where
     C: MqttClient + Clone + Send + Sync + 'static,
-    EL: MqttEventLoop,
+    R: MqttReceiver,
+    CH: MqttConnectHandle,
 {
     /// Underlying MQTT client
     client: C,
-    /// Underlying MQTT event loop
-    event_loop: EL,
+    // /// Underlying MQTT event loop
+    // event_loop: EL,
+    /// Underlying MQTT Receiver
+    receiver: R,
+    /// Underlying MQTT connect handle
+    connect_handle: CH,
     /// Client ID of the underlying rumqttc client
     client_id: String,
     /// File path to the SAT token
@@ -45,21 +52,25 @@ where
     reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Current state
     state: Arc<SessionState>,
-    /// Notifier for a force exit signal
-    notify_force_exit: Arc<Notify>,
+    // /// Notifier for a force exit signal
+    // notify_force_exit: Arc<Notify>,
+    /// disconnect handle
+    disconnect_handle: Option<azure_mqtt::DisconnectHandle>,
 }
 
-impl<C, EL> Session<C, EL>
+impl<C, R, CH> Session<C, R, CH>
 where
     C: MqttClient + Clone + Send + Sync + 'static,
-    EL: MqttEventLoop,
+    R: MqttReceiver,
+    CH: MqttConnectHandle,
 {
     // TODO: get client id out of here
     // TODO: can we eliminate need for box on input?
     /// ----API NOT STABLE, INTERNAL USE ONLY FOR NOW----
     pub fn new_from_injection(
         client: C,
-        event_loop: EL,
+        receiver: R,
+        connect_handle: CH,
         reconnect_policy: Box<dyn ReconnectPolicy>,
         client_id: String,
         sat_file: Option<String>,
@@ -69,14 +80,15 @@ where
 
         Self {
             client,
-            event_loop,
+            receiver,
+            connect_handle,
             client_id,
             sat_file,
             receiver_manager,
             incoming_pub_dispatcher,
             reconnect_policy,
             state: Arc::new(SessionState::default()),
-            notify_force_exit: Arc::new(Notify::new()),
+            disconnect_handle: None,
         }
     }
 
@@ -105,6 +117,251 @@ where
         }
     }
 
+    // /// Begin running the [`Session`].
+    // ///
+    // /// Consumes the [`Session`] and blocks until either a session exit or a fatal connection
+    // /// error is encountered.
+    // ///
+    // /// # Errors
+    // /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
+    // pub async fn run(mut self) -> Result<(), SessionError> {
+    //     self.state.transition_running();
+
+    //     let mut sat_auth_context = None;
+    //     let mut sat_auth_tx = None;
+
+    //     if let Some(sat_file) = &self.sat_file {
+    //         // Set the authentication method
+    //         self.event_loop
+    //             .set_authentication_method(Some(auth::SAT_AUTHENTICATION_METHOD.to_string()));
+
+    //         // Read the SAT auth file
+    //         match fs::read(sat_file) {
+    //             Ok(sat_auth_data) => {
+    //                 // Set the authentication data
+    //                 self.event_loop
+    //                     .set_authentication_data(Some(sat_auth_data.into()));
+    //             }
+    //             Err(e) => {
+    //                 log::error!("Cannot read SAT auth file: {sat_file}");
+    //                 // TODO: This should happen in the auth module, it should be fixed in the future.
+    //                 return Err(SessionErrorRepr::IoError(e))?;
+    //             }
+    //         };
+    //         let authentication_info = az_mqtt::AuthenticationInfo {
+    //             method: auth::SAT_AUTHENTICATION_METHOD.to_string(),
+    //             data: Some(auth_data)
+    //         };
+
+    //         let (auth_watch_channel_tx, auth_watch_channel_rx) =
+    //             tokio::sync::mpsc::unbounded_channel();
+    //         sat_auth_tx = Some(auth_watch_channel_tx);
+    //         sat_auth_context = Some(
+    //             SatAuthContext::new(sat_file.clone(), auth_watch_channel_rx).map_err(|e| {
+    //                 log::error!("Error while creating SAT auth context: {e:?}");
+    //                 SessionErrorRepr::SatAuthError(e)
+    //             })?,
+    //         );
+    //     }
+
+    //     // Background tasks
+    //     let cancel_token = CancellationToken::new();
+    //     tokio::spawn({
+    //         let cancel_token = cancel_token.clone();
+    //         let client = self.client.clone();
+    //         run_background(client, sat_auth_context, cancel_token)
+    //     });
+
+    //     // Indicates whether this session has been previously connected
+    //     let mut prev_connected = false;
+    //     // Number of previous reconnect attempts
+    //     let mut prev_reconnect_attempts = 0;
+    //     // Return value for the session indicating reason for exit
+    //     let mut result = Ok(());
+
+    //     // Handle events
+    //     loop {
+    //         // Poll the next event/error unless a force exit occurs.
+    //         let next = tokio::select! {
+    //             // Ensure that the force exit signal is checked first.
+    //             biased;
+    //             () = self.notify_force_exit.notified() => { break },
+    //             next = self.event_loop.poll() => { next },
+    //         };
+
+    //         match next {
+    //             Ok(Event::Incoming(Incoming::ConnAck(connack))) => {
+    //                 // Update connection state
+    //                 self.state.transition_connected();
+    //                 // Reset the counter on reconnect attempts
+    //                 prev_reconnect_attempts = 0;
+    //                 log::debug!("Incoming CONNACK: {connack:?}");
+
+    //                 // If the session is not present after a reconnect, end the session.
+    //                 if prev_connected && !connack.session_present {
+    //                     log::error!(
+    //                         "Session state not present on broker after reconnect. Ending session."
+    //                     );
+    //                     result = Err(SessionErrorRepr::SessionLost);
+    //                     if self.state.desire_exit() {
+    //                         // NOTE: this could happen if the user was exiting when the connection was dropped,
+    //                         // while the Session was not aware of the connection drop. Then, the drop has to last
+    //                         // long enough for the MQTT session expiry interval to cause the broker to discard the
+    //                         // MQTT session, and thus, you would enter this case.
+    //                         // NOTE: The reason that the misattribution of cause may occur in logs is due to the
+    //                         // (current) loose matching of received disconnects on account of an rumqttc bug.
+    //                         // See the error cases below in this match statement for more information.
+    //                         log::debug!(
+    //                             "Session-initiated exit triggered when user-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
+    //                         );
+    //                     }
+    //                     self.trigger_session_exit().await;
+    //                 }
+    //                 // Otherwise, connection was successful
+    //                 else {
+    //                     prev_connected = true;
+    //                     // Set clean start to false for subsequent connections
+    //                     self.event_loop.set_clean_start(false);
+    //                 }
+    //             }
+    //             Ok(Event::Incoming(Incoming::Auth(auth))) => {
+    //                 log::debug!("Incoming AUTH: {auth:?}");
+
+    //                 if let Some(sat_auth_tx) = &sat_auth_tx {
+    //                     // Notify the background task that the auth data has changed
+    //                     // TODO: This is a bit of a hack, but it works for now. Ideally, the reauth
+    //                     // method on rumqttc would return a completion token and we could use that
+    //                     // in the background task to know when the reauth is complete.
+    //                     match sat_auth_tx.send(auth.code) {
+    //                         Ok(()) => {}
+    //                         Err(e) => {
+    //                             // This should never happen unless the background task has exited
+    //                             // in which case the session is already in a bad state and we should
+    //                             // have already exited.
+    //                             log::error!("Error sending auth code to SAT auth task: {e:?}");
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //             Ok(Event::Incoming(Incoming::Publish(publish))) => {
+    //                 log::debug!("Incoming PUB: {publish:?}");
+
+    //                 // Dispatch the message to receivers
+    //                 match self.incoming_pub_dispatcher.dispatch_publish(&publish) {
+    //                     Ok(_) => {}
+    //                     Err(e) => {
+    //                         // If the dispatch fails, we must be responsible for acking.
+    //                         // However, failure here should never happen in valid MQTT scenarios.
+    //                         match publish.qos {
+    //                             QoS::AtLeastOnce | QoS::ExactlyOnce => {
+    //                                 log::error!(
+    //                                     "Could not dispatch PUB with PKID {}. Will be auto-acked. Reason: {e:?}",
+    //                                     publish.pkid
+    //                                 );
+    //                                 log::warn!(
+    //                                     "Auto-ack of PKID {} may not be correctly ordered",
+    //                                     publish.pkid
+    //                                 );
+    //                                 tokio::spawn({
+    //                                     let acker = self.client.clone();
+    //                                     async move {
+    //                                         match acker.ack(&publish).await {
+    //                                             Ok(ct) => {
+    //                                                 let _ = ct.await;
+    //                                                 log::debug!(
+    //                                                     "Auto-ack for failed dispatch PKID {} successful",
+    //                                                     publish.pkid
+    //                                                 );
+    //                                             }
+    //                                             Err(e) => {
+    //                                                 log::error!(
+    //                                                     "Auto-ack for failed dispatch PKID {} failed: {e:?}",
+    //                                                     publish.pkid
+    //                                                 );
+    //                                             }
+    //                                         }
+    //                                     }
+    //                                 });
+    //                             }
+    //                             QoS::AtMostOnce => {
+    //                                 // No ack needed for QoS 0
+    //                                 log::error!(
+    //                                     "Could not dispatch PUB with PKID {}. Reason: {e:?}",
+    //                                     publish.pkid
+    //                                 );
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             }
+
+    //             Ok(_e) => {
+    //                 // There could be additional incoming and outgoing event responses here if
+    //                 // more filters like the above one are applied
+    //             }
+
+    //             // Desired disconnect completion
+    //             // NOTE: This normally is StateError::ConnectionAborted, but rumqttc sometimes
+    //             // can deliver something else in this case. For now, we'll accept any
+    //             // MqttState variant when trying to disconnect.
+    //             // TODO: However, this has the side-effect of falsely reporting disconnects that are the
+    //             // result of network failure as client-side disconnects if there is an outstanding
+    //             // DesireExit value. This is not harmful, but it is bad for logging, and should
+    //             // probably be fixed.
+    //             Err(ConnectionError::MqttState(_)) if self.state.desire_exit() => {
+    //                 self.state.transition_disconnected();
+    //                 break;
+    //             }
+
+    //             // Connection refused by broker - unrecoverable
+    //             // NOTE: We carve out an exception for quota exceeded, as we wish to recover from that
+    //             // NOTE: The carve-out does not actually work due to a bug in rumqttc where QuotaExceeded does not correctly surface.
+    //             // Instead it surfaces as a deserialization error, which we cannot accurately match. This implementation exists here
+    //             // as documentation of the desire for this behavior.
+    //             Err(ConnectionError::ConnectionRefused(rc))
+    //                 if !matches!(rc, ConnectReturnCode::QuotaExceeded) =>
+    //             {
+    //                 log::error!("Connection Refused: rc: {rc:?}");
+    //                 result = Err(SessionErrorRepr::ConnectionError(next.unwrap_err()));
+    //                 break;
+    //             }
+
+    //             // Other errors are passed to reconnect policy
+    //             Err(e) => {
+    //                 self.state.transition_disconnected();
+
+    //                 // Always log the error itself at error level
+    //                 log::error!("Error: {e:?}");
+
+    //                 // Defer decision to reconnect policy
+    //                 if let Some(delay) = self
+    //                     .reconnect_policy
+    //                     .next_reconnect_delay(prev_reconnect_attempts, &e)
+    //                 {
+    //                     log::info!("Attempting reconnect in {delay:?}");
+    //                     // Wait for either the reconnect delay time, or a force exit signal
+    //                     tokio::select! {
+    //                         () = tokio::time::sleep(delay) => {}
+    //                         () = self.notify_force_exit.notified() => {
+    //                             log::info!("Reconnect attempts halted by force exit");
+    //                             result = Err(SessionErrorRepr::ForceExit);
+    //                             break;
+    //                         }
+    //                     }
+    //                 } else {
+    //                     log::info!("Reconnect attempts halted by reconnect policy");
+    //                     result = Err(SessionErrorRepr::ReconnectHalted);
+    //                     break;
+    //                 }
+    //                 prev_reconnect_attempts += 1;
+    //             }
+    //         }
+    //     }
+    //     self.state.transition_exited();
+    //     cancel_token.cancel();
+    //     result.map_err(std::convert::Into::into)
+    // }
+
     /// Begin running the [`Session`].
     ///
     /// Consumes the [`Session`] and blocks until either a session exit or a fatal connection
@@ -114,38 +371,24 @@ where
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
     pub async fn run(mut self) -> Result<(), SessionError> {
         self.state.transition_running();
-
-        let mut sat_auth_context = None;
-        let mut sat_auth_tx = None;
-
+        let mut authentication_info = None;
         if let Some(sat_file) = &self.sat_file {
-            // Set the authentication method
-            self.event_loop
-                .set_authentication_method(Some(auth::SAT_AUTHENTICATION_METHOD.to_string()));
-
             // Read the SAT auth file
-            match fs::read(sat_file) {
+            let auth_data = match fs::read(sat_file) {
                 Ok(sat_auth_data) => {
                     // Set the authentication data
-                    self.event_loop
-                        .set_authentication_data(Some(sat_auth_data.into()));
+                    sat_auth_data.into()
                 }
                 Err(e) => {
                     log::error!("Cannot read SAT auth file: {sat_file}");
                     // TODO: This should happen in the auth module, it should be fixed in the future.
                     return Err(SessionErrorRepr::IoError(e))?;
                 }
-            }
-
-            let (auth_watch_channel_tx, auth_watch_channel_rx) =
-                tokio::sync::mpsc::unbounded_channel();
-            sat_auth_tx = Some(auth_watch_channel_tx);
-            sat_auth_context = Some(
-                SatAuthContext::new(sat_file.clone(), auth_watch_channel_rx).map_err(|e| {
-                    log::error!("Error while creating SAT auth context: {e:?}");
-                    SessionErrorRepr::SatAuthError(e)
-                })?,
-            );
+            };
+            authentication_info = az_mqtt::AuthenticationInfo {
+                method: auth::SAT_AUTHENTICATION_METHOD.to_string(),
+                data: Some(auth_data),
+            };
         }
 
         // Background tasks
@@ -165,6 +408,24 @@ where
 
         // Handle events
         loop {
+            let (connection, connack, disconnect_handle) =
+                if let Some(authentication_info) = authentication_info {
+                    unimplemented!()
+                } else {
+                    self.connect_handle.connect(self.connection_transport).await
+                };
+            self.disconnect_handle = Some(disconnect_handle);
+            tokio::select! {
+                (new_connect_handle, disconnect_event, session_ended) = Self::connection_runner(connection) => {
+                    self.connect_handle = new_connect_handle;
+                    if session_ended {
+                        break;
+                    }
+                }
+                _ = self.receive() => {
+                    // do anything here? If this ends, it should mean that the client has been dropped
+                }
+            }
             // Poll the next event/error unless a force exit occurs.
             let next = tokio::select! {
                 // Ensure that the force exit signal is checked first.
@@ -352,6 +613,77 @@ where
         match exit_handle.trigger_exit_internal().await {
             Ok(()) => log::debug!("Internal session exit successful"),
             Err(e) => log::debug!("Internal session exit failed: {e:?}"),
+        }
+    }
+
+    ///  returns new connect handle, disconnected event, and whether session has ended or not
+    async fn connection_runner(connection: Connection) -> (CH, DisconnectedEvent, bool) {
+        let (connect_handle, disconnected_event) = connection.run_until_disconnect().await;
+        let session_ended = match disconnected_event {
+            DisconnectedEvent::Transport => {
+                false // can't know, must connect again to find out
+            }
+            DisconnectedEvent::UserRequested => true,
+            ServerRequested(disconnect) => {
+                disconnect.disconnect_properties.session_expiry_interval == 0
+            }
+        };
+        (connect_handle, disconnected_event, session_ended)
+    }
+
+    /// TODO: acking here needs to be adjusted
+    async fn receive(&mut self) {
+        loop {
+            while let Some((publish, ack_handle)) = self.receiver.recv().await {
+                log::debug!("Incoming PUB: {publish:?}");
+                // Dispatch the message to receivers
+                match self.incoming_pub_dispatcher.dispatch_publish(&publish) {
+                    Ok(_) => {}
+                    Err(e) => {
+                        // If the dispatch fails, we must be responsible for acking.
+                        // However, failure here should never happen in valid MQTT scenarios.
+                        match publish.qos {
+                            QoS::AtLeastOnce | QoS::ExactlyOnce => {
+                                log::error!(
+                                    "Could not dispatch PUB with PKID {}. Will be auto-acked. Reason: {e:?}",
+                                    publish.pkid
+                                );
+                                log::warn!(
+                                    "Auto-ack of PKID {} may not be correctly ordered",
+                                    publish.pkid
+                                );
+                                tokio::spawn({
+                                    let acker = self.client.clone();
+                                    async move {
+                                        match acker.ack(&publish).await {
+                                            Ok(ct) => {
+                                                let _ = ct.await;
+                                                log::debug!(
+                                                    "Auto-ack for failed dispatch PKID {} successful",
+                                                    publish.pkid
+                                                );
+                                            }
+                                            Err(e) => {
+                                                log::error!(
+                                                    "Auto-ack for failed dispatch PKID {} failed: {e:?}",
+                                                    publish.pkid
+                                                );
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                            QoS::AtMostOnce => {
+                                // No ack needed for QoS 0
+                                log::error!(
+                                    "Could not dispatch PUB with PKID {}. Reason: {e:?}",
+                                    publish.pkid
+                                );
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

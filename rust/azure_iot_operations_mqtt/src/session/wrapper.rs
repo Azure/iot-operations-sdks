@@ -30,7 +30,7 @@ pub struct Session(session::Session<adapter::ClientAlias, adapter::EventLoopAlia
 /// This struct's API is designed around negotiating a graceful exit with the MQTT broker.
 /// However, this is not actually possible right now due to a bug in underlying MQTT library.
 #[derive(Clone)]
-pub struct SessionExitHandle(session::SessionExitHandle<adapter::ClientAlias>);
+pub struct SessionExitHandle(session::SessionExitHandle<adapter::DisconnectHandleAlias>);
 
 /// Monitor for connection changes in the [`Session`].
 ///
@@ -93,7 +93,7 @@ impl Session {
             vec![]
         };
 
-        let (client, event_loop) = adapter::client(
+        let (client, connect_handle, receiver) = adapter::client(
             options.connection_settings,
             options.outgoing_max,
             true,
@@ -101,7 +101,8 @@ impl Session {
         )?;
         Ok(Session(session::Session::new_from_injection(
             client,
-            event_loop,
+            receiver,
+            connect_handle,
             options.reconnect_policy,
             client_id,
             sat_file,

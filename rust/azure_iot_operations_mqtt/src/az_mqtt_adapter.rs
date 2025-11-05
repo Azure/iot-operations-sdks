@@ -20,11 +20,12 @@ use crate::error::{
     UnsubscribeError, UnsubscribeErrorKind,
 };
 use crate::interface::{
-    CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttEventLoop, MqttPubSub,
+    CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttPubSub, MqttReceiver,
 };
 use crate::topic::{TopicFilter, TopicName};
 
 pub type ClientAlias = azure_mqtt::client::Client;
+pub type DisconnectHandleAlias = azure_mqtt::DisconnectHandle;
 // pub type EventLoopAlias = rumqttc::v5::EventLoop;
 
 // impl From<rumqttc::v5::ClientError> for PublishError {
@@ -167,6 +168,54 @@ impl MqttPubSub for azure_mqtt::client::Client {
     }
 }
 
+#[async_trait]
+impl MqttReceiver for azure_mqtt::Receiver {
+    async fn recv(&mut self) -> Option<(Publish, AckHandle)> {
+        self.recv().await
+    }
+}
+
+#[async_trait]
+impl MqttConnectHandle for azure_mqtt::ConnectHandle {
+    async fn connect_enhanced_auth(
+        mut self,
+        connection_transport: ConnectionTransportConfig,
+        clean_start: bool,
+        keep_alive: KeepAlive,
+        options: ConnectOptions,
+        properties: ConnectProperties,
+        authentication_info: AuthenticationInfo,
+    ) -> AuthResponse {
+        self.connect_enhanced_auth(
+            connection_transport,
+            clean_start,
+            keep_alive,
+            options,
+            properties,
+            authentication_info,
+        )
+        .await
+    }
+
+    async fn connect(
+        mut self,
+        connection_transport: ConnectionTransportConfig,
+        clean_start: bool,
+        keep_alive: KeepAlive,
+        options: ConnectOptions,
+        properties: ConnectProperties,
+    ) -> (Connection, ConnAck, DisconnectHandle) {
+        self.connect(
+            connection_transport,
+            clean_start,
+            keep_alive,
+            options,
+            properties,
+        )
+        .await
+    }
+}
+
 // #[async_trait]
 // impl MqttAck for rumqttc::v5::AsyncClient {
 //     async fn ack(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
@@ -196,12 +245,13 @@ impl MqttPubSub for azure_mqtt::client::Client {
 //     }
 // }
 
-// #[async_trait]
-// impl MqttDisconnect for rumqttc::v5::AsyncClient {
-//     async fn disconnect(&self) -> Result<(), DisconnectError> {
-//         Ok(self.disconnect().await?)
-//     }
-// }
+#[async_trait]
+impl MqttDisconnect for azure_mqtt::DisconnectHandle {
+    async fn disconnect(&self) -> Result<(), DisconnectError> {
+        // todo, set session expiry interval to 0
+        Ok(self.disconnect(DisconnectProperties::default()).await?) // TODO: maybe don't default this
+    }
+}
 
 // #[async_trait]
 // impl MqttEventLoop for rumqttc::v5::EventLoop {

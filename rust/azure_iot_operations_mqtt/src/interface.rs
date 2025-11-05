@@ -128,6 +128,28 @@ pub trait MqttClient: MqttPubSub + MqttAck + MqttDisconnect {
     async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ReauthError>;
 }
 
+#[async_trait]
+pub trait MqttConnectHandle {
+    async fn connect_enhanced_auth(
+        mut self,
+        connection_transport: ConnectionTransportConfig,
+        clean_start: bool,
+        keep_alive: KeepAlive,
+        options: ConnectOptions,
+        properties: ConnectProperties,
+        authentication_info: AuthenticationInfo,
+    ) -> AuthResponse;
+
+    async fn connect(
+        mut self,
+        connection_transport: ConnectionTransportConfig,
+        clean_start: bool,
+        keep_alive: KeepAlive,
+        options: ConnectOptions,
+        properties: ConnectProperties,
+    ) -> (Connection, ConnAck, DisconnectHandle);
+}
+
 // /// MQTT Event Loop manipulation
 // #[async_trait]
 // pub trait MqttEventLoop {
@@ -143,6 +165,17 @@ pub trait MqttClient: MqttPubSub + MqttAck + MqttDisconnect {
 // /// Set the authentication data
 // fn set_authentication_data(&mut self, authentication_data: Option<Bytes>);
 // }
+
+/// MQTT Receiver manipulation
+#[async_trait]
+pub trait MqttReceiver {
+    /// Receive an incoming `Publish`, and any `AckToken` that may be associated with it.
+    ///
+    /// `AckToken` will only be present if the Publish has a QoS of 1 or 2.
+    ///
+    /// Receiving None indicates that the client has been dropped, and no more messages will be received.
+    async fn recv(&mut self) -> Option<(Publish, AckHandle)>;
+}
 
 // ---------- Higher level MQTT abstractions ----------
 

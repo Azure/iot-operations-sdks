@@ -70,63 +70,39 @@ impl<PS> MqttPubSub for SessionManagedClient<PS>
 where
     PS: MqttPubSub + Clone + Send + Sync,
 {
-    async fn publish(
+    async fn publish_qos0(
         &self,
         topic: impl Into<String> + Send,
-        qos: QoS,
-        retain: bool,
-        payload: impl Into<Bytes> + Send,
-    ) -> Result<CompletionToken, PublishError> {
-        self.pub_sub.publish(topic, qos, retain, payload).await
-    }
-
-    async fn publish_with_properties(
-        &self,
-        topic: impl Into<String> + Send,
-        qos: QoS,
-        retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
     ) -> Result<CompletionToken, PublishError> {
-        self.pub_sub
-            .publish_with_properties(topic, qos, retain, payload, properties)
-            .await
+        self.pub_sub.publish_qos0(topic, payload, properties).await
+    }
+
+    async fn publish_qos1(
+        &self,
+        topic: impl Into<String> + Send,
+        payload: impl Into<Bytes> + Send,
+        properties: PublishProperties,
+    ) -> Result<CompletionToken, PublishError> {
+        self.pub_sub.publish_qos1(topic, payload, properties).await
     }
 
     async fn subscribe(
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, SubscribeError> {
-        self.pub_sub.subscribe(topic, qos).await
-    }
-
-    async fn subscribe_with_properties(
-        &self,
-        topic: impl Into<String> + Send,
-        qos: QoS,
         properties: SubscribeProperties,
     ) -> Result<CompletionToken, SubscribeError> {
-        self.pub_sub
-            .subscribe_with_properties(topic, qos, properties)
-            .await
+        self.pub_sub.subscribe(topic, qos, properties).await
     }
 
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, UnsubscribeError> {
-        self.pub_sub.unsubscribe(topic).await
-    }
-
-    async fn unsubscribe_with_properties(
-        &self,
-        topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
     ) -> Result<CompletionToken, UnsubscribeError> {
-        self.pub_sub
-            .unsubscribe_with_properties(topic, properties)
-            .await
+        self.pub_sub.unsubscribe(topic, properties).await
     }
 }
 
