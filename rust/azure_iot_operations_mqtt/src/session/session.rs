@@ -10,36 +10,58 @@ use std::time::Duration;
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
+use crate::MqttConnectionSettings;
 use crate::auth::{self, SatAuthContext};
-use crate::control_packet::{ConnectReturnCode, QoS};
-use crate::error::ConnectionError;
-use crate::interface::{
-    Event, Incoming, MqttClient, MqttConnectHandle, MqttDisconnect, MqttReceiver,
-};
 use crate::session::managed_client::SessionManagedClient;
 use crate::session::receiver::{IncomingPublishDispatcher, PublishReceiverManager};
-use crate::session::reconnect_policy::ReconnectPolicy;
+use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
 use crate::session::state::SessionState;
-use crate::session::{SessionError, SessionErrorRepr, SessionExitError, SessionExitErrorKind};
+use crate::session::{
+    SessionConfigError, SessionError, SessionErrorRepr, SessionExitError, SessionExitErrorKind,
+};
+
+/// Options for configuring a new [`Session`]
+#[derive(Builder)]
+#[builder(pattern = "owned")]
+pub struct SessionOptions {
+    /// MQTT Connection Settings for configuring the [`Session`]
+    connection_settings: MqttConnectionSettings,
+    /// Reconnect Policy to by used by the `Session`
+    #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
+    reconnect_policy: Box<dyn ReconnectPolicy>,
+    /// Maximum number of queued outgoing messages not yet accepted by the MQTT Session
+    #[builder(default = "100")]
+    outgoing_max: usize,
+    /// Indicates if the Session should use features specific for use with the AIO MQTT Broker
+    #[builder(default = "Some(AIOBrokerFeaturesBuilder::default().build().unwrap())")]
+    aio_broker_features: Option<AIOBrokerFeatures>,
+}
+
+/// Options for configuring features on a [`Session`] that are specific to the AIO broker
+#[derive(Builder)]
+pub struct AIOBrokerFeatures {
+    /// Indicates if the Session should use AIO persistence
+    #[builder(default = "false")]
+    persistence: bool,
+}
 
 /// Client that manages connections over a single MQTT session.
 ///
 /// Use this centrally in an application to control the session and to create
 /// instances of [`SessionManagedClient`] and [`SessionExitHandle`].
-pub struct Session<C, R, CH>
-where
-    C: MqttClient + Clone + Send + Sync + 'static,
-    R: MqttReceiver,
-    CH: MqttConnectHandle,
-{
+pub struct Session {
     /// Underlying MQTT client
-    client: C,
+    client: azure_mqtt::client::Client,
     // /// Underlying MQTT event loop
     // event_loop: EL,
     /// Underlying MQTT Receiver
-    receiver: R,
+    receiver: azure_mqtt::client::Receiver,
     /// Underlying MQTT connect handle
-    connect_handle: CH,
+    connect_handle: Option<azure_mqtt::client::ConnectHandle>, // TODO: think about making an enum for this tied to session state to make it clearer that None is the state when this is owned somewhere else
+    connect_properties: azure_mqtt::packet::ConnectProperties,
+    auth_info: Option<azure_mqtt::packet::AuthenticationInfo>,
+    clean_start: bool,
+    connection_transport_config: azure_mqtt::client::ConnectionTransportConfig,
     /// Client ID of the underlying rumqttc client
     client_id: String,
     /// File path to the SAT token
@@ -47,7 +69,7 @@ where
     /// Manager for the receivers of the Session
     receiver_manager: Arc<Mutex<PublishReceiverManager>>,
     /// Receiver dispatcher for incoming publishes
-    incoming_pub_dispatcher: IncomingPublishDispatcher<C>,
+    incoming_pub_dispatcher: IncomingPublishDispatcher<azure_mqtt::client::Client>,
     /// Reconnect policy
     reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Current state
@@ -55,22 +77,121 @@ where
     // /// Notifier for a force exit signal
     // notify_force_exit: Arc<Notify>,
     /// disconnect handle
-    disconnect_handle: Option<azure_mqtt::DisconnectHandle>,
+    disconnect_handle: Option<azure_mqtt::client::DisconnectHandle>,
 }
 
-impl<C, R, CH> Session<C, R, CH>
-where
-    C: MqttClient + Clone + Send + Sync + 'static,
-    R: MqttReceiver,
-    CH: MqttConnectHandle,
-{
+impl Session {
+    /// Create a new [`Session`] with the provided options structure.
+    ///
+    /// # Errors
+    /// Returns a [`SessionConfigError`] if there are errors using the session options.
+    pub fn new(options: SessionOptions) -> Result<Self, SessionConfigError> {
+        let client_id = options.connection_settings.client_id.clone();
+        let sat_file = options.connection_settings.sat_file.clone();
+
+        // Add AIO metric and features to user properties when using AIO MQTT broker features
+        // TODO: consider user properties from being supported on SessionOptions or ConnectionSettings
+        let user_properties = if let Some(features) = options.aio_broker_features {
+            let mut user_properties =
+                vec![("metriccategory".to_string(), "aiosdk-rust".to_string())];
+            if features.persistence {
+                user_properties.push(("aio-persistence".to_string(), true.to_string()));
+            }
+            user_properties
+        } else {
+            vec![]
+        };
+
+        let client_options: azure_mqtt::client::ClientOptions =
+            options.connection_settings.try_into()?;
+        let connect_properties: azure_mqtt::packet::ConnectProperties =
+            options.connection_settings.try_into()?;
+        let auth_info: Option<azure_mqtt::packet::AuthenticationInfo> =
+            options.connection_settings.try_into()?;
+        let connection_transport_config: azure_mqtt::client::ConnectionTransportConfig =
+            options.connection_settings.try_into()?;
+
+        let (client, connect_handle, receiver) = crate::az_mqtt_adapter::client(
+            // options.connection_settings,
+            client_options,
+            options.outgoing_max,
+            true,
+            user_properties,
+        )?;
+        Ok(Self::new_from_injection(
+            client,
+            receiver,
+            connect_handle,
+            connect_properties,
+            auth_info,
+            connection_transport_config,
+            options.connection_settings.clean_start,
+            options.reconnect_policy,
+            client_id,
+            sat_file,
+        ))
+    }
+
+    pub fn new_for_tests(
+        options: SessionOptions,
+        connection_transport_config: azure_mqtt::client::ConnectionTransportConfig,
+    ) -> Result<Self, SessionConfigError> {
+        let client_id = options.connection_settings.client_id.clone();
+        let sat_file = options.connection_settings.sat_file.clone();
+
+        // Add AIO metric and features to user properties when using AIO MQTT broker features
+        // TODO: consider user properties from being supported on SessionOptions or ConnectionSettings
+        let user_properties = if let Some(features) = options.aio_broker_features {
+            let mut user_properties =
+                vec![("metriccategory".to_string(), "aiosdk-rust".to_string())];
+            if features.persistence {
+                user_properties.push(("aio-persistence".to_string(), true.to_string()));
+            }
+            user_properties
+        } else {
+            vec![]
+        };
+
+        let client_options: azure_mqtt::client::ClientOptions =
+            options.connection_settings.try_into()?;
+        let connect_properties: azure_mqtt::packet::ConnectProperties =
+            options.connection_settings.try_into()?;
+        let auth_info: Option<azure_mqtt::packet::AuthenticationInfo> =
+            options.connection_settings.try_into()?;
+        // let connection_transport_config: azure_mqtt::client::ConnectionTransportConfig = options.connection_settings.try_into()?;
+
+        let (client, connect_handle, receiver) = crate::az_mqtt_adapter::client(
+            // options.connection_settings,
+            client_options,
+            options.outgoing_max,
+            true,
+            user_properties,
+        )?;
+        Ok(Self::new_from_injection(
+            client,
+            receiver,
+            connect_handle,
+            connect_properties,
+            auth_info,
+            connection_transport_config,
+            options.connection_settings.clean_start,
+            options.reconnect_policy,
+            client_id,
+            sat_file,
+        ))
+    }
+
     // TODO: get client id out of here
     // TODO: can we eliminate need for box on input?
     /// ----API NOT STABLE, INTERNAL USE ONLY FOR NOW----
     pub fn new_from_injection(
-        client: C,
-        receiver: R,
-        connect_handle: CH,
+        client: azure_mqtt::client::Client,
+        receiver: azure_mqtt::client::Receiver,
+        connect_handle: azure_mqtt::client::ConnectHandle,
+        connect_properties: azure_mqtt::packet::ConnectProperties,
+        auth_info: Option<azure_mqtt::packet::AuthenticationInfo>,
+        connection_transport_config: azure_mqtt::client::ConnectionTransportConfig,
+        clean_start: bool,
         reconnect_policy: Box<dyn ReconnectPolicy>,
         client_id: String,
         sat_file: Option<String>,
@@ -81,7 +202,11 @@ where
         Self {
             client,
             receiver,
-            connect_handle,
+            connect_handle: Some(connect_handle),
+            connect_properties,
+            auth_info,
+            connection_transport_config,
+            clean_start,
             client_id,
             sat_file,
             receiver_manager,
@@ -93,7 +218,7 @@ where
     }
 
     /// Return a new instance of [`SessionExitHandle`] that can be used to end this [`Session`]
-    pub fn create_exit_handle(&self) -> SessionExitHandle<C> {
+    pub fn create_exit_handle(&self) -> SessionExitHandle {
         SessionExitHandle {
             disconnector: self.client.clone(),
             state: self.state.clone(),
@@ -109,10 +234,10 @@ where
     }
 
     /// Return a new instance of [`SessionManagedClient`] that can be used to send and receive messages
-    pub fn create_managed_client(&self) -> SessionManagedClient<C> {
+    pub fn create_managed_client(&self) -> SessionManagedClient {
         SessionManagedClient {
             client_id: self.client_id.clone(),
-            pub_sub: self.client.clone(),
+            client: self.client.clone(),
             receiver_manager: self.receiver_manager.clone(),
         }
     }
@@ -385,19 +510,19 @@ where
                     return Err(SessionErrorRepr::IoError(e))?;
                 }
             };
-            authentication_info = az_mqtt::AuthenticationInfo {
+            authentication_info = Some(azure_mqtt::packet::AuthenticationInfo {
                 method: auth::SAT_AUTHENTICATION_METHOD.to_string(),
                 data: Some(auth_data),
-            };
+            });
         }
 
-        // Background tasks
-        let cancel_token = CancellationToken::new();
-        tokio::spawn({
-            let cancel_token = cancel_token.clone();
-            let client = self.client.clone();
-            run_background(client, sat_auth_context, cancel_token)
-        });
+        // // Background tasks
+        // let cancel_token = CancellationToken::new();
+        // tokio::spawn({
+        //     let cancel_token = cancel_token.clone();
+        //     let client = self.client.clone();
+        //     run_background(client, sat_auth_context, cancel_token)
+        // });
 
         // Indicates whether this session has been previously connected
         let mut prev_connected = false;
@@ -411,13 +536,70 @@ where
             let (connection, connack, disconnect_handle) =
                 if let Some(authentication_info) = authentication_info {
                     unimplemented!()
+                    // self.connect_handle.connect_with_auth(
+                    // log::debug!("Incoming AUTH: {auth:?}");
+                    //
+                    // if let Some(sat_auth_tx) = &sat_auth_tx {
+                    //     // Notify the background task that the auth data has changed
+                    //     // TODO: This is a bit of a hack, but it works for now. Ideally, the reauth
+                    //     // method on rumqttc would return a completion token and we could use that
+                    //     // in the background task to know when the reauth is complete.
+                    //     match sat_auth_tx.send(auth.code) {
+                    //         Ok(()) => {}
+                    //         Err(e) => {
+                    //             // This should never happen unless the background task has exited
+                    //             // in which case the session is already in a bad state and we should
+                    //             // have already exited.
+                    //             log::error!("Error sending auth code to SAT auth task: {e:?}");
+                    //         }
+                    //     }
+                    // }
                 } else {
-                    self.connect_handle.connect(self.connection_transport).await
+                    // TODO: handle failure once that's implemented on mqtt client
+                    self.connect_handle
+                        .take()
+                        .unwrap()
+                        .connect(
+                            self.connection_transport_config.clone(),
+                            self.connect_properties,
+                        )
+                        .await
                 };
+            // Update connection state
+            self.state.transition_connected();
+            // Reset the counter on reconnect attempts
+            prev_reconnect_attempts = 0;
+            log::debug!("Incoming CONNACK: {connack:?}");
+            // If the session is not present after a reconnect, end the session.
+            if prev_connected && !connack.session_present {
+                log::error!("Session state not present on broker after reconnect. Ending session.");
+                result = Err(SessionErrorRepr::SessionLost);
+                if self.state.desire_exit() {
+                    // NOTE: this could happen if the user was exiting when the connection was dropped,
+                    // while the Session was not aware of the connection drop. Then, the drop has to last
+                    // long enough for the MQTT session expiry interval to cause the broker to discard the
+                    // MQTT session, and thus, you would enter this case.
+                    // NOTE: The reason that the misattribution of cause may occur in logs is due to the
+                    // (current) loose matching of received disconnects on account of an rumqttc bug.
+                    // See the error cases below in this match statement for more information.
+                    log::debug!(
+                        "Session-initiated exit triggered when user-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
+                    );
+                }
+                // self.trigger_session_exit().await;
+            }
+            // Otherwise, connection was successful
+            else {
+                prev_connected = true;
+                // Set clean start to false for subsequent connections
+                self.clean_start = false;
+            }
+
             self.disconnect_handle = Some(disconnect_handle);
             tokio::select! {
                 (new_connect_handle, disconnect_event, session_ended) = Self::connection_runner(connection) => {
-                    self.connect_handle = new_connect_handle;
+                    self.state.transition_disconnected();
+                    self.connect_handle = Some(new_connect_handle);
                     if session_ended {
                         break;
                     }
@@ -426,206 +608,108 @@ where
                     // do anything here? If this ends, it should mean that the client has been dropped
                 }
             }
-            // Poll the next event/error unless a force exit occurs.
-            let next = tokio::select! {
-                // Ensure that the force exit signal is checked first.
-                biased;
-                () = self.notify_force_exit.notified() => { break },
-                next = self.event_loop.poll() => { next },
-            };
-
-            match next {
-                Ok(Event::Incoming(Incoming::ConnAck(connack))) => {
-                    // Update connection state
-                    self.state.transition_connected();
-                    // Reset the counter on reconnect attempts
-                    prev_reconnect_attempts = 0;
-                    log::debug!("Incoming CONNACK: {connack:?}");
-
-                    // If the session is not present after a reconnect, end the session.
-                    if prev_connected && !connack.session_present {
-                        log::error!(
-                            "Session state not present on broker after reconnect. Ending session."
-                        );
-                        result = Err(SessionErrorRepr::SessionLost);
-                        if self.state.desire_exit() {
-                            // NOTE: this could happen if the user was exiting when the connection was dropped,
-                            // while the Session was not aware of the connection drop. Then, the drop has to last
-                            // long enough for the MQTT session expiry interval to cause the broker to discard the
-                            // MQTT session, and thus, you would enter this case.
-                            // NOTE: The reason that the misattribution of cause may occur in logs is due to the
-                            // (current) loose matching of received disconnects on account of an rumqttc bug.
-                            // See the error cases below in this match statement for more information.
-                            log::debug!(
-                                "Session-initiated exit triggered when user-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
-                            );
-                        }
-                        self.trigger_session_exit().await;
-                    }
-                    // Otherwise, connection was successful
-                    else {
-                        prev_connected = true;
-                        // Set clean start to false for subsequent connections
-                        self.event_loop.set_clean_start(false);
-                    }
-                }
-                Ok(Event::Incoming(Incoming::Auth(auth))) => {
-                    log::debug!("Incoming AUTH: {auth:?}");
-
-                    if let Some(sat_auth_tx) = &sat_auth_tx {
-                        // Notify the background task that the auth data has changed
-                        // TODO: This is a bit of a hack, but it works for now. Ideally, the reauth
-                        // method on rumqttc would return a completion token and we could use that
-                        // in the background task to know when the reauth is complete.
-                        match sat_auth_tx.send(auth.code) {
-                            Ok(()) => {}
-                            Err(e) => {
-                                // This should never happen unless the background task has exited
-                                // in which case the session is already in a bad state and we should
-                                // have already exited.
-                                log::error!("Error sending auth code to SAT auth task: {e:?}");
-                            }
-                        }
-                    }
-                }
-                Ok(Event::Incoming(Incoming::Publish(publish))) => {
-                    log::debug!("Incoming PUB: {publish:?}");
-
-                    // Dispatch the message to receivers
-                    match self.incoming_pub_dispatcher.dispatch_publish(&publish) {
-                        Ok(_) => {}
-                        Err(e) => {
-                            // If the dispatch fails, we must be responsible for acking.
-                            // However, failure here should never happen in valid MQTT scenarios.
-                            match publish.qos {
-                                QoS::AtLeastOnce | QoS::ExactlyOnce => {
-                                    log::error!(
-                                        "Could not dispatch PUB with PKID {}. Will be auto-acked. Reason: {e:?}",
-                                        publish.pkid
-                                    );
-                                    log::warn!(
-                                        "Auto-ack of PKID {} may not be correctly ordered",
-                                        publish.pkid
-                                    );
-                                    tokio::spawn({
-                                        let acker = self.client.clone();
-                                        async move {
-                                            match acker.ack(&publish).await {
-                                                Ok(ct) => {
-                                                    let _ = ct.await;
-                                                    log::debug!(
-                                                        "Auto-ack for failed dispatch PKID {} successful",
-                                                        publish.pkid
-                                                    );
-                                                }
-                                                Err(e) => {
-                                                    log::error!(
-                                                        "Auto-ack for failed dispatch PKID {} failed: {e:?}",
-                                                        publish.pkid
-                                                    );
-                                                }
-                                            }
-                                        }
-                                    });
-                                }
-                                QoS::AtMostOnce => {
-                                    // No ack needed for QoS 0
-                                    log::error!(
-                                        "Could not dispatch PUB with PKID {}. Reason: {e:?}",
-                                        publish.pkid
-                                    );
-                                }
-                            }
-                        }
-                    }
-                }
-
-                Ok(_e) => {
-                    // There could be additional incoming and outgoing event responses here if
-                    // more filters like the above one are applied
-                }
-
-                // Desired disconnect completion
-                // NOTE: This normally is StateError::ConnectionAborted, but rumqttc sometimes
-                // can deliver something else in this case. For now, we'll accept any
-                // MqttState variant when trying to disconnect.
-                // TODO: However, this has the side-effect of falsely reporting disconnects that are the
-                // result of network failure as client-side disconnects if there is an outstanding
-                // DesireExit value. This is not harmful, but it is bad for logging, and should
-                // probably be fixed.
-                Err(ConnectionError::MqttState(_)) if self.state.desire_exit() => {
-                    self.state.transition_disconnected();
-                    break;
-                }
-
-                // Connection refused by broker - unrecoverable
-                // NOTE: We carve out an exception for quota exceeded, as we wish to recover from that
-                // NOTE: The carve-out does not actually work due to a bug in rumqttc where QuotaExceeded does not correctly surface.
-                // Instead it surfaces as a deserialization error, which we cannot accurately match. This implementation exists here
-                // as documentation of the desire for this behavior.
-                Err(ConnectionError::ConnectionRefused(rc))
-                    if !matches!(rc, ConnectReturnCode::QuotaExceeded) =>
-                {
-                    log::error!("Connection Refused: rc: {rc:?}");
-                    result = Err(SessionErrorRepr::ConnectionError(next.unwrap_err()));
-                    break;
-                }
-
-                // Other errors are passed to reconnect policy
-                Err(e) => {
-                    self.state.transition_disconnected();
-
-                    // Always log the error itself at error level
-                    log::error!("Error: {e:?}");
-
-                    // Defer decision to reconnect policy
-                    if let Some(delay) = self
-                        .reconnect_policy
-                        .next_reconnect_delay(prev_reconnect_attempts, &e)
-                    {
-                        log::info!("Attempting reconnect in {delay:?}");
-                        // Wait for either the reconnect delay time, or a force exit signal
-                        tokio::select! {
-                            () = tokio::time::sleep(delay) => {}
-                            () = self.notify_force_exit.notified() => {
-                                log::info!("Reconnect attempts halted by force exit");
-                                result = Err(SessionErrorRepr::ForceExit);
-                                break;
-                            }
-                        }
-                    } else {
-                        log::info!("Reconnect attempts halted by reconnect policy");
-                        result = Err(SessionErrorRepr::ReconnectHalted);
-                        break;
-                    }
-                    prev_reconnect_attempts += 1;
-                }
-            }
         }
+        // Poll the next event/error unless a force exit occurs.
+        // let next = tokio::select! {
+        //     // Ensure that the force exit signal is checked first.
+        //     biased;
+        //     () = self.notify_force_exit.notified() => { break },
+        //     next = self.event_loop.poll() => { next },
+        // };
+
+        //     match next {
+        //         Ok(_e) => {
+        //             // There could be additional incoming and outgoing event responses here if
+        //             // more filters like the above one are applied
+        //         }
+
+        //         // Desired disconnect completion
+        //         // NOTE: This normally is StateError::ConnectionAborted, but rumqttc sometimes
+        //         // can deliver something else in this case. For now, we'll accept any
+        //         // MqttState variant when trying to disconnect.
+        //         // TODO: However, this has the side-effect of falsely reporting disconnects that are the
+        //         // result of network failure as client-side disconnects if there is an outstanding
+        //         // DesireExit value. This is not harmful, but it is bad for logging, and should
+        //         // probably be fixed.
+        //         Err(ConnectionError::MqttState(_)) if self.state.desire_exit() => {
+        //             self.state.transition_disconnected();
+        //             break;
+        //         }
+
+        //         // Connection refused by broker - unrecoverable
+        //         // NOTE: We carve out an exception for quota exceeded, as we wish to recover from that
+        //         // NOTE: The carve-out does not actually work due to a bug in rumqttc where QuotaExceeded does not correctly surface.
+        //         // Instead it surfaces as a deserialization error, which we cannot accurately match. This implementation exists here
+        //         // as documentation of the desire for this behavior.
+        //         Err(ConnectionError::ConnectionRefused(rc))
+        //             if !matches!(rc, ConnectReturnCode::QuotaExceeded) =>
+        //         {
+        //             log::error!("Connection Refused: rc: {rc:?}");
+        //             result = Err(SessionErrorRepr::ConnectionError(next.unwrap_err()));
+        //             break;
+        //         }
+
+        //         // Other errors are passed to reconnect policy
+        //         Err(e) => {
+        //             self.state.transition_disconnected();
+
+        //             // Always log the error itself at error level
+        //             log::error!("Error: {e:?}");
+
+        //             // Defer decision to reconnect policy
+        //             if let Some(delay) = self
+        //                 .reconnect_policy
+        //                 .next_reconnect_delay(prev_reconnect_attempts, &e)
+        //             {
+        //                 log::info!("Attempting reconnect in {delay:?}");
+        //                 // Wait for either the reconnect delay time, or a force exit signal
+        //                 tokio::select! {
+        //                     () = tokio::time::sleep(delay) => {}
+        //                     () = self.notify_force_exit.notified() => {
+        //                         log::info!("Reconnect attempts halted by force exit");
+        //                         result = Err(SessionErrorRepr::ForceExit);
+        //                         break;
+        //                     }
+        //                 }
+        //             } else {
+        //                 log::info!("Reconnect attempts halted by reconnect policy");
+        //                 result = Err(SessionErrorRepr::ReconnectHalted);
+        //                 break;
+        //             }
+        //             prev_reconnect_attempts += 1;
+        //         }
+        //     }
+        // }
         self.state.transition_exited();
-        cancel_token.cancel();
+        // cancel_token.cancel();
         result.map_err(std::convert::Into::into)
     }
 
     /// Helper for triggering a session exit and logging the result
-    async fn trigger_session_exit(&self) {
+    fn trigger_session_exit(&self) {
         let exit_handle = self.create_exit_handle();
-        match exit_handle.trigger_exit_internal().await {
+        match exit_handle.trigger_exit_internal() {
             Ok(()) => log::debug!("Internal session exit successful"),
             Err(e) => log::debug!("Internal session exit failed: {e:?}"),
         }
     }
 
     ///  returns new connect handle, disconnected event, and whether session has ended or not
-    async fn connection_runner(connection: Connection) -> (CH, DisconnectedEvent, bool) {
+    async fn connection_runner(
+        connection: azure_mqtt::client::Connection,
+    ) -> (
+        azure_mqtt::client::ConnectHandle,
+        azure_mqtt::client::DisconnectedEvent,
+        bool,
+    ) {
         let (connect_handle, disconnected_event) = connection.run_until_disconnect().await;
         let session_ended = match disconnected_event {
-            DisconnectedEvent::Transport => {
+            azure_mqtt::client::DisconnectedEvent::Transport => {
                 false // can't know, must connect again to find out
             }
-            DisconnectedEvent::UserRequested => true,
-            ServerRequested(disconnect) => {
-                disconnect.disconnect_properties.session_expiry_interval == 0
+            azure_mqtt::client::DisconnectedEvent::UserRequested => true,
+            azure_mqtt::client::DisconnectedEvent::ServerRequested(disconnect) => {
+                disconnect.properties.session_expiry_interval == 0
             }
         };
         (connect_handle, disconnected_event, session_ended)
@@ -643,42 +727,67 @@ where
                         // If the dispatch fails, we must be responsible for acking.
                         // However, failure here should never happen in valid MQTT scenarios.
                         match publish.qos {
-                            QoS::AtLeastOnce | QoS::ExactlyOnce => {
+                            azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info)
+                            | azure_mqtt::packet::DeliveryQoS::ExactlyOnce(delivery_info) => {
                                 log::error!(
                                     "Could not dispatch PUB with PKID {}. Will be auto-acked. Reason: {e:?}",
-                                    publish.pkid
+                                    delivery_info.packet_identifier
                                 );
                                 log::warn!(
                                     "Auto-ack of PKID {} may not be correctly ordered",
-                                    publish.pkid
+                                    delivery_info.packet_identifier
                                 );
-                                tokio::spawn({
-                                    let acker = self.client.clone();
-                                    async move {
-                                        match acker.ack(&publish).await {
-                                            Ok(ct) => {
-                                                let _ = ct.await;
-                                                log::debug!(
-                                                    "Auto-ack for failed dispatch PKID {} successful",
-                                                    publish.pkid
-                                                );
+                                match ack_handle {
+                                    azure_mqtt::client::AckHandle::QoS0 => todo!(),
+                                    azure_mqtt::client::AckHandle::QoS1(pub_ack_token) => {
+                                        tokio::spawn({
+                                            // let acker = self.client.clone();
+                                            async move {
+                                                match pub_ack_token.accept(azure_mqtt::packet::PubAckProperties::default()).await {
+                                                    Ok(ct) => {
+                                                        let _ = ct.await;
+                                                        log::debug!(
+                                                            "Auto-ack for failed dispatch PKID {} successful",
+                                                            delivery_info.packet_identifier
+                                                        );
+                                                    }
+                                                    Err(e) => {
+                                                        log::error!(
+                                                            "Auto-ack for failed dispatch PKID {} failed: {e:?}",
+                                                            delivery_info.packet_identifier
+                                                        );
+                                                    }
+                                                }
                                             }
-                                            Err(e) => {
-                                                log::error!(
-                                                    "Auto-ack for failed dispatch PKID {} failed: {e:?}",
-                                                    publish.pkid
-                                                );
-                                            }
-                                        }
+                                        });
                                     }
-                                });
+                                    azure_mqtt::client::AckHandle::QoS2(pub_rec_token) => {
+                                        tokio::spawn({
+                                            // let acker = self.client.clone();
+                                            async move {
+                                                match pub_rec_token.accept(azure_mqtt::packet::PubRecProperties::default()).await {
+                                                    Ok(ct) => {
+                                                        let _ = ct.await;
+                                                        log::debug!(
+                                                            "Auto-ack for failed dispatch PKID {} successful",
+                                                            delivery_info.packet_identifier
+                                                        );
+                                                    }
+                                                    Err(e) => {
+                                                        log::error!(
+                                                            "Auto-ack for failed dispatch PKID {} failed: {e:?}",
+                                                            delivery_info.packet_identifier
+                                                        );
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
                             }
-                            QoS::AtMostOnce => {
+                            azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
                                 // No ack needed for QoS 0
-                                log::error!(
-                                    "Could not dispatch PUB with PKID {}. Reason: {e:?}",
-                                    publish.pkid
-                                );
+                                log::error!("Could not dispatch QoS 0 PUB. Reason: {e:?}");
                             }
                         }
                     }
@@ -741,22 +850,16 @@ async fn run_background(
 /// This struct's API is designed around negotiating a graceful exit with the MQTT broker.
 /// However, this is not actually possible right now due to a bug in underlying MQTT library.
 #[derive(Clone)]
-pub struct SessionExitHandle<D>
-where
-    D: MqttDisconnect + Clone + Send + Sync,
-{
+pub struct SessionExitHandle {
     /// The disconnector used to issue disconnect requests
-    disconnector: D,
+    disconnector: azure_mqtt::client::DisconnectHandle,
     /// Session state information
     state: Arc<SessionState>,
     /// Notifier for force exit
     force_exit: Arc<Notify>,
 }
 
-impl<D> SessionExitHandle<D>
-where
-    D: MqttDisconnect + Clone + Send + Sync,
-{
+impl SessionExitHandle {
     /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
     /// This will cause the [`Session::run()`] method to return.
     ///
@@ -788,7 +891,7 @@ where
             });
         }
         // Initiate the exit
-        self.trigger_exit_user().await?;
+        self.trigger_exit_user()?;
         // Wait for the exit to complete, or until the session realizes it was already disconnected.
         tokio::select! {
             // NOTE: Adding biased protects from the case where we called try_exit while connected
@@ -865,21 +968,24 @@ where
     }
 
     /// Trigger a session exit, specifying the end user as the issuer of the request
-    async fn trigger_exit_user(&self) -> Result<(), SessionExitError> {
+    fn trigger_exit_user(&self) -> Result<(), SessionExitError> {
         self.state.transition_user_desire_exit();
         // TODO: This doesn't actually end the MQTT session because rumqttc doesn't allow
         // us to manually set the session expiry interval to 0 on a reconnect.
         // Need to work with Shanghai to drive this feature.
-        Ok(self.disconnector.disconnect().await?)
+        // TODO: set disconnect properties properly
+        self.disconnector
+            .disconnect(&azure_mqtt::packet::DisconnectProperties::default())
     }
 
     /// Trigger a session exit, specifying the internal session logic as the issuer of the request
-    async fn trigger_exit_internal(&self) -> Result<(), SessionExitError> {
+    fn trigger_exit_internal(&self) -> Result<(), SessionExitError> {
         self.state.transition_session_desire_exit();
         // TODO: This doesn't actually end the MQTT session because rumqttc doesn't allow
         // us to manually set the session expiry interval to 0 on a reconnect.
         // Need to work with Shanghai to drive this feature.
-        Ok(self.disconnector.disconnect().await?)
+        self.disconnector
+            .disconnect(&azure_mqtt::packet::DisconnectProperties::default())
     }
 }
 

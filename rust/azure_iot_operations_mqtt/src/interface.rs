@@ -50,12 +50,12 @@ impl std::future::Future for CompletionToken {
 // TODO: Re-implement these instead of just aliasing / add to rumqttc adapter
 // Only once there are non-rumqttc implementations of these can we allow non-rumqttc compilations
 
-/// Event yielded by the event loop
-pub type Event = rumqttc::v5::Event;
-/// Incoming data on the event loop
-pub type Incoming = rumqttc::v5::Incoming;
-/// Outgoing data on the event loop
-pub type Outgoing = rumqttc::Outgoing;
+// /// Event yielded by the event loop
+// pub type Event = rumqttc::v5::Event;
+// /// Incoming data on the event loop
+// pub type Incoming = rumqttc::v5::Incoming;
+// /// Outgoing data on the event loop
+// pub type Outgoing = rumqttc::Outgoing;
 
 // ---------- Lower level MQTT abstractions ----------
 
@@ -128,27 +128,27 @@ pub trait MqttClient: MqttPubSub + MqttAck + MqttDisconnect {
     async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ReauthError>;
 }
 
-#[async_trait]
-pub trait MqttConnectHandle {
-    async fn connect_enhanced_auth(
-        mut self,
-        connection_transport: ConnectionTransportConfig,
-        clean_start: bool,
-        keep_alive: KeepAlive,
-        options: ConnectOptions,
-        properties: ConnectProperties,
-        authentication_info: AuthenticationInfo,
-    ) -> AuthResponse;
+// #[async_trait]
+// pub trait MqttConnectHandle {
+//     async fn connect_enhanced_auth(
+//         mut self,
+//         connection_transport: ConnectionTransportConfig,
+//         clean_start: bool,
+//         keep_alive: KeepAlive,
+//         options: ConnectOptions,
+//         properties: ConnectProperties,
+//         authentication_info: AuthenticationInfo,
+//     ) -> AuthResponse;
 
-    async fn connect(
-        mut self,
-        connection_transport: ConnectionTransportConfig,
-        clean_start: bool,
-        keep_alive: KeepAlive,
-        options: ConnectOptions,
-        properties: ConnectProperties,
-    ) -> (Connection, ConnAck, DisconnectHandle);
-}
+//     async fn connect(
+//         mut self,
+//         connection_transport: ConnectionTransportConfig,
+//         clean_start: bool,
+//         keep_alive: KeepAlive,
+//         options: ConnectOptions,
+//         properties: ConnectProperties,
+//     ) -> (Connection, ConnAck, DisconnectHandle);
+// }
 
 // /// MQTT Event Loop manipulation
 // #[async_trait]
@@ -166,16 +166,16 @@ pub trait MqttConnectHandle {
 // fn set_authentication_data(&mut self, authentication_data: Option<Bytes>);
 // }
 
-/// MQTT Receiver manipulation
-#[async_trait]
-pub trait MqttReceiver {
-    /// Receive an incoming `Publish`, and any `AckToken` that may be associated with it.
-    ///
-    /// `AckToken` will only be present if the Publish has a QoS of 1 or 2.
-    ///
-    /// Receiving None indicates that the client has been dropped, and no more messages will be received.
-    async fn recv(&mut self) -> Option<(Publish, AckHandle)>;
-}
+// /// MQTT Receiver manipulation
+// #[async_trait]
+// pub trait MqttReceiver {
+//     /// Receive an incoming `Publish`, and any `AckToken` that may be associated with it.
+//     ///
+//     /// `AckToken` will only be present if the Publish has a QoS of 1 or 2.
+//     ///
+//     /// Receiving None indicates that the client has been dropped, and no more messages will be received.
+//     async fn recv(&mut self) -> Option<(Publish, AckHandle)>;
+// }
 
 // ---------- Higher level MQTT abstractions ----------
 
@@ -202,22 +202,22 @@ pub trait ManagedClient: MqttPubSub {
     fn create_unfiltered_pub_receiver(&self) -> Self::PubReceiver;
 }
 
-#[async_trait]
-/// Receiver for incoming MQTT messages.
-pub trait PubReceiver {
-    /// Receives the next incoming publish.
-    ///
-    /// Return None if there will be no more incoming publishes.
-    async fn recv(&mut self) -> Option<Publish>;
+// #[async_trait]
+// /// Receiver for incoming MQTT messages.
+// pub trait PubReceiver {
+//     /// Receives the next incoming publish.
+//     ///
+//     /// Return None if there will be no more incoming publishes.
+//     async fn recv(&mut self) -> Option<Publish>;
 
-    /// Receives the next incoming publish, and a token that can be used to manually acknowledge
-    /// the publish (Quality of Service 1 or 2), or `None` (Quality of Service 0).
-    ///
-    /// Return None if there will be no more incoming publishes.
-    async fn recv_manual_ack(&mut self) -> Option<(Publish, Option<AckToken>)>;
+//     /// Receives the next incoming publish, and a token that can be used to manually acknowledge
+//     /// the publish (Quality of Service 1 or 2), or `None` (Quality of Service 0).
+//     ///
+//     /// Return None if there will be no more incoming publishes.
+//     async fn recv_manual_ack(&mut self) -> Option<(Publish, Option<AckToken>)>;
 
-    /// Close the receiver, preventing further incoming publishes.
-    ///
-    /// To guarantee no publish loss, `recv()`/`recv_manual_ack()` must be called until `None` is returned.
-    fn close(&mut self);
-}
+//     /// Close the receiver, preventing further incoming publishes.
+//     ///
+//     /// To guarantee no publish loss, `recv()`/`recv_manual_ack()` must be called until `None` is returned.
+//     fn close(&mut self);
+// }

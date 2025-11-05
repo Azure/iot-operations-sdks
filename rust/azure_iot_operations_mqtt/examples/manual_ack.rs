@@ -8,9 +8,8 @@ use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::{Publish, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubSub, PubReceiver};
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
+use azure_iot_operations_mqtt::session::session::{
+    Session, SessionExitHandle, SessionOptionsBuilder,
 };
 
 const CLIENT_ID: &str = "aio_example_client";
@@ -80,7 +79,7 @@ async fn receive_messages(
 
     // Receive until there are no more messages
     while let Some((msg, ack_token)) = receiver.recv_manual_ack().await {
-        println!("Received: {:?}", msg.payload);
+        // println!("Received: {:?}", msg.payload);
 
         match store_message(&msg) {
             Ok(()) => {

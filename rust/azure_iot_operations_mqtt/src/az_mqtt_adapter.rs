@@ -276,7 +276,8 @@ impl MqttDisconnect for azure_mqtt::DisconnectHandle {
 /// Client constructors + TLS
 /// -------------------------------------------
 pub fn client(
-    connection_settings: MqttConnectionSettings,
+    // connection_settings: MqttConnectionSettings,
+    client_options: azure_mqtt::ClientOptions,
     channel_capacity: usize,
     manual_ack: bool,
     connection_user_properties: Vec<(String, String)>,
@@ -296,7 +297,7 @@ pub fn client(
             "rumqttc does not support channel capacity of usize::MAX".to_string(),
         ));
     }
-    let (client_options, _, _) = connection_settings.try_into()?;
+    // let (client_options, _, _) = connection_settings.try_into()?;
     // mqtt_options.set_manual_acks(manual_ack);
 
     // Add any provided user properties

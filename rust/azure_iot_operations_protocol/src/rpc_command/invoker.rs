@@ -4,7 +4,6 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver};
 use bytes::Bytes;
 use iso8601_duration;
 use tokio::{
@@ -616,16 +615,14 @@ pub struct Options {
 /// //let response: Response<Vec<u8>> = result.await.unwrap();
 /// # })
 /// ```
-pub struct Invoker<TReq, TResp, C>
+pub struct Invoker<TReq, TResp>
 where
     TReq: PayloadSerialize + 'static,
     TResp: PayloadSerialize + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     // static properties of the invoker
     application_hlc: Arc<ApplicationHybridLogicalClock>,
-    mqtt_client: C,
+    mqtt_client: SessionManagedClient,
     command_name: String,
     request_topic_pattern: TopicPattern,
     response_topic_pattern: TopicPattern,
@@ -647,12 +644,10 @@ enum State {
 }
 
 /// Implementation of Command Invoker.
-impl<TReq, TResp, C> Invoker<TReq, TResp, C>
+impl<TReq, TResp> Invoker<TReq, TResp>
 where
     TReq: PayloadSerialize + 'static,
     TResp: PayloadSerialize + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`Invoker`].
     ///
@@ -679,7 +674,7 @@ where
     /// - [`topic_token_map`](OptionsBuilder::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         invoker_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters. request_topic_pattern will be validated by topic parser
@@ -1031,9 +1026,8 @@ where
         // Send publish
         let publish_result = self
             .mqtt_client
-            .publish_with_properties(
+            .publish_qos1(
                 request_topic,
-                QoS::AtLeastOnce,
                 false,
                 request.serialized_payload.payload,
                 publish_properties,
@@ -1327,12 +1321,10 @@ where
     }
 }
 
-impl<TReq, TResp, C> Drop for Invoker<TReq, TResp, C>
+impl<TReq, TResp> Drop for Invoker<TReq, TResp>
 where
     TReq: PayloadSerialize + 'static,
     TResp: PayloadSerialize + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {
         // drop can't be async, but we can spawn a task to unsubscribe
@@ -1349,8 +1341,8 @@ where
     }
 }
 
-async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
-    mqtt_client: C,
+async fn drop_unsubscribe(
+    mqtt_client: SessionManagedClient,
     invoker_state_mutex: Arc<Mutex<State>>,
     unsubscribe_filter: String,
 ) {
@@ -1399,7 +1391,7 @@ mod tests {
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
+    use azure_iot_operations_mqtt::session::session::{Session, SessionOptionsBuilder};
 
     use super::*;
     use crate::application::ApplicationContextBuilder;

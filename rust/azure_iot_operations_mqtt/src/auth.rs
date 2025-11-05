@@ -6,14 +6,14 @@
 use std::sync::Arc;
 use std::{path::Path, time::Duration};
 
+use azure_mqtt::packet::AuthReason;
 use notify::RecommendedWatcher;
 use notify_debouncer_full::{RecommendedCache, new_debouncer};
-use rumqttc::v5::mqttbytes::v5::{AuthProperties, AuthReasonCode};
 use thiserror::Error;
 use tokio::sync::Notify;
 
 use crate::error::ReauthError;
-use crate::interface::MqttClient;
+// use crate::interface::MqttClient;
 
 /// Used as the authentication method for the MQTT client when using SAT.
 pub const SAT_AUTHENTICATION_METHOD: &str = "K8S-SAT";
@@ -43,7 +43,7 @@ pub enum SatReauthError {
     Timeout,
     /// Reauth was not successful.
     #[error("Reauth failed with reason: {0:?}")]
-    ReauthUnsuccessful(AuthReasonCode),
+    ReauthUnsuccessful(AuthReason),
     /// Error occurred while reauthenticating the client.
     #[error("{0}")]
     ClientReauthError(#[from] ReauthError),
@@ -62,7 +62,7 @@ pub struct SatAuthContext {
     /// Notifier for changes in the SAT file's directory
     pub directory_watcher_notify: Arc<Notify>,
     /// Channel for receiving auth change notifications
-    auth_watcher_rx: tokio::sync::mpsc::UnboundedReceiver<AuthReasonCode>,
+    auth_watcher_rx: tokio::sync::mpsc::UnboundedReceiver<AuthReason>,
 }
 
 impl SatAuthContext {
@@ -71,7 +71,7 @@ impl SatAuthContext {
     /// Returns a [`SatAuthContext`] instance. If an error occurs, a [`SatAuthContextInitError`] is returned.
     pub fn new(
         file_location: String,
-        auth_watcher_rx: tokio::sync::mpsc::UnboundedReceiver<AuthReasonCode>,
+        auth_watcher_rx: tokio::sync::mpsc::UnboundedReceiver<AuthReason>,
     ) -> Result<Self, SatAuthContextInitError> {
         let file_location_path = Path::new(&file_location);
 
@@ -149,17 +149,17 @@ impl SatAuthContext {
     pub async fn reauth(
         &mut self,
         timeout: Duration,
-        client: &impl MqttClient,
+        client: &azure_mqtt::client::Client, // TODO: probably change to reauth handle
     ) -> Result<(), SatReauthError> {
         // Get SAT token
         let sat_token =
             std::fs::read_to_string(&self.file_location).map_err(SatReauthError::from)?;
 
-        let props = AuthProperties {
-            method: Some(SAT_AUTHENTICATION_METHOD.to_string()),
+        let props = azure_mqtt::packet::AuthenticationInfo {
+            method: SAT_AUTHENTICATION_METHOD.to_string(),
             data: Some(sat_token.into()),
-            reason: None,
-            user_properties: Vec::new(),
+            // reason: None,
+            // user_properties: Vec::new(),
         };
 
         // Re-authenticate the client
@@ -169,7 +169,7 @@ impl SatAuthContext {
         tokio::select! {
             auth = self.auth_watcher_rx.recv() => {
                 match auth {
-                    Some(AuthReasonCode::Success) => Ok(()),
+                    Some(AuthReason::Success) => Ok(()),
                     Some(rc) => Err(SatReauthError::ReauthUnsuccessful(rc)),
                     None => Err(SatReauthError::AuthWatcherClosed),
                 }

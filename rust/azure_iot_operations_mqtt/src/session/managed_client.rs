@@ -6,43 +6,33 @@
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 
-use async_trait::async_trait;
 use bytes::Bytes;
 
 use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::{PublishError, SubscribeError, UnsubscribeError};
-use crate::interface::{CompletionToken, ManagedClient, MqttPubSub, PubReceiver};
 use crate::session::receiver::{AckToken, PublishReceiverManager, PublishRx};
 use crate::topic::{TopicFilter, TopicParseError};
 
 /// An MQTT client that has it's connection state externally managed by a [`Session`](super::Session).
 /// Can be used to send messages and create receivers for incoming messages.
 #[derive(Clone)]
-pub struct SessionManagedClient<PS>
-where
-    PS: MqttPubSub + Clone + Send + Sync,
-{
+pub struct SessionManagedClient {
     // Client ID of the `Session` that manages this client
     pub(crate) client_id: String,
     // PubSub for sending outgoing MQTT messages
-    pub(crate) pub_sub: PS,
+    pub(crate) client: azure_mqtt::client::Client,
     /// Manager for receivers
     pub(crate) receiver_manager: Arc<Mutex<PublishReceiverManager>>,
 }
 
-impl<PS> ManagedClient for SessionManagedClient<PS>
-where
-    PS: MqttPubSub + Clone + Send + Sync,
-{
-    type PubReceiver = SessionPubReceiver;
-
-    fn client_id(&self) -> &str {
+impl SessionManagedClient {
+    pub fn client_id(&self) -> &str {
         &self.client_id
     }
 
-    fn create_filtered_pub_receiver(
+    pub fn create_filtered_pub_receiver(
         &self,
         topic_filter: &str,
     ) -> Result<SessionPubReceiver, TopicParseError> {
@@ -55,7 +45,7 @@ where
         Ok(SessionPubReceiver { pub_rx })
     }
 
-    fn create_unfiltered_pub_receiver(&self) -> SessionPubReceiver {
+    pub fn create_unfiltered_pub_receiver(&self) -> SessionPubReceiver {
         let pub_rx = self
             .receiver_manager
             .lock()
@@ -63,46 +53,48 @@ where
             .create_unfiltered_receiver();
         SessionPubReceiver { pub_rx }
     }
-}
 
-#[async_trait]
-impl<PS> MqttPubSub for SessionManagedClient<PS>
-where
-    PS: MqttPubSub + Clone + Send + Sync,
-{
-    async fn publish_qos0(
+    pub async fn publish_qos0(
         &self,
         topic: impl Into<String> + Send,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
     ) -> Result<CompletionToken, PublishError> {
-        self.pub_sub.publish_qos0(topic, payload, properties).await
+        let topic = azure_mqtt::topic::TopicName::new(topic.into())?;
+        self.client
+            .publish_qos0(topic, payload.into(), properties)
+            .await
     }
 
-    async fn publish_qos1(
+    pub async fn publish_qos1(
         &self,
         topic: impl Into<String> + Send,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
     ) -> Result<CompletionToken, PublishError> {
-        self.pub_sub.publish_qos1(topic, payload, properties).await
+        let topic = azure_mqtt::topic::TopicName::new(topic.into())?;
+        self.client
+            .publish_qos1(topic, payload.into(), properties)
+            .await
     }
 
-    async fn subscribe(
+    pub async fn subscribe(
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
         properties: SubscribeProperties,
     ) -> Result<CompletionToken, SubscribeError> {
-        self.pub_sub.subscribe(topic, qos, properties).await
+        let topic = azure_mqtt::topic::TopicFilter::new(topic.into())?;
+        self.client.subscribe(topic, qos, properties).await
     }
 
-    async fn unsubscribe(
+    pub async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
     ) -> Result<CompletionToken, UnsubscribeError> {
-        self.pub_sub.unsubscribe(topic, properties).await
+        let topic = azure_mqtt::topic::TopicFilter::new(topic.into())?;
+        self.client.unsubscribe(topic, properties).await
     }
 }
 
@@ -112,17 +104,16 @@ pub struct SessionPubReceiver {
     pub_rx: PublishRx,
 }
 
-#[async_trait]
-impl PubReceiver for SessionPubReceiver {
-    async fn recv(&mut self) -> Option<Publish> {
+impl SessionPubReceiver {
+    pub async fn recv(&mut self) -> Option<Publish> {
         self.pub_rx.recv().await.map(|(publish, _)| publish)
     }
 
-    async fn recv_manual_ack(&mut self) -> Option<(Publish, Option<AckToken>)> {
+    pub async fn recv_manual_ack(&mut self) -> Option<(Publish, Option<AckToken>)> {
         self.pub_rx.recv().await
     }
 
-    fn close(&mut self) {
+    pub fn close(&mut self) {
         self.pub_rx.close();
     }
 }
