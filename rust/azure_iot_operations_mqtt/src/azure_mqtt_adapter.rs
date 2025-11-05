@@ -215,11 +215,8 @@ fn tls_config(
         let ca_pem = fs::read(ca_file)?;
         X509::stack_from_pem(&ca_pem)?
     } else {
-        // If no CA file is provided, we could use system certs or return an error
-        // For now, return an error as azure_mqtt requires a CA trust bundle
-        return Err(anyhow::anyhow!(
-            "CA file is required for azure_mqtt TLS configuration"
-        ));
+        // If no CA file is provided, return empty bundle and let azure_mqtt use system certs
+        Vec::new()
     };
 
     // Handle client certificate
@@ -304,4 +301,210 @@ impl TlsError {
             source: None,
         }
     }
+}
+
+// -------------------------------------------
+
+#[cfg(test)]
+mod tests {
+    use std::path::PathBuf;
+    use std::time::Duration;
+    
+    use crate::MqttConnectionSettingsBuilder;
+
+    #[test]
+    fn test_azure_mqtt_config_no_tls() {
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .use_tls(false)
+            .build()
+            .unwrap();
+        
+        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_azure_mqtt_config_with_username_password() {
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .use_tls(false)
+            .username("test_username".to_string())
+            .password("test_password".to_string())
+            .build()
+            .unwrap();
+        
+        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_azure_mqtt_config_with_username_only() {
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .use_tls(false)
+            .username("test_username".to_string())
+            .build()
+            .unwrap();
+        
+        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_azure_mqtt_config_with_password_file() {
+        let mut password_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        password_file_path.push("../../eng/test/dummy_credentials/TestMqttPasswordFile.txt");
+
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .use_tls(false)
+            .username("test_username".to_string())
+            .password_file(password_file_path.into_os_string().into_string().unwrap())
+            .build()
+            .unwrap();
+        
+        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_azure_mqtt_config_with_user_properties() {
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .use_tls(false)
+            .build()
+            .unwrap();
+        
+        let user_properties = vec![
+            ("prop1".to_string(), "value1".to_string()),
+            ("prop2".to_string(), "value2".to_string()),
+        ];
+        
+        let result = connection_settings.to_azure_mqtt_connect_parameters(user_properties, 100);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_azure_mqtt_config_with_custom_settings() {
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .tcp_port(8883 as u16)
+            .use_tls(false)
+            .clean_start(true)
+            .keep_alive(Duration::from_secs(120))
+            .session_expiry(Duration::from_secs(3600))
+            .receive_max(50 as u16)
+            .receive_packet_size_max(Some(1024))
+            .build()
+            .unwrap();
+        
+        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 200);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_azure_mqtt_config_with_ca_file() {
+        let mut ca_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        ca_file_path.push("../../eng/test/dummy_credentials/TestCa.txt");
+
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .ca_file(ca_file_path.into_os_string().into_string().unwrap())
+            .build()
+            .unwrap();
+        
+        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_azure_mqtt_config_with_ca_file_plus_cert() {
+        let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        dir.push("../../eng/test/dummy_credentials/");
+        let ca_file = dir.join("TestCa.txt");
+        let cert_file = dir.join("TestCert1Pem.txt");
+        let key_file = dir.join("TestCert1Key.txt");
+
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .ca_file(ca_file.into_os_string().into_string().unwrap())
+            .cert_file(cert_file.into_os_string().into_string().unwrap())
+            .key_file(key_file.into_os_string().into_string().unwrap())
+            .build()
+            .unwrap();
+        
+        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_azure_mqtt_config_with_cert_only() {
+        let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        dir.push("../../eng/test/dummy_credentials/");
+        let cert_file = dir.join("TestCert1Pem.txt");
+        let key_file = dir.join("TestCert1Key.txt");
+
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .cert_file(cert_file.into_os_string().into_string().unwrap())
+            .key_file(key_file.into_os_string().into_string().unwrap())
+            .build()
+            .unwrap();
+        
+        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_azure_mqtt_config_with_encrypted_key() {
+        let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        dir.push("../../eng/test/dummy_credentials/");
+        let ca_file = dir.join("TestCa.txt");
+        let cert_file = dir.join("TestCert2Pem.txt");
+        let key_file = dir.join("TestCert2KeyEncrypted.txt");
+        let key_password_file = dir.join("TestCert2KeyPasswordFile.txt");
+
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .ca_file(ca_file.into_os_string().into_string().unwrap())
+            .cert_file(cert_file.into_os_string().into_string().unwrap())
+            .key_file(key_file.into_os_string().into_string().unwrap())
+            .key_password_file(key_password_file.into_os_string().into_string().unwrap())
+            .build()
+            .unwrap();
+        
+        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_azure_mqtt_config_receive_packet_size_max_none() {
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .use_tls(false)
+            .receive_packet_size_max(None)
+            .build()
+            .unwrap();
+        
+        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        assert!(result.is_ok());
+        assert_eq!(
+            result.unwrap().1.connect_properties.maximum_packet_size.get(),
+            u32::MAX
+        );
+    }
+
+    // TODO: Add a test for SAT reading the SAT token
 }
