@@ -245,18 +245,8 @@ namespace Azure.Iot.Operations.Connector
             await _mqttClient.DisconnectAsync(null, CancellationToken.None);
         }
 
-        /// <summary>
-        /// Push a sampled dataset to the configured destinations.
-        /// </summary>
-        /// <param name="deviceName">The name of the device that this dataset belongs to</param>
-        /// <param name="inboundEndpointName">The name of the inbound endpoint that this dataset belongs to</param>
-        /// <param name="asset">The asset that the dataset belongs to.</param>
-        /// <param name="assetName">The name of the asset that the dataset belongs to</param>
-        /// <param name="dataset">The dataset that was sampled.</param>
-        /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
-        /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ForwardSampledDatasetAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        // Called by AssetClient instances
+        internal async Task ForwardSampledDatasetAsync(string deviceName, string inboundEndpointName, string assetName, AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
@@ -273,7 +263,7 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+            _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
             if (dataset.Destinations == null)
             {
@@ -287,7 +277,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     var topic = destination.Configuration.Topic ??
                                 throw new AssetConfigurationException(
-                                    $"Dataset with name {dataset.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
+                                    $"Dataset with name {dataset.Name} in asset with name {assetName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
 
                     var messageMetadata = new OutgoingTelemetryMetadata
                     {
@@ -350,22 +340,12 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        /// <summary>
-        /// Push a received event payload to the configured destinations.
-        /// </summary>
-        /// <param name="deviceName">The name of the device that this event belongs to</param>
-        /// <param name="inboundEndpointName">The name of the inbound endpoint that this event belongs to</param>
-        /// <param name="asset">The asset that this event came from.</param>
-        /// <param name="assetName">The name of the asset that this event belongs to.</param>
-        /// <param name="assetEvent">The event.</param>
-        /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
-        /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ForwardReceivedEventAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        // Called by AssetClient instances
+        internal async Task ForwardReceivedEventAsync(string deviceName, string inboundEndpointName, string assetName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker.");
+            _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {assetName}. Now publishing it to MQTT broker.");
 
             if (assetEvent.Destinations == null)
             {
@@ -392,7 +372,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     string topic = destination.Configuration.Topic ??
                                    throw new AssetConfigurationException(
-                                       $"Dataset with name {assetEvent.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
+                                       $"Dataset with name {assetEvent.Name} in asset with name {assetName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
 
                     var messageMetadata = new OutgoingTelemetryMetadata
                     {
@@ -509,7 +489,7 @@ namespace Azure.Iot.Operations.Connector
                         {
                             try
                             {
-                                await WhileDeviceIsAvailable.Invoke(new(args.Device, args.InboundEndpointName, _leaderElectionClient), deviceTaskCancellationTokenSource.Token);
+                                await WhileDeviceIsAvailable.Invoke(new(args.DeviceName, args.Device, args.InboundEndpointName, _leaderElectionClient, _adrClient!), deviceTaskCancellationTokenSource.Token);
                             }
                             catch (OperationCanceledException)
                             {
@@ -698,7 +678,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     try
                     {
-                        await WhileAssetIsAvailable.Invoke(new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient), assetTaskCancellationTokenSource.Token);
+                        await WhileAssetIsAvailable.Invoke(new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this), assetTaskCancellationTokenSource.Token);
                     }
                     catch (OperationCanceledException)
                     {

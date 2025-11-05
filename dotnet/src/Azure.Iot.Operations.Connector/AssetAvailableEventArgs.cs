@@ -41,7 +41,9 @@ namespace Azure.Iot.Operations.Connector
         /// </remarks>
         public ILeaderElectionClient? LeaderElectionClient { get; }
 
-        internal AssetAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, ILeaderElectionClient? leaderElectionClient)
+        public AssetClient AssetClient { get; }
+
+        internal AssetAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, ILeaderElectionClient? leaderElectionClient, IAdrClientWrapper adrClient, ConnectorWorker connector)
         {
             DeviceName = deviceName;
             Device = device;
@@ -49,6 +51,7 @@ namespace Azure.Iot.Operations.Connector
             AssetName = assetName;
             Asset = asset;
             LeaderElectionClient = leaderElectionClient;
+            AssetClient = new(adrClient, deviceName, inboundEndpointName, assetName, connector);
         }
     }
 }

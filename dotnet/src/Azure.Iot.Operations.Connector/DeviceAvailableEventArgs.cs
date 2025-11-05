@@ -8,6 +8,7 @@ namespace Azure.Iot.Operations.Connector
 {
     public class DeviceAvailableEventArgs : EventArgs
     {
+        public string DeviceName { get; }
         public Device Device { get; }
 
         public string InboundEndpointName { get; }
@@ -26,11 +27,15 @@ namespace Azure.Iot.Operations.Connector
         /// </remarks>
         public ILeaderElectionClient? LeaderElectionClient { get; }
 
-        internal DeviceAvailableEventArgs(Device device, string inboundEndpointName, ILeaderElectionClient? leaderElectionClient)
+        public DeviceEndpointClient DeviceEndpointClient { get; }
+
+        internal DeviceAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, ILeaderElectionClient? leaderElectionClient, IAdrClientWrapper adrclient)
         {
+            DeviceName = deviceName;
             Device = device;
             InboundEndpointName = inboundEndpointName;
             LeaderElectionClient = leaderElectionClient;
+            DeviceEndpointClient = new(adrclient, deviceName, inboundEndpointName);
         }
     }
 }
