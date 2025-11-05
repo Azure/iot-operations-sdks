@@ -320,7 +320,7 @@ namespace Azure.Iot.Operations.Connector
                         serializedPayload,
                         messageMetadata,
                         null,
-                        destination.Configuration.Qos == QoS.Qos1 ? MqttQualityOfServiceLevel.AtLeastOnce : MqttQualityOfServiceLevel.AtMostOnce,
+                        destination.Configuration.Qos == null ? default : (MqttQualityOfServiceLevel)destination.Configuration.Qos,
                         telemetryTimeout,
                         cancellationToken);
 
@@ -413,13 +413,20 @@ namespace Azure.Iot.Operations.Connector
                         }
                     }
 
+                    TimeSpan? telemetryTimeout = null;
+                    ulong? ttl = destination.Configuration.Ttl;
+                    if (ttl != null && ttl.Value > 0)
+                    {
+                        telemetryTimeout = TimeSpan.FromSeconds(ttl.Value);
+                    }
+
                     var telemetrySender = _telemetrySenderCache.GetOrAdd(topic, t => new ConnectorTelemetrySender(_applicationContext, _mqttClient, t));
                     await telemetrySender.SendTelemetryAsync(
                         serializedPayload,
                         messageMetadata,
                         null,
-                        destination.Configuration.Qos == QoS.Qos1 ? MqttQualityOfServiceLevel.AtLeastOnce : MqttQualityOfServiceLevel.AtMostOnce,
-                        null,
+                        destination.Configuration.Qos == null ? default : (MqttQualityOfServiceLevel)destination.Configuration.Qos,
+                        telemetryTimeout,
                         cancellationToken);
 
                     _logger.LogInformation("Message was successfully sent to MQTT broker on topic {Topic}", topic);
