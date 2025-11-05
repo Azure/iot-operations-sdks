@@ -3,71 +3,213 @@
 
 //! Adapter layer for the azuremqtt (TODO: Rename to whatever is the azuremqtt crate's final name) crate
 
-use std::fs;
+use std::{fmt, fs, time::Duration};
 use std::num::{NonZero, NonZeroU32};
 
-use azure_mqtt::packet::SessionExpiryInterval;
+use azure_mqtt::packet::{AuthenticationInfo, ConnectOptions, ConnectProperties, SessionExpiryInterval};
+use azure_mqtt::client::{ClientOptions, ConnectionTransportConfig, ConnectionTransportTlsConfig};
 use openssl::{
     pkey::{PKey, Private},
     x509::X509,
 };
+use thiserror::Error;
 
 use crate::connection_settings::MqttConnectionSettings;
 
-impl From<MqttConnectionSettings> for azure_mqtt::client::ClientOptions {
-    fn from(value: MqttConnectionSettings) -> Self {
-        azure_mqtt::client::ClientOptions {
-            client_id: Some(value.client_id),
-            queue_size: 100, // ASK: Does this correspond to outgoing_max from the session?
+type ClientCert = (X509, PKey<Private>, Vec<X509>);
+
+fn create_connect_options(username: Option<String>, password: Option<String>, password_file: Option<String>) -> Result<ConnectOptions, ConnectionSettingsAdapterError> {
+    let password = if let Some(password_file) = password_file {
+        match fs::read_to_string(&password_file) {
+            Ok(password) => Some(password),
+            Err(e) => {
+                return Err(ConnectionSettingsAdapterError {
+                    msg: "cannot read password file".to_string(),
+                    field: ConnectionSettingsField::PasswordFile(password_file),
+                    source: Some(Box::new(e)),
+                });
+            }
         }
-    }
+    } else {
+        password
+    };
+
+    Ok(ConnectOptions {
+        username,
+        password,
+        ..Default::default()
+    })
 }
 
-impl From<MqttConnectionSettings> for azure_mqtt::packet::ConnectOptions {
-    fn from(value: MqttConnectionSettings) -> Self {
-        azure_mqtt::packet::ConnectOptions {
-            username: value.username,
-            password: value.password,
-            ..Default::default() // ASK: Do we want will option? I'll say no
+fn create_connect_properties(session_expiry: Duration, receive_packet_size_max: Option<u32>, receive_max: u16, user_properties: Vec<(String, String)>) -> Result<ConnectProperties, ConnectionSettingsAdapterError> {
+    // Session Expiry
+    let session_expiry_secs = session_expiry.as_secs().try_into().map_err(|e| {
+        ConnectionSettingsAdapterError {
+            msg: "cannot convert to u32".to_string(),
+            field: ConnectionSettingsField::SessionExpiry(session_expiry),
+            source: Some(Box::new(e)),
         }
-    }
+    })?;
+
+    // Maximum Packet Size
+    let maximum_packet_size = match receive_packet_size_max {
+        Some(v) => NonZeroU32::new(v).ok_or_else(|| ConnectionSettingsAdapterError {
+            msg: "receive_packet_size_max must be > 0".to_string(),
+            field: ConnectionSettingsField::ReceivePacketSizeMax(v),
+            source: None,
+        })?,
+        None => NonZeroU32::MAX,
+    };
+
+    // Receive Maximum
+    let receive_maximum = NonZero::new(receive_max).ok_or_else(|| {
+        ConnectionSettingsAdapterError {
+            msg: "receive_max must be > 0".to_string(),
+            field: ConnectionSettingsField::ReceiveMax(receive_max),
+            source: None,
+        }
+    })?;
+
+    Ok(ConnectProperties {
+        session_expiry_interval: SessionExpiryInterval::Duration(session_expiry_secs),
+        receive_maximum,
+        maximum_packet_size,
+        user_properties,
+        ..Default::default()
+    })
 }
 
-impl TryFrom<MqttConnectionSettings> for azure_mqtt::packet::ConnectProperties {
-    type Error = String;
-
-    fn try_from(value: MqttConnectionSettings) -> Result<Self, Self::Error> {
-        let session_expiry_secs = value.session_expiry.as_secs().try_into().map_err(|_| {
-            format!(
-                "Session expiry duration {} seconds exceeds u32::MAX",
-                value.session_expiry.as_secs()
-            )
+fn create_connection_transport_config(ca_file: Option<String>, cert_file: Option<String>, key_file: Option<String>, key_password_file: Option<String>, use_tls: bool, hostname: String, tcp_port: u16) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
+    if use_tls {
+        let (client_cert, ca_trust_bundle) = tls_config(
+            ca_file,
+            cert_file,
+            key_file,
+            key_password_file,
+        )
+        .map_err(|e| ConnectionSettingsAdapterError {
+            msg: "tls config error".to_string(),
+            field: ConnectionSettingsField::UseTls(true),
+            source: Some(Box::new(TlsError {
+                msg: e.to_string(),
+                source: Some(e),
+            })),
         })?;
 
-        let maximum_packet_size = match value.receive_packet_size_max {
-            Some(v) => NonZeroU32::new(v).ok_or("receive_packet_size_max must be > 0")?,
-            None => NonZeroU32::MAX,
-        };
+        let config = ConnectionTransportTlsConfig::new(
+            client_cert,
+            ca_trust_bundle,
+        )
+        .map_err(|e| ConnectionSettingsAdapterError {
+            msg: "failed to create TLS config".to_string(),
+            field: ConnectionSettingsField::UseTls(true),
+            source: Some(Box::new(TlsError {
+                msg: e.to_string(),
+                source: Some(e.into()),
+            })),
+        })?;
 
-        Ok(azure_mqtt::packet::ConnectProperties {
-            session_expiry_interval: SessionExpiryInterval::Duration(session_expiry_secs),
-            receive_maximum: NonZero::new(value.receive_max).ok_or("receive_max must be > 0")?, // ASK: from the connection settings we should be prohibiting values of 0 or greater too
-            maximum_packet_size,
-            topic_alias_maximum: 0,
-            // request_response_information: false, // ASK: I assume these are left as the defaults?
-            // request_problem_information: true,
-            // user_properties: Vec::new(),
-            ..Default::default()
+        Ok(ConnectionTransportConfig::Tls {
+            config,
+            hostname,
+            port: tcp_port,
+        })
+    } else {
+        Ok(ConnectionTransportConfig::Tcp {
+            hostname,
+            port: tcp_port,
         })
     }
 }
 
-fn az_mqtt_tls_config(
+pub struct AzureMqttConnectParameters {
+  pub initial_clean_start: bool,
+  pub keep_alive: Duration,
+  pub connection_transport_config: azure_mqtt::client::ConnectionTransportConfig,
+  pub connect_options: azure_mqtt::packet::ConnectOptions,
+  pub connect_properties: azure_mqtt::packet::ConnectProperties,
+  sat_file: Option<String>,
+}
+
+impl AzureMqttConnectParameters {
+    pub fn authentication_info(&self) -> Result<Option<AuthenticationInfo>, ConnectionSettingsAdapterError> {
+      if let Some(sat_file) = &self.sat_file {
+        let sat_auth =
+          fs::read(sat_file).map_err(|e| ConnectionSettingsAdapterError {
+              msg: "cannot read sat auth file".to_string(),
+              field: ConnectionSettingsField::SatAuthFile(sat_file.clone()),
+              source: Some(Box::new(e)),
+          })?;
+        Ok(Some(AuthenticationInfo {
+          method: "K8S-SAT".to_string(),
+          data: Some(sat_auth.into()),
+        }))
+      }
+      else {
+        Ok(None)
+      }
+    }
+}
+
+impl MqttConnectionSettings {
+    pub fn to_azure_mqtt_connect_parameters(
+        self,
+        user_properties: Vec<(String, String)>, // TODO: This is passed in when creating the session
+        outgoing_max: usize, // TODO: this is passed in from the session options
+    ) -> Result<
+        (
+            azure_mqtt::client::ClientOptions, // TODO: Single struct minus this guy
+            AzureMqttConnectParameters,
+        ),
+        ConnectionSettingsAdapterError,
+    > {
+        let client_options = ClientOptions {
+          client_id: Some(self.client_id),
+          queue_size: outgoing_max,
+        };
+
+        let connect_options = create_connect_options(self.username, self.password, self.password_file)?;
+
+        let connect_properties = create_connect_properties(
+            self.session_expiry,
+            self.receive_packet_size_max,
+            self.receive_max,
+            user_properties,
+        )?;
+
+        let connection_transport_config = create_connection_transport_config(
+            self.ca_file,
+            self.cert_file,
+            self.key_file,
+            self.key_password_file,
+            self.use_tls,
+            self.hostname,
+            self.tcp_port,
+        )?;
+
+        Ok(
+          (
+            client_options,
+            AzureMqttConnectParameters {
+              initial_clean_start: self.clean_start,
+              keep_alive: self.keep_alive,
+              connection_transport_config,
+              connect_options,
+              connect_properties,
+              sat_file: self.sat_file,
+            }
+          )
+        )
+    }
+}
+
+
+fn tls_config(
     ca_file: Option<String>,
     cert_file: Option<String>,
     key_file: Option<String>,
     key_password_file: Option<String>,
-) -> Result<(Option<(X509, PKey<Private>, Vec<X509>)>, Vec<X509>), anyhow::Error> {
+) -> Result<(Option<ClientCert>, Vec<X509>), anyhow::Error> {
     // Handle CA trust bundle
     let ca_trust_bundle = if let Some(ca_file) = ca_file {
         let ca_pem = fs::read(ca_file)?;
@@ -116,31 +258,50 @@ fn az_mqtt_tls_config(
     Ok((client_cert, ca_trust_bundle))
 }
 
-impl TryFrom<MqttConnectionSettings> for azure_mqtt::client::ConnectionTransportConfig {
-    type Error = anyhow::Error;
+#[derive(Error, Debug)]
+#[error("{msg}: {field}")]
+pub struct ConnectionSettingsAdapterError {
+    msg: String,
+    field: ConnectionSettingsField,
+    #[source]
+    source: Option<Box<dyn std::error::Error>>,
+}
 
-    fn try_from(value: MqttConnectionSettings) -> Result<Self, Self::Error> {
-        if value.use_tls {
-            let (client_cert, ca_trust_bundle) = az_mqtt_tls_config(
-                value.ca_file,
-                value.cert_file,
-                value.key_file,
-                value.key_password_file,
-            )?;
-            let config = azure_mqtt::client::ConnectionTransportTlsConfig::new(
-                client_cert,
-                ca_trust_bundle,
-            )?;
-            Ok(azure_mqtt::client::ConnectionTransportConfig::Tls {
-                config,
-                hostname: value.hostname,
-                port: value.tcp_port,
-            })
-        } else {
-            Ok(azure_mqtt::client::ConnectionTransportConfig::Tcp {
-                hostname: value.hostname,
-                port: value.tcp_port,
-            })
+#[derive(Debug)]
+pub enum ConnectionSettingsField {
+    SessionExpiry(Duration),
+    PasswordFile(String),
+    UseTls(bool),
+    ReceivePacketSizeMax(u32),
+    ReceiveMax(u16),
+    SatAuthFile(String)
+}
+
+impl fmt::Display for ConnectionSettingsField {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            ConnectionSettingsField::SessionExpiry(v) => write!(f, "Session Expiry: {v:?}"),
+            ConnectionSettingsField::PasswordFile(v) => write!(f, "Password File: {v:?}"),
+            ConnectionSettingsField::UseTls(v) => write!(f, "Use TLS: {v:?}"),
+            ConnectionSettingsField::ReceivePacketSizeMax(v) => write!(f, "Receive Packet Size Max: {v}"),
+            ConnectionSettingsField::ReceiveMax(v) => write!(f, "Receive Max: {v}"),
+            ConnectionSettingsField::SatAuthFile(v) => write!(f, "SAT Auth File: {v:?}"),
+        }
+    }
+}
+
+#[derive(Error, Debug)]
+#[error("{msg}")]
+pub struct TlsError {
+    msg: String,
+    source: Option<anyhow::Error>,
+}
+
+impl TlsError {
+    pub fn new(msg: &str) -> Self {
+        TlsError {
+            msg: msg.to_string(),
+            source: None,
         }
     }
 }
