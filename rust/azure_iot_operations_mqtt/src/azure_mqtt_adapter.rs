@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Adapter layer for the azuremqtt (TODO: Rename to whatever is the azuremqtt crate's final name) crate
+//! Adapter layer for the azure mqtt (TODO: rename this once settled) crate
 
-use std::{fmt, fs, time::Duration};
 use std::num::{NonZero, NonZeroU32};
+use std::{fmt, fs, time::Duration};
 
-use azure_mqtt::packet::{AuthenticationInfo, ConnectOptions, ConnectProperties, SessionExpiryInterval};
 use azure_mqtt::client::{ClientOptions, ConnectionTransportConfig, ConnectionTransportTlsConfig};
+use azure_mqtt::packet::{
+    AuthenticationInfo, ConnectOptions, ConnectProperties, SessionExpiryInterval,
+};
 use openssl::{
     pkey::{PKey, Private},
     x509::X509,
@@ -18,7 +20,65 @@ use crate::connection_settings::MqttConnectionSettings;
 
 type ClientCert = (X509, PKey<Private>, Vec<X509>);
 
-fn create_connect_options(username: Option<String>, password: Option<String>, password_file: Option<String>) -> Result<ConnectOptions, ConnectionSettingsAdapterError> {
+// TODO: This error story needs improvement once we find out how much of this
+// adapter code will stay after TLS dependency changes.
+#[derive(Error, Debug)]
+#[error("{msg}: {field}")]
+pub struct ConnectionSettingsAdapterError {
+    msg: String,
+    field: ConnectionSettingsField,
+    #[source]
+    source: Option<Box<dyn std::error::Error>>,
+}
+
+// TODO: As above, this will potentially be updated once final TLS implementation takes shape
+#[derive(Debug)]
+pub enum ConnectionSettingsField {
+    SessionExpiry(Duration),
+    PasswordFile(String),
+    UseTls(bool),
+    ReceivePacketSizeMax(u32),
+    ReceiveMax(u16),
+    SatAuthFile(String),
+}
+
+impl fmt::Display for ConnectionSettingsField {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            ConnectionSettingsField::SessionExpiry(v) => write!(f, "Session Expiry: {v:?}"),
+            ConnectionSettingsField::PasswordFile(v) => write!(f, "Password File: {v:?}"),
+            ConnectionSettingsField::UseTls(v) => write!(f, "Use TLS: {v:?}"),
+            ConnectionSettingsField::ReceivePacketSizeMax(v) => {
+                write!(f, "Receive Packet Size Max: {v}")
+            }
+            ConnectionSettingsField::ReceiveMax(v) => write!(f, "Receive Max: {v}"),
+            ConnectionSettingsField::SatAuthFile(v) => write!(f, "SAT Auth File: {v:?}"),
+        }
+    }
+}
+
+#[derive(Error, Debug)]
+#[error("{msg}")]
+pub struct TlsError {
+    msg: String,
+    source: Option<anyhow::Error>,
+}
+
+impl TlsError {
+    pub fn new(msg: &str) -> Self {
+        TlsError {
+            msg: msg.to_string(),
+            source: None,
+        }
+    }
+}
+
+/// Create [`ConnectOptions`], reading password from file if specified
+fn create_connect_options(
+    username: Option<String>,
+    password: Option<String>,
+    password_file: Option<String>,
+) -> Result<ConnectOptions, ConnectionSettingsAdapterError> {
     let password = if let Some(password_file) = password_file {
         match fs::read_to_string(&password_file) {
             Ok(password) => Some(password),
@@ -41,15 +101,23 @@ fn create_connect_options(username: Option<String>, password: Option<String>, pa
     })
 }
 
-fn create_connect_properties(session_expiry: Duration, receive_packet_size_max: Option<u32>, receive_max: u16, user_properties: Vec<(String, String)>) -> Result<ConnectProperties, ConnectionSettingsAdapterError> {
+/// Create [`ConnectProperties`]
+fn create_connect_properties(
+    session_expiry: Duration,
+    receive_packet_size_max: Option<u32>,
+    receive_max: u16,
+    user_properties: Vec<(String, String)>,
+) -> Result<ConnectProperties, ConnectionSettingsAdapterError> {
     // Session Expiry
-    let session_expiry_secs = session_expiry.as_secs().try_into().map_err(|e| {
-        ConnectionSettingsAdapterError {
-            msg: "cannot convert to u32".to_string(),
-            field: ConnectionSettingsField::SessionExpiry(session_expiry),
-            source: Some(Box::new(e)),
-        }
-    })?;
+    let session_expiry_secs =
+        session_expiry
+            .as_secs()
+            .try_into()
+            .map_err(|e| ConnectionSettingsAdapterError {
+                msg: "cannot convert to u32".to_string(),
+                field: ConnectionSettingsField::SessionExpiry(session_expiry),
+                source: Some(Box::new(e)),
+            })?;
 
     // Maximum Packet Size
     let maximum_packet_size = match receive_packet_size_max {
@@ -62,13 +130,12 @@ fn create_connect_properties(session_expiry: Duration, receive_packet_size_max: 
     };
 
     // Receive Maximum
-    let receive_maximum = NonZero::new(receive_max).ok_or_else(|| {
-        ConnectionSettingsAdapterError {
+    let receive_maximum =
+        NonZero::new(receive_max).ok_or_else(|| ConnectionSettingsAdapterError {
             msg: "receive_max must be > 0".to_string(),
             field: ConnectionSettingsField::ReceiveMax(receive_max),
             source: None,
-        }
-    })?;
+        })?;
 
     Ok(ConnectProperties {
         session_expiry_interval: SessionExpiryInterval::Duration(session_expiry_secs),
@@ -79,35 +146,40 @@ fn create_connect_properties(session_expiry: Duration, receive_packet_size_max: 
     })
 }
 
-fn create_connection_transport_config(ca_file: Option<String>, cert_file: Option<String>, key_file: Option<String>, key_password_file: Option<String>, use_tls: bool, hostname: String, tcp_port: u16) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
+/// Create [`ConnectionTransportConfig`]
+fn create_connection_transport_config(
+    ca_file: Option<String>,
+    cert_file: Option<String>,
+    key_file: Option<String>,
+    key_password_file: Option<String>,
+    use_tls: bool,
+    hostname: String,
+    tcp_port: u16,
+) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
     if use_tls {
-        let (client_cert, ca_trust_bundle) = tls_config(
-            ca_file,
-            cert_file,
-            key_file,
-            key_password_file,
-        )
-        .map_err(|e| ConnectionSettingsAdapterError {
-            msg: "tls config error".to_string(),
-            field: ConnectionSettingsField::UseTls(true),
-            source: Some(Box::new(TlsError {
-                msg: e.to_string(),
-                source: Some(e),
-            })),
-        })?;
+        let (client_cert, ca_trust_bundle) =
+            tls_config(ca_file, cert_file, key_file, key_password_file).map_err(|e| {
+                ConnectionSettingsAdapterError {
+                    msg: "tls config error".to_string(),
+                    field: ConnectionSettingsField::UseTls(true),
+                    source: Some(Box::new(TlsError {
+                        msg: e.to_string(),
+                        source: Some(e),
+                    })),
+                }
+            })?;
 
-        let config = ConnectionTransportTlsConfig::new(
-            client_cert,
-            ca_trust_bundle,
-        )
-        .map_err(|e| ConnectionSettingsAdapterError {
-            msg: "failed to create TLS config".to_string(),
-            field: ConnectionSettingsField::UseTls(true),
-            source: Some(Box::new(TlsError {
-                msg: e.to_string(),
-                source: Some(e.into()),
-            })),
-        })?;
+        let config =
+            ConnectionTransportTlsConfig::new(client_cert, ca_trust_bundle).map_err(|e| {
+                ConnectionSettingsAdapterError {
+                    msg: "failed to create TLS config".to_string(),
+                    field: ConnectionSettingsField::UseTls(true),
+                    source: Some(Box::new(TlsError {
+                        msg: e.to_string(),
+                        source: Some(e.into()),
+                    })),
+                }
+            })?;
 
         Ok(ConnectionTransportConfig::Tls {
             config,
@@ -122,53 +194,75 @@ fn create_connection_transport_config(ca_file: Option<String>, cert_file: Option
     }
 }
 
+/// Parameters for establishing an MQTT connection using the azure_mqtt crate
 pub struct AzureMqttConnectParameters {
-  pub initial_clean_start: bool,
-  pub keep_alive: Duration,
-  pub connection_transport_config: azure_mqtt::client::ConnectionTransportConfig,
-  pub connect_options: azure_mqtt::packet::ConnectOptions,
-  pub connect_properties: azure_mqtt::packet::ConnectProperties,
-  sat_file: Option<String>,
+    /// Initial clean start flag, use ONLY during the initial connection
+    pub initial_clean_start: bool,
+    /// Keep alive duration
+    pub keep_alive: Duration,
+    /// Connection transport configuration
+    pub connection_transport_config: azure_mqtt::client::ConnectionTransportConfig,
+    /// Connect options
+    pub connect_options: azure_mqtt::packet::ConnectOptions,
+    /// Connect properties
+    pub connect_properties: azure_mqtt::packet::ConnectProperties,
+    // Optional SAT file path for authentication, saved here to be read later
+    sat_file: Option<String>,
 }
 
 impl AzureMqttConnectParameters {
-    pub fn authentication_info(&self) -> Result<Option<AuthenticationInfo>, ConnectionSettingsAdapterError> {
-      if let Some(sat_file) = &self.sat_file {
-        let sat_auth =
-          fs::read(sat_file).map_err(|e| ConnectionSettingsAdapterError {
-              msg: "cannot read sat auth file".to_string(),
-              field: ConnectionSettingsField::SatAuthFile(sat_file.clone()),
-              source: Some(Box::new(e)),
-          })?;
-        Ok(Some(AuthenticationInfo {
-          method: "K8S-SAT".to_string(),
-          data: Some(sat_auth.into()),
-        }))
-      }
-      else {
-        Ok(None)
-      }
+    /// Retrieve authentication info if SAT file is provided
+    ///
+    /// # Returns
+    /// - `Ok(Some(AuthenticationInfo))` if SAT file is provided and read successfully
+    /// - `Ok(None)` if no SAT file is provided
+    /// - `Err(ConnectionSettingsAdapterError)` if there is an error reading the SAT file
+    pub fn authentication_info(
+        &self,
+    ) -> Result<Option<AuthenticationInfo>, ConnectionSettingsAdapterError> {
+        if let Some(sat_file) = &self.sat_file {
+            let sat_auth = fs::read(sat_file).map_err(|e| ConnectionSettingsAdapterError {
+                msg: "cannot read sat auth file".to_string(),
+                field: ConnectionSettingsField::SatAuthFile(sat_file.clone()),
+                source: Some(Box::new(e)),
+            })?;
+            Ok(Some(AuthenticationInfo {
+                method: "K8S-SAT".to_string(),
+                data: Some(sat_auth.into()),
+            }))
+        } else {
+            Ok(None)
+        }
     }
 }
 
 impl MqttConnectionSettings {
+    /// Convert to Azure MQTT connect parameters
+    ///
+    /// # Parameters
+    /// - `user_properties`: User properties to include in the connect properties
+    /// - `outgoing_max`: Outgoing message queue size
+    ///
+    /// # Errors
+    /// Returns [`ConnectionSettingsAdapterError`] if any conversion fails
     pub fn to_azure_mqtt_connect_parameters(
         self,
-        user_properties: Vec<(String, String)>, // TODO: This is passed in when creating the session
-        outgoing_max: usize, // TODO: this is passed in from the session options
+        user_properties: Vec<(String, String)>,
+        outgoing_max: usize,
     ) -> Result<
         (
-            azure_mqtt::client::ClientOptions, // TODO: Single struct minus this guy
+            azure_mqtt::client::ClientOptions,
             AzureMqttConnectParameters,
         ),
         ConnectionSettingsAdapterError,
     > {
         let client_options = ClientOptions {
-          client_id: Some(self.client_id),
-          queue_size: outgoing_max,
+            client_id: Some(self.client_id),
+            queue_size: outgoing_max,
         };
 
-        let connect_options = create_connect_options(self.username, self.password, self.password_file)?;
+        let connect_options =
+            create_connect_options(self.username, self.password, self.password_file)?;
 
         let connect_properties = create_connect_properties(
             self.session_expiry,
@@ -187,22 +281,36 @@ impl MqttConnectionSettings {
             self.tcp_port,
         )?;
 
-        Ok(
-          (
+        Ok((
             client_options,
             AzureMqttConnectParameters {
-              initial_clean_start: self.clean_start,
-              keep_alive: self.keep_alive,
-              connection_transport_config,
-              connect_options,
-              connect_properties,
-              sat_file: self.sat_file,
-            }
-          )
-        )
+                initial_clean_start: self.clean_start,
+                keep_alive: self.keep_alive,
+                connection_transport_config,
+                connect_options,
+                connect_properties,
+                sat_file: self.sat_file,
+            },
+        ))
     }
 }
 
+fn read_root_ca_certs(ca_file: String) -> Result<Vec<X509>, anyhow::Error> {
+    let mut ca_certs = Vec::new();
+    let ca_pem = fs::read(ca_file)?;
+
+    let certs = &mut X509::stack_from_pem(&ca_pem)?;
+    ca_certs.append(certs);
+
+    if ca_certs.is_empty() {
+        Err(TlsError::new("No CA certs available in CA File"))?;
+    }
+
+    ca_certs.sort();
+    ca_certs.dedup();
+
+    Ok(ca_certs)
+}
 
 fn tls_config(
     ca_file: Option<String>,
@@ -212,10 +320,10 @@ fn tls_config(
 ) -> Result<(Option<ClientCert>, Vec<X509>), anyhow::Error> {
     // Handle CA trust bundle
     let ca_trust_bundle = if let Some(ca_file) = ca_file {
-        let ca_pem = fs::read(ca_file)?;
-        X509::stack_from_pem(&ca_pem)?
+        // CA File
+        read_root_ca_certs(ca_file)?
     } else {
-        // If no CA file is provided, return empty bundle and let azure_mqtt use system certs
+        // If no CA file is provided, return empty bundle
         Vec::new()
     };
 
@@ -255,61 +363,13 @@ fn tls_config(
     Ok((client_cert, ca_trust_bundle))
 }
 
-#[derive(Error, Debug)]
-#[error("{msg}: {field}")]
-pub struct ConnectionSettingsAdapterError {
-    msg: String,
-    field: ConnectionSettingsField,
-    #[source]
-    source: Option<Box<dyn std::error::Error>>,
-}
-
-#[derive(Debug)]
-pub enum ConnectionSettingsField {
-    SessionExpiry(Duration),
-    PasswordFile(String),
-    UseTls(bool),
-    ReceivePacketSizeMax(u32),
-    ReceiveMax(u16),
-    SatAuthFile(String)
-}
-
-impl fmt::Display for ConnectionSettingsField {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            ConnectionSettingsField::SessionExpiry(v) => write!(f, "Session Expiry: {v:?}"),
-            ConnectionSettingsField::PasswordFile(v) => write!(f, "Password File: {v:?}"),
-            ConnectionSettingsField::UseTls(v) => write!(f, "Use TLS: {v:?}"),
-            ConnectionSettingsField::ReceivePacketSizeMax(v) => write!(f, "Receive Packet Size Max: {v}"),
-            ConnectionSettingsField::ReceiveMax(v) => write!(f, "Receive Max: {v}"),
-            ConnectionSettingsField::SatAuthFile(v) => write!(f, "SAT Auth File: {v:?}"),
-        }
-    }
-}
-
-#[derive(Error, Debug)]
-#[error("{msg}")]
-pub struct TlsError {
-    msg: String,
-    source: Option<anyhow::Error>,
-}
-
-impl TlsError {
-    pub fn new(msg: &str) -> Self {
-        TlsError {
-            msg: msg.to_string(),
-            source: None,
-        }
-    }
-}
-
 // -------------------------------------------
 
 #[cfg(test)]
 mod tests {
     use std::path::PathBuf;
     use std::time::Duration;
-    
+
     use crate::MqttConnectionSettingsBuilder;
 
     #[test]
@@ -320,7 +380,7 @@ mod tests {
             .use_tls(false)
             .build()
             .unwrap();
-        
+
         let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
         assert!(result.is_ok());
     }
@@ -335,7 +395,7 @@ mod tests {
             .password("test_password".to_string())
             .build()
             .unwrap();
-        
+
         let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
         assert!(result.is_ok());
     }
@@ -349,7 +409,7 @@ mod tests {
             .username("test_username".to_string())
             .build()
             .unwrap();
-        
+
         let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
         assert!(result.is_ok());
     }
@@ -367,7 +427,7 @@ mod tests {
             .password_file(password_file_path.into_os_string().into_string().unwrap())
             .build()
             .unwrap();
-        
+
         let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
         assert!(result.is_ok());
     }
@@ -380,12 +440,12 @@ mod tests {
             .use_tls(false)
             .build()
             .unwrap();
-        
+
         let user_properties = vec![
             ("prop1".to_string(), "value1".to_string()),
             ("prop2".to_string(), "value2".to_string()),
         ];
-        
+
         let result = connection_settings.to_azure_mqtt_connect_parameters(user_properties, 100);
         assert!(result.is_ok());
     }
@@ -395,16 +455,16 @@ mod tests {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
             .hostname("test_host".to_string())
-            .tcp_port(8883 as u16)
+            .tcp_port(8883u16)
             .use_tls(false)
             .clean_start(true)
             .keep_alive(Duration::from_secs(120))
             .session_expiry(Duration::from_secs(3600))
-            .receive_max(50 as u16)
+            .receive_max(50u16)
             .receive_packet_size_max(Some(1024))
             .build()
             .unwrap();
-        
+
         let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 200);
         assert!(result.is_ok());
     }
@@ -420,7 +480,7 @@ mod tests {
             .ca_file(ca_file_path.into_os_string().into_string().unwrap())
             .build()
             .unwrap();
-        
+
         let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
         assert!(result.is_ok());
     }
@@ -441,7 +501,7 @@ mod tests {
             .key_file(key_file.into_os_string().into_string().unwrap())
             .build()
             .unwrap();
-        
+
         let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
         assert!(result.is_ok());
     }
@@ -460,7 +520,7 @@ mod tests {
             .key_file(key_file.into_os_string().into_string().unwrap())
             .build()
             .unwrap();
-        
+
         let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
         assert!(result.is_ok());
     }
@@ -483,7 +543,7 @@ mod tests {
             .key_password_file(key_password_file.into_os_string().into_string().unwrap())
             .build()
             .unwrap();
-        
+
         let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
         assert!(result.is_ok());
     }
@@ -497,11 +557,16 @@ mod tests {
             .receive_packet_size_max(None)
             .build()
             .unwrap();
-        
+
         let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
         assert!(result.is_ok());
         assert_eq!(
-            result.unwrap().1.connect_properties.maximum_packet_size.get(),
+            result
+                .unwrap()
+                .1
+                .connect_properties
+                .maximum_packet_size
+                .get(),
             u32::MAX
         );
     }
