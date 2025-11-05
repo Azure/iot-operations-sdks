@@ -21,6 +21,7 @@ pub mod session;
 pub mod topic;
 
 // TODO: put behind `use-rumqttc` feature flag
+mod azure_mqtt_adapter; // TODO: Maybe not needed in new client integration
 mod rumqttc_adapter;
 
 #[cfg(feature = "test-utils")]
