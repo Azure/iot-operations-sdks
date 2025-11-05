@@ -201,11 +201,11 @@ pub struct AzureMqttConnectParameters {
     /// Keep alive duration
     pub keep_alive: Duration,
     /// Connection transport configuration
-    pub connection_transport_config: azure_mqtt::client::ConnectionTransportConfig,
+    pub connection_transport_config: ConnectionTransportConfig,
     /// Connect options
-    pub connect_options: azure_mqtt::packet::ConnectOptions,
+    pub connect_options: ConnectOptions,
     /// Connect properties
-    pub connect_properties: azure_mqtt::packet::ConnectProperties,
+    pub connect_properties: ConnectProperties,
     // Optional SAT file path for authentication, saved here to be read later
     sat_file: Option<String>,
 }
@@ -241,7 +241,7 @@ impl MqttConnectionSettings {
     ///
     /// # Parameters
     /// - `user_properties`: User properties to include in the connect properties
-    /// - `outgoing_max`: Outgoing message queue size
+    /// - `outgoing_max`: Outgoing message queue size (100 is a good default value)
     ///
     /// # Errors
     /// Returns [`ConnectionSettingsAdapterError`] if any conversion fails
@@ -249,13 +249,7 @@ impl MqttConnectionSettings {
         self,
         user_properties: Vec<(String, String)>,
         outgoing_max: usize,
-    ) -> Result<
-        (
-            azure_mqtt::client::ClientOptions,
-            AzureMqttConnectParameters,
-        ),
-        ConnectionSettingsAdapterError,
-    > {
+    ) -> Result<(ClientOptions, AzureMqttConnectParameters), ConnectionSettingsAdapterError> {
         let client_options = ClientOptions {
             client_id: Some(self.client_id),
             queue_size: outgoing_max,
@@ -312,6 +306,8 @@ fn read_root_ca_certs(ca_file: String) -> Result<Vec<X509>, anyhow::Error> {
     Ok(ca_certs)
 }
 
+/// Create TLS configuration. Returns an optional client certificate (main cert, private key, chain certs)
+/// and CA trust bundle as a tuple.
 fn tls_config(
     ca_file: Option<String>,
     cert_file: Option<String>,
@@ -322,6 +318,8 @@ fn tls_config(
     let ca_trust_bundle = if let Some(ca_file) = ca_file {
         // CA File
         read_root_ca_certs(ca_file)?
+
+        // CA Revocation Check TODO: add this back in
     } else {
         // If no CA file is provided, return empty bundle
         Vec::new()
