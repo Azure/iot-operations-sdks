@@ -124,21 +124,13 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
     {
         let mqtt_client_id = get_client_id(&test_case, "SessionInvokerTestClient", test_case_index);
         let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        // let session = Session::new_from_injection(
-        //     mqtt_hub.get_driver(),
-        //     mqtt_hub.get_looper(),
-        //     Box::new(ExponentialBackoffWithJitter::default()),
-        //     mqtt_client_id,
-        //     None,
-        // );
-        let session = Session::new_for_tests(
-            SessionOptions::default(),
-            ConnectionTransportConfig::Test {
-                incoming_packets: mqtt_hub.get_incoming_packets_rx().unwrap(),
-                outgoing_packets: mqtt_hub.get_outgoing_packets_tx(),
-            },
-        )
-        .unwrap();
+        let session = Session::new_from_injection(
+            mqtt_hub.get_driver(),
+            mqtt_hub.get_looper(),
+            Box::new(ExponentialBackoffWithJitter::default()),
+            mqtt_client_id,
+            None,
+        );
         let managed_client = session.create_managed_client();
 
         let current_thread = Builder::new_current_thread().enable_all().build().unwrap();

@@ -8,6 +8,9 @@ use azure_iot_operations_mqtt::control_packet::{
 use azure_iot_operations_mqtt::error::{
     AckError, DisconnectError, PublishError, ReauthError, SubscribeError, UnsubscribeError,
 };
+use azure_iot_operations_mqtt::interface::{
+    CompletionToken, MqttAck, MqttClient, MqttDisconnect, MqttPubSub,
+};
 //use azure_iot_operations_mqtt::interface::ManagedClient;
 //use azure_iot_operations_mqtt::topic::{TopicFilter, TopicParseError};
 use bytes::Bytes;

@@ -393,20 +393,21 @@ where
             })
             .unwrap();
 
-            let properties = azure_mqtt::mqtt_proto::publish::PublishOtherProperties {
-                payload_is_utf8: *format_indicator.to_is_utf8(),
+            let properties = PublishProperties {
+                payload_format_indicator: *format_indicator,
                 message_expiry_interval,
                 user_properties,
                 content_type: content_type.clone(),
                 ..Default::default()
             };
 
-            let publish = azure_mqtt::mqtt_proto::publish::Publish {
-                packet_identifier_dup_qos: (qos::to_enum(*qos), packet_id, false).into(),
-                topic_name: topic.into(),
+            let publish = Publish {
+                qos: qos::to_enum(*qos),
+                topic,
+                pkid: packet_id,
                 payload: payload.into(),
-                other_properties: properties,
-                retain: false,
+                properties: Some(properties),
+                ..Default::default()
             };
 
             mqtt_hub.receive_message(publish);

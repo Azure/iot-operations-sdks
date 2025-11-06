@@ -2,11 +2,7 @@
 // Licensed under the MIT License.
 
 use azure_iot_operations_mqtt::control_packet::{
-    AuthProperties,
-    PublishProperties,
-    QoS,
-    SubscribeProperties,
-    UnsubscribeProperties, // TODO: change to use mqtt_proto items
+    AuthProperties, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use bytes::Bytes;
 use tokio::sync::oneshot;
