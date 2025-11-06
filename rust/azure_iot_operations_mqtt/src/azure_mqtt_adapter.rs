@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Adapter layer for the azure mqtt (TODO: rename this once settled) crate
+//! Adapter layer for the `azure_mqtt` (TODO: rename this once settled) crate
 
 use std::num::{NonZero, NonZeroU32};
 use std::{fmt, fs, time::Duration};
 
 use azure_mqtt::client::{ClientOptions, ConnectionTransportConfig, ConnectionTransportTlsConfig};
-use azure_mqtt::packet::{
-    AuthenticationInfo, ConnectOptions, ConnectProperties, SessionExpiryInterval,
-};
+use azure_mqtt::packet::{AuthenticationInfo, ConnectProperties, SessionExpiryInterval, Will};
+use bytes::Bytes;
 use openssl::{
     pkey::{PKey, Private},
     x509::X509,
@@ -71,34 +70,6 @@ impl TlsError {
             source: None,
         }
     }
-}
-
-/// Create [`ConnectOptions`], reading password from file if specified
-fn create_connect_options(
-    username: Option<String>,
-    password: Option<String>,
-    password_file: Option<String>,
-) -> Result<ConnectOptions, ConnectionSettingsAdapterError> {
-    let password = if let Some(password_file) = password_file {
-        match fs::read_to_string(&password_file) {
-            Ok(password) => Some(password),
-            Err(e) => {
-                return Err(ConnectionSettingsAdapterError {
-                    msg: "cannot read password file".to_string(),
-                    field: ConnectionSettingsField::PasswordFile(password_file),
-                    source: Some(Box::new(e)),
-                });
-            }
-        }
-    } else {
-        password
-    };
-
-    Ok(ConnectOptions {
-        username,
-        password,
-        ..Default::default()
-    })
 }
 
 /// Create [`ConnectProperties`]
@@ -194,16 +165,20 @@ fn create_connection_transport_config(
     }
 }
 
-/// Parameters for establishing an MQTT connection using the azure_mqtt crate
+/// Parameters for establishing an MQTT connection using the `azure_mqtt` crate
 pub struct AzureMqttConnectParameters {
     /// Initial clean start flag, use ONLY during the initial connection
     pub initial_clean_start: bool,
     /// Keep alive duration
     pub keep_alive: Duration,
+    /// Will message
+    pub will: Option<Will>,
+    /// Username
+    pub username: Option<String>,
+    /// Password
+    pub password: Option<Bytes>,
     /// Connection transport configuration
     pub connection_transport_config: ConnectionTransportConfig,
-    /// Connect options
-    pub connect_options: ConnectOptions,
     /// Connect properties
     pub connect_properties: ConnectProperties,
     // Optional SAT file path for authentication, saved here to be read later
@@ -255,8 +230,21 @@ impl MqttConnectionSettings {
             queue_size: outgoing_max,
         };
 
-        let connect_options =
-            create_connect_options(self.username, self.password, self.password_file)?;
+        let password = if let Some(password_file) = self.password_file {
+            match fs::read_to_string(&password_file) {
+                Ok(password) => Some(password),
+                Err(e) => {
+                    return Err(ConnectionSettingsAdapterError {
+                        msg: "cannot read password file".to_string(),
+                        field: ConnectionSettingsField::PasswordFile(password_file),
+                        source: Some(Box::new(e)),
+                    });
+                }
+            }
+        } else {
+            self.password
+        }
+        .map(Bytes::from);
 
         let connect_properties = create_connect_properties(
             self.session_expiry,
@@ -280,8 +268,10 @@ impl MqttConnectionSettings {
             AzureMqttConnectParameters {
                 initial_clean_start: self.clean_start,
                 keep_alive: self.keep_alive,
+                will: None,
+                username: self.username,
+                password,
                 connection_transport_config,
-                connect_options,
                 connect_properties,
                 sat_file: self.sat_file,
             },
