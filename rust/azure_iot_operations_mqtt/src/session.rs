@@ -56,7 +56,7 @@ use std::fmt;
 use thiserror::Error;
 
 use crate::auth::SatAuthContextInitError;
-use crate::az_mqtt_adapter as adapter;
+use crate::azure_mqtt_adapter as adapter;
 use crate::error::{ConnectionError, DisconnectError};
 
 /// Error describing why a [`Session`] ended prematurely

@@ -3,15 +3,13 @@
 
 //! Internal implementation of [`Session`] and [`SessionExitHandle`].
 
-use std::fs;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
-use crate::MqttConnectionSettings;
-use crate::auth::{self, SatAuthContext};
+use crate::auth::SatAuthContext;
 use crate::session::managed_client::SessionManagedClient;
 use crate::session::receiver::{IncomingPublishDispatcher, PublishReceiverManager};
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
@@ -19,6 +17,7 @@ use crate::session::state::SessionState;
 use crate::session::{
     SessionConfigError, SessionError, SessionErrorRepr, SessionExitError, SessionExitErrorKind,
 };
+use crate::{MqttConnectionSettings, azure_mqtt_adapter::AzureMqttConnectParameters};
 
 /// Options for configuring a new [`Session`]
 #[derive(Builder)]
@@ -29,9 +28,15 @@ pub struct SessionOptions {
     /// Reconnect Policy to by used by the `Session`
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     reconnect_policy: Box<dyn ReconnectPolicy>,
-    /// Maximum number of queued outgoing messages not yet accepted by the MQTT Session
+    /// Maximum packet identifier
+    #[builder(default = "azure_mqtt::packet::PacketIdentifier::MAX")]
+    max_packet_identifier: azure_mqtt::packet::PacketIdentifier,
+    /// Maximum number of queued outgoing QoS 0 PUBLISH packets not yet accepted by the MQTT Session
     #[builder(default = "100")]
-    outgoing_max: usize,
+    publish_qos0_queue_size: usize,
+    /// Maximum number of queued outgoing QoS 1 and 2 PUBLISH packets not yet accepted by the MQTT Session
+    #[builder(default = "100")]
+    publish_qos1_qos2_queue_size: usize,
     /// Indicates if the Session should use features specific for use with the AIO MQTT Broker
     #[builder(default = "Some(AIOBrokerFeaturesBuilder::default().build().unwrap())")]
     aio_broker_features: Option<AIOBrokerFeatures>,
@@ -56,14 +61,10 @@ pub struct Session {
     receiver: azure_mqtt::client::Receiver,
     /// Underlying MQTT connect handle
     connect_handle: Option<azure_mqtt::client::ConnectHandle>, // TODO: think about making an enum for this tied to session state to make it clearer that None is the state when this is owned somewhere else
-    connect_properties: azure_mqtt::packet::ConnectProperties,
-    auth_info: Option<azure_mqtt::packet::AuthenticationInfo>,
-    clean_start: bool,
-    connection_transport_config: azure_mqtt::client::ConnectionTransportConfig,
+    /// Parameters for establishing an MQTT connection using the `azure_mqtt` crate
+    connect_parameters: AzureMqttConnectParameters,
     /// Client ID of the underlying rumqttc client
     client_id: String,
-    /// File path to the SAT token
-    sat_file: Option<String>,
     /// Manager for the receivers of the Session
     receiver_manager: Arc<Mutex<PublishReceiverManager>>,
     /// Receiver dispatcher for incoming publishes
@@ -83,7 +84,6 @@ impl Session {
     /// Returns a [`SessionConfigError`] if there are errors using the session options.
     pub fn new(options: SessionOptions) -> Result<Self, SessionConfigError> {
         let client_id = options.connection_settings.client_id.clone();
-        let sat_file = options.connection_settings.sat_file.clone();
 
         // Add AIO metric and features to user properties when using AIO MQTT broker features
         // TODO: consider user properties from being supported on SessionOptions or ConnectionSettings
@@ -98,33 +98,23 @@ impl Session {
             vec![]
         };
 
-        let client_options: azure_mqtt::client::ClientOptions =
-            options.connection_settings.try_into()?;
-        let connect_properties: azure_mqtt::packet::ConnectProperties =
-            options.connection_settings.try_into()?;
-        let auth_info: Option<azure_mqtt::packet::AuthenticationInfo> =
-            options.connection_settings.try_into()?;
-        let connection_transport_config: azure_mqtt::client::ConnectionTransportConfig =
-            options.connection_settings.try_into()?;
+        let (client_options, connect_parameters) = options
+            .connection_settings
+            .to_azure_mqtt_connect_parameters(
+                user_properties,
+                options.max_packet_identifier,
+                options.publish_qos0_queue_size,
+                options.publish_qos1_qos2_queue_size,
+            )?;
 
-        let (client, connect_handle, receiver) = crate::az_mqtt_adapter::client(
-            // options.connection_settings,
-            client_options,
-            options.outgoing_max,
-            true,
-            user_properties,
-        )?;
+        let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options)?;
         Ok(Self::new_from_injection(
             client,
             receiver,
             connect_handle,
-            connect_properties,
-            auth_info,
-            connection_transport_config,
-            options.connection_settings.clean_start,
+            connect_parameters,
             options.reconnect_policy,
             client_id,
-            sat_file,
         ))
     }
 
@@ -133,7 +123,6 @@ impl Session {
         connection_transport_config: azure_mqtt::client::ConnectionTransportConfig,
     ) -> Result<Self, SessionConfigError> {
         let client_id = options.connection_settings.client_id.clone();
-        let sat_file = options.connection_settings.sat_file.clone();
 
         // Add AIO metric and features to user properties when using AIO MQTT broker features
         // TODO: consider user properties from being supported on SessionOptions or ConnectionSettings
@@ -148,32 +137,24 @@ impl Session {
             vec![]
         };
 
-        let client_options: azure_mqtt::client::ClientOptions =
-            options.connection_settings.try_into()?;
-        let connect_properties: azure_mqtt::packet::ConnectProperties =
-            options.connection_settings.try_into()?;
-        let auth_info: Option<azure_mqtt::packet::AuthenticationInfo> =
-            options.connection_settings.try_into()?;
-        // let connection_transport_config: azure_mqtt::client::ConnectionTransportConfig = options.connection_settings.try_into()?;
+        let (client_options, mut connect_parameters) = options
+            .connection_settings
+            .to_azure_mqtt_connect_parameters(
+                user_properties,
+                options.max_packet_identifier,
+                options.publish_qos0_queue_size,
+                options.publish_qos1_qos2_queue_size,
+            )?;
+        connect_parameters.connection_transport_config = connection_transport_config;
 
-        let (client, connect_handle, receiver) = crate::az_mqtt_adapter::client(
-            // options.connection_settings,
-            client_options,
-            options.outgoing_max,
-            true,
-            user_properties,
-        )?;
+        let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options)?;
         Ok(Self::new_from_injection(
             client,
             receiver,
             connect_handle,
-            connect_properties,
-            auth_info,
-            connection_transport_config,
-            options.connection_settings.clean_start,
+            connect_parameters,
             options.reconnect_policy,
             client_id,
-            sat_file,
         ))
     }
 
@@ -184,13 +165,9 @@ impl Session {
         client: azure_mqtt::client::Client,
         receiver: azure_mqtt::client::Receiver,
         connect_handle: azure_mqtt::client::ConnectHandle,
-        connect_properties: azure_mqtt::packet::ConnectProperties,
-        auth_info: Option<azure_mqtt::packet::AuthenticationInfo>,
-        connection_transport_config: azure_mqtt::client::ConnectionTransportConfig,
-        clean_start: bool,
+        connect_parameters: AzureMqttConnectParameters,
         reconnect_policy: Box<dyn ReconnectPolicy>,
         client_id: String,
-        sat_file: Option<String>,
     ) -> Self {
         let incoming_pub_dispatcher = IncomingPublishDispatcher::new(client.clone());
         let receiver_manager = incoming_pub_dispatcher.get_receiver_manager();
@@ -199,12 +176,8 @@ impl Session {
             client,
             receiver,
             connect_handle: Some(connect_handle),
-            connect_properties,
-            auth_info,
-            connection_transport_config,
-            clean_start,
+            connect_parameters,
             client_id,
-            sat_file,
             receiver_manager,
             incoming_pub_dispatcher,
             reconnect_policy,
@@ -247,25 +220,9 @@ impl Session {
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
     pub async fn run(mut self) -> Result<(), SessionError> {
         self.state.transition_running();
-        let mut authentication_info = None;
-        if let Some(sat_file) = &self.sat_file {
-            // Read the SAT auth file
-            let auth_data = match fs::read(sat_file) {
-                Ok(sat_auth_data) => {
-                    // Set the authentication data
-                    sat_auth_data.into()
-                }
-                Err(e) => {
-                    log::error!("Cannot read SAT auth file: {sat_file}");
-                    // TODO: This should happen in the auth module, it should be fixed in the future.
-                    return Err(SessionErrorRepr::IoError(e))?;
-                }
-            };
-            authentication_info = Some(azure_mqtt::packet::AuthenticationInfo {
-                method: auth::SAT_AUTHENTICATION_METHOD.to_string(),
-                data: Some(auth_data),
-            });
-        }
+        // TODO: this changes the error from what it was before and no longer logs
+        let authentication_info = self.connect_parameters.authentication_info()?;
+        let mut clean_start = self.connect_parameters.initial_clean_start;
 
         // TODO: not sure if we need some of this still
         // // Background tasks
@@ -312,8 +269,14 @@ impl Session {
                         .take()
                         .unwrap()
                         .connect(
-                            self.connection_transport_config.clone(),
-                            self.connect_properties,
+                            self.connect_parameters.connection_transport_config.clone(),
+                            clean_start,
+                            self.connect_parameters.keep_alive,
+                            self.connect_parameters.will,
+                            self.connect_parameters.username,
+                            self.connect_parameters.password,
+                            self.connect_parameters.connect_properties,
+                            Some(self.connect_parameters.connection_timeout),
                         )
                         .await
                 };
@@ -344,7 +307,7 @@ impl Session {
             else {
                 prev_connected = true;
                 // Set clean start to false for subsequent connections
-                self.clean_start = false;
+                clean_start = false;
             }
 
             self.disconnect_handle = Some(disconnect_handle);
@@ -492,8 +455,10 @@ impl Session {
                                     delivery_info.packet_identifier
                                 );
                                 match ack_handle {
-                                    azure_mqtt::client::AckHandle::QoS0 => todo!(),
-                                    azure_mqtt::client::AckHandle::QoS1(pub_ack_token) => {
+                                    azure_mqtt::client::ManualAcknowledgement::QoS0 => todo!(),
+                                    azure_mqtt::client::ManualAcknowledgement::QoS1(
+                                        pub_ack_token,
+                                    ) => {
                                         tokio::spawn({
                                             // let acker = self.client.clone();
                                             async move {
@@ -515,7 +480,9 @@ impl Session {
                                             }
                                         });
                                     }
-                                    azure_mqtt::client::AckHandle::QoS2(pub_rec_token) => {
+                                    azure_mqtt::client::ManualAcknowledgement::QoS2(
+                                        pub_rec_token,
+                                    ) => {
                                         tokio::spawn({
                                             // let acker = self.client.clone();
                                             async move {
