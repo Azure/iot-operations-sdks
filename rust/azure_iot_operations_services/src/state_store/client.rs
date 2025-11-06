@@ -9,7 +9,7 @@ use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::{
     interface::{AckToken, ManagedClient},
-    session::SessionConnectionMonitor,
+    session::SessionMonitor,
 };
 use azure_iot_operations_protocol::{
     application::ApplicationContext, common::hybrid_logical_clock::HybridLogicalClock, rpc_command,
@@ -88,7 +88,7 @@ where
     ///
     /// <div class="warning">
     ///
-    /// Note: `connection_monitor` must be from the same session as `client`.
+    /// Note: `session_monitor` must be from the same session as `client`.
     ///
     /// </div>
     ///
@@ -103,7 +103,7 @@ where
     pub fn new(
         application_context: ApplicationContext,
         client: C,
-        connection_monitor: SessionConnectionMonitor,
+        session_monitor: SessionMonitor,
         options: ClientOptions,
     ) -> Result<Self, Error> {
         // create invoker for commands
@@ -155,7 +155,7 @@ where
                     shutdown_notifier_clone,
                     notification_receiver,
                     notification_dispatcher_clone,
-                    connection_monitor,
+                    session_monitor,
                 )
                 .await;
             }
@@ -571,9 +571,9 @@ where
     }
 
     /// only return when the session goes from connected to disconnected
-    async fn notify_on_disconnection(connection_monitor: &SessionConnectionMonitor) {
-        connection_monitor.connected().await;
-        connection_monitor.disconnected().await;
+    async fn notify_on_disconnection(session_monitor: &SessionMonitor) {
+        session_monitor.connected().await;
+        session_monitor.disconnected().await;
     }
 
     async fn receive_key_notification_loop(
@@ -582,7 +582,7 @@ where
         notification_dispatcher: Arc<
             Dispatcher<(state_store::KeyNotification, Option<AckToken>), String>,
         >,
-        connection_monitor: SessionConnectionMonitor,
+        session_monitor: SessionMonitor,
     ) {
         let mut shutdown_attempt_count = 0;
         loop {
@@ -604,7 +604,7 @@ where
                         }
                     }
                   },
-                  () = Self::notify_on_disconnection(&connection_monitor) => {
+                  () = Self::notify_on_disconnection(&session_monitor) => {
                     log::warn!("Session disconnected. Dropping key observations as they won't receive any more notifications and must be recreated");
                     // This closes all associated notification channels
                     notification_dispatcher.unregister_all();
@@ -706,12 +706,12 @@ mod tests {
     #[tokio::test]
     async fn test_set_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -733,12 +733,12 @@ mod tests {
     #[tokio::test]
     async fn test_get_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -752,12 +752,12 @@ mod tests {
     #[tokio::test]
     async fn test_del_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -773,12 +773,12 @@ mod tests {
     #[tokio::test]
     async fn test_vdel_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -794,12 +794,12 @@ mod tests {
     #[tokio::test]
     async fn test_observe_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -815,12 +815,12 @@ mod tests {
     #[tokio::test]
     async fn test_unobserve_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -836,12 +836,12 @@ mod tests {
     #[tokio::test]
     async fn test_set_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -863,12 +863,12 @@ mod tests {
     #[tokio::test]
     async fn test_get_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -884,12 +884,12 @@ mod tests {
     #[tokio::test]
     async fn test_del_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -905,12 +905,12 @@ mod tests {
     #[tokio::test]
     async fn test_vdel_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -931,12 +931,12 @@ mod tests {
     #[tokio::test]
     async fn test_observe_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -952,12 +952,12 @@ mod tests {
     #[tokio::test]
     async fn test_unobserve_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();

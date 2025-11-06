@@ -3,7 +3,7 @@
 
 [package]
 name = "azure_iot_operations_connector"
-version = "0.5.2"
+version = "0.5.3"
 edition = "2024"
 license = "MIT"
 description = "Azure IoT Operations Connector"
@@ -17,6 +17,7 @@ azure_iot_operations_services = { version = "0.13.1", path = "../azure_iot_opera
 azure_iot_operations_mqtt = { version = "0.11.0", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
 azure_iot_operations_otel = { version = "0.2.1", registry = "aio-sdks" }
 chrono.workspace = true
+derive_builder.workspace = true
 derive-getters.workspace = true
 log.workspace = true
 notify.workspace = true

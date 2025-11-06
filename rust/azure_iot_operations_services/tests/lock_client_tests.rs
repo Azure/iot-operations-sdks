@@ -74,7 +74,7 @@ fn initialize_client(
     let state_store_client = state_store::Client::new(
         application_context,
         session.create_managed_client(),
-        session.create_connection_monitor(),
+        session.create_session_monitor(),
         state_store::ClientOptionsBuilder::default()
             .build()
             .unwrap(),
