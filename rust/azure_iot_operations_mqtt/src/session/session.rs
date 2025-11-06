@@ -222,9 +222,9 @@ impl Session {
         }
     }
 
-    /// Return a new instance of [`SessionConnectionMonitor`] that can be used to monitor the connection state
-    pub fn create_connection_monitor(&self) -> SessionConnectionMonitor {
-        SessionConnectionMonitor {
+    /// Return a new instance of [`SessionMonitor`] that can be used to monitor the session's state
+    pub fn create_session_monitor(&self) -> SessionMonitor {
+        SessionMonitor {
             state: self.state.clone(),
         }
     }
@@ -745,15 +745,15 @@ impl SessionExitHandle {
     }
 }
 
-/// Monitor for connection changes in the [`Session`].
+/// Monitor for session state changes in the [`Session`].
 ///
 /// This is largely for informational purposes.
 #[derive(Clone)]
-pub struct SessionConnectionMonitor {
+pub struct SessionMonitor {
     state: Arc<SessionState>,
 }
 
-impl SessionConnectionMonitor {
+impl SessionMonitor {
     /// Returns true if the [`Session`] is currently connected.
     /// Note that this may not be accurate if connection has been recently lost.
     #[must_use]

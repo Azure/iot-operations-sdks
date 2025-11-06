@@ -7,7 +7,7 @@ use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::session::{
-    Session, SessionConnectionMonitor, SessionExitHandle, SessionOptionsBuilder,
+    Session, SessionMonitor, SessionExitHandle, SessionOptionsBuilder,
 };
 
 const CLIENT_ID: &str = "aio_example_client";
@@ -37,7 +37,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let session = Session::new(session_options)?;
 
     // Spawn tasks monitoring uptime and exiting the session.
-    tokio::spawn(uptime_monitor(session.create_connection_monitor()));
+    tokio::spawn(uptime_monitor(session.create_session_monitor()));
     tokio::spawn(exit_after_duration(
         session.create_exit_handle(),
         Duration::from_secs(60),
@@ -51,7 +51,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 /// Monitor uptime
-async fn uptime_monitor(monitor: SessionConnectionMonitor) {
+async fn uptime_monitor(monitor: SessionMonitor) {
     let mut total_uptime = Duration::default();
     loop {
         log::info!("Waiting for connection...");

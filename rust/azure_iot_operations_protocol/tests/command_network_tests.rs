@@ -136,7 +136,7 @@ async fn command_basic_invoke_response_network_tests() {
         // Network tests disabled, skipping tests
         return;
     };
-    let monitor = session.create_connection_monitor();
+    let monitor = session.create_session_monitor();
 
     let test_task = tokio::task::spawn({
         async move {
@@ -219,7 +219,7 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
         // Network tests disabled, skipping tests
         return;
     };
-    let monitor = session.create_connection_monitor();
+    let monitor = session.create_session_monitor();
 
     let test_task = tokio::task::spawn({
         async move {
@@ -472,7 +472,7 @@ async fn command_complex_invoke_response_network_tests() {
         // Network tests disabled, skipping tests
         return;
     };
-    let monitor = session.create_connection_monitor();
+    let monitor = session.create_session_monitor();
 
     let test_request_payload = DataRequestPayload {
         requested_temperature: 78.0,
