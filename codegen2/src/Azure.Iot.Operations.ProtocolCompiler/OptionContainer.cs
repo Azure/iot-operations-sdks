@@ -13,6 +13,9 @@
         /// <summary>Gets or sets the filespec(s) of files containing external schema definitions.</summary>
         public required string[] ExtSchemaFiles { get; set; }
 
+        /// <summary>Gets or sets the file containing JSON config for deriving type names from JSON Schema names.</summary>
+        public required FileInfo? TypeNamerFile { get; set; }
+
         /// <summary>Gets or sets the directory for storing temporary files.</summary>
         public required DirectoryInfo WorkingDir { get; set; }
 

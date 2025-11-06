@@ -50,11 +50,14 @@
                     ImportSchemas(extSchemaFiles, generatedSchemas);
                 }
 
+                string? typeNameInfoText = options.TypeNamerFile?.OpenText()?.ReadToEnd();
+                TypeNamer typeNamer = new TypeNamer(typeNameInfoText);
+
                 List<GeneratedItem> generatedTypes = new();
                 foreach (KeyValuePair<SerializationFormat, List<GeneratedItem>> schemaSet in generatedSchemas)
                 {
                     Dictionary<string, string> schemaTextsByName = schemaSet.Value.ToDictionary(s => Path.GetFullPath(Path.Combine(options.WorkingDir.FullName, s.FolderPath, s.FileName)).Replace('\\', '/'), s => s.Content);
-                    TypeGenerator typeGenerator = new TypeGenerator(schemaSet.Key, targetLanguage);
+                    TypeGenerator typeGenerator = new TypeGenerator(schemaSet.Key, targetLanguage, typeNamer);
                     generatedTypes.AddRange(typeGenerator.GenerateTypes(schemaTextsByName, new CodeName(options.GenNamespace), projectName, options.OutputSourceSubdir));
                 }
                 WriteItems(generatedTypes, options.OutputDir);

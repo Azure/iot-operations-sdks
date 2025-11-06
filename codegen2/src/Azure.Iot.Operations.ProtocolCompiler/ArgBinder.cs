@@ -11,6 +11,7 @@
     {
         private readonly Option<FileInfo[]> thingFiles;
         private readonly Option<string[]> extSchemaFiles;
+        private readonly Option<FileInfo?> typeNamerFile;
         private readonly Option<DirectoryInfo> outputDir;
         private readonly Option<string> workingDir;
         private readonly Option<string> outputSourceSubdir;
@@ -40,6 +41,7 @@
         public ArgBinder(
             Option<FileInfo[]> thingFiles,
             Option<string[]> extSchemaFiles,
+            Option<FileInfo?> typeNamerFile,
             Option<DirectoryInfo> outputDir,
             Option<string> workingDir,
             Option<string> outputSourceSubdir,
@@ -53,6 +55,7 @@
         {
             this.thingFiles = thingFiles;
             this.extSchemaFiles = extSchemaFiles;
+            this.typeNamerFile = typeNamerFile;
             this.outputDir = outputDir;
             this.workingDir = workingDir;
             this.outputSourceSubdir = outputSourceSubdir;
@@ -75,6 +78,7 @@
             {
                 ThingFiles = bindingContext.ParseResult.GetValueForOption(this.thingFiles)!,
                 ExtSchemaFiles = bindingContext.ParseResult.GetValueForOption(this.extSchemaFiles)!,
+                TypeNamerFile = bindingContext.ParseResult.GetValueForOption(this.typeNamerFile),
                 OutputDir = outputDir,
                 WorkingDir = Path.IsPathRooted(workingDir) ? new DirectoryInfo(workingDir) : new DirectoryInfo(Path.Combine(outputDir.FullName, workingDir)),
                 OutputSourceSubdir = bindingContext.ParseResult.GetValueForOption(this.outputSourceSubdir)!,

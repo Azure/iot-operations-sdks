@@ -40,9 +40,11 @@
                 _ => throw new NotSupportedException($"Target language {args[3]} is not supported."),
             };
 
+            TypeNamer typeNamer = new TypeNamer(null);
+
             foreach (KeyValuePair<SerializationFormat, string> formatFilter in FormatFilters)
             {
-                TypeGenerator typeGenerator = new TypeGenerator(formatFilter.Key, targetLanguage);
+                TypeGenerator typeGenerator = new TypeGenerator(formatFilter.Key, targetLanguage, typeNamer);
 
                 Dictionary<string, string> schemaTextsByName = schemaFolder.GetFiles(formatFilter.Value).ToDictionary(f => f.FullName.Replace('\\', '/'), f => File.ReadAllText(f.FullName));
 

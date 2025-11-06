@@ -9,11 +9,11 @@
         private ISchemaStandardizer schemaStandardizer;
         private ITypeGenerator typeGenerator;
 
-        public TypeGenerator(SerializationFormat serializationFormat, TargetLanguage targetLanguage)
+        public TypeGenerator(SerializationFormat serializationFormat, TargetLanguage targetLanguage, TypeNamer typeNamer)
         {
             this.schemaStandardizer = serializationFormat switch
             {
-                SerializationFormat.Json => new JsonSchemaStandardizer(),
+                SerializationFormat.Json => new JsonSchemaStandardizer(typeNamer),
                 _ => throw new NotSupportedException($"Serialization format {serializationFormat} is not supported."),
             };
 

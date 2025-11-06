@@ -22,6 +22,11 @@
                 description: "Filespec(s) of files containing external schema definitions (each may include wildcards).")
             { ArgumentHelpName = "FILESPEC ...", AllowMultipleArgumentsPerToken = true };
 
+            var typeNamerOption = new Option<FileInfo?>(
+                name: "--typeNamer",
+                description: "File containing JSON config for deriving type names from JSON Schema names")
+            { ArgumentHelpName = "FILEPATH" };
+
             var outDirOption = new Option<DirectoryInfo>(
                 name: "--outDir",
                 getDefaultValue: () => new DirectoryInfo(DefaultOutDir),
@@ -76,6 +81,7 @@
         {
             thingFilesOption,
             extSchemasOption,
+            typeNamerOption,
             outDirOption,
             workingDirOption,
             srcSubdirOption,
@@ -91,6 +97,7 @@
             ArgBinder argBinder = new ArgBinder(
                 thingFilesOption,
                 extSchemasOption,
+                typeNamerOption,
                 outDirOption,
                 workingDirOption,
                 srcSubdirOption,
