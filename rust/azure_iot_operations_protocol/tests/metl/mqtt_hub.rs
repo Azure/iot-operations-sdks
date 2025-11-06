@@ -5,14 +5,12 @@ use std::collections::{VecDeque, hash_map::HashMap, hash_set::HashSet};
 
 use azure_iot_operations_mqtt::control_packet::Publish;
 use azure_iot_operations_mqtt::error::{ConnectionError, StateError};
-use azure_iot_operations_mqtt::interface::{Event, Incoming};
 use bytes::Bytes;
 use rumqttc::v5::mqttbytes::v5::DisconnectReasonCode;
 use tokio::sync::{broadcast, mpsc};
 
 use crate::metl::mqtt_driver::MqttDriver;
 use crate::metl::mqtt_emulation_level::MqttEmulationLevel;
-use crate::metl::mqtt_looper::MqttLooper;
 use crate::metl::mqtt_operation::MqttOperation;
 use crate::metl::test_ack_kind::TestAckKind;
 
@@ -20,11 +18,20 @@ const MAX_PENDING_MESSAGES: usize = 10;
 
 pub struct MqttHub {
     client_id: String,
-    event_tx: Option<mpsc::UnboundedSender<Result<Event, ConnectionError>>>,
-    event_rx: Option<mpsc::UnboundedReceiver<Result<Event, ConnectionError>>>,
+    event_tx: Option<
+        mpsc::UnboundedSender<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>,
+    >,
+    event_rx: Option<
+        mpsc::UnboundedReceiver<
+            azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
+        >,
+    >,
     message_tx: Option<broadcast::Sender<Publish>>,
-    operation_tx: mpsc::UnboundedSender<MqttOperation>,
-    operation_rx: mpsc::UnboundedReceiver<MqttOperation>,
+    operation_tx:
+        mpsc::UnboundedSender<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>,
+    operation_rx: mpsc::UnboundedReceiver<
+        azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
+    >,
     packet_id_sequencer: u16,
     puback_queue: VecDeque<TestAckKind>,
     suback_queue: VecDeque<TestAckKind>,
@@ -34,8 +41,12 @@ pub struct MqttHub {
     acknowledgement_count: i32,
     published_correlation_data: VecDeque<Option<Bytes>>,
     subscribed_topics: HashSet<String>,
-    published_messages: HashMap<Option<Bytes>, Publish>,
-    published_message_seq: HashMap<i32, Publish>,
+    published_messages: HashMap<
+        Option<Bytes>,
+        azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl>,
+    >,
+    published_message_seq:
+        HashMap<i32, azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl>>,
 }
 
 impl MqttHub {
@@ -80,12 +91,29 @@ impl MqttHub {
         MqttLooper::new(self.event_rx.take())
     }
 
+    pub fn get_incoming_packets_rx(
+        &mut self,
+    ) -> Option<
+        mpsc::UnboundedReceiver<
+            azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
+        >,
+    > {
+        self.event_rx.take()
+    }
+
     pub fn get_driver(&self) -> MqttDriver {
         MqttDriver::new(
             self.client_id.clone(),
             self.message_tx.clone(),
             self.operation_tx.clone(),
         )
+    }
+
+    pub fn get_outgoing_packets_tx(
+        &self,
+    ) -> mpsc::UnboundedSender<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>
+    {
+        self.operation_tx.clone()
     }
 
     pub fn get_publication_count(&self) -> i32 {
@@ -144,13 +172,16 @@ impl MqttHub {
         self.published_message_seq.get(&sequence_index)
     }
 
-    pub fn receive_message(&mut self, message: Publish) {
+    pub fn receive_message(
+        &mut self,
+        message: azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl>,
+    ) {
         match self.message_tx.as_mut() {
             Some(message_tx) => {
                 message_tx.send(message).unwrap();
             }
             _ => {
-                self.receive_incoming_event(Incoming::Publish(message));
+                self.receive_incoming_event(azure_mqtt::mqtt_proto::Packet::Publish(message));
             }
         }
     }
@@ -160,42 +191,54 @@ impl MqttHub {
     }
 
     pub async fn await_operation(&mut self) {
-        if let Some(operation) = self.operation_rx.recv().await {
-            match operation {
-                MqttOperation::Publish {
-                    topic,
-                    qos,
-                    retain,
-                    payload,
-                    properties,
-                    ack_tx,
-                } => {
+        if let Some(packet) = self.operation_rx.recv().await {
+            match packet {
+                azure_mqtt::mqtt_proto::Packet::Publish(publish) => {
                     self.publication_count += 1;
 
-                    let correlation_data = match properties.clone() {
-                        Some(properties) => properties.correlation_data,
-                        _ => None,
-                    };
+                    let correlation_data = publish.other_properties.correlation_data;
                     self.published_correlation_data
                         .push_back(correlation_data.clone());
-                    let publish = Publish {
-                        dup: false,
-                        qos,
-                        retain,
-                        topic: Bytes::copy_from_slice(&topic.into_bytes()),
-                        pkid: 1,
-                        payload,
-                        properties,
-                    };
+                    // TODO: proto publish or regular publish for this?
+                    // let publish = Publish {
+                    //     dup: false,
+                    //     qos,
+                    //     retain,
+                    //     topic: Bytes::copy_from_slice(&topic.into_bytes()),
+                    //     pkid: 1,
+                    //     payload,
+                    //     properties,
+                    // };
                     self.published_messages
                         .insert(correlation_data, publish.clone());
                     self.published_message_seq
                         .insert(self.publication_count - 1, publish);
 
-                    if let Some(ack_kind) = self.puback_queue.pop_front() {
-                        ack_tx.send(ack_kind).unwrap();
-                    } else {
-                        ack_tx.send(TestAckKind::Success).unwrap();
+                    match publish.packet_identifier_dup_qos {
+                        PacketIdentifierDupQoS::AtMostOnce => {}
+                        PacketIdentifierDupQoS::AtLeastOnce(pkid) => {
+                            let reason_code = match self.puback_queue.pop_front() {
+                                Some(TestAckKind::Success) | None => PubAckReasonCode::Success,
+                                Some(TestAckKind::Fail) => PubAckReasonCode::UnspecifiedError,
+                                Some(TestAckKind::Drop) => {
+                                    // emulate dropping the puback
+                                    // TODO: does this need to end the session?
+                                    return;
+                                }
+                            };
+                            let puback = azure_mqtt::mqtt_proto::Packet::Puback(
+                                azure_mqtt::mqtt_proto::puback::PubAck {
+                                    packet_identifier: pkid,
+                                    reason_code,
+                                    other_properties: Default::default(),
+                                },
+                            );
+                            self.event_tx.as_mut()
+                                .expect("receive_incoming_event() called but MQTT emulation is not at Event level")
+                                .send(puback)
+                                .unwrap();
+                        }
+                        PacketIdentifierDupQoS::ExactlyOnce(pkid) => {} // ignore this case because we never use QoS 2
                     }
                 }
 
@@ -242,19 +285,30 @@ impl MqttHub {
         }
     }
 
-    fn receive_incoming_event(&mut self, incoming_event: Incoming) {
+    fn receive_incoming_event(
+        &mut self,
+        incoming_packet: azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
+    ) {
         self.event_tx
             .as_mut()
             .expect("receive_incoming_event() called but MQTT emulation is not at Event level")
-            .send(Ok(Event::Incoming(incoming_event)))
+            .send(incoming_packet)
             .unwrap();
     }
 
+    // TODO: remove? Swap for some other disconnect flow
     fn receive_error(&mut self, error: ConnectionError) {
         self.event_tx
             .as_mut()
             .expect("receive_error() called but MQTT emulation is not at Event level")
             .send(Err(error))
             .unwrap();
+    }
+}
+
+pub fn to_is_utf8(format_indicator: Option<u8>) -> bool {
+    match format_indicator {
+        Some(1) => true,
+        _ => false,
     }
 }
