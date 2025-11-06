@@ -170,7 +170,7 @@ pub struct AzureMqttConnectParameters {
     /// Initial clean start flag, use ONLY during the initial connection
     pub initial_clean_start: bool,
     /// Keep alive duration
-    pub keep_alive: Duration,
+    pub keep_alive: azure_mqtt::packet::KeepAlive,
     /// Will message
     pub will: Option<Will>,
     /// Username
@@ -181,6 +181,8 @@ pub struct AzureMqttConnectParameters {
     pub connection_transport_config: ConnectionTransportConfig,
     /// Connect properties
     pub connect_properties: ConnectProperties,
+    /// Connection timeout duration
+    pub connection_timeout: Duration,
     // Optional SAT file path for authentication, saved here to be read later
     sat_file: Option<String>,
 }
@@ -228,6 +230,7 @@ impl MqttConnectionSettings {
         let client_options = ClientOptions {
             client_id: Some(self.client_id),
             queue_size: outgoing_max,
+            ..Default::default()
         };
 
         let password = if let Some(password_file) = self.password_file {
@@ -267,12 +270,13 @@ impl MqttConnectionSettings {
             client_options,
             AzureMqttConnectParameters {
                 initial_clean_start: self.clean_start,
-                keep_alive: self.keep_alive,
+                keep_alive: self.keep_alive.into(), // azure_mqtt::packet::KeepAlive::Duration(self.keep_alive.into())?
                 will: None,
                 username: self.username,
                 password,
                 connection_transport_config,
                 connect_properties,
+                connection_timeout: self.connection_timeout,
                 sat_file: self.sat_file,
             },
         ))

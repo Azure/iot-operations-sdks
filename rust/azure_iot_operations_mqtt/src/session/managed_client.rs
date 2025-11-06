@@ -57,24 +57,26 @@ impl SessionManagedClient {
     pub async fn publish_qos0(
         &self,
         topic: impl Into<String> + Send,
+        retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
     ) -> Result<CompletionToken, PublishError> {
         let topic = azure_mqtt::topic::TopicName::new(topic.into())?;
         self.client
-            .publish_qos0(topic, payload.into(), properties)
+            .publish_qos0(topic, payload.into(), retain, properties)
             .await
     }
 
     pub async fn publish_qos1(
         &self,
         topic: impl Into<String> + Send,
+        retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
     ) -> Result<CompletionToken, PublishError> {
         let topic = azure_mqtt::topic::TopicName::new(topic.into())?;
         self.client
-            .publish_qos1(topic, payload.into(), properties)
+            .publish_qos1(topic, payload.into(), retain, properties)
             .await
     }
 
@@ -82,10 +84,22 @@ impl SessionManagedClient {
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
+        no_local: bool,
+        retain_as_published: bool,
+        retain_handling: azure_mqtt::packet::RetainHandling,
         properties: SubscribeProperties,
     ) -> Result<CompletionToken, SubscribeError> {
         let topic = azure_mqtt::topic::TopicFilter::new(topic.into())?;
-        self.client.subscribe(topic, qos, properties).await
+        self.client
+            .subscribe(
+                topic,
+                qos,
+                no_local,
+                retain_as_published,
+                retain_handling,
+                properties,
+            )
+            .await
     }
 
     pub async fn unsubscribe(
