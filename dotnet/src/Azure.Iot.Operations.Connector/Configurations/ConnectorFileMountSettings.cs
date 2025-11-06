@@ -73,6 +73,23 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         }
 
         /// <summary>
+        /// Helper method to get and validate a path from an environment variable.
+        /// </summary>
+        /// <param name="envVarName">The name of the environment variable.</param>
+        /// <param name="pathDescription">A description of the path for error messages.</param>
+        /// <returns>The path from the environment variable, or null if not configured.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
+        private static string? GetAndValidatePath(string envVarName, string pathDescription)
+        {
+            string? path = Environment.GetEnvironmentVariable(envVarName);
+            if (path != null && !Path.Exists(path))
+            {
+                throw new InvalidOperationException($"{pathDescription} does not exist: {path}");
+            }
+            return path;
+        }
+
+        /// <summary>
         /// Get the Connector Secrets Metadata mount path from the environment.
         /// Rust property: connector_secrets_metadata_mount
         /// </summary>
@@ -80,12 +97,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
         public static string? GetConnectorSecretsMetadataMountPath()
         {
-            string? path = Environment.GetEnvironmentVariable(ConnectorSecretsMetadataMountPathEnvVar);
-            if (path != null && !Path.Exists(path))
-            {
-                throw new InvalidOperationException($"Connector secrets metadata mount path does not exist: {path}");
-            }
-            return path;
+            return GetAndValidatePath(ConnectorSecretsMetadataMountPathEnvVar, "Connector secrets metadata mount path");
         }
 
         /// <summary>
@@ -96,12 +108,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
         public static string? GetConnectorTrustSettingsMountPath()
         {
-            string? path = Environment.GetEnvironmentVariable(ConnectorTrustSettingsMountPathEnvVar);
-            if (path != null && !Path.Exists(path))
-            {
-                throw new InvalidOperationException($"Connector trust settings mount path does not exist: {path}");
-            }
-            return path;
+            return GetAndValidatePath(ConnectorTrustSettingsMountPathEnvVar, "Connector trust settings mount path");
         }
 
         /// <summary>
@@ -112,12 +119,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
         public static string? GetDeviceEndpointTrustBundleMountPath()
         {
-            string? path = Environment.GetEnvironmentVariable(DeviceEndpointTrustBundleMountPathEnvVar);
-            if (path != null && !Path.Exists(path))
-            {
-                throw new InvalidOperationException($"Device endpoint trust bundle mount path does not exist: {path}");
-            }
-            return path;
+            return GetAndValidatePath(DeviceEndpointTrustBundleMountPathEnvVar, "Device endpoint trust bundle mount path");
         }
 
         /// <summary>
@@ -128,12 +130,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
         public static string? GetDeviceEndpointCredentialsMountPath()
         {
-            string? path = Environment.GetEnvironmentVariable(DeviceEndpointCredentialsMountPathEnvVar);
-            if (path != null && !Path.Exists(path))
-            {
-                throw new InvalidOperationException($"Device endpoint credentials mount path does not exist: {path}");
-            }
-            return path;
+            return GetAndValidatePath(DeviceEndpointCredentialsMountPathEnvVar, "Device endpoint credentials mount path");
         }
 
         /// <summary>
@@ -216,12 +213,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
         public static string? GetGrpcMetricCollector1pCaMount()
         {
-            string? path = Environment.GetEnvironmentVariable(FirstPartyGrpcMetricsCollectorCaPathEnvVar);
-            if (path != null && !Path.Exists(path))
-            {
-                throw new InvalidOperationException($"gRPC metrics collector CA mount path does not exist: {path}");
-            }
-            return path;
+            return GetAndValidatePath(FirstPartyGrpcMetricsCollectorCaPathEnvVar, "gRPC metrics collector CA mount path");
         }
 
         /// <summary>
@@ -232,12 +224,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
         public static string? GetGrpcLogCollector1pCaMount()
         {
-            string? path = Environment.GetEnvironmentVariable(FirstPartyGrpcLogCollectorCaPathEnvVar);
-            if (path != null && !Path.Exists(path))
-            {
-                throw new InvalidOperationException($"gRPC log collector CA mount path does not exist: {path}");
-            }
-            return path;
+            return GetAndValidatePath(FirstPartyGrpcLogCollectorCaPathEnvVar, "gRPC log collector CA mount path");
         }
 
         /// <summary>
@@ -278,12 +265,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
         public static string? GetBrokerTrustBundleMountPath()
         {
-            string? path = Environment.GetEnvironmentVariable(BrokerTrustBundleMountPathEnvVar);
-            if (path != null && !Path.Exists(path))
-            {
-                throw new InvalidOperationException($"Broker trust bundle mount path does not exist: {path}");
-            }
-            return path;
+            return GetAndValidatePath(BrokerTrustBundleMountPathEnvVar, "Broker trust bundle mount path");
         }
 
         /// <summary>
@@ -294,12 +276,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
         public static string? GetBrokerSatMountPath()
         {
-            string? path = Environment.GetEnvironmentVariable(BrokerSatMountPathEnvVar);
-            if (path != null && !Path.Exists(path))
-            {
-                throw new InvalidOperationException($"Broker SAT mount path does not exist: {path}");
-            }
-            return path;
+            return GetAndValidatePath(BrokerSatMountPathEnvVar, "Broker SAT mount path");
         }
 
         /// <summary>
