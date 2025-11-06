@@ -8,9 +8,9 @@ use env_logger::Builder;
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::error::ConnectionError;
-use azure_iot_operations_mqtt::interface::MqttPubSub;
 use azure_iot_operations_mqtt::session::{
-    Session, SessionManagedClient, SessionOptionsBuilder, reconnect_policy::ReconnectPolicy,
+    reconnect_policy::ReconnectPolicy,
+    session::{Session, SessionOptionsBuilder},
 };
 
 const CLIENT_ID: &str = "aio_example_client";

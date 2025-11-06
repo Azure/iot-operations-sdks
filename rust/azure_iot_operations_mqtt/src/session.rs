@@ -50,16 +50,14 @@ pub mod reconnect_policy;
 // This isn't ideal naming, but it'd be inconsistent otherwise.
 pub mod session; // TODO: Make this private and accessible via compile flags
 mod state;
-mod wrapper;
 
 use std::fmt;
 
 use thiserror::Error;
 
 use crate::auth::SatAuthContextInitError;
+use crate::azure_mqtt_adapter as adapter;
 use crate::error::{ConnectionError, DisconnectError};
-use crate::rumqttc_adapter as adapter;
-pub use wrapper::*;
 
 /// Error describing why a [`Session`] ended prematurely
 #[derive(Debug, Error)]

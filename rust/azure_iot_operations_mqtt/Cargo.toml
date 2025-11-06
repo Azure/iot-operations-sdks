@@ -14,7 +14,7 @@ publish = true
 [dependencies]
 anyhow = "1.0.86"                                                                   # TODO: reconsider inclusion once TLS library is finalized
 async-trait = "0.1.81"
-azure_mqtt = { version = "0.1.0", path = "../../../mqtt-client" } # TODO: Because of authentication issues, including the dependency this way for now.
+azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "8c9c8e0a7bd7d9067728b764c25b5c99ca08895b" }
 bytes.workspace = true
 derive_builder.workspace = true
 derive-getters.workspace = true
@@ -24,7 +24,6 @@ notify.workspace = true
 notify-debouncer-full.workspace = true
 openssl = "0.10.66"                                                                 # only used with rumqttc to set up TLS settings
 rand = "0.8.5"
-rumqttc = { version = "0.24.0-fork.4", registry = 'aio-sdks', default-features = false, features = ["use-native-tls"]}
 thiserror.workspace = true
 tokio.workspace = true
 tokio-util.workspace = true
