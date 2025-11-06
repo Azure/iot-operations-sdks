@@ -73,6 +73,17 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         }
 
         /// <summary>
+        /// Helper method to get the connector configuration mount path from the environment.
+        /// </summary>
+        /// <returns>The connector configuration mount path.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the environment variable is not set.</exception>
+        private static string GetConnectorConfigMountPath()
+        {
+            return Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar)
+                ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
+        }
+
+        /// <summary>
         /// Helper method to get and validate a path from an environment variable.
         /// </summary>
         /// <param name="envVarName">The name of the environment variable.</param>
@@ -140,8 +151,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <returns>A list of persistent volume mount paths.</returns>
         public static List<string> GetPersistentVolumes()
         {
-            string connectorConfigMountPath = Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar)
-                ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
+            string connectorConfigMountPath = GetConnectorConfigMountPath();
 
             string persistentVolumesFilePath = Path.Combine(connectorConfigMountPath, PersistentVolumeMountPathFileName);
 
@@ -162,8 +172,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <returns>The additional configuration as a JSON string, or null if not configured.</returns>
         public static string? GetAdditionalConfiguration()
         {
-            string connectorConfigMountPath = Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar)
-                ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
+            string connectorConfigMountPath = GetConnectorConfigMountPath();
 
             string additionalConfigFilePath = Path.Combine(connectorConfigMountPath, AdditionalConnectorConfigFileName);
 
@@ -363,7 +372,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <returns>The Connector Diagnostics configuration.</returns>
         public static ConnectorDiagnostics GetConnectorDiagnostics()
         {
-            string connectorConfigMountPath = Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
+            string connectorConfigMountPath = GetConnectorConfigMountPath();
             string connectorDiagnosticsConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorDiagnosticsConfigFileName) ?? throw new InvalidOperationException($"Missing {connectorConfigMountPath + "/" + ConnectorDiagnosticsConfigFileName} file");
             return JsonSerializer.Deserialize<ConnectorDiagnostics>(connectorDiagnosticsConfigFileContents) ?? throw new InvalidOperationException($"{connectorConfigMountPath + "/" + ConnectorDiagnosticsConfigFileName} file was empty");
         }
@@ -374,7 +383,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <returns>The AIO Metadata.</returns>
         public static AioMetadata GetAioMetadata()
         {
-            string connectorConfigMountPath = Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
+            string connectorConfigMountPath = GetConnectorConfigMountPath();
             string connectorAioMetadataConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorAioMetadataFileName) ?? throw new InvalidOperationException($"Missing {connectorConfigMountPath + "/" + ConnectorAioMetadataFileName} file");
             return JsonSerializer.Deserialize<AioMetadata>(connectorAioMetadataConfigFileContents) ?? throw new InvalidOperationException($"{connectorConfigMountPath + "/" + ConnectorAioMetadataFileName} file was empty");
         }
@@ -386,7 +395,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <returns>The MQTT Connection Configuration.</returns>
         public static ConnectorMqttConnectionConfiguration GetMqttConnectionConfiguration()
         {
-            string connectorConfigMountPath = Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
+            string connectorConfigMountPath = GetConnectorConfigMountPath();
 
             string connectorMqttConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorMqttConfigFileName) ?? throw new InvalidOperationException($"Missing {connectorConfigMountPath + "/" + ConnectorMqttConfigFileName} file");
             return JsonSerializer.Deserialize<ConnectorMqttConnectionConfiguration>(connectorMqttConfigFileContents) ?? throw new InvalidOperationException($"{connectorConfigMountPath + "/" + ConnectorMqttConfigFileName} file was empty");
