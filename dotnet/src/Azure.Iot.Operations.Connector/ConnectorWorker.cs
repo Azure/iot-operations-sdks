@@ -46,7 +46,8 @@ namespace Azure.Iot.Operations.Connector
         // keys are "{composite device name}_{asset name}_{dataset name}. The value is the message schema registered for that device's asset's dataset
         private readonly ConcurrentDictionary<string, Schema> _registeredDatasetMessageSchemas = new();
 
-        // keys are "{composite device name}_{asset name}_{event name}. The value is the message schema registered for that device's asset's event
+        //TODO event group name relevant here?
+        // keys are "{composite device name}_{asset name}_{event group name}_{event name}. The value is the message schema registered for that device's asset's event
         private readonly ConcurrentDictionary<string, Schema> _registeredEventMessageSchemas = new();
 
         /// <summary>
@@ -245,6 +246,36 @@ namespace Azure.Iot.Operations.Connector
             await _mqttClient.DisconnectAsync(null, CancellationToken.None);
         }
 
+        public MessageSchemaReference? GetRegisteredDatasetMessageSchema(string deviceName, string inboundEndpointName, string assetName, string datasetName)
+        {
+            if (_registeredDatasetMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{datasetName}", out Schema? schema))
+            {
+                return new MessageSchemaReference()
+                {
+                    SchemaName = schema.Name,
+                    SchemaRegistryNamespace = schema.Namespace,
+                    SchemaVersion = schema.Version,
+                };
+            }
+
+            return null;
+        }
+
+        public MessageSchemaReference? GetRegisteredEventMessageSchema(string deviceName, string inboundEndpointName, string assetName, string eventGroupName, string eventName)
+        {
+            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{eventName}", out Schema? schema))
+            {
+                return new MessageSchemaReference()
+                {
+                    SchemaName = schema.Name,
+                    SchemaRegistryNamespace = schema.Namespace,
+                    SchemaVersion = schema.Version,
+                };
+            }
+
+            return null;
+        }
+
         // Called by AssetClient instances
         internal async Task ForwardSampledDatasetAsync(string deviceName, string inboundEndpointName, string assetName, AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
@@ -341,11 +372,11 @@ namespace Azure.Iot.Operations.Connector
         }
 
         // Called by AssetClient instances
-        internal async Task ForwardReceivedEventAsync(string deviceName, string inboundEndpointName, string assetName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        internal async Task ForwardReceivedEventAsync(string deviceName, string inboundEndpointName, string assetName, string eventGroupName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {assetName}. Now publishing it to MQTT broker.");
+            _logger.LogInformation($"Received event with name {assetEvent.Name} in event group with name {eventGroupName} in asset with name {assetName}. Now publishing it to MQTT broker.");
 
             if (assetEvent.Destinations == null)
             {
@@ -354,7 +385,7 @@ namespace Azure.Iot.Operations.Connector
             }
 
             CloudEvent? cloudEvent = null;
-            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", out var registeredEventMessageSchema))
+            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent}", out var registeredEventMessageSchema))
             {
                 if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
                 {
@@ -643,7 +674,7 @@ namespace Azure.Iot.Operations.Connector
                         {
                             try
                             {
-                                _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                                _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} in event group with name {assetEventGroup.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                                 await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
                                 var registeredEventSchema = await schemaRegistryClient.PutAsync(
                                     eventMessageSchema.SchemaContent,
@@ -654,7 +685,7 @@ namespace Azure.Iot.Operations.Connector
 
                                 _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
-                                _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", registeredEventSchema);
+                                _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEventGroup.Name}_{assetEvent.Name}", registeredEventSchema);
                             }
                             catch (Exception ex)
                             {

@@ -24,5 +24,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         public ulong? Version { get; set; } = default;
 
+        public static ConfigStatus Okay()
+        {
+            return new()
+            {
+                Error = null,
+                LastTransitionTime = DateTime.UtcNow,
+                Version = null, //TODO do we need to report this?
+            };
+        }
     }
 }

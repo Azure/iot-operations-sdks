@@ -1,11 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
@@ -35,6 +30,27 @@ namespace Azure.Iot.Operations.Connector
                 status,
                 commandTimeout,
                 cancellationToken);
+        }
+
+        public DeviceStatus BuildOkayStatus()
+        {
+            return new()
+            {
+                Config = ConfigStatus.Okay(),
+                Endpoints = new() //TODO multiple endpoints support? Do we need to report a complete status, or just a patch?
+                {
+                    Inbound = new()
+                    {
+                        {
+                            _inboundEndpointName,
+                            new DeviceStatusInboundEndpointSchemaMapValue()
+                            {
+                                Error = null
+                            }
+                        }
+                    }
+                }
+            };
         }
     }
 }

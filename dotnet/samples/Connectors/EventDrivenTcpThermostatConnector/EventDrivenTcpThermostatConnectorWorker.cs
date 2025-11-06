@@ -18,8 +18,15 @@ namespace EventDrivenTcpThermostatConnector
             _logger = logger;
             _connector = new(applicationContext, connectorLogger, mqttClient, datasetSamplerFactory, adrClientFactory, leaderElectionConfigurationProvider)
             {
-                WhileAssetIsAvailable = WhileAssetAvailableAsync
+                WhileAssetIsAvailable = WhileAssetAvailableAsync,
+                WhileDeviceIsAvailable = WhileDeviceAvailableAsync,
             };
+        }
+
+        private async Task WhileDeviceAvailableAsync(DeviceAvailableEventArgs args, CancellationToken cancellationToken)
+        {         
+            DeviceStatus deviceStatus = args.DeviceEndpointClient.BuildOkayStatus();
+            await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus, null, cancellationToken);
         }
 
         private async Task WhileAssetAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
@@ -50,10 +57,10 @@ namespace EventDrivenTcpThermostatConnector
                 return;
             }
 
-            await OpenTcpConnectionAsync(args, assetEvent, port, cancellationToken);
+            await OpenTcpConnectionAsync(args, args.Asset.EventGroups.First().Name, assetEvent, port, cancellationToken);
         }
 
-        private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, AssetEvent assetEvent, int port, CancellationToken cancellationToken)
+        private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, string eventGroupName, AssetEvent assetEvent, int port, CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -82,7 +89,11 @@ namespace EventDrivenTcpThermostatConnector
                             Array.Resize(ref buffer, bytesRead);
 
                             _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
-                            await args.AssetClient.ForwardReceivedEventAsync(assetEvent, buffer, null, cancellationToken);
+                            await args.AssetClient.ForwardReceivedEventAsync(eventGroupName, assetEvent, buffer, null, cancellationToken);
+
+                            // Report status of the asset once the first event has been received and forwarded
+                            AssetStatus assetStatus = args.AssetClient.BuildOkayStatus();
+                            await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
                         }
                     }
                     catch (Exception e)
