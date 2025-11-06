@@ -7,7 +7,7 @@ use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::session::{
-    Session, SessionMonitor, SessionExitHandle, SessionOptionsBuilder,
+    Session, SessionExitHandle, SessionMonitor, SessionOptionsBuilder,
 };
 
 const CLIENT_ID: &str = "aio_example_client";
