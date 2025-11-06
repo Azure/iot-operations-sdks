@@ -225,11 +225,15 @@ impl MqttConnectionSettings {
     pub fn to_azure_mqtt_connect_parameters(
         self,
         user_properties: Vec<(String, String)>,
-        outgoing_max: usize,
+        max_packet_identifier: azure_mqtt::packet::PacketIdentifier,
+        publish_qos0_queue_size: usize,
+        publish_qos1_qos2_queue_size: usize,
     ) -> Result<(ClientOptions, AzureMqttConnectParameters), ConnectionSettingsAdapterError> {
         let client_options = ClientOptions {
             client_id: Some(self.client_id),
-            queue_size: outgoing_max,
+            max_packet_identifier,
+            publish_qos0_queue_size,
+            publish_qos1_qos2_queue_size,
             ..Default::default()
         };
 
@@ -373,7 +377,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            vec![],
+            azure_mqtt::packet::PacketIdentifier::MAX,
+            100,
+            100,
+        );
         assert!(result.is_ok());
     }
 
@@ -388,7 +397,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            vec![],
+            azure_mqtt::packet::PacketIdentifier::MAX,
+            100,
+            100,
+        );
         assert!(result.is_ok());
     }
 
@@ -402,7 +416,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            vec![],
+            azure_mqtt::packet::PacketIdentifier::MAX,
+            100,
+            100,
+        );
         assert!(result.is_ok());
     }
 
@@ -420,7 +439,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            vec![],
+            azure_mqtt::packet::PacketIdentifier::MAX,
+            100,
+            100,
+        );
         assert!(result.is_ok());
     }
 
@@ -438,7 +462,12 @@ mod tests {
             ("prop2".to_string(), "value2".to_string()),
         ];
 
-        let result = connection_settings.to_azure_mqtt_connect_parameters(user_properties, 100);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            user_properties,
+            azure_mqtt::packet::PacketIdentifier::MAX,
+            100,
+            100,
+        );
         assert!(result.is_ok());
     }
 
@@ -457,7 +486,8 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 200);
+        let result =
+            connection_settings.to_azure_mqtt_connect_parameters(vec![], 500.into(), 200, 200);
         assert!(result.is_ok());
     }
 
@@ -473,7 +503,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            vec![],
+            azure_mqtt::packet::PacketIdentifier::MAX,
+            100,
+            100,
+        );
         assert!(result.is_ok());
     }
 
@@ -494,7 +529,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            vec![],
+            azure_mqtt::packet::PacketIdentifier::MAX,
+            100,
+            100,
+        );
         assert!(result.is_ok());
     }
 
@@ -513,7 +553,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            vec![],
+            azure_mqtt::packet::PacketIdentifier::MAX,
+            100,
+            100,
+        );
         assert!(result.is_ok());
     }
 
@@ -536,7 +581,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            vec![],
+            azure_mqtt::packet::PacketIdentifier::MAX,
+            100,
+            100,
+        );
         assert!(result.is_ok());
     }
 
@@ -550,7 +600,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.to_azure_mqtt_connect_parameters(vec![], 100);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            vec![],
+            azure_mqtt::packet::PacketIdentifier::MAX,
+            100,
+            100,
+        );
         assert!(result.is_ok());
         assert_eq!(
             result

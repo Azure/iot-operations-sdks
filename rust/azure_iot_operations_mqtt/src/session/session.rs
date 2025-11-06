@@ -28,9 +28,15 @@ pub struct SessionOptions {
     /// Reconnect Policy to by used by the `Session`
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     reconnect_policy: Box<dyn ReconnectPolicy>,
-    /// Maximum number of queued outgoing messages not yet accepted by the MQTT Session
+    /// Maximum packet identifier
+    #[builder(default = "azure_mqtt::packet::PacketIdentifier::MAX")]
+    max_packet_identifier: azure_mqtt::packet::PacketIdentifier,
+    /// Maximum number of queued outgoing QoS 0 PUBLISH packets not yet accepted by the MQTT Session
     #[builder(default = "100")]
-    outgoing_max: usize,
+    publish_qos0_queue_size: usize,
+    /// Maximum number of queued outgoing QoS 1 and 2 PUBLISH packets not yet accepted by the MQTT Session
+    #[builder(default = "100")]
+    publish_qos1_qos2_queue_size: usize,
     /// Indicates if the Session should use features specific for use with the AIO MQTT Broker
     #[builder(default = "Some(AIOBrokerFeaturesBuilder::default().build().unwrap())")]
     aio_broker_features: Option<AIOBrokerFeatures>,
@@ -94,15 +100,14 @@ impl Session {
 
         let (client_options, connect_parameters) = options
             .connection_settings
-            .to_azure_mqtt_connect_parameters(user_properties, options.outgoing_max)?;
+            .to_azure_mqtt_connect_parameters(
+                user_properties,
+                options.max_packet_identifier,
+                options.publish_qos0_queue_size,
+                options.publish_qos1_qos2_queue_size,
+            )?;
 
-        let (client, connect_handle, receiver) = crate::az_mqtt_adapter::client(
-            // options.connection_settings,
-            client_options,
-            options.outgoing_max,
-            true,
-            user_properties,
-        )?;
+        let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options)?;
         Ok(Self::new_from_injection(
             client,
             receiver,
@@ -134,16 +139,15 @@ impl Session {
 
         let (client_options, mut connect_parameters) = options
             .connection_settings
-            .to_azure_mqtt_connect_parameters(user_properties, options.outgoing_max)?;
+            .to_azure_mqtt_connect_parameters(
+                user_properties,
+                options.max_packet_identifier,
+                options.publish_qos0_queue_size,
+                options.publish_qos1_qos2_queue_size,
+            )?;
         connect_parameters.connection_transport_config = connection_transport_config;
 
-        let (client, connect_handle, receiver) = crate::az_mqtt_adapter::client(
-            // options.connection_settings,
-            client_options,
-            options.outgoing_max,
-            true,
-            user_properties,
-        )?;
+        let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options)?;
         Ok(Self::new_from_injection(
             client,
             receiver,
