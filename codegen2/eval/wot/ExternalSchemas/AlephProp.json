@@ -16,10 +16,10 @@
       "maximum": 2147483647
     },
     "iota": {
-      "$ref": "./BethData.schema.json#/definitions/HeaterState"
+      "$ref": "./BethData.json#/definitions/HeaterState"
     },
     "kappa": {
-      "$ref": "./BethData.schema.json#/definitions/org.opcfoundation.UA.Int32"
+      "$ref": "./BethData.json#/definitions/org.opcfoundation.UA.Int32"
     }
   }
 }

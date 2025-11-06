@@ -2,5 +2,5 @@
 **/*.csproj
 **/*.rs
 **/Cargo.toml
-**/*.schema.json
-!wot/**/*.schema.json
+**/*.json
+!wot/**/*.json

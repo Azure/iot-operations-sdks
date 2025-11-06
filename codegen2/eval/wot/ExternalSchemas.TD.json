@@ -16,10 +16,10 @@
   "actions": {
     "DoSomething": {
       "input": {
-        "dtv:ref": "./ExternalSchemas/DoSomethingInput.schema.json"
+        "dtv:ref": "./ExternalSchemas/DoSomethingInput.json"
       },
       "output": {
-        "dtv:ref": "./ExternalSchemas/DoSomethingOuput.schema.json"
+        "dtv:ref": "./ExternalSchemas/DoSomethingOuput.json"
       },
       "forms": [
         {
@@ -33,7 +33,7 @@
   },
   "properties": {
     "Aleph": {
-      "dtv:ref": "./ExternalSchemas/AlephProp.schema.json",
+      "dtv:ref": "./ExternalSchemas/AlephProp.json",
       "readOnly": false,
       "forms": [
         {
@@ -54,7 +54,7 @@
   "events": {
     "Beth": {
       "data": {
-        "dtv:ref": "./ExternalSchemas/BethData.schema.json"
+        "dtv:ref": "./ExternalSchemas/BethData.json"
       },
       "forms": [
         {
@@ -67,7 +67,7 @@
     },
     "Gimel": {
       "data": {
-        "dtv:ref": "./ExternalSchemas/BethData.schema.json#/definitions/Temperature"
+        "dtv:ref": "./ExternalSchemas/BethData.json#/definitions/Temperature"
       },
       "forms": [
         {
@@ -80,7 +80,7 @@
     },
     "Dalet": {
       "data": {
-        "dtv:ref": "./ExternalSchemas/BethData.schema.json#/definitions/org.opcfoundation.UA.DateTime"
+        "dtv:ref": "./ExternalSchemas/BethData.json#/definitions/org.opcfoundation.UA.DateTime"
       },
       "forms": [
         {

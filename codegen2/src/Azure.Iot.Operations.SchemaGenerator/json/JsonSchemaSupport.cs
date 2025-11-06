@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
             if ((tdSchema.Type == TDValues.TypeObject && tdSchema.AdditionalProperties?.Boolean == false) ||
                 (tdSchema.Type == TDValues.TypeString && tdSchema.Enum != null))
             {
-                return $"\"$ref\": \"{this.schemaNamer.ApplyBackupSchemaName(tdSchema.Title, backupSchemaName)}.schema.json\"";
+                return $"\"$ref\": \"{this.schemaNamer.ApplyBackupSchemaName(tdSchema.Title, backupSchemaName)}.json\"";
             }
 
             switch (tdSchema.Type ?? string.Empty)

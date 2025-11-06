@@ -29,7 +29,10 @@
 
             if (keyName == null)
             {
-                return Capitalize(Path.GetFileName(schemaName).Replace(".schema", string.Empty).Replace(".json", string.Empty));
+                string pathlessName = Path.GetFileName(schemaName);
+                int dotIx = pathlessName.IndexOf('.');
+                string unsuffixedName = dotIx < 0 ? pathlessName : pathlessName.Substring(0, dotIx);
+                return Capitalize(unsuffixedName);
             }
 
             foreach (KeyValuePair<string, string> rule in this.nameRules)

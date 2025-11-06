@@ -141,7 +141,7 @@
             {
                 SerializationFormat format = schemaFile.Name switch
                 {
-                    string n when n.EndsWith(".schema.json", StringComparison.OrdinalIgnoreCase) => SerializationFormat.Json,
+                    string n when n.EndsWith(".json", StringComparison.OrdinalIgnoreCase) => SerializationFormat.Json,
                     _ => SerializationFormat.None,
                 };
 

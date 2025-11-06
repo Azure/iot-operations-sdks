@@ -11,7 +11,7 @@
     {
         static Dictionary<SerializationFormat, string> FormatFilters = new()
         {
-            { SerializationFormat.Json, "*.schema.json" },
+            { SerializationFormat.Json, "*.json" },
         };
 
         static void Main(string[] args)
