@@ -8,8 +8,9 @@ use std::str::from_utf8;
 use std::sync::Arc;
 
 use async_std::future;
-use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
-use azure_iot_operations_mqtt::interface::ManagedClient;
+// use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
+// use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -37,22 +38,12 @@ const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 type InvokeResultReceiver =
     oneshot::Receiver<Result<rpc_command::invoker::Response<TestPayload>, AIOProtocolError>>;
 
-pub struct CommandInvokerTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
-    managed_client: PhantomData<C>,
-}
+pub struct CommandInvokerTester {}
 
-impl<C> CommandInvokerTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl CommandInvokerTester {
     pub async fn test_command_invoker(
         test_case: TestCase<InvokerDefaults>,
-        managed_client: C,
+        managed_client: SessionManagedClient,
         mut mqtt_hub: MqttHub,
     ) {
         if let Some(push_acks) = test_case.prologue.push_acks.as_ref() {
@@ -69,7 +60,7 @@ where
             }
         }
 
-        let mut invokers: HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload, C>>> =
+        let mut invokers: HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload>>> =
             HashMap::new();
 
         let invoker_count = test_case.prologue.invokers.len();
@@ -181,11 +172,11 @@ where
     }
 
     async fn get_command_invoker(
-        managed_client: C,
+        managed_client: SessionManagedClient,
         tci: &TestCaseInvoker<InvokerDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<rpc_command::Invoker<TestPayload, TestPayload, C>> {
+    ) -> Option<rpc_command::Invoker<TestPayload, TestPayload>> {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
 
         if let Some(request_topic) = tci.request_topic.as_ref() {
@@ -302,7 +293,7 @@ where
 
     fn invoke_command(
         action: &TestCaseAction<InvokerDefaults>,
-        invokers: &HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload, C>>>,
+        invokers: &HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload>>>,
         invocation_chans: &mut HashMap<i32, Option<InvokeResultReceiver>>,
         tcs: &TestCaseSerializer<InvokerDefaults>,
     ) {

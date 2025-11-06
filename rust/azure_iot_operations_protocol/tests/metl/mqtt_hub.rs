@@ -3,10 +3,10 @@
 
 use std::collections::{VecDeque, hash_map::HashMap, hash_set::HashSet};
 
-use azure_iot_operations_mqtt::control_packet::Publish;
+// use azure_iot_operations_mqtt::control_packet::Publish;
 use azure_iot_operations_mqtt::error::{ConnectionError, StateError};
 use bytes::Bytes;
-use rumqttc::v5::mqttbytes::v5::DisconnectReasonCode;
+// use rumqttc::v5::mqttbytes::v5::DisconnectReasonCode;
 use tokio::sync::{broadcast, mpsc};
 
 use crate::metl::mqtt_driver::MqttDriver;
@@ -164,11 +164,19 @@ impl MqttHub {
     }
 
     #[allow(clippy::ref_option)] // TODO: refactor to Option<&Bytes>
-    pub fn get_published_message(&self, correlation_data: &Option<Bytes>) -> Option<&Publish> {
+    pub fn get_published_message(
+        &self,
+        correlation_data: &Option<Bytes>,
+    ) -> Option<&azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl>>
+    {
         self.published_messages.get(correlation_data)
     }
 
-    pub fn get_sequentially_published_message(&self, sequence_index: i32) -> Option<&Publish> {
+    pub fn get_sequentially_published_message(
+        &self,
+        sequence_index: i32,
+    ) -> Option<&azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl>>
+    {
         self.published_message_seq.get(&sequence_index)
     }
 
@@ -196,7 +204,10 @@ impl MqttHub {
                 azure_mqtt::mqtt_proto::Packet::Publish(publish) => {
                     self.publication_count += 1;
 
-                    let correlation_data = publish.other_properties.correlation_data;
+                    let correlation_data = publish
+                        .other_properties
+                        .correlation_data
+                        .map(|s| Bytes::copy_from_slice(s.as_ref()));
                     self.published_correlation_data
                         .push_back(correlation_data.clone());
                     // TODO: proto publish or regular publish for this?
@@ -226,7 +237,7 @@ impl MqttHub {
                                     return;
                                 }
                             };
-                            let puback = azure_mqtt::mqtt_proto::Packet::Puback(
+                            let puback = azure_mqtt::mqtt_proto::Packet::PubAck(
                                 azure_mqtt::mqtt_proto::puback::PubAck {
                                     packet_identifier: pkid,
                                     reason_code,
@@ -241,46 +252,69 @@ impl MqttHub {
                         PacketIdentifierDupQoS::ExactlyOnce(pkid) => {} // ignore this case because we never use QoS 2
                     }
                 }
-
-                MqttOperation::Subscribe {
-                    topic,
-                    _qos: _,
-                    _properties: _,
-                    ack_tx,
-                } => {
-                    self.subscribed_topics.insert(topic);
-                    if let Some(ack_kind) = self.suback_queue.pop_front() {
-                        ack_tx.send(ack_kind).unwrap();
-                    } else {
-                        ack_tx.send(TestAckKind::Success).unwrap();
-                    }
+                azure_mqtt::mqtt_proto::Packet::Subscribe(subscribe) => {
+                    self.subscribed_topics
+                        .insert(subscribe.subscribe_to[0].topic_filter.into());
+                    let reason_code = match self.suback_queue.pop_front() {
+                        Some(TestAckKind::Success) | None => SubscribeReasonCode::GrantedQoS1, // TODO: this should be fine since we always sub with qos 1, but could determine it from the sub packet
+                        Some(TestAckKind::Fail) => SubscribeReasonCode::UnspecifiedError,
+                        Some(TestAckKind::Drop) => {
+                            // emulate dropping the suback
+                            // TODO: does this need to end the session?
+                            return;
+                        }
+                    };
+                    let suback = azure_mqtt::mqtt_proto::Packet::SubAck(
+                        azure_mqtt::mqtt_proto::suback::SubAck {
+                            packet_identifier: subscribe.packet_identifier,
+                            reason_code,
+                            other_properties: Default::default(),
+                        },
+                    );
+                    self.event_tx.as_mut()
+                        .expect("receive_incoming_event() called but MQTT emulation is not at Event level")
+                        .send(suback)
+                        .unwrap();
                 }
-
-                MqttOperation::Unsubscribe {
-                    _topic: _,
-                    _properties: _,
-                    ack_tx,
-                } => {
-                    if let Some(ack_kind) = self.unsuback_queue.pop_front() {
-                        ack_tx.send(ack_kind).unwrap();
-                    } else {
-                        ack_tx.send(TestAckKind::Success).unwrap();
-                    }
+                azure_mqtt::mqtt_proto::Packet::Unsubscribe(unsubscribe) => {
+                    let reason_code = match self.unsuback_queue.pop_front() {
+                        Some(TestAckKind::Success) | None => UnsubAckReasonCode::Success,
+                        Some(TestAckKind::Fail) => UnsubAckReasonCode::UnspecifiedError,
+                        Some(TestAckKind::Drop) => {
+                            // emulate dropping the unsuback
+                            // TODO: does this need to end the session?
+                            return;
+                        }
+                    };
+                    let unsuback = azure_mqtt::mqtt_proto::Packet::UnsubAck(
+                        azure_mqtt::mqtt_proto::unsuback::UnsubAck {
+                            packet_identifier: unsubscribe.packet_identifier,
+                            reason_codes: vec![reason_code],
+                            other_properties: Default::default(),
+                        },
+                    );
+                    self.event_tx.as_mut()
+                        .expect("receive_incoming_event() called but MQTT emulation is not at Event level")
+                        .send(unsuback)
+                        .unwrap();
                 }
-
-                MqttOperation::Ack { pkid } => {
+                // TODO: verify that this only needs to listen for pubacks and not any other kinds of acks
+                azure_mqtt::mqtt_proto::Packet::PubAck(puback) => {
                     self.acknowledgement_count += 1;
-                    self.acked_packet_ids.push_back(pkid);
+                    self.acked_packet_ids
+                        .push_back(puback.packet_identifier.get());
                 }
-
-                MqttOperation::Disconnect => {
+                // TODO: needed still? Might be something that was getting mocked that doesn't need to be anymore
+                azure_mqtt::mqtt_proto::Packet::Disconnect(disconnect) => {
                     self.receive_error(ConnectionError::MqttState(StateError::ServerDisconnect {
                         reason_code: DisconnectReasonCode::NormalDisconnection,
                         reason_string: None,
                     }));
                 }
-
-                MqttOperation::Auth { _auth_props: _ } => {}
+                azure_mqtt::mqtt_proto::Packet::Connect(connect) => {
+                    // TODO: send a connack?
+                }
+                _ => {}
             }
         }
     }
@@ -306,7 +340,7 @@ impl MqttHub {
     }
 }
 
-pub fn to_is_utf8(format_indicator: Option<u8>) -> bool {
+pub fn to_is_utf8(format_indicator: &Option<u8>) -> bool {
     match format_indicator {
         Some(1) => true,
         _ => false,

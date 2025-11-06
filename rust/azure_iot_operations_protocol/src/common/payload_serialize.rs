@@ -28,6 +28,19 @@ impl TryFrom<Option<u8>> for FormatIndicator {
     }
 }
 
+impl From<FormatIndicator> for azure_mqtt::packet::PayloadFormatIndicator {
+    fn from(value: FormatIndicator) -> Self {
+        match value {
+            FormatIndicator::UnspecifiedBytes => {
+                azure_mqtt::packet::PayloadFormatIndicator::Unspecified
+            }
+            FormatIndicator::Utf8EncodedCharacterData => {
+                azure_mqtt::packet::PayloadFormatIndicator::UTF8
+            }
+        }
+    }
+}
+
 /// Struct that specifies the content type, format indicator, and payload for a serialized payload.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct SerializedPayload {

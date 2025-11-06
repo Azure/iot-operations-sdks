@@ -4,6 +4,7 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
+use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
 use bytes::Bytes;
 use iso8601_duration;
 use tokio::{
@@ -333,15 +334,13 @@ where
         //  we won't want to keep entire copies of all Publishes, so we will just copy the
         //  properties once.
 
-        let publish_properties =
-            value
-                .properties
-                .ok_or(AIOProtocolError::new_header_missing_error(
-                    "Properties",
-                    false,
-                    Some("Properties missing from MQTT message".to_string()),
-                    None,
-                ))?;
+        let publish_properties = value.properties;
+        // .ok_or(AIOProtocolError::new_header_missing_error(
+        //     "Properties",
+        //     false,
+        //     Some("Properties missing from MQTT message".to_string()),
+        //     None,
+        // ))?;
 
         // Parse user properties
         let expected_aio_properties = [
@@ -893,7 +892,11 @@ where
         // Send subscribe
         let subscribe_result = self
             .mqtt_client
-            .subscribe(response_subscribe_topic, QoS::AtLeastOnce)
+            .subscribe(
+                response_subscribe_topic,
+                QoS::AtLeastOnce,
+                azure_mqtt::packet::SubscribeProperties::default(),
+            )
             .await;
         match subscribe_result {
             Ok(suback) => {
@@ -987,8 +990,8 @@ where
         // Create MQTT Properties
         let publish_properties = PublishProperties {
             correlation_data: Some(correlation_data.clone()),
-            response_topic: Some(response_topic),
-            payload_format_indicator: Some(request.serialized_payload.format_indicator as u8),
+            response_topic: Some(response_topic.into()),
+            payload_format_indicator: request.serialized_payload.format_indicator.into(),
             content_type: Some(request.serialized_payload.content_type.to_string()),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: request.custom_user_data,

@@ -19,8 +19,8 @@ pub mod error;
 pub mod session;
 pub mod topic;
 
-mod azure_mqtt_adapter;
-mod az_mqtt_adapter;  // TODO: Maybe not needed in new client integration
+mod az_mqtt_adapter;
+mod azure_mqtt_adapter; // TODO: Maybe not needed in new client integration
 
 #[macro_use]
 extern crate derive_builder;

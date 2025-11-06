@@ -7,8 +7,8 @@ use std::marker::PhantomData;
 use std::sync::{Arc, Mutex};
 
 use async_std::future;
-use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
-use azure_iot_operations_mqtt::interface::ManagedClient;
+// use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
+// use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -33,6 +33,8 @@ use crate::metl::test_case_received_telemetry::TestCaseReceivedTelemetry;
 use crate::metl::test_case_receiver::TestCaseReceiver;
 use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
+
+use super::mqtt_hub::to_is_utf8;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
@@ -394,7 +396,7 @@ where
             .unwrap();
 
             let properties = azure_mqtt::mqtt_proto::publish::PublishOtherProperties {
-                payload_is_utf8: *format_indicator.to_is_utf8(),
+                payload_is_utf8: to_is_utf8(format_indicator),
                 message_expiry_interval,
                 user_properties,
                 content_type: content_type.clone(),
