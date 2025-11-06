@@ -16,16 +16,10 @@ mod auth;
 mod connection_settings;
 pub mod control_packet;
 pub mod error;
-// pub mod interface;
 pub mod session;
 pub mod topic;
 
-// TODO: put behind `use-rumqttc` feature flag
-// mod rumqttc_adapter;
 mod az_mqtt_adapter;
-
-// #[cfg(feature = "test-utils")]
-// pub mod interface_mocks;
 
 #[macro_use]
 extern crate derive_builder;

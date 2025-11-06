@@ -79,7 +79,7 @@ async fn receive_messages(
 
     // Receive until there are no more messages
     while let Some((msg, ack_token)) = receiver.recv_manual_ack().await {
-        // println!("Received: {:?}", msg.payload);
+        println!("Received: {:?}", msg.payload);
 
         match store_message(&msg) {
             Ok(()) => {

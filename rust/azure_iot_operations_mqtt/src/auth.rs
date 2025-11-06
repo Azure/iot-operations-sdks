@@ -13,7 +13,6 @@ use thiserror::Error;
 use tokio::sync::Notify;
 
 use crate::error::ReauthError;
-// use crate::interface::MqttClient;
 
 /// Used as the authentication method for the MQTT client when using SAT.
 pub const SAT_AUTHENTICATION_METHOD: &str = "K8S-SAT";
