@@ -41,7 +41,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the Azure Extension Resource ID from the environment.
-        /// Rust property: azure_extension_resource_id
         /// </summary>
         /// <returns>The Azure Extension Resource ID.</returns>
         public static string GetAzureExtensionResourceId()
@@ -52,7 +51,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the Connector ID from the environment.
-        /// Rust property: connector_id
         /// </summary>
         /// <returns>The Connector ID.</returns>
         public static string GetConnectorId()
@@ -63,7 +61,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the Connector Namespace from the environment.
-        /// Rust property: connector_namespace
         /// </summary>
         /// <returns>The Connector Namespace.</returns>
         public static string GetConnectorNamespace()
@@ -102,7 +99,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the Connector Secrets Metadata mount path from the environment.
-        /// Rust property: connector_secrets_metadata_mount
         /// </summary>
         /// <returns>The path to the connector secrets metadata mount, or null if not configured.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
@@ -113,7 +109,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the Connector Trust Settings mount path from the environment.
-        /// Rust property: connector_trust_settings_mount
         /// </summary>
         /// <returns>The path to the connector trust settings mount, or null if not configured.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
@@ -124,7 +119,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the Device Endpoint Trust Bundle mount path from the environment.
-        /// Rust property: device_endpoint_trust_bundle_mount
         /// </summary>
         /// <returns>The path to the device endpoint trust bundle mount, or null if not configured.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
@@ -135,7 +129,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the Device Endpoint Credentials mount path from the environment.
-        /// Rust property: device_endpoint_credentials_mount
         /// </summary>
         /// <returns>The path to the device endpoint credentials mount, or null if not configured.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
@@ -146,7 +139,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the list of persistent volumes from the connector configuration mount.
-        /// Rust property: connector_configuration.persistent_volumes
         /// </summary>
         /// <returns>A list of persistent volume mount paths.</returns>
         public static List<string> GetPersistentVolumes()
@@ -167,7 +159,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the additional configuration JSON string from the connector configuration mount.
-        /// Rust property: connector_configuration.additional_configuration
         /// </summary>
         /// <returns>The additional configuration as a JSON string, or null if not configured.</returns>
         public static string? GetAdditionalConfiguration()
@@ -186,7 +177,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the OTLP gRPC metric endpoint from the environment.
-        /// Rust property: grpc_metric_endpoint
         /// </summary>
         /// <returns>The OTLP gRPC metric endpoint, or null if not configured.</returns>
         public static string? GetGrpcMetricEndpoint()
@@ -196,7 +186,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the OTLP gRPC log endpoint from the environment.
-        /// Rust property: grpc_log_endpoint
         /// </summary>
         /// <returns>The OTLP gRPC log endpoint, or null if not configured.</returns>
         public static string? GetGrpcLogEndpoint()
@@ -206,7 +195,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the OTLP gRPC trace endpoint from the environment.
-        /// Rust property: grpc_trace_endpoint
         /// </summary>
         /// <returns>The OTLP gRPC trace endpoint, or null if not configured.</returns>
         public static string? GetGrpcTraceEndpoint()
@@ -216,7 +204,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the first-party gRPC metrics collector CA mount path from the environment.
-        /// Rust property: grpc_metric_collector_1p_ca_mount
         /// </summary>
         /// <returns>The path to the first-party gRPC metrics collector CA mount, or null if not configured.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
@@ -227,7 +214,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the first-party gRPC log collector CA mount path from the environment.
-        /// Rust property: grpc_log_collector_1p_ca_mount
         /// </summary>
         /// <returns>The path to the first-party gRPC log collector CA mount, or null if not configured.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
@@ -238,7 +224,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the OTLP HTTP metric endpoint from the environment.
-        /// Rust property: http_metric_endpoint
         /// </summary>
         /// <returns>The OTLP HTTP metric endpoint, or null if not configured.</returns>
         public static string? GetHttpMetricEndpoint()
@@ -248,7 +233,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the OTLP HTTP log endpoint from the environment.
-        /// Rust property: http_log_endpoint
         /// </summary>
         /// <returns>The OTLP HTTP log endpoint, or null if not configured.</returns>
         public static string? GetHttpLogEndpoint()
@@ -258,7 +242,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the OTLP HTTP trace endpoint from the environment.
-        /// Rust property: http_trace_endpoint
         /// </summary>
         /// <returns>The OTLP HTTP trace endpoint, or null if not configured.</returns>
         public static string? GetHttpTraceEndpoint()
@@ -268,7 +251,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the Broker Trust Bundle mount path from the environment.
-        /// Rust property: broker_trust_bundle_mount
         /// </summary>
         /// <returns>The path to the broker trust bundle mount, or null if not configured.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
@@ -279,7 +261,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the Broker SAT mount path from the environment.
-        /// Rust property: broker_sat_mount
         /// </summary>
         /// <returns>The path to the broker SAT mount, or null if not configured.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
@@ -367,7 +348,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the Connector Diagnostics configuration from the connector configuration mount.
-        /// Rust property: connector_configuration.diagnostics
         /// </summary>
         /// <returns>The Connector Diagnostics configuration.</returns>
         public static ConnectorDiagnostics GetConnectorDiagnostics()
@@ -390,7 +370,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         /// <summary>
         /// Get the MQTT Connection Configuration from the connector configuration mount.
-        /// Rust property: connector_configuration.mqtt_connection_configuration
         /// </summary>
         /// <returns>The MQTT Connection Configuration.</returns>
         public static ConnectorMqttConnectionConfiguration GetMqttConnectionConfiguration()
