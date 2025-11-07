@@ -449,6 +449,7 @@ impl Session {
                         result = Err(SessionErrorRepr::ReconnectHalted);
                         break;
                     }
+                    prev_reconnect_attempts += 1;
                 }
                 _ = self.receive() => {
                     // do anything here? If this ends, it should mean that the client has been dropped
