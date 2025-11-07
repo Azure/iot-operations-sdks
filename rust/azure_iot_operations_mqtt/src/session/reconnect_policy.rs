@@ -10,7 +10,7 @@ use rand::Rng;
 use crate::error::ConnectionError;
 
 /// Trait defining interface for reconnect policies.
-pub trait ReconnectPolicy {
+pub trait ReconnectPolicy: Send {
     /// Get the next reconnect delay.
     /// Returns None if no reconnect should be attempted.
     fn next_reconnect_delay(&self, prev_attempts: u32, error: &ConnectionError)

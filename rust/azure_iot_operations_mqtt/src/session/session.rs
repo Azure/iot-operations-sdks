@@ -9,7 +9,6 @@ use std::time::Duration;
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
-use crate::auth::SatAuthContext;
 use crate::session::managed_client::SessionManagedClient;
 use crate::session::receiver::{IncomingPublishDispatcher, PublishReceiverManager};
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
@@ -18,6 +17,10 @@ use crate::session::{
     SessionConfigError, SessionError, SessionErrorRepr, SessionExitError, SessionExitErrorKind,
 };
 use crate::{MqttConnectionSettings, azure_mqtt_adapter::AzureMqttConnectParameters};
+use crate::{
+    auth::SatAuthContext,
+    error::{ConnectionError, ConnectionErrorKind},
+};
 
 /// Options for configuring a new [`Session`]
 #[derive(Builder)]
@@ -292,6 +295,8 @@ impl Session {
                         disconnect_handle,
                     ) => (connection, connack, disconnect_handle),
                     azure_mqtt::client::ConnectResult::Failure(connect_handle, connack) => {
+                        self.state.transition_disconnected();
+                        self.connect_handle = Some(connect_handle);
                         if let Some(connack) = connack {
                             if prev_connected && !connack.session_present {
                                 log::error!(
@@ -315,19 +320,61 @@ impl Session {
                                 break;
                             }
                         }
-                        self.connect_handle = Some(connect_handle);
-                        // TODO: use reconnect policy
-                        // TODO: check force exit at any reconnect policy points
-                        // () = self.notify_force_exit.notified() => { break },
-                        tokio::time::sleep(Duration::from_secs(5)).await;
+                        // Always log the error itself at error level
+                        log::error!("Connection attempt failed"); // TODO: log connack?
+
+                        // Defer decision to reconnect policy
+                        if let Some(delay) = self.reconnect_policy.next_reconnect_delay(
+                            prev_reconnect_attempts,
+                            &ConnectionError::new(ConnectionErrorKind::ConnectFailure(connack)),
+                        ) {
+                            log::info!("Attempting reconnect in {delay:?}");
+                            // Wait for either the reconnect delay time, or a force exit signal
+                            tokio::select! {
+                                () = tokio::time::sleep(delay) => {}
+                                () = self.notify_force_exit.notified() => {
+                                    log::info!("Reconnect attempts halted by force exit");
+                                    result = Err(SessionErrorRepr::ForceExit);
+                                    break;
+                                }
+                            }
+                        } else {
+                            log::info!("Reconnect attempts halted by reconnect policy");
+                            result = Err(SessionErrorRepr::ReconnectHalted);
+                            break;
+                        }
+                        prev_reconnect_attempts += 1;
                         continue;
                     }
                     azure_mqtt::client::ConnectResult::Timeout(connect_handle) => {
-                        // TODO: use reconnect policy
-                        // TODO: check force exit at any reconnect policy points
-                        // () = self.notify_force_exit.notified() => { break },
-                        tokio::time::sleep(Duration::from_secs(5)).await;
+                        self.state.transition_disconnected();
+
                         self.connect_handle = Some(connect_handle);
+
+                        // Always log the error itself at error level
+                        log::error!("Connection timed out");
+
+                        // Defer decision to reconnect policy
+                        if let Some(delay) = self.reconnect_policy.next_reconnect_delay(
+                            prev_reconnect_attempts,
+                            &ConnectionError::new(ConnectionErrorKind::Timeout),
+                        ) {
+                            log::info!("Attempting reconnect in {delay:?}");
+                            // Wait for either the reconnect delay time, or a force exit signal
+                            tokio::select! {
+                                () = tokio::time::sleep(delay) => {}
+                                () = self.notify_force_exit.notified() => {
+                                    log::info!("Reconnect attempts halted by force exit");
+                                    result = Err(SessionErrorRepr::ForceExit);
+                                    break;
+                                }
+                            }
+                        } else {
+                            log::info!("Reconnect attempts halted by reconnect policy");
+                            result = Err(SessionErrorRepr::ReconnectHalted);
+                            break;
+                        }
+                        prev_reconnect_attempts += 1;
                         continue;
                     }
                 }
@@ -366,15 +413,43 @@ impl Session {
             tokio::select! {
                 // Ensure that the force exit signal is checked first.
                 biased;
-                () = self.notify_force_exit.notified() => { break },
+                () = self.notify_force_exit.notified() => {
+                    result = Err(SessionErrorRepr::ForceExit);
+                    break
+                },
                 (new_connect_handle, disconnect_event, session_ended) = Self::connection_runner(connection) => {
                     // TODO: clear disconnect handle?
                     self.state.transition_disconnected();
                     self.connect_handle = Some(new_connect_handle);
+                    let connection_error = ConnectionError::new(ConnectionErrorKind::Disconnected(disconnect_event));
                     if session_ended {
-                        // let result = disconnect_event.into();
+                        result = Err(connection_error.into());
                         break;
                     }
+                    // Always log the error itself at error level
+                    log::error!("Client Disconnected: {disconnect_event:?}");
+
+                    // Defer decision to reconnect policy
+                    if let Some(delay) = self
+                        .reconnect_policy
+                        .next_reconnect_delay(prev_reconnect_attempts, &connection_error)
+                    {
+                        log::info!("Attempting reconnect in {delay:?}");
+                        // Wait for either the reconnect delay time, or a force exit signal
+                        tokio::select! {
+                            () = tokio::time::sleep(delay) => {}
+                            () = self.notify_force_exit.notified() => {
+                                log::info!("Reconnect attempts halted by force exit");
+                                result = Err(SessionErrorRepr::ForceExit);
+                                break;
+                            }
+                        }
+                    } else {
+                        log::info!("Reconnect attempts halted by reconnect policy");
+                        result = Err(SessionErrorRepr::ReconnectHalted);
+                        break;
+                    }
+                    prev_reconnect_attempts += 1;
                 }
                 _ = self.receive() => {
                     // do anything here? If this ends, it should mean that the client has been dropped

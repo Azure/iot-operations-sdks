@@ -7,13 +7,6 @@ use std::fmt;
 
 use thiserror::Error;
 
-/// Error type for MQTT connection
-pub type ConnectionError = rumqttc::v5::ConnectionError;
-/// Error type for completion tokens
-pub type CompletionError = rumqttc::NoticeError;
-/// Error subtype for MQTT connection error caused by state
-pub type StateError = rumqttc::v5::StateError;
-
 // NOTE: While these errors may seem redundant and candidates for consolidation, we need this
 // flexibility because the same error types are used in both the low-level and high-level APIs.
 // If the Client/ManagedClient/PubReceiver traits were concretized, we could simplify this.
@@ -253,6 +246,49 @@ impl fmt::Display for ReauthErrorKind {
         match self {
             ReauthErrorKind::DetachedClient => {
                 write!(f, "client is detached from connection/event loop")
+            }
+        }
+    }
+}
+
+/// Error executing an MQTT publish
+#[derive(Debug, Error, Clone)]
+#[error("{kind}")]
+pub struct ConnectionError {
+    kind: ConnectionErrorKind,
+}
+
+impl ConnectionError {
+    /// Create a new [`ConnectionError`]
+    #[must_use]
+    pub fn new(kind: ConnectionErrorKind) -> Self {
+        Self { kind }
+    }
+
+    /// Return the corresponding [`ConnectionErrorKind`] for this error
+    #[must_use]
+    pub fn kind(&self) -> &ConnectionErrorKind {
+        &self.kind
+    }
+}
+
+/// An enumeration of categories of [`ConnectionError`]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum ConnectionErrorKind {
+    Disconnected(azure_mqtt::client::DisconnectedEvent),
+    Timeout,
+    ConnectFailure(Option<azure_mqtt::packet::ConnAck>),
+}
+
+impl fmt::Display for ConnectionErrorKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            ConnectionErrorKind::Disconnected(event) => {
+                write!(f, "client is disconnected: {}", event)
+            }
+            ConnectionErrorKind::Timeout => write!(f, "connection attempt timed out"),
+            ConnectionErrorKind::ConnectFailure(conn_ack) => {
+                write!(f, "connection attempt failed: {:?}", conn_ack)
             }
         }
     }
