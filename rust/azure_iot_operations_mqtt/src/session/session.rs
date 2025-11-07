@@ -270,6 +270,8 @@ impl Session {
             } else {
                 match self
                     .connect_handle
+                    // This can't fail because the connect_handle is always Some() on new, and run consumes self
+                    // And connect_handle is always re-set to Some() before the next loop iteration.
                     .take()
                     .unwrap()
                     .connect(
