@@ -11,10 +11,19 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     public class AssetAvailableEventArgs : EventArgs
     {
+        /// <summary>
+        /// The name of the device that this asset belongs to.
+        /// </summary>
         public string DeviceName { get; }
 
+        /// <summary>
+        /// The device that this asset belongs to.
+        /// </summary>
         public Device Device { get; }
 
+        /// <summary>
+        /// The name of the endpoint that this asset belongs to.
+        /// </summary>
         public string InboundEndpointName { get; }
 
         /// <summary>
@@ -41,8 +50,14 @@ namespace Azure.Iot.Operations.Connector
         /// </remarks>
         public ILeaderElectionClient? LeaderElectionClient { get; }
 
+        /// <summary>
+        /// The client to use to send status updates for assets on and to use to forward sampled datasets/received events with.
+        /// </summary>
         public AssetClient AssetClient { get; }
 
+        /// <summary>
+        /// The client to use to send status updates for this asset's device on.
+        /// </summary>
         public DeviceEndpointClient DeviceEndpointClient { get; }
 
         internal AssetAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, ILeaderElectionClient? leaderElectionClient, IAdrClientWrapper adrClient, ConnectorWorker connector)

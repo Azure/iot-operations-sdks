@@ -8,9 +8,19 @@ namespace Azure.Iot.Operations.Connector
 {
     public class DeviceAvailableEventArgs : EventArgs
     {
+        /// <summary>
+        /// The name of this device.
+        /// </summary>
         public string DeviceName { get; }
+
+        /// <summary>
+        /// This device.
+        /// </summary>
         public Device Device { get; }
 
+        /// <summary>
+        /// The name of the endpoint that became available on this device.
+        /// </summary>
         public string InboundEndpointName { get; }
 
         /// <summary>
@@ -27,6 +37,9 @@ namespace Azure.Iot.Operations.Connector
         /// </remarks>
         public ILeaderElectionClient? LeaderElectionClient { get; }
 
+        /// <summary>
+        /// The client to use to send status updates for this device with.
+        /// </summary>
         public DeviceEndpointClient DeviceEndpointClient { get; }
 
         internal DeviceAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, ILeaderElectionClient? leaderElectionClient, IAdrClientWrapper adrclient)
