@@ -26,7 +26,9 @@ namespace EventDrivenTcpThermostatConnector
         }
 
         private async Task WhileDeviceAvailableAsync(DeviceAvailableEventArgs args, CancellationToken cancellationToken)
-        {         
+        {
+            _logger.LogInformation("Device with name {0} is now available", args.DeviceName);
+
             DeviceStatus deviceStatus = args.DeviceEndpointClient.BuildOkayStatus();
             await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus, null, cancellationToken);
         }
