@@ -6,7 +6,9 @@ use std::sync::{Arc, Mutex};
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient, PubReceiver};
+use azure_iot_operations_mqtt::session::managed_client::{
+    SessionManagedClient, SessionPubReceiver,
+};
 use bytes::Bytes;
 use tokio::sync::oneshot;
 use tokio::time::{Instant, timeout};
@@ -366,7 +368,7 @@ pub struct Options {
 ///   .request_topic_pattern("test/request")
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let mut executor: rpc_command::Executor<Vec<u8>, Vec<u8>, _> = rpc_command::Executor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
+/// let mut executor: rpc_command::Executor<Vec<u8>, Vec<u8>> = rpc_command::Executor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
 /// // let request = executor.recv().await.unwrap();
 /// // let response = rpc_command::executor::ResponseBuilder::default()
 ///  // .payload(Vec::new()).unwrap()
@@ -375,17 +377,15 @@ pub struct Options {
 /// # });
 /// ```
 #[allow(unused)]
-pub struct Executor<TReq, TResp, C>
+pub struct Executor<TReq, TResp>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     // Static properties of the executor
     application_hlc: Arc<ApplicationHybridLogicalClock>,
-    mqtt_client: C,
-    mqtt_receiver: C::PubReceiver,
+    mqtt_client: SessionManagedClient,
+    mqtt_receiver: SessionPubReceiver,
     is_idempotent: bool,
     request_topic_pattern: TopicPattern,
     command_name: String,
@@ -407,12 +407,10 @@ enum State {
 }
 
 /// Implementation of Command Executor.
-impl<TReq, TResp, C> Executor<TReq, TResp, C>
+impl<TReq, TResp> Executor<TReq, TResp>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     /// Create a new [`Executor`].
     ///
@@ -432,7 +430,7 @@ where
     /// - [`topic_token_map`](OptionsBuilder::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         executor_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters, validation for topic pattern and related options done in
@@ -516,7 +514,10 @@ where
             State::Subscribed => {
                 let unsubscribe_result = self
                     .mqtt_client
-                    .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
+                    .unsubscribe(
+                        self.request_topic_pattern.as_subscribe_topic(),
+                        azure_mqtt::packet::UnsubscribeProperties::default(),
+                    )
                     .await;
 
                 match unsubscribe_result {
@@ -562,6 +563,11 @@ where
             .subscribe(
                 self.request_topic_pattern.as_subscribe_topic(),
                 QoS::AtLeastOnce,
+                // TODO: validate these are the right settings
+                false,
+                true,
+                azure_mqtt::packet::RetainHandling::Send,
+                azure_mqtt::packet::SubscribeProperties::default(),
             )
             .await;
 
@@ -624,64 +630,72 @@ where
                         log::warn!("[{}] Received message without ack token", self.command_name);
                         continue;
                     };
+                    let pkid = match m.qos {
+                        azure_mqtt::packet::DeliveryQoS::AtMostOnce
+                        | azure_mqtt::packet::DeliveryQoS::ExactlyOnce(_) => {
+                            // This should never happen as the executor should always receive QoS 1 messages
+                            log::warn!("[{}] Received non QoS 1 message", self.command_name);
+                            continue;
+                        }
+                        azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info) => {
+                            delivery_info.packet_identifier.get()
+                        }
+                    };
                     // Process the request
-                    log::info!("[{}][pkid: {}] Received request", self.command_name, m.pkid);
+                    log::info!("[{}][pkid: {}] Received request", self.command_name, pkid);
                     let message_received_time = Instant::now();
 
                     // Clone properties
-                    let properties = if let Some(properties) = &m.properties {
-                        properties.clone()
-                    } else {
-                        log::error!(
-                            "[{}][pkid: {}] Properties missing",
-                            self.command_name,
-                            m.pkid
-                        );
-                        tokio::task::spawn({
-                            let executor_cancellation_token_clone =
-                                self.executor_cancellation_token.clone();
-                            async move {
-                                handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
-                                    .await;
-                            }
-                        });
-                        continue;
-                    };
+                    let properties = m.properties;
+                    // if let Some(properties) = &m.properties {
+                    //     properties.clone()
+                    // } else {
+                    //     log::error!(
+                    //         "[{}][pkid: {}] Properties missing",
+                    //         self.command_name,
+                    //         m.pkid
+                    //     );
+                    //     tokio::task::spawn({
+                    //         let executor_cancellation_token_clone =
+                    //             self.executor_cancellation_token.clone();
+                    //         async move {
+                    //             handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
+                    //                 .await;
+                    //         }
+                    //     });
+                    //     continue;
+                    // };
 
                     // Get response topic
                     let response_topic = if let Some(rt) = properties.response_topic {
-                        if !is_valid_replacement(&rt) {
+                        if !is_valid_replacement(&rt.as_str()) {
                             log::error!(
                                 "[{}][pkid: {}] Response topic invalid, command response will not be published",
                                 self.command_name,
-                                m.pkid
+                                pkid
                             );
                             tokio::task::spawn({
                                 let executor_cancellation_token_clone =
                                     self.executor_cancellation_token.clone();
                                 async move {
-                                    handle_ack(
-                                        ack_token,
-                                        executor_cancellation_token_clone,
-                                        m.pkid,
-                                    )
-                                    .await;
+                                    handle_ack(ack_token, executor_cancellation_token_clone, pkid)
+                                        .await;
                                 }
                             });
                             continue;
                         }
-                        rt
+                        rt.as_str().to_string()
                     } else {
                         log::error!(
                             "[{}][pkid: {}] Response topic missing",
                             self.command_name,
-                            m.pkid
+                            pkid
                         );
                         tokio::task::spawn({
                             let executor_cancellation_token_clone =
                                 self.executor_cancellation_token.clone();
                             async move {
-                                handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
+                                handle_ack(ack_token, executor_cancellation_token_clone, pkid)
                                     .await;
                             }
                         });
@@ -691,7 +705,7 @@ where
                     let mut command_expiration_time_calculated = false;
                     let mut response_arguments = ResponseArguments {
                         command_name: self.command_name.clone(),
-                        response_topic,
+                        response_topic, // TODO: maybe change this to TopicName type
                         correlation_data: None,
                         status_code: StatusCode::Ok,
                         status_message: None,
@@ -890,16 +904,17 @@ where
                             }
                         }
 
-                        let topic = match std::str::from_utf8(&m.topic) {
-                            Ok(topic) => topic,
-                            Err(e) => {
-                                // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
-                                response_arguments.status_code = StatusCode::BadRequest;
-                                response_arguments.status_message =
-                                    Some(format!("Error deserializing topic: {e:?}"));
-                                break 'process_request;
-                            }
-                        };
+                        let topic = m.topic_name.as_str();
+                        // match std::str::from_utf8(&m.topic) {
+                        //     Ok(topic) => topic,
+                        //     Err(e) => {
+                        //         // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
+                        //         response_arguments.status_code = StatusCode::BadRequest;
+                        //         response_arguments.status_message =
+                        //             Some(format!("Error deserializing topic: {e:?}"));
+                        //         break 'process_request;
+                        //     }
+                        // };
 
                         let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
 
@@ -910,7 +925,7 @@ where
                             Err(e) => {
                                 log::error!(
                                     "[pkid: {}] Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.",
-                                    m.pkid
+                                    pkid
                                 );
                                 // Use default format indicator
                                 FormatIndicator::default()
@@ -968,7 +983,7 @@ where
                                 let cache_clone = self.cache.clone();
                                 let executor_cancellation_token_clone =
                                     self.executor_cancellation_token.clone();
-                                let pkid = m.pkid;
+                                // let pkid = m.pkid;
                                 async move {
                                     tokio::select! {
                                         () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
@@ -1006,7 +1021,7 @@ where
                             log::debug!(
                                 "[{}][pkid: {}] Duplicate request has expired",
                                 self.command_name,
-                                m.pkid
+                                pkid
                             );
                             continue;
                         }
@@ -1017,7 +1032,7 @@ where
                                 let cache_clone = self.cache.clone();
                                 let executor_cancellation_token_clone =
                                     self.executor_cancellation_token.clone();
-                                let pkid = m.pkid;
+                                // let pkid = m.pkid;
                                 async move {
                                     tokio::select! {
                                         () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
@@ -1061,7 +1076,7 @@ where
 
     async fn process_command(
         application_hlc: Arc<ApplicationHybridLogicalClock>,
-        client: C,
+        client: SessionManagedClient,
         pkid: u16,
         mut response_arguments: ResponseArguments,
         response_rx: Option<oneshot::Receiver<Response<TResp>>>,
@@ -1210,7 +1225,7 @@ where
 
             // Create publish properties
             publish_properties.payload_format_indicator =
-                Some(serialized_payload.format_indicator.clone() as u8);
+                serialized_payload.format_indicator.into();
             publish_properties.topic_alias = None;
             publish_properties.response_topic = None;
             publish_properties.correlation_data = response_arguments.correlation_data;
@@ -1303,9 +1318,8 @@ where
 
         // Try to publish
         match client
-            .publish_with_properties(
+            .publish_qos1(
                 response_arguments.response_topic,
-                QoS::AtLeastOnce,
                 false,
                 serialized_payload.payload,
                 publish_properties,
@@ -1364,12 +1378,10 @@ where
     }
 }
 
-impl<TReq, TResp, C> Drop for Executor<TReq, TResp, C>
+impl<TReq, TResp> Drop for Executor<TReq, TResp>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {
         // Cancel all tasks awaiting responses
@@ -1383,7 +1395,13 @@ where
                 let request_topic = self.request_topic_pattern.as_subscribe_topic();
                 let mqtt_client = self.mqtt_client.clone();
                 async move {
-                    match mqtt_client.unsubscribe(request_topic.clone()).await {
+                    match mqtt_client
+                        .unsubscribe(
+                            request_topic.clone(),
+                            azure_mqtt::packet::UnsubscribeProperties::default(),
+                        )
+                        .await
+                    {
                         Ok(_) => {
                             log::debug!(
                                 "Unsubscribe sent on topic {request_topic}. Unsuback may still be pending."
@@ -1428,7 +1446,7 @@ async fn handle_ack(
 
 #[cfg(test)]
 mod tests {
-    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
+    use azure_iot_operations_mqtt::session::session::{Session, SessionOptionsBuilder};
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
@@ -1471,7 +1489,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Executor<MockPayload, MockPayload, _> = Executor::new(
+        let executor: Executor<MockPayload, MockPayload> = Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
@@ -1499,7 +1517,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Executor<MockPayload, MockPayload, _> = Executor::new(
+        let executor: Executor<MockPayload, MockPayload> = Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
@@ -1528,12 +1546,11 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            Executor::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                managed_client,
-                executor_options,
-            );
+        let executor: Result<Executor<MockPayload, MockPayload>, AIOProtocolError> = Executor::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            executor_options,
+        );
 
         match executor {
             Err(e) => {
@@ -1564,12 +1581,11 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            Executor::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                managed_client,
-                executor_options,
-            );
+        let executor: Result<Executor<MockPayload, MockPayload>, AIOProtocolError> = Executor::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            executor_options,
+        );
 
         match executor {
             Err(e) => {
@@ -1603,12 +1619,11 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            Executor::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                managed_client,
-                executor_options,
-            );
+        let executor: Result<Executor<MockPayload, MockPayload>, AIOProtocolError> = Executor::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            executor_options,
+        );
         match executor {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
@@ -1631,7 +1646,7 @@ mod tests {
             .command_name("test_command_name")
             .build()
             .unwrap();
-        let mut executor: Executor<MockPayload, MockPayload, _> = Executor::new(
+        let mut executor: Executor<MockPayload, MockPayload> = Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             executor_options,

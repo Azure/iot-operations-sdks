@@ -8,8 +8,6 @@ use std::str::from_utf8;
 use std::sync::Arc;
 
 use async_std::future;
-// use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
-// use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
@@ -21,6 +19,7 @@ use serde_json;
 use tokio::sync::oneshot;
 use tokio::time;
 
+use super::mqtt_hub::to_is_utf8;
 use crate::metl::aio_protocol_error_checker;
 use crate::metl::defaults::{InvokerDefaults, get_invoker_defaults};
 use crate::metl::mqtt_hub::MqttHub;
@@ -506,8 +505,8 @@ impl CommandInvokerTester {
             })
             .unwrap();
 
-            let properties = PublishProperties {
-                payload_format_indicator: *format_indicator,
+            let properties = azure_mqtt::mqtt_proto::publish::PublishOtherProperties {
+                payload_is_utf8: to_is_utf8(format_indicator),
                 message_expiry_interval,
                 correlation_data,
                 user_properties,
@@ -515,13 +514,13 @@ impl CommandInvokerTester {
                 ..Default::default()
             };
 
-            let publish = Publish {
-                qos: qos::to_enum(*qos),
-                topic,
-                pkid: packet_id,
+            let publish = azure_mqtt::mqtt_proto::publish::Publish {
+                packet_identifier_dup_qos: (qos::to_enum(*qos), packet_id, false).into(),
+                topic_name: topic.into(),
+                // pkid: packet_id,
                 payload: payload.into(),
-                properties: Some(properties),
-                ..Default::default()
+                other_properties: properties,
+                retain: false,
             };
 
             mqtt_hub.receive_message(publish);
@@ -603,7 +602,7 @@ impl CommandInvokerTester {
         mqtt_hub: &MqttHub,
         correlation_ids: &HashMap<i32, Option<Bytes>>,
     ) {
-        let published_message =
+        let published_message: &azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl> =
             if let Some(correlation_index) = expected_message.correlation_index {
                 if let Some(correlation_id) = correlation_ids.get(&correlation_index) {
                     let publish = mqtt_hub.get_published_message(correlation_id);
@@ -627,8 +626,9 @@ impl CommandInvokerTester {
         if let Some(topic) = expected_message.topic.as_ref() {
             assert_eq!(
                 topic,
-                from_utf8(published_message.topic.to_vec().as_slice())
-                    .expect("could not process published message topic as UTF8"),
+                published_message.topic_name.as_str(),
+                // from_utf8(published_message.topic_name.to_vec().as_slice())
+                //     .expect("could not process published message topic as UTF8"),
                 "topic"
             );
         }
@@ -636,9 +636,9 @@ impl CommandInvokerTester {
         if let Some(payload) = expected_message.payload.as_ref() {
             if let Some(payload) = payload {
                 assert_eq!(
-                    payload,
-                    from_utf8(published_message.payload.to_vec().as_slice())
-                        .expect("could not process published payload topic as UTF8"),
+                    payload, published_message.payload,
+                    // from_utf8(published_message.payload.to_vec().as_slice())
+                    //     .expect("could not process published payload topic as UTF8"),
                     "payload"
                 );
             } else {
@@ -647,116 +647,116 @@ impl CommandInvokerTester {
         }
 
         if expected_message.content_type.is_some() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    assert_eq!(expected_message.content_type, properties.content_type);
-                }
-                _ => {
-                    panic!("expected content type but found no properties in published message");
-                }
-            }
+            assert_eq!(
+                expected_message.content_type,
+                published_message.other_properties.content_type
+            );
         }
 
         if expected_message.format_indicator.is_some() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    assert_eq!(
-                        expected_message.format_indicator,
-                        properties.payload_format_indicator
-                    );
-                }
-                _ => {
-                    panic!(
-                        "expected format indicator but found no properties in published message"
-                    );
-                }
-            }
+            assert_eq!(
+                to_is_utf8(&expected_message.format_indicator),
+                published_message.other_properties.payload_is_utf8
+            );
+            // match published_message.properties.as_ref() {
+            //     Some(properties) => {
+            //         assert_eq!(
+            //             expected_message.format_indicator,
+            //             properties.payload_format_indicator
+            //         );
+            //     }
+            //     _ => {
+            //         panic!(
+            //             "expected format indicator but found no properties in published message"
+            //         );
+            //     }
+            // }
         }
 
         if !expected_message.metadata.is_empty() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    for (key, value) in &expected_message.metadata {
-                        let found = properties.user_properties.iter().find(|&k| &k.0 == key);
-                        if let Some(value) = value {
-                            assert_eq!(
-                                value,
-                                &found.unwrap().1,
-                                "metadata key {key} expected {value}"
-                            );
-                        } else {
-                            assert_eq!(None, found, "metadata key {key} not expected");
-                        }
-                    }
-                }
-                _ => {
-                    panic!("expected metadata but found no properties in published message");
+            // match published_message.properties.as_ref() {
+            //     Some(properties) => {
+            for (key, value) in &expected_message.metadata {
+                let found = published_message
+                    .other_properties
+                    .user_properties
+                    .iter()
+                    .find(|&k| &k.0 == key);
+                if let Some(value) = value {
+                    assert_eq!(
+                        value,
+                        &found.unwrap().1, // TODO: might need to change this
+                        "metadata key {key} expected {value}"
+                    );
+                } else {
+                    assert_eq!(None, found, "metadata key {key} not expected");
                 }
             }
+            //     }
+            //     _ => {
+            //         panic!("expected metadata but found no properties in published message");
+            //     }
+            // }
         }
 
         if let Some(command_status) = expected_message.command_status {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    let found = properties
-                        .user_properties
-                        .iter()
-                        .find(|&k| &k.0 == "__stat");
-                    if let Some(command_status) = command_status {
-                        assert_eq!(
-                            command_status.to_string(),
-                            found.unwrap().1,
-                            "status property expected {command_status}"
-                        );
-                    } else {
-                        assert_eq!(None, found, "status property not expected");
-                    }
-                }
-                _ => {
-                    panic!("expected status property but found no properties in published message");
-                }
+            // match published_message.properties.as_ref() {
+            //     Some(properties) => {
+            let found = published_message
+                .other_properties
+                .user_properties
+                .iter()
+                .find(|&k| &k.0 == "__stat");
+            if let Some(command_status) = command_status {
+                assert_eq!(
+                    command_status.to_string(),
+                    found.unwrap().1,
+                    "status property expected {command_status}"
+                );
+            } else {
+                assert_eq!(None, found, "status property not expected");
             }
+            //     }
+            //     _ => {
+            //         panic!("expected status property but found no properties in published message");
+            //     }
+            // }
         }
 
         if let Some(is_application_error) = expected_message.is_application_error {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    let found = properties
-                        .user_properties
-                        .iter()
-                        .find(|&k| &k.0 == "__apErr");
-                    if is_application_error {
-                        assert!(
-                            found.unwrap().1.to_lowercase() == "true",
-                            "is application error"
-                        );
-                    } else {
-                        assert!(
-                            found.is_none() || found.unwrap().1.to_lowercase() == "false",
-                            "is application error"
-                        );
-                    }
-                }
-                _ => {
-                    assert!(
-                        !is_application_error,
-                        "expected is application error property but found no properties in published message"
-                    );
-                }
+            // match published_message.properties.as_ref() {
+            //     Some(properties) => {
+            let found: Option<_> = published_message
+                .other_properties
+                .user_properties
+                .iter()
+                .find(|&k| &k.0 == "__apErr");
+            if is_application_error {
+                assert!(
+                    found.unwrap().1.to_lowercase() == "true",
+                    "is application error"
+                );
+            } else {
+                assert!(
+                    found.is_none() || found.unwrap().1.to_lowercase() == "false",
+                    "is application error"
+                );
             }
+            //     }
+            //     _ => {
+            //         assert!(
+            //             !is_application_error,
+            //             "expected is application error property but found no properties in published message"
+            //         );
+            //     }
+            // }
         }
 
         if expected_message.expiry.is_some() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    assert_eq!(expected_message.expiry, properties.message_expiry_interval);
-                }
-                _ => {
-                    panic!(
-                        "expected message expiry interval but found no properties in published message"
-                    );
-                }
-            }
+            assert_eq!(
+                expected_message.expiry,
+                published_message.other_properties.message_expiry_interval
+            );
         }
     }
 

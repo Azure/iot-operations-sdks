@@ -7,7 +7,7 @@ use std::time::SystemTime;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
 use bytes::Bytes;
 use chrono::{DateTime, SecondsFormat, Utc};
 use uuid::Uuid;
@@ -333,7 +333,7 @@ pub struct Options {
 ///   .topic_namespace("test_namespace")
 ///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
-/// let sender: telemetry::Sender<Vec<u8>, _> = telemetry::Sender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
+/// let sender: telemetry::Sender<Vec<u8>> = telemetry::Sender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = telemetry::sender::MessageBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .qos(QoS::AtLeastOnce)
@@ -343,22 +343,20 @@ pub struct Options {
 /// # })
 /// ```
 ///
-pub struct Sender<T, C>
+pub struct Sender<T>
 where
     T: PayloadSerialize,
-    C: ManagedClient + Send + Sync + 'static,
 {
     application_hlc: Arc<ApplicationHybridLogicalClock>,
-    mqtt_client: C,
+    mqtt_client: SessionManagedClient,
     message_payload_type: PhantomData<T>,
     topic_pattern: TopicPattern,
 }
 
 /// Implementation of Telemetry Sender
-impl<T, C> Sender<T, C>
+impl<T> Sender<T>
 where
     T: PayloadSerialize,
-    C: ManagedClient + Send + Sync + 'static,
 {
     /// Creates a new [`Sender`].
     ///
@@ -378,7 +376,7 @@ where
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         sender_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validate parameters
@@ -477,7 +475,7 @@ where
         let publish_properties = PublishProperties {
             correlation_data: Some(correlation_data),
             response_topic: None,
-            payload_format_indicator: Some(message.serialized_payload.format_indicator as u8),
+            payload_format_indicator: message.serialized_payload.format_indicator.into(),
             content_type: Some(message.serialized_payload.content_type.to_string()),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: message.custom_user_data,
@@ -486,11 +484,11 @@ where
         };
 
         // Send publish
+        // TODO: use actual QoS value once API is nailed down
         let publish_result = self
             .mqtt_client
-            .publish_with_properties(
+            .publish_qos1(
                 message_topic,
-                message.qos,
                 message.retain,
                 message.serialized_payload.payload,
                 publish_properties,
@@ -540,7 +538,7 @@ mod tests {
     };
     use azure_iot_operations_mqtt::{
         MqttConnectionSettingsBuilder,
-        session::{Session, SessionOptionsBuilder},
+        session::session::{Session, SessionOptionsBuilder},
     };
 
     use super::MessageBuilder;
@@ -568,7 +566,7 @@ mod tests {
             .build()
             .unwrap();
 
-        Sender::<MockPayload, _>::new(
+        Sender::<MockPayload>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
@@ -589,7 +587,7 @@ mod tests {
             .build()
             .unwrap();
 
-        Sender::<MockPayload, _>::new(
+        Sender::<MockPayload>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
@@ -607,7 +605,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let sender: Result<Sender<MockPayload, _>, _> = Sender::new(
+        let sender: Result<Sender<MockPayload>, _> = Sender::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,

@@ -604,7 +604,7 @@ pub struct Options {
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let invoker: rpc_command::Invoker<Vec<u8>, Vec<u8>, _> = rpc_command::Invoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
+/// let invoker: rpc_command::Invoker<Vec<u8>, Vec<u8>> = rpc_command::Invoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
 /// let request = rpc_command::invoker::RequestBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .timeout(Duration::from_secs(2))
@@ -895,6 +895,10 @@ where
             .subscribe(
                 response_subscribe_topic,
                 QoS::AtLeastOnce,
+                // TODO: validate these are the right settings
+                false,
+                true,
+                azure_mqtt::packet::RetainHandling::Send,
                 azure_mqtt::packet::SubscribeProperties::default(),
             )
             .await;
@@ -1112,15 +1116,13 @@ where
                                 Ok(rsp_pub) => {
                                     if let Some(rsp_pub) = rsp_pub {
                                         // check correlation id for match, otherwise loop again
-                                        if let Some(ref rsp_properties) = rsp_pub.properties {
-                                            if let Some(ref response_correlation_data) =
-                                                rsp_properties.correlation_data
-                                            {
-                                                if *response_correlation_data == correlation_data {
-                                                    // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                                    // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
-                                                    return Ok(rsp_pub);
-                                                }
+                                        if let Some(ref response_correlation_data) =
+                                            rsp_pub.properties.correlation_data
+                                        {
+                                            if *response_correlation_data == correlation_data {
+                                                // This is implicit validation of the correlation data - if it's malformed it won't match the request
+                                                // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
+                                                return Ok(rsp_pub);
                                             }
                                         }
                                     } else {
@@ -1285,7 +1287,10 @@ where
                 *invoker_state_mutex_guard = State::ShutdownInitiated;
                 let unsubscribe_result = self
                     .mqtt_client
-                    .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
+                    .unsubscribe(
+                        self.response_topic_pattern.as_subscribe_topic(),
+                        azure_mqtt::packet::UnsubscribeProperties::default(),
+                    )
                     .await;
 
                 match unsubscribe_result {
@@ -1357,7 +1362,13 @@ async fn drop_unsubscribe(
         State::ShutdownInitiated | State::Subscribed => {
             // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
             *invoker_state_mutex_guard = State::ShutdownInitiated;
-            match mqtt_client.unsubscribe(unsubscribe_filter.clone()).await {
+            match mqtt_client
+                .unsubscribe(
+                    unsubscribe_filter.clone(),
+                    azure_mqtt::packet::UnsubscribeProperties::default(),
+                )
+                .await
+            {
                 Ok(_) => {
                     log::debug!(
                         "Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending."
@@ -1437,7 +1448,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1464,7 +1475,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1537,7 +1548,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1580,7 +1591,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1606,7 +1617,7 @@ mod tests {
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1634,7 +1645,7 @@ mod tests {
             .response_topic_suffix(response_topic_suffix.to_string())
             .build()
             .unwrap();
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1661,7 +1672,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1731,7 +1742,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1790,7 +1801,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1851,7 +1862,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1924,7 +1935,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1979,7 +1990,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,

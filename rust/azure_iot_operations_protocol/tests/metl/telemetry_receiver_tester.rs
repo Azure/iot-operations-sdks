@@ -189,7 +189,7 @@ where
     }
 
     async fn receiver_loop(
-        mut receiver: telemetry::Receiver<TestPayload, C>,
+        mut receiver: telemetry::Receiver<TestPayload>,
         telemetry_count: Arc<Mutex<i32>>,
         telemetry_tx: mpsc::UnboundedSender<ReceivedTelemetry>,
     ) {
@@ -244,11 +244,11 @@ where
     }
 
     async fn get_telemetry_receiver(
-        managed_client: C,
+        managed_client: SessionManagedClient,
         tcr: &TestCaseReceiver<ReceiverDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<telemetry::Receiver<TestPayload, C>> {
+    ) -> Option<telemetry::Receiver<TestPayload>> {
         let mut receiver_options_builder = telemetry::receiver::OptionsBuilder::default();
 
         if let Some(telemetry_topic) = tcr.telemetry_topic.as_ref() {

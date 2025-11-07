@@ -4,14 +4,14 @@
 use std::collections::{VecDeque, hash_map::HashMap, hash_set::HashSet};
 
 // use azure_iot_operations_mqtt::control_packet::Publish;
-use azure_iot_operations_mqtt::error::{ConnectionError, StateError};
+// use azure_iot_operations_mqtt::error::{ConnectionError, StateError};
 use bytes::Bytes;
 // use rumqttc::v5::mqttbytes::v5::DisconnectReasonCode;
 use tokio::sync::{broadcast, mpsc};
 
-use crate::metl::mqtt_driver::MqttDriver;
+// use crate::metl::mqtt_driver::MqttDriver;
 use crate::metl::mqtt_emulation_level::MqttEmulationLevel;
-use crate::metl::mqtt_operation::MqttOperation;
+// use crate::metl::mqtt_operation::MqttOperation;
 use crate::metl::test_ack_kind::TestAckKind;
 
 const MAX_PENDING_MESSAGES: usize = 10;
@@ -87,9 +87,9 @@ impl MqttHub {
         }
     }
 
-    pub fn get_looper(&mut self) -> MqttLooper {
-        MqttLooper::new(self.event_rx.take())
-    }
+    // pub fn get_looper(&mut self) -> MqttLooper {
+    //     MqttLooper::new(self.event_rx.take())
+    // }
 
     pub fn get_incoming_packets_rx(
         &mut self,
@@ -101,13 +101,13 @@ impl MqttHub {
         self.event_rx.take()
     }
 
-    pub fn get_driver(&self) -> MqttDriver {
-        MqttDriver::new(
-            self.client_id.clone(),
-            self.message_tx.clone(),
-            self.operation_tx.clone(),
-        )
-    }
+    // pub fn get_driver(&self) -> MqttDriver {
+    //     MqttDriver::new(
+    //         self.client_id.clone(),
+    //         self.message_tx.clone(),
+    //         self.operation_tx.clone(),
+    //     )
+    // }
 
     pub fn get_outgoing_packets_tx(
         &self,
@@ -331,12 +331,13 @@ impl MqttHub {
     }
 
     // TODO: remove? Swap for some other disconnect flow
-    fn receive_error(&mut self, error: ConnectionError) {
-        self.event_tx
-            .as_mut()
-            .expect("receive_error() called but MQTT emulation is not at Event level")
-            .send(Err(error))
-            .unwrap();
+    fn receive_error(&mut self, _error: ConnectionError) {
+        // TODO: commented for compilation, maybe should be uncommented
+        // self.event_tx
+        //     .as_mut()
+        //     .expect("receive_error() called but MQTT emulation is not at Event level")
+        //     .send(Err(error))
+        //     .unwrap();
     }
 }
 

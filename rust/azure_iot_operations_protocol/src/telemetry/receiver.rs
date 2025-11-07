@@ -4,7 +4,7 @@ use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr,
 
 use azure_iot_operations_mqtt::{
     control_packet::{Publish, QoS},
-    interface::{AckToken, ManagedClient, PubReceiver},
+    session::managed_client::{SessionManagedClient, SessionPubReceiver},
 };
 use chrono::{DateTime, Utc};
 use tokio_util::sync::CancellationToken;
@@ -235,7 +235,7 @@ where
         //  we won't want to keep entire copies of all Publishes, so we will just copy the
         //  properties once.
 
-        let publish_properties = value.properties.unwrap_or_default();
+        let publish_properties = value.properties;
 
         // Parse user properties
         let expected_aio_properties = [
@@ -294,9 +294,10 @@ where
             .map_err(|e| e.to_string())?;
 
         // Parse topic
-        let topic = std::str::from_utf8(&value.topic)
-            .map_err(|e| e.to_string())?
-            .to_string();
+        let topic = value.topic_name.as_str().to_string();
+        // std::str::from_utf8(&value.topic)
+        //     .map_err(|e| e.to_string())?
+        //     .to_string();
 
         // Deserialize payload
         let format_indicator = publish_properties.payload_format_indicator.try_into().unwrap_or_else(|e| {
@@ -365,19 +366,17 @@ pub struct Options {
 /// let receiver_options = telemetry::receiver::OptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
-/// let mut receiver: telemetry::Receiver<Vec<u8>, _> = telemetry::Receiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
+/// let mut receiver: telemetry::Receiver<Vec<u8>> = telemetry::Receiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// // let telemetry_message = receiver.recv().await.unwrap();
 /// ```
-pub struct Receiver<T, C>
+pub struct Receiver<T>
 where
     T: PayloadSerialize + Send + Sync + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     // Static properties of the receiver
     application_hlc: Arc<ApplicationHybridLogicalClock>,
-    mqtt_client: C,
-    mqtt_receiver: C::PubReceiver,
+    mqtt_client: SessionManagedClient,
+    mqtt_receiver: SessionPubReceiver,
     telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
@@ -398,11 +397,9 @@ enum State {
 }
 
 /// Implementation of a Telemetry Sender
-impl<T, C> Receiver<T, C>
+impl<T> Receiver<T>
 where
     T: PayloadSerialize + Send + Sync + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`Receiver`].
     ///
@@ -423,7 +420,7 @@ where
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         receiver_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validation for topic pattern and related options done in
@@ -489,7 +486,13 @@ where
                 self.receiver_state = State::ShutdownSuccessful;
             }
             State::Subscribed => {
-                let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+                let unsubscribe_result = self
+                    .mqtt_client
+                    .unsubscribe(
+                        &self.telemetry_topic,
+                        azure_mqtt::packet::UnsubscribeProperties::default(),
+                    )
+                    .await;
 
                 match unsubscribe_result {
                     Ok(unsub_ct) => match unsub_ct.await {
@@ -528,7 +531,15 @@ where
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
         let subscribe_result = self
             .mqtt_client
-            .subscribe(&self.telemetry_topic, QoS::AtLeastOnce)
+            .subscribe(
+                &self.telemetry_topic,
+                QoS::AtLeastOnce,
+                // TODO: validate these are the right settings
+                false,
+                true,
+                azure_mqtt::packet::RetainHandling::Send,
+                azure_mqtt::packet::SubscribeProperties::default(),
+            )
             .await;
 
         match subscribe_result {
@@ -589,7 +600,20 @@ where
                     }
 
                     // Get pkid for logging
-                    let pkid = m.pkid;
+                    let pkid = match m.qos {
+                        azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
+                            // TODO: maybe we should log with something else
+                            0
+                        }
+                        azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info) => {
+                            delivery_info.packet_identifier.get()
+                        }
+                        azure_mqtt::packet::DeliveryQoS::ExactlyOnce(_) => {
+                            // This should never happen as the executor should always receive QoS 1 messages
+                            log::warn!("Received QoS 2 telemetry message");
+                            continue;
+                        }
+                    };
 
                     // Process the received message
                     log::info!("[pkid: {pkid}] Received message");
@@ -648,11 +672,9 @@ where
     }
 }
 
-impl<T, C> Drop for Receiver<T, C>
+impl<T> Drop for Receiver<T>
 where
     T: PayloadSerialize + Send + Sync + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {
         // Cancel all tasks awaiting responses
@@ -666,7 +688,13 @@ where
                 let telemetry_topic = self.telemetry_topic.clone();
                 let mqtt_client = self.mqtt_client.clone();
                 async move {
-                    match mqtt_client.unsubscribe(telemetry_topic.clone()).await {
+                    match mqtt_client
+                        .unsubscribe(
+                            telemetry_topic.clone(),
+                            azure_mqtt::packet::UnsubscribeProperties::default(),
+                        )
+                        .await
+                    {
                         Ok(_) => {
                             log::debug!(
                                 "Unsubscribe sent on topic {telemetry_topic}. Unsuback may still be pending."
@@ -696,7 +724,7 @@ mod tests {
     };
     use azure_iot_operations_mqtt::{
         MqttConnectionSettingsBuilder,
-        session::{Session, SessionOptionsBuilder},
+        session::session::{Session, SessionOptionsBuilder},
     };
 
     // TODO: This should return a mock Session instead
@@ -726,7 +754,7 @@ mod tests {
             .build()
             .unwrap();
 
-        Receiver::<MockPayload, _>::new(
+        Receiver::<MockPayload>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -744,7 +772,7 @@ mod tests {
             .build()
             .unwrap();
 
-        Receiver::<MockPayload, _>::new(
+        Receiver::<MockPayload>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -761,7 +789,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let result: Result<Receiver<MockPayload, _>, _> = Receiver::new(
+        let result: Result<Receiver<MockPayload>, _> = Receiver::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -792,7 +820,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let mut receiver: Receiver<MockPayload, _> = Receiver::new(
+        let mut receiver: Receiver<MockPayload> = Receiver::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,

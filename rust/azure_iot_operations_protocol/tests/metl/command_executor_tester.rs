@@ -20,7 +20,6 @@ use serde_json;
 use tokio::time;
 use uuid::Uuid;
 
-use crate::metl::aio_protocol_error_checker;
 use crate::metl::countdown_event_map::CountdownEventMap;
 use crate::metl::defaults::ExecutorDefaults;
 use crate::metl::mqtt_hub::MqttHub;
@@ -32,6 +31,7 @@ use crate::metl::test_case_executor::TestCaseExecutor;
 use crate::metl::test_case_published_message::TestCasePublishedMessage;
 use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
+use crate::metl::{aio_protocol_error_checker, mqtt_hub::to_is_utf8};
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
@@ -192,7 +192,7 @@ where
     }
 
     async fn executor_loop(
-        mut executor: rpc_command::Executor<TestPayload, TestPayload, C>,
+        mut executor: rpc_command::Executor<TestPayload, TestPayload>,
         test_case_executor: TestCaseExecutor<ExecutorDefaults>,
         countdown_events: CountdownEventMap,
         execution_count: Arc<Mutex<i32>>,
@@ -281,11 +281,11 @@ where
     }
 
     async fn get_command_executor(
-        managed_client: C,
+        managed_client: SessionManagedClient,
         tce: &TestCaseExecutor<ExecutorDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<rpc_command::Executor<TestPayload, TestPayload, C>> {
+    ) -> Option<rpc_command::Executor<TestPayload, TestPayload>> {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
 
         if let Some(request_topic) = tce.request_topic.as_ref() {
@@ -606,139 +606,91 @@ where
             }.unwrap();
 
         if let Some(topic) = expected_message.topic.as_ref() {
-            assert_eq!(
-                topic,
-                from_utf8(published_message.topic.to_vec().as_slice())
-                    .expect("could not process published message topic as UTF8"),
-                "topic"
-            );
+            assert_eq!(topic, published_message.topic_name.as_str(), "topic");
         }
 
         if let Some(payload) = expected_message.payload.as_ref() {
             if let Some(payload) = payload {
-                assert_eq!(
-                    payload,
-                    from_utf8(published_message.payload.to_vec().as_slice())
-                        .expect("could not process published payload topic as UTF8"),
-                    "payload"
-                );
+                assert_eq!(payload, published_message.payload, "payload");
             } else {
                 assert!(published_message.payload.is_empty());
             }
         }
 
         if expected_message.content_type.is_some() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    assert_eq!(expected_message.content_type, properties.content_type);
-                }
-                _ => {
-                    panic!("expected content type but found no properties in published message");
-                }
-            }
+            assert_eq!(
+                expected_message.content_type,
+                published_message.other_properties.content_type
+            );
         }
 
         if expected_message.format_indicator.is_some() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    assert_eq!(
-                        expected_message.format_indicator,
-                        properties.payload_format_indicator
-                    );
-                }
-                _ => {
-                    panic!(
-                        "expected format indicator but found no properties in published message"
-                    );
-                }
-            }
+            assert_eq!(
+                to_is_utf8(&expected_message.format_indicator),
+                published_message.other_properties.payload_is_utf8
+            );
         }
 
         if !expected_message.metadata.is_empty() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    for (key, value) in &expected_message.metadata {
-                        let found = properties.user_properties.iter().find(|&k| &k.0 == key);
-                        if let Some(value) = value {
-                            assert!(found.is_some(), "metadata key {key} not found");
-                            assert_eq!(
-                                value,
-                                &found.unwrap().1,
-                                "metadata key {key} expected {value}"
-                            );
-                        } else {
-                            assert_eq!(None, found, "metadata key {key} not expected");
-                        }
-                    }
-                }
-                _ => {
-                    panic!("expected metadata but found no properties in published message");
+            for (key, value) in &expected_message.metadata {
+                let found = published_message
+                    .other_properties
+                    .user_properties
+                    .iter()
+                    .find(|&k| &k.0 == key);
+                if let Some(value) = value {
+                    assert_eq!(
+                        value,
+                        &found.unwrap().1, // TODO: might need to change this
+                        "metadata key {key} expected {value}"
+                    );
+                } else {
+                    assert_eq!(None, found, "metadata key {key} not expected");
                 }
             }
         }
 
         if let Some(command_status) = expected_message.command_status {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    let found = properties
-                        .user_properties
-                        .iter()
-                        .find(|&k| &k.0 == "__stat");
-                    if let Some(command_status) = command_status {
-                        assert_eq!(
-                            command_status.to_string(),
-                            found.unwrap().1,
-                            "status property expected {command_status}"
-                        );
-                    } else {
-                        assert_eq!(None, found, "status property not expected");
-                    }
-                }
-                _ => {
-                    panic!("expected status property but found no properties in published message");
-                }
+            let found = published_message
+                .other_properties
+                .user_properties
+                .iter()
+                .find(|&k| &k.0 == "__stat");
+            if let Some(command_status) = command_status {
+                assert_eq!(
+                    command_status.to_string(),
+                    found.unwrap().1,
+                    "status property expected {command_status}"
+                );
+            } else {
+                assert_eq!(None, found, "status property not expected");
             }
         }
 
         if let Some(is_application_error) = expected_message.is_application_error {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    let found = properties
-                        .user_properties
-                        .iter()
-                        .find(|&k| &k.0 == "__apErr");
-                    if is_application_error {
-                        assert!(
-                            found.unwrap().1.to_lowercase() == "true",
-                            "is application error"
-                        );
-                    } else {
-                        assert!(
-                            found.is_none() || found.unwrap().1.to_lowercase() == "false",
-                            "is application error"
-                        );
-                    }
-                }
-                _ => {
-                    assert!(
-                        !is_application_error,
-                        "expected is application error property but found no properties in published message"
-                    );
-                }
+            let found: Option<_> = published_message
+                .other_properties
+                .user_properties
+                .iter()
+                .find(|&k| &k.0 == "__apErr");
+            if is_application_error {
+                assert!(
+                    found.unwrap().1.to_lowercase() == "true",
+                    "is application error"
+                );
+            } else {
+                assert!(
+                    found.is_none() || found.unwrap().1.to_lowercase() == "false",
+                    "is application error"
+                );
             }
         }
 
         if expected_message.expiry.is_some() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    assert_eq!(expected_message.expiry, properties.message_expiry_interval);
-                }
-                _ => {
-                    panic!(
-                        "expected message expiry interval but found no properties in published message"
-                    );
-                }
-            }
+            assert_eq!(
+                expected_message.expiry,
+                published_message.other_properties.message_expiry_interval
+            );
         }
     }
 
