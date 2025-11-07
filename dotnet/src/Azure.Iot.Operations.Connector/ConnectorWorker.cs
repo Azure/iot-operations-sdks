@@ -46,7 +46,6 @@ namespace Azure.Iot.Operations.Connector
         // keys are "{composite device name}_{asset name}_{dataset name}. The value is the message schema registered for that device's asset's dataset
         private readonly ConcurrentDictionary<string, Schema> _registeredDatasetMessageSchemas = new();
 
-        //TODO event group name relevant here?
         // keys are "{composite device name}_{asset name}_{event group name}_{event name}. The value is the message schema registered for that device's asset's event
         private readonly ConcurrentDictionary<string, Schema> _registeredEventMessageSchemas = new();
 
