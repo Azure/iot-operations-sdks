@@ -53,7 +53,13 @@ namespace Azure.Iot.Operations.Connector
         /// Event handler for when an device becomes available.
         /// </summary>
         /// <remarks>
+        /// <para>
         /// The provided cancellation is signaled when the device is no longer available or when this connector is no longer the leader (and no longer responsible for interacting with the device).
+        /// </para>
+        /// <para>
+        /// Best Practice: Check the <see cref="Device.Enabled"/> property in your handler. A disabled device should not be processed.
+        /// Devices can be disabled at discovery time or while the connector is working.
+        /// </para>
         /// </remarks>
         public Func<DeviceAvailableEventArgs, CancellationToken, Task>? WhileDeviceIsAvailable;
 
@@ -61,7 +67,13 @@ namespace Azure.Iot.Operations.Connector
         /// The function to run while an asset is available.
         /// </summary>
         /// <remarks>
+        /// <para>
         /// The provided cancellation is signaled when the asset is no longer available or when this connector is no longer the leader (and no longer responsible for interacting with the asset).
+        /// </para>
+        /// <para>
+        /// Best Practice: Check both <see cref="Device.Enabled"/> and <see cref="Asset.Enabled"/> properties in your handler.
+        /// A disabled device or asset should not be processed. Resources can be disabled at discovery time or while the connector is working.
+        /// </para>
         /// </remarks>
         public Func<AssetAvailableEventArgs, CancellationToken, Task>? WhileAssetIsAvailable;
 

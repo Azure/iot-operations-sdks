@@ -23,6 +23,24 @@ namespace Azure.Iot.Operations.Connector
         {
             cancellationToken.ThrowIfCancellationRequested();
 
+            // Check if the device is enabled before starting to sample
+            if (args.Device.Enabled == false)
+            {
+                _logger.LogWarning("Device {0} is disabled. Skipping asset {1} sampling until device is enabled.", args.DeviceName, args.AssetName);
+                // In a production scenario, you might want to listen for device updates and retry when the device becomes enabled
+                return;
+            }
+
+            // Check if the asset is enabled before starting to sample
+            if (args.Asset.Enabled == false)
+            {
+                _logger.LogWarning("Asset {0} is disabled. Skipping sampling until asset is enabled.", args.AssetName);
+                // In a production scenario, you might want to listen for asset updates and retry when the asset becomes enabled
+                return;
+            }
+
+            _logger.LogInformation("Starting to sample enabled asset {0} on enabled device {1}", args.AssetName, args.DeviceName);
+
             if (args.Asset.Datasets == null)
             {
                 return;
