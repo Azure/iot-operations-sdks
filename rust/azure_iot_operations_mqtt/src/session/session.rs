@@ -74,7 +74,9 @@ pub struct Session {
     /// Current state
     state: Arc<SessionState>,
     /// disconnect handle
-    disconnect_handle: Option<azure_mqtt::client::DisconnectHandle>,
+    disconnect_handle: Arc<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
+    /// Notifier for a force exit signal
+    notify_force_exit: Arc<Notify>,
 }
 
 impl Session {
@@ -182,14 +184,15 @@ impl Session {
             incoming_pub_dispatcher,
             reconnect_policy,
             state: Arc::new(SessionState::default()),
-            disconnect_handle: None,
+            disconnect_handle: Arc::new(Mutex::new(None)),
+            notify_force_exit: Arc::new(Notify::new()),
         }
     }
 
     /// Return a new instance of [`SessionExitHandle`] that can be used to end this [`Session`]
     pub fn create_exit_handle(&self) -> SessionExitHandle {
         SessionExitHandle {
-            disconnector: self.client.clone(),
+            disconnector: self.disconnect_handle.clone(),
             state: self.state.clone(),
             force_exit: self.notify_force_exit.clone(),
         }
@@ -242,44 +245,91 @@ impl Session {
 
         // Handle events
         loop {
-            let (connection, connack, disconnect_handle) =
-                if let Some(authentication_info) = authentication_info {
-                    unimplemented!()
-                    // self.connect_handle.connect_with_auth(
-                    // log::debug!("Incoming AUTH: {auth:?}");
-                    //
-                    // if let Some(sat_auth_tx) = &sat_auth_tx {
-                    //     // Notify the background task that the auth data has changed
-                    //     // TODO: This is a bit of a hack, but it works for now. Ideally, the reauth
-                    //     // method on rumqttc would return a completion token and we could use that
-                    //     // in the background task to know when the reauth is complete.
-                    //     match sat_auth_tx.send(auth.code) {
-                    //         Ok(()) => {}
-                    //         Err(e) => {
-                    //             // This should never happen unless the background task has exited
-                    //             // in which case the session is already in a bad state and we should
-                    //             // have already exited.
-                    //             log::error!("Error sending auth code to SAT auth task: {e:?}");
-                    //         }
-                    //     }
-                    // }
-                } else {
-                    // TODO: handle failure once that's implemented on mqtt client
-                    self.connect_handle
-                        .take()
-                        .unwrap()
-                        .connect(
-                            self.connect_parameters.connection_transport_config.clone(),
-                            clean_start,
-                            self.connect_parameters.keep_alive,
-                            self.connect_parameters.will,
-                            self.connect_parameters.username,
-                            self.connect_parameters.password,
-                            self.connect_parameters.connect_properties,
-                            Some(self.connect_parameters.connection_timeout),
-                        )
-                        .await
-                };
+            let (connection, connack, disconnect_handle) = if let Some(authentication_info) =
+                authentication_info
+            {
+                unimplemented!()
+                // self.connect_handle.connect_with_auth(
+                // log::debug!("Incoming AUTH: {auth:?}");
+                //
+                // if let Some(sat_auth_tx) = &sat_auth_tx {
+                //     // Notify the background task that the auth data has changed
+                //     // TODO: This is a bit of a hack, but it works for now. Ideally, the reauth
+                //     // method on rumqttc would return a completion token and we could use that
+                //     // in the background task to know when the reauth is complete.
+                //     match sat_auth_tx.send(auth.code) {
+                //         Ok(()) => {}
+                //         Err(e) => {
+                //             // This should never happen unless the background task has exited
+                //             // in which case the session is already in a bad state and we should
+                //             // have already exited.
+                //             log::error!("Error sending auth code to SAT auth task: {e:?}");
+                //         }
+                //     }
+                // }
+            } else {
+                match self
+                    .connect_handle
+                    .take()
+                    .unwrap()
+                    .connect(
+                        self.connect_parameters.connection_transport_config.clone(),
+                        clean_start,
+                        self.connect_parameters.keep_alive,
+                        self.connect_parameters.will,
+                        self.connect_parameters.username,
+                        self.connect_parameters.password,
+                        self.connect_parameters.connect_properties,
+                        Some(self.connect_parameters.connection_timeout),
+                    )
+                    .await
+                {
+                    azure_mqtt::client::ConnectResult::Success(
+                        connection,
+                        connack,
+                        disconnect_handle,
+                    ) => (connection, connack, disconnect_handle),
+                    azure_mqtt::client::ConnectResult::Failure(connect_handle, connack) => {
+                        if let Some(connack) = connack {
+                            if prev_connected && !connack.session_present {
+                                log::error!(
+                                    "Session state not present on broker after reconnect. Ending session."
+                                );
+                                result = Err(SessionErrorRepr::SessionLost);
+                                if self.state.desire_exit() {
+                                    // NOTE: this could happen if the user was exiting when the connection was dropped,
+                                    // while the Session was not aware of the connection drop. Then, the drop has to last
+                                    // long enough for the MQTT session expiry interval to cause the broker to discard the
+                                    // MQTT session, and thus, you would enter this case.
+                                    // NOTE: The reason that the misattribution of cause may occur in logs is due to the
+                                    // (current) loose matching of received disconnects on account of an rumqttc bug.
+                                    // See the error cases below in this match statement for more information.
+                                    log::debug!(
+                                        "Session-initiated exit triggered when user-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
+                                    );
+                                }
+                                // TODO: I think we should just break instead of triggering session exit here because we aren't connected, so the disconnect request won't be sent, and knowing whether we desired the exit or not only affects logging?
+                                // self.trigger_session_exit().await;
+                                break;
+                            }
+                        }
+                        self.connect_handle = Some(connect_handle);
+                        // TODO: use reconnect policy
+                        // TODO: check force exit at any reconnect policy points
+                        // () = self.notify_force_exit.notified() => { break },
+                        tokio::time::sleep(Duration::from_secs(5)).await;
+                        continue;
+                    }
+                    azure_mqtt::client::ConnectResult::Timeout(connect_handle) => {
+                        // TODO: use reconnect policy
+                        // TODO: check force exit at any reconnect policy points
+                        // () = self.notify_force_exit.notified() => { break },
+                        tokio::time::sleep(Duration::from_secs(5)).await;
+                        self.connect_handle = Some(connect_handle);
+                        continue;
+                    }
+                }
+            };
             // Update connection state
             self.state.transition_connected();
             // Reset the counter on reconnect attempts
@@ -301,7 +351,7 @@ impl Session {
                         "Session-initiated exit triggered when user-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
                     );
                 }
-                // self.trigger_session_exit().await;
+                self.trigger_session_exit().await;
             }
             // Otherwise, connection was successful
             else {
@@ -310,12 +360,17 @@ impl Session {
                 clean_start = false;
             }
 
-            self.disconnect_handle = Some(disconnect_handle);
+            *self.disconnect_handle.lock().unwrap() = Some(disconnect_handle);
             tokio::select! {
+                // Ensure that the force exit signal is checked first.
+                biased;
+                () = self.notify_force_exit.notified() => { break },
                 (new_connect_handle, disconnect_event, session_ended) = Self::connection_runner(connection) => {
+                    // TODO: clear disconnect handle?
                     self.state.transition_disconnected();
                     self.connect_handle = Some(new_connect_handle);
                     if session_ended {
+                        // let result = disconnect_event.into();
                         break;
                     }
                 }
@@ -426,7 +481,10 @@ impl Session {
             }
             azure_mqtt::client::DisconnectedEvent::UserRequested => true,
             azure_mqtt::client::DisconnectedEvent::ServerRequested(disconnect) => {
-                disconnect.properties.session_expiry_interval == 0
+                matches!(
+                    disconnect.properties.session_expiry_interval,
+                    Some(azure_mqtt::packet::SessionExpiryInterval::Duration(0))
+                )
             }
         };
         (connect_handle, disconnected_event, session_ended)
@@ -520,12 +578,15 @@ impl Session {
 
 /// Run background tasks for [`Session.run()`]
 async fn run_background(
-    client: impl MqttClient + Clone,
+    client: azure_mqtt::client::Client,
     sat_auth_context: Option<SatAuthContext>,
     cancel_token: CancellationToken,
 ) {
     /// Maintain the SAT token authentication by renewing it when the SAT file changes
-    async fn maintain_sat_auth(mut sat_auth_context: SatAuthContext, client: impl MqttClient) -> ! {
+    async fn maintain_sat_auth(
+        mut sat_auth_context: SatAuthContext,
+        client: azure_mqtt::client::Client,
+    ) -> ! {
         let mut retrying = false;
         loop {
             // Wait for the SAT file to change if not retrying
@@ -573,7 +634,7 @@ async fn run_background(
 #[derive(Clone)]
 pub struct SessionExitHandle {
     /// The disconnector used to issue disconnect requests
-    disconnector: azure_mqtt::client::DisconnectHandle,
+    disconnector: Arc<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
     /// Session state information
     state: Arc<SessionState>,
     /// Notifier for force exit
@@ -691,24 +752,41 @@ impl SessionExitHandle {
     /// Trigger a session exit, specifying the end user as the issuer of the request
     fn trigger_exit_user(&self) -> Result<(), SessionExitError> {
         self.state.transition_user_desire_exit();
-        // TODO: This doesn't actually end the MQTT session because rumqttc doesn't allow
-        // us to manually set the session expiry interval to 0 on a reconnect.
-        // Need to work with Shanghai to drive this feature.
-        // TODO: set disconnect properties properly
-        // TODO: set session expiry interval to 0
-        self.disconnector
-            .disconnect(&azure_mqtt::packet::DisconnectProperties::default())
+        match self.disconnector.lock().unwrap().take() {
+            Some(disconnector) => Ok(disconnector.disconnect(
+                &azure_mqtt::packet::DisconnectProperties {
+                    session_expiry_interval: Some(
+                        azure_mqtt::packet::SessionExpiryInterval::Duration(0),
+                    ),
+                    ..Default::default()
+                },
+            )?),
+            // currently no disconnect handle, so we aren't connected
+            None => Err(SessionExitError {
+                attempted: false,
+                kind: SessionExitErrorKind::BrokerUnavailable,
+            }),
+        }
     }
 
     /// Trigger a session exit, specifying the internal session logic as the issuer of the request
     fn trigger_exit_internal(&self) -> Result<(), SessionExitError> {
         self.state.transition_session_desire_exit();
-        // TODO: This doesn't actually end the MQTT session because rumqttc doesn't allow
-        // us to manually set the session expiry interval to 0 on a reconnect.
-        // Need to work with Shanghai to drive this feature.
-        // TODO: set session expiry interval to 0?
-        self.disconnector
-            .disconnect(&azure_mqtt::packet::DisconnectProperties::default())
+        match self.disconnector.lock().unwrap().take() {
+            Some(disconnector) => Ok(disconnector.disconnect(
+                &azure_mqtt::packet::DisconnectProperties {
+                    session_expiry_interval: Some(
+                        azure_mqtt::packet::SessionExpiryInterval::Duration(0),
+                    ),
+                    ..Default::default()
+                },
+            )?),
+            // currently no disconnect handle, so we aren't connected
+            None => Err(SessionExitError {
+                attempted: false,
+                kind: SessionExitErrorKind::BrokerUnavailable,
+            }),
+        }
     }
 }
 

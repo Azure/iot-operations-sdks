@@ -90,7 +90,7 @@ enum SessionErrorRepr {
 /// Error configuring a [`Session`].
 #[derive(Error, Debug)]
 #[error(transparent)]
-pub struct SessionConfigError(#[from] adapter::MqttAdapterError);
+pub struct SessionConfigError(#[from] adapter::ConnectionSettingsAdapterError);
 
 /// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
 #[derive(Error, Debug)]
@@ -116,6 +116,15 @@ impl SessionExitError {
 
 impl From<DisconnectError> for SessionExitError {
     fn from(_: DisconnectError) -> Self {
+        Self {
+            attempted: true,
+            kind: SessionExitErrorKind::Detached,
+        }
+    }
+}
+
+impl From<azure_mqtt::error::ClientError> for SessionExitError {
+    fn from(_: azure_mqtt::error::ClientError) -> Self {
         Self {
             attempted: true,
             kind: SessionExitErrorKind::Detached,
