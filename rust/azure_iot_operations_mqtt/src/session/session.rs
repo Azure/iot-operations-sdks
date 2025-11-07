@@ -453,9 +453,6 @@ impl Session {
                 _ = self.receive() => {
                     // do anything here? If this ends, it should mean that the client has been dropped
                 }
-                _ = self.receive() => {
-                    // do anything here? If this ends, it should mean that the client has been dropped
-                }
             }
         }
 
