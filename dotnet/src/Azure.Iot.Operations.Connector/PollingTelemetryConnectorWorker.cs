@@ -27,7 +27,8 @@ namespace Azure.Iot.Operations.Connector
             if (args.Device.Enabled == false)
             {
                 _logger.LogWarning("Device {0} is disabled. Skipping asset {1} sampling until device is enabled.", args.DeviceName, args.AssetName);
-                // In a production scenario, you might want to listen for device updates and retry when the device becomes enabled
+                // Note: When the device is updated, ConnectorWorker will automatically cancel this handler
+                // and reinvoke it with the updated device information if it becomes enabled.
                 return;
             }
 
@@ -35,7 +36,8 @@ namespace Azure.Iot.Operations.Connector
             if (args.Asset.Enabled == false)
             {
                 _logger.LogWarning("Asset {0} is disabled. Skipping sampling until asset is enabled.", args.AssetName);
-                // In a production scenario, you might want to listen for asset updates and retry when the asset becomes enabled
+                // Note: When the asset is updated, ConnectorWorker will automatically cancel this handler
+                // and reinvoke it with the updated asset information if it becomes enabled.
                 return;
             }
 
