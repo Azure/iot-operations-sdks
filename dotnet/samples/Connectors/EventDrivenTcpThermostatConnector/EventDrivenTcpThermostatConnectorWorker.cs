@@ -27,6 +27,24 @@ namespace EventDrivenTcpThermostatConnector
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
             cancellationToken.ThrowIfCancellationRequested();
 
+            // Check if the device is enabled before processing
+            if (args.Device.Enabled == false)
+            {
+                _logger.LogWarning("Device {0} is disabled. Skipping asset {1} processing until device is enabled.", args.DeviceName, args.AssetName);
+                // In a production scenario, you might want to listen for device updates and retry when the device becomes enabled
+                return;
+            }
+
+            // Check if the asset is enabled before processing
+            if (args.Asset.Enabled == false)
+            {
+                _logger.LogWarning("Asset {0} is disabled. Skipping processing until asset is enabled.", args.AssetName);
+                // In a production scenario, you might want to listen for asset updates and retry when the asset becomes enabled
+                return;
+            }
+
+            _logger.LogInformation("Device {0} and Asset {1} are both enabled. Proceeding with event processing.", args.DeviceName, args.AssetName);
+
             if (args.Asset.EventGroups == null || args.Asset.EventGroups.Count != 1)
             {
                 _logger.LogError("Asset with name {0} does not have the expected event group", args.AssetName);
