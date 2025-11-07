@@ -28,12 +28,16 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Report the status of this asset to the Azure Device Registry service
+        /// Update the status of this asset in the Azure Device Registry service
         /// </summary>
         /// <param name="status">The status of this asset and its datasets/event groups/streams/management groups</param>
         /// <param name="commandTimeout">The timeout for this RPC command invocation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The status returned by the Azure Device Registry service</returns>
+        /// <remarks>
+        /// This update behaves like a 'put' in that it will replace all current state for this asset in the Azure
+        /// Device Registry service with what is provided.
+        /// </remarks>
         public async Task<AssetStatus> UpdateAssetStatusAsync(
             AssetStatus status,
             TimeSpan? commandTimeout = null,
@@ -51,7 +55,15 @@ namespace Azure.Iot.Operations.Connector
                 cancellationToken);
         }
 
-        public AssetStatus BuildOkayStatus()
+        /// <summary>
+        /// Build an instance of <see cref="DeviceStatus"/> where this asset and all of its datasets/events/streams/management groups
+        /// have no errors.
+        /// </summary>
+        /// <returns>
+        /// An instance of <see cref="DeviceStatus"/> where this asset and all of its datasets/events/streams/management groups
+        /// have no errors.
+        /// </returns>
+        public AssetStatus BuildOkayStatus() //TODO want some cached version of the last known status to avoid 'put' calls overwriting?
         {
             AssetStatus status = new()
             {
