@@ -3,7 +3,6 @@
 
 //! Tooling for sending/receiving publishes to/on multiple receivers which can be distributed in async contexts.
 
-mod ordered_acker;
 mod plenary_ack;
 
 use std::collections::HashMap;
