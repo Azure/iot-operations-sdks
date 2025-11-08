@@ -55,6 +55,18 @@ namespace Azure.Iot.Operations.Connector
                     }
                     catch (Exception e)
                     {
+                        DeviceStatus deviceStatus = args.DeviceEndpointClient.BuildOkayStatus();
+                        deviceStatus.Config = new ConfigStatus()
+                        {
+                            Error = new ConfigError()
+                            {
+                                Message = $"Unable to sample the device. Error message: {e.Message}",
+                            }
+                        };
+
+                        //TODO not really specific enough. Move all this class to user code so they can be more specific?
+                        // Or expect advanced users to just copy this class anyways?
+                        await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus);
                         _logger.LogError(e, "Failed to sample the dataset");
                     }
                 }, null, TimeSpan.FromSeconds(0), samplingInterval);
