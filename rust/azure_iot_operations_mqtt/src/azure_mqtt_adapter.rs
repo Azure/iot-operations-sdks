@@ -496,8 +496,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let result =
-            connection_settings.to_azure_mqtt_connect_parameters(vec![], 500.into(), 200, 200);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            vec![],
+            azure_mqtt::packet::PacketIdentifier::new(500).unwrap(),
+            200,
+            200,
+        );
         assert!(result.is_ok());
     }
 

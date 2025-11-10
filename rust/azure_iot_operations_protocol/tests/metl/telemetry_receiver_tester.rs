@@ -3,12 +3,10 @@
 
 use std::collections::HashMap;
 use std::convert::TryFrom;
-use std::marker::PhantomData;
 use std::sync::{Arc, Mutex};
 
 use async_std::future;
-// use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
-// use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -46,22 +44,12 @@ struct ReceivedTelemetry {
     source_id: Option<String>,
 }
 
-pub struct TelemetryReceiverTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
-    managed_client: PhantomData<C>,
-}
+pub struct TelemetryReceiverTester {}
 
-impl<C> TelemetryReceiverTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl TelemetryReceiverTester {
     pub async fn test_telemetry_receiver(
         test_case: TestCase<ReceiverDefaults>,
-        managed_client: C,
+        managed_client: SessionManagedClient,
         mut mqtt_hub: MqttHub,
     ) {
         if let Some(push_acks) = test_case.prologue.push_acks.as_ref() {
@@ -395,7 +383,7 @@ where
             })
             .unwrap();
 
-            let properties = azure_mqtt::mqtt_proto::publish::PublishOtherProperties {
+            let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
                 payload_is_utf8: to_is_utf8(format_indicator),
                 message_expiry_interval,
                 user_properties,
@@ -403,7 +391,7 @@ where
                 ..Default::default()
             };
 
-            let publish = azure_mqtt::mqtt_proto::publish::Publish {
+            let publish = azure_mqtt::mqtt_proto::Publish {
                 packet_identifier_dup_qos: (qos::to_enum(*qos), packet_id, false).into(),
                 topic_name: topic.into(),
                 payload: payload.into(),

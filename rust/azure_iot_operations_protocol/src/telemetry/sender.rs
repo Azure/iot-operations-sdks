@@ -443,7 +443,7 @@ where
 
         // Cloud Events headers
         if let Some(cloud_event) = message.cloud_event {
-            let cloud_event_headers = cloud_event.into_headers(&message_topic);
+            let cloud_event_headers = cloud_event.into_headers(message_topic.as_str());
             for (key, value) in cloud_event_headers {
                 message.custom_user_data.push((key, value));
             }
@@ -499,8 +499,15 @@ where
             Ok(publish_completion_token) => {
                 // Wait for and handle the puback
                 match publish_completion_token.await {
-                    Ok(()) => Ok(()),
+                    Ok(puback) => puback.as_result().map_err(|e| {
+                        AIOProtocolError::new_mqtt_error(
+                            Some("MQTT Puback indicated failure".to_string()),
+                            Box::new(e),
+                            None,
+                        )
+                    }),
                     Err(e) => {
+                        // TODO: adjust logs
                         log::error!("Puback error: {e}");
                         Err(AIOProtocolError::new_mqtt_error(
                             Some("MQTT Error on telemetry send puback".to_string()),

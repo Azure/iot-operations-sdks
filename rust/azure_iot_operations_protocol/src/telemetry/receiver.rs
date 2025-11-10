@@ -3,8 +3,9 @@
 use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr, sync::Arc};
 
 use azure_iot_operations_mqtt::{
-    control_packet::{Publish, QoS},
+    control_packet::{Publish, QoS, TopicFilter},
     session::managed_client::{SessionManagedClient, SessionPubReceiver},
+    token::AckToken,
 };
 use chrono::{DateTime, Utc};
 use tokio_util::sync::CancellationToken;
@@ -300,10 +301,8 @@ where
         //     .to_string();
 
         // Deserialize payload
-        let format_indicator = publish_properties.payload_format_indicator.try_into().unwrap_or_else(|e| {
-            log::error!("Received invalid payload format indicator: {e}. This should not be possible to receive from the broker. Using default.");
-            FormatIndicator::default()
-        });
+        let format_indicator = publish_properties.payload_format_indicator.into();
+
         let content_type = publish_properties.content_type;
         let payload = T::deserialize(&value.payload, content_type.as_ref(), &format_indicator)
             .map_err(|e| format!("{e:?}"))?;
@@ -377,7 +376,7 @@ where
     application_hlc: Arc<ApplicationHybridLogicalClock>,
     mqtt_client: SessionManagedClient,
     mqtt_receiver: SessionPubReceiver,
-    telemetry_topic: String,
+    telemetry_topic: TopicFilter,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
     // Describes state
@@ -439,20 +438,26 @@ where
         })?;
 
         // Get the telemetry topic
-        let telemetry_topic = topic_pattern.as_subscribe_topic();
+        let telemetry_topic = topic_pattern.as_subscribe_topic().map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(
+                e,
+                "receiver_options.topic_pattern",
+            )
+        })?;
 
-        let mqtt_receiver = match client.create_filtered_pub_receiver(&telemetry_topic) {
-            Ok(receiver) => receiver,
-            Err(e) => {
-                return Err(AIOProtocolError::new_configuration_invalid_error(
-                    Some(Box::new(e)),
-                    "topic_pattern",
-                    Value::String(telemetry_topic),
-                    Some("Could not parse subscription topic pattern".to_string()),
-                    None,
-                ));
-            }
-        };
+        let mqtt_receiver = client.create_filtered_pub_receiver(telemetry_topic.clone());
+        //  {
+        //     Ok(receiver) => receiver,
+        //     Err(e) => {
+        //         return Err(AIOProtocolError::new_configuration_invalid_error(
+        //             Some(Box::new(e)),
+        //             "topic_pattern",
+        //             Value::String(telemetry_topic.to_string()),
+        //             Some("Could not parse subscription topic pattern".to_string()),
+        //             None,
+        //         ));
+        //     }
+        // };
 
         Ok(Self {
             application_hlc: application_context.application_hlc,
@@ -489,17 +494,28 @@ where
                 let unsubscribe_result = self
                     .mqtt_client
                     .unsubscribe(
-                        &self.telemetry_topic,
+                        self.telemetry_topic.clone(),
                         azure_mqtt::packet::UnsubscribeProperties::default(),
                     )
                     .await;
 
                 match unsubscribe_result {
                     Ok(unsub_ct) => match unsub_ct.await {
-                        Ok(()) => {
-                            self.receiver_state = State::ShutdownSuccessful;
-                        }
+                        Ok(unsuback) => match unsuback.as_result() {
+                            Ok(()) => {
+                                self.receiver_state = State::ShutdownSuccessful;
+                            }
+                            Err(e) => {
+                                log::error!("Unsuback error: {e}");
+                                return Err(AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT error on telemetry receiver unsuback".to_string()),
+                                    Box::new(e),
+                                    None,
+                                ));
+                            }
+                        },
                         Err(e) => {
+                            // TODO: adjust logs
                             log::error!("Unsuback error: {e}");
                             return Err(AIOProtocolError::new_mqtt_error(
                                 Some("MQTT error on telemetry receiver unsuback".to_string()),
@@ -532,7 +548,7 @@ where
         let subscribe_result = self
             .mqtt_client
             .subscribe(
-                &self.telemetry_topic,
+                self.telemetry_topic.clone(),
                 QoS::AtLeastOnce,
                 // TODO: validate these are the right settings
                 false,
@@ -544,8 +560,18 @@ where
 
         match subscribe_result {
             Ok(sub_ct) => match sub_ct.await {
-                Ok(()) => { /* Success */ }
+                Ok(suback) => {
+                    suback.as_result().map_err(|e| {
+                        log::error!("Suback error: {e}");
+                        AIOProtocolError::new_mqtt_error(
+                            Some("MQTT error on telemetry receiver suback".to_string()),
+                            Box::new(e),
+                            None,
+                        )
+                    })?;
+                }
                 Err(e) => {
+                    // TODO: adjust logs
                     log::error!("Suback error: {e}");
                     return Err(AIOProtocolError::new_mqtt_error(
                         Some("MQTT error on telemetry receiver suback".to_string()),

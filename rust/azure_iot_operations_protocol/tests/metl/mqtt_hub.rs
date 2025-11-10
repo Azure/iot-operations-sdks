@@ -43,10 +43,10 @@ pub struct MqttHub {
     subscribed_topics: HashSet<String>,
     published_messages: HashMap<
         Option<Bytes>,
-        azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl>,
+        azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>,
     >,
     published_message_seq:
-        HashMap<i32, azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl>>,
+        HashMap<i32, azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>>,
 }
 
 impl MqttHub {
@@ -167,22 +167,20 @@ impl MqttHub {
     pub fn get_published_message(
         &self,
         correlation_data: &Option<Bytes>,
-    ) -> Option<&azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl>>
-    {
+    ) -> Option<&azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>> {
         self.published_messages.get(correlation_data)
     }
 
     pub fn get_sequentially_published_message(
         &self,
         sequence_index: i32,
-    ) -> Option<&azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl>>
-    {
+    ) -> Option<&azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>> {
         self.published_message_seq.get(&sequence_index)
     }
 
     pub fn receive_message(
         &mut self,
-        message: azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl>,
+        message: azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>,
     ) {
         match self.message_tx.as_mut() {
             Some(message_tx) => {
@@ -226,11 +224,15 @@ impl MqttHub {
                         .insert(self.publication_count - 1, publish);
 
                     match publish.packet_identifier_dup_qos {
-                        PacketIdentifierDupQoS::AtMostOnce => {}
-                        PacketIdentifierDupQoS::AtLeastOnce(pkid) => {
+                        azure_mqtt::mqtt_proto::PacketIdentifierDupQoS::AtMostOnce => {}
+                        azure_mqtt::mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(pkid, _) => {
                             let reason_code = match self.puback_queue.pop_front() {
-                                Some(TestAckKind::Success) | None => PubAckReasonCode::Success,
-                                Some(TestAckKind::Fail) => PubAckReasonCode::UnspecifiedError,
+                                Some(TestAckKind::Success) | None => {
+                                    azure_mqtt::mqtt_proto::PubAckReasonCode::Success
+                                }
+                                Some(TestAckKind::Fail) => {
+                                    azure_mqtt::mqtt_proto::PubAckReasonCode::UnspecifiedError
+                                }
                                 Some(TestAckKind::Drop) => {
                                     // emulate dropping the puback
                                     // TODO: does this need to end the session?
@@ -238,7 +240,7 @@ impl MqttHub {
                                 }
                             };
                             let puback = azure_mqtt::mqtt_proto::Packet::PubAck(
-                                azure_mqtt::mqtt_proto::puback::PubAck {
+                                azure_mqtt::mqtt_proto::PubAck {
                                     packet_identifier: pkid,
                                     reason_code,
                                     other_properties: Default::default(),
@@ -249,28 +251,31 @@ impl MqttHub {
                                 .send(puback)
                                 .unwrap();
                         }
-                        PacketIdentifierDupQoS::ExactlyOnce(pkid) => {} // ignore this case because we never use QoS 2
+                        azure_mqtt::mqtt_proto::PacketIdentifierDupQoS::ExactlyOnce(pkid, _) => {} // ignore this case because we never use QoS 2
                     }
                 }
                 azure_mqtt::mqtt_proto::Packet::Subscribe(subscribe) => {
                     self.subscribed_topics
                         .insert(subscribe.subscribe_to[0].topic_filter.into());
                     let reason_code = match self.suback_queue.pop_front() {
-                        Some(TestAckKind::Success) | None => SubscribeReasonCode::GrantedQoS1, // TODO: this should be fine since we always sub with qos 1, but could determine it from the sub packet
-                        Some(TestAckKind::Fail) => SubscribeReasonCode::UnspecifiedError,
+                        Some(TestAckKind::Success) | None => {
+                            azure_mqtt::mqtt_proto::SubscribeReasonCode::GrantedQoS1
+                        } // TODO: this should be fine since we always sub with qos 1, but could determine it from the sub packet
+                        Some(TestAckKind::Fail) => {
+                            azure_mqtt::mqtt_proto::SubscribeReasonCode::UnspecifiedError
+                        }
                         Some(TestAckKind::Drop) => {
                             // emulate dropping the suback
                             // TODO: does this need to end the session?
                             return;
                         }
                     };
-                    let suback = azure_mqtt::mqtt_proto::Packet::SubAck(
-                        azure_mqtt::mqtt_proto::suback::SubAck {
+                    let suback =
+                        azure_mqtt::mqtt_proto::Packet::SubAck(azure_mqtt::mqtt_proto::SubAck {
                             packet_identifier: subscribe.packet_identifier,
-                            reason_code,
+                            reason_codes: vec![reason_code],
                             other_properties: Default::default(),
-                        },
-                    );
+                        });
                     self.event_tx.as_mut()
                         .expect("receive_incoming_event() called but MQTT emulation is not at Event level")
                         .send(suback)
@@ -278,8 +283,12 @@ impl MqttHub {
                 }
                 azure_mqtt::mqtt_proto::Packet::Unsubscribe(unsubscribe) => {
                     let reason_code = match self.unsuback_queue.pop_front() {
-                        Some(TestAckKind::Success) | None => UnsubAckReasonCode::Success,
-                        Some(TestAckKind::Fail) => UnsubAckReasonCode::UnspecifiedError,
+                        Some(TestAckKind::Success) | None => {
+                            azure_mqtt::mqtt_proto::UnsubAckReasonCode::Success
+                        }
+                        Some(TestAckKind::Fail) => {
+                            azure_mqtt::mqtt_proto::UnsubAckReasonCode::UnspecifiedError
+                        }
                         Some(TestAckKind::Drop) => {
                             // emulate dropping the unsuback
                             // TODO: does this need to end the session?
@@ -287,7 +296,7 @@ impl MqttHub {
                         }
                     };
                     let unsuback = azure_mqtt::mqtt_proto::Packet::UnsubAck(
-                        azure_mqtt::mqtt_proto::unsuback::UnsubAck {
+                        azure_mqtt::mqtt_proto::UnsubAck {
                             packet_identifier: unsubscribe.packet_identifier,
                             reason_codes: vec![reason_code],
                             other_properties: Default::default(),

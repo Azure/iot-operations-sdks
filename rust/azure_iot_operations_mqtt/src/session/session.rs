@@ -223,8 +223,7 @@ impl Session {
     pub async fn run(mut self) -> Result<(), SessionError> {
         self.state.transition_running();
         // TODO: this changes the error from what it was before and no longer logs
-        //let authentication_info = self.connect_parameters.authentication_info()?;
-        let authentication_info = None; // TODO: actually use auth info
+        let authentication_info = self.connect_parameters.authentication_info().unwrap(); // TODO: actually use auth info
         let mut clean_start = self.connect_parameters.initial_clean_start;
 
         // TODO: not sure if we need some of this still
@@ -242,6 +241,8 @@ impl Session {
         let mut prev_reconnect_attempts = 0;
         // Return value for the session indicating reason for exit
         let mut result = Ok(());
+
+        let notify_force_exit = self.notify_force_exit.clone();
 
         // Handle events
         loop {
@@ -275,13 +276,18 @@ impl Session {
                     .take()
                     .unwrap()
                     .connect(
-                        self.connect_parameters.connection_transport_config.clone(),
+                        // TODO: actually use connection transport config from settings
+                        // self.connect_parameters.connection_transport_config.clone(),
+                        azure_mqtt::client::ConnectionTransportConfig::Tcp {
+                            hostname: "something".to_string(),
+                            port: 1883,
+                        },
                         clean_start,
                         self.connect_parameters.keep_alive,
-                        self.connect_parameters.will,
-                        self.connect_parameters.username,
-                        self.connect_parameters.password,
-                        self.connect_parameters.connect_properties,
+                        self.connect_parameters.will.clone(),
+                        self.connect_parameters.username.clone(),
+                        self.connect_parameters.password.clone(),
+                        self.connect_parameters.connect_properties.clone(),
                         Some(self.connect_parameters.connection_timeout),
                     )
                     .await
@@ -294,28 +300,29 @@ impl Session {
                     azure_mqtt::client::ConnectResult::Failure(connect_handle, connack) => {
                         self.state.transition_disconnected();
                         self.connect_handle = Some(connect_handle);
-                        if let Some(connack) = connack {
-                            if prev_connected && !connack.session_present {
-                                log::error!(
-                                    "Session state not present on broker after reconnect. Ending session."
+                        if let Some(ref connack) = connack
+                            && prev_connected
+                            && !connack.session_present
+                        {
+                            log::error!(
+                                "Session state not present on broker after reconnect. Ending session."
+                            );
+                            result = Err(SessionErrorRepr::SessionLost);
+                            if self.state.desire_exit() {
+                                // NOTE: this could happen if the user was exiting when the connection was dropped,
+                                // while the Session was not aware of the connection drop. Then, the drop has to last
+                                // long enough for the MQTT session expiry interval to cause the broker to discard the
+                                // MQTT session, and thus, you would enter this case.
+                                // NOTE: The reason that the misattribution of cause may occur in logs is due to the
+                                // (current) loose matching of received disconnects on account of an rumqttc bug.
+                                // See the error cases below in this match statement for more information.
+                                log::debug!(
+                                    "Session-initiated exit triggered when user-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
                                 );
-                                result = Err(SessionErrorRepr::SessionLost);
-                                if self.state.desire_exit() {
-                                    // NOTE: this could happen if the user was exiting when the connection was dropped,
-                                    // while the Session was not aware of the connection drop. Then, the drop has to last
-                                    // long enough for the MQTT session expiry interval to cause the broker to discard the
-                                    // MQTT session, and thus, you would enter this case.
-                                    // NOTE: The reason that the misattribution of cause may occur in logs is due to the
-                                    // (current) loose matching of received disconnects on account of an rumqttc bug.
-                                    // See the error cases below in this match statement for more information.
-                                    log::debug!(
-                                        "Session-initiated exit triggered when user-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
-                                    );
-                                }
-                                // TODO: I think we should just break instead of triggering session exit here because we aren't connected, so the disconnect request won't be sent, and knowing whether we desired the exit or not only affects logging?
-                                // self.trigger_session_exit().await;
-                                break;
                             }
+                            // TODO: I think we should just break instead of triggering session exit here because we aren't connected, so the disconnect request won't be sent, and knowing whether we desired the exit or not only affects logging?
+                            // self.trigger_session_exit().await;
+                            break;
                         }
                         // Always log the error itself at error level
                         log::error!("Connection attempt failed"); // TODO: log connack?
@@ -410,7 +417,7 @@ impl Session {
             tokio::select! {
                 // Ensure that the force exit signal is checked first.
                 biased;
-                () = self.notify_force_exit.notified() => {
+                () = notify_force_exit.notified() => {
                     result = Err(SessionErrorRepr::ForceExit);
                     break
                 },
@@ -418,13 +425,13 @@ impl Session {
                     // TODO: clear disconnect handle?
                     self.state.transition_disconnected();
                     self.connect_handle = Some(new_connect_handle);
+                    // Always log the error itself at error level
+                    log::error!("Client Disconnected: {disconnect_event:?}");
                     let connection_error = ConnectionError::new(ConnectionErrorKind::Disconnected(disconnect_event));
                     if session_ended {
                         result = Err(connection_error.into());
                         break;
                     }
-                    // Always log the error itself at error level
-                    log::error!("Client Disconnected: {disconnect_event:?}");
 
                     // Defer decision to reconnect policy
                     if let Some(delay) = self
@@ -448,7 +455,7 @@ impl Session {
                     }
                     prev_reconnect_attempts += 1;
                 }
-                _ = self.receive() => {
+                () = self.receive() => {
                     // do anything here? If this ends, it should mean that the client has been dropped
                 }
             }

@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 use std::collections::{VecDeque, hash_map::HashMap};
-use std::marker::PhantomData;
-use std::str::from_utf8;
 use std::sync::Arc;
 
 use async_std::future;
+use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -33,22 +32,12 @@ const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
 type SendResultReceiver = oneshot::Receiver<Result<(), AIOProtocolError>>;
 
-pub struct TelemetrySenderTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
-    managed_client: PhantomData<C>,
-}
+pub struct TelemetrySenderTester {}
 
-impl<C> TelemetrySenderTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl TelemetrySenderTester {
     pub async fn test_telemetry_sender(
         test_case: TestCase<SenderDefaults>,
-        managed_client: C,
+        managed_client: SessionManagedClient,
         mut mqtt_hub: MqttHub,
     ) {
         if let Some(push_acks) = test_case.prologue.push_acks.as_ref() {

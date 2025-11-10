@@ -3,8 +3,6 @@
 
 use std::collections::HashMap;
 use std::convert::TryFrom;
-use std::marker::PhantomData;
-use std::str::from_utf8;
 use std::sync::Arc;
 
 use async_std::future;
@@ -505,7 +503,7 @@ impl CommandInvokerTester {
             })
             .unwrap();
 
-            let properties = azure_mqtt::mqtt_proto::publish::PublishOtherProperties {
+            let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
                 payload_is_utf8: to_is_utf8(format_indicator),
                 message_expiry_interval,
                 correlation_data,
@@ -514,7 +512,7 @@ impl CommandInvokerTester {
                 ..Default::default()
             };
 
-            let publish = azure_mqtt::mqtt_proto::publish::Publish {
+            let publish = azure_mqtt::mqtt_proto::Publish {
                 packet_identifier_dup_qos: (qos::to_enum(*qos), packet_id, false).into(),
                 topic_name: topic.into(),
                 // pkid: packet_id,
@@ -602,7 +600,7 @@ impl CommandInvokerTester {
         mqtt_hub: &MqttHub,
         correlation_ids: &HashMap<i32, Option<Bytes>>,
     ) {
-        let published_message: &azure_mqtt::mqtt_proto::publish::Publish<azure_mqtt::buffer_pool::SharedImpl> =
+        let published_message: &azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl> =
             if let Some(correlation_index) = expected_message.correlation_index {
                 if let Some(correlation_id) = correlation_ids.get(&correlation_index) {
                     let publish = mqtt_hub.get_published_message(correlation_id);

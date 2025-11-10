@@ -7,8 +7,7 @@ use std::path::Path;
 use std::sync::atomic;
 
 use azure_iot_operations_mqtt::session::{
-    managed_client::SessionManagedClient, reconnect_policy::ExponentialBackoffWithJitter,
-    session::Session,
+    reconnect_policy::ExponentialBackoffWithJitter, session::Session,
 };
 use tokio::runtime::Builder;
 
@@ -17,7 +16,6 @@ use metl::command_invoker_tester::CommandInvokerTester;
 use metl::defaults::{
     DefaultsType, ExecutorDefaults, InvokerDefaults, ReceiverDefaults, SenderDefaults,
 };
-use metl::mqtt_driver::MqttDriver;
 use metl::mqtt_emulation_level::MqttEmulationLevel;
 use metl::mqtt_hub::MqttHub;
 use metl::telemetry_receiver_tester::TelemetryReceiverTester;
@@ -147,12 +145,8 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
 
         current_thread.block_on(async move {
             let _ = tokio::join!(session.run(), async move {
-                CommandInvokerTester::<SessionManagedClient<MqttDriver>>::test_command_invoker(
-                    test_case,
-                    managed_client,
-                    mqtt_hub,
-                )
-                .await;
+                CommandInvokerTester::test_command_invoker(test_case, managed_client, mqtt_hub)
+                    .await;
                 exit_handle.exit_force().await;
             });
         });
@@ -193,12 +187,8 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
 
         current_thread.block_on(async move {
             let _ = tokio::join!(session.run(), async move {
-                CommandExecutorTester::<SessionManagedClient<MqttDriver>>::test_command_executor(
-                    test_case,
-                    managed_client,
-                    mqtt_hub,
-                )
-                .await;
+                CommandExecutorTester::test_command_executor(test_case, managed_client, mqtt_hub)
+                    .await;
                 exit_handle.exit_force().await;
             });
         });
@@ -239,7 +229,7 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
 
         current_thread.block_on(async move {
             let _ = tokio::join!(session.run(), async move {
-                TelemetryReceiverTester::<SessionManagedClient<MqttDriver>>::test_telemetry_receiver(
+                TelemetryReceiverTester::test_telemetry_receiver(
                     test_case,
                     managed_client,
                     mqtt_hub,
@@ -284,12 +274,8 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
 
         current_thread.block_on(async move {
             let _ = tokio::join!(session.run(), async move {
-                TelemetrySenderTester::<SessionManagedClient<MqttDriver>>::test_telemetry_sender(
-                    test_case,
-                    managed_client,
-                    mqtt_hub,
-                )
-                .await;
+                TelemetrySenderTester::test_telemetry_sender(test_case, managed_client, mqtt_hub)
+                    .await;
                 exit_handle.exit_force().await;
             });
         });

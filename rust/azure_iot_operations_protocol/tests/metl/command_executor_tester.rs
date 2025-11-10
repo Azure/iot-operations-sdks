@@ -3,13 +3,10 @@
 
 use std::collections::HashMap;
 use std::convert::TryFrom;
-use std::marker::PhantomData;
-use std::str::from_utf8;
 use std::sync::{Arc, Mutex};
 
 use async_std::future;
-// use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
-// use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -35,22 +32,12 @@ use crate::metl::{aio_protocol_error_checker, mqtt_hub::to_is_utf8};
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
-pub struct CommandExecutorTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
-    managed_client: PhantomData<C>,
-}
+pub struct CommandExecutorTester {}
 
-impl<C> CommandExecutorTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl CommandExecutorTester {
     pub async fn test_command_executor(
         test_case: TestCase<ExecutorDefaults>,
-        managed_client: C,
+        managed_client: SessionManagedClient,
         mut mqtt_hub: MqttHub,
     ) {
         if let Some(push_acks) = test_case.prologue.push_acks.as_ref() {
@@ -458,8 +445,8 @@ where
             })
             .unwrap();
 
-            let properties = PublishProperties {
-                payload_format_indicator: *format_indicator,
+            let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
+                payload_is_utf8: to_is_utf8(format_indicator),
                 message_expiry_interval,
                 response_topic: response_topic.clone(),
                 correlation_data,
@@ -468,13 +455,13 @@ where
                 ..Default::default()
             };
 
-            let publish = Publish {
-                qos: qos::to_enum(*qos),
-                topic,
-                pkid: packet_id,
+            let publish = azure_mqtt::mqtt_proto::Publish {
+                packet_identifier_dup_qos: (qos::to_enum(*qos), packet_id, false).into(),
+                topic_name: topic.into(),
+                // pkid: packet_id,
                 payload: payload.into(),
-                properties: Some(properties),
-                ..Default::default()
+                other_properties: properties,
+                retain: false,
             };
 
             mqtt_hub.receive_message(publish);

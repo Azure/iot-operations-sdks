@@ -5,7 +5,7 @@ use std::fmt::Debug;
 
 /// Format indicator for serialization and deserialization.
 #[repr(u8)]
-#[derive(Clone, PartialEq, Debug, Default)]
+#[derive(Clone, PartialEq, Debug, Default, Copy)]
 pub enum FormatIndicator {
     /// Unspecified Bytes
     #[default]
@@ -36,6 +36,19 @@ impl From<FormatIndicator> for azure_mqtt::packet::PayloadFormatIndicator {
             }
             FormatIndicator::Utf8EncodedCharacterData => {
                 azure_mqtt::packet::PayloadFormatIndicator::UTF8
+            }
+        }
+    }
+}
+
+impl From<azure_mqtt::packet::PayloadFormatIndicator> for FormatIndicator {
+    fn from(value: azure_mqtt::packet::PayloadFormatIndicator) -> Self {
+        match value {
+            azure_mqtt::packet::PayloadFormatIndicator::Unspecified => {
+                FormatIndicator::UnspecifiedBytes
+            }
+            azure_mqtt::packet::PayloadFormatIndicator::UTF8 => {
+                FormatIndicator::Utf8EncodedCharacterData
             }
         }
     }
