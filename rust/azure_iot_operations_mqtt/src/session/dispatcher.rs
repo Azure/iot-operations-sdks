@@ -29,7 +29,7 @@ impl Future for AckCompletionToken {
     }
 }
 
-pub type PublishTx = UnboundedSender<(Publish, Option<AckToken>)>; // TODO: this is option right?
+pub type PublishTx = UnboundedSender<(Publish, Option<AckToken>)>;
 pub type PublishRx = UnboundedReceiver<(Publish, Option<AckToken>)>;
 
 #[derive(Default)]
