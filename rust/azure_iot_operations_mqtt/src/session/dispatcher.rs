@@ -14,8 +14,8 @@ use crate::session::plenary_ack::{PlenaryAck, PlenaryAckCompletionToken, Plenary
 pub struct AckToken(PlenaryAckMember);
 
 impl AckToken {
-    pub async fn ack(self) -> Result<PlenaryAckCompletionToken, ClientError> {
-        self.0.ack().await
+    pub async fn ack(self) -> Result<AckCompletionToken, ClientError> {
+        self.0.ack().await.map(|token| AckCompletionToken(token))
     }
 }
 
