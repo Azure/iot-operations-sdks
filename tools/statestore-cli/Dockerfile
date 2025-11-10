@@ -1,5 +1,5 @@
 # RUST_VERSION should be the value of "channel" in rust-toolchain.toml
-ARG RUST_VERSION=1.85
+ARG RUST_VERSION=1.89
 FROM mcr.microsoft.com/azurelinux/base/rust:$RUST_VERSION AS build
 
 # Move source code from build context into /app folder
