@@ -172,6 +172,18 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <inheritdoc/>
+        public Task<DeviceStatus> GetDeviceStatusAsync(string deviceName, string inboundEndpointName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return _client.GetDeviceStatusAsync(deviceName, inboundEndpointName, commandTimeout, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public Task<AssetStatus> GetAssetStatusAsync(string deviceName, string inboundEndpointName, string assetName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return _client.GetAssetStatusAsync(deviceName, inboundEndpointName, assetName, commandTimeout, cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public ValueTask DisposeAsync()
         {
             return _client.DisposeAsync();

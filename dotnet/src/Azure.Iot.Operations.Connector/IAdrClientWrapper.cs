@@ -164,5 +164,34 @@ namespace Azure.Iot.Operations.Connector
             string inboundEndpointType,
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves the status of a specific device.
+        /// </summary>
+        /// <param name="deviceName">The name of the device.</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+        /// <param name="commandTimeout">Optional timeout for the command.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>A task that represents the asynchronous operation, containing the device status.</returns>
+        Task<DeviceStatus> GetDeviceStatusAsync(
+            string deviceName,
+            string inboundEndpointName,
+            TimeSpan? commandTimeout = null,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves the status of a specific asset.
+        /// </summary>
+        /// <param name="deviceName">The name of the device.</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+        /// <param name="assetName">The name of the asset.</param>
+        /// <param name="commandTimeout">Optional timeout for the command.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>A task that represents the asynchronous operation, containing the asset status.</returns>
+        Task<AssetStatus> GetAssetStatusAsync(string deviceName,
+            string inboundEndpointName,
+            string assetName,
+            TimeSpan? commandTimeout = null,
+            CancellationToken cancellationToken = default);
     }
 }
