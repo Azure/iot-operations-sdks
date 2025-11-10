@@ -12,7 +12,7 @@ use notify_debouncer_full::{RecommendedCache, new_debouncer};
 use thiserror::Error;
 use tokio::sync::Notify;
 
-use crate::error::ReauthError;
+use crate::error::ClientError;
 
 /// Used as the authentication method for the MQTT client when using SAT.
 pub const SAT_AUTHENTICATION_METHOD: &str = "K8S-SAT";
@@ -45,7 +45,7 @@ pub enum SatReauthError {
     ReauthUnsuccessful(AuthReason),
     /// Error occurred while reauthenticating the client.
     #[error("{0}")]
-    ClientReauthError(#[from] ReauthError),
+    ClientError(#[from] ClientError),
     /// Reauth channel closed.
     #[error("Auth watcher channel closed")]
     AuthWatcherClosed,
@@ -147,33 +147,34 @@ impl SatAuthContext {
     /// Returns `Ok(())` if re-authentication is successful. If an error occurs or reauthentication was unsuccessful, a [`SatReauthError`] is returned.
     pub async fn reauth(
         &mut self,
-        timeout: Duration,
-        client: &azure_mqtt::client::Client, // TODO: probably change to reauth handle
+        _timeout: Duration,
+        _client: &azure_mqtt::client::Client, // TODO: probably change to reauth handle
     ) -> Result<(), SatReauthError> {
-        // Get SAT token
-        let sat_token =
-            std::fs::read_to_string(&self.file_location).map_err(SatReauthError::from)?;
+        // // Get SAT token
+        // let sat_token =
+        //     std::fs::read_to_string(&self.file_location).map_err(SatReauthError::from)?;
 
-        let props = azure_mqtt::packet::AuthenticationInfo {
-            method: SAT_AUTHENTICATION_METHOD.to_string(),
-            data: Some(sat_token.into()),
-            // reason: None,
-            // user_properties: Vec::new(),
-        };
+        // let props = azure_mqtt::packet::AuthenticationInfo {
+        //     method: SAT_AUTHENTICATION_METHOD.to_string(),
+        //     data: Some(sat_token.into()),
+        //     // reason: None,
+        //     // user_properties: Vec::new(),
+        // };
 
-        // Re-authenticate the client
-        client.reauth(props).await.map_err(SatReauthError::from)?;
+        // // Re-authenticate the client
+        // client.reauth(props).await.map_err(SatReauthError::from)?;
 
-        // Wait for next auth change
-        tokio::select! {
-            auth = self.auth_watcher_rx.recv() => {
-                match auth {
-                    Some(AuthReason::Success) => Ok(()),
-                    Some(rc) => Err(SatReauthError::ReauthUnsuccessful(rc)),
-                    None => Err(SatReauthError::AuthWatcherClosed),
-                }
-            }
-            () = tokio::time::sleep(timeout) => Err(SatReauthError::Timeout),
-        }
+        // // Wait for next auth change
+        // tokio::select! {
+        //     auth = self.auth_watcher_rx.recv() => {
+        //         match auth {
+        //             Some(AuthReason::Success) => Ok(()),
+        //             Some(rc) => Err(SatReauthError::ReauthUnsuccessful(rc)),
+        //             None => Err(SatReauthError::AuthWatcherClosed),
+        //         }
+        //     }
+        //     () = tokio::time::sleep(timeout) => Err(SatReauthError::Timeout),
+        // }
+        unimplemented!()
     }
 }

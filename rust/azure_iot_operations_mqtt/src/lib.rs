@@ -17,7 +17,8 @@ mod connection_settings;
 pub mod control_packet;
 pub mod error;
 pub mod session;
-pub mod topic;
+pub mod token;
+pub mod topic_old; // TODO: remove
 
 mod azure_mqtt_adapter; // TODO: Maybe not needed in new client integration
 
