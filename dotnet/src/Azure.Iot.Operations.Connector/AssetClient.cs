@@ -15,15 +15,13 @@ namespace Azure.Iot.Operations.Connector
         private readonly string _deviceName;
         private readonly string _inboundEndpointName;
         private readonly string _assetName;
-        private readonly Asset _asset;
 
-        internal AssetClient(IAdrClientWrapper adrClient, string deviceName, string inboundEndpointName, string assetName, Asset asset, ConnectorWorker connector)
+        internal AssetClient(IAdrClientWrapper adrClient, string deviceName, string inboundEndpointName, string assetName, ConnectorWorker connector)
         {
             _adrClient = adrClient;
             _deviceName = deviceName;
             _inboundEndpointName = inboundEndpointName;
             _assetName = assetName;
-            _asset = asset;
             _connector = connector;
         }
 
@@ -38,12 +36,13 @@ namespace Azure.Iot.Operations.Connector
         /// This update behaves like a 'put' in that it will replace all current state for this asset in the Azure
         /// Device Registry service with what is provided.
         /// </remarks>
-        public async Task<AssetStatus> UpdateAssetStatusAsync(
+        public Task<AssetStatus> UpdateAssetStatusAsync(
             AssetStatus status,
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)
         {
-            return await _adrClient.UpdateAssetStatusAsync(
+            //TODO update lastUpdatetimeUtc
+            return _adrClient.UpdateAssetStatusAsync(
                 _deviceName,
                 _inboundEndpointName,
                 new UpdateAssetStatusRequest()
@@ -55,64 +54,16 @@ namespace Azure.Iot.Operations.Connector
                 cancellationToken);
         }
 
-        /// <summary>
-        /// Build an instance of <see cref="DeviceStatus"/> where this asset and all of its datasets/events/streams/management groups
-        /// have no errors.
-        /// </summary>
-        /// <returns>
-        /// An instance of <see cref="DeviceStatus"/> where this asset and all of its datasets/events/streams/management groups
-        /// have no errors.
-        /// </returns>
-        public AssetStatus BuildOkayStatus() //TODO want some cached version of the last known status to avoid 'put' calls overwriting?
+        public Task<AssetStatus> GetAssetStatusAsync(
+            TimeSpan? commandTimeout = null,
+            CancellationToken cancellationToken = default)
         {
-            AssetStatus status = new()
-            {
-                Config = ConfigStatus.Okay(),
-            };
-
-            if (_asset.Datasets != null)
-            {
-                status.Datasets = new List<AssetDatasetEventStreamStatus>();
-                foreach (var dataset in _asset.Datasets)
-                {
-                    status.Datasets.Add(new AssetDatasetEventStreamStatus()
-                    {
-                        Name = dataset.Name,
-                        Error = null,
-                        MessageSchemaReference = _connector.GetRegisteredDatasetMessageSchema(_deviceName, _inboundEndpointName, _assetName, dataset.Name)
-                    });
-                }
-            }
-
-            if (_asset.EventGroups != null)
-            {
-                status.EventGroups = new List<AssetEventGroupStatus>();
-                foreach (var eventGroup in _asset.EventGroups)
-                {
-                    var eventGroupStatus = new AssetEventGroupStatus()
-                    {
-                        Name = eventGroup.Name,
-                    };
-
-                    if (eventGroup.Events != null)
-                    {
-                        eventGroupStatus.Events = new List<AssetDatasetEventStreamStatus>();
-                        foreach (var assetEvent in eventGroup.Events)
-                        {
-                            eventGroupStatus.Events.Add(new AssetDatasetEventStreamStatus()
-                            {
-                                Name = assetEvent.Name,
-                                Error = null,
-                                MessageSchemaReference = _connector.GetRegisteredEventMessageSchema(_deviceName, _inboundEndpointName, _assetName, eventGroup.Name, assetEvent.Name)
-                            });
-                        }
-                    }
-
-                    status.EventGroups.Add(eventGroupStatus);
-                }
-            }
-
-            return status;
+            return _adrClient.GetAssetStatusAsync(
+                _deviceName,
+                _inboundEndpointName,
+                _assetName,
+                commandTimeout,
+                cancellationToken);
         }
 
         /// <summary>

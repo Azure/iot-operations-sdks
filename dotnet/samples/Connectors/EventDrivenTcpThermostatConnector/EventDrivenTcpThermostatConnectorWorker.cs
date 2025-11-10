@@ -29,7 +29,7 @@ namespace EventDrivenTcpThermostatConnector
         {
             _logger.LogInformation("Device with name {0} is now available", args.DeviceName);
 
-            DeviceStatus deviceStatus = args.DeviceEndpointClient.BuildOkayStatus();
+            DeviceStatus deviceStatus = await args.DeviceEndpointClient.GetDeviceStatusAsync();
             try
             {
                 _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
@@ -49,7 +49,7 @@ namespace EventDrivenTcpThermostatConnector
             if (args.Asset.EventGroups == null || args.Asset.EventGroups.Count != 1)
             {
                 _logger.LogWarning("Asset with name {0} does not have the expected event group. No events will be received.", args.AssetName);
-                AssetStatus assetStatus = args.AssetClient.BuildOkayStatus();
+                AssetStatus assetStatus = await args.AssetClient.GetAssetStatusAsync();
                 try
                 {
                     await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
@@ -65,7 +65,7 @@ namespace EventDrivenTcpThermostatConnector
             if (eventGroup.Events == null || eventGroup.Events.Count != 1)
             {
                 _logger.LogWarning("Asset with name {0} does not have the expected event within its event group. No events will be received.", args.AssetName);
-                AssetStatus assetStatus = args.AssetClient.BuildOkayStatus();
+                AssetStatus assetStatus = await args.AssetClient.GetAssetStatusAsync();
                 try
                 {
                     await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
@@ -84,7 +84,7 @@ namespace EventDrivenTcpThermostatConnector
             {
                 // If the asset's has no event doesn't specify a port, then do nothing
                 _logger.LogError("Asset with name {0} has an event, but the event didn't configure a port, so the connector won't handle these events", args.AssetName);
-                AssetStatus assetStatus = args.AssetClient.BuildOkayStatus();
+                AssetStatus assetStatus = await args.AssetClient.GetAssetStatusAsync();
                 assetStatus.EventGroups!.First().Events!.First().Error = new ConfigError()
                 {
                     Message = "The configured event was either missing the expected port or had a non-integer value for the port",
@@ -137,7 +137,7 @@ namespace EventDrivenTcpThermostatConnector
                             await args.AssetClient.ForwardReceivedEventAsync(eventGroupName, assetEvent, buffer, null, cancellationToken);
 
                             // Report status of the asset once the first event has been received and forwarded
-                            AssetStatus assetStatus = args.AssetClient.BuildOkayStatus();
+                            AssetStatus assetStatus = await args.AssetClient.GetAssetStatusAsync();
                             try
                             {
                                 await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
@@ -159,7 +159,7 @@ namespace EventDrivenTcpThermostatConnector
                     _logger.LogError(e, "Failed to open TCP connection to asset");
                 }
 
-                DeviceStatus deviceStatus = args.DeviceEndpointClient.BuildOkayStatus();
+                DeviceStatus deviceStatus = await args.DeviceEndpointClient.GetDeviceStatusAsync();
                 deviceStatus.SetEndpointError(
                     InboundEndpointName,
                     new ConfigError()

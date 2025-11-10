@@ -68,7 +68,7 @@ namespace Azure.Iot.Operations.Connector
             AssetName = assetName;
             Asset = asset;
             LeaderElectionClient = leaderElectionClient;
-            AssetClient = new(adrClient, deviceName, inboundEndpointName, assetName, asset, connector);
+            AssetClient = new(adrClient, deviceName, inboundEndpointName, assetName, connector);
             DeviceEndpointClient = new(adrClient, deviceName, inboundEndpointName);
         }
     }

@@ -35,12 +35,13 @@ namespace Azure.Iot.Operations.Connector
         /// That means that, for devices with multiple endpoints, you can safely call this method when each endpoint has a status to
         /// report without needing to include the existing status of previously reported endpoints.
         /// </remarks>
-        public async Task<DeviceStatus> UpdateDeviceStatusAsync(
-        DeviceStatus status,
+        public Task<DeviceStatus> UpdateDeviceStatusAsync(
+            DeviceStatus status,
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)
         {
-            return await _adrClient.UpdateDeviceStatusAsync(
+            //TODO update lastUpdatetimeUtc
+            return _adrClient.UpdateDeviceStatusAsync(
                 _deviceName,
                 _inboundEndpointName,
                 status,
@@ -48,29 +49,15 @@ namespace Azure.Iot.Operations.Connector
                 cancellationToken);
         }
 
-        /// <summary>
-        /// Build an instance of <see cref="DeviceStatus"/> where this device and this endpoint have no errors.
-        /// </summary>
-        /// <returns>An instance of <see cref="DeviceStatus"/> where this device and this endpoint have no errors.</returns>
-        public DeviceStatus BuildOkayStatus()
+        public Task<DeviceStatus> GetDeviceStatusAsync(
+            TimeSpan? commandTimeout = null,
+            CancellationToken cancellationToken = default)
         {
-            return new()
-            {
-                Config = ConfigStatus.Okay(),
-                Endpoints = new()
-                {
-                    Inbound = new()
-                    {
-                        {
-                            _inboundEndpointName,
-                            new DeviceStatusInboundEndpointSchemaMapValue()
-                            {
-                                Error = null
-                            }
-                        }
-                    }
-                }
-            };
+            return _adrClient.GetDeviceStatusAsync(
+                _deviceName,
+                _inboundEndpointName,
+                commandTimeout,
+                cancellationToken);
         }
     }
 }

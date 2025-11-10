@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Connector
 
         public async Task WhileDeviceAvailableAsync(DeviceAvailableEventArgs args, CancellationToken cancellationToken)
         {
-            DeviceStatus deviceStatus = args.DeviceEndpointClient.BuildOkayStatus();
+            DeviceStatus deviceStatus = await args.DeviceEndpointClient.GetDeviceStatusAsync();
             try
             {
                 // Report device status is okay
@@ -69,7 +69,7 @@ namespace Azure.Iot.Operations.Connector
                         byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
                         await args.AssetClient.ForwardSampledDatasetAsync(dataset, sampledData);
 
-                        AssetStatus assetStatus = args.AssetClient.BuildOkayStatus();
+                        AssetStatus assetStatus = await args.AssetClient.GetAssetStatusAsync();
                         try
                         {
                             // The dataset was sampled as expected, so report the asset status as okay
@@ -83,7 +83,7 @@ namespace Azure.Iot.Operations.Connector
                     }
                     catch (Exception e)
                     {
-                        DeviceStatus deviceStatus = args.DeviceEndpointClient.BuildOkayStatus();
+                        DeviceStatus deviceStatus = await args.DeviceEndpointClient.GetDeviceStatusAsync();
                         deviceStatus.Config = new ConfigStatus()
                         {
                             Error = new ConfigError()
