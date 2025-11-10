@@ -1,3 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+//! Structures for dispatching incoming MQTT publishes to receivers
+
 use std::{
     cell::RefCell,
     collections::HashMap,
