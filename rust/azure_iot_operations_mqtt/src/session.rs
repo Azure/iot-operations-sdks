@@ -42,8 +42,9 @@
 //! discarded. Thus, in order to guarantee that messages will not be lost, you should create the
 //! [`SessionPubReceiver`] *before* subscribing to the topic filter.
 
+pub(crate) mod dispatcher;
 pub mod managed_client; // TODO: This really ought be private, but we need it public for testing
-pub(crate) mod receiver;
+pub(crate) mod plenary_ack;
 pub mod reconnect_policy;
 #[doc(hidden)]
 #[allow(clippy::module_inception)]
@@ -57,7 +58,7 @@ use thiserror::Error;
 
 use crate::auth::SatAuthContextInitError;
 use crate::azure_mqtt_adapter as adapter;
-use crate::error::{ConnectionError, DisconnectError};
+use crate::error::{ClientError, ConnectionError};
 
 /// Error describing why a [`Session`] ended prematurely
 #[derive(Debug, Error)]
@@ -114,19 +115,10 @@ impl SessionExitError {
     }
 }
 
-impl From<DisconnectError> for SessionExitError {
-    fn from(_: DisconnectError) -> Self {
-        Self {
-            attempted: true,
-            kind: SessionExitErrorKind::Detached,
-        }
-    }
-}
-
-impl From<azure_mqtt::error::ClientError> for SessionExitError {
-    fn from(_: azure_mqtt::error::ClientError) -> Self {
-        Self {
-            attempted: true,
+impl From<ClientError> for SessionExitError {
+    fn from(err: ClientError) -> Self {
+        SessionExitError {
+            attempted: false,
             kind: SessionExitErrorKind::Detached,
         }
     }

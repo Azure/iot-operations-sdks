@@ -3,7 +3,7 @@
 
 //! Adapter layer for the `azure_mqtt` (TODO: rename this once settled) crate
 
-use std::num::{NonZero, NonZeroU32};
+use std::num::{NonZero, NonZeroU16, NonZeroU32};
 use std::{fmt, fs, time::Duration};
 
 use azure_mqtt::client::{ClientOptions, ConnectionTransportConfig, ConnectionTransportTlsConfig};
@@ -237,6 +237,16 @@ impl MqttConnectionSettings {
             ..Default::default()
         };
 
+        let keep_alive = azure_mqtt::packet::KeepAlive::Duration(
+            NonZeroU16::new(self.keep_alive.as_secs() as u16).ok_or_else(|| {
+                ConnectionSettingsAdapterError {
+                    msg: "cannot convert keep_alive to NonZeroU16".to_string(),
+                    field: ConnectionSettingsField::UseTls(self.use_tls),
+                    source: None,
+                }
+            })?,
+        );
+
         let password = if let Some(password_file) = self.password_file {
             match fs::read_to_string(&password_file) {
                 Ok(password) => Some(password),
@@ -274,7 +284,7 @@ impl MqttConnectionSettings {
             client_options,
             AzureMqttConnectParameters {
                 initial_clean_start: self.clean_start,
-                keep_alive: self.keep_alive.into(), // azure_mqtt::packet::KeepAlive::Duration(self.keep_alive.into())?
+                keep_alive,
                 will: None,
                 username: self.username,
                 password,

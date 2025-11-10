@@ -9,8 +9,8 @@ use std::time::Duration;
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
+use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::managed_client::SessionManagedClient;
-use crate::session::receiver::{IncomingPublishDispatcher, PublishReceiverManager};
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
 use crate::session::state::SessionState;
 use crate::session::{
@@ -68,10 +68,8 @@ pub struct Session {
     connect_parameters: AzureMqttConnectParameters,
     /// Client ID of the underlying rumqttc client
     client_id: String,
-    /// Manager for the receivers of the Session
-    receiver_manager: Arc<Mutex<PublishReceiverManager>>,
     /// Receiver dispatcher for incoming publishes
-    incoming_pub_dispatcher: IncomingPublishDispatcher<azure_mqtt::client::Client>,
+    incoming_pub_dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     /// Reconnect policy
     reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Current state
@@ -112,7 +110,7 @@ impl Session {
                 options.publish_qos1_qos2_queue_size,
             )?;
 
-        let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options)?;
+        let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options);
         Ok(Self::new_from_injection(
             client,
             receiver,
@@ -152,7 +150,7 @@ impl Session {
             )?;
         connect_parameters.connection_transport_config = connection_transport_config;
 
-        let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options)?;
+        let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options);
         Ok(Self::new_from_injection(
             client,
             receiver,
@@ -174,8 +172,7 @@ impl Session {
         reconnect_policy: Box<dyn ReconnectPolicy>,
         client_id: String,
     ) -> Self {
-        let incoming_pub_dispatcher = IncomingPublishDispatcher::new(client.clone());
-        let receiver_manager = incoming_pub_dispatcher.get_receiver_manager();
+        let incoming_pub_dispatcher = Arc::new(Mutex::new(IncomingPublishDispatcher::default()));
 
         Self {
             client,
@@ -183,7 +180,6 @@ impl Session {
             connect_handle: Some(connect_handle),
             connect_parameters,
             client_id,
-            receiver_manager,
             incoming_pub_dispatcher,
             reconnect_policy,
             state: Arc::new(SessionState::default()),
@@ -213,7 +209,7 @@ impl Session {
         SessionManagedClient {
             client_id: self.client_id.clone(),
             client: self.client.clone(),
-            receiver_manager: self.receiver_manager.clone(),
+            dispatcher: self.incoming_pub_dispatcher.clone(),
         }
     }
 
@@ -227,7 +223,8 @@ impl Session {
     pub async fn run(mut self) -> Result<(), SessionError> {
         self.state.transition_running();
         // TODO: this changes the error from what it was before and no longer logs
-        let authentication_info = self.connect_parameters.authentication_info()?;
+        //let authentication_info = self.connect_parameters.authentication_info()?;
+        let authentication_info = None; // TODO: actually use auth info
         let mut clean_start = self.connect_parameters.initial_clean_start;
 
         // TODO: not sure if we need some of this still
@@ -400,7 +397,7 @@ impl Session {
                         "Session-initiated exit triggered when user-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
                     );
                 }
-                self.trigger_session_exit().await;
+                self.trigger_session_exit();
             }
             // Otherwise, connection was successful
             else {
@@ -552,7 +549,7 @@ impl Session {
         bool,
     ) {
         let (connect_handle, disconnected_event) = connection.run_until_disconnect().await;
-        let session_ended = match disconnected_event {
+        let session_ended = match &disconnected_event {
             azure_mqtt::client::DisconnectedEvent::Transport => {
                 false // can't know, must connect again to find out
             }
@@ -570,81 +567,29 @@ impl Session {
     /// TODO: acking here needs to be adjusted
     async fn receive(&mut self) {
         loop {
-            while let Some((publish, ack_handle)) = self.receiver.recv().await {
-                log::debug!("Incoming PUB: {publish:?}");
+            while let Some((publish, manual_ack)) = self.receiver.recv().await {
+                log::debug!("Incoming PUBLISH: {publish:?}");
                 // Dispatch the message to receivers
-                match self.incoming_pub_dispatcher.dispatch_publish(&publish) {
-                    Ok(_) => {}
-                    Err(e) => {
-                        // If the dispatch fails, we must be responsible for acking.
-                        // However, failure here should never happen in valid MQTT scenarios.
-                        match publish.qos {
-                            azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info)
-                            | azure_mqtt::packet::DeliveryQoS::ExactlyOnce(delivery_info) => {
-                                log::error!(
-                                    "Could not dispatch PUB with PKID {}. Will be auto-acked. Reason: {e:?}",
-                                    delivery_info.packet_identifier
-                                );
-                                log::warn!(
-                                    "Auto-ack of PKID {} may not be correctly ordered",
-                                    delivery_info.packet_identifier
-                                );
-                                match ack_handle {
-                                    azure_mqtt::client::ManualAcknowledgement::QoS0 => todo!(),
-                                    azure_mqtt::client::ManualAcknowledgement::QoS1(
-                                        pub_ack_token,
-                                    ) => {
-                                        tokio::spawn({
-                                            // let acker = self.client.clone();
-                                            async move {
-                                                match pub_ack_token.accept(azure_mqtt::packet::PubAckProperties::default()).await {
-                                                    Ok(ct) => {
-                                                        let _ = ct.await;
-                                                        log::debug!(
-                                                            "Auto-ack for failed dispatch PKID {} successful",
-                                                            delivery_info.packet_identifier
-                                                        );
-                                                    }
-                                                    Err(e) => {
-                                                        log::error!(
-                                                            "Auto-ack for failed dispatch PKID {} failed: {e:?}",
-                                                            delivery_info.packet_identifier
-                                                        );
-                                                    }
-                                                }
-                                            }
-                                        });
-                                    }
-                                    azure_mqtt::client::ManualAcknowledgement::QoS2(
-                                        pub_rec_token,
-                                    ) => {
-                                        tokio::spawn({
-                                            // let acker = self.client.clone();
-                                            async move {
-                                                match pub_rec_token.accept(azure_mqtt::packet::PubRecProperties::default()).await {
-                                                    Ok(ct) => {
-                                                        let _ = ct.await;
-                                                        log::debug!(
-                                                            "Auto-ack for failed dispatch PKID {} successful",
-                                                            delivery_info.packet_identifier
-                                                        );
-                                                    }
-                                                    Err(e) => {
-                                                        log::error!(
-                                                            "Auto-ack for failed dispatch PKID {} failed: {e:?}",
-                                                            delivery_info.packet_identifier
-                                                        );
-                                                    }
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                            azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
-                                // No ack needed for QoS 0
-                                log::error!("Could not dispatch QoS 0 PUB. Reason: {e:?}");
-                            }
+                if self
+                    .incoming_pub_dispatcher
+                    .lock()
+                    .unwrap()
+                    .dispatch_publish(&publish, manual_ack)
+                    == 0
+                {
+                    // If there are no valid dispatch targets, the publish was auto-acked.
+                    match publish.qos {
+                        azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
+                            log::warn!(
+                                "No matching receivers for PUBLISH recieved at QoS 0. Discarding."
+                            );
+                        }
+                        azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info)
+                        | azure_mqtt::packet::DeliveryQoS::ExactlyOnce(delivery_info) => {
+                            log::warn!(
+                                "No matching receivers for PUBLISH with PKID {}. Auto-acked PUBLISH.",
+                                delivery_info.packet_identifier
+                            );
                         }
                     }
                 }
@@ -810,7 +755,7 @@ impl SessionExitHandle {
         // but I don't wanna mess around with this until we have mockable unit testing
         log::debug!("Attempting to exit session gracefully before force exiting");
         // Ignore the result here - we don't care
-        let _ = self.trigger_exit_user().await;
+        let _ = self.trigger_exit_user();
         // 1 second grace period to gracefully complete
         tokio::select! {
             () = tokio::time::sleep(Duration::from_secs(1)) => {
