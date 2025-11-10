@@ -15,8 +15,23 @@ namespace Azure.Iot.Operations.Connector
 
         public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<ConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAdrClientWrapperProvider adrClientFactory, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, adrClientFactory, leaderElectionConfigurationProvider)
         {
+            base.WhileDeviceIsAvailable = WhileDeviceAvailableAsync;
             base.WhileAssetIsAvailable = WhileAssetAvailableAsync;
             _datasetSamplerFactory = datasetSamplerFactory;
+        }
+
+        public async Task WhileDeviceAvailableAsync(DeviceAvailableEventArgs args, CancellationToken cancellationToken)
+        {
+            DeviceStatus deviceStatus = args.DeviceEndpointClient.BuildOkayStatus();
+            try
+            {
+                // Report device status is okay
+                await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
+            }
         }
 
         public async Task WhileAssetAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
@@ -52,6 +67,17 @@ namespace Azure.Iot.Operations.Connector
                     {
                         byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
                         await args.AssetClient.ForwardSampledDatasetAsync(dataset, sampledData);
+
+                        AssetStatus assetStatus = args.AssetClient.BuildOkayStatus();
+                        try
+                        {
+                            // The dataset was sampled as expected, so report the asset status as okay
+                            await args.AssetClient.UpdateAssetStatusAsync(assetStatus);
+                        }
+                        catch (Exception e2)
+                        {
+                            _logger.LogError(e2, "Failed to report asset status to Azure Device Registry service");
+                        }
                     }
                     catch (Exception e)
                     {
@@ -64,10 +90,16 @@ namespace Azure.Iot.Operations.Connector
                             }
                         };
 
-                        //TODO not really specific enough. Move all this class to user code so they can be more specific?
-                        // Or expect advanced users to just copy this class anyways?
-                        await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus);
                         _logger.LogError(e, "Failed to sample the dataset");
+
+                        try
+                        {
+                            await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus);
+                        }
+                        catch (Exception e2)
+                        {
+                            _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                        }
                     }
                 }, null, TimeSpan.FromSeconds(0), samplingInterval);
 
