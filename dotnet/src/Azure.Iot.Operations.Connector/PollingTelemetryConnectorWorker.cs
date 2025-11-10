@@ -26,6 +26,7 @@ namespace Azure.Iot.Operations.Connector
             try
             {
                 // Report device status is okay
+                _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
                 await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus);
             }
             catch (Exception e)
@@ -72,6 +73,7 @@ namespace Azure.Iot.Operations.Connector
                         try
                         {
                             // The dataset was sampled as expected, so report the asset status as okay
+                            _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
                             await args.AssetClient.UpdateAssetStatusAsync(assetStatus);
                         }
                         catch (Exception e2)

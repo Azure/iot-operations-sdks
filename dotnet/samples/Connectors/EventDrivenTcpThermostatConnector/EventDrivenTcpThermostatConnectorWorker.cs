@@ -32,6 +32,7 @@ namespace EventDrivenTcpThermostatConnector
             DeviceStatus deviceStatus = args.DeviceEndpointClient.BuildOkayStatus();
             try
             {
+                _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
                 await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus, null, cancellationToken);
             }
             catch (Exception e2)
@@ -91,6 +92,7 @@ namespace EventDrivenTcpThermostatConnector
 
                 try
                 {
+                    _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
                     await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
                 }
                 catch (Exception e2)
