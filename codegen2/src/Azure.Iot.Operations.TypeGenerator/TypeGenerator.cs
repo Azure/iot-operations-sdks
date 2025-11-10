@@ -29,8 +29,12 @@
         {
             List<GeneratedItem> generatedTypes = new();
 
+            CycleBreaker cycleBreaker = new (this.typeGenerator.TargetLanguage);
+
             foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaTextsByName))
             {
+                cycleBreaker.AddIndirectionAsNeeded(schemaType);
+
                 generatedTypes.Add(this.typeGenerator.GenerateTypeFromSchema(schemaType, projectName, genNamespace, schemaStandardizer.SerializationFormat, srcSubdir));
             }
 

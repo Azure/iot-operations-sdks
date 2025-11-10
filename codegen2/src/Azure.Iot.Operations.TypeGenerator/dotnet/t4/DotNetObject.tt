@@ -34,9 +34,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
         [JsonRequired]
 <# } #>
 <# } #>
-<# if (fieldInfo.Value.Index != null) { #>
-        [Dahomey.Cbor.Attributes.CborPropertyAttribute(index: <#=fieldInfo.Value.Index#>)]
-<# } #>
         public <#=DotNetSchemaSupport.GetType(fieldInfo.Value.SchemaType)#> <#=fieldInfo.Key.GetFieldName(TargetLanguage.CSharp)#> { get; set; } = default<#=fieldInfo.Value.SchemaType.OrNull ? "" : "!"#>;
 
 <# } #>

@@ -112,12 +112,11 @@
                     CollateSchemaTypes(docName, objProp.Name, objProp.Value, schemaTypes, rootElementsByName);
                 }
 
-                HashSet<string> indirectFields = schemaElt.TryGetProperty("x-indirect", out JsonElement indirectElt) ? indirectElt.EnumerateArray().Select(e => e.GetString()!).ToHashSet() : new HashSet<string>();
                 HashSet<string> requiredFields = schemaElt.TryGetProperty("required", out JsonElement requiredElt) ? requiredElt.EnumerateArray().Select(e => e.GetString()!).ToHashSet() : new HashSet<string>();
                 schemaTypes.Add(new ObjectType(
                     schemaName,
                     description,
-                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(docName, p.Name, p.Value, indirectFields, requiredFields, rootElementsByName)), orNull: false));
+                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(docName, p.Name, p.Value, requiredFields, rootElementsByName)), orNull: false));
             }
             else if (schemaElt.TryGetProperty("enum", out JsonElement enumElt))
             {
@@ -130,16 +129,13 @@
             }
         }
 
-        private ObjectType.FieldInfo GetObjectTypeFieldInfo(string docName, string fieldName, JsonElement schemaElt, HashSet<string> indirectFields, HashSet<string> requiredFields, Dictionary<string, JsonElement> rootElementsByName)
+        private ObjectType.FieldInfo GetObjectTypeFieldInfo(string docName, string fieldName, JsonElement schemaElt, HashSet<string> requiredFields, Dictionary<string, JsonElement> rootElementsByName)
         {
-            bool isIndirect = indirectFields.Contains(fieldName);
             bool isRequired = requiredFields.Contains(fieldName);
             return new ObjectType.FieldInfo(
                 GetSchemaTypeFromJsonElement(docName, fieldName, schemaElt, rootElementsByName, isOptional: !isRequired),
-                isIndirect,
                 isRequired,
-                schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null,
-                schemaElt.TryGetProperty("index", out JsonElement indexElt) ? indexElt.GetInt32() : null);
+                schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null);
         }
 
         private SchemaType GetSchemaTypeFromJsonElement(string docName, string keyName, JsonElement schemaElt, Dictionary<string, JsonElement> rootElementsByName, bool isOptional)

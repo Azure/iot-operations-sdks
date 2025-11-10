@@ -6,6 +6,8 @@
 
     internal class DotNetTypeGenerator : ITypeGenerator
     {
+        public TargetLanguage TargetLanguage { get => TargetLanguage.CSharp; }
+
         public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, CodeName genNamespace, SerializationFormat serFormat, string _)
         {
             ITypeTemplateTransform templateTransform = schemaType switch

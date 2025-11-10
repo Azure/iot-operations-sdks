@@ -6,6 +6,8 @@
 
     internal class RustTypeGenerator : ITypeGenerator
     {
+        public TargetLanguage TargetLanguage { get => TargetLanguage.Rust; }
+
         public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, CodeName genNamespace, SerializationFormat serFormat, string srcSubdir)
         {
             ITypeTemplateTransform templateTransform = schemaType switch

@@ -97,6 +97,19 @@
               }
             }
           }
+        },
+        "Something": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "pressure": {
+              "type": "number",
+              "format": "double"
+            },
+            "temperature": {
+              "$ref": "#/definitions/Temperature"
+            }
+          }
         }
       }
     },
