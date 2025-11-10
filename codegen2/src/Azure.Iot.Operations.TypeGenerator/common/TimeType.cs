@@ -4,7 +4,8 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Time; }
 
-        internal TimeType()
+        internal TimeType(bool orNull)
+            : base(orNull)
         {
         }
     }

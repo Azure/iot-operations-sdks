@@ -5,7 +5,6 @@
     using System.IO;
     using System.Linq;
     using System.Text.Json;
-    using System.Text.RegularExpressions;
     using Azure.Iot.Operations.CodeGeneration;
 
     internal class JsonSchemaStandardizer : ISchemaStandardizer
@@ -78,7 +77,7 @@
 
             if (!referencedName.Equals(schemaName))
             {
-                schemaTypes.Add(new AliasType(schemaName, description, referencedName));
+                schemaTypes.Add(new AliasType(schemaName, description, referencedName, orNull: false));
             }
         }
 
@@ -118,7 +117,7 @@
                 schemaTypes.Add(new ObjectType(
                     schemaName,
                     description,
-                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(docName, p.Name, p.Value, indirectFields, requiredFields, rootElementsByName))));
+                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(docName, p.Name, p.Value, indirectFields, requiredFields, rootElementsByName)), orNull: false));
             }
             else if (schemaElt.TryGetProperty("enum", out JsonElement enumElt))
             {
@@ -126,22 +125,27 @@
                 schemaTypes.Add(new EnumType(
                     schemaName,
                     description,
-                    enumValues));
+                    enumValues,
+                    orNull: false));
             }
         }
 
         private ObjectType.FieldInfo GetObjectTypeFieldInfo(string docName, string fieldName, JsonElement schemaElt, HashSet<string> indirectFields, HashSet<string> requiredFields, Dictionary<string, JsonElement> rootElementsByName)
         {
+            bool isIndirect = indirectFields.Contains(fieldName);
+            bool isRequired = requiredFields.Contains(fieldName);
             return new ObjectType.FieldInfo(
-                GetSchemaTypeFromJsonElement(docName, fieldName, schemaElt, rootElementsByName),
-                indirectFields.Contains(fieldName),
-                requiredFields.Contains(fieldName),
+                GetSchemaTypeFromJsonElement(docName, fieldName, schemaElt, rootElementsByName, isOptional: !isRequired),
+                isIndirect,
+                isRequired,
                 schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null,
                 schemaElt.TryGetProperty("index", out JsonElement indexElt) ? indexElt.GetInt32() : null);
         }
 
-        private SchemaType GetSchemaTypeFromJsonElement(string docName, string keyName, JsonElement schemaElt, Dictionary<string, JsonElement> rootElementsByName)
+        private SchemaType GetSchemaTypeFromJsonElement(string docName, string keyName, JsonElement schemaElt, Dictionary<string, JsonElement> rootElementsByName, bool isOptional)
         {
+            bool orNull = TryGetNestedNullableJsonElement(ref schemaElt) || isOptional;
+
             if (!schemaElt.TryGetProperty("$ref", out JsonElement referencingElt))
             {
                 if (schemaElt.TryGetProperty("type", out JsonElement typeElt))
@@ -151,15 +155,15 @@
 
                     if (typeElt.GetString() == "object" && (!schemaElt.TryGetProperty("additionalProperties", out JsonElement addlPropsElt) || addlPropsElt.ValueKind == JsonValueKind.False))
                     {
-                        return new ReferenceType(schemaName, isNullable: true);
+                        return new ReferenceType(schemaName, isNullable: true, orNull: orNull);
                     }
                     else if (typeElt.GetString() == "string" && schemaElt.TryGetProperty("enum", out _))
                     {
-                        return new ReferenceType(schemaName, isNullable: false);
+                        return new ReferenceType(schemaName, isNullable: false, orNull: orNull);
                     }
                 }
 
-                return GetPrimitiveTypeFromJsonElement(docName, keyName, schemaElt, rootElementsByName);
+                return GetPrimitiveTypeFromJsonElement(docName, keyName, schemaElt, orNull, rootElementsByName);
             }
 
             GetReferenceInfo(docName, referencingElt, rootElementsByName, out string refName, out string? refKey, out JsonElement refElt, out string? refTitle);
@@ -168,10 +172,10 @@
             if (refElt.TryGetProperty("properties", out _) || refElt.TryGetProperty("enum", out _))
             {
                 string type = refElt.GetProperty("type").GetString()!;
-                return new ReferenceType(referencedName, isNullable: type == "object");
+                return new ReferenceType(referencedName, type == "object", orNull);
             }
 
-            return GetPrimitiveTypeFromJsonElement(docName, keyName, refElt, rootElementsByName);
+            return GetPrimitiveTypeFromJsonElement(docName, keyName, refElt, orNull, rootElementsByName);
         }
 
         private bool TryGetNestedNullableJsonElement(ref JsonElement jsonElement)
@@ -193,65 +197,61 @@
             return false;
         }
 
-        private SchemaType GetPrimitiveTypeFromJsonElement(string docName, string keyName, JsonElement schemaElt, Dictionary<string, JsonElement> rootElementsByName)
+        private SchemaType GetPrimitiveTypeFromJsonElement(string docName, string keyName, JsonElement schemaElt, bool orNull, Dictionary<string, JsonElement> rootElementsByName)
         {
             switch (schemaElt.GetProperty("type").GetString())
             {
                 case "array":
-                    return new ArrayType(GetSchemaTypeFromJsonElement(docName, keyName, schemaElt.GetProperty("items"), rootElementsByName));
+                    return new ArrayType(GetSchemaTypeFromJsonElement(docName, keyName, schemaElt.GetProperty("items"), rootElementsByName, isOptional: false), orNull);
                 case "object":
                     JsonElement typeAndAddendaElt = schemaElt.GetProperty("additionalProperties");
-                    bool nullValues = TryGetNestedNullableJsonElement(ref typeAndAddendaElt);
-                    return new MapType(GetSchemaTypeFromJsonElement(docName, keyName, typeAndAddendaElt, rootElementsByName), nullValues);
+                    return new MapType(GetSchemaTypeFromJsonElement(docName, keyName, typeAndAddendaElt, rootElementsByName, isOptional: false), orNull);
                 case "boolean":
-                    return new BooleanType();
+                    return new BooleanType(orNull);
                 case "number":
-                    return schemaElt.GetProperty("format").GetString() == "float" ? new FloatType() : new DoubleType();
+                    return schemaElt.GetProperty("format").GetString() == "float" ? new FloatType(orNull) : new DoubleType(orNull);
                 case "integer":
                     return schemaElt.GetProperty("maximum").GetUInt64() switch
                     {
-                        < 128 => new ByteType(),
-                        < 256 => new UnsignedByteType(),
-                        < 32768 => new ShortType(),
-                        < 65536 => new UnsignedShortType(),
-                        < 2147483648 => new IntegerType(),
-                        < 4294967296 => new UnsignedIntegerType(),
-                        < 9223372036854775808 => new LongType(),
-                        _ => new UnsignedLongType(),
+                        < 128 => new ByteType(orNull),
+                        < 256 => new UnsignedByteType(orNull),
+                        < 32768 => new ShortType(orNull),
+                        < 65536 => new UnsignedShortType(orNull),
+                        < 2147483648 => new IntegerType(orNull),
+                        < 4294967296 => new UnsignedIntegerType(orNull),
+                        < 9223372036854775808 => new LongType(orNull),
+                        _ => new UnsignedLongType(orNull),
                     };
                 case "string":
                     if (schemaElt.TryGetProperty("format", out JsonElement formatElt))
                     {
                         return formatElt.GetString() switch
                         {
-                            "date" => new DateType(),
-                            "date-time" => new DateTimeType(),
-                            "time" => new TimeType(),
-                            "duration" => new DurationType(),
-                            "uuid" => new UuidType(),
+                            "date" => new DateType(orNull),
+                            "date-time" => new DateTimeType(orNull),
+                            "time" => new TimeType(orNull),
+                            "duration" => new DurationType(orNull),
+                            "uuid" => new UuidType(orNull),
                             _ => throw new Exception($"unrecognized 'string' schema (format = {formatElt.GetString()})"),
                         };
                     }
-
                     if (schemaElt.TryGetProperty("contentEncoding", out JsonElement encodingElt))
                     {
                         return encodingElt.GetString() switch
                         {
-                            "base64" => new BytesType(),
+                            "base64" => new BytesType(orNull),
                             _ => throw new Exception($"unrecognized 'string' schema (contentEncoding = {encodingElt.GetString()})"),
                         };
                     }
-
                     if (schemaElt.TryGetProperty("pattern", out JsonElement patternElt))
                     {
                         return patternElt.GetString() switch
                         {
-                            "^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$" => new DecimalType(),
+                            "^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$" => new DecimalType(orNull),
                             _ => throw new Exception($"unrecognized 'string' schema (pattern = {patternElt.GetString()})"),
                         };
                     }
-
-                    return new StringType();
+                    return new StringType(orNull);
                 default:
                     throw new Exception($"unrecognized schema (type = {schemaElt.GetProperty("type").GetString()})");
             }

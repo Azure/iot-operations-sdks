@@ -37,14 +37,14 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# if (fieldInfo.Value.Index != null) { #>
         [Dahomey.Cbor.Attributes.CborPropertyAttribute(index: <#=fieldInfo.Value.Index#>)]
 <# } #>
-        public <#=DotNetSchemaSupport.GetType(fieldInfo.Value.SchemaType)#><#=fieldInfo.Value.IsRequired ? "" : "?"#> <#=fieldInfo.Key.GetFieldName(TargetLanguage.CSharp)#> { get; set; } = default<#=fieldInfo.Value.IsRequired ? "!" : ""#>;
+        public <#=DotNetSchemaSupport.GetType(fieldInfo.Value.SchemaType)#> <#=fieldInfo.Key.GetFieldName(TargetLanguage.CSharp)#> { get; set; } = default<#=fieldInfo.Value.SchemaType.OrNull ? "" : "!"#>;
 
 <# } #>
 <# if (this.serFormat == SerializationFormat.Json && this.needsNullCheck) { #>
         void IJsonOnDeserialized.OnDeserialized()
         {
 <# foreach (var fieldInfo in this.objectType.FieldInfos) { #>
-<# if (fieldInfo.Value.IsRequired && DotNetSchemaSupport.IsNullable(fieldInfo.Value.SchemaType)) { #>
+<# if (!fieldInfo.Value.SchemaType.OrNull && DotNetSchemaSupport.IsNullable(fieldInfo.Value.SchemaType)) { #>
             if (<#=fieldInfo.Key.GetFieldName(TargetLanguage.CSharp)#> is null)
             {
                 throw new ArgumentNullException("<#=fieldInfo.Key.AsGiven#> field cannot be null");
@@ -56,7 +56,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
         void IJsonOnSerializing.OnSerializing()
         {
 <# foreach (var fieldInfo in this.objectType.FieldInfos) { #>
-<# if (fieldInfo.Value.IsRequired && DotNetSchemaSupport.IsNullable(fieldInfo.Value.SchemaType)) { #>
+<# if (!fieldInfo.Value.SchemaType.OrNull && DotNetSchemaSupport.IsNullable(fieldInfo.Value.SchemaType)) { #>
             if (<#=fieldInfo.Key.GetFieldName(TargetLanguage.CSharp)#> is null)
             {
                 throw new ArgumentNullException("<#=fieldInfo.Key.AsGiven#> field cannot be null");

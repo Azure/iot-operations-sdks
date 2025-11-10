@@ -6,7 +6,8 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Enum; }
 
-        internal EnumType(CodeName schemaName, string? description, CodeName[] enumValues)
+        internal EnumType(CodeName schemaName, string? description, CodeName[] enumValues, bool orNull)
+            : base(orNull)
         {
             SchemaName = schemaName;
             Description = description;

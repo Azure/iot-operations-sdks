@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.TypeGenerator
             this.genNamespace = genNamespace;
             this.objectType = objectType;
             this.serFormat = serFormat;
-            this.needsNullCheck = objectType.FieldInfos.Any(fi => fi.Value.IsRequired && DotNetSchemaSupport.IsNullable(fi.Value.SchemaType));
+            this.needsNullCheck = objectType.FieldInfos.Any(fi => !fi.Value.SchemaType.OrNull && DotNetSchemaSupport.IsNullable(fi.Value.SchemaType));
         }
 
         public string FileName { get => $"{this.objectType.SchemaName.GetFileName(TargetLanguage.CSharp)}.g.cs"; }

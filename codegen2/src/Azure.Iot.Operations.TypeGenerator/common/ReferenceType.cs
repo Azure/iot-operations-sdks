@@ -6,18 +6,16 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Reference; }
 
-        internal ReferenceType(CodeName schemaName, bool isNullable = true, bool isEnum = false)
+        internal ReferenceType(CodeName schemaName, bool isNullable = true, bool orNull = false)
+            : base(orNull)
         {
             SchemaName = schemaName;
             IsNullable = isNullable;
-            IsEnum = isEnum;
         }
 
         internal CodeName SchemaName { get; }
 
         internal bool IsNullable { get; }
-
-        internal bool IsEnum { get; }
 
         public override bool Equals(object? obj)
         {

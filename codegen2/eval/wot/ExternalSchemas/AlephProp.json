@@ -3,7 +3,7 @@
   "title": "AlephProp",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "epsilon", "zeta" ],
+  "required": [ "epsilon", "zeta", "mu", "nu" ],
   "properties": {
     "epsilon": {
       "description": "The 'epsilon' Field.",
@@ -20,6 +20,42 @@
     },
     "kappa": {
       "$ref": "./BethData.json#/definitions/org.opcfoundation.UA.Int32"
+    },
+    "lambda": {
+      "anyOf": [
+        { "type": "null" },
+        {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        }
+      ]
+    },
+    "mu": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          { "type": "null" },
+          {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        ]
+      }
+    },
+    "nu": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          { "type": "null" },
+          {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        ]
+      }
     }
   }
 }

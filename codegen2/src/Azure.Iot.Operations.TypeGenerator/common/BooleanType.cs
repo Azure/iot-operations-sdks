@@ -4,7 +4,8 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Boolean; }
 
-        internal BooleanType()
+        internal BooleanType(bool orNull)
+            : base(orNull)
         {
         }
     }

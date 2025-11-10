@@ -7,7 +7,8 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Object; }
 
-        internal ObjectType(CodeName schemaName, string? description, Dictionary<CodeName, FieldInfo> fieldInfos)
+        internal ObjectType(CodeName schemaName, string? description, Dictionary<CodeName, FieldInfo> fieldInfos, bool orNull)
+            : base(orNull)
         {
             SchemaName = schemaName;
             Description = description;

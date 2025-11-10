@@ -4,7 +4,8 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Float; }
 
-        internal FloatType()
+        internal FloatType(bool orNull)
+            : base(orNull)
         {
         }
     }

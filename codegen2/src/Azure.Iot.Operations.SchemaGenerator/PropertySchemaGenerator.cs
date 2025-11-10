@@ -121,7 +121,7 @@
             {
                 string propSchemaName = isRead ? schemaNamer.GetPropSchema(propName) : schemaNamer.GetWritablePropSchema(propName);
                 ObjectSpec propObjectSpec = new(
-                    tdProperty.Description ?? $"Container for{(isRead ? "" : "writing to")} the '{propName}' Property.",
+                    tdProperty.Description ?? $"Container for{(isRead ? "" : " writing to")} the '{propName}' Property.",
                     new Dictionary<string, FieldSpec> { { propName, propFieldSpec } },
                     propForm.Format,
                     propSchemaName);

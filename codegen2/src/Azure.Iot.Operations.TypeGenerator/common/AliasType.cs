@@ -6,7 +6,8 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Alias; }
 
-        internal AliasType(CodeName schemaName, string? description, CodeName referencedName)
+        internal AliasType(CodeName schemaName, string? description, CodeName referencedName, bool orNull)
+            : base(orNull)
         {
             SchemaName = schemaName;
             Description = description;

@@ -4,7 +4,8 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Integer; }
 
-        internal IntegerType()
+        internal IntegerType(bool orNull)
+            : base(orNull)
         {
         }
     }

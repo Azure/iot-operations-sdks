@@ -5,12 +5,12 @@ namespace Azure.Iot.Operations.TypeGenerator
 
     internal static class RustSchemaSupport
     {
-        internal static string GetType(SchemaType schemaType, bool isIndirect, bool isRequired)
+        internal static string GetType(SchemaType schemaType, bool isIndirect)
         {
             string innerType = schemaType switch
             {
-                ArrayType arrayType => $"Vec<{GetType(arrayType.ElementSchema, false, true)}>",
-                MapType mapType => $"HashMap<String, {GetType(mapType.ValueSchema, false, !mapType.NullValues)}>",
+                ArrayType arrayType => $"Vec<{GetType(arrayType.ElementSchema, false)}>",
+                MapType mapType => $"HashMap<String, {GetType(mapType.ValueSchema, false)}>",
                 ObjectType objectType => objectType.SchemaName.GetTypeName(TargetLanguage.Rust),
                 EnumType enumType => enumType.SchemaName.GetTypeName(TargetLanguage.Rust),
                 BooleanType _ => "bool",
@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.TypeGenerator
 
             string wrappedType = isIndirect ? $"Box<{innerType}>" : innerType;
 
-            return isRequired ? wrappedType : $"Option<{wrappedType}>";
+            return schemaType.OrNull ? $"Option<{wrappedType}>" : wrappedType;
         }
 
         internal static bool HasNativeDefault(SchemaType schemaType)

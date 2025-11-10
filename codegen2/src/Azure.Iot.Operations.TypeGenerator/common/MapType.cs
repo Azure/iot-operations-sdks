@@ -4,14 +4,12 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Map; }
 
-        internal MapType(SchemaType valueSchema, bool nullValues)
+        internal MapType(SchemaType valueSchema, bool orNull)
+            : base(orNull)
         {
             ValueSchema = valueSchema;
-            NullValues = nullValues;
         }
 
-        internal SchemaType ValueSchema { get; set; }
-
-        internal bool NullValues { get; set; }
+        internal SchemaType ValueSchema { get; }
     }
 }

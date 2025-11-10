@@ -4,7 +4,8 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.DateTime; }
 
-        internal DateTimeType()
+        internal DateTimeType(bool orNull)
+            : base(orNull)
         {
         }
     }

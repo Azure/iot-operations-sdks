@@ -4,7 +4,8 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Bytes; }
 
-        internal BytesType()
+        internal BytesType(bool orNull)
+            : base(orNull)
         {
         }
     }

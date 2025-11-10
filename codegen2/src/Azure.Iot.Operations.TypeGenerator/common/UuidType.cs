@@ -4,7 +4,8 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Uuid; }
 
-        internal UuidType()
+        internal UuidType(bool orNull)
+            : base(orNull)
         {
         }
     }

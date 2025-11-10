@@ -4,7 +4,8 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.UnsignedLong; }
 
-        internal UnsignedLongType()
+        internal UnsignedLongType(bool orNull)
+            : base(orNull)
         {
         }
     }

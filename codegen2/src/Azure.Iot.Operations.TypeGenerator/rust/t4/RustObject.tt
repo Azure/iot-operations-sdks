@@ -33,14 +33,14 @@ pub struct <#=this.objectType.SchemaName.GetTypeName(TargetLanguage.Rust)#> {
 <# if (fieldInfo.Key.GetFieldName(TargetLanguage.Rust) != fieldInfo.Key.AsGiven) { #>
     #[serde(rename = "<#=fieldInfo.Key.AsGiven#>")]
 <# } #>
-<# if (!fieldInfo.Value.IsRequired) { #>
-<# if (this.allowSkipping) { #>
+<# if (fieldInfo.Value.SchemaType.OrNull) { #>
+<# if (this.allowSkipping && !fieldInfo.Value.IsRequired) { #>
     #[serde(skip_serializing_if = "Option::is_none")]
 <# } #>
     #[builder(default = "None")]
 <# } else if (RustSchemaSupport.HasNativeDefault(fieldInfo.Value.SchemaType)) { #>
     #[builder(default)]
 <# } #>
-    pub <#=fieldInfo.Key.GetFieldName(TargetLanguage.Rust)#>: <#=RustSchemaSupport.GetType(fieldInfo.Value.SchemaType, fieldInfo.Value.IsIndirect, fieldInfo.Value.IsRequired)#>,
+    pub <#=fieldInfo.Key.GetFieldName(TargetLanguage.Rust)#>: <#=RustSchemaSupport.GetType(fieldInfo.Value.SchemaType, fieldInfo.Value.IsIndirect)#>,
 <# firstField = false; } #>
 }

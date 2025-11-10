@@ -4,11 +4,12 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         internal override SchemaKind Kind { get => SchemaKind.Array; }
 
-        internal ArrayType(SchemaType elementSchema)
+        internal ArrayType(SchemaType elementSchema, bool orNull)
+            : base(orNull)
         {
             ElementSchema = elementSchema;
         }
 
-        internal SchemaType ElementSchema { get; set; }
+        internal SchemaType ElementSchema { get; }
     }
 }
