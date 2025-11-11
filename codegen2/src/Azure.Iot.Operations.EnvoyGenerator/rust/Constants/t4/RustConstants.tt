@@ -6,5 +6,5 @@
 <# if (constant.Description != null) { #>
 /// <#=constant.Description#>
 <# } #>
-pub const <#=constant.Name.GetConstantName(TargetLanguage.Rust)#>: <#=GetRustType(constant.Type)#> = <#=constant.Type == TDValues.TypeString ? $"\"{constant.Value}\"" : $"{constant.Value}"#>;
+pub const <#=constant.Name.GetConstantName(TargetLanguage.Rust)#>: <#=GetRustType(constant.Type)#> = <#=GetRustValue(constant.Value)#>;
 <# } #>

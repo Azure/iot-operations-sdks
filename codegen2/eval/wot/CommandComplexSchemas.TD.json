@@ -34,6 +34,14 @@
     "Hello": {
       "type": "string",
       "const": "Hello, World!"
+    },
+    "Raining": {
+      "type": "boolean",
+        "const": true
+    },
+    "Sunny": {
+      "type": "boolean",
+      "const": false
     }
   },
   "actions": {

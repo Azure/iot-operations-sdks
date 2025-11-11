@@ -31,7 +31,20 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                 TDValues.TypeString => "&str",
                 TDValues.TypeNumber => "f64",
                 TDValues.TypeInteger => "i32",
+                TDValues.TypeBoolean => "bool",
                 _ => throw new System.ArgumentException($"Unsupported constant type: {type}"),
+            };
+        }
+
+        private static string GetRustValue(object value)
+        {
+            return value switch
+            {
+                string s => $"\"{s}\"",
+                double d => d.ToString(CultureInfo.InvariantCulture),
+                int i => i.ToString(CultureInfo.InvariantCulture),
+                bool b => b ? "true" : "false",
+                _ => throw new System.ArgumentException($"Unsupported constant value type: {value.GetType()}"),
             };
         }
     }

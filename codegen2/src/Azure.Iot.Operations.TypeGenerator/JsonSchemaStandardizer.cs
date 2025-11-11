@@ -207,17 +207,24 @@
                 case "number":
                     return schemaElt.GetProperty("format").GetString() == "float" ? new FloatType(orNull) : new DoubleType(orNull);
                 case "integer":
-                    return schemaElt.GetProperty("maximum").GetUInt64() switch
+                    if (schemaElt.TryGetProperty("maximum", out JsonElement maxElt))
                     {
-                        < 128 => new ByteType(orNull),
-                        < 256 => new UnsignedByteType(orNull),
-                        < 32768 => new ShortType(orNull),
-                        < 65536 => new UnsignedShortType(orNull),
-                        < 2147483648 => new IntegerType(orNull),
-                        < 4294967296 => new UnsignedIntegerType(orNull),
-                        < 9223372036854775808 => new LongType(orNull),
-                        _ => new UnsignedLongType(orNull),
-                    };
+                        return maxElt.GetUInt64() switch
+                        {
+                            < 128 => new ByteType(orNull),
+                            < 256 => new UnsignedByteType(orNull),
+                            < 32768 => new ShortType(orNull),
+                            < 65536 => new UnsignedShortType(orNull),
+                            < 2147483648 => new IntegerType(orNull),
+                            < 4294967296 => new UnsignedIntegerType(orNull),
+                            < 9223372036854775808 => new LongType(orNull),
+                            _ => new UnsignedLongType(orNull),
+                        };
+                    }
+                    else
+                    {
+                        return schemaElt.TryGetProperty("minimum", out JsonElement minElt) && minElt.GetInt64() >= 0 ? new UnsignedLongType(orNull) : new LongType(orNull);
+                    }
                 case "string":
                     if (schemaElt.TryGetProperty("format", out JsonElement formatElt))
                     {

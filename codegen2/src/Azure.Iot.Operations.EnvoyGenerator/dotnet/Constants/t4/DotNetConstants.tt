@@ -13,7 +13,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# if (constant.Description != null) { #>
         /// <summary><#=constant.Description#></summary>
 <# } #>
-        public const <#=GetDotNetType(constant.Type)#> <#=constant.Name.GetConstantName(TargetLanguage.CSharp)#> = <#=constant.Type == TDValues.TypeString ? $"\"{constant.Value}\"" : $"{constant.Value}"#>;
+        public const <#=GetDotNetType(constant.Type)#> <#=constant.Name.GetConstantName(TargetLanguage.CSharp)#> = <#=GetDotNetValue(constant.Value)#>;
 <# if (this.anyDescriptions && ix < this.constants.Count) { #>
 
 <# } #>

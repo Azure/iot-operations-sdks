@@ -81,7 +81,7 @@
 
                 foreach (var constDef in constDefs)
                 {
-                    if (constDef.Value.Type == TDValues.TypeString || constDef.Value.Type == TDValues.TypeNumber || constDef.Value.Type == TDValues.TypeInteger)
+                    if (constDef.Value.Type == TDValues.TypeString || constDef.Value.Type == TDValues.TypeNumber || constDef.Value.Type == TDValues.TypeInteger || constDef.Value.Type == TDValues.TypeBoolean)
                     {
                         JsonElement constElt = (JsonElement)constDef.Value.Const!;
                         object constValue = constDef.Value.Type switch
@@ -89,6 +89,7 @@
                             TDValues.TypeString => constElt.GetString()!,
                             TDValues.TypeNumber => constElt.GetDouble(),
                             TDValues.TypeInteger => constElt.GetInt32(),
+                            TDValues.TypeBoolean => constElt.GetBoolean(),
                             _ => null!,
                         };
 

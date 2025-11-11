@@ -1,6 +1,7 @@
 namespace Azure.Iot.Operations.EnvoyGenerator
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using Azure.Iot.Operations.CodeGeneration;
 
@@ -32,7 +33,20 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                 TDValues.TypeString => "string",
                 TDValues.TypeNumber => "double",
                 TDValues.TypeInteger => "int",
+                TDValues.TypeBoolean => "bool",
                 _ => throw new System.ArgumentException($"Unsupported constant type: {type}"),
+            };
+        }
+
+        private static string GetDotNetValue(object value)
+        {
+            return value switch
+            {
+                string s => $"\"{s}\"",
+                double d => d.ToString(CultureInfo.InvariantCulture),
+                int i => i.ToString(CultureInfo.InvariantCulture),
+                bool b => b ? "true" : "false",
+                _ => throw new System.ArgumentException($"Unsupported constant value type: {value.GetType()}"),
             };
         }
     }
