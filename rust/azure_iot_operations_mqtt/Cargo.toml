@@ -13,7 +13,7 @@ publish = true
 
 [dependencies]
 anyhow = "1.0.86"                                                                   # TODO: reconsider inclusion once TLS library is finalized
-azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "24518a552c6edfa9038a1794ce24ea9099c337a7" }
+azure_mqtt = { version = "0.1.0", path = "../../../mqtt-client" }
 bytes.workspace = true
 derive_builder.workspace = true
 derive-getters.workspace = true
@@ -28,7 +28,7 @@ tokio.workspace = true
 tokio-util.workspace = true
 
 [dev-dependencies]
-azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
+# azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
 env_logger.workspace = true
 temp-env.workspace = true
 tempfile.workspace = true
@@ -36,7 +36,8 @@ test-case.workspace = true
 tokio-test.workspace = true
 
 [features]
-test-utils = []
+default = ["test-utils"]
+test-utils = ["azure_mqtt/__integration"]
 
 [lints]
 workspace = true

@@ -6,8 +6,9 @@ mod metl;
 use std::path::Path;
 use std::sync::atomic;
 
-use azure_iot_operations_mqtt::session::{
-    reconnect_policy::ExponentialBackoffWithJitter, session::Session,
+use azure_iot_operations_mqtt::{
+    MqttConnectionSettingsBuilder,
+    session::session::{Session, SessionOptionsBuilder},
 };
 use tokio::runtime::Builder;
 
@@ -121,7 +122,7 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
         && does_session_support(&test_case.requires)
     {
         let mqtt_client_id = get_client_id(&test_case, "SessionInvokerTestClient", test_case_index);
-        let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
+        // let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
         // let session = Session::new_from_injection(
         //     mqtt_hub.get_driver(),
         //     mqtt_hub.get_looper(),
@@ -129,14 +130,27 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
         //     mqtt_client_id,
         //     None,
         // );
-        let session = Session::new_for_tests(
-            SessionOptions::default(),
-            ConnectionTransportConfig::Test {
-                incoming_packets: mqtt_hub.get_incoming_packets_rx().unwrap(),
-                outgoing_packets: mqtt_hub.get_outgoing_packets_tx(),
-            },
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id(mqtt_client_id.clone())
+            .build()?;
+        let session_options = SessionOptionsBuilder::default()
+            .connection_settings(connection_settings)
+            .build()?;
+        let session = Session::new(
+            session_options,
+            // ConnectionTransportConfig::Test {
+            //     incoming_packets: mqtt_hub.get_incoming_packets_rx().unwrap(),
+            //     outgoing_packets: mqtt_hub.get_outgoing_packets_tx(),
+            // },
         )
         .unwrap();
+        let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
+        let mut mqtt_hub = MqttHub::new(
+            mqtt_client_id,
+            MqttEmulationLevel::Event,
+            incoming_packets_tx,
+            outgoing_packets_rx,
+        );
         let managed_client = session.create_managed_client();
 
         let current_thread = Builder::new_current_thread().enable_all().build().unwrap();
@@ -171,13 +185,19 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
     {
         let mqtt_client_id =
             get_client_id(&test_case, "SessionExecutorTestClient", test_case_index);
-        let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        let session = Session::new_from_injection(
-            mqtt_hub.get_driver(),
-            mqtt_hub.get_looper(),
-            Box::new(ExponentialBackoffWithJitter::default()),
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id(mqtt_client_id.clone())
+            .build()?;
+        let session_options = SessionOptionsBuilder::default()
+            .connection_settings(connection_settings)
+            .build()?;
+        let session = Session::new(session_options).unwrap();
+        let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
+        let mut mqtt_hub = MqttHub::new(
             mqtt_client_id,
-            None,
+            MqttEmulationLevel::Event,
+            incoming_packets_tx,
+            outgoing_packets_rx,
         );
         let managed_client = session.create_managed_client();
 
@@ -213,13 +233,19 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
     {
         let mqtt_client_id =
             get_client_id(&test_case, "SessionReceiverTestClient", test_case_index);
-        let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        let session = Session::new_from_injection(
-            mqtt_hub.get_driver(),
-            mqtt_hub.get_looper(),
-            Box::new(ExponentialBackoffWithJitter::default()),
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id(mqtt_client_id.clone())
+            .build()?;
+        let session_options = SessionOptionsBuilder::default()
+            .connection_settings(connection_settings)
+            .build()?;
+        let session = Session::new(session_options).unwrap();
+        let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
+        let mut mqtt_hub = MqttHub::new(
             mqtt_client_id,
-            None,
+            MqttEmulationLevel::Event,
+            incoming_packets_tx,
+            outgoing_packets_rx,
         );
         let managed_client = session.create_managed_client();
 
@@ -258,13 +284,19 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
         && does_session_support(&test_case.requires)
     {
         let mqtt_client_id = get_client_id(&test_case, "SessionSenderTestClient", test_case_index);
-        let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        let session = Session::new_from_injection(
-            mqtt_hub.get_driver(),
-            mqtt_hub.get_looper(),
-            Box::new(ExponentialBackoffWithJitter::default()),
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id(mqtt_client_id.clone())
+            .build()?;
+        let session_options = SessionOptionsBuilder::default()
+            .connection_settings(connection_settings)
+            .build()?;
+        let session = Session::new(session_options).unwrap();
+        let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
+        let mut mqtt_hub = MqttHub::new(
             mqtt_client_id,
-            None,
+            MqttEmulationLevel::Event,
+            incoming_packets_tx,
+            outgoing_packets_rx,
         );
         let managed_client = session.create_managed_client();
 

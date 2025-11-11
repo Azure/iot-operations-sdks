@@ -3,8 +3,11 @@
 
 //! Adapter layer for the `azure_mqtt` (TODO: rename this once settled) crate
 
-use std::num::{NonZero, NonZeroU16, NonZeroU32};
 use std::{fmt, fs, time::Duration};
+use std::{
+    num::{NonZero, NonZeroU16, NonZeroU32},
+    sync::{Arc, Mutex},
+};
 
 use azure_mqtt::client::{ClientOptions, ConnectionTransportConfig, ConnectionTransportTlsConfig};
 use azure_mqtt::packet::{AuthenticationInfo, ConnectProperties, SessionExpiryInterval, Will};
@@ -14,6 +17,9 @@ use openssl::{
     x509::X509,
 };
 use thiserror::Error;
+
+#[cfg(feature = "test-utils")]
+use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender};
 
 use crate::connection_settings::MqttConnectionSettings;
 
@@ -177,14 +183,25 @@ pub struct AzureMqttConnectParameters {
     pub username: Option<String>,
     /// Password
     pub password: Option<Bytes>,
-    /// Connection transport configuration
-    pub connection_transport_config: ConnectionTransportConfig,
     /// Connect properties
     pub connect_properties: ConnectProperties,
     /// Connection timeout duration
     pub connection_timeout: Duration,
     // Optional SAT file path for authentication, saved here to be read later
     sat_file: Option<String>,
+    /// properties used to create the ConnectionTransportConfig on demand
+    ca_file: Option<String>,
+    cert_file: Option<String>,
+    key_file: Option<String>,
+    key_password_file: Option<String>,
+    use_tls: bool,
+    hostname: String,
+    tcp_port: u16,
+    /// properties for testing
+    #[cfg(feature = "test-utils")]
+    pub incoming_packets_tx: IncomingPacketsTx,
+    #[cfg(feature = "test-utils")]
+    pub outgoing_packets_rx: OutgoingPacketsRx,
 }
 
 impl AzureMqttConnectParameters {
@@ -210,6 +227,115 @@ impl AzureMqttConnectParameters {
         } else {
             Ok(None)
         }
+    }
+
+    #[cfg(not(feature = "test-utils"))]
+    pub fn connection_transport_config(
+        &self,
+    ) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
+        create_connection_transport_config(
+            self.ca_file.clone(),
+            self.cert_file.clone(),
+            self.key_file.clone(),
+            self.key_password_file.clone(),
+            self.use_tls,
+            self.hostname.clone(),
+            self.tcp_port,
+        )
+    }
+
+    #[cfg(feature = "test-utils")]
+    pub fn connection_transport_config(
+        &mut self,
+    ) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
+        let (incoming_packets_tx, incoming_packets_rx) = tokio::sync::mpsc::unbounded_channel();
+        let (outgoing_packets_tx, outgoing_packets_rx) = tokio::sync::mpsc::unbounded_channel();
+        self.incoming_packets_tx.set_new_tx(incoming_packets_tx);
+        self.outgoing_packets_rx.set_new_rx(outgoing_packets_rx);
+        Ok(ConnectionTransportConfig::Test {
+            incoming_packets: incoming_packets_rx,
+            outgoing_packets: outgoing_packets_tx,
+        })
+    }
+}
+
+#[derive(Clone)]
+pub struct IncomingPacketsTx {
+    incoming_packets_tx: Arc<
+        Mutex<UnboundedSender<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>>,
+    >,
+}
+
+impl IncomingPacketsTx {
+    pub fn send(
+        &self,
+        packet: azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
+    ) {
+        // TODO: this will cause an issue if the connection is currently disconnected and the rx has been dropped
+        // failed value will be returned back out though
+        // should just get queued up and sent once we're reconnected
+        let mut p = packet;
+        loop {
+            match self.incoming_packets_tx.lock().unwrap().send(p) {
+                Ok(()) => return,
+                Err(packet) => {
+                    p = packet.0;
+                }
+            }
+            // TODO: are there any packets that shouldn't be queued like this? (acks?)
+            // wait a bit before trying again
+            // This is to continue to wait and queue this until a connection is established again
+            // tokio::time::sleep(Duration::from_millis(100)).await;
+        }
+    }
+
+    fn set_new_tx(
+        &self,
+        new_tx: UnboundedSender<
+            azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
+        >,
+    ) {
+        let mut curr_tx = self.incoming_packets_tx.lock().unwrap();
+        *curr_tx = new_tx;
+    }
+}
+
+#[derive(Clone)]
+pub struct OutgoingPacketsRx {
+    outgoing_packets_rx: Arc<
+        Mutex<
+            UnboundedReceiver<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>,
+        >,
+    >,
+}
+impl OutgoingPacketsRx {
+    pub async fn recv(
+        &self,
+    ) -> Option<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>> {
+        // TODO: this will cause an issue if the connection is currently disconnected and the tx has been dropped
+        // will return None, but may succeed again in the future
+        // other thought though - would nothing get sent to this anyways until reconnected? Still need to handle the None,
+        // but no worries of missing things
+        loop {
+            if let Ok(packet) = self.outgoing_packets_rx.lock().unwrap().try_recv() {
+                return Some(packet);
+            }
+            // wait a bit before trying again
+            // This is to continue to wait until a connection is established again
+            // or until a packet is sent. Either way, we need to allow the mutex to be released
+            // while we wait
+            tokio::time::sleep(Duration::from_millis(100)).await;
+        }
+    }
+
+    fn set_new_rx(
+        &self,
+        new_rx: UnboundedReceiver<
+            azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
+        >,
+    ) {
+        let mut curr_rx = self.outgoing_packets_rx.lock().unwrap();
+        *curr_rx = new_rx;
     }
 }
 
@@ -270,15 +396,20 @@ impl MqttConnectionSettings {
             user_properties,
         )?;
 
-        let connection_transport_config = create_connection_transport_config(
-            self.ca_file,
-            self.cert_file,
-            self.key_file,
-            self.key_password_file,
+        // not used, but we want to validate failures early.
+        let _connection_transport_config = create_connection_transport_config(
+            self.ca_file.clone(),
+            self.cert_file.clone(),
+            self.key_file.clone(),
+            self.key_password_file.clone(),
             self.use_tls,
-            self.hostname,
+            self.hostname.clone(),
             self.tcp_port,
         )?;
+
+        // session side are dropped immediately, so this will act like a normal disconnect until connected
+        let (incoming_packets_tx, _) = tokio::sync::mpsc::unbounded_channel();
+        let (_, outgoing_packets_rx) = tokio::sync::mpsc::unbounded_channel();
 
         Ok((
             client_options,
@@ -288,10 +419,22 @@ impl MqttConnectionSettings {
                 will: None,
                 username: self.username,
                 password,
-                connection_transport_config,
+                ca_file: self.ca_file,
+                cert_file: self.cert_file,
+                key_file: self.key_file,
+                key_password_file: self.key_password_file,
+                use_tls: self.use_tls,
+                hostname: self.hostname,
+                tcp_port: self.tcp_port,
                 connect_properties,
                 connection_timeout: self.connection_timeout,
                 sat_file: self.sat_file,
+                incoming_packets_tx: IncomingPacketsTx {
+                    incoming_packets_tx: Arc::new(Mutex::new(incoming_packets_tx)),
+                },
+                outgoing_packets_rx: OutgoingPacketsRx {
+                    outgoing_packets_rx: Arc::new(Mutex::new(outgoing_packets_rx)),
+                },
             },
         ))
     }

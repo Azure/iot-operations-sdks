@@ -24,12 +24,12 @@ chrono.workspace = true
 regex = "1.11.0"
 thiserror.workspace = true
 fluent-uri = "0.3.2"
-azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "24518a552c6edfa9038a1794ce24ea9099c337a7" }
+azure_mqtt = { version = "0.1.0", path = "../../../mqtt-client" }
 
 [dev-dependencies]
 async-std = "1.12"
 async-trait = "0.1.81"
-azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "24518a552c6edfa9038a1794ce24ea9099c337a7", features = ["__integration"] }
+azure_mqtt = { version = "0.1.0", path = "../../../mqtt-client", features = ["__integration"] }
 ctor = "0.2"
 datatest-stable = "0.2"
 env_logger.workspace = true

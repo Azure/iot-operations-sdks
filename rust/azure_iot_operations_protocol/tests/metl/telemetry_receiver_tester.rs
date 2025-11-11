@@ -332,19 +332,26 @@ impl TelemetryReceiverTester {
             packet_index,
         } = action
         {
-            let mut user_properties: Vec<(String, String)> = metadata
+            let mut user_properties: Vec<(
+                azure_mqtt::packet::ByteStr<azure_mqtt::buffer_pool::SharedImpl>,
+                azure_mqtt::packet::ByteStr<azure_mqtt::buffer_pool::SharedImpl>,
+            )> = metadata
                 .iter()
-                .map(|(k, v)| (k.clone(), v.clone()))
+                .map(|(k, v)| (k.as_str().into(), v.as_str().into()))
                 .collect();
 
             if let Some(source_index) = source_index {
                 if let Some(source_id) = source_ids.get(source_index) {
-                    user_properties
-                        .push(("__srcId".to_string(), source_id.hyphenated().to_string()));
+                    user_properties.push((
+                        "__srcId".into(),
+                        source_id.hyphenated().to_string().as_str().into(),
+                    ));
                 } else {
                     let source_id = Uuid::new_v4();
-                    user_properties
-                        .push(("__srcId".to_string(), source_id.hyphenated().to_string()));
+                    user_properties.push((
+                        "__srcId".into(),
+                        source_id.hyphenated().to_string().as_str().into(),
+                    ));
                     source_ids.insert(*source_index, source_id);
                 }
             }

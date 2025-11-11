@@ -111,81 +111,32 @@ impl Session {
             )?;
 
         let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options);
-        Ok(Self::new_from_injection(
-            client,
-            receiver,
-            connect_handle,
-            connect_parameters,
-            options.reconnect_policy,
-            client_id,
-        ))
-    }
-
-    pub fn new_for_tests(
-        options: SessionOptions,
-        connection_transport_config: azure_mqtt::client::ConnectionTransportConfig,
-    ) -> Result<Self, SessionConfigError> {
-        let client_id = options.connection_settings.client_id.clone();
-
-        // Add AIO metric and features to user properties when using AIO MQTT broker features
-        // TODO: consider user properties from being supported on SessionOptions or ConnectionSettings
-        let user_properties = if let Some(features) = options.aio_broker_features {
-            let mut user_properties =
-                vec![("metriccategory".to_string(), "aiosdk-rust".to_string())];
-            if features.persistence {
-                user_properties.push(("aio-persistence".to_string(), true.to_string()));
-            }
-            user_properties
-        } else {
-            vec![]
-        };
-
-        let (client_options, mut connect_parameters) = options
-            .connection_settings
-            .to_azure_mqtt_connect_parameters(
-                user_properties,
-                options.max_packet_identifier,
-                options.publish_qos0_queue_size,
-                options.publish_qos1_qos2_queue_size,
-            )?;
-        connect_parameters.connection_transport_config = connection_transport_config;
-
-        let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options);
-        Ok(Self::new_from_injection(
-            client,
-            receiver,
-            connect_handle,
-            connect_parameters,
-            options.reconnect_policy,
-            client_id,
-        ))
-    }
-
-    // TODO: get client id out of here
-    // TODO: can we eliminate need for box on input?
-    /// ----API NOT STABLE, INTERNAL USE ONLY FOR NOW----
-    pub fn new_from_injection(
-        client: azure_mqtt::client::Client,
-        receiver: azure_mqtt::client::Receiver,
-        connect_handle: azure_mqtt::client::ConnectHandle,
-        connect_parameters: AzureMqttConnectParameters,
-        reconnect_policy: Box<dyn ReconnectPolicy>,
-        client_id: String,
-    ) -> Self {
         let incoming_pub_dispatcher = Arc::new(Mutex::new(IncomingPublishDispatcher::default()));
-
-        Self {
+        Ok(Self {
             client,
             receiver,
             connect_handle: Some(connect_handle),
             connect_parameters,
             client_id,
             incoming_pub_dispatcher,
-            reconnect_policy,
+            reconnect_policy: options.reconnect_policy,
             state: Arc::new(SessionState::default()),
             disconnect_handle: Arc::new(Mutex::new(None)),
             notify_force_exit: Arc::new(Notify::new()),
-        }
+        })
+    }
+
+    #[cfg(feature = "test-utils")]
+    pub fn get_packet_channels(
+        &self,
+    ) -> (
+        crate::azure_mqtt_adapter::IncomingPacketsTx,
+        crate::azure_mqtt_adapter::OutgoingPacketsRx,
+    ) {
+        (
+            self.connect_parameters.incoming_packets_tx.clone(),
+            self.connect_parameters.outgoing_packets_rx.clone(),
+        )
     }
 
     /// Return a new instance of [`SessionExitHandle`] that can be used to end this [`Session`]
@@ -276,12 +227,8 @@ impl Session {
                     .take()
                     .unwrap()
                     .connect(
-                        // TODO: actually use connection transport config from settings
-                        // self.connect_parameters.connection_transport_config.clone(),
-                        azure_mqtt::client::ConnectionTransportConfig::Tcp {
-                            hostname: "something".to_string(),
-                            port: 1883,
-                        },
+                        // TODO: maybe add something about certs expiring can fail this and why it's ok to panic? Or change this to not panic if it fails and instead end the session
+                        self.connect_parameters.connection_transport_config().expect("connection transport config has already been validated and inputs can't change"),
                         clean_start,
                         self.connect_parameters.keep_alive,
                         self.connect_parameters.will.clone(),
