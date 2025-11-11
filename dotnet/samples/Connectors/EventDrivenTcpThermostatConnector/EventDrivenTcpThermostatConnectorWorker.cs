@@ -27,8 +27,8 @@ namespace EventDrivenTcpThermostatConnector
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
             cancellationToken.ThrowIfCancellationRequested();
 
-            // Check if the device is enabled before processing
-            if (args.Device.Enabled == false)
+            // Skip sampling if the device is explicitly disabled (Enabled is false). Undefined (null) value is treated as enabled.
+            if (args.Device.Enabled != true && args.Device.Enabled != null)
             {
                 _logger.LogWarning("Device {0} is disabled. Skipping asset {1} processing until device is enabled.", args.DeviceName, args.AssetName);
                 // Note: When the device is updated, ConnectorWorker will automatically cancel this handler
@@ -36,8 +36,8 @@ namespace EventDrivenTcpThermostatConnector
                 return;
             }
 
-            // Check if the asset is enabled before processing
-            if (args.Asset.Enabled == false)
+            // Skip sampling if the device is explicitly disabled (Enabled is false). Undefined (null) value is treated as enabled.
+            if (args.Device.Enabled != true && args.Device.Enabled != null)
             {
                 _logger.LogWarning("Asset {0} is disabled. Skipping processing until asset is enabled.", args.AssetName);
                 // Note: When the asset is updated, ConnectorWorker will automatically cancel this handler

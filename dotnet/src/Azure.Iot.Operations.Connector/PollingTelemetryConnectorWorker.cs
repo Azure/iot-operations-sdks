@@ -23,8 +23,8 @@ namespace Azure.Iot.Operations.Connector
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            // Check if the device is enabled before starting to sample
-            if (args.Device.Enabled == false)
+            // Skip sampling if the device is explicitly disabled (Enabled is false). Undefined (null) value is treated as enabled.
+            if (args.Device.Enabled != true && args.Device.Enabled != null)
             {
                 _logger.LogWarning("Device {0} is disabled. Skipping asset {1} sampling until device is enabled.", args.DeviceName, args.AssetName);
                 // Note: When the device is updated, ConnectorWorker will automatically cancel this handler
@@ -32,8 +32,8 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            // Check if the asset is enabled before starting to sample
-            if (args.Asset.Enabled == false)
+            // Skip sampling if the device is explicitly disabled (Enabled is false). Undefined (null) value is treated as enabled.
+            if (args.Device.Enabled != true && args.Device.Enabled != null)
             {
                 _logger.LogWarning("Asset {0} is disabled. Skipping sampling until asset is enabled.", args.AssetName);
                 // Note: When the asset is updated, ConnectorWorker will automatically cancel this handler
