@@ -177,14 +177,20 @@ pub struct AzureMqttConnectParameters {
     pub username: Option<String>,
     /// Password
     pub password: Option<Bytes>,
-    /// Connection transport configuration
-    pub connection_transport_config: ConnectionTransportConfig,
     /// Connect properties
     pub connect_properties: ConnectProperties,
     /// Connection timeout duration
     pub connection_timeout: Duration,
     // Optional SAT file path for authentication, saved here to be read later
     sat_file: Option<String>,
+    /// properties used to create the `ConnectionTransportConfig` on demand
+    ca_file: Option<String>,
+    cert_file: Option<String>,
+    key_file: Option<String>,
+    key_password_file: Option<String>,
+    use_tls: bool,
+    hostname: String,
+    tcp_port: u16,
 }
 
 impl AzureMqttConnectParameters {
@@ -210,6 +216,24 @@ impl AzureMqttConnectParameters {
         } else {
             Ok(None)
         }
+    }
+
+    /// Create a new `ConnectionTransportConfig` from stored parameters
+    ///
+    /// # Errors
+    /// Returns [`ConnectionSettingsAdapterError`] if there is an error creating the config
+    pub fn connection_transport_config(
+        &self,
+    ) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
+        create_connection_transport_config(
+            self.ca_file.clone(),
+            self.cert_file.clone(),
+            self.key_file.clone(),
+            self.key_password_file.clone(),
+            self.use_tls,
+            self.hostname.clone(),
+            self.tcp_port,
+        )
     }
 }
 
@@ -270,13 +294,14 @@ impl MqttConnectionSettings {
             user_properties,
         )?;
 
-        let connection_transport_config = create_connection_transport_config(
-            self.ca_file,
-            self.cert_file,
-            self.key_file,
-            self.key_password_file,
+        // not used, but we want to validate failures early.
+        let _connection_transport_config = create_connection_transport_config(
+            self.ca_file.clone(),
+            self.cert_file.clone(),
+            self.key_file.clone(),
+            self.key_password_file.clone(),
             self.use_tls,
-            self.hostname,
+            self.hostname.clone(),
             self.tcp_port,
         )?;
 
@@ -288,10 +313,16 @@ impl MqttConnectionSettings {
                 will: None,
                 username: self.username,
                 password,
-                connection_transport_config,
                 connect_properties,
                 connection_timeout: self.connection_timeout,
                 sat_file: self.sat_file,
+                ca_file: self.ca_file,
+                cert_file: self.cert_file,
+                key_file: self.key_file,
+                key_password_file: self.key_password_file,
+                use_tls: self.use_tls,
+                hostname: self.hostname,
+                tcp_port: self.tcp_port,
             },
         ))
     }
@@ -496,8 +527,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let result =
-            connection_settings.to_azure_mqtt_connect_parameters(vec![], 500.into(), 200, 200);
+        let result = connection_settings.to_azure_mqtt_connect_parameters(
+            vec![],
+            azure_mqtt::packet::PacketIdentifier::new(500).unwrap(),
+            200,
+            200,
+        );
         assert!(result.is_ok());
     }
 
