@@ -112,6 +112,7 @@ impl Session {
 
         let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options);
         let incoming_pub_dispatcher = Arc::new(Mutex::new(IncomingPublishDispatcher::default()));
+
         Ok(Self {
             client,
             receiver,
@@ -174,7 +175,7 @@ impl Session {
     pub async fn run(mut self) -> Result<(), SessionError> {
         self.state.transition_running();
         // TODO: this changes the error from what it was before and no longer logs
-        let authentication_info = self.connect_parameters.authentication_info().unwrap(); // TODO: actually use auth info
+        let authentication_info = self.connect_parameters.authentication_info().unwrap(); // TODO: handle unwrap
         let mut clean_start = self.connect_parameters.initial_clean_start;
 
         // TODO: not sure if we need some of this still
@@ -247,29 +248,28 @@ impl Session {
                     azure_mqtt::client::ConnectResult::Failure(connect_handle, connack) => {
                         self.state.transition_disconnected();
                         self.connect_handle = Some(connect_handle);
-                        if let Some(ref connack) = connack
-                            && prev_connected
-                            && !connack.session_present
-                        {
-                            log::error!(
-                                "Session state not present on broker after reconnect. Ending session."
-                            );
-                            result = Err(SessionErrorRepr::SessionLost);
-                            if self.state.desire_exit() {
-                                // NOTE: this could happen if the user was exiting when the connection was dropped,
-                                // while the Session was not aware of the connection drop. Then, the drop has to last
-                                // long enough for the MQTT session expiry interval to cause the broker to discard the
-                                // MQTT session, and thus, you would enter this case.
-                                // NOTE: The reason that the misattribution of cause may occur in logs is due to the
-                                // (current) loose matching of received disconnects on account of an rumqttc bug.
-                                // See the error cases below in this match statement for more information.
-                                log::debug!(
-                                    "Session-initiated exit triggered when user-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
+                        if let Some(ref connack) = connack {
+                            if prev_connected && !connack.session_present {
+                                log::error!(
+                                    "Session state not present on broker after reconnect. Ending session."
                                 );
+                                result = Err(SessionErrorRepr::SessionLost);
+                                if self.state.desire_exit() {
+                                    // NOTE: this could happen if the user was exiting when the connection was dropped,
+                                    // while the Session was not aware of the connection drop. Then, the drop has to last
+                                    // long enough for the MQTT session expiry interval to cause the broker to discard the
+                                    // MQTT session, and thus, you would enter this case.
+                                    // NOTE: The reason that the misattribution of cause may occur in logs is due to the
+                                    // (current) loose matching of received disconnects on account of an rumqttc bug.
+                                    // See the error cases below in this match statement for more information.
+                                    log::debug!(
+                                        "Session-initiated exit triggered when user-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
+                                    );
+                                }
+                                // TODO: I think we should just break instead of triggering session exit here because we aren't connected, so the disconnect request won't be sent, and knowing whether we desired the exit or not only affects logging?
+                                // self.trigger_session_exit().await;
+                                break;
                             }
-                            // TODO: I think we should just break instead of triggering session exit here because we aren't connected, so the disconnect request won't be sent, and knowing whether we desired the exit or not only affects logging?
-                            // self.trigger_session_exit().await;
-                            break;
                         }
                         // Always log the error itself at error level
                         log::error!("Connection attempt failed"); // TODO: log connack?
@@ -374,12 +374,12 @@ impl Session {
                     self.connect_handle = Some(new_connect_handle);
                     // Always log the error itself at error level
                     log::error!("Client Disconnected: {disconnect_event:?}");
+
                     let connection_error = ConnectionError::new(ConnectionErrorKind::Disconnected(disconnect_event));
                     if session_ended {
                         result = Err(connection_error.into());
                         break;
                     }
-
                     // Defer decision to reconnect policy
                     if let Some(delay) = self
                         .reconnect_policy

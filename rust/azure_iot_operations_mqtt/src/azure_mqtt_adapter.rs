@@ -189,7 +189,7 @@ pub struct AzureMqttConnectParameters {
     pub connection_timeout: Duration,
     // Optional SAT file path for authentication, saved here to be read later
     sat_file: Option<String>,
-    /// properties used to create the ConnectionTransportConfig on demand
+    /// properties used to create the `ConnectionTransportConfig` on demand
     ca_file: Option<String>,
     cert_file: Option<String>,
     key_file: Option<String>,
@@ -230,6 +230,10 @@ impl AzureMqttConnectParameters {
     }
 
     #[cfg(not(feature = "test-utils"))]
+    /// Create a new `ConnectionTransportConfig` from stored parameters
+    ///
+    /// # Errors
+    /// Returns [`ConnectionSettingsAdapterError`] if there is an error creating the config
     pub fn connection_transport_config(
         &self,
     ) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
