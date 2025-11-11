@@ -54,14 +54,6 @@ namespace Azure.Iot.Operations.Connector
                 cancellationToken);
         }
 
-        public Task<AssetStatus> UpdateAssetStatusAsync(
-            Func<AssetStatus, AssetStatus> status,
-            TimeSpan? commandTimeout = null,
-            CancellationToken cancellationToken = default)
-        {
-
-        }
-
         public Task<AssetStatus> GetAssetStatusAsync(
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)
