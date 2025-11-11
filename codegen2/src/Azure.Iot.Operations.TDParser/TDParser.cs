@@ -13,7 +13,6 @@
             Converters =
             {
                 new ContextSpecifierJsonConverter(),
-                new AdditionalPropSpecifierJsonConverter(),
                 new TDStringArrayJsonConverter(),
             }
         };

@@ -47,7 +47,6 @@
     "coordinates": {
       "data": {
         "type": "object",
-        "dtv:additionalProperties": false,
         "properties": {
           "latitude": {
             "type": "number",

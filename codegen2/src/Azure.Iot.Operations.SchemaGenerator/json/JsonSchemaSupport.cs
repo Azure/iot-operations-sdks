@@ -39,7 +39,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
                 return $"\"$ref\": \"{GetReferencePath(tdSchema.Ref, refBase)}\"";
             }
 
-            if ((tdSchema.Type == TDValues.TypeObject && tdSchema.AdditionalProperties?.Boolean == false) ||
+            if ((tdSchema.Type == TDValues.TypeObject && tdSchema.AdditionalProperties == null) ||
                 (tdSchema.Type == TDValues.TypeString && tdSchema.Enum != null))
             {
                 return $"\"$ref\": \"{this.schemaNamer.ApplyBackupSchemaName(tdSchema.Title, backupSchemaName)}.json\"";
@@ -48,7 +48,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
             switch (tdSchema.Type ?? string.Empty)
             {
                 case TDValues.TypeObject:
-                    return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(tdSchema.AdditionalProperties!.DataSchema!, backupSchemaName, refBase)} }}";
+                    return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(tdSchema.AdditionalProperties!, backupSchemaName, refBase)} }}";
                 case TDValues.TypeArray:
                     string itemsProp = tdSchema.Items != null ? $", \"items\": {{ {GetTypeAndAddenda(tdSchema.Items, backupSchemaName, refBase)} }}" : string.Empty;
                     return $"\"type\": \"array\"{itemsProp}";

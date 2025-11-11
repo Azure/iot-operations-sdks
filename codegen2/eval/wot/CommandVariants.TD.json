@@ -35,7 +35,6 @@
     "peek": {
       "output": {
         "type": "object",
-        "dtv:additionalProperties": false,
         "required": [ "outVal" ],
         "properties": {
           "outVal": {
@@ -59,7 +58,6 @@
     "poke": {
       "input": {
         "type": "object",
-        "dtv:additionalProperties": false,
         "required": [ "inVal" ],
         "properties": {
           "inVal": {
@@ -82,7 +80,6 @@
     "setColor": {
       "input": {
         "type": "object",
-        "dtv:additionalProperties": false,
         "required": [ "newColor" ],
         "properties": {
           "newColor": {
@@ -92,7 +89,6 @@
       },
       "output": {
         "type": "object",
-        "dtv:additionalProperties": false,
         "required": [ "oldColor" ],
         "properties": {
           "oldColor": {

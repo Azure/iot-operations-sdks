@@ -1,6 +1,5 @@
 ﻿namespace Azure.Iot.Operations.TDParser.Model
 {
-    using System.Collections.Generic;
     using System.Text.Json.Serialization;
 
     public class TDAction

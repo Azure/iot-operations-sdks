@@ -118,15 +118,15 @@
             {
                 ComputeClosureOfDataSchema(schemaNamer, backupName, dataSchema.Items, format, closedSchemaSpecs);
             }
-            else if (dataSchema.AdditionalProperties?.DataSchema != null)
+            else if (dataSchema.AdditionalProperties != null)
             {
-                ComputeClosureOfDataSchema(schemaNamer, backupName, dataSchema.AdditionalProperties.DataSchema, format, closedSchemaSpecs);
+                ComputeClosureOfDataSchema(schemaNamer, backupName, dataSchema.AdditionalProperties, format, closedSchemaSpecs);
             }
         }
 
         private static bool IsProxy(TDDataSchema dataSchema)
         {
-            return (dataSchema.Type == TDValues.TypeObject && (dataSchema.AdditionalProperties == null || dataSchema.AdditionalProperties.Boolean == false) && dataSchema.Properties == null) ||
+            return (dataSchema.Type == TDValues.TypeObject && (dataSchema.AdditionalProperties == null || dataSchema.AdditionalProperties == null) && dataSchema.Properties == null) ||
                 (dataSchema.Type == TDValues.TypeArray && dataSchema.Items == null);
         }
 

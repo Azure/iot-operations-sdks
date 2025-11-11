@@ -37,7 +37,7 @@
         public string? ContentEncoding { get; set; }
 
         [JsonPropertyName("dtv:additionalProperties")]
-        public TDAdditionalPropSpecifier? AdditionalProperties { get; set; }
+        public TDDataSchema? AdditionalProperties { get; set; }
 
         [JsonPropertyName("enum")]
         public string[]? Enum { get; set; }

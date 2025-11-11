@@ -13,7 +13,6 @@
                 {
                     Title = title,
                     Type = TDValues.TypeObject,
-                    AdditionalProperties = new TDAdditionalPropSpecifier { Boolean = false },
                 },
                 Require: false,
                 backupSchemaName,

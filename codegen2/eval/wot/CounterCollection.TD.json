@@ -40,7 +40,6 @@
     "availableCounters": {
       "title": "CounterList",
       "type": "object",
-      "dtv:additionalProperties": false,
       "properties": {
         "counterNames": {
           "type": "array",
@@ -58,7 +57,6 @@
       "title": "CounterError",
       "description": "The requested counter operation could not be completed.",
       "type": "object",
-      "dtv:additionalProperties": false,
       "dtv:errorMessage": "explanation",
       "properties": {
         "explanation": {
@@ -71,7 +69,6 @@
     "increment": {
       "input": {
         "type": "object",
-        "dtv:additionalProperties": false,
         "required": [ "counterName" ],
         "properties": {
           "counterName": {
@@ -81,7 +78,6 @@
       },
       "output": {
         "type": "object",
-        "dtv:additionalProperties": false,
         "required": [ "counterValue" ],
         "properties": {
           "counterValue": {
@@ -110,7 +106,6 @@
     "getLocation": {
       "input": {
         "type": "object",
-        "dtv:additionalProperties": false,
         "required": [ "counterName" ],
         "properties": {
           "counterName": {
@@ -121,13 +116,11 @@
       },
       "output": {
         "type": "object",
-        "dtv:additionalProperties": false,
         "properties": {
           "counterLocation": {
             "title": "CounterLocation",
             "description": "Location of counter, null if not deployed",
             "type": "object",
-            "dtv:additionalProperties": false,
             "required": [ "latitude", "longitude" ],
             "properties": {
               "latitude": {

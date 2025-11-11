@@ -24,7 +24,6 @@
     "PropertyError": {
       "description": "The requested property read/write could not be completed.",
       "type": "object",
-      "dtv:additionalProperties": false,
       "dtv:errorMessage": "explanation",
       "properties": {
         "explanation": {
@@ -39,7 +38,6 @@
       "title": "MultiWriteError",
       "description": "The requested multiple property write could not be completed.",
       "type": "object",
-      "dtv:additionalProperties": false,
       "dtv:errorMessage": "explanation",
       "properties": {
         "explanation": {

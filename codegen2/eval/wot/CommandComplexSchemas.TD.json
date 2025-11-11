@@ -41,13 +41,11 @@
       "input": {
         "title": "DoSomethingRequestPayload",
         "type": "object",
-        "dtv:additionalProperties": false,
         "required": [ "input" ],
         "properties": {
           "input": {
             "type": "object",
             "title": "DoSomethingRequestSchema",
-            "dtv:additionalProperties": false,
             "properties": {
               "actions": {
                 "type": "array",
@@ -68,7 +66,6 @@
         "title": "SomeResponseInfo",
         "type": "object",
         "description": "The result of the doSomething command.",
-        "dtv:additionalProperties": false,
         "properties": {
           "details": {
             "type": "object",
