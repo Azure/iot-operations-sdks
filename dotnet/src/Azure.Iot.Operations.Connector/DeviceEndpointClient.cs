@@ -40,7 +40,6 @@ namespace Azure.Iot.Operations.Connector
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)
         {
-            //TODO update lastUpdatetimeUtc
             return _adrClient.UpdateDeviceStatusAsync(
                 _deviceName,
                 _inboundEndpointName,
@@ -49,6 +48,12 @@ namespace Azure.Iot.Operations.Connector
                 cancellationToken);
         }
 
+        /// <summary>
+        /// Get the status of this device from the Azure Device Registry service
+        /// </summary>
+        /// <param name="commandTimeout">The timeout for this RPC command invocation.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The status returned by the Azure Device Registry service</returns>
         public Task<DeviceStatus> GetDeviceStatusAsync(
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)

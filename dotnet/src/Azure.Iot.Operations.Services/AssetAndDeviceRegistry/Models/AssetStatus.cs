@@ -46,6 +46,14 @@ public record AssetStatus
     /// </remarks>
     public List<AssetDatasetEventStreamStatus>? Streams { get; set; }
 
+    /// <summary>
+    /// Update <see cref="Datasets"/> to replace any existing status for the dataset named in <paramref name="newStatus"/>.
+    /// </summary>
+    /// <param name="newStatus">The new status of the dataset.</param>
+    /// <remarks>
+    /// If the dataset has no status in <see cref="Datasets"/> yet, <paramref name="newStatus"/> will be added. If the
+    /// dataset does have status in <see cref="Datasets"/> already, that status will be replaced entirely by <paramref name="newStatus"/>.
+    /// </remarks>
     public void UpdateDatasetStatus(AssetDatasetEventStreamStatus newStatus)
     {
         Datasets ??= new();
@@ -65,6 +73,14 @@ public record AssetStatus
         Datasets.Add(newStatus);
     }
 
+    /// <summary>
+    /// Update <see cref="Streams"/> to replace any existing status for the stream named in <paramref name="newStatus"/>.
+    /// </summary>
+    /// <param name="newStatus">The new status of the stream.</param>
+    /// <remarks>
+    /// If the stream has no status in <see cref="Streams"/> yet, <paramref name="newStatus"/> will be added. If the
+    /// stream does have status in <see cref="Streams"/> already, that status will be replaced entirely by <paramref name="newStatus"/>.
+    /// </remarks>
     public void UpdateStreamStatus(AssetDatasetEventStreamStatus newStatus)
     {
         Streams ??= new();
@@ -84,26 +100,35 @@ public record AssetStatus
         Streams.Add(newStatus);
     }
 
+    /// <summary>
+    /// Remove any statuses related to the provided event group name from <see cref="EventGroups"/>.
+    /// </summary>
+    /// <param name="eventGroupName">The name of the event group to clear all statuses from.</param>
     public void ClearEventGroupStatus(string eventGroupName)
     {
         if (EventGroups != null)
         {
-            AssetEventGroupStatus? eventGroupStatusToRemove = null;
+            List<AssetEventGroupStatus> eventGroupStatusesToRemove = new();
             foreach (AssetEventGroupStatus eventGroupStatus in EventGroups)
             {
                 if (eventGroupStatus.Name.Equals(eventGroupName))
                 {
-                    eventGroupStatusToRemove = eventGroupStatus;
+                    eventGroupStatusesToRemove.Add(eventGroupStatus);
                 }
             }
 
-            if (eventGroupStatusToRemove != null)
+            foreach (AssetEventGroupStatus eventGroupStatusToRemove in eventGroupStatusesToRemove)
             {
                 EventGroups.Remove(eventGroupStatusToRemove);
             }
         }
     }
 
+    /// <summary>
+    /// Update <see cref="EventGroups"/> to replace any existing status for the provided event group's event's status.
+    /// </summary>
+    /// <param name="eventGroupName">The name of the event group that this event belongs to.</param>
+    /// <param name="eventNewStatus">The new status of the event within this event group.</param>
     public void UpdateEventStatus(string eventGroupName, AssetDatasetEventStreamStatus eventNewStatus)
     {
         EventGroups ??= new();
@@ -138,6 +163,11 @@ public record AssetStatus
         });
     }
 
+    /// <summary>
+    /// Update <see cref="ManagementGroups"/> to replace any existing status for the provided management group action.
+    /// </summary>
+    /// <param name="managementGroupName">The name of the management group that this action belongs to.</param>
+    /// <param name="actionNewStatus">The new status of this action.</param>
     public void UpdateManagementGroupStatus(string managementGroupName, AssetManagementGroupActionStatus actionNewStatus)
     {
         ManagementGroups ??= new();

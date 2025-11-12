@@ -42,9 +42,9 @@ namespace EventDrivenTcpThermostatConnector
                 _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
                 await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus, null, cancellationToken);
             }
-            catch (Exception e2)
+            catch (Exception e)
             {
-                _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
             }
         }
 
@@ -66,9 +66,9 @@ namespace EventDrivenTcpThermostatConnector
                     assetStatus.EventGroups.Clear();
                     await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
                 }
-                catch (Exception e2)
+                catch (Exception e)
                 {
-                    _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                    _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
                 }
                 return;
             }
@@ -87,9 +87,9 @@ namespace EventDrivenTcpThermostatConnector
                     assetStatus.ClearEventGroupStatus(eventGroup.Name);
                     await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
                 }
-                catch (Exception e2)
+                catch (Exception e)
                 {
-                    _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                    _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
                 }
                 return;
             }
@@ -120,9 +120,9 @@ namespace EventDrivenTcpThermostatConnector
                     _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
                     await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
                 }
-                catch (Exception e2)
+                catch (Exception e)
                 {
-                    _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                    _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
                 }
                 return;
             }
@@ -200,9 +200,9 @@ namespace EventDrivenTcpThermostatConnector
 
                     await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus, null, cancellationToken);
                 }
-                catch (Exception e2)
+                catch (Exception e)
                 {
-                    _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                    _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
                 }
             }
         }
