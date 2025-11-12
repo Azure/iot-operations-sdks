@@ -137,7 +137,7 @@ namespace EventDrivenTcpThermostatConnector
                         }
                     });
 
-                    _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
+                    _logger.LogWarning("Reporting asset status error to Azure Device Registry service...");
                     await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
                 }
                 catch (Exception e)
@@ -184,6 +184,7 @@ namespace EventDrivenTcpThermostatConnector
                             try
                             {
                                 // Report status of the asset once the first event has been received and forwarded
+                                _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
                                 AssetStatus assetStatus = await args.AssetClient.GetAssetStatusAsync();
                                 assetStatus.Config ??= new();
                                 assetStatus.Config.LastTransitionTime = DateTime.UtcNow;
