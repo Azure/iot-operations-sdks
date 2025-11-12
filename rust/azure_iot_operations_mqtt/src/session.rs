@@ -51,6 +51,7 @@ pub mod reconnect_policy;
 // This isn't ideal naming, but it'd be inconsistent otherwise.
 pub mod session; // TODO: Make this private and accessible via compile flags
 mod state;
+mod state2;
 
 use std::fmt;
 

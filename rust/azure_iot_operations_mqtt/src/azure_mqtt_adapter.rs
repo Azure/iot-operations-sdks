@@ -200,7 +200,7 @@ impl AzureMqttConnectParameters {
     /// - `Ok(Some(AuthenticationInfo))` if SAT file is provided and read successfully
     /// - `Ok(None)` if no SAT file is provided
     /// - `Err(ConnectionSettingsAdapterError)` if there is an error reading the SAT file
-    pub fn authentication_info(
+    pub fn fetch_authentication_info(
         &self,
     ) -> Result<Option<AuthenticationInfo>, ConnectionSettingsAdapterError> {
         if let Some(sat_file) = &self.sat_file {

@@ -6,13 +6,17 @@
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
+use azure_mqtt::{
+    client::{Connection, DisconnectEvent, ConnectResult, ConnectEnhancedAuthResult},
+    packet::ConnAck,
+};
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::managed_client::SessionManagedClient;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
-use crate::session::state::SessionState;
+use crate::session::state2::SessionState;
 use crate::session::{
     SessionConfigError, SessionError, SessionErrorRepr, SessionExitError, SessionExitErrorKind,
 };
@@ -64,6 +68,10 @@ pub struct Session {
     receiver: azure_mqtt::client::Receiver,
     /// Underlying MQTT connect handle
     connect_handle: Option<azure_mqtt::client::ConnectHandle>, // TODO: think about making an enum for this tied to session state to make it clearer that None is the state when this is owned somewhere else
+    /// disconnect handle
+    disconnect_handle: Arc<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
+    /// Underlying MQTT reauthorization handle
+    reauth_handle: Option<azure_mqtt::client::ReauthHandle>,
     /// Parameters for establishing an MQTT connection using the `azure_mqtt` crate
     connect_parameters: AzureMqttConnectParameters,
     /// Client ID of the underlying rumqttc client
@@ -74,8 +82,6 @@ pub struct Session {
     reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Current state
     state: Arc<SessionState>,
-    /// disconnect handle
-    disconnect_handle: Arc<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
     /// Notifier for a force exit signal
     notify_force_exit: Arc<Notify>,
 }
@@ -117,12 +123,13 @@ impl Session {
             client,
             receiver,
             connect_handle: Some(connect_handle),
+            disconnect_handle: Arc::new(Mutex::new(None)),
+            reauth_handle: None,
             connect_parameters,
             client_id,
             incoming_pub_dispatcher,
             reconnect_policy: options.reconnect_policy,
             state: Arc::new(SessionState::default()),
-            disconnect_handle: Arc::new(Mutex::new(None)),
             notify_force_exit: Arc::new(Notify::new()),
         })
     }
@@ -152,6 +159,89 @@ impl Session {
         }
     }
 
+    async fn connect(&mut self, clean_start: bool) -> Result<Connection, String> { // TODO: what about reauth handle? // TODO: what is the real error type?
+        // TODO: pull this from a stored source of truth to avoid too many re-reads.
+        let authentication_info = self.connect_parameters.fetch_authentication_info().unwrap(); // TODO: handle unwrap
+
+        let ch = self
+            .connect_handle
+            .take()
+            .expect("ConnectHandle should always be present for connect attempt");
+
+        let result = if let Some(authentication_info) = authentication_info {
+            match ch.connect_enhanced_auth(
+                    // TODO: maybe add something about certs expiring can fail this and why it's ok to panic? Or change this to not panic if it fails and instead end the session
+                self.connect_parameters.connection_transport_config().expect("connection transport config has already been validated and inputs can't change"),
+                clean_start,
+                self.connect_parameters.keep_alive,
+                self.connect_parameters.will.clone(),
+                self.connect_parameters.username.clone(),
+                self.connect_parameters.password.clone(),
+                self.connect_parameters.connect_properties.clone(),
+                authentication_info,
+                Some(self.connect_parameters.connection_timeout),
+            )
+            .await {
+                ConnectEnhancedAuthResult::Continue(..) => {
+                    unimplemented!("This should not occur in AIO MQTT scenarios")
+                }
+                ConnectEnhancedAuthResult::Success(
+                    connection,
+                    _connack,
+                    disconnect_handle,
+                    _reauth_handle
+                ) => {
+                    self.disconnect_handle
+                        .lock()
+                        .unwrap()
+                        .replace(disconnect_handle);
+                    Ok(connection)
+                },
+                ConnectEnhancedAuthResult::Failure(_connect_handle, ..) => {
+                    unimplemented!()
+                }
+            }
+        } else {
+            match ch.connect(
+                // TODO: maybe add something about certs expiring can fail this and why it's ok to panic? Or change this to not panic if it fails and instead end the session
+                self.connect_parameters.connection_transport_config().expect("connection transport config has already been validated and inputs can't change"),
+                clean_start,
+                self.connect_parameters.keep_alive,
+                self.connect_parameters.will.clone(),
+                self.connect_parameters.username.clone(),
+                self.connect_parameters.password.clone(),
+                self.connect_parameters.connect_properties.clone(),
+                Some(self.connect_parameters.connection_timeout),
+            )
+            .await {
+                ConnectResult::Success(
+                    connection,
+                    _connack,
+                    disconnect_handle,
+                ) => {
+                    self.disconnect_handle
+                        .lock()
+                        .unwrap()
+                        .replace(disconnect_handle);
+                    Ok(connection)
+                },
+                ConnectResult::Failure(connect_handle, _connack) => {
+                    self.connect_handle = Some(connect_handle);
+
+                    unimplemented!()
+                }
+            }
+        };
+
+        // // Return the connect handle back to self for future use
+        // if result.is_err() {
+        //     self.connect_handle = Some()
+        // }
+
+        result
+
+    }
+
     /// Begin running the [`Session`].
     ///
     /// Consumes the [`Session`] and blocks until either a session exit or a fatal connection
@@ -162,7 +252,7 @@ impl Session {
     pub async fn run(mut self) -> Result<(), SessionError> {
         self.state.transition_running();
         // TODO: this changes the error from what it was before and no longer logs
-        let authentication_info = self.connect_parameters.authentication_info().unwrap(); // TODO: handle unwrap
+        let authentication_info = self.connect_parameters.fetch_authentication_info().unwrap(); // TODO: handle unwrap
         let mut clean_start = self.connect_parameters.initial_clean_start;
 
         // TODO: not sure if we need some of this still
@@ -174,7 +264,7 @@ impl Session {
         //     run_background(client, sat_auth_context, cancel_token)
         // });
 
-        // Indicates whether this session has been previously connected
+        // Indicates whether this session has been previously connected     //TODO: why
         let mut prev_connected = false;
         // Number of previous reconnect attempts
         let mut prev_reconnect_attempts = 0;
