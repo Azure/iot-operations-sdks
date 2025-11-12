@@ -31,9 +31,9 @@ const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandExecutorResponsePubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandInvokerInvalidResponseTopicPrefix_ThrowsException",
     "CommandInvokerInvalidResponseTopicSuffix_ThrowsException",
-    "CommandInvokerPubAckDroppedByDisconnection_ReconnectAndSuccess",
+    // "CommandInvokerPubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandInvokerWithZeroTimeout_ThrowsException",
-    "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess",
+    "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess", // this might be able to be tested once acks have the epoch
     "TelemetrySenderSendWithCloudEventSpecVersionNonNumeric_Success",
 ];
 
@@ -122,30 +122,19 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
         && does_session_support(&test_case.requires)
     {
         let mqtt_client_id = get_client_id(&test_case, "SessionInvokerTestClient", test_case_index);
-        // let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        // let session = Session::new_from_injection(
-        //     mqtt_hub.get_driver(),
-        //     mqtt_hub.get_looper(),
-        //     Box::new(ExponentialBackoffWithJitter::default()),
-        //     mqtt_client_id,
-        //     None,
-        // );
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id(mqtt_client_id.clone())
+            .hostname("localhost")
+            .tcp_port(1883u16)
+            .use_tls(false)
             .build()?;
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(connection_settings)
             .build()?;
-        let session = Session::new(
-            session_options,
-            // ConnectionTransportConfig::Test {
-            //     incoming_packets: mqtt_hub.get_incoming_packets_rx().unwrap(),
-            //     outgoing_packets: mqtt_hub.get_outgoing_packets_tx(),
-            // },
-        )
+        let session = Session::new(session_options)
         .unwrap();
         let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
-        let mut mqtt_hub = MqttHub::new(
+        let mqtt_hub = MqttHub::new(
             mqtt_client_id,
             MqttEmulationLevel::Event,
             incoming_packets_tx,
@@ -156,11 +145,17 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
         let current_thread = Builder::new_current_thread().enable_all().build().unwrap();
 
         let exit_handle = session.create_exit_handle();
+        let session_monitor = session.create_session_monitor();
 
         current_thread.block_on(async move {
             let _ = tokio::join!(session.run(), async move {
-                CommandInvokerTester::test_command_invoker(test_case, managed_client, mqtt_hub)
-                    .await;
+                CommandInvokerTester::test_command_invoker(
+                    test_case,
+                    managed_client,
+                    session_monitor,
+                    mqtt_hub,
+                )
+                .await;
                 exit_handle.exit_force().await;
             });
         });
@@ -187,13 +182,16 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
             get_client_id(&test_case, "SessionExecutorTestClient", test_case_index);
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id(mqtt_client_id.clone())
+            .hostname("localhost")
+            .tcp_port(1883u16)
+            .use_tls(false)
             .build()?;
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(connection_settings)
             .build()?;
         let session = Session::new(session_options).unwrap();
         let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
-        let mut mqtt_hub = MqttHub::new(
+        let mqtt_hub = MqttHub::new(
             mqtt_client_id,
             MqttEmulationLevel::Event,
             incoming_packets_tx,
@@ -204,11 +202,17 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
         let current_thread = Builder::new_current_thread().enable_all().build().unwrap();
 
         let exit_handle = session.create_exit_handle();
+        let session_monitor = session.create_session_monitor();
 
         current_thread.block_on(async move {
             let _ = tokio::join!(session.run(), async move {
-                CommandExecutorTester::test_command_executor(test_case, managed_client, mqtt_hub)
-                    .await;
+                CommandExecutorTester::test_command_executor(
+                    test_case,
+                    managed_client,
+                    session_monitor,
+                    mqtt_hub,
+                )
+                .await;
                 exit_handle.exit_force().await;
             });
         });
@@ -235,6 +239,9 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
             get_client_id(&test_case, "SessionReceiverTestClient", test_case_index);
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id(mqtt_client_id.clone())
+            .hostname("localhost")
+            .tcp_port(1883u16)
+            .use_tls(false)
             .build()?;
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(connection_settings)
@@ -252,12 +259,14 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
         let current_thread = Builder::new_current_thread().enable_all().build().unwrap();
 
         let exit_handle = session.create_exit_handle();
+        let session_monitor = session.create_session_monitor();
 
         current_thread.block_on(async move {
             let _ = tokio::join!(session.run(), async move {
                 TelemetryReceiverTester::test_telemetry_receiver(
                     test_case,
                     managed_client,
+                    session_monitor,
                     mqtt_hub,
                 )
                 .await;
@@ -286,13 +295,16 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
         let mqtt_client_id = get_client_id(&test_case, "SessionSenderTestClient", test_case_index);
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id(mqtt_client_id.clone())
+            .hostname("localhost")
+            .tcp_port(1883u16)
+            .use_tls(false)
             .build()?;
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(connection_settings)
             .build()?;
         let session = Session::new(session_options).unwrap();
         let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
-        let mut mqtt_hub = MqttHub::new(
+        let mqtt_hub = MqttHub::new(
             mqtt_client_id,
             MqttEmulationLevel::Event,
             incoming_packets_tx,
@@ -303,11 +315,17 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
         let current_thread = Builder::new_current_thread().enable_all().build().unwrap();
 
         let exit_handle = session.create_exit_handle();
+        let session_monitor = session.create_session_monitor();
 
         current_thread.block_on(async move {
             let _ = tokio::join!(session.run(), async move {
-                TelemetrySenderTester::test_telemetry_sender(test_case, managed_client, mqtt_hub)
-                    .await;
+                TelemetrySenderTester::test_telemetry_sender(
+                    test_case,
+                    managed_client,
+                    session_monitor,
+                    mqtt_hub,
+                )
+                .await;
                 exit_handle.exit_force().await;
             });
         });
@@ -329,8 +347,8 @@ fn does_standalone_support(requirements: &[TestFeatureKind]) -> bool {
 
 fn does_session_support(requirements: &[TestFeatureKind]) -> bool {
     !requirements.contains(&TestFeatureKind::Unobtanium)
-        && !requirements.contains(&TestFeatureKind::TopicFiltering)
-        && !requirements.contains(&TestFeatureKind::Caching)
+        // && !requirements.contains(&TestFeatureKind::TopicFiltering)
+        // && !requirements.contains(&TestFeatureKind::Caching)
         && !requirements.contains(&TestFeatureKind::Dispatch)
         && !requirements.contains(&TestFeatureKind::MultipleSerializers)
 }

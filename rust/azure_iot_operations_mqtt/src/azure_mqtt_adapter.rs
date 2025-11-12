@@ -3,11 +3,8 @@
 
 //! Adapter layer for the `azure_mqtt` (TODO: rename this once settled) crate
 
+use std::num::{NonZero, NonZeroU16, NonZeroU32};
 use std::{fmt, fs, time::Duration};
-use std::{
-    num::{NonZero, NonZeroU16, NonZeroU32},
-    sync::{Arc, Mutex},
-};
 
 use azure_mqtt::client::{ClientOptions, ConnectionTransportConfig, ConnectionTransportTlsConfig};
 use azure_mqtt::packet::{AuthenticationInfo, ConnectProperties, SessionExpiryInterval, Will};
@@ -18,10 +15,12 @@ use openssl::{
 };
 use thiserror::Error;
 
+use crate::connection_settings::MqttConnectionSettings;
+
+#[cfg(feature = "test-utils")]
+use std::sync::{Arc, Mutex};
 #[cfg(feature = "test-utils")]
 use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender};
-
-use crate::connection_settings::MqttConnectionSettings;
 
 type ClientCert = (X509, PKey<Private>, Vec<X509>);
 
@@ -189,14 +188,23 @@ pub struct AzureMqttConnectParameters {
     pub connection_timeout: Duration,
     // Optional SAT file path for authentication, saved here to be read later
     sat_file: Option<String>,
+
     /// properties used to create the `ConnectionTransportConfig` on demand
+    #[cfg(not(feature = "test-utils"))]
     ca_file: Option<String>,
+    #[cfg(not(feature = "test-utils"))]
     cert_file: Option<String>,
+    #[cfg(not(feature = "test-utils"))]
     key_file: Option<String>,
+    #[cfg(not(feature = "test-utils"))]
     key_password_file: Option<String>,
+    #[cfg(not(feature = "test-utils"))]
     use_tls: bool,
+    #[cfg(not(feature = "test-utils"))]
     hostname: String,
+    #[cfg(not(feature = "test-utils"))]
     tcp_port: u16,
+
     /// properties for testing
     #[cfg(feature = "test-utils")]
     pub incoming_packets_tx: IncomingPacketsTx,
@@ -229,11 +237,11 @@ impl AzureMqttConnectParameters {
         }
     }
 
-    #[cfg(not(feature = "test-utils"))]
     /// Create a new `ConnectionTransportConfig` from stored parameters
     ///
     /// # Errors
     /// Returns [`ConnectionSettingsAdapterError`] if there is an error creating the config
+    #[cfg(not(feature = "test-utils"))]
     pub fn connection_transport_config(
         &self,
     ) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
@@ -260,86 +268,6 @@ impl AzureMqttConnectParameters {
             incoming_packets: incoming_packets_rx,
             outgoing_packets: outgoing_packets_tx,
         })
-    }
-}
-
-#[derive(Clone)]
-pub struct IncomingPacketsTx {
-    incoming_packets_tx: Arc<
-        Mutex<UnboundedSender<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>>,
-    >,
-}
-
-impl IncomingPacketsTx {
-    pub fn send(
-        &self,
-        packet: azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
-    ) {
-        // TODO: this will cause an issue if the connection is currently disconnected and the rx has been dropped
-        // failed value will be returned back out though
-        // should just get queued up and sent once we're reconnected
-        let mut p = packet;
-        loop {
-            match self.incoming_packets_tx.lock().unwrap().send(p) {
-                Ok(()) => return,
-                Err(packet) => {
-                    p = packet.0;
-                }
-            }
-            // TODO: are there any packets that shouldn't be queued like this? (acks?)
-            // wait a bit before trying again
-            // This is to continue to wait and queue this until a connection is established again
-            // tokio::time::sleep(Duration::from_millis(100)).await;
-        }
-    }
-
-    fn set_new_tx(
-        &self,
-        new_tx: UnboundedSender<
-            azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
-        >,
-    ) {
-        let mut curr_tx = self.incoming_packets_tx.lock().unwrap();
-        *curr_tx = new_tx;
-    }
-}
-
-#[derive(Clone)]
-pub struct OutgoingPacketsRx {
-    outgoing_packets_rx: Arc<
-        Mutex<
-            UnboundedReceiver<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>,
-        >,
-    >,
-}
-impl OutgoingPacketsRx {
-    pub async fn recv(
-        &self,
-    ) -> Option<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>> {
-        // TODO: this will cause an issue if the connection is currently disconnected and the tx has been dropped
-        // will return None, but may succeed again in the future
-        // other thought though - would nothing get sent to this anyways until reconnected? Still need to handle the None,
-        // but no worries of missing things
-        loop {
-            if let Ok(packet) = self.outgoing_packets_rx.lock().unwrap().try_recv() {
-                return Some(packet);
-            }
-            // wait a bit before trying again
-            // This is to continue to wait until a connection is established again
-            // or until a packet is sent. Either way, we need to allow the mutex to be released
-            // while we wait
-            tokio::time::sleep(Duration::from_millis(100)).await;
-        }
-    }
-
-    fn set_new_rx(
-        &self,
-        new_rx: UnboundedReceiver<
-            azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
-        >,
-    ) {
-        let mut curr_rx = self.outgoing_packets_rx.lock().unwrap();
-        *curr_rx = new_rx;
     }
 }
 
@@ -401,6 +329,7 @@ impl MqttConnectionSettings {
         )?;
 
         // not used, but we want to validate failures early.
+        #[cfg(not(feature = "test-utils"))]
         let _connection_transport_config = create_connection_transport_config(
             self.ca_file.clone(),
             self.cert_file.clone(),
@@ -412,7 +341,9 @@ impl MqttConnectionSettings {
         )?;
 
         // session side are dropped immediately, so this will act like a normal disconnect until connected
+        #[cfg(feature = "test-utils")]
         let (incoming_packets_tx, _) = tokio::sync::mpsc::unbounded_channel();
+        #[cfg(feature = "test-utils")]
         let (_, outgoing_packets_rx) = tokio::sync::mpsc::unbounded_channel();
 
         Ok((
@@ -423,19 +354,28 @@ impl MqttConnectionSettings {
                 will: None,
                 username: self.username,
                 password,
+                #[cfg(not(feature = "test-utils"))]
                 ca_file: self.ca_file,
+                #[cfg(not(feature = "test-utils"))]
                 cert_file: self.cert_file,
+                #[cfg(not(feature = "test-utils"))]
                 key_file: self.key_file,
+                #[cfg(not(feature = "test-utils"))]
                 key_password_file: self.key_password_file,
+                #[cfg(not(feature = "test-utils"))]
                 use_tls: self.use_tls,
+                #[cfg(not(feature = "test-utils"))]
                 hostname: self.hostname,
+                #[cfg(not(feature = "test-utils"))]
                 tcp_port: self.tcp_port,
                 connect_properties,
                 connection_timeout: self.connection_timeout,
                 sat_file: self.sat_file,
+                #[cfg(feature = "test-utils")]
                 incoming_packets_tx: IncomingPacketsTx {
                     incoming_packets_tx: Arc::new(Mutex::new(incoming_packets_tx)),
                 },
+                #[cfg(feature = "test-utils")]
                 outgoing_packets_rx: OutgoingPacketsRx {
                     outgoing_packets_rx: Arc::new(Mutex::new(outgoing_packets_rx)),
                 },
@@ -514,6 +454,90 @@ fn tls_config(
     };
 
     Ok((client_cert, ca_trust_bundle))
+}
+
+/// Wrapper around incoming packets channel transmitter for test purposes to allow
+/// tests to not need to coordinate new channels on each connect attempt
+#[cfg(feature = "test-utils")]
+#[derive(Clone)]
+pub struct IncomingPacketsTx {
+    incoming_packets_tx: Arc<
+        Mutex<UnboundedSender<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>>,
+    >,
+}
+
+#[cfg(feature = "test-utils")]
+impl IncomingPacketsTx {
+    /// Send a test packet as an incoming packet
+    /// If the connection is currently disconnected, this will log an error and the message won't be sent
+    #[allow(clippy::missing_panics_doc)]
+    pub fn send(
+        &self,
+        packet: azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
+    ) {
+        // NOTE: this will fail to send if the connection is currently disconnected and the rx has been dropped
+        // Not handling this for now, because that would cause this fn to have to be async or return an error
+        // METL tests currently don't try to send incoming packets while disconnected
+        let res = self.incoming_packets_tx.lock().unwrap().send(packet);
+        if res.is_err() {
+            log::error!("Currently disconnected, so failed to send incoming test packet");
+        }
+    }
+
+    /// Used to swap out the underlying channel on new connects
+    fn set_new_tx(
+        &self,
+        new_tx: UnboundedSender<
+            azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
+        >,
+    ) {
+        let mut curr_tx = self.incoming_packets_tx.lock().unwrap();
+        *curr_tx = new_tx;
+    }
+}
+
+/// Wrapper around outgoing packets channel receiver for test purposes to allow
+/// tests to not need to coordinate new channels on each connect attempt
+#[cfg(feature = "test-utils")]
+#[derive(Clone)]
+pub struct OutgoingPacketsRx {
+    outgoing_packets_rx: Arc<
+        Mutex<
+            UnboundedReceiver<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>,
+        >,
+    >,
+}
+#[cfg(feature = "test-utils")]
+impl OutgoingPacketsRx {
+    /// Receive next outgoing packet for testing
+    /// If the connection is currently disconnected, this will wait until reconnected and the next packet is available
+    #[allow(clippy::missing_panics_doc)]
+    pub async fn recv(
+        &self,
+    ) -> Option<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>> {
+        // recv() will return an Err() if we're currently disconnected or there's nothing in the channel.
+        // Wait for next packet or reconnection with a delay to allow the mutex to be released, so that
+        // connection changes can take the mutex while we wait for the next packet (either a
+        // new packet being sent or the next packet after reconnection)
+        loop {
+            if let Ok(packet) = self.outgoing_packets_rx.lock().unwrap().try_recv() {
+                return Some(packet);
+            }
+            tokio::time::sleep(Duration::from_millis(100)).await;
+        }
+    }
+
+    /// Used to swap out the underlying channel on new connects
+    /// TODO: could not swap this channel and always keep a clone of the tx so that it never closes?
+    fn set_new_rx(
+        &self,
+        new_rx: UnboundedReceiver<
+            azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
+        >,
+    ) {
+        let mut curr_rx = self.outgoing_packets_rx.lock().unwrap();
+        *curr_rx = new_rx;
+    }
 }
 
 // -------------------------------------------

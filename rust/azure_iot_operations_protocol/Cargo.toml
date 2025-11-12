@@ -29,6 +29,7 @@ azure_mqtt = { version = "0.1.0", path = "../../../mqtt-client" }
 [dev-dependencies]
 async-std = "1.12"
 async-trait = "0.1.81"
+azure_iot_operations_mqtt = { version = "0.11.0", path = "../azure_iot_operations_mqtt", registry = "aio-sdks", features = ["test-utils"] }
 azure_mqtt = { version = "0.1.0", path = "../../../mqtt-client", features = ["__integration"] }
 ctor = "0.2"
 datatest-stable = "0.2"

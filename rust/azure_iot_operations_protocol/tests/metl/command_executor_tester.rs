@@ -6,7 +6,9 @@ use std::convert::TryFrom;
 use std::sync::{Arc, Mutex};
 
 use async_std::future;
-use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
+use azure_iot_operations_mqtt::session::{
+    managed_client::SessionManagedClient, session::SessionMonitor,
+};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -20,7 +22,7 @@ use uuid::Uuid;
 use crate::metl::countdown_event_map::CountdownEventMap;
 use crate::metl::defaults::ExecutorDefaults;
 use crate::metl::mqtt_hub::MqttHub;
-use crate::metl::qos;
+use crate::metl::qos::{self, new_packet_identifier_dup_qos};
 use crate::metl::test_case::TestCase;
 use crate::metl::test_case_action::TestCaseAction;
 use crate::metl::test_case_catch::TestCaseCatch;
@@ -38,6 +40,7 @@ impl CommandExecutorTester {
     pub async fn test_command_executor(
         test_case: TestCase<ExecutorDefaults>,
         managed_client: SessionManagedClient,
+        session_monitor: SessionMonitor,
         mut mqtt_hub: MqttHub,
     ) {
         if let Some(push_acks) = test_case.prologue.push_acks.as_ref() {
@@ -53,6 +56,10 @@ impl CommandExecutorTester {
                 mqtt_hub.enqueue_unsuback(ack_kind.clone());
             }
         }
+
+        // force connack to be first
+        mqtt_hub.await_operation().await;
+        session_monitor.connected().await;
 
         let mut countdown_events = CountdownEventMap::new();
         for (event_name, &init_count) in &test_case.prologue.countdown_events {
@@ -378,19 +385,26 @@ impl CommandExecutorTester {
             packet_index,
         } = action
         {
-            let mut user_properties: Vec<(String, String)> = metadata
+            let mut user_properties: Vec<(
+                azure_mqtt::packet::ByteStr<azure_mqtt::buffer_pool::SharedImpl>,
+                azure_mqtt::packet::ByteStr<azure_mqtt::buffer_pool::SharedImpl>,
+            )> = metadata
                 .iter()
-                .map(|(k, v)| (k.clone(), v.clone()))
+                .map(|(k, v)| (k.as_str().into(), v.as_str().into()))
                 .collect();
 
             if let Some(source_index) = source_index {
                 if let Some(source_id) = source_ids.get(source_index) {
-                    user_properties
-                        .push(("__srcId".to_string(), source_id.hyphenated().to_string()));
+                    user_properties.push((
+                        "__srcId".into(),
+                        source_id.hyphenated().to_string().as_str().into(),
+                    ));
                 } else {
                     let source_id = Uuid::new_v4();
-                    user_properties
-                        .push(("__srcId".to_string(), source_id.hyphenated().to_string()));
+                    user_properties.push((
+                        "__srcId".into(),
+                        source_id.hyphenated().to_string().as_str().into(),
+                    ));
                     source_ids.insert(*source_index, source_id);
                 }
             }
@@ -409,7 +423,8 @@ impl CommandExecutorTester {
                 }
             } else {
                 None
-            };
+            }
+            .map(|cd| cd.as_ref().into());
 
             let message_expiry_interval = message_expiry.as_ref().map(|message_expiry| {
                 u32::try_from(message_expiry.to_duration().as_secs()).unwrap()
@@ -430,9 +445,9 @@ impl CommandExecutorTester {
             }
 
             let topic = if let Some(topic) = topic {
-                Bytes::copy_from_slice(topic.as_bytes())
+                topic.clone()
             } else {
-                Bytes::new()
+                String::new()
             };
 
             let payload = serde_json::to_vec(&TestPayload {
@@ -448,18 +463,23 @@ impl CommandExecutorTester {
             let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
                 payload_is_utf8: to_is_utf8(format_indicator),
                 message_expiry_interval,
-                response_topic: response_topic.clone(),
+                response_topic: response_topic
+                    .clone()
+                    .map(|rt| azure_mqtt::mqtt_proto::Topic::new(rt).unwrap().into()),
                 correlation_data,
                 user_properties,
-                content_type: content_type.clone(),
+                content_type: content_type.as_ref().map(|ct| ct.as_str().into()),
                 ..Default::default()
             };
 
             let publish = azure_mqtt::mqtt_proto::Publish {
-                packet_identifier_dup_qos: (qos::to_enum(*qos), packet_id, false).into(),
-                topic_name: topic.into(),
-                // pkid: packet_id,
-                payload: payload.into(),
+                packet_identifier_dup_qos: new_packet_identifier_dup_qos(
+                    qos::to_enum(*qos),
+                    false,
+                    packet_id,
+                ),
+                topic_name: azure_mqtt::mqtt_proto::Topic::new(topic).unwrap().into(),
+                payload: Bytes::from(payload).into(),
                 other_properties: properties,
                 retain: false,
             };
@@ -598,16 +618,22 @@ impl CommandExecutorTester {
 
         if let Some(payload) = expected_message.payload.as_ref() {
             if let Some(payload) = payload {
-                assert_eq!(payload, published_message.payload, "payload");
+                assert_eq!(published_message.payload, *payload.as_bytes(), "payload");
             } else {
-                assert!(published_message.payload.is_empty());
+                assert!(azure_mqtt::buffer_pool::Shared::is_empty(
+                    &published_message.payload
+                ));
             }
         }
 
         if expected_message.content_type.is_some() {
             assert_eq!(
-                expected_message.content_type,
-                published_message.other_properties.content_type
+                published_message
+                    .other_properties
+                    .content_type
+                    .as_ref()
+                    .map(std::convert::AsRef::as_ref),
+                expected_message.content_type.as_deref()
             );
         }
 
@@ -624,11 +650,11 @@ impl CommandExecutorTester {
                     .other_properties
                     .user_properties
                     .iter()
-                    .find(|&k| &k.0 == key);
+                    .find(|&k| k.0 == **key);
                 if let Some(value) = value {
                     assert_eq!(
-                        value,
-                        &found.unwrap().1, // TODO: might need to change this
+                        found.unwrap().1,
+                        **value,
                         "metadata key {key} expected {value}"
                     );
                 } else {
@@ -642,11 +668,11 @@ impl CommandExecutorTester {
                 .other_properties
                 .user_properties
                 .iter()
-                .find(|&k| &k.0 == "__stat");
+                .find(|&k| k.0 == "__stat");
             if let Some(command_status) = command_status {
                 assert_eq!(
-                    command_status.to_string(),
                     found.unwrap().1,
+                    *command_status.to_string(),
                     "status property expected {command_status}"
                 );
             } else {
@@ -662,12 +688,12 @@ impl CommandExecutorTester {
                 .find(|&k| &k.0 == "__apErr");
             if is_application_error {
                 assert!(
-                    found.unwrap().1.to_lowercase() == "true",
+                    found.unwrap().1.as_ref().to_lowercase() == "true",
                     "is application error"
                 );
             } else {
                 assert!(
-                    found.is_none() || found.unwrap().1.to_lowercase() == "false",
+                    found.is_none() || found.unwrap().1.as_ref().to_lowercase() == "false",
                     "is application error"
                 );
             }

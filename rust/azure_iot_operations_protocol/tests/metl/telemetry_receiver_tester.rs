@@ -6,7 +6,9 @@ use std::convert::TryFrom;
 use std::sync::{Arc, Mutex};
 
 use async_std::future;
-use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
+use azure_iot_operations_mqtt::session::{
+    managed_client::SessionManagedClient, session::SessionMonitor,
+};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -22,7 +24,7 @@ use uuid::Uuid;
 use crate::metl::aio_protocol_error_checker;
 use crate::metl::defaults::ReceiverDefaults;
 use crate::metl::mqtt_hub::MqttHub;
-use crate::metl::qos;
+use crate::metl::qos::{self, new_packet_identifier_dup_qos};
 use crate::metl::test_case::TestCase;
 use crate::metl::test_case_action::TestCaseAction;
 use crate::metl::test_case_catch::TestCaseCatch;
@@ -50,6 +52,7 @@ impl TelemetryReceiverTester {
     pub async fn test_telemetry_receiver(
         test_case: TestCase<ReceiverDefaults>,
         managed_client: SessionManagedClient,
+        session_monitor: SessionMonitor,
         mut mqtt_hub: MqttHub,
     ) {
         if let Some(push_acks) = test_case.prologue.push_acks.as_ref() {
@@ -65,6 +68,10 @@ impl TelemetryReceiverTester {
                 mqtt_hub.enqueue_unsuback(ack_kind.clone());
             }
         }
+
+        // force connack to be first
+        mqtt_hub.await_operation().await;
+        session_monitor.connected().await;
 
         let receiver_count = test_case.prologue.receivers.len();
         let mut telemetry_counts = Vec::with_capacity(receiver_count);
@@ -375,9 +382,9 @@ impl TelemetryReceiverTester {
             }
 
             let topic = if let Some(topic) = topic {
-                Bytes::copy_from_slice(topic.as_bytes())
+                topic.clone()
             } else {
-                Bytes::new()
+                String::new()
             };
 
             let payload = serde_json::to_vec(&TestPayload {
@@ -394,14 +401,18 @@ impl TelemetryReceiverTester {
                 payload_is_utf8: to_is_utf8(format_indicator),
                 message_expiry_interval,
                 user_properties,
-                content_type: content_type.clone(),
+                content_type: content_type.as_ref().map(|ct| ct.as_str().into()),
                 ..Default::default()
             };
 
-            let publish = azure_mqtt::mqtt_proto::Publish {
-                packet_identifier_dup_qos: (qos::to_enum(*qos), packet_id, false).into(),
-                topic_name: topic.into(),
-                payload: payload.into(),
+            let publish = azure_mqtt::mqtt_proto::Publish::<azure_mqtt::buffer_pool::SharedImpl> {
+                packet_identifier_dup_qos: new_packet_identifier_dup_qos(
+                    qos::to_enum(*qos),
+                    false,
+                    packet_id,
+                ),
+                topic_name: azure_mqtt::mqtt_proto::Topic::new(topic).unwrap().into(),
+                payload: Bytes::from(payload).into(),
                 other_properties: properties,
                 retain: false,
             };

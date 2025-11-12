@@ -25,7 +25,9 @@ pub struct MqttHub {
     //         azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
     //     >,
     // >,
-    message_tx: Option<broadcast::Sender<Publish>>,
+    message_tx: Option<
+        broadcast::Sender<azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>>,
+    >,
     // operation_tx:
     //     mpsc::UnboundedSender<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>,
     operation_rx: OutgoingPacketsRx,
@@ -339,7 +341,17 @@ impl MqttHub {
                     // }));
                 }
                 azure_mqtt::mqtt_proto::Packet::Connect(connect) => {
-                    // TODO: send a connack?
+                    // TODO: handle session end
+                    let connack =
+                        azure_mqtt::mqtt_proto::Packet::ConnAck(azure_mqtt::mqtt_proto::ConnAck {
+                            reason_code: azure_mqtt::mqtt_proto::ConnectReasonCode::Success {
+                                session_present: !connect.clean_start,
+                            }, // TODO: should this ever change?
+                            other_properties: Default::default(),
+                        });
+                    self.event_tx.as_mut()
+                        .expect("receive_incoming_event() called but MQTT emulation is not at Event level")
+                        .send(connack);
                 }
                 _ => {}
             }

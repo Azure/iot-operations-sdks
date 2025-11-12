@@ -5,7 +5,9 @@ use std::collections::{VecDeque, hash_map::HashMap};
 use std::sync::Arc;
 
 use async_std::future;
-use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
+use azure_iot_operations_mqtt::session::{
+    managed_client::SessionManagedClient, session::SessionMonitor,
+};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -38,6 +40,7 @@ impl TelemetrySenderTester {
     pub async fn test_telemetry_sender(
         test_case: TestCase<SenderDefaults>,
         managed_client: SessionManagedClient,
+        session_monitor: SessionMonitor,
         mut mqtt_hub: MqttHub,
     ) {
         if let Some(push_acks) = test_case.prologue.push_acks.as_ref() {
@@ -53,6 +56,10 @@ impl TelemetrySenderTester {
                 mqtt_hub.enqueue_unsuback(ack_kind.clone());
             }
         }
+
+        // force connack to be first
+        mqtt_hub.await_operation().await;
+        session_monitor.connected().await;
 
         let mut senders: HashMap<String, Arc<telemetry::Sender<TestPayload>>> = HashMap::new();
 
@@ -469,16 +476,22 @@ impl TelemetrySenderTester {
 
         if let Some(payload) = expected_message.payload.as_ref() {
             if let Some(payload) = payload {
-                assert_eq!(payload, published_message.payload, "payload");
+                assert_eq!(published_message.payload, *payload.as_bytes(), "payload");
             } else {
-                assert!(published_message.payload.is_empty());
+                assert!(azure_mqtt::buffer_pool::Shared::is_empty(
+                    &published_message.payload
+                ));
             }
         }
 
         if expected_message.content_type.is_some() {
             assert_eq!(
-                expected_message.content_type,
-                published_message.other_properties.content_type
+                published_message
+                    .other_properties
+                    .content_type
+                    .as_ref()
+                    .map(std::convert::AsRef::as_ref),
+                expected_message.content_type.as_deref()
             );
         }
 
@@ -495,11 +508,11 @@ impl TelemetrySenderTester {
                     .other_properties
                     .user_properties
                     .iter()
-                    .find(|&k| &k.0 == key);
+                    .find(|&k| k.0 == **key);
                 if let Some(value) = value {
                     assert_eq!(
-                        value,
-                        &found.unwrap().1, // TODO: might need to change this
+                        found.unwrap().1,
+                        **value,
                         "metadata key {key} expected {value}"
                     );
                 } else {
@@ -513,11 +526,11 @@ impl TelemetrySenderTester {
                 .other_properties
                 .user_properties
                 .iter()
-                .find(|&k| &k.0 == "__stat");
+                .find(|&k| k.0 == "__stat");
             if let Some(command_status) = command_status {
                 assert_eq!(
-                    command_status.to_string(),
                     found.unwrap().1,
+                    *command_status.to_string(),
                     "status property expected {command_status}"
                 );
             } else {
@@ -533,12 +546,12 @@ impl TelemetrySenderTester {
                 .find(|&k| &k.0 == "__apErr");
             if is_application_error {
                 assert!(
-                    found.unwrap().1.to_lowercase() == "true",
+                    found.unwrap().1.as_ref().to_lowercase() == "true",
                     "is application error"
                 );
             } else {
                 assert!(
-                    found.is_none() || found.unwrap().1.to_lowercase() == "false",
+                    found.is_none() || found.unwrap().1.as_ref().to_lowercase() == "false",
                     "is application error"
                 );
             }

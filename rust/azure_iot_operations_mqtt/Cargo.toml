@@ -36,7 +36,7 @@ test-case.workspace = true
 tokio-test.workspace = true
 
 [features]
-default = ["test-utils"]
+default = [ ]
 test-utils = ["azure_mqtt/__integration"]
 
 [lints]
