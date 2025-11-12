@@ -17,6 +17,9 @@ pub struct SessionState {
     state_change: Notify,
 }
 
+// TODO: the problem is that we both want to notify of state change for the monitor,
+// Enum is not a great choice because of the fact we need to take values out...
+
 enum NewSessionState {
     NeverConnected(ConnectHandle),
     ConnectedRegular(DisconnectHandle),
