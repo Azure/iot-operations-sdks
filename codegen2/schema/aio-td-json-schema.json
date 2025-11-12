@@ -489,32 +489,68 @@
     "form_element_root": {
       "allOf": [ { "$ref": "#/definitions/form_element_base" } ],
       "type": "object",
-      "properties": {
-        "op": {
-          "oneOf": [
-            {
-              "type": "string",
-              "enum": [
-                "readallproperties",
-                "writemultipleproperties",
-                "subscribeallevents"
+      "oneOf": [
+        {
+          "properties": {
+            "op": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "subscribeallevents"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "subscribeallevents"
+                    ]
+                  },
+                  "minItems": 1
+                }
               ]
             },
-            {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "readallproperties",
-                  "writemultipleproperties",
-                  "subscribeallevents"
-                ]
-              },
-              "minItems": 1
+            "dtv:serviceGroupId": {
+              "type": "string"
             }
-          ]
+          }
+        },
+        {
+          "properties": {
+            "op": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "readallproperties",
+                    "writemultipleproperties"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "readallproperties",
+                      "writemultipleproperties"
+                    ]
+                  },
+                  "minItems": 1
+                }
+              ]
+            }
+          },
+          "not": {
+            "anyOf": [
+              {
+                "required": [ "dtv:serviceGroupId" ]
+              }
+            ]
+          }
         }
-      },
+      ],
       "required": [ "op" ],
       "not": {
         "anyOf": [
