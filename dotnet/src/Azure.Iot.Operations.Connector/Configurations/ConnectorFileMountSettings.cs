@@ -10,14 +10,264 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 {
     public class ConnectorFileMountSettings
     {
+        // Environment variable constants
         public const string ConnectorConfigMountPathEnvVar = "CONNECTOR_CONFIGURATION_MOUNT_PATH";
         public const string BrokerTrustBundleMountPathEnvVar = "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH";
         public const string BrokerSatMountPathEnvVar = "BROKER_SAT_MOUNT_PATH";
         public const string ConnectorClientIdEnvVar = "CONNECTOR_ID";
+        public const string AzureExtensionResourceIdEnvVar = "AZURE_EXTENSION_RESOURCEID";
+        public const string ConnectorNamespaceEnvVar = "CONNECTOR_NAMESPACE";
+        public const string ConnectorSecretsMetadataMountPathEnvVar = "CONNECTOR_SECRETS_METADATA_MOUNT_PATH";
+        public const string ConnectorTrustSettingsMountPathEnvVar = "CONNECTOR_TRUST_SETTINGS_MOUNT_PATH";
+        public const string DeviceEndpointTrustBundleMountPathEnvVar = "DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH";
+        public const string DeviceEndpointCredentialsMountPathEnvVar = "DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH";
 
+        // OTEL Stopgap environment variable constants - these will change in the future
+        public const string OtlpGrpcMetricEndpointEnvVar = "OTLP_GRPC_METRIC_ENDPOINT";
+        public const string OtlpGrpcLogEndpointEnvVar = "OTLP_GRPC_LOG_ENDPOINT";
+        public const string OtlpGrpcTraceEndpointEnvVar = "OTLP_GRPC_TRACE_ENDPOINT";
+        public const string FirstPartyGrpcMetricsCollectorCaPathEnvVar = "FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH";
+        public const string FirstPartyGrpcLogCollectorCaPathEnvVar = "FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH";
+        public const string OtlpHttpMetricEndpointEnvVar = "OTLP_HTTP_METRIC_ENDPOINT";
+        public const string OtlpHttpLogEndpointEnvVar = "OTLP_HTTP_LOG_ENDPOINT";
+        public const string OtlpHttpTraceEndpointEnvVar = "OTLP_HTTP_TRACE_ENDPOINT";
+
+        // File name constants
         public const string ConnectorMqttConfigFileName = "MQTT_CONNECTION_CONFIGURATION";
         public const string ConnectorAioMetadataFileName = "AIO_METADATA";
         public const string ConnectorDiagnosticsConfigFileName = "DIAGNOSTICS";
+        public const string PersistentVolumeMountPathFileName = "PERSISTENT_VOLUME_MOUNT_PATH";
+        public const string AdditionalConnectorConfigFileName = "ADDITIONAL_CONNECTOR_CONFIGURATION";
+
+        /// <summary>
+        /// Get the Azure Extension Resource ID from the environment.
+        /// </summary>
+        /// <returns>The Azure Extension Resource ID.</returns>
+        public static string GetAzureExtensionResourceId()
+        {
+            return Environment.GetEnvironmentVariable(AzureExtensionResourceIdEnvVar)
+                ?? throw new InvalidOperationException($"Missing {AzureExtensionResourceIdEnvVar} environment variable");
+        }
+
+        /// <summary>
+        /// Get the Connector ID from the environment.
+        /// </summary>
+        /// <returns>The Connector ID.</returns>
+        public static string GetConnectorId()
+        {
+            return Environment.GetEnvironmentVariable(ConnectorClientIdEnvVar)
+                ?? throw new InvalidOperationException($"Missing {ConnectorClientIdEnvVar} environment variable");
+        }
+
+        /// <summary>
+        /// Get the Connector Namespace from the environment.
+        /// </summary>
+        /// <returns>The Connector Namespace.</returns>
+        public static string GetConnectorNamespace()
+        {
+            return Environment.GetEnvironmentVariable(ConnectorNamespaceEnvVar)
+                ?? throw new InvalidOperationException($"Missing {ConnectorNamespaceEnvVar} environment variable");
+        }
+
+        /// <summary>
+        /// Helper method to get the connector configuration mount path from the environment.
+        /// </summary>
+        /// <returns>The connector configuration mount path.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the environment variable is not set.</exception>
+        private static string GetConnectorConfigMountPath()
+        {
+            return Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar)
+                ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
+        }
+
+        /// <summary>
+        /// Helper method to get and validate a path from an environment variable.
+        /// </summary>
+        /// <param name="envVarName">The name of the environment variable.</param>
+        /// <param name="pathDescription">A description of the path for error messages.</param>
+        /// <returns>The path from the environment variable, or null if not configured.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
+        private static string? GetAndValidatePath(string envVarName, string pathDescription)
+        {
+            string? path = Environment.GetEnvironmentVariable(envVarName);
+            if (path != null && !Path.Exists(path))
+            {
+                throw new InvalidOperationException($"{pathDescription} does not exist: {path}");
+            }
+            return path;
+        }
+
+        /// <summary>
+        /// Get the Connector Secrets Metadata mount path from the environment.
+        /// </summary>
+        /// <returns>The path to the connector secrets metadata mount, or null if not configured.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
+        public static string? GetConnectorSecretsMetadataMountPath()
+        {
+            return GetAndValidatePath(ConnectorSecretsMetadataMountPathEnvVar, "Connector secrets metadata mount path");
+        }
+
+        /// <summary>
+        /// Get the Connector Trust Settings mount path from the environment.
+        /// </summary>
+        /// <returns>The path to the connector trust settings mount, or null if not configured.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
+        public static string? GetConnectorTrustSettingsMountPath()
+        {
+            return GetAndValidatePath(ConnectorTrustSettingsMountPathEnvVar, "Connector trust settings mount path");
+        }
+
+        /// <summary>
+        /// Get the Device Endpoint Trust Bundle mount path from the environment.
+        /// </summary>
+        /// <returns>The path to the device endpoint trust bundle mount, or null if not configured.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
+        public static string? GetDeviceEndpointTrustBundleMountPath()
+        {
+            return GetAndValidatePath(DeviceEndpointTrustBundleMountPathEnvVar, "Device endpoint trust bundle mount path");
+        }
+
+        /// <summary>
+        /// Get the Device Endpoint Credentials mount path from the environment.
+        /// </summary>
+        /// <returns>The path to the device endpoint credentials mount, or null if not configured.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
+        public static string? GetDeviceEndpointCredentialsMountPath()
+        {
+            return GetAndValidatePath(DeviceEndpointCredentialsMountPathEnvVar, "Device endpoint credentials mount path");
+        }
+
+        /// <summary>
+        /// Get the list of persistent volumes from the connector configuration mount.
+        /// </summary>
+        /// <returns>A list of persistent volume mount paths.</returns>
+        public static List<string> GetPersistentVolumes()
+        {
+            string connectorConfigMountPath = GetConnectorConfigMountPath();
+
+            string persistentVolumesFilePath = Path.Combine(connectorConfigMountPath, PersistentVolumeMountPathFileName);
+
+            if (!File.Exists(persistentVolumesFilePath))
+            {
+                return new List<string>();
+            }
+
+            return File.ReadAllLines(persistentVolumesFilePath)
+                .Where(line => !string.IsNullOrWhiteSpace(line))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Get the additional configuration JSON string from the connector configuration mount.
+        /// </summary>
+        /// <returns>The additional configuration as a JSON string, or null if not configured.</returns>
+        public static string? GetAdditionalConfiguration()
+        {
+            string connectorConfigMountPath = GetConnectorConfigMountPath();
+
+            string additionalConfigFilePath = Path.Combine(connectorConfigMountPath, AdditionalConnectorConfigFileName);
+
+            if (!File.Exists(additionalConfigFilePath))
+            {
+                return null;
+            }
+
+            return File.ReadAllText(additionalConfigFilePath);
+        }
+
+        /// <summary>
+        /// Get the OTLP gRPC metric endpoint from the environment.
+        /// </summary>
+        /// <returns>The OTLP gRPC metric endpoint, or null if not configured.</returns>
+        public static string? GetGrpcMetricEndpoint()
+        {
+            return Environment.GetEnvironmentVariable(OtlpGrpcMetricEndpointEnvVar);
+        }
+
+        /// <summary>
+        /// Get the OTLP gRPC log endpoint from the environment.
+        /// </summary>
+        /// <returns>The OTLP gRPC log endpoint, or null if not configured.</returns>
+        public static string? GetGrpcLogEndpoint()
+        {
+            return Environment.GetEnvironmentVariable(OtlpGrpcLogEndpointEnvVar);
+        }
+
+        /// <summary>
+        /// Get the OTLP gRPC trace endpoint from the environment.
+        /// </summary>
+        /// <returns>The OTLP gRPC trace endpoint, or null if not configured.</returns>
+        public static string? GetGrpcTraceEndpoint()
+        {
+            return Environment.GetEnvironmentVariable(OtlpGrpcTraceEndpointEnvVar);
+        }
+
+        /// <summary>
+        /// Get the first-party gRPC metrics collector CA mount path from the environment.
+        /// </summary>
+        /// <returns>The path to the first-party gRPC metrics collector CA mount, or null if not configured.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
+        public static string? GetGrpcMetricCollector1pCaMount()
+        {
+            return GetAndValidatePath(FirstPartyGrpcMetricsCollectorCaPathEnvVar, "gRPC metrics collector CA mount path");
+        }
+
+        /// <summary>
+        /// Get the first-party gRPC log collector CA mount path from the environment.
+        /// </summary>
+        /// <returns>The path to the first-party gRPC log collector CA mount, or null if not configured.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
+        public static string? GetGrpcLogCollector1pCaMount()
+        {
+            return GetAndValidatePath(FirstPartyGrpcLogCollectorCaPathEnvVar, "gRPC log collector CA mount path");
+        }
+
+        /// <summary>
+        /// Get the OTLP HTTP metric endpoint from the environment.
+        /// </summary>
+        /// <returns>The OTLP HTTP metric endpoint, or null if not configured.</returns>
+        public static string? GetHttpMetricEndpoint()
+        {
+            return Environment.GetEnvironmentVariable(OtlpHttpMetricEndpointEnvVar);
+        }
+
+        /// <summary>
+        /// Get the OTLP HTTP log endpoint from the environment.
+        /// </summary>
+        /// <returns>The OTLP HTTP log endpoint, or null if not configured.</returns>
+        public static string? GetHttpLogEndpoint()
+        {
+            return Environment.GetEnvironmentVariable(OtlpHttpLogEndpointEnvVar);
+        }
+
+        /// <summary>
+        /// Get the OTLP HTTP trace endpoint from the environment.
+        /// </summary>
+        /// <returns>The OTLP HTTP trace endpoint, or null if not configured.</returns>
+        public static string? GetHttpTraceEndpoint()
+        {
+            return Environment.GetEnvironmentVariable(OtlpHttpTraceEndpointEnvVar);
+        }
+
+        /// <summary>
+        /// Get the Broker Trust Bundle mount path from the environment.
+        /// </summary>
+        /// <returns>The path to the broker trust bundle mount, or null if not configured.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
+        public static string? GetBrokerTrustBundleMountPath()
+        {
+            return GetAndValidatePath(BrokerTrustBundleMountPathEnvVar, "Broker trust bundle mount path");
+        }
+
+        /// <summary>
+        /// Get the Broker SAT mount path from the environment.
+        /// </summary>
+        /// <returns>The path to the broker SAT mount, or null if not configured.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the path is configured but does not exist.</exception>
+        public static string? GetBrokerSatMountPath()
+        {
+            return GetAndValidatePath(BrokerSatMountPathEnvVar, "Broker SAT mount path");
+        }
 
         /// <summary>
         /// Create an instance of <see cref="MqttConnectionSettings"/> using the files mounted when this connector was
@@ -26,9 +276,9 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <returns>The instance of <see cref="MqttConnectionSettings"/> that allows the connector to connect to the MQTT broker.</returns>
         public static MqttConnectionSettings FromFileMount()
         {
-            string clientId = Environment.GetEnvironmentVariable(ConnectorClientIdEnvVar) ?? throw new InvalidOperationException("No MQTT client Id configured by Akri operator");
-            string? brokerTrustBundleMountPath = Environment.GetEnvironmentVariable(BrokerTrustBundleMountPathEnvVar);
-            string? brokerSatMountPath = Environment.GetEnvironmentVariable(BrokerSatMountPathEnvVar);
+            string clientId = GetConnectorId();
+            string? brokerTrustBundleMountPath = GetBrokerTrustBundleMountPath();
+            string? brokerSatMountPath = GetBrokerSatMountPath();
 
             ConnectorMqttConnectionConfiguration connectorMqttConfig = GetMqttConnectionConfiguration();
 
@@ -96,25 +346,35 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
             return mqttConnectionSettings;
         }
 
+        /// <summary>
+        /// Get the Connector Diagnostics configuration from the connector configuration mount.
+        /// </summary>
+        /// <returns>The Connector Diagnostics configuration.</returns>
         public static ConnectorDiagnostics GetConnectorDiagnostics()
         {
-            string connectorConfigMountPath = Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
+            string connectorConfigMountPath = GetConnectorConfigMountPath();
             string connectorDiagnosticsConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorDiagnosticsConfigFileName) ?? throw new InvalidOperationException($"Missing {connectorConfigMountPath + "/" + ConnectorDiagnosticsConfigFileName} file");
             return JsonSerializer.Deserialize<ConnectorDiagnostics>(connectorDiagnosticsConfigFileContents) ?? throw new InvalidOperationException($"{connectorConfigMountPath + "/" + ConnectorDiagnosticsConfigFileName} file was empty");
         }
 
+        /// <summary>
+        /// Get the AIO Metadata from the connector configuration mount.
+        /// </summary>
+        /// <returns>The AIO Metadata.</returns>
         public static AioMetadata GetAioMetadata()
         {
-            string connectorConfigMountPath = Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
+            string connectorConfigMountPath = GetConnectorConfigMountPath();
             string connectorAioMetadataConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorAioMetadataFileName) ?? throw new InvalidOperationException($"Missing {connectorConfigMountPath + "/" + ConnectorAioMetadataFileName} file");
             return JsonSerializer.Deserialize<AioMetadata>(connectorAioMetadataConfigFileContents) ?? throw new InvalidOperationException($"{connectorConfigMountPath + "/" + ConnectorAioMetadataFileName} file was empty");
         }
 
+        /// <summary>
+        /// Get the MQTT Connection Configuration from the connector configuration mount.
+        /// </summary>
+        /// <returns>The MQTT Connection Configuration.</returns>
         public static ConnectorMqttConnectionConfiguration GetMqttConnectionConfiguration()
         {
-            string connectorConfigMountPath = Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
-            string? brokerTrustBundleMountPath = Environment.GetEnvironmentVariable(BrokerTrustBundleMountPathEnvVar);
-            string? brokerSatMountPath = Environment.GetEnvironmentVariable(BrokerSatMountPathEnvVar);
+            string connectorConfigMountPath = GetConnectorConfigMountPath();
 
             string connectorMqttConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorMqttConfigFileName) ?? throw new InvalidOperationException($"Missing {connectorConfigMountPath + "/" + ConnectorMqttConfigFileName} file");
             return JsonSerializer.Deserialize<ConnectorMqttConnectionConfiguration>(connectorMqttConfigFileContents) ?? throw new InvalidOperationException($"{connectorConfigMountPath + "/" + ConnectorMqttConfigFileName} file was empty");
