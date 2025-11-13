@@ -102,7 +102,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
         /// <param name="commandTimeout">Optional timeout for the command.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
-        /// <returns>A task that represents the asynchronous operation, containing the device status.</returns>
+        /// <returns>The status returned by the Azure Device Registry service.</returns>
         Task<DeviceStatus> GetDeviceStatusAsync(
             string deviceName,
             string inboundEndpointName,
@@ -117,7 +117,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="assetName">The name of the asset.</param>
         /// <param name="commandTimeout">Optional timeout for the command.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
-        /// <returns>A task that represents the asynchronous operation, containing the asset status.</returns>
+        /// <returns>The status returned by the Azure Device Registry service.</returns>
         Task<AssetStatus> GetAssetStatusAsync(string deviceName,
             string inboundEndpointName,
             string assetName,
