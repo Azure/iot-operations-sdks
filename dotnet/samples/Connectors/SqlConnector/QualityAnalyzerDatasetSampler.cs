@@ -28,12 +28,12 @@ namespace SqlQualityAnalyzerConnectorApp
         {
             try
             {
-                AssetDatasetDataPointSchemaElement sqlServerCountryDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Country"))!.First();
+                AssetDatasetDataPoint sqlServerCountryDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Country"))!.First();
                 string sqlServerCountryTable = sqlServerCountryDataPoint.DataSource!;
-                AssetDatasetDataPointSchemaElement sqlServerViscosityDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Viscosity"))!.First();
-                AssetDatasetDataPointSchemaElement sqlServerSweetnessDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Sweetness"))!.First();
-                AssetDatasetDataPointSchemaElement sqlServerParticleSizeDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("ParticleSize"))!.First();
-                AssetDatasetDataPointSchemaElement sqlServerOverallDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Overall"))!.First();
+                AssetDatasetDataPoint sqlServerViscosityDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Viscosity"))!.First();
+                AssetDatasetDataPoint sqlServerSweetnessDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Sweetness"))!.First();
+                AssetDatasetDataPoint sqlServerParticleSizeDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("ParticleSize"))!.First();
+                AssetDatasetDataPoint sqlServerOverallDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Overall"))!.First();
 
                 string query = $"SELECT {sqlServerCountryDataPoint.Name}, {sqlServerViscosityDataPoint.Name}, {sqlServerSweetnessDataPoint.Name}, {sqlServerParticleSizeDataPoint.Name}, {sqlServerOverallDataPoint.Name} from CountryMeasurements";
 
