@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public interface IAdrClientWrapper : IAsyncDisposable
+    public interface IAzureDeviceRegistryClientWrapper : IAsyncDisposable
     {
         /// <summary>
         /// Executes whenever a asset is created, updated, or deleted.
