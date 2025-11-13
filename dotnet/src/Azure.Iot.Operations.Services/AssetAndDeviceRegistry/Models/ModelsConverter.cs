@@ -310,9 +310,9 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetDatasetDataPointSchemaElement ToModel(this AssetDatasetDataPointSchemaElementSchema source)
+    internal static AssetDatasetDataPoint ToModel(this AssetDatasetDataPointSchemaElementSchema source)
     {
-        return new AssetDatasetDataPointSchemaElement
+        return new AssetDatasetDataPoint
         {
             Name = source.Name,
             DataSource = source.DataSource,
@@ -461,18 +461,18 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetManagementGroupStatusSchemaElement ToModel(this AssetManagementGroupStatusSchemaElementSchema source)
+    internal static AssetManagementGroupStatus ToModel(this AssetManagementGroupStatusSchemaElementSchema source)
     {
-        return new AssetManagementGroupStatusSchemaElement
+        return new AssetManagementGroupStatus
         {
             Name = source.Name,
             Actions = source.Actions?.Select(x => x.ToModel()).ToList(),
         };
     }
 
-    internal static AssetManagementGroupActionStatusSchemaElement ToModel(this AssetManagementGroupActionStatusSchemaElementSchema source)
+    internal static AssetManagementGroupActionStatus ToModel(this AssetManagementGroupActionStatusSchemaElementSchema source)
     {
-        return new AssetManagementGroupActionStatusSchemaElement
+        return new AssetManagementGroupActionStatus
         {
             Error = source.Error?.ToModel(),
             Name = source.Name,

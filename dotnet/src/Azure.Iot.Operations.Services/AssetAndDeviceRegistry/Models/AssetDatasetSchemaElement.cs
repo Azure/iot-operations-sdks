@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("dataPoints")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetDatasetDataPointSchemaElement>? DataPoints { get; set; } = default;
+        public List<AssetDatasetDataPoint>? DataPoints { get; set; } = default;
 
         /// <summary>
         /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset.
