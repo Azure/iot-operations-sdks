@@ -36,6 +36,10 @@ namespace Azure.Iot.Operations.Connector
         /// <remarks>
         /// If after retrieving the current status, you don't want to send any updates, <paramref name="handler"/> should return null.
         /// If this happens, this function will return the latest asset status without trying to update it.
+        ///
+        /// This method uses a semaphore to ensure that this same client doesn't accidentally update the device status while
+        /// another thread is in the middle of updating the same device. This ensures that the current device status provided in <paramref name="handler"/>
+        /// stays accurate while any updating occurs.
         /// </remarks>
         public async Task<DeviceStatus> GetAndUpdateDeviceStatusAsync(Func<DeviceStatus, DeviceStatus?> handler, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
