@@ -248,10 +248,12 @@ impl Session {
                         connack,
                         disconnect_handle,
                     ) => (connection, connack, disconnect_handle),
-                    azure_mqtt::client::ConnectResult::Failure(connect_handle, connack) => {
+                    azure_mqtt::client::ConnectResult::Failure(connect_handle, connect_error) => {
+                        // TODO: handle variant failures, including timeout / transport
+
                         self.state.transition_disconnected();
                         self.connect_handle = Some(connect_handle);
-                        if let Some(ref connack) = connack {
+                        if let azure_mqtt::error::ConnectError::Rejected(ref connack) = connect_error {
                             if prev_connected && !connack.session_present {
                                 log::error!(
                                     "Session state not present on broker after reconnect. Ending session."
@@ -280,38 +282,7 @@ impl Session {
                         // Defer decision to reconnect policy
                         if let Some(delay) = self.reconnect_policy.next_reconnect_delay(
                             prev_reconnect_attempts,
-                            &ConnectionError::new(ConnectionErrorKind::ConnectFailure(connack)),
-                        ) {
-                            log::info!("Attempting reconnect in {delay:?}");
-                            // Wait for either the reconnect delay time, or a force exit signal
-                            tokio::select! {
-                                () = tokio::time::sleep(delay) => {}
-                                () = self.notify_force_exit.notified() => {
-                                    log::info!("Reconnect attempts halted by force exit");
-                                    result = Err(SessionErrorRepr::ForceExit);
-                                    break;
-                                }
-                            }
-                        } else {
-                            log::info!("Reconnect attempts halted by reconnect policy");
-                            result = Err(SessionErrorRepr::ReconnectHalted);
-                            break;
-                        }
-                        prev_reconnect_attempts += 1;
-                        continue;
-                    }
-                    azure_mqtt::client::ConnectResult::Timeout(connect_handle) => {
-                        self.state.transition_disconnected();
-
-                        self.connect_handle = Some(connect_handle);
-
-                        // Always log the error itself at error level
-                        log::error!("Connection timed out");
-
-                        // Defer decision to reconnect policy
-                        if let Some(delay) = self.reconnect_policy.next_reconnect_delay(
-                            prev_reconnect_attempts,
-                            &ConnectionError::new(ConnectionErrorKind::Timeout),
+                            &ConnectionError::new(ConnectionErrorKind::ConnectFailure(connect_error)),
                         ) {
                             log::info!("Attempting reconnect in {delay:?}");
                             // Wait for either the reconnect delay time, or a force exit signal
@@ -507,11 +478,14 @@ impl Session {
     ) {
         let (connect_handle, disconnected_event) = connection.run_until_disconnect().await;
         let session_ended = match &disconnected_event {
-            azure_mqtt::client::DisconnectedEvent::Transport => {
+            azure_mqtt::client::DisconnectedEvent::IoError(_) => {
                 false // can't know, must connect again to find out
             }
-            azure_mqtt::client::DisconnectedEvent::UserRequested => true,
-            azure_mqtt::client::DisconnectedEvent::ServerRequested(disconnect) => {
+            azure_mqtt::client::DisconnectedEvent::ProtocolError(_) => {
+                false // can't know, must connect again to find out
+            }
+            azure_mqtt::client::DisconnectedEvent::ApplicationDisconnect => true,
+            azure_mqtt::client::DisconnectedEvent::ServerDisconnect(disconnect) => {
                 matches!(
                     disconnect.properties.session_expiry_interval,
                     Some(azure_mqtt::packet::SessionExpiryInterval::Duration(0))
