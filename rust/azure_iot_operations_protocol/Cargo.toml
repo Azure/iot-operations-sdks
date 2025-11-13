@@ -13,7 +13,7 @@ publish = true
 
 [dependencies]
 azure_iot_operations_mqtt = { version = "0.11.0", path = "../azure_iot_operations_mqtt", registry = "aio-sdks" }
-azure_mqtt = { version = "0.1.0", path = "../../../mqtt-client" }
+azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "4d9e52411f0e7934eb61bfcd149b36d125298dd7" }
 bytes.workspace = true
 derive_builder.workspace = true
 iso8601-duration = "0.2.0"
@@ -30,7 +30,7 @@ fluent-uri = "0.3.2"
 async-std = "1.12"
 async-trait = "0.1.81"
 azure_iot_operations_mqtt = { version = "0.11.0", path = "../azure_iot_operations_mqtt", registry = "aio-sdks", features = ["test-utils"] }
-azure_mqtt = { version = "0.1.0", path = "../../../mqtt-client", features = ["__integration"] }
+azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "4d9e52411f0e7934eb61bfcd149b36d125298dd7", features = ["__integration"] }
 ctor = "0.2"
 datatest-stable = "0.2"
 env_logger.workspace = true

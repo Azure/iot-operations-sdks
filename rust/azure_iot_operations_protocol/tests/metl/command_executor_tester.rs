@@ -344,7 +344,7 @@ impl CommandExecutorTester {
                                 catch.error_kind
                             );
                         }
-                    };
+                    }
                     None
                 } else {
                     Some(executor)
@@ -386,8 +386,8 @@ impl CommandExecutorTester {
         } = action
         {
             let mut user_properties: Vec<(
-                azure_mqtt::packet::ByteStr<azure_mqtt::buffer_pool::SharedImpl>,
-                azure_mqtt::packet::ByteStr<azure_mqtt::buffer_pool::SharedImpl>,
+                azure_mqtt::packet::ByteStr<Bytes>,
+                azure_mqtt::packet::ByteStr<Bytes>,
             )> = metadata
                 .iter()
                 .map(|(k, v)| (k.as_str().into(), v.as_str().into()))
@@ -479,7 +479,7 @@ impl CommandExecutorTester {
                     packet_id,
                 ),
                 topic_name: azure_mqtt::mqtt_proto::Topic::new(topic).unwrap().into(),
-                payload: Bytes::from(payload).into(),
+                payload: payload.into(),
                 other_properties: properties,
                 retain: false,
             };

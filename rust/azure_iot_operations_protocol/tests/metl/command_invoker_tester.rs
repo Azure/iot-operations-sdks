@@ -14,7 +14,6 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
 use azure_iot_operations_protocol::rpc_command;
-use azure_mqtt::buffer_pool::Shared;
 use bytes::Bytes;
 use serde_json;
 use tokio::sync::oneshot;
@@ -278,7 +277,7 @@ impl CommandInvokerTester {
                                 catch.error_kind
                             );
                         }
-                    };
+                    }
 
                     None
                 } else {
@@ -447,8 +446,8 @@ impl CommandInvokerTester {
         } = action
         {
             let mut user_properties: Vec<(
-                azure_mqtt::packet::ByteStr<azure_mqtt::buffer_pool::SharedImpl>,
-                azure_mqtt::packet::ByteStr<azure_mqtt::buffer_pool::SharedImpl>,
+                azure_mqtt::packet::ByteStr<Bytes>,
+                azure_mqtt::packet::ByteStr<Bytes>,
             )> = metadata
                 .iter()
                 .map(|(k, v)| (k.as_str().into(), v.as_str().into()))
@@ -531,7 +530,7 @@ impl CommandInvokerTester {
                     packet_id,
                 ),
                 topic_name: azure_mqtt::mqtt_proto::Topic::new(topic).unwrap().into(),
-                payload: Bytes::from(payload).into(),
+                payload: payload.into(),
                 other_properties: properties,
                 retain: false,
             };
@@ -615,7 +614,7 @@ impl CommandInvokerTester {
         mqtt_hub: &MqttHub,
         correlation_ids: &HashMap<i32, Option<Bytes>>,
     ) {
-        let published_message: &azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl> =
+        let published_message: &azure_mqtt::mqtt_proto::Publish<Bytes> =
             if let Some(correlation_index) = expected_message.correlation_index {
                 if let Some(correlation_id) = correlation_ids.get(&correlation_index) {
                     let publish = mqtt_hub.get_published_message(correlation_id);

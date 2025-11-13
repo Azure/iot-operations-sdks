@@ -302,7 +302,7 @@ impl TelemetryReceiverTester {
                                 catch.error_kind
                             );
                         }
-                    };
+                    }
                     None
                 } else {
                     Some(receiver)
@@ -340,8 +340,8 @@ impl TelemetryReceiverTester {
         } = action
         {
             let mut user_properties: Vec<(
-                azure_mqtt::packet::ByteStr<azure_mqtt::buffer_pool::SharedImpl>,
-                azure_mqtt::packet::ByteStr<azure_mqtt::buffer_pool::SharedImpl>,
+                azure_mqtt::packet::ByteStr<Bytes>,
+                azure_mqtt::packet::ByteStr<Bytes>,
             )> = metadata
                 .iter()
                 .map(|(k, v)| (k.as_str().into(), v.as_str().into()))
@@ -405,14 +405,14 @@ impl TelemetryReceiverTester {
                 ..Default::default()
             };
 
-            let publish = azure_mqtt::mqtt_proto::Publish::<azure_mqtt::buffer_pool::SharedImpl> {
+            let publish = azure_mqtt::mqtt_proto::Publish::<Bytes> {
                 packet_identifier_dup_qos: new_packet_identifier_dup_qos(
                     qos::to_enum(*qos),
                     false,
                     packet_id,
                 ),
                 topic_name: azure_mqtt::mqtt_proto::Topic::new(topic).unwrap().into(),
-                payload: Bytes::from(payload).into(),
+                payload: payload.into(),
                 other_properties: properties,
                 retain: false,
             };

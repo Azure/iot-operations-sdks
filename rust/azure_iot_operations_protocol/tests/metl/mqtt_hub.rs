@@ -8,7 +8,7 @@ use azure_iot_operations_mqtt::{IncomingPacketsTx, OutgoingPacketsRx};
 // use azure_iot_operations_mqtt::error::{ConnectionError, StateError};
 use bytes::Bytes;
 // use rumqttc::v5::mqttbytes::v5::DisconnectReasonCode;
-use tokio::sync::{broadcast, mpsc};
+use tokio::sync::broadcast;
 
 // use crate::metl::mqtt_driver::MqttDriver;
 use crate::metl::mqtt_emulation_level::MqttEmulationLevel;
@@ -20,9 +20,7 @@ const MAX_PENDING_MESSAGES: usize = 10;
 pub struct MqttHub {
     client_id: String,
     event_tx: Option<IncomingPacketsTx>,
-    message_tx: Option<
-        broadcast::Sender<azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>>,
-    >,
+    message_tx: Option<broadcast::Sender<azure_mqtt::mqtt_proto::Publish<Bytes>>>,
     operation_rx: OutgoingPacketsRx,
     packet_id_sequencer: u16,
     puback_queue: VecDeque<TestAckKind>,
@@ -33,12 +31,8 @@ pub struct MqttHub {
     acknowledgement_count: i32,
     published_correlation_data: VecDeque<Option<Bytes>>,
     subscribed_topics: HashSet<String>,
-    published_messages: HashMap<
-        Option<Bytes>,
-        azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>,
-    >,
-    published_message_seq:
-        HashMap<i32, azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>>,
+    published_messages: HashMap<Option<Bytes>, azure_mqtt::mqtt_proto::Publish<Bytes>>,
+    published_message_seq: HashMap<i32, azure_mqtt::mqtt_proto::Publish<Bytes>>,
 }
 
 impl MqttHub {
@@ -96,7 +90,7 @@ impl MqttHub {
     //     &mut self,
     // ) -> Option<
     //     mpsc::UnboundedReceiver<
-    //         azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
+    //         azure_mqtt::mqtt_proto::Packet<Bytes>,
     //     >,
     // > {
     //     self.event_rx.take()
@@ -112,7 +106,7 @@ impl MqttHub {
 
     // pub fn get_outgoing_packets_tx(
     //     &self,
-    // ) -> mpsc::UnboundedSender<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>
+    // ) -> mpsc::UnboundedSender<azure_mqtt::mqtt_proto::Packet<Bytes>>
     // {
     //     self.operation_tx.clone()
     // }
@@ -168,21 +162,18 @@ impl MqttHub {
     pub fn get_published_message(
         &self,
         correlation_data: &Option<Bytes>,
-    ) -> Option<&azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>> {
+    ) -> Option<&azure_mqtt::mqtt_proto::Publish<Bytes>> {
         self.published_messages.get(correlation_data)
     }
 
     pub fn get_sequentially_published_message(
         &self,
         sequence_index: i32,
-    ) -> Option<&azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>> {
+    ) -> Option<&azure_mqtt::mqtt_proto::Publish<Bytes>> {
         self.published_message_seq.get(&sequence_index)
     }
 
-    pub fn receive_message(
-        &mut self,
-        message: azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>,
-    ) {
+    pub fn receive_message(&mut self, message: azure_mqtt::mqtt_proto::Publish<Bytes>) {
         match self.message_tx.as_mut() {
             Some(message_tx) => {
                 message_tx.send(message).unwrap();
@@ -351,10 +342,7 @@ impl MqttHub {
         }
     }
 
-    fn receive_incoming_event(
-        &mut self,
-        incoming_packet: azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
-    ) {
+    fn receive_incoming_event(&mut self, incoming_packet: azure_mqtt::mqtt_proto::Packet<Bytes>) {
         self.event_tx
             .as_mut()
             .expect("receive_incoming_event() called but MQTT emulation is not at Event level")
