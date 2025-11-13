@@ -87,7 +87,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -181,7 +181,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -292,7 +292,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -414,7 +414,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -452,7 +452,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -552,7 +552,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -654,7 +654,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -757,7 +757,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -864,7 +864,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -958,7 +958,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -996,7 +996,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -1087,7 +1087,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -1147,7 +1147,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -1289,7 +1289,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
