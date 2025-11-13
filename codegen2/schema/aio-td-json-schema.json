@@ -1,12 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Foo",
+  "title": "Thing Description with AIO Protocol Binding",
+  "version": "0.1",
+  "description": "JSON Schema for validating TD instances that employ the AIO WoT Protocol Binding",
   "type": "object",
   "definitions": {
     "title": {
       "type": "string",
       "pattern": "^[A-Z][A-Za-z0-9]*$",
-      "description": "Title is used as a codegen type name, so it should start with an uppercase letter and contain only alphanumeric characters"
+      "description": "The 'title' value is used as a codegen type name, so it should start with an uppercase letter and contain only alphanumeric characters"
     },
     "dataSchema_boolean": {
       "type": "object",
@@ -37,38 +39,70 @@
           "type": "integer"
         },
         "minimum": {
-          "type": "integer"
+          "type": "integer",
+          "description": "inclusive minimum integer value",
+          "defaultSnippets": [
+            {
+              "description": "minimum unsigned value",
+              "body": 0
+            },
+            {
+              "description": "minimum signed 1-byte value",
+              "body": -128
+            },
+            {
+              "description": "minimum signed 2-byte value",
+              "body": -32768
+            },
+            {
+              "description": "minimum signed 4-byte value",
+              "body": -2147483648
+            },
+            {
+              "description": "minimum signed 8-byte value",
+              "body": -9223372036854775808
+            }
+          ]
         },
         "maximum": {
-          "type": "integer"
+          "type": "integer",
+          "description": "inclusive maximum integer value",
+          "defaultSnippets": [
+            {
+              "description": "maximum unsigned 1-byte value",
+              "body": 256
+            },
+            {
+              "description": "maximum unsigned 2-byte value",
+              "body": 65535
+            },
+            {
+              "description": "maximum unsigned 4-byte value",
+              "body": 4294967295
+            },
+            {
+              "description": "maximum unsigned 8-byte value",
+              "body": 9223372036854775807
+            },
+            {
+              "description": "maximum signed 1-byte value",
+              "body": 127
+            },
+            {
+              "description": "maximum signed 2-byte value",
+              "body": 32767
+            },
+            {
+              "description": "maximum signed 4-byte value",
+              "body": 2147483647
+            },
+            {
+              "description": "maximum signed 8-byte value",
+              "body": 18446744073709551615
+            }
+          ]
         }
-      },
-      "defaultSnippets": [
-        {
-          "description": "byte type",
-          "body": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 255
-          }
-        },
-        {
-          "description": "unsigned int type",
-          "body": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 4294967295
-          }
-        },
-        {
-          "description": "signed int type",
-          "body": {
-            "type": "integer",
-            "minimum": -2147483648,
-            "maximum": 2147483647
-          }
-        }
-      ]
+      }
     },
     "dataSchema_number": {
       "type": "object",
@@ -85,49 +119,33 @@
         },
         "minimum": {
           "type": "number",
-          "defautSnippets": [
+          "description": "inclusive minimum numeric value",
+          "defaultSnippets": [
             {
-              "description": "minimum float value",
+              "description": "minimum single-precision floating-point value",
               "body": -3.40e+38
             },
             {
-              "description": "minimum double value",
-              "body": -1.80e+308
+              "description": "minimum double-precision floating-point value",
+              "body": -1.70e+308
             }
           ]
         },
         "maximum": {
           "type": "number",
-          "defautSnippets": [
+          "description": "inclusive maximum numeric value",
+          "defaultSnippets": [
             {
-              "description": "maximum float value",
+              "description": "maximum single-precision floating-point value",
               "body": 3.40e+38
             },
             {
-              "description": "maximum double value",
-              "body": 1.80e+308
+              "description": "maximum double-precision floating-point value",
+              "body": 1.70e+308
             }
           ]
         }
-      },
-      "defaultSnippets": [
-        {
-          "description": "float type",
-          "body": {
-            "type": "number",
-            "minimum": -3.40e+38,
-            "maximum": 3.40e+38
-          }
-        },
-        {
-          "description": "double type",
-          "body": {
-            "type": "number",
-            "minimum": -1.80e+308,
-            "maximum": 1.80e+308
-          }
-        }
-      ]
+      }
     },
     "dataSchema_string": {
       "type": "object",
@@ -176,6 +194,40 @@
     },
     "dataSchema_object": {
       "type": "object",
+      "required": [ "properties" ],
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/title"
+        },
+        "type": {
+          "type": "string",
+          "const": "object"
+        },
+        "properties": {
+          "description": "use 'properties' to indicate an object type and define fields for the object",
+          "additionalProperties": {
+            "$ref": "#/definitions/dataSchema"
+          }
+        },
+        "required": {
+          "description": "array of 'properties' keys that indicate properties required to be included in any instance of the object",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [ "dtv:additionalProperties" ]
+          }
+        ]
+      }
+    },
+    "dataSchema_map": {
+      "type": "object",
+      "required": [ "dtv:additionalProperties" ],
       "properties": {
         "title": {
           "$ref": "#/definitions/title"
@@ -185,52 +237,24 @@
           "const": "object"
         },
         "dtv:additionalProperties": {
-          "description": "either 'false' to indicate that this object is a structure, or a schema definition to define the value type of a map",
-          "oneOf": [
-            {
-              "type": "boolean",
-              "const": false
-            },
-            {
-              "$ref": "#/definitions/dataSchema"
-            }
-          ],
-          "defaultSnippets": [
-            {
-              "description": "indicate that the object is a structure with a fixed set of fields defined by 'properties'",
-              "body": false
-            },
-            {
-              "description": "indicate that the object is a map whose values have this defined type (e.g. string)",
-              "body": { "type": "string" }
-            }
-          ]
-        },
-        "properties": {
-          "additionalProperties": {
-            "$ref": "#/definitions/dataSchema"
-          }
-        },
-        "required": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "description": "use 'dtv:additionalProperties' to indicate a map type and specify the data schema for the values therein",
+          "$ref": "#/definitions/dataSchema"
         }
       },
       "not": {
-        "allOf": [
-          {
-            "required": [ "dtv:additionalProperties" ]
-          },
+        "anyOf": [
           {
             "required": [ "properties" ]
+          },
+          {
+            "required": [ "required" ]
           }
         ]
       }
     },
     "dataSchema_array": {
       "type": "object",
+      "required": [ "items" ],
       "properties": {
         "title": {
           "$ref": "#/definitions/title"
@@ -240,6 +264,7 @@
           "const": "array"
         },
         "items": {
+          "description": "use 'items' to specify the data schema for the values in the array",
           "$ref": "#/definitions/dataSchema"
         }
       }
@@ -252,7 +277,200 @@
         { "$ref": "#/definitions/dataSchema_number" },
         { "$ref": "#/definitions/dataSchema_string" },
         { "$ref": "#/definitions/dataSchema_object" },
+        { "$ref": "#/definitions/dataSchema_map" },
         { "$ref": "#/definitions/dataSchema_array" }
+      ],
+      "defaultSnippets": [
+        {
+          "description": "Boolean type",
+          "body": {
+            "type": "boolean"
+          }
+        },
+        {
+          "description": "signed 1-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": -128,
+            "maximum": 127
+          }
+        },
+        {
+          "description": "unsigned 1-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        },
+        {
+          "description": "signed 2-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          }
+        },
+        {
+          "description": "unsigned 2-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          }
+        },
+        {
+          "description": "signed 4-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        },
+        {
+          "description": "unsigned 4-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        },
+        {
+          "description": "signed 8-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": -9223372036854775808,
+            "maximum": 9223372036854775807
+          }
+        },
+        {
+          "description": "unsigned 8-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          }
+        },
+        {
+          "description": "single-precision floating-point type",
+          "body": {
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        },
+        {
+          "description": "double-precision floating-point type",
+          "body": {
+            "type": "number",
+            "minimum": -1.70e+308,
+            "maximum": 1.70e+308
+          }
+        },
+        {
+          "description": "string type",
+          "body": {
+            "type": "string"
+          }
+        },
+        {
+          "description": "enumerated type (with example values)",
+          "body": {
+            "type": "string",
+            "enum": [ "red", "green", "blue" ]
+          }
+        },
+        {
+          "description": "date-time type",
+          "body": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        {
+          "description": "date type",
+          "body": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        {
+          "description": "time type",
+          "body": {
+            "type": "string",
+            "format": "time"
+          }
+        },
+        {
+          "description": "UUID type",
+          "body": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "description": "byte stream type",
+          "body": {
+            "type": "string",
+            "contentEncoding": "base64"
+          }
+        },
+        {
+          "description": "ISO 8601 duration string type",
+          "body": {
+            "type": "string",
+            "pattern": "^P(\\\\\\\\d+Y)?(\\\\\\\\d+M)?(\\\\\\\\d+W)?(\\\\\\\\d+D)?(T(\\\\\\\\d+H)?(\\\\\\\\d+M)?(\\\\\\\\d+S)?)?$"
+          }
+        },
+        {
+          "description": "decimal string type",
+          "body": {
+            "type": "string",
+            "pattern": "^(?:\\\\\\\\+|-)?(?:[1-9][0-9]*|0)(?:\\\\\\\\.[0-9]*)?$"
+          }
+        },
+        {
+          "description": "array type (example with string values)",
+          "body": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        {
+          "description": "object type (3 example float properties, 2 required)",
+          "body": {
+            "type": "object",
+            "required": [ "lat", "lon" ],
+            "properties": {
+              "lat": {
+                "type": "number",
+                "minimum": -3.40e+38,
+                "maximum": 3.40e+38
+              },
+              "lon": {
+                "type": "number",
+                "minimum": -3.40e+38,
+                "maximum": 3.40e+38
+              },
+              "alt": {
+                "type": "number",
+                "minimum": -3.40e+38,
+                "maximum": 3.40e+38
+              }
+            }
+          }
+        },
+        {
+          "description": "map type (example values are signed integers)",
+          "body": {
+            "type": "object",
+            "dtv:additionalProperties": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        }
       ]
     },
     "dataSchema": {
@@ -307,7 +525,13 @@
             "required": [ "dtv:errorMessage" ]
           }
         ]
-      }
+      },
+      "defaultSnippets": [
+        {
+          "description": "reference to an external schema definition",
+          "body": { "dtv:ref": "./EXAMPLESCHEMA.json" }
+        }
+      ]
     },
     "dataSchema_action": {
       "type": "object",
@@ -351,10 +575,18 @@
     "form_element_base": {
       "type": "object",
       "properties": {
+        "href": {
+          "description": "an 'href' property is required by WoT TD schema, but not processed by AIO ProtocolCompiler"
+        },
+        "contentType": {
+          "type": "string",
+          "description": "content type for communicated values, only 'application/json' supported at present",
+          "enum": [ "application/json" ]
+        },
         "dtv:topic": {
           "type": "string",
           "pattern": "^(?:(?:[!$-*,-.0-z|~]+|(?:{(?:[A-Za-z]+:)?(?:[A-Za-z]+)})))(?:\/(?:[!$-*,-.0-z|~]+|(?:{(?:[A-Za-z]+:)?(?:[A-Za-z]+)})))*$",
-          "description": "slash-separated sequence of labels, each of which is a non-empty string of restricted characters or a brace-enclosed token",
+          "description": "MQTT topic pattern -- slash-separated sequence of labels, each of which is a non-empty string of restricted characters or a brace-enclosed token",
           "defaultSnippets": [
             {
               "description": "MQTT topic pattern used for publishes and subscribes",
@@ -421,19 +653,23 @@
           ]
         },
         "dtv:serviceGroupId": {
+          "description": "string to use for shared subscriptions when receiving server-side action requests",
           "type": "string"
         },
         "dtv:headerCode": {
-          "type": "string",
-          "description": "reference to a key in the 'schemaDefinitions' property object, whose value is an object defining a string enum"
+          "description": "reference to a key in the 'schemaDefinitions' property object, whose value is an object defining a string enum for a MQTT header value",
+          "type": "string"
         },
         "dtv:headerInfo": {
+          "description": "schema for content embedded in a MQTT user header value",
           "type": "array",
           "items": {
             "type": "object",
             "properties": {
               "contentType": {
-                "type": "string"
+                "description": "content type for data embedded in header info value, only 'application/json' supported at present",
+                "type": "string",
+                "enum": [ "application/json" ]
               },
               "schema": {
                 "type": "string",
@@ -468,6 +704,7 @@
           ]
         },
         "dtv:serviceGroupId": {
+          "description": "string to use for shared subscriptions when receiving client-side events",
           "type": "string"
         }
       },
@@ -489,68 +726,45 @@
     "form_element_root": {
       "allOf": [ { "$ref": "#/definitions/form_element_base" } ],
       "type": "object",
-      "oneOf": [
-        {
-          "properties": {
-            "op": {
-              "oneOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "subscribeallevents"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "subscribeallevents"
-                    ]
-                  },
-                  "minItems": 1
-                }
+      "properties": {
+        "op": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "subscribeallevents",
+                "readallproperties",
+                "writemultipleproperties"
               ]
             },
-            "dtv:serviceGroupId": {
-              "type": "string"
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "subscribeallevents"
+                ]
+              },
+              "minItems": 1
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "readallproperties",
+                  "writemultipleproperties"
+                ]
+              },
+              "minItems": 1
             }
-          }
+          ]
         },
-        {
-          "properties": {
-            "op": {
-              "oneOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "readallproperties",
-                    "writemultipleproperties"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "readallproperties",
-                      "writemultipleproperties"
-                    ]
-                  },
-                  "minItems": 1
-                }
-              ]
-            }
-          },
-          "not": {
-            "anyOf": [
-              {
-                "required": [ "dtv:serviceGroupId" ]
-              }
-            ]
-          }
+        "dtv:serviceGroupId": {
+          "description": "string to use for shared subscriptions when receiving client-side events",
+          "type": "string"
         }
-      ],
+      },
       "required": [ "op" ],
       "not": {
         "anyOf": [
@@ -590,6 +804,7 @@
         },
         "schemaDefinitions": {
           "type": "object",
+          "description": "definitions of schemas that can be referenced via 'additionalResponses', 'dtv:headerCode', and 'dtv:headerInfo' properties in 'forms' elements",
           "additionalProperties": {
             "allOf": [ { "$ref": "#/definitions/dataSchema_base" } ],
             "type": "object",
@@ -609,14 +824,82 @@
             }
           }
         },
+        "securityDefinitions": {
+          "description": "a 'securityDefinitions' property is required by WoT TD schema, but not processed by AIO ProtocolCompiler"
+        },
+        "security": {
+          "description": "a 'security' property is required by WoT TD schema, but not processed by AIO ProtocolCompiler"
+        },
+        "links": {
+          "type": "array",
+          "description": "Use a value with \"rel\": \"service-desc\" to specify a JSON file of rules for generating schema names",
+          "items": {
+            "type": "object",
+            "required": [ "rel", "href", "type" ],
+            "properties": {
+              "rel": {
+                "type": "string",
+                "description": "A 'rel' value of 'service-desc' indicates that the target file contains rules for generating schema names",
+                "const": "service-desc"
+              },
+              "href": {
+                "type": "string",
+                "description": "path to a JSON file that specifies rules for generating schema names"
+              },
+              "type": {
+                "type": "string",
+                "description": "schema definition rules must be written in JSON format",
+                "const": "application/json"
+              }
+            }
+          },
+          "defaultSnippets": [
+            {
+              "description": "example 'links' value -- replace './EXAMPLE.SchemaNames.json' with path to your own schema names declaration file",
+              "body": [
+                {
+                  "rel": "service-desc",
+                  "href": "./EXAMPLE.SchemaNames.json",
+                  "type": "application/json"
+                }
+              ]
+            }
+          ]
+        },
         "forms": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/form_element_root"
-          }
+          },
+          "defaultSnippets": [
+            {
+              "description": "example root-level 'forms' values for interacting with all properties and events",
+              "body": [
+                {
+                  "href": "dtmi:test:SomeURI;1",
+                  "contentType": "application/json",
+                  "dtv:topic": "example/SomeTopic/write",
+                  "op": "writemultipleproperties"
+                },
+                {
+                  "href": "dtmi:test:SomeURI;1",
+                  "contentType": "application/json",
+                  "dtv:topic": "example/SomeTopic/read",
+                  "op": "readallproperties"
+                },
+                {
+                  "href": "dtmi:test:SomeURI;1",
+                  "contentType": "application/json",
+                  "dtv:topic": "example/SomeTopic/AllEvents",
+                  "op": "subscribeallevents"
+                }
+              ]
+            }
+          ]
         },
         "properties": {
           "type": "object",
+          "description": "properties are values stored on a server that can be read or written by clients",
           "additionalProperties": {
             "allOf": [ { "$ref": "#/definitions/dataSchema_affordance" } ],
             "type": "object",
@@ -634,21 +917,112 @@
                 "minItems": 1,
                 "items": {
                   "$ref": "#/definitions/form_element_property"
+                },
+                "defaultSnippets": [
+                  {
+                    "description": "example 'forms' values for properties",
+                    "body": [
+                      {
+                        "href": "dtmi:test:SomeURI;1",
+                        "contentType": "application/json",
+                        "dtv:topic": "example/SomeTopic/MyProp1/write",
+                        "op": "writeproperty"
+                      },
+                      {
+                        "href": "dtmi:test:SomeURI;1",
+                        "contentType": "application/json",
+                        "dtv:topic": "example/SomeTopic/MyProp1/read",
+                        "op": "readproperty"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "defaultSnippets": [
+            {
+              "description": "example 'properties' value",
+              "body": {
+                "MyProperty": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647,
+                  "readOnly": false,
+                  "forms": [
+                    {
+                      "href": "dtmi:test:SomeURI;1",
+                      "contentType": "application/json",
+                      "dtv:topic": "example/SomeTopic/MyProp1/write",
+                      "op": "writeproperty"
+                    },
+                    {
+                      "href": "dtmi:test:SomeURI;1",
+                      "contentType": "application/json",
+                      "dtv:topic": "example/SomeTopic/MyProp1/read",
+                      "op": "readproperty"
+                    }
+                  ]
                 }
               }
             }
-          }
+          ]
         },
         "actions": {
           "type": "object",
+          "description": "actions are round-trip messages initiated by clients to request a server to perform an operation and return the result to the client",
           "additionalProperties": {
             "type": "object",
             "properties": {
               "input": {
-                "$ref": "#/definitions/dataSchema_action"
+                "description": "input arguments as properties in object type",
+                "$ref": "#/definitions/dataSchema_action",
+                "defaultSnippets": [
+                  {
+                    "body": {
+                      "type": "object",
+                      "properties": {
+                        "arg1": {
+                          "type": "string"
+                        },
+                        "arg2": {
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "reference to an external schema definition (must be an object)",
+                    "body": { "dtv:ref": "./EXAMPLESCHEMA.json" }
+                  }
+                ]
               },
               "output": {
-                "$ref": "#/definitions/dataSchema_action"
+                "description": "output values as properties in object type",
+                "$ref": "#/definitions/dataSchema_action",
+                "defaultSnippets": [
+                  {
+                    "body": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "reference to an external schema definition (must be an object)",
+                    "body": { "dtv:ref": "./EXAMPLESCHEMA.json" }
+                  }
+                ]
               },
               "idempotent": {
                 "type": "boolean",
@@ -663,18 +1037,77 @@
                 "minItems": 1,
                 "items": {
                   "$ref": "#/definitions/form_element_action"
+                },
+                "defaultSnippets": [
+                  {
+                    "description": "example 'forms' value for actions",
+                    "body": [
+                      {
+                        "href": "dtmi:test:SomeURI;1",
+                        "contentType": "application/json",
+                        "dtv:topic": "example/SomeTopic/DoSomething",
+                        "op": "invokeaction"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "defaultSnippets": [
+            {
+              "description": "example 'actions' value",
+              "body": {
+                "MyAction": {
+                  "input": {
+                    "type": "object",
+                    "properties": {
+                      "arg1": {
+                        "type": "string"
+                      },
+                      "arg2": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      }
+                    }
+                  },
+                  "output": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string"
+                      },
+                      "result": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      }
+                    }
+                  },
+                  "forms": [
+                    {
+                      "href": "dtmi:test:SomeURI;1",
+                      "contentType": "application/json",
+                      "dtv:topic": "example/SomeTopic/DoSomething",
+                      "op": "invokeaction"
+                    }
+                  ]
                 }
               }
             }
-          }
+          ]
         },
         "events": {
           "type": "object",
+          "description": "events are one-way messages sent from servers to clients to indicate occurrences and status changes",
           "additionalProperties": {
             "type": "object",
+            "required": [ "data" ],
             "properties": {
               "data": {
-                "$ref": "#/definitions/dataSchema_affordance"
+                "$ref": "#/definitions/dataSchema_affordance",
+                "description": "the data schema of the event"
               },
               "dtv:placeholder": {
                 "type": "boolean",
@@ -685,10 +1118,45 @@
                 "minItems": 1,
                 "items": {
                   "$ref": "#/definitions/form_element_event"
+                },
+                "defaultSnippets": [
+                  {
+                    "description": "example 'forms' value for events",
+                    "body": [
+                      {
+                        "href": "dtmi:test:SomeURI;1",
+                        "contentType": "application/json",
+                        "dtv:topic": "example/SomeTopic/MyEvent",
+                        "op": "subscribeevent"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "defaultSnippets": [
+            {
+              "description": "example 'events' value",
+              "body": {
+                "MyEvent": {
+                  "data": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "forms": [
+                    {
+                      "href": "dtmi:test:SomeURI;1",
+                      "contentType": "application/json",
+                      "dtv:topic": "example/SomeTopic/MyEvent",
+                      "op": "subscribeevent"
+                    }
+                  ]
                 }
               }
             }
-          }
+          ]
         }
       }
     }

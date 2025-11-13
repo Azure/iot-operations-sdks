@@ -51,7 +51,15 @@
     },
     "extantCounters": {
       "title": "CounterList",
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "counterNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     },
     "locationError": {
       "title": "CounterError",
@@ -159,9 +167,5 @@
         }
       ]
     }
-  },
-  "properties": {
-  },
-  "events": {
   }
 }

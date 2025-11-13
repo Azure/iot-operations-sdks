@@ -80,8 +80,6 @@
       "op": "readallproperties"
     }
   ],
-  "actions": {
-  },
   "properties": {
     "Alpha": {
       "type": "integer",
@@ -203,7 +201,5 @@
         }
       ]
     }
-  },
-  "events": {
   }
 }

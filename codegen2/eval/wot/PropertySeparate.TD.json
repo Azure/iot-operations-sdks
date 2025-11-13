@@ -56,8 +56,6 @@
       }
     }
   },
-  "actions": {
-  },
   "properties": {
     "Alpha": {
       "type": "integer",
@@ -199,7 +197,5 @@
         }
       ]
     }
-  },
-  "events": {
   }
 }
