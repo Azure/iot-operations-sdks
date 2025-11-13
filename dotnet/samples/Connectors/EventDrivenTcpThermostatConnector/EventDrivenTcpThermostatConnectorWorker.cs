@@ -31,16 +31,15 @@ namespace EventDrivenTcpThermostatConnector
 
             try
             {
-                DeviceStatus deviceStatus = await args.DeviceEndpointClient.GetDeviceStatusAsync();
-                deviceStatus.Config ??= new();
-                deviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
-
-                deviceStatus.Endpoints ??= new();
-                deviceStatus.Endpoints.Inbound ??= new();
-                deviceStatus.Endpoints.Inbound[args.InboundEndpointName] ??= new();
-
                 _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
-                await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus, null, cancellationToken);
+                await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
+                    currentDeviceStatus.Config ??= new();
+                    currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                    currentDeviceStatus.Endpoints ??= new();
+                    currentDeviceStatus.Endpoints.Inbound ??= new();
+                    currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] ??= new();
+                    return currentDeviceStatus;
+                }, null, cancellationToken);
             }
             catch (Exception e)
             {
@@ -79,12 +78,13 @@ namespace EventDrivenTcpThermostatConnector
 
                 try
                 {
-                    AssetStatus assetStatus = await args.AssetClient.GetAssetStatusAsync();
-                    assetStatus.Config ??= new();
-                    assetStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                    assetStatus.EventGroups ??= new();
-                    assetStatus.EventGroups.Clear();
-                    await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
+                    await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
+                        currentAssetStatus.Config ??= new();
+                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                        currentAssetStatus.EventGroups ??= new();
+                        currentAssetStatus.EventGroups.Clear();
+                        return currentAssetStatus;
+                    }, null, cancellationToken);
                 }
                 catch (Exception e)
                 {
@@ -100,12 +100,13 @@ namespace EventDrivenTcpThermostatConnector
 
                 try
                 {
-                    AssetStatus assetStatus = await args.AssetClient.GetAssetStatusAsync();
-                    assetStatus.Config ??= new();
-                    assetStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                    assetStatus.EventGroups ??= new();
-                    assetStatus.ClearEventGroupStatus(eventGroup.Name);
-                    await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
+                    await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
+                        currentAssetStatus.Config ??= new();
+                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                        currentAssetStatus.EventGroups ??= new();
+                        currentAssetStatus.ClearEventGroupStatus(eventGroup.Name);
+                        return currentAssetStatus;
+                    }, null, cancellationToken);
                 }
                 catch (Exception e)
                 {
@@ -124,21 +125,20 @@ namespace EventDrivenTcpThermostatConnector
 
                 try
                 {
-                    AssetStatus assetStatus = await args.AssetClient.GetAssetStatusAsync();
-                    assetStatus.Config ??= new();
-                    assetStatus.Config.LastTransitionTime = DateTime.UtcNow;
-
-                    assetStatus.UpdateEventStatus(eventGroup.Name, new()
-                    {
-                        Name = assetEvent.Name,
-                        Error = new ConfigError()
-                        {
-                            Message = "The configured event was either missing the expected port or had a non-integer value for the port",
-                        }
-                    });
-
                     _logger.LogWarning("Reporting asset status error to Azure Device Registry service...");
-                    await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
+                    await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
+                        currentAssetStatus.Config ??= new();
+                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                        currentAssetStatus.UpdateEventStatus(eventGroup.Name, new()
+                        {
+                            Name = assetEvent.Name,
+                            Error = new ConfigError()
+                            {
+                                Message = "The configured event was either missing the expected port or had a non-integer value for the port",
+                            }
+                        });
+                        return currentAssetStatus;
+                    }, null, cancellationToken);
                 }
                 catch (Exception e)
                 {
@@ -170,6 +170,8 @@ namespace EventDrivenTcpThermostatConnector
                     await client.ConnectAsync(host, port, cancellationToken);
                     await using NetworkStream stream = client.GetStream();
 
+                    bool alreadyReportedAssetStatus = false;
+
                     try
                     {
                         while (!cancellationToken.IsCancellationRequested)
@@ -181,18 +183,31 @@ namespace EventDrivenTcpThermostatConnector
                             _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
                             await args.AssetClient.ForwardReceivedEventAsync(eventGroupName, assetEvent, buffer, null, cancellationToken);
 
-                            try
+                            if (!alreadyReportedAssetStatus)
                             {
-                                // Report status of the asset once the first event has been received and forwarded
-                                _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
-                                AssetStatus assetStatus = await args.AssetClient.GetAssetStatusAsync();
-                                assetStatus.Config ??= new();
-                                assetStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                                await args.AssetClient.UpdateAssetStatusAsync(assetStatus, null, cancellationToken);
-                            }
-                            catch (Exception e2)
-                            {
-                                _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                                try
+                                {
+                                    // Report status of the asset once the first event has been received and forwarded
+                                    _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
+
+                                    await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
+                                        currentAssetStatus.Config ??= new();
+                                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                        currentAssetStatus.UpdateEventStatus(eventGroupName, new()
+                                        {
+                                            Name = assetEvent.Name,
+                                            Error = null,
+                                            MessageSchemaReference = args.AssetClient.GetRegisteredEventMessageSchema(eventGroupName, assetEvent.Name)
+                                        });
+                                        return currentAssetStatus;
+                                    }, null, cancellationToken);
+
+                                    alreadyReportedAssetStatus = true;
+                                }
+                                catch (Exception e2)
+                                {
+                                    _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                                }
                             }
                         }
                     }
@@ -209,17 +224,17 @@ namespace EventDrivenTcpThermostatConnector
 
                 try
                 {
-                    DeviceStatus deviceStatus = await args.DeviceEndpointClient.GetDeviceStatusAsync();
-                    deviceStatus.Config ??= new();
-                    deviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                    deviceStatus.SetEndpointError(
-                        InboundEndpointName,
-                        new ConfigError()
-                        {
-                            Message = "Unable to connect to the TCP endpoint. The connector will retry to connect."
-                        });
-
-                    await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus, null, cancellationToken);
+                    await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
+                        currentDeviceStatus.Config ??= new();
+                        currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                        currentDeviceStatus.SetEndpointError(
+                            InboundEndpointName,
+                            new ConfigError()
+                            {
+                                Message = "Unable to connect to the TCP endpoint. The connector will retry to connect."
+                            });
+                        return currentDeviceStatus;
+                    }, null, cancellationToken);
                 }
                 catch (Exception e)
                 {

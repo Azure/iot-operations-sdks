@@ -3,7 +3,6 @@
 
 using System.Collections.Concurrent;
 using System.Data;
-using System.Collections.Generic;
 using System.Text;
 using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Connector.Exceptions;
@@ -288,12 +287,45 @@ namespace Azure.Iot.Operations.Connector
         }
 
         // Called by AssetClient instances
-        internal async Task ForwardSampledDatasetAsync(string deviceName, string inboundEndpointName, string assetName, AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        internal async Task ForwardSampledDatasetAsync(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
             CloudEvent? cloudEvent = null;
-            if (_registeredDatasetMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", out var registeredDatasetMessageSchema))
+            Schema? registeredDatasetMessageSchema = null;
+            if (!_registeredDatasetMessageSchemas.ContainsKey($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}"))
+            {
+                // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
+                var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, dataset.Name!, dataset);
+                if (datasetMessageSchema != null)
+                {
+                    try
+                    {
+                        _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                        await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
+                        registeredDatasetMessageSchema = await schemaRegistryClient.PutAsync(
+                            datasetMessageSchema.SchemaContent,
+                            datasetMessageSchema.SchemaFormat,
+                            datasetMessageSchema.SchemaType,
+                            datasetMessageSchema.Version ?? "1",
+                            datasetMessageSchema.Tags);
+
+                        _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
+
+                        _registeredDatasetMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", registeredDatasetMessageSchema);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError($"Failed to register message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    _logger.LogInformation($"No message schema will be registered for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                }
+            }
+
+            if (_registeredDatasetMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", out registeredDatasetMessageSchema))
             {
                 if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
                 {
@@ -383,7 +415,7 @@ namespace Azure.Iot.Operations.Connector
         }
 
         // Called by AssetClient instances
-        internal async Task ForwardReceivedEventAsync(string deviceName, string inboundEndpointName, string assetName, string eventGroupName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        internal async Task ForwardReceivedEventAsync(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, string eventGroupName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
@@ -395,8 +427,41 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
+            Schema? registeredEventMessageSchema = null;
+            if (!_registeredEventMessageSchemas.ContainsKey($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent}"))
+            {
+                // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
+                var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, assetEvent.Name, assetEvent);
+                if (eventMessageSchema != null)
+                {
+                    try
+                    {
+                        _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} in event group with name {eventGroupName} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                        await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
+                        registeredEventMessageSchema = await schemaRegistryClient.PutAsync(
+                            eventMessageSchema.SchemaContent,
+                            eventMessageSchema.SchemaFormat,
+                            eventMessageSchema.SchemaType,
+                            eventMessageSchema.Version ?? "1",
+                            eventMessageSchema.Tags);
+
+                        _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
+
+                        _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent.Name}", registeredEventMessageSchema);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError($"Failed to register message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    _logger.LogInformation($"No message schema will be registered for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                }
+            }
+
             CloudEvent? cloudEvent = null;
-            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent}", out var registeredEventMessageSchema))
+            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent}", out registeredEventMessageSchema))
             {
                 if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
                 {
@@ -493,7 +558,7 @@ namespace Azure.Iot.Operations.Connector
             if (args.ChangeType == ChangeType.Created)
             {
                 _logger.LogInformation("Asset with name {0} created on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
+                AssetAvailable(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
                 _adrClient!.ObserveAssets(args.DeviceName, args.InboundEndpointName);
             }
             else if (args.ChangeType == ChangeType.Deleted)
@@ -509,7 +574,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                 await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
-                await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
+                AssetAvailable(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
             }
         }
 
@@ -597,7 +662,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async Task AssetAvailableAsync(string deviceName, string inboundEndpointName, Asset? asset, string assetName)
+        private void AssetAvailable(string deviceName, string inboundEndpointName, Asset? asset, string assetName)
         {
             string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
 
@@ -628,87 +693,10 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
             }
-            else
-            {
-                foreach (var dataset in asset.Datasets)
-                {
-                    // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                    var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, dataset.Name!, dataset);
-                    if (datasetMessageSchema != null)
-                    {
-                        try
-                        {
-                            _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
-                            await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
-                            var registeredDatasetMessageSchema = await schemaRegistryClient.PutAsync(
-                                datasetMessageSchema.SchemaContent,
-                                datasetMessageSchema.SchemaFormat,
-                                datasetMessageSchema.SchemaType,
-                                datasetMessageSchema.Version ?? "1",
-                                datasetMessageSchema.Tags);
-
-                            _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
-
-                            _registeredDatasetMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", registeredDatasetMessageSchema);
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError($"Failed to register message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
-                        }
-                    }
-                    else
-                    {
-                        _logger.LogInformation($"No message schema will be registered for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
-                    }
-                }
-            }
 
             if (asset.EventGroups == null)
             {
                 _logger.LogInformation($"Asset with name {assetName} has no events to listen for");
-            }
-            else
-            {
-                foreach (var assetEventGroup in asset.EventGroups)
-                {
-                    if (assetEventGroup.Events == null)
-                    {
-                        _logger.LogInformation($"Event group with name {assetEventGroup.Name} has no events to register message schemas for");
-                        continue;
-                    }
-
-                    foreach (var assetEvent in assetEventGroup.Events)
-                    {
-                        // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                        var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, assetEvent.Name, assetEvent);
-                        if (eventMessageSchema != null)
-                        {
-                            try
-                            {
-                                _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} in event group with name {assetEventGroup.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
-                                await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
-                                var registeredEventSchema = await schemaRegistryClient.PutAsync(
-                                    eventMessageSchema.SchemaContent,
-                                    eventMessageSchema.SchemaFormat,
-                                    eventMessageSchema.SchemaType,
-                                    eventMessageSchema.Version ?? "1",
-                                    eventMessageSchema.Tags);
-
-                                _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
-
-                                _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEventGroup.Name}_{assetEvent.Name}", registeredEventSchema);
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.LogError($"Failed to register message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
-                            }
-                        }
-                        else
-                        {
-                            _logger.LogInformation($"No message schema will be registered for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
-                        }
-                    }
-                }
             }
 
             if (WhileAssetIsAvailable != null)
@@ -720,7 +708,8 @@ namespace Azure.Iot.Operations.Connector
                 {
                     try
                     {
-                        await WhileAssetIsAvailable.Invoke(new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this), assetTaskCancellationTokenSource.Token);
+                        using AssetAvailableEventArgs args = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
+                        await WhileAssetIsAvailable.Invoke(args, assetTaskCancellationTokenSource.Token);
                     }
                     catch (OperationCanceledException)
                     {

@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// The event args for when an asset becomes available to sample.
     /// </summary>
-    public class AssetAvailableEventArgs : EventArgs
+    public class AssetAvailableEventArgs : EventArgs, IDisposable
     {
         /// <summary>
         /// The name of the device that this asset belongs to.
@@ -68,8 +68,13 @@ namespace Azure.Iot.Operations.Connector
             AssetName = assetName;
             Asset = asset;
             LeaderElectionClient = leaderElectionClient;
-            AssetClient = new(adrClient, deviceName, inboundEndpointName, assetName, connector);
+            AssetClient = new(adrClient, deviceName, inboundEndpointName, assetName, connector, device, asset);
             DeviceEndpointClient = new(adrClient, deviceName, inboundEndpointName);
+        }
+
+        public void Dispose()
+        {
+            AssetClient.Dispose();
         }
     }
 }

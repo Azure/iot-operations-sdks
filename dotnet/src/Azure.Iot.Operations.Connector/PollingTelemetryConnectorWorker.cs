@@ -22,12 +22,15 @@ namespace Azure.Iot.Operations.Connector
 
         public async Task WhileDeviceAvailableAsync(DeviceAvailableEventArgs args, CancellationToken cancellationToken)
         {
-            DeviceStatus deviceStatus = await args.DeviceEndpointClient.GetDeviceStatusAsync();
             try
             {
                 // Report device status is okay
                 _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
-                await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus);
+                await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
+                    currentDeviceStatus.Config ??= new();
+                    currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                    return currentDeviceStatus;
+                }, null, cancellationToken);
             }
             catch (Exception e)
             {
@@ -39,26 +42,6 @@ namespace Azure.Iot.Operations.Connector
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            // Skip sampling if the device is explicitly disabled (Enabled is false). Undefined (null) value is treated as enabled.
-            if (args.Device.Enabled != true && args.Device.Enabled != null)
-            {
-                _logger.LogWarning("Device {0} is disabled. Skipping asset {1} sampling until device is enabled.", args.DeviceName, args.AssetName);
-                // Note: When the device is updated, ConnectorWorker will automatically cancel this handler
-                // and reinvoke it with the updated device information if it becomes enabled.
-                return;
-            }
-
-            // Skip sampling if the device is explicitly disabled (Enabled is false). Undefined (null) value is treated as enabled.
-            if (args.Device.Enabled != true && args.Device.Enabled != null)
-            {
-                _logger.LogWarning("Asset {0} is disabled. Skipping sampling until asset is enabled.", args.AssetName);
-                // Note: When the asset is updated, ConnectorWorker will automatically cancel this handler
-                // and reinvoke it with the updated asset information if it becomes enabled.
-                return;
-            }
-
-            _logger.LogInformation("Starting to sample enabled asset {0} on enabled device {1}", args.AssetName, args.DeviceName);
-
             if (args.Asset.Datasets == null)
             {
                 return;
@@ -66,8 +49,10 @@ namespace Azure.Iot.Operations.Connector
 
             Dictionary<string, Timer> datasetsTimers = new();
             _assetsSamplingTimers[args.AssetName] = datasetsTimers;
-            foreach (AssetDataset dataset in args.Asset.Datasets!)
+            Dictionary<string, bool> okayStatusReportedByDataset = new();
+            foreach (AssetDataset dataset in args.Asset.Datasets!) //TODO only send status once per dataset
             {
+                okayStatusReportedByDataset.Add(dataset.Name, false);
                 EndpointCredentials? credentials = null;
                 if (args.Device.Endpoints != null
                     && args.Device.Endpoints.Inbound != null
@@ -89,34 +74,52 @@ namespace Azure.Iot.Operations.Connector
                         byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
                         await args.AssetClient.ForwardSampledDatasetAsync(dataset, sampledData);
 
-                        AssetStatus assetStatus = await args.AssetClient.GetAssetStatusAsync();
-                        try
+                        // Only report a status for this dataset if it hasn't been reported yet already
+                        if (!okayStatusReportedByDataset[dataset.Name])
                         {
-                            // The dataset was sampled as expected, so report the asset status as okay
-                            _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
-                            await args.AssetClient.UpdateAssetStatusAsync(assetStatus);
-                        }
-                        catch (Exception e2)
-                        {
-                            _logger.LogError(e2, "Failed to report asset status to Azure Device Registry service");
+                            try
+                            {
+                                // The dataset was sampled as expected, so report the asset status as okay
+                                _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
+                                await args.AssetClient.GetAndUpdateAssetStatusAsync(
+                                    (currentAssetStatus) =>
+                                    {
+                                        currentAssetStatus.Config ??= new();
+                                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                        currentAssetStatus.UpdateDatasetStatus(new AssetDatasetEventStreamStatus()
+                                        {
+                                            Name = dataset.Name,
+                                            MessageSchemaReference = args.AssetClient.GetRegisteredDatasetMessageSchema(dataset.Name),
+                                            Error = null
+                                        });
+                                        return currentAssetStatus;
+                                    },
+                                    null,
+                                    cancellationToken);
+                                okayStatusReportedByDataset[dataset.Name] = true;
+                            }
+                            catch (Exception e2)
+                            {
+                                _logger.LogError(e2, "Failed to report asset status to Azure Device Registry service");
+                            }
                         }
                     }
                     catch (Exception e)
                     {
-                        DeviceStatus deviceStatus = await args.DeviceEndpointClient.GetDeviceStatusAsync();
-                        deviceStatus.Config = new ConfigStatus()
-                        {
-                            Error = new ConfigError()
-                            {
-                                Message = $"Unable to sample the device. Error message: {e.Message}",
-                            }
-                        };
-
                         _logger.LogError(e, "Failed to sample the dataset");
 
                         try
                         {
-                            await args.DeviceEndpointClient.UpdateDeviceStatusAsync(deviceStatus);
+                            await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
+                                currentDeviceStatus.Config ??= new ConfigStatus();
+                                currentDeviceStatus.Config.Error =
+                                    new ConfigError()
+                                    {
+                                        Message = $"Unable to sample the device. Error message: {e.Message}",
+                                    };
+                                currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                return currentDeviceStatus;
+                            }, null, cancellationToken);
                         }
                         catch (Exception e2)
                         {
