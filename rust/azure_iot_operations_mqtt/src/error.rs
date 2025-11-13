@@ -11,7 +11,7 @@ pub type ClientError = azure_mqtt::error::ClientError;
 pub type CompletionError = azure_mqtt::client::token::completion::CompletionError;
 
 /// Error executing an MQTT publish
-#[derive(Debug, Error, Clone)]
+#[derive(Debug, Error)]
 #[error("{kind}")]
 pub struct ConnectionError {
     kind: ConnectionErrorKind,
@@ -32,11 +32,11 @@ impl ConnectionError {
 }
 
 /// An enumeration of categories of [`ConnectionError`]
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Debug)]
 pub enum ConnectionErrorKind {
     Disconnected(azure_mqtt::client::DisconnectedEvent),
     Timeout,
-    ConnectFailure(Option<azure_mqtt::packet::ConnAck>),
+    ConnectFailure(azure_mqtt::error::ConnectError),
 }
 
 impl fmt::Display for ConnectionErrorKind {
