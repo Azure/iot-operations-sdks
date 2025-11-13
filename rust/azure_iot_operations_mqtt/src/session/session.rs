@@ -127,6 +127,9 @@ impl Session {
         })
     }
 
+    /// Get the underlying network packet channels for testing purposes.
+    /// These can be used for the lifetime of the Session
+    /// NOTE: this should only be called once per session, and is only intended for test use
     #[cfg(feature = "test-utils")]
     pub fn get_packet_channels(
         &self,

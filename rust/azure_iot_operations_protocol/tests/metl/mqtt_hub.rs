@@ -20,16 +20,9 @@ const MAX_PENDING_MESSAGES: usize = 10;
 pub struct MqttHub {
     client_id: String,
     event_tx: Option<IncomingPacketsTx>,
-    // event_rx: Option<
-    //     mpsc::UnboundedReceiver<
-    //         azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>,
-    //     >,
-    // >,
     message_tx: Option<
         broadcast::Sender<azure_mqtt::mqtt_proto::Publish<azure_mqtt::buffer_pool::SharedImpl>>,
     >,
-    // operation_tx:
-    //     mpsc::UnboundedSender<azure_mqtt::mqtt_proto::Packet<azure_mqtt::buffer_pool::SharedImpl>>,
     operation_rx: OutgoingPacketsRx,
     packet_id_sequencer: u16,
     puback_queue: VecDeque<TestAckKind>,

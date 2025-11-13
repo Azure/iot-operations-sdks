@@ -1011,9 +1011,9 @@ where
         // Create MQTT Properties
         let publish_properties = PublishProperties {
             correlation_data: Some(correlation_data.clone()),
-            response_topic: Some(response_topic.into()),
+            response_topic: Some(response_topic),
             payload_format_indicator: request.serialized_payload.format_indicator.into(),
-            content_type: Some(request.serialized_payload.content_type.to_string()),
+            content_type: Some(request.serialized_payload.content_type.clone()),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: request.custom_user_data,
             topic_alias: None,

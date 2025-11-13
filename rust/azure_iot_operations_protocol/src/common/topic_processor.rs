@@ -48,7 +48,8 @@ impl std::fmt::Display for TopicPatternError {
 }
 
 impl From<azure_mqtt::topic::TopicError> for TopicPatternError {
-    fn from(value: azure_mqtt::topic::TopicError) -> Self {
+    fn from(_value: azure_mqtt::topic::TopicError) -> Self {
+        // TODO: implement this error conversion or switch to a different error handling method
         todo!()
     }
 }
@@ -290,12 +291,11 @@ impl TopicPattern {
         })
     }
 
-    /// Get the subscribe topic for the pattern
+    /// Get the subscribe topic filter for the pattern
     ///
     /// If a share name is present, it is prepended to the topic pattern
     ///
-    /// Returns the subscribe topic for the pattern
-    #[must_use]
+    /// Returns the subscribe topic filter for the pattern
     pub fn as_subscribe_topic(&self) -> Result<TopicFilter, TopicPatternError> {
         let mut topic = self
             .pattern_regex
@@ -304,8 +304,7 @@ impl TopicPattern {
         if let Some(share_name) = &self.share_name {
             topic = format!("$share/{share_name}/{topic}");
         }
-        let topic_filter = TopicFilter::new(&topic)?;
-        Ok(topic_filter)
+        Ok(TopicFilter::new(&topic)?)
     }
 
     /// Get the publish topic for the pattern
@@ -365,8 +364,7 @@ impl TopicPattern {
         }
 
         publish_topic.push_str(&self.dynamic_pattern[last_match..]);
-        let topic_name = TopicName::new(&publish_topic)?;
-        Ok(topic_name)
+        Ok(TopicName::new(&publish_topic)?)
     }
 
     /// Compare an MQTT topic name to the [`TopicPattern`], identifying tokens in the topic name and
@@ -535,19 +533,19 @@ mod tests {
         );
     }
 
-    // #[test_case("test", "test"; "no token")]
-    // #[test_case("{wildToken}", "+"; "single token")]
-    // #[test_case("{wildToken}/test", "+/test"; "token at start")]
-    // #[test_case("test/{wildToken}", "test/+"; "token at end")]
-    // #[test_case("test/{wildToken}/test", "test/+/test"; "token in middle")]
-    // #[test_case("{wildToken}/{wildToken}", "+/+"; "multiple tokens")]
-    // #[test_case("{wildToken}/test/{wildToken}", "+/test/+"; "token at start and end")]
-    // #[test_case("{wildToken1}/{wildToken2}", "+/+"; "multiple wildcards")]
-    // fn test_topic_pattern_as_subscribe_topic(pattern: &str, result: &str) {
-    //     let pattern = TopicPattern::new(pattern, None, None, &HashMap::new()).unwrap();
+    #[test_case("test", "test"; "no token")]
+    #[test_case("{wildToken}", "+"; "single token")]
+    #[test_case("{wildToken}/test", "+/test"; "token at start")]
+    #[test_case("test/{wildToken}", "test/+"; "token at end")]
+    #[test_case("test/{wildToken}/test", "test/+/test"; "token in middle")]
+    #[test_case("{wildToken}/{wildToken}", "+/+"; "multiple tokens")]
+    #[test_case("{wildToken}/test/{wildToken}", "+/test/+"; "token at start and end")]
+    #[test_case("{wildToken1}/{wildToken2}", "+/+"; "multiple wildcards")]
+    fn test_topic_pattern_as_subscribe_topic(pattern: &str, result: &str) {
+        let pattern = TopicPattern::new(pattern, None, None, &HashMap::new()).unwrap();
 
-    //     assert_eq!(pattern.as_subscribe_topic(), result);
-    // }
+        assert_eq!(pattern.as_subscribe_topic().unwrap().as_str(), result);
+    }
 
     #[test_case("invalid ShareName"; "contains space")]
     #[test_case("invalid+ShareName"; "contains plus")]
@@ -562,43 +560,43 @@ mod tests {
         assert!(matches!(err.kind(), TopicPatternErrorKind::ShareName(s) if s == share_name));
     }
 
-    // #[test]
-    // fn test_topic_pattern_methods_with_share_name() {
-    //     let share_name = "validShareName";
-    //     let pattern = "test/{testToken1}";
-    //     let result = "$share/validShareName/test/testRepl1";
+    #[test]
+    fn test_topic_pattern_methods_with_share_name() {
+        let share_name = "validShareName";
+        let pattern = "test/{testToken1}";
+        let result = "$share/validShareName/test/testRepl1";
 
-    //     let pattern = TopicPattern::new(
-    //         pattern,
-    //         Some(share_name.to_string()),
-    //         None,
-    //         &create_topic_tokens(),
-    //     )
-    //     .unwrap();
+        let pattern = TopicPattern::new(
+            pattern,
+            Some(share_name.to_string()),
+            None,
+            &create_topic_tokens(),
+        )
+        .unwrap();
 
-    //     assert_eq!(pattern.as_subscribe_topic(), result);
-    //     assert_eq!(
-    //         pattern.as_publish_topic(&HashMap::new()).unwrap(),
-    //         "test/testRepl1"
-    //     );
-    // }
+        assert_eq!(pattern.as_subscribe_topic().unwrap().as_str(), result);
+        assert_eq!(
+            pattern.as_publish_topic(&HashMap::new()).unwrap().as_str(),
+            "test/testRepl1"
+        );
+    }
 
-    // #[test_case("test", &HashMap::new(), "test"; "no token")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "testRepl"; "single token")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "testReplLonger".to_string())]), "testReplLonger"; "single token long replacement")]
-    // #[test_case("{testToken}/test", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "testRepl/test"; "token at start")]
-    // #[test_case("test/{testToken}", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "test/testRepl"; "token at end")]
-    // #[test_case("test/{testToken}/test", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "test/testRepl/test"; "token in middle")]
-    // #[test_case("{testToken1}/{testToken2}", &HashMap::from([("testToken1".to_string(), "testRepl1".to_string()), ("testToken2".to_string(), "testRepl2".to_string())]), "testRepl1/testRepl2"; "multiple tokens")]
-    // fn test_topic_pattern_as_publish_topic_valid(
-    //     pattern: &str,
-    //     tokens: &HashMap<String, String>,
-    //     result: &str,
-    // ) {
-    //     let pattern = TopicPattern::new(pattern, None, None, tokens).unwrap();
+    #[test_case("test", &HashMap::new(), "test"; "no token")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "testRepl"; "single token")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "testReplLonger".to_string())]), "testReplLonger"; "single token long replacement")]
+    #[test_case("{testToken}/test", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "testRepl/test"; "token at start")]
+    #[test_case("test/{testToken}", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "test/testRepl"; "token at end")]
+    #[test_case("test/{testToken}/test", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "test/testRepl/test"; "token in middle")]
+    #[test_case("{testToken1}/{testToken2}", &HashMap::from([("testToken1".to_string(), "testRepl1".to_string()), ("testToken2".to_string(), "testRepl2".to_string())]), "testRepl1/testRepl2"; "multiple tokens")]
+    fn test_topic_pattern_as_publish_topic_valid(
+        pattern: &str,
+        tokens: &HashMap<String, String>,
+        result: &str,
+    ) {
+        let pattern = TopicPattern::new(pattern, None, None, tokens).unwrap();
 
-    //     assert_eq!(pattern.as_publish_topic(tokens).unwrap(), result);
-    // }
+        assert_eq!(pattern.as_publish_topic(tokens).unwrap().as_str(), result);
+    }
 
     #[test_case("{testToken}", &HashMap::new(), "testToken", ""; "no replacement")]
     #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid Replacement".to_string())]), "testToken", "invalid Replacement"; "replacement contains space")]

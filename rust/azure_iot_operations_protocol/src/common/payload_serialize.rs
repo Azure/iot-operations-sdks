@@ -163,7 +163,7 @@ impl PayloadSerialize for BypassPayload {
         };
         Ok(BypassPayload {
             content_type: ct,
-            format_indicator: format_indicator.clone(),
+            format_indicator: *format_indicator,
             payload: payload.to_vec(),
         })
     }
@@ -226,27 +226,33 @@ mod tests {
 
     use crate::common::payload_serialize::FormatIndicator;
 
-    #[test_case(&FormatIndicator::UnspecifiedBytes; "UnspecifiedBytes")]
-    #[test_case(&FormatIndicator::Utf8EncodedCharacterData; "Utf8EncodedCharacterData")]
-    fn test_to_from_u8(prop: &FormatIndicator) {
-        assert_eq!(
-            prop,
-            &FormatIndicator::try_from(Some(prop.clone() as u8)).unwrap()
-        );
+    #[test_case(FormatIndicator::UnspecifiedBytes; "UnspecifiedBytes")]
+    #[test_case(FormatIndicator::Utf8EncodedCharacterData; "Utf8EncodedCharacterData")]
+    fn test_to_from_u8(prop: FormatIndicator) {
+        assert_eq!(prop, FormatIndicator::try_from(Some(prop as u8)).unwrap());
     }
 
-    #[test_case(Some(0), &FormatIndicator::UnspecifiedBytes; "0_to_UnspecifiedBytes")]
-    #[test_case(Some(1), &FormatIndicator::Utf8EncodedCharacterData; "1_to_Utf8EncodedCharacterData")]
-    #[test_case(None, &FormatIndicator::UnspecifiedBytes; "None_to_UnspecifiedBytes")]
-    fn test_from_option_u8_success(value: Option<u8>, expected: &FormatIndicator) {
+    #[test_case(Some(0), FormatIndicator::UnspecifiedBytes; "0_to_UnspecifiedBytes")]
+    #[test_case(Some(1), FormatIndicator::Utf8EncodedCharacterData; "1_to_Utf8EncodedCharacterData")]
+    #[test_case(None, FormatIndicator::UnspecifiedBytes; "None_to_UnspecifiedBytes")]
+    fn test_from_option_u8_success(value: Option<u8>, expected: FormatIndicator) {
         let res = FormatIndicator::try_from(value);
         assert!(res.is_ok());
-        assert_eq!(expected, &res.unwrap());
+        assert_eq!(expected, res.unwrap());
     }
 
     #[test_case(Some(2); "2")]
     #[test_case(Some(255); "255")]
     fn test_from_option_u8_failure(value: Option<u8>) {
         assert!(&FormatIndicator::try_from(value).is_err());
+    }
+
+    #[test_case(FormatIndicator::UnspecifiedBytes; "UnspecifiedBytes")]
+    #[test_case(FormatIndicator::Utf8EncodedCharacterData; "Utf8EncodedCharacterData")]
+    fn test_to_from_mqtt_format_indicator(prop: FormatIndicator) {
+        assert_eq!(
+            prop,
+            FormatIndicator::from(azure_mqtt::packet::PayloadFormatIndicator::from(prop))
+        );
     }
 }

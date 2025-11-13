@@ -13,6 +13,7 @@ publish = true
 
 [dependencies]
 azure_iot_operations_mqtt = { version = "0.11.0", path = "../azure_iot_operations_mqtt", registry = "aio-sdks" }
+azure_mqtt = { version = "0.1.0", path = "../../../mqtt-client" }
 bytes.workspace = true
 derive_builder.workspace = true
 iso8601-duration = "0.2.0"
@@ -24,7 +25,6 @@ chrono.workspace = true
 regex = "1.11.0"
 thiserror.workspace = true
 fluent-uri = "0.3.2"
-azure_mqtt = { version = "0.1.0", path = "../../../mqtt-client" }
 
 [dev-dependencies]
 async-std = "1.12"

@@ -257,6 +257,7 @@ impl AzureMqttConnectParameters {
     }
 
     #[cfg(feature = "test-utils")]
+    #[allow(clippy::unnecessary_wraps)]
     pub fn connection_transport_config(
         &mut self,
     ) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
@@ -528,7 +529,9 @@ impl OutgoingPacketsRx {
     }
 
     /// Used to swap out the underlying channel on new connects
-    /// TODO: could not swap this channel and always keep a clone of the tx so that it never closes?
+    /// NOTE: We could keep a clone of the tx and return it instead of swapping the underlying rx.
+    /// This would remove the possibility of the tx ever being closed. However, we still need the
+    /// rx to be under an Arc<Mutex> to allow cloning the [`OutgoingPacketsRx`] struct, so this seems simpler for now.
     fn set_new_rx(
         &self,
         new_rx: UnboundedReceiver<

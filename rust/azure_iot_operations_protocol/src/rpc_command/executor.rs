@@ -474,18 +474,6 @@ where
 
         // Get pub sub and receiver from the mqtt session
         let mqtt_receiver = client.create_filtered_pub_receiver(request_topic_filter.clone());
-        // {
-        //     Ok(receiver) => receiver,
-        //     Err(e) => {
-        //         return Err(AIOProtocolError::new_configuration_invalid_error(
-        //             Some(Box::new(e)),
-        //             "request_topic_pattern",
-        //             Value::String(request_topic_pattern.as_subscribe_topic()),
-        //             Some("Could not parse request topic pattern".to_string()),
-        //             Some(executor_options.command_name),
-        //         ));
-        //     }
-        // };
 
         // Create Command executor
         Ok(Executor {
@@ -700,7 +688,7 @@ where
 
                     // Get response topic
                     let response_topic = if let Some(rt) = properties.response_topic {
-                        if !is_valid_replacement(&rt.as_str()) {
+                        if !is_valid_replacement(rt.as_str()) {
                             log::error!(
                                 "[{}][pkid: {}] Response topic invalid, command response will not be published",
                                 self.command_name,
