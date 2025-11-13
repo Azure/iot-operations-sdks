@@ -21,16 +21,16 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Environment.SetEnvironmentVariable(ConnectorFileMountSettings.ConnectorClientIdEnvVar, "someClientId");
         }
 
-        private class MockAdrClientFactory : IAdrClientWrapperProvider
+        private class MockAdrClientFactory : IAzureDeviceRegistryClientWrapperProvider
         {
-            private readonly IAdrClientWrapper _mockAdrClientWrapper;
+            private readonly IAzureDeviceRegistryClientWrapper _mockAdrClientWrapper;
 
-            public MockAdrClientFactory(IAdrClientWrapper mockAdrClientWrapper)
+            public MockAdrClientFactory(IAzureDeviceRegistryClientWrapper mockAdrClientWrapper)
             {
                 _mockAdrClientWrapper = mockAdrClientWrapper;
             }
 
-            public IAdrClientWrapper CreateAdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
+            public IAzureDeviceRegistryClientWrapper CreateAdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
             {
                 return _mockAdrClientWrapper;
             }
@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task ConnectSingleDeviceSingleAssetSingleDatasetSingleDatapointSingleDestination()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -132,7 +132,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task ConnectSingleDeviceSingleAssetSingleDatasetSingleDataPointMultipleDestinations()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -241,7 +241,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task ConnectSingleDeviceMultipleAssetsSingleDatasetSingleDatapointSingleDestination()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -347,7 +347,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task ConnectMultipleDevicesSingleAssetSingleDatasetSingleDatapointSingleDestination()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -505,7 +505,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task DeletedAssetStopsSampling()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -607,7 +607,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task DeletedDeviceStopsSampling()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -709,7 +709,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task UpdatedAssetContinuesSampling()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -818,7 +818,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory(true);
 
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
@@ -909,7 +909,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task DeletingSingleAssetDoesNotStopSamplingOfOtherAsset()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -1059,7 +1059,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task UnrelatedAssetDoesNotCrashConnector()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -1194,7 +1194,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task ConnectorWaitsForUserCallbacksToComplete()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<ConnectorWorker>> mockLogger = new Mock<ILogger<ConnectorWorker>>();

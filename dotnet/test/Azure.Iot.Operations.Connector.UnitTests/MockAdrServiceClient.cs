@@ -12,7 +12,7 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
     // Note that this is mostly unimplemented. It was only added for mocking around setting notification preference.
-    public class MockAdrServiceClient : IAdrServiceClient
+    public class MockAdrServiceClient : IAzureDeviceRegistryClient
     {
         public event Func<string, string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
         public event Func<string, Asset, Task>? OnReceiveAssetUpdateEventTelemetry;

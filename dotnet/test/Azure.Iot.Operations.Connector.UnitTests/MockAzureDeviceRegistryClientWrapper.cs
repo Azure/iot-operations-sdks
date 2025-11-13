@@ -7,9 +7,9 @@ using Moq;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
-    public class MockAdrClientWrapper : IAdrClientWrapper
+    public class MockAzureDeviceRegistryClientWrapper : IAzureDeviceRegistryClientWrapper
     {
-        public Mock<IAdrClientWrapper> mockClientWrapper { get; set; } = new Mock<IAdrClientWrapper>();
+        public Mock<IAzureDeviceRegistryClientWrapper> mockClientWrapper { get; set; } = new Mock<IAzureDeviceRegistryClientWrapper>();
 
         public event EventHandler<AssetChangedEventArgs>? AssetChanged;
         public event EventHandler<DeviceChangedEventArgs>? DeviceChanged;

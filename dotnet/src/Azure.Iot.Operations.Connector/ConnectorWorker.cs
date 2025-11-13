@@ -28,8 +28,8 @@ namespace Azure.Iot.Operations.Connector
         protected readonly ILogger<ConnectorWorker> _logger;
         private readonly IMqttClient _mqttClient;
         private readonly ApplicationContext _applicationContext;
-        private readonly IAdrClientWrapperProvider _adrClientWrapperFactory;
-        protected IAdrClientWrapper? _adrClient;
+        private readonly IAzureDeviceRegistryClientWrapperProvider _adrClientWrapperFactory;
+        protected IAzureDeviceRegistryClientWrapper? _adrClient;
         private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
         private LeaderElectionClient? _leaderElectionClient;
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
@@ -82,7 +82,7 @@ namespace Azure.Iot.Operations.Connector
             ILogger<ConnectorWorker> logger,
             IMqttClient mqttClient,
             IMessageSchemaProvider messageSchemaProviderFactory,
-            IAdrClientWrapperProvider adrClientWrapperFactory,
+            IAzureDeviceRegistryClientWrapperProvider adrClientWrapperFactory,
             IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null)
         {
             _applicationContext = applicationContext;
