@@ -118,7 +118,8 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="commandTimeout">Optional timeout for the command.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
         /// <returns>The status returned by the Azure Device Registry service.</returns>
-        Task<AssetStatus> GetAssetStatusAsync(string deviceName,
+        Task<AssetStatus> GetAssetStatusAsync(
+            string deviceName,
             string inboundEndpointName,
             string assetName,
             TimeSpan? commandTimeout = null,
@@ -129,7 +130,7 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         /// <param name="deviceName">The name of the device the asset belongs to.</param>
         /// <param name="inboundEndpointName">The name of the inbound endpoint the asset belongs to.</param>
-        /// <param name="status">The status of this asset and its datasets/event groups/streams/management groups.</param>
+        /// <param name="request">The new status of this asset and its datasets/event groups/streams/management groups.</param>
         /// <param name="commandTimeout">The timeout for this RPC command invocation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The status returned by the Azure Device Registry service.</returns>
@@ -147,11 +148,10 @@ namespace Azure.Iot.Operations.Connector
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Update the status of a specific device in the Azure Device Registry service
+        /// Update the status of a specific device in the Azure Device Registry service.
         /// </summary>
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
-        /// <param name="request">The request containing asset status update parameters.</param>
         /// <param name="status">The new status of the device.</param>
         /// <param name="commandTimeout">Optional timeout for the command.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
