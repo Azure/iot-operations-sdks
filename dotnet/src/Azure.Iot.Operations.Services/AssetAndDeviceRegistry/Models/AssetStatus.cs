@@ -57,19 +57,7 @@ public record AssetStatus
     public void UpdateDatasetStatus(AssetDatasetEventStreamStatus newStatus)
     {
         Datasets ??= new();
-
-        foreach (AssetDatasetEventStreamStatus currentStatus in Datasets)
-        {
-            if (currentStatus.Name.Equals(newStatus.Name))
-            {
-                // If the dataset status is already present in the list, update it in place
-                currentStatus.Error = newStatus.Error;
-                currentStatus.MessageSchemaReference = newStatus.MessageSchemaReference;
-                return;
-            }
-        }
-
-        // If the dataset status did not exist in the list, just add it
+        Datasets.RemoveAll((status) => status.Name.Equals(newStatus.Name));
         Datasets.Add(newStatus);
     }
 
@@ -85,18 +73,7 @@ public record AssetStatus
     {
         Streams ??= new();
 
-        foreach (AssetDatasetEventStreamStatus currentStatus in Streams)
-        {
-            if (currentStatus.Name.Equals(newStatus.Name))
-            {
-                // If the dataset status is already present in the list, update it in place
-                currentStatus.Error = newStatus.Error;
-                currentStatus.MessageSchemaReference = newStatus.MessageSchemaReference;
-                return;
-            }
-        }
-
-        // If the dataset status did not exist in the list, just add it
+        Streams.RemoveAll((status) => status.Name.Equals(newStatus.Name));
         Streams.Add(newStatus);
     }
 
@@ -106,22 +83,7 @@ public record AssetStatus
     /// <param name="eventGroupName">The name of the event group to clear all statuses from.</param>
     public void ClearEventGroupStatus(string eventGroupName)
     {
-        if (EventGroups != null)
-        {
-            List<AssetEventGroupStatus> eventGroupStatusesToRemove = new();
-            foreach (AssetEventGroupStatus eventGroupStatus in EventGroups)
-            {
-                if (eventGroupStatus.Name.Equals(eventGroupName))
-                {
-                    eventGroupStatusesToRemove.Add(eventGroupStatus);
-                }
-            }
-
-            foreach (AssetEventGroupStatus eventGroupStatusToRemove in eventGroupStatusesToRemove)
-            {
-                EventGroups.Remove(eventGroupStatusToRemove);
-            }
-        }
+        EventGroups?.RemoveAll((status) => status.Name.Equals(eventGroupName));
     }
 
     /// <summary>
@@ -132,35 +94,15 @@ public record AssetStatus
     public void UpdateEventStatus(string eventGroupName, AssetDatasetEventStreamStatus eventNewStatus)
     {
         EventGroups ??= new();
-
-        foreach (AssetEventGroupStatus eventGroupStatus in EventGroups)
-        {
-            if (eventGroupStatus.Name.Equals(eventGroupName))
-            {
-                eventGroupStatus.Events ??= new();
-                foreach (AssetDatasetEventStreamStatus eventStatus in eventGroupStatus.Events)
+        EventGroups.ForEach(
+            (eventGroupStatus) => {
+                if (eventGroupStatus.Name.Equals(eventGroupName))
                 {
-                    if (eventStatus.Name.Equals(eventNewStatus.Name))
-                    {
-                        // If the event group status exists and it contains this event's status, update it in place
-                        eventStatus.Error = eventNewStatus.Error;
-                        eventStatus.MessageSchemaReference = eventNewStatus.MessageSchemaReference;
-                        return;
-                    }
+                    eventGroupStatus.Events ??= new();
+                    eventGroupStatus.Events.RemoveAll((eventStatus) => eventStatus.Name.Equals(eventNewStatus.Name));
+                    eventGroupStatus.Events.Add(eventNewStatus);
                 }
-
-                // If the event group status exists, but no status was found for this event, just add it.
-                eventGroupStatus.Events.Add(eventNewStatus);
-                return;
-            }
-        }
-
-        // If the event group status did not exist, just add it
-        EventGroups.Add(new AssetEventGroupStatus()
-        {
-            Name = eventGroupName,
-            Events = new List<AssetDatasetEventStreamStatus> { eventNewStatus }
-        });
+            });
     }
 
     /// <summary>
@@ -171,35 +113,14 @@ public record AssetStatus
     public void UpdateManagementGroupStatus(string managementGroupName, AssetManagementGroupActionStatus actionNewStatus)
     {
         ManagementGroups ??= new();
-
-        foreach (AssetManagementGroupStatus managementGroupStatus in ManagementGroups)
-        {
+        ManagementGroups.ForEach(
+            (managementGroupStatus) => {
             if (managementGroupStatus.Name.Equals(managementGroupName))
             {
                 managementGroupStatus.Actions ??= new();
-                foreach (AssetManagementGroupActionStatus actionStatus in managementGroupStatus.Actions)
-                {
-                    if (actionStatus.Name.Equals(actionNewStatus.Name))
-                    {
-                        // If the management group status exists and it contains this action's status, update it in place
-                        actionStatus.Error = actionNewStatus.Error;
-                        actionStatus.RequestMessageSchemaReference = actionNewStatus.RequestMessageSchemaReference;
-                        actionStatus.ResponseMessageSchemaReference = actionNewStatus.ResponseMessageSchemaReference;
-                        return;
-                    }
-                }
-
-                // If the management group status exists, but no status was found for this action, just add it.
+                managementGroupStatus.Actions.RemoveAll((actionStatus) => actionStatus.Name.Equals(actionNewStatus.Name));
                 managementGroupStatus.Actions.Add(actionNewStatus);
-                return;
             }
-        }
-
-        // If the management group status did not exist, just add it
-        ManagementGroups.Add(new AssetManagementGroupStatus()
-        {
-            Name = managementGroupName,
-            Actions = new List<AssetManagementGroupActionStatus> { actionNewStatus }
         });
     }
 }
