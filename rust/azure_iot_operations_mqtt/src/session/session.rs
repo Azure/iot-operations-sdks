@@ -11,12 +11,11 @@ use azure_mqtt::{
     packet::{ConnAck, DisconnectProperties, SessionExpiryInterval},
 };
 use tokio::sync::Notify;
-use tokio_util::sync::CancellationToken;
 
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::managed_client::SessionManagedClient;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy, ConnectionLoss};
-use crate::session::state2::SessionState;
+use crate::session::state::SessionState;
 use crate::session::{
     SessionConfigError, SessionError, SessionErrorRepr, SessionExitError, SessionExitErrorKind,
 };
@@ -65,9 +64,9 @@ pub struct Session {
     /// Underlying MQTT client
     client: azure_mqtt::client::Client,
     /// Underlying MQTT Receiver
-    receiver: azure_mqtt::client::Receiver,
+    receiver: Option<azure_mqtt::client::Receiver>,
     /// Underlying MQTT connect handle
-    connect_handle: Option<azure_mqtt::client::ConnectHandle>, // TODO: think about making an enum for this tied to session state to make it clearer that None is the state when this is owned somewhere else
+    connect_handle: Option<azure_mqtt::client::ConnectHandle>, 
     /// disconnect handle
     disconnect_handle: Arc<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
     /// Underlying MQTT reauthorization handle
@@ -121,7 +120,9 @@ impl Session {
 
         Ok(Self {
             client,
-            receiver: receiver,
+            // TODO: Ideally, receiver would not be Option, but it's done this way to keep the borrow checker happy.
+            // The more correct solution is to add internal substructs to Session that allow mutability to be scoped better.
+            receiver: Some(receiver),
             connect_handle: Some(connect_handle),
             disconnect_handle: Arc::new(Mutex::new(None)),
             reauth_handle: None,
@@ -166,25 +167,29 @@ impl Session {
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
     pub async fn run(mut self) -> Result<(), SessionError> {
+        // TODO: Start monitoring SAT auth here, keeping the value updated.
+
+        // NOTE: This task does not need to be cleaned up. It exits gracefully on its own,
+        // without the need for explicit cancellation after Session is dropped at the end
+        // of this method.
+        tokio::task::spawn(Session::receive(
+            self.receiver.take().expect("Receiver should always be present at start of run"),
+            self.incoming_pub_dispatcher.clone(),
+        ));
+
         let mut clean_start = self.connect_parameters.initial_clean_start;
         let mut prev_connected = false;
         let mut prev_reconnection_attempts = 0;
-
-        // TODO: Start monitoring SAT auth here, keeping the value updated.
-
-        // TODO: run receiver? How to get it out of the struct? It's gotta be Option, right?
-        // Ah damn, there's the matter of the dispatcher too....
-        let receiver = self.receiver;
-
-        let jh = tokio::task::spawn(receive(&receiver));
-
         loop {
+            log::debug!("Attempting to connect MQTT session (clean_start={clean_start})");
             let (connection, connack) = match self.connect(clean_start).await {
                 Ok((connection, connack)) => (connection, connack),
                 Err(e) => {
+                    log::debug!("Failed to connect MQTT session: {e:?}");
                     prev_reconnection_attempts += 1;
                     match self.reconnect_policy.connect_failure_reconnect_delay(prev_reconnection_attempts, &e) {
                         Some(delay) => {
+                            log::debug!("Retrying connect in {delay:?}...");
                             tokio::time::sleep(delay).await;
                             continue;
                         },
@@ -199,6 +204,9 @@ impl Session {
                 return Err(SessionErrorRepr::SessionLost.into())
             }
 
+            log::debug!("Connected MQTT session: {connack:?}");
+            self.state.transition_connected();
+
             // Indicate we have established a connection at least once, and will now attempt
             // to maintain this MQTT session.
             clean_start = false;
@@ -209,6 +217,8 @@ impl Session {
 
             let (connect_handle, disconnected_event) = connection.run_until_disconnect().await;
             self.connect_handle = Some(connect_handle);
+            *self.disconnect_handle.lock().unwrap() = None;
+            self.state.transition_disconnected();
             let connection_loss = match disconnected_event {
                 // User-initiated disconnect with exit handle
                 // TODO: Is this truly the only way this happens? I think so, but double-check
@@ -302,46 +312,36 @@ impl Session {
         };
         result
     }
+
+    async fn receive(mut receiver: azure_mqtt::client::Receiver, dispatcher: Arc<Mutex<IncomingPublishDispatcher>>) {
+        while let Some((publish, manual_ack)) = receiver.recv().await {
+            log::debug!("Incoming PUBLISH: {publish:?}");
+            // Dispatch the message to receivers
+            if dispatcher
+                .lock()
+                .unwrap()
+                .dispatch_publish(&publish, manual_ack)
+                == 0
+            {
+                // If there are no valid dispatch targets, the publish was auto-acked.
+                match publish.qos {
+                    azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
+                        log::warn!(
+                            "No matching receivers for PUBLISH recieved at QoS 0. Discarding."
+                        );
+                    }
+                    azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info)
+                    | azure_mqtt::packet::DeliveryQoS::ExactlyOnce(delivery_info) => {
+                        log::warn!(
+                            "No matching receivers for PUBLISH with PKID {}. Auto-acked PUBLISH.",
+                            delivery_info.packet_identifier
+                        );
+                    }
+                }
+            }
+        }
+    }
 }
-
-
-async fn receive(receiver: &azure_mqtt::client::Receiver) {
-    unimplemented!()
-}
-
-//     /// TODO: acking here needs to be adjusted
-//     async fn receive(&mut self) {
-//         loop {
-//             while let Some((publish, manual_ack)) = self.receiver.recv().await {
-//                 log::debug!("Incoming PUBLISH: {publish:?}");
-//                 // Dispatch the message to receivers
-//                 if self
-//                     .incoming_pub_dispatcher
-//                     .lock()
-//                     .unwrap()
-//                     .dispatch_publish(&publish, manual_ack)
-//                     == 0
-//                 {
-//                     // If there are no valid dispatch targets, the publish was auto-acked.
-//                     match publish.qos {
-//                         azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
-//                             log::warn!(
-//                                 "No matching receivers for PUBLISH recieved at QoS 0. Discarding."
-//                             );
-//                         }
-//                         azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info)
-//                         | azure_mqtt::packet::DeliveryQoS::ExactlyOnce(delivery_info) => {
-//                             log::warn!(
-//                                 "No matching receivers for PUBLISH with PKID {}. Auto-acked PUBLISH.",
-//                                 delivery_info.packet_identifier
-//                             );
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
 
 // /// Run background tasks for [`Session.run()`]
 // async fn run_background(
@@ -438,7 +438,7 @@ impl SessionExitHandle {
             // disconnect handle from the weak reference, meaning the Session (and the client
             // inside it has not dropped
             .or(Err(SessionExitError {
-                attempted: true,
+                attempted: false,
                 kind: SessionExitErrorKind::Detached,
             }))
         
@@ -448,81 +448,18 @@ impl SessionExitHandle {
 
 
 
-    // /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
-    // /// This will cause the [`Session::run()`] method to return.
-    // ///
-    // /// The [`Session`] will be granted a period of 1 second to attempt a graceful exit before
-    // /// forcing the exit. If the exit is forced, the broker will not be aware the MQTT session
-    // /// has ended.
-    // ///
-    // /// Returns true if the exit was graceful, and false if the exit was forced.
-    // pub async fn exit_force(&self) -> bool {
-    //     // TODO: There might be a way to optimize this a bit better if we know we're disconnected,
-    //     // but I don't wanna mess around with this until we have mockable unit testing
-    //     log::debug!("Attempting to exit session gracefully before force exiting");
-    //     // Ignore the result here - we don't care
-    //     let _ = self.trigger_exit_user();
-    //     // 1 second grace period to gracefully complete
-    //     tokio::select! {
-    //         () = tokio::time::sleep(Duration::from_secs(1)) => {
-    //             log::debug!("Grace period for graceful session exit expired. Force exiting session");
-    //             // NOTE: There is only one waiter on this Notify at any time.
-    //             self.force_exit.notify_one();
-    //             false
-    //         },
-    //         () = self.state.condition_exited() => {
-    //             log::debug!("Session exited gracefully without need for force exit");
-    //             true
-    //         }
-    //     }
-    // }
-
-    // /// Trigger a session exit, specifying the end user as the issuer of the request
-    // fn trigger_exit_user(&self) -> Result<(), SessionExitError> {
-    //     self.state.transition_user_desire_exit();
-    //     match self.disconnector.lock().unwrap().take() {
-    //         Some(disconnector) => Ok(disconnector.disconnect(
-    //             &azure_mqtt::packet::DisconnectProperties {
-    //                 session_expiry_interval: Some(
-    //                     azure_mqtt::packet::SessionExpiryInterval::Duration(0),
-    //                 ),
-    //                 ..Default::default()
-    //             },
-    //         )?),
-    //         // currently no disconnect handle, so we aren't connected
-    //         None => Err(SessionExitError {
-    //             attempted: false,
-    //             kind: SessionExitErrorKind::BrokerUnavailable,
-    //         }),
-    //     }
-    // }
-
-    // /// Trigger a session exit, specifying the internal session logic as the issuer of the request
-    // fn trigger_exit_internal(&self) -> Result<(), SessionExitError> {
-    //     self.state.transition_session_desire_exit();
-    //     match self.disconnector.lock().unwrap().take() {
-    //         Some(disconnector) => Ok(disconnector.disconnect(
-    //             &azure_mqtt::packet::DisconnectProperties {
-    //                 session_expiry_interval: Some(
-    //                     azure_mqtt::packet::SessionExpiryInterval::Duration(0),
-    //                 ),
-    //                 ..Default::default()
-    //             },
-    //         )?),
-    //         // currently no disconnect handle, so we aren't connected
-    //         None => Err(SessionExitError {
-    //             attempted: false,
-    //             kind: SessionExitErrorKind::BrokerUnavailable,
-    //         }),
-    //     }
-    // }
+    /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// The [`Session`] will be granted a period of 1 second to attempt a graceful exit before
+    /// forcing the exit. If the exit is forced, the broker will not be aware the MQTT session
+    /// has ended.
+    ///
+    /// Returns true if the exit was graceful, and false if the exit was forced.
+    pub async fn exit_force(&self) -> bool {
+        unimplemented!()
+    }
 }
-
-
-
-
-
-
 
 
 
@@ -531,7 +468,7 @@ impl SessionExitHandle {
 /// This is largely for informational purposes.
 #[derive(Clone)]
 pub struct SessionMonitor {
-    state: Arc<SessionState>,
+    state: Arc<SessionState>,   // TODO: should this be a weakref?
 }
 
 impl SessionMonitor {
