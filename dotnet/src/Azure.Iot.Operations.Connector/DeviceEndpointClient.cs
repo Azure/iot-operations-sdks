@@ -65,8 +65,6 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Update the status of a specific device in the Azure Device Registry service
         /// </summary>
-        /// <param name="deviceName">The name of the device.</param>
-        /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
         /// <param name="status">The new status of the device.</param>
         /// <param name="commandTimeout">Optional timeout for the command.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
