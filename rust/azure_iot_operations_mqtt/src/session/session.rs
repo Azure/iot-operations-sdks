@@ -86,6 +86,37 @@ impl Session {
     /// # Errors
     /// Returns a [`SessionConfigError`] if there are errors using the session options.
     pub fn new(options: SessionOptions) -> Result<Self, SessionConfigError> {
+        Self::internal_new(
+            options,
+            #[cfg(feature = "test-utils")]
+            false,
+        )
+    }
+
+    /// Create a new [`Session`] with the provided options structure that uses test
+    /// network packet injection instead of a real network connection.
+    ///
+    /// # Errors
+    /// Returns a [`SessionConfigError`] if there are errors using the session options.
+    #[cfg(feature = "test-utils")]
+    pub fn new_with_test_packet_injection(
+        options: SessionOptions,
+    ) -> Result<Self, SessionConfigError> {
+        Self::internal_new(
+            options,
+            #[cfg(feature = "test-utils")]
+            true,
+        )
+    }
+
+    /// Create a new [`Session`] with the provided options structure.
+    ///
+    /// # Errors
+    /// Returns a [`SessionConfigError`] if there are errors using the session options.
+    fn internal_new(
+        options: SessionOptions,
+        #[cfg(feature = "test-utils")] use_test_transport_config: bool,
+    ) -> Result<Self, SessionConfigError> {
         let client_id = options.connection_settings.client_id.clone();
 
         // Add AIO metric and features to user properties when using AIO MQTT broker features
@@ -108,6 +139,8 @@ impl Session {
                 options.max_packet_identifier,
                 options.publish_qos0_queue_size,
                 options.publish_qos1_qos2_queue_size,
+                #[cfg(feature = "test-utils")]
+                use_test_transport_config,
             )?;
 
         let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options);
@@ -137,6 +170,10 @@ impl Session {
         crate::azure_mqtt_adapter::IncomingPacketsTx,
         crate::azure_mqtt_adapter::OutgoingPacketsRx,
     ) {
+        assert!(
+            self.connect_parameters.use_test_transport_config,
+            "get_packet_channels called on Session not configured for test transport"
+        );
         (
             self.connect_parameters.incoming_packets_tx.clone(),
             self.connect_parameters.outgoing_packets_rx.clone(),

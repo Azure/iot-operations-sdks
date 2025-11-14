@@ -190,22 +190,17 @@ pub struct AzureMqttConnectParameters {
     sat_file: Option<String>,
 
     /// properties used to create the `ConnectionTransportConfig` on demand
-    #[cfg(not(feature = "test-utils"))]
     ca_file: Option<String>,
-    #[cfg(not(feature = "test-utils"))]
     cert_file: Option<String>,
-    #[cfg(not(feature = "test-utils"))]
     key_file: Option<String>,
-    #[cfg(not(feature = "test-utils"))]
     key_password_file: Option<String>,
-    #[cfg(not(feature = "test-utils"))]
     use_tls: bool,
-    #[cfg(not(feature = "test-utils"))]
     hostname: String,
-    #[cfg(not(feature = "test-utils"))]
     tcp_port: u16,
 
     /// properties for testing
+    #[cfg(feature = "test-utils")]
+    pub use_test_transport_config: bool,
     #[cfg(feature = "test-utils")]
     pub incoming_packets_tx: IncomingPacketsTx,
     #[cfg(feature = "test-utils")]
@@ -241,10 +236,21 @@ impl AzureMqttConnectParameters {
     ///
     /// # Errors
     /// Returns [`ConnectionSettingsAdapterError`] if there is an error creating the config
-    #[cfg(not(feature = "test-utils"))]
     pub fn connection_transport_config(
         &self,
     ) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
+        #[cfg(feature = "test-utils")]
+        if self.use_test_transport_config {
+            let (incoming_packets_tx, incoming_packets_rx) = tokio::sync::mpsc::unbounded_channel();
+            let (outgoing_packets_tx, outgoing_packets_rx) = tokio::sync::mpsc::unbounded_channel();
+            self.incoming_packets_tx.set_new_tx(incoming_packets_tx);
+            self.outgoing_packets_rx.set_new_rx(outgoing_packets_rx);
+            return Ok(ConnectionTransportConfig::Test {
+                incoming_packets: incoming_packets_rx,
+                outgoing_packets: outgoing_packets_tx,
+            });
+        }
+
         create_connection_transport_config(
             self.ca_file.clone(),
             self.cert_file.clone(),
@@ -254,21 +260,6 @@ impl AzureMqttConnectParameters {
             self.hostname.clone(),
             self.tcp_port,
         )
-    }
-
-    #[cfg(feature = "test-utils")]
-    #[allow(clippy::unnecessary_wraps)]
-    pub fn connection_transport_config(
-        &mut self,
-    ) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
-        let (incoming_packets_tx, incoming_packets_rx) = tokio::sync::mpsc::unbounded_channel();
-        let (outgoing_packets_tx, outgoing_packets_rx) = tokio::sync::mpsc::unbounded_channel();
-        self.incoming_packets_tx.set_new_tx(incoming_packets_tx);
-        self.outgoing_packets_rx.set_new_rx(outgoing_packets_rx);
-        Ok(ConnectionTransportConfig::Test {
-            incoming_packets: incoming_packets_rx,
-            outgoing_packets: outgoing_packets_tx,
-        })
     }
 }
 
@@ -287,6 +278,7 @@ impl MqttConnectionSettings {
         max_packet_identifier: azure_mqtt::packet::PacketIdentifier,
         publish_qos0_queue_size: usize,
         publish_qos1_qos2_queue_size: usize,
+        #[cfg(feature = "test-utils")] use_test_transport_config: bool,
     ) -> Result<(ClientOptions, AzureMqttConnectParameters), ConnectionSettingsAdapterError> {
         let client_options = ClientOptions {
             client_id: Some(self.client_id),
@@ -330,7 +322,6 @@ impl MqttConnectionSettings {
         )?;
 
         // not used, but we want to validate failures early.
-        #[cfg(not(feature = "test-utils"))]
         let _connection_transport_config = create_connection_transport_config(
             self.ca_file.clone(),
             self.cert_file.clone(),
@@ -355,19 +346,12 @@ impl MqttConnectionSettings {
                 will: None,
                 username: self.username,
                 password,
-                #[cfg(not(feature = "test-utils"))]
                 ca_file: self.ca_file,
-                #[cfg(not(feature = "test-utils"))]
                 cert_file: self.cert_file,
-                #[cfg(not(feature = "test-utils"))]
                 key_file: self.key_file,
-                #[cfg(not(feature = "test-utils"))]
                 key_password_file: self.key_password_file,
-                #[cfg(not(feature = "test-utils"))]
                 use_tls: self.use_tls,
-                #[cfg(not(feature = "test-utils"))]
                 hostname: self.hostname,
-                #[cfg(not(feature = "test-utils"))]
                 tcp_port: self.tcp_port,
                 connect_properties,
                 connection_timeout: self.connection_timeout,
@@ -380,6 +364,8 @@ impl MqttConnectionSettings {
                 outgoing_packets_rx: OutgoingPacketsRx {
                     outgoing_packets_rx: Arc::new(Mutex::new(outgoing_packets_rx)),
                 },
+                #[cfg(feature = "test-utils")]
+                use_test_transport_config,
             },
         ))
     }
@@ -545,6 +531,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            false,
         );
         assert!(result.is_ok());
     }
@@ -565,6 +552,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            false,
         );
         assert!(result.is_ok());
     }
@@ -584,6 +572,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            false,
         );
         assert!(result.is_ok());
     }
@@ -607,6 +596,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            false,
         );
         assert!(result.is_ok());
     }
@@ -630,6 +620,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            false,
         );
         assert!(result.is_ok());
     }
@@ -654,6 +645,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::new(500).unwrap(),
             200,
             200,
+            false,
         );
         assert!(result.is_ok());
     }
@@ -675,6 +667,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            false,
         );
         assert!(result.is_ok());
     }
@@ -701,6 +694,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            false,
         );
         assert!(result.is_ok());
     }
@@ -725,6 +719,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            false,
         );
         assert!(result.is_ok());
     }
@@ -753,6 +748,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            false,
         );
         assert!(result.is_ok());
     }
@@ -772,6 +768,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            false,
         );
         assert!(result.is_ok());
         assert_eq!(

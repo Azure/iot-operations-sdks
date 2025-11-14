@@ -130,7 +130,7 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(connection_settings)
             .build()?;
-        let session = Session::new(session_options).unwrap();
+        let session = Session::new_with_test_packet_injection(session_options).unwrap();
         let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
         let mqtt_hub = MqttHub::new(
             MqttEmulationLevel::Event,
@@ -186,7 +186,7 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(connection_settings)
             .build()?;
-        let session = Session::new(session_options).unwrap();
+        let session = Session::new_with_test_packet_injection(session_options).unwrap();
         let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
         let mqtt_hub = MqttHub::new(
             MqttEmulationLevel::Event,
@@ -242,7 +242,7 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(connection_settings)
             .build()?;
-        let session = Session::new(session_options).unwrap();
+        let session = Session::new_with_test_packet_injection(session_options).unwrap();
         let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
         let mqtt_hub = MqttHub::new(
             MqttEmulationLevel::Event,
@@ -297,7 +297,7 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(connection_settings)
             .build()?;
-        let session = Session::new(session_options).unwrap();
+        let session = Session::new_with_test_packet_injection(session_options).unwrap();
         let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
         let mqtt_hub = MqttHub::new(
             MqttEmulationLevel::Event,
