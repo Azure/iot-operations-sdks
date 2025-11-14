@@ -1,11 +1,10 @@
 ﻿using System.Buffers;
-using System.Globalization;
-using System.Net.Mime;
 using System.Text.Json;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.StateStore;
-using Microsoft.IdentityModel.Tokens;
 using Xunit;
 
 namespace Azure.Iot.Operations.Connector.IntegrationTests
@@ -79,6 +78,33 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 Assert.Fail("Timed out waiting for polling telemetry connector to push expected data to DSS. This likely means the connector did not deploy successfully");
             }
+
+            await using AzureDeviceRegistryClient adrClient = new(new(), mqttClient);
+
+            // Check that the device status was reported
+            DeviceStatus deviceStatus = await adrClient.GetDeviceStatusAsync("my-thermostat", "my-rest-thermostat-endpoint-name");
+            Assert.NotNull(deviceStatus.Config);
+            Assert.Null(deviceStatus.Config.Error);
+            Assert.NotNull(deviceStatus.Config.LastTransitionTime);
+
+            // Check that both asset statuses were reported
+            AssetStatus asset1Status = await adrClient.GetAssetStatusAsync("my-thermostat", "my-rest-thermostat-endpoint-name", "my-rest-thermostat-asset1");
+            AssetStatus asset2Status = await adrClient.GetAssetStatusAsync("my-thermostat", "my-rest-thermostat-endpoint-name", "my-rest-thermostat-asset2");
+            Assert.NotNull(asset1Status.Config);
+            Assert.Null(asset1Status.Config.Error);
+            Assert.NotNull(asset1Status.Config.LastTransitionTime);
+            Assert.NotNull(asset1Status.Datasets);
+            Assert.Single(asset1Status.Datasets);
+            Assert.Equal("thermostat_status", asset1Status.Datasets.First().Name);
+            Assert.Null(asset1Status.Datasets.First().Error);
+
+            Assert.NotNull(asset2Status.Config);
+            Assert.Null(asset2Status.Config.Error);
+            Assert.NotNull(asset2Status.Config.LastTransitionTime);
+            Assert.NotNull(asset2Status.Datasets);
+            Assert.Single(asset2Status.Datasets);
+            Assert.Equal("thermostat_status", asset2Status.Datasets.First().Name);
+            Assert.Null(asset2Status.Datasets.First().Error);
         }
 
         [Fact]
@@ -122,6 +148,29 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 Assert.Fail("Timed out waiting for TCP connector telemetry to reach MQTT broker. This likely means the connector did not deploy successfully");
             }
+
+            await using AzureDeviceRegistryClient adrClient = new(new(), mqttClient);
+
+            // Check that the device status was reported
+            DeviceStatus deviceStatus = await adrClient.GetDeviceStatusAsync("my-tcp-thermostat", "my_tcp_endpoint");
+            Assert.NotNull(deviceStatus.Config);
+            Assert.Null(deviceStatus.Config.Error);
+            Assert.NotNull(deviceStatus.Config.LastTransitionTime);
+
+            // Check that both asset statuses were reported
+            AssetStatus assetStatus = await adrClient.GetAssetStatusAsync("my-tcp-thermostat", "my_tcp_endpoint", "my-tcp-thermostat-asset");
+            Assert.NotNull(assetStatus.Config);
+            Assert.Null(assetStatus.Config.Error);
+            Assert.NotNull(assetStatus.Config.LastTransitionTime);
+            Assert.NotNull(assetStatus.EventGroups);
+            Assert.Single(assetStatus.EventGroups);
+            var eventGroupStatus = assetStatus.EventGroups.First();
+            Assert.Equal("my-event-group", eventGroupStatus.Name);
+            Assert.NotNull(eventGroupStatus.Events);
+            Assert.Single(eventGroupStatus.Events);
+            var eventStatus = eventGroupStatus.Events.First();
+            Assert.Equal("thermostat_status_changed", eventStatus.Name);
+            Assert.Null(eventStatus.Error);
         }
 
 

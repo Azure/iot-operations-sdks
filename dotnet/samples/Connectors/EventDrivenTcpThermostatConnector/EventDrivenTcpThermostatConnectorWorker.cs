@@ -37,7 +37,10 @@ namespace EventDrivenTcpThermostatConnector
                     currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
                     currentDeviceStatus.Endpoints ??= new();
                     currentDeviceStatus.Endpoints.Inbound ??= new();
-                    currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] ??= new();
+                    if (!currentDeviceStatus.Endpoints.Inbound.ContainsKey(args.InboundEndpointName))
+                    {
+                        currentDeviceStatus.Endpoints.Inbound.Add(args.InboundEndpointName, new());
+                    }
                     return currentDeviceStatus;
                 }, null, cancellationToken);
             }
@@ -88,7 +91,7 @@ namespace EventDrivenTcpThermostatConnector
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
+                    _logger.LogError(e, "Failed to report asset status to Azure Device Registry service");
                 }
                 return;
             }
@@ -110,7 +113,7 @@ namespace EventDrivenTcpThermostatConnector
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
+                    _logger.LogError(e, "Failed to report asset status to Azure Device Registry service");
                 }
                 return;
             }
@@ -206,7 +209,7 @@ namespace EventDrivenTcpThermostatConnector
                                 }
                                 catch (Exception e2)
                                 {
-                                    _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                                    _logger.LogError(e2, "Failed to report asset status to Azure Device Registry service");
                                 }
                             }
                         }
