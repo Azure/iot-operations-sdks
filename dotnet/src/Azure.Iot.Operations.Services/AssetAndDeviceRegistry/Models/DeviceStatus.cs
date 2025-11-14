@@ -14,4 +14,11 @@ public record DeviceStatus
     /// The statuses of each of the endpoints that belong to the device
     /// </summary>
     public DeviceStatusEndpoint? Endpoints { get; set; }
+
+    public void SetEndpointError(string inboundEndpointName, ConfigError endpointError)
+    {
+        Endpoints ??= new();
+        Endpoints.Inbound ??= new();
+        Endpoints.Inbound[inboundEndpointName].Error = endpointError;
+    }
 }
