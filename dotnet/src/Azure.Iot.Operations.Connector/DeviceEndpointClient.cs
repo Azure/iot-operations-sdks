@@ -9,14 +9,14 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// A client for reporting the status of this device and its endpoint
     /// </summary>
-    public class DeviceEndpointClient
+    public class DeviceEndpointClient : IDisposable
     {
         private readonly IAzureDeviceRegistryClientWrapper _adrClient;
         private readonly string _deviceName;
         private readonly string _inboundEndpointName;
 
-        // Used to make getAndUpdate calls behave atomically. Also respected by get and update methods so that a user
-        // does not accidentally update a device while another thread is in the middle of a getAndUpdate call.
+        // Used to make getAndUpdate calls behave atomically so that a user does not accidentally
+        // update a device while another thread is in the middle of a getAndUpdate call.
         private readonly SemaphoreSlim _semaphore = new(0, 1);
 
         internal DeviceEndpointClient(IAzureDeviceRegistryClientWrapper adrClient, string deviceName, string inboundEndpointName)
@@ -104,6 +104,18 @@ namespace Azure.Iot.Operations.Connector
                 _inboundEndpointName,
                 commandTimeout,
                 cancellationToken);
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                _semaphore.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this sempahore is already disposed.
+            }
         }
     }
 }

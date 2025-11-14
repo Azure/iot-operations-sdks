@@ -74,7 +74,23 @@ namespace Azure.Iot.Operations.Connector
 
         public void Dispose()
         {
-            AssetClient.Dispose();
+            try
+            {
+                AssetClient.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this client is already disposed.
+            }
+
+            try
+            {
+                DeviceEndpointClient.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this client is already disposed.
+            }
         }
     }
 }

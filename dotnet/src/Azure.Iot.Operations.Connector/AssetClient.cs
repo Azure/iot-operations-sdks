@@ -8,9 +8,6 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// A client for updating the status of an asset and for forwarding received events and/or sampled datasets.
     /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
     public class AssetClient : IDisposable
     {
         private readonly IAzureDeviceRegistryClientWrapper _adrClient;
@@ -21,8 +18,8 @@ namespace Azure.Iot.Operations.Connector
         private readonly Device _device;
         private readonly Asset _asset;
 
-        // Used to make getAndUpdate calls behave atomically. Also respected by get and update methods so that a user
-        // does not accidentally update an asset while another thread is in the middle of a getAndUpdate call.
+        // Used to make getAndUpdate calls behave atomically so that a user does not accidentally update
+        // an asset while another thread is in the middle of a getAndUpdate call.
         private readonly SemaphoreSlim _semaphore = new(0, 1);
 
         internal AssetClient(IAzureDeviceRegistryClientWrapper adrClient, string deviceName, string inboundEndpointName, string assetName, ConnectorWorker connector, Device device, Asset asset)
@@ -105,7 +102,6 @@ namespace Azure.Iot.Operations.Connector
         {
             return _connector.GetRegisteredEventMessageSchema(_deviceName, _inboundEndpointName, _assetName, eventGroupName, eventName);
         }
-
 
         public void Dispose()
         {

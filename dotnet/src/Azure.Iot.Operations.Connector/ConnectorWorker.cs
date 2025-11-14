@@ -596,7 +596,8 @@ namespace Azure.Iot.Operations.Connector
                         {
                             try
                             {
-                                await WhileDeviceIsAvailable.Invoke(new(args.DeviceName, args.Device, args.InboundEndpointName, _leaderElectionClient, _adrClient!), deviceTaskCancellationTokenSource.Token);
+                                using var deviceAvailableEventArgs = new DeviceAvailableEventArgs(args.DeviceName, args.Device, args.InboundEndpointName, _leaderElectionClient, _adrClient!);
+                                await WhileDeviceIsAvailable.Invoke(deviceAvailableEventArgs, deviceTaskCancellationTokenSource.Token);
                             }
                             catch (OperationCanceledException)
                             {

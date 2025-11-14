@@ -1,12 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Threading;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.LeaderElection;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class DeviceAvailableEventArgs : EventArgs
+    public class DeviceAvailableEventArgs : EventArgs, IDisposable
     {
         /// <summary>
         /// The name of this device.
@@ -49,6 +50,18 @@ namespace Azure.Iot.Operations.Connector
             InboundEndpointName = inboundEndpointName;
             LeaderElectionClient = leaderElectionClient;
             DeviceEndpointClient = new(adrclient, deviceName, inboundEndpointName);
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                DeviceEndpointClient.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this client is already disposed.
+            }
         }
     }
 }
