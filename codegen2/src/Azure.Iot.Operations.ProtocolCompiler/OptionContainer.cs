@@ -10,8 +10,8 @@
         /// <summary>Gets or sets the file(s) containing WoT Thing Description(s) to process.</summary>
         public required FileInfo[] ThingFiles { get; set; }
 
-        /// <summary>Gets or sets the filespec(s) of files containing external schema definitions.</summary>
-        public required string[] ExtSchemaFiles { get; set; }
+        /// <summary>Gets or sets the filespec(s) of files containing schema definitions.</summary>
+        public required string[] SchemaFiles { get; set; }
 
         /// <summary>Gets or sets the file containing JSON config for deriving type names from JSON Schema names.</summary>
         public required FileInfo? TypeNamerFile { get; set; }

@@ -44,10 +44,10 @@
                     WriteItems(schemas, options.WorkingDir);
                 }
 
-                FileInfo[] extSchemaFiles = options.ExtSchemaFiles.SelectMany(fs => Directory.GetFiles(Path.GetDirectoryName(fs) ?? string.Empty, Path.GetFileName(fs)), (_, f) => new FileInfo(f)).ToArray();
-                if (extSchemaFiles.Length > 0)
+                FileInfo[] schemaFiles = options.SchemaFiles.SelectMany(fs => Directory.GetFiles(Path.GetDirectoryName(fs) ?? string.Empty, Path.GetFileName(fs)), (_, f) => new FileInfo(f)).ToArray();
+                if (schemaFiles.Length > 0)
                 {
-                    ImportSchemas(extSchemaFiles, generatedSchemas);
+                    ImportSchemas(schemaFiles, generatedSchemas);
                 }
 
                 string? typeNameInfoText = options.TypeNamerFile?.OpenText()?.ReadToEnd();
@@ -162,9 +162,12 @@
 
         private static bool TryConfirmValidOptions(OptionContainer options)
         {
-            if (options.ThingFiles.Length == 0)
+            bool anyThingFiles = options.ThingFiles.Length > 0;
+            bool anySchemaFiles = options.SchemaFiles.Any(fs => Directory.GetFiles(Path.GetDirectoryName(fs) ?? string.Empty, Path.GetFileName(fs)).Any());
+
+            if (!anyThingFiles && !anySchemaFiles)
             {
-                Console.WriteLine("No Thing Description files specified.");
+                Console.WriteLine($"No Thing Description files specified, and no schema files {(options.SchemaFiles.Length > 0 ? "found" : "specified")}.");
                 Console.WriteLine("Use option --help for CLI usage and options.");
                 return false;
             }

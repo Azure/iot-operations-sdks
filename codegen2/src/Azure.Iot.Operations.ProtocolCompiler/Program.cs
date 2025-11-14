@@ -17,9 +17,9 @@
                 description: "File(s) containing WoT Thing Description(s) to process")
             { ArgumentHelpName = "FILEPATH ...", AllowMultipleArgumentsPerToken = true };
 
-            var extSchemasOption = new Option<string[]>(
-                name: "--extSchemas",
-                description: "Filespec(s) of files containing external schema definitions (each may include wildcards).")
+            var schemasOption = new Option<string[]>(
+                name: "--schemas",
+                description: "Filespec(s) of files containing schema definitions (each may include wildcards).")
             { ArgumentHelpName = "FILESPEC ...", AllowMultipleArgumentsPerToken = true };
 
             var typeNamerOption = new Option<FileInfo?>(
@@ -80,7 +80,7 @@
             var rootCommand = new RootCommand("Akri MQTT code generation tool for WoT Thing Descriptions")
         {
             thingFilesOption,
-            extSchemasOption,
+            schemasOption,
             typeNamerOption,
             outDirOption,
             workingDirOption,
@@ -96,7 +96,7 @@
 
             ArgBinder argBinder = new ArgBinder(
                 thingFilesOption,
-                extSchemasOption,
+                schemasOption,
                 typeNamerOption,
                 outDirOption,
                 workingDirOption,

@@ -10,7 +10,7 @@
     public class ArgBinder : BinderBase<OptionContainer>
     {
         private readonly Option<FileInfo[]> thingFiles;
-        private readonly Option<string[]> extSchemaFiles;
+        private readonly Option<string[]> schemaFiles;
         private readonly Option<FileInfo?> typeNamerFile;
         private readonly Option<DirectoryInfo> outputDir;
         private readonly Option<string> workingDir;
@@ -27,7 +27,7 @@
         /// Initializes a new instance of the <see cref="ArgBinder"/> class.
         /// </summary>
         /// <param name="thingFiles">File(s) containing WoT Thing Description(s) to process.</param>
-        /// <param name="extSchemaFiles">Filespec(s) of files containing external schema definitions.</param>
+        /// <param name="schemaFiles">Filespec(s) of files containing schema definitions.</param>
         /// <param name="outputDir">Directory for receiving generated code.</param>
         /// <param name="workingDir">Directory for storing temporary files (relative to outDir unless path is rooted).</param>
         /// <param name="outputSourceSubdir">Subdirectory under outputDir for generated source code.</param>
@@ -40,7 +40,7 @@
         /// <param name="defaultImpl">Generate default (empty) implementations of callbacks.</param>
         public ArgBinder(
             Option<FileInfo[]> thingFiles,
-            Option<string[]> extSchemaFiles,
+            Option<string[]> schemaFiles,
             Option<FileInfo?> typeNamerFile,
             Option<DirectoryInfo> outputDir,
             Option<string> workingDir,
@@ -54,7 +54,7 @@
             Option<bool> defaultImpl)
         {
             this.thingFiles = thingFiles;
-            this.extSchemaFiles = extSchemaFiles;
+            this.schemaFiles = schemaFiles;
             this.typeNamerFile = typeNamerFile;
             this.outputDir = outputDir;
             this.workingDir = workingDir;
@@ -77,7 +77,7 @@
             return new OptionContainer()
             {
                 ThingFiles = bindingContext.ParseResult.GetValueForOption(this.thingFiles)!,
-                ExtSchemaFiles = bindingContext.ParseResult.GetValueForOption(this.extSchemaFiles)!,
+                SchemaFiles = bindingContext.ParseResult.GetValueForOption(this.schemaFiles)!,
                 TypeNamerFile = bindingContext.ParseResult.GetValueForOption(this.typeNamerFile),
                 OutputDir = outputDir,
                 WorkingDir = Path.IsPathRooted(workingDir) ? new DirectoryInfo(workingDir) : new DirectoryInfo(Path.Combine(outputDir.FullName, workingDir)),
