@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// A mandatory timestamp attached to the telemetry message.
         /// </summary>
         /// <remarks>
-        /// A message sent by a <see cref="TelemetrySender{T}"/> will include a non-null timestamp. A message sent 
+        /// A message sent by a <see cref="TelemetrySender{T}"/> will include a non-null timestamp. A message sent
         /// by anything else may or may not include this timestamp.
         /// </remarks>
         public HybridLogicalClock? Timestamp { get; internal set; }
