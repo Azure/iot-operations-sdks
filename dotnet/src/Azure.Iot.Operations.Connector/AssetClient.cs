@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Connector
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally update
         // an asset while another thread is in the middle of a getAndUpdate call.
-        private readonly SemaphoreSlim _semaphore = new(0, 1);
+        private readonly SemaphoreSlim _semaphore = new(1, 1);
 
         internal AssetClient(IAzureDeviceRegistryClientWrapper adrClient, string deviceName, string inboundEndpointName, string assetName, ConnectorWorker connector, Device device, Asset asset)
         {
@@ -111,7 +111,7 @@ namespace Azure.Iot.Operations.Connector
             }
             catch (ObjectDisposedException)
             {
-                // It's fine if this sempahore is already disposed.
+                // It's fine if this semaphore is already disposed.
             }
         }
 

@@ -19,6 +19,7 @@ public record DeviceStatus
     {
         Endpoints ??= new();
         Endpoints.Inbound ??= new();
+        Endpoints.Inbound[inboundEndpointName] ??= new();
         Endpoints.Inbound[inboundEndpointName].Error = endpointError;
     }
 }

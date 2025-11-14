@@ -428,7 +428,7 @@ namespace Azure.Iot.Operations.Connector
             }
 
             Schema? registeredEventMessageSchema = null;
-            if (!_registeredEventMessageSchemas.ContainsKey($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent}"))
+            if (!_registeredEventMessageSchemas.ContainsKey($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent.Name}"))
             {
                 // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
                 var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, assetEvent.Name, assetEvent);
@@ -461,7 +461,7 @@ namespace Azure.Iot.Operations.Connector
             }
 
             CloudEvent? cloudEvent = null;
-            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent}", out registeredEventMessageSchema))
+            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent.Name}", out registeredEventMessageSchema))
             {
                 if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
                 {

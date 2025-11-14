@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Connector
             Dictionary<string, Timer> datasetsTimers = new();
             _assetsSamplingTimers[args.AssetName] = datasetsTimers;
             Dictionary<string, bool> okayStatusReportedByDataset = new();
-            foreach (AssetDataset dataset in args.Asset.Datasets!) //TODO only send status once per dataset
+            foreach (AssetDataset dataset in args.Asset.Datasets!)
             {
                 okayStatusReportedByDataset.Add(dataset.Name, false);
                 EndpointCredentials? credentials = null;
