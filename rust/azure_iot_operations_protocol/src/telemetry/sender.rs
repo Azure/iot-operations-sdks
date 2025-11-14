@@ -485,29 +485,28 @@ where
 
         // Send publish
         // TODO: use actual QoS value once API is nailed down
-        let publish_result = self
-            .mqtt_client
-            .publish_qos1(
-                message_topic,
-                message.retain,
-                message.serialized_payload.payload,
-                publish_properties,
-            )
-            .await;
-
-        match publish_result {
-            Ok(publish_completion_token) => {
-                // Wait for and handle the puback
-                match publish_completion_token.await {
-                    Ok(puback) => puback.as_result().map_err(|e| {
+        match message.qos {
+            azure_mqtt::packet::QoS::AtMostOnce => {
+                let publish_result = self
+                    .mqtt_client
+                    .publish_qos0(
+                        message_topic,
+                        message.retain,
+                        message.serialized_payload.payload,
+                        publish_properties,
+                    )
+                    .await;
+                match publish_result {
+                    Ok(publish_completion_token) => publish_completion_token.await.map_err(|e| {
+                        log::error!("Publish completion error: {e}");
                         AIOProtocolError::new_mqtt_error(
-                            Some("MQTT Puback indicated failure".to_string()),
+                            Some("MQTT Error on telemetry send publish".to_string()),
                             Box::new(e),
                             None,
                         )
                     }),
                     Err(e) => {
-                        log::error!("Publish completion error: {e}");
+                        log::error!("Publish error: {e}");
                         Err(AIOProtocolError::new_mqtt_error(
                             Some("MQTT Error on telemetry send publish".to_string()),
                             Box::new(e),
@@ -516,14 +515,51 @@ where
                     }
                 }
             }
-            Err(e) => {
-                log::error!("Publish error: {e}");
-                Err(AIOProtocolError::new_mqtt_error(
-                    Some("MQTT Error on telemetry send publish".to_string()),
-                    Box::new(e),
-                    None,
-                ))
+            azure_mqtt::packet::QoS::AtLeastOnce => {
+                let publish_result = self
+                    .mqtt_client
+                    .publish_qos1(
+                        message_topic,
+                        message.retain,
+                        message.serialized_payload.payload,
+                        publish_properties,
+                    )
+                    .await;
+
+                match publish_result {
+                    Ok(publish_completion_token) => {
+                        // Wait for and handle the puback
+                        match publish_completion_token.await {
+                            Ok(puback) => puback.as_result().map_err(|e| {
+                                AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT Puback indicated failure".to_string()),
+                                    Box::new(e),
+                                    None,
+                                )
+                            }),
+                            Err(e) => {
+                                log::error!("Publish completion error: {e}");
+                                Err(AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT Error on telemetry send publish".to_string()),
+                                    Box::new(e),
+                                    None,
+                                ))
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("Publish error: {e}");
+                        Err(AIOProtocolError::new_mqtt_error(
+                            Some("MQTT Error on telemetry send publish".to_string()),
+                            Box::new(e),
+                            None,
+                        ))
+                    }
+                }
             }
+            azure_mqtt::packet::QoS::ExactlyOnce => unreachable!(
+                "QoS::ExactlyOnce is not supported for telemetry sending and isn't possible to set on Message"
+            ),
         }
     }
 }
