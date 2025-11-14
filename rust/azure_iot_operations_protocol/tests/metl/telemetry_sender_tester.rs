@@ -18,8 +18,9 @@ use chrono::{DateTime, Utc};
 use tokio::sync::oneshot;
 use tokio::time;
 
+use crate::metl::aio_protocol_error_checker;
 use crate::metl::defaults::{SenderDefaults, get_sender_defaults};
-use crate::metl::mqtt_hub::MqttHub;
+use crate::metl::mqtt_hub::{MqttHub, to_is_utf8};
 use crate::metl::qos;
 use crate::metl::test_case::TestCase;
 use crate::metl::test_case_action::TestCaseAction;
@@ -28,7 +29,6 @@ use crate::metl::test_case_published_message::TestCasePublishedMessage;
 use crate::metl::test_case_sender::TestCaseSender;
 use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
-use crate::metl::{aio_protocol_error_checker, mqtt_hub::to_is_utf8};
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
@@ -57,7 +57,7 @@ impl TelemetrySenderTester {
             }
         }
 
-        // force connack to be first
+        // force connack to happen before other events are injected
         mqtt_hub.await_operation().await;
         session_monitor.connected().await;
 
@@ -251,7 +251,7 @@ impl TelemetrySenderTester {
                                 catch.error_kind
                             );
                         }
-                    };
+                    }
 
                     None
                 } else {
@@ -364,7 +364,7 @@ impl TelemetrySenderTester {
 
                 if let Some(Some(subject)) = &cloud_event.subject {
                     cloud_event_builder.subject(telemetry::sender::CloudEventSubject::Custom(
-                        subject.to_string(),
+                        subject.clone(),
                     ));
                 }
 
@@ -478,9 +478,7 @@ impl TelemetrySenderTester {
             if let Some(payload) = payload {
                 assert_eq!(published_message.payload, *payload.as_bytes(), "payload");
             } else {
-                assert!(azure_mqtt::buffer_pool::Shared::is_empty(
-                    &published_message.payload
-                ));
+                assert!(&published_message.payload.is_empty());
             }
         }
 
@@ -497,7 +495,7 @@ impl TelemetrySenderTester {
 
         if expected_message.format_indicator.is_some() {
             assert_eq!(
-                to_is_utf8(&expected_message.format_indicator),
+                to_is_utf8(expected_message.format_indicator.as_ref()),
                 published_message.other_properties.payload_is_utf8
             );
         }

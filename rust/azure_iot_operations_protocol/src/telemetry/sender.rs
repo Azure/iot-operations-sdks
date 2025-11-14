@@ -507,10 +507,9 @@ where
                         )
                     }),
                     Err(e) => {
-                        // TODO: adjust logs
-                        log::error!("Puback error: {e}");
+                        log::error!("Publish completion error: {e}");
                         Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT Error on telemetry send puback".to_string()),
+                            Some("MQTT Error on telemetry send publish".to_string()),
                             Box::new(e),
                             None,
                         ))

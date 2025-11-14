@@ -535,10 +535,12 @@ where
                             }
                         },
                         Err(e) => {
-                            // TODO: adjust logs
-                            log::error!("[{}] Unsuback error: {e}", self.command_name);
+                            log::error!(
+                                "[{}] Unsubscribe completion error: {e}",
+                                self.command_name
+                            );
                             return Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on command executor unsuback".to_string()),
+                                Some("MQTT error on command executor unsubscribe".to_string()),
                                 Box::new(e),
                                 Some(self.command_name.clone()),
                             ));
@@ -594,10 +596,9 @@ where
                     })?;
                 }
                 Err(e) => {
-                    // TODO: adjust logs
-                    log::error!("[{}] Suback error: {e}", self.command_name);
+                    log::error!("[{}] Subscribe completion error: {e}", self.command_name);
                     return Err(AIOProtocolError::new_mqtt_error(
-                        Some("MQTT error on command executor suback".to_string()),
+                        Some("MQTT error on command executor subscribe".to_string()),
                         Box::new(e),
                         Some(self.command_name.clone()),
                     ));
@@ -667,24 +668,6 @@ where
 
                     // Clone properties
                     let properties = m.properties;
-                    // if let Some(properties) = &m.properties {
-                    //     properties.clone()
-                    // } else {
-                    //     log::error!(
-                    //         "[{}][pkid: {}] Properties missing",
-                    //         self.command_name,
-                    //         m.pkid
-                    //     );
-                    //     tokio::task::spawn({
-                    //         let executor_cancellation_token_clone =
-                    //             self.executor_cancellation_token.clone();
-                    //         async move {
-                    //             handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
-                    //                 .await;
-                    //         }
-                    //     });
-                    //     continue;
-                    // };
 
                     // Get response topic
                     let response_topic = if let Some(rt) = properties.response_topic {
@@ -725,7 +708,7 @@ where
                     let mut command_expiration_time_calculated = false;
                     let mut response_arguments = ResponseArguments {
                         command_name: self.command_name.clone(),
-                        response_topic, // TODO: maybe change this to TopicName type
+                        response_topic,
                         correlation_data: None,
                         status_code: StatusCode::Ok,
                         status_message: None,
@@ -924,33 +907,12 @@ where
                             }
                         }
 
-                        let topic = m.topic_name.as_str();
-                        // match std::str::from_utf8(&m.topic) {
-                        //     Ok(topic) => topic,
-                        //     Err(e) => {
-                        //         // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
-                        //         response_arguments.status_code = StatusCode::BadRequest;
-                        //         response_arguments.status_message =
-                        //             Some(format!("Error deserializing topic: {e:?}"));
-                        //         break 'process_request;
-                        //     }
-                        // };
-
-                        let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
+                        let topic_tokens = self
+                            .request_topic_pattern
+                            .parse_tokens(m.topic_name.as_str());
 
                         // Deserialize payload
                         let format_indicator = properties.payload_format_indicator.into();
-                        // {
-                        //     Ok(format_indicator) => format_indicator,
-                        //     Err(e) => {
-                        //         log::error!(
-                        //             "[pkid: {}] Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.",
-                        //             pkid
-                        //         );
-                        //         // Use default format indicator
-                        //         FormatIndicator::default()
-                        //     }
-                        // };
                         let payload = match TReq::deserialize(
                             &m.payload,
                             properties.content_type.as_ref(),
@@ -1003,7 +965,6 @@ where
                                 let cache_clone = self.cache.clone();
                                 let executor_cancellation_token_clone =
                                     self.executor_cancellation_token.clone();
-                                // let pkid = m.pkid;
                                 async move {
                                     tokio::select! {
                                         () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
@@ -1380,16 +1341,15 @@ where
                         }
                     }
                     Err(e) => {
-                        // TODO: adjust logs
                         log::error!(
-                            "[{}][pkid: {}] Puback error: {e}",
+                            "[{}][pkid: {}] Publish completion error: {e}",
                             response_arguments.command_name,
                             pkid
                         );
                         if let Some(completion_tx) = completion_tx {
                             // Ignore error as receiver may have been dropped
                             let _ = completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on command executor response puback".to_string()),
+                                Some("MQTT error on command executor response publish".to_string()),
                                 Box::new(e),
                                 Some(response_arguments.command_name.clone()),
                             )));
@@ -1398,7 +1358,6 @@ where
                 }
             }
             Err(e) => {
-                // Unreachable, we control the topic
                 log::error!(
                     "[{}][pkid: {}] Client error on command executor response publish: {e}",
                     response_arguments.command_name,
@@ -1407,13 +1366,9 @@ where
                 // Notify error publishing
                 if let Some(completion_tx) = completion_tx {
                     // Ignore error as receiver may have been dropped
-                    let _ = completion_tx.send(Err(AIOProtocolError::new_internal_logic_error(
-                        false,
-                        false,
-                        Some(Box::new(e)),
-                        "response_publish",
-                        None,
-                        Some("Error publishing response".to_string()),
+                    let _ = completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
+                        Some("MQTT error on command executor response publish".to_string()),
+                        Box::new(e),
                         Some(response_arguments.command_name.clone()),
                     )));
                 }
@@ -1477,8 +1432,11 @@ async fn handle_ack(
         () = executor_cancellation_token.cancelled() => { /* executor dropped */ },
         ack_res = ack_token.ack() => {
             match ack_res {
-                Ok(_) => {
-                    log::info!("[pkid: {pkid}] Acknowledged");
+                Ok(ack_ct) => {
+                    match ack_ct.await {
+                        Ok(()) => log::info!("[pkid: {pkid}] Acknowledged"),
+                        Err(e) => log::error!("[pkid: {pkid}] Ack error: {e}"),
+                    }
                 },
                 Err(e) => {
                     log::error!("[pkid: {pkid}] Ack error: {e}");
@@ -1522,59 +1480,67 @@ mod tests {
         ])
     }
 
-    // #[tokio::test]
-    // async fn test_new_defaults() {
-    //     let session = create_session();
-    //     let managed_client = session.create_managed_client();
-    //     let executor_options = OptionsBuilder::default()
-    //         .request_topic_pattern("test/{commandName}/{executorId}/request")
-    //         .command_name("test_command_name")
-    //         .topic_token_map(create_topic_tokens())
-    //         .build()
-    //         .unwrap();
+    #[tokio::test]
+    async fn test_new_defaults() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let executor_options = OptionsBuilder::default()
+            .request_topic_pattern("test/{commandName}/{executorId}/request")
+            .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
+            .build()
+            .unwrap();
 
-    //     let executor: Executor<MockPayload, MockPayload> = Executor::new(
-    //         ApplicationContextBuilder::default().build().unwrap(),
-    //         managed_client,
-    //         executor_options,
-    //     )
-    //     .unwrap();
+        let executor: Executor<MockPayload, MockPayload> = Executor::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            executor_options,
+        )
+        .unwrap();
 
-    //     assert_eq!(
-    //         executor.request_topic_pattern.as_subscribe_topic(),
-    //         "test/test_command_name/test_executor_id/request"
-    //     );
+        assert_eq!(
+            executor
+                .request_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
+            "test/test_command_name/test_executor_id/request"
+        );
 
-    //     assert!(!executor.is_idempotent);
-    // }
+        assert!(!executor.is_idempotent);
+    }
 
-    // #[tokio::test]
-    // async fn test_new_override_defaults() {
-    //     let session = create_session();
-    //     let managed_client = session.create_managed_client();
-    //     let executor_options = OptionsBuilder::default()
-    //         .request_topic_pattern("test/{commandName}/{executorId}/request")
-    //         .command_name("test_command_name")
-    //         .topic_namespace("test_namespace")
-    //         .topic_token_map(create_topic_tokens())
-    //         .is_idempotent(true)
-    //         .build()
-    //         .unwrap();
+    #[tokio::test]
+    async fn test_new_override_defaults() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let executor_options = OptionsBuilder::default()
+            .request_topic_pattern("test/{commandName}/{executorId}/request")
+            .command_name("test_command_name")
+            .topic_namespace("test_namespace")
+            .topic_token_map(create_topic_tokens())
+            .is_idempotent(true)
+            .build()
+            .unwrap();
 
-    //     let executor: Executor<MockPayload, MockPayload> = Executor::new(
-    //         ApplicationContextBuilder::default().build().unwrap(),
-    //         managed_client,
-    //         executor_options,
-    //     )
-    //     .unwrap();
+        let executor: Executor<MockPayload, MockPayload> = Executor::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            executor_options,
+        )
+        .unwrap();
 
-    //     assert_eq!(
-    //         executor.request_topic_pattern.as_subscribe_topic(),
-    //         "test_namespace/test/test_command_name/test_executor_id/request"
-    //     );
+        assert_eq!(
+            executor
+                .request_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
+            "test_namespace/test/test_command_name/test_executor_id/request"
+        );
 
-    //     assert!(executor.is_idempotent);
-    // }
+        assert!(executor.is_idempotent);
+    }
 
     #[test_case(""; "empty command name")]
     #[test_case(" "; "whitespace command name")]
@@ -1751,116 +1717,116 @@ mod tests {
         }
     }
 
-    // #[tokio::test]
-    // async fn test_cache_not_found() {
-    //     let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
-    //     let key = CacheKey {
-    //         response_topic: String::from("test_response_topic"),
-    //         correlation_data: Bytes::from("test_correlation_data"),
-    //     };
-    //     let status = cache.get(&key);
-    //     assert_eq!(status, CacheEntryStatus::NotFound);
-    // }
+    #[tokio::test]
+    async fn test_cache_not_found() {
+        let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CacheKey {
+            response_topic: TopicName::new("test_response_topic").unwrap(),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let status = cache.get(&key);
+        assert_eq!(status, CacheEntryStatus::NotFound);
+    }
 
-    // #[tokio::test]
-    // async fn test_cache_found() {
-    //     let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
-    //     let key = CacheKey {
-    //         response_topic: String::from("test_response_topic"),
-    //         correlation_data: Bytes::from("test_correlation_data"),
-    //     };
-    //     let entry = CacheEntry {
-    //         serialized_payload: SerializedPayload {
-    //             payload: Bytes::from("test_payload").to_vec(),
-    //             content_type: "application/json".to_string(),
-    //             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-    //         },
-    //         properties: PublishProperties::default(),
-    //         expiration_time: Instant::now() + Duration::from_secs(60),
-    //     };
-    //     cache.set(key.clone(), entry.clone());
-    //     let status = cache.get(&key);
-    //     assert_eq!(status, CacheEntryStatus::Cached(entry));
-    // }
+    #[tokio::test]
+    async fn test_cache_found() {
+        let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CacheKey {
+            response_topic: TopicName::new("test_response_topic").unwrap(),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let entry = CacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() + Duration::from_secs(60),
+        };
+        cache.set(key.clone(), entry.clone());
+        let status = cache.get(&key);
+        assert_eq!(status, CacheEntryStatus::Cached(entry));
+    }
 
-    // #[tokio::test]
-    // async fn test_cache_expired() {
-    //     let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
-    //     let key = CacheKey {
-    //         response_topic: String::from("test_response_topic"),
-    //         correlation_data: Bytes::from("test_correlation_data"),
-    //     };
-    //     let entry = CacheEntry {
-    //         serialized_payload: SerializedPayload {
-    //             payload: Bytes::from("test_payload").to_vec(),
-    //             content_type: "application/json".to_string(),
-    //             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-    //         },
-    //         properties: PublishProperties::default(),
-    //         expiration_time: Instant::now() - Duration::from_secs(60),
-    //     };
-    //     cache.set(key.clone(), entry);
-    //     let status = cache.get(&key);
-    //     assert_eq!(status, CacheEntryStatus::Expired);
+    #[tokio::test]
+    async fn test_cache_expired() {
+        let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CacheKey {
+            response_topic: TopicName::new("test_response_topic").unwrap(),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let entry = CacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() - Duration::from_secs(60),
+        };
+        cache.set(key.clone(), entry);
+        let status = cache.get(&key);
+        assert_eq!(status, CacheEntryStatus::Expired);
 
-    //     // Set a new entry and check if the expired entry is deleted
-    //     let new_entry = CacheEntry {
-    //         serialized_payload: SerializedPayload {
-    //             payload: Bytes::from("new_test_payload").to_vec(),
-    //             content_type: "application/json".to_string(),
-    //             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-    //         },
-    //         properties: PublishProperties::default(),
-    //         expiration_time: Instant::now() + Duration::from_secs(60),
-    //     };
-    //     // The cache should never see another entry with the same key, this is for testing purposes only.
-    //     cache.set(key.clone(), new_entry.clone());
+        // Set a new entry and check if the expired entry is deleted
+        let new_entry = CacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("new_test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() + Duration::from_secs(60),
+        };
+        // The cache should never see another entry with the same key, this is for testing purposes only.
+        cache.set(key.clone(), new_entry.clone());
 
-    //     let new_status = cache.get(&key);
-    //     assert_eq!(new_status, CacheEntryStatus::Cached(new_entry));
-    // }
+        let new_status = cache.get(&key);
+        assert_eq!(new_status, CacheEntryStatus::Cached(new_entry));
+    }
 
-    // #[tokio::test]
-    // async fn test_cache_expired_with_different_key_set() {
-    //     let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
-    //     let key = CacheKey {
-    //         response_topic: String::from("test_response_topic"),
-    //         correlation_data: Bytes::from("test_correlation_data"),
-    //     };
-    //     let entry = CacheEntry {
-    //         serialized_payload: SerializedPayload {
-    //             payload: Bytes::from("test_payload").to_vec(),
-    //             content_type: "application/json".to_string(),
-    //             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-    //         },
-    //         properties: PublishProperties::default(),
-    //         expiration_time: Instant::now() - Duration::from_secs(60),
-    //     };
-    //     cache.set(key.clone(), entry);
-    //     let status = cache.get(&key);
-    //     assert_eq!(status, CacheEntryStatus::Expired);
+    #[tokio::test]
+    async fn test_cache_expired_with_different_key_set() {
+        let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CacheKey {
+            response_topic: TopicName::new("test_response_topic").unwrap(),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let entry = CacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() - Duration::from_secs(60),
+        };
+        cache.set(key.clone(), entry);
+        let status = cache.get(&key);
+        assert_eq!(status, CacheEntryStatus::Expired);
 
-    //     // Set a new entry with a different key and check if the expired entry is deleted
-    //     let new_key = CacheKey {
-    //         response_topic: String::from("new_test_response_topic"),
-    //         correlation_data: Bytes::from("new_test_correlation_data"),
-    //     };
-    //     let new_entry = CacheEntry {
-    //         serialized_payload: SerializedPayload {
-    //             payload: Bytes::from("new_test_payload").to_vec(),
-    //             content_type: "application/json".to_string(),
-    //             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-    //         },
-    //         properties: PublishProperties::default(),
-    //         expiration_time: Instant::now() + Duration::from_secs(60),
-    //     };
-    //     cache.set(new_key.clone(), new_entry.clone());
+        // Set a new entry with a different key and check if the expired entry is deleted
+        let new_key = CacheKey {
+            response_topic: TopicName::new("new_test_response_topic").unwrap(),
+            correlation_data: Bytes::from("new_test_correlation_data"),
+        };
+        let new_entry = CacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("new_test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() + Duration::from_secs(60),
+        };
+        cache.set(new_key.clone(), new_entry.clone());
 
-    //     let status = cache.get(&key);
-    //     assert_eq!(status, CacheEntryStatus::NotFound);
-    //     let status = cache.get(&new_key);
-    //     assert_eq!(status, CacheEntryStatus::Cached(new_entry));
-    // }
+        let status = cache.get(&key);
+        assert_eq!(status, CacheEntryStatus::NotFound);
+        let status = cache.get(&new_key);
+        assert_eq!(status, CacheEntryStatus::Cached(new_entry));
+    }
 
     #[test]
     fn test_response_add_empty_error_payload_success() {

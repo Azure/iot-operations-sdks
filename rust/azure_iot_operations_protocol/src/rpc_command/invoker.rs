@@ -338,12 +338,6 @@ where
         //  properties once.
 
         let publish_properties = value.properties;
-        // .ok_or(AIOProtocolError::new_header_missing_error(
-        //     "Properties",
-        //     false,
-        //     Some("Properties missing from MQTT message".to_string()),
-        //     None,
-        // ))?;
 
         // Parse user properties
         let expected_aio_properties = [
@@ -756,18 +750,6 @@ where
 
         // Create a filtered receiver from the Managed Client
         let mqtt_receiver = client.create_filtered_pub_receiver(response_topic_filter.clone());
-        // {
-        //     Ok(receiver) => receiver,
-        //     Err(e) => {
-        //         return Err(AIOProtocolError::new_configuration_invalid_error(
-        //             Some(Box::new(e)),
-        //             "response_topic_pattern",
-        //             Value::String(response_topic_pattern.as_subscribe_topic()),
-        //             Some("Could not parse response topic pattern".to_string()),
-        //             Some(invoker_options.command_name),
-        //         ));
-        //     }
-        // };
 
         // Create the channel to send responses on
         let response_tx = Sender::new(5);
@@ -924,10 +906,9 @@ where
                         })?;
                     }
                     Err(e) => {
-                        // TODO: adjust logs
-                        log::error!("[ERROR] suback error: {e}");
+                        log::error!("[ERROR] subscribe completion error: {e}");
                         return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT Error on command invoker suback".to_string()),
+                            Some("MQTT Error on command invoker subscribe".to_string()),
                             Box::new(e),
                             Some(self.command_name.clone()),
                         ));
@@ -1094,10 +1075,9 @@ where
                                         })
                                     },
                                     Err(e) => {
-                                        // TODO: adjust logs
-                                        log::error!("[ERROR] puback error: {e}");
+                                        log::error!("[ERROR] publish completion error: {e}");
                                         Err(AIOProtocolError::new_mqtt_error(
-                                            Some("MQTT Error on command invoke puback".to_string()),
+                                            Some("MQTT Error on command invoke publish".to_string()),
                                             Box::new(e),
                                             Some(command_name),
                                         ))
@@ -1144,13 +1124,11 @@ where
                                         // check correlation id for match, otherwise loop again
                                         if let Some(ref response_correlation_data) =
                                             rsp_pub.properties.correlation_data
-                                        {
-                                            if *response_correlation_data == correlation_data {
+                                            && *response_correlation_data == correlation_data {
                                                 // This is implicit validation of the correlation data - if it's malformed it won't match the request
                                                 // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
                                                 return Ok(rsp_pub);
                                             }
-                                        }
                                     } else {
                                         log::error!(
                                             "Command Invoker has been shutdown and will no longer receive a response"
@@ -1271,7 +1249,12 @@ where
                                 let command_name_clone = command_name.clone();
                                 async move {
                                     match ack_token.ack().await {
-                                        Ok(_) => { },
+                                        Ok(ack_ct) => {
+                                            match ack_ct.await {
+                                                Ok(()) => { },
+                                                Err(e) => log::error!("[{command_name_clone}] Error acking message: {e}"),
+                                            }
+                                        },
                                         Err(e) => {
                                             log::error!("[{command_name_clone}] Error acking message: {e}");
                                         }
@@ -1320,29 +1303,29 @@ where
                     .await;
 
                 match unsubscribe_result {
-                    Ok(unsub_completion_token) => {
-                        match unsub_completion_token.await {
-                            Ok(unsuback) => {
-                                unsuback.as_result().map_err(|e| {
-                                    log::error!("[{}] Unsuback error: {e}", self.command_name);
-                                    AIOProtocolError::new_mqtt_error(
-                                        Some("MQTT error on command invoker unsuback".to_string()),
-                                        Box::new(e),
-                                        Some(self.command_name.clone()),
-                                    )
-                                })?;
-                            }
-                            Err(e) => {
-                                // TODO: adjust logs
+                    Ok(unsub_completion_token) => match unsub_completion_token.await {
+                        Ok(unsuback) => {
+                            unsuback.as_result().map_err(|e| {
                                 log::error!("[{}] Unsuback error: {e}", self.command_name);
-                                return Err(AIOProtocolError::new_mqtt_error(
+                                AIOProtocolError::new_mqtt_error(
                                     Some("MQTT error on command invoker unsuback".to_string()),
                                     Box::new(e),
                                     Some(self.command_name.clone()),
-                                ));
-                            }
+                                )
+                            })?;
                         }
-                    }
+                        Err(e) => {
+                            log::error!(
+                                "[{}] Unsubscribe completion error: {e}",
+                                self.command_name
+                            );
+                            return Err(AIOProtocolError::new_mqtt_error(
+                                Some("MQTT error on command invoker unsubscribe".to_string()),
+                                Box::new(e),
+                                Some(self.command_name.clone()),
+                            ));
+                        }
+                    },
                     Err(e) => {
                         log::error!(
                             "[{}] Client error while unsubscribing: {e}",
@@ -1473,56 +1456,64 @@ mod tests {
         ])
     }
 
-    // #[tokio::test]
-    // async fn test_new_defaults() {
-    //     let session = create_session();
-    //     let managed_client = session.create_managed_client();
-    //     let invoker_options = OptionsBuilder::default()
-    //         .request_topic_pattern("test/{commandName}/{executorId}/request")
-    //         .command_name("test_command_name")
-    //         .topic_token_map(create_topic_tokens())
-    //         .build()
-    //         .unwrap();
+    #[tokio::test]
+    async fn test_new_defaults() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let invoker_options = OptionsBuilder::default()
+            .request_topic_pattern("test/{commandName}/{executorId}/request")
+            .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
+            .build()
+            .unwrap();
 
-    //     let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
-    //         ApplicationContextBuilder::default().build().unwrap(),
-    //         managed_client,
-    //         invoker_options,
-    //     )
-    //     .unwrap();
-    //     assert_eq!(
-    //         invoker.response_topic_pattern.as_subscribe_topic(),
-    //         "clients/test_client/test/test_command_name/+/request"
-    //     );
-    // }
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            invoker_options,
+        )
+        .unwrap();
+        assert_eq!(
+            invoker
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
+            "clients/test_client/test/test_command_name/+/request"
+        );
+    }
 
-    // #[tokio::test]
-    // async fn test_new_override_defaults() {
-    //     let session = create_session();
-    //     let managed_client = session.create_managed_client();
-    //     let invoker_options = OptionsBuilder::default()
-    //         .request_topic_pattern("test/{commandName}/{executorId}/request")
-    //         .response_topic_pattern("test/{commandName}/{executorId}/response".to_string())
-    //         .command_name("test_command_name")
-    //         .topic_namespace("test_namespace".to_string())
-    //         .topic_token_map(create_topic_tokens())
-    //         .response_topic_prefix("custom/{invokerClientId}".to_string())
-    //         .response_topic_suffix("custom/response".to_string())
-    //         .build()
-    //         .unwrap();
+    #[tokio::test]
+    async fn test_new_override_defaults() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let invoker_options = OptionsBuilder::default()
+            .request_topic_pattern("test/{commandName}/{executorId}/request")
+            .response_topic_pattern("test/{commandName}/{executorId}/response".to_string())
+            .command_name("test_command_name")
+            .topic_namespace("test_namespace".to_string())
+            .topic_token_map(create_topic_tokens())
+            .response_topic_prefix("custom/{invokerClientId}".to_string())
+            .response_topic_suffix("custom/response".to_string())
+            .build()
+            .unwrap();
 
-    //     let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
-    //         ApplicationContextBuilder::default().build().unwrap(),
-    //         managed_client,
-    //         invoker_options,
-    //     )
-    //     .unwrap();
-    //     // prefix and suffix should be ignored if response_topic_pattern is provided
-    //     assert_eq!(
-    //         invoker.response_topic_pattern.as_subscribe_topic(),
-    //         "test_namespace/test/test_command_name/+/response"
-    //     );
-    // }
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            invoker_options,
+        )
+        .unwrap();
+        // prefix and suffix should be ignored if response_topic_pattern is provided
+        assert_eq!(
+            invoker
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
+            "test_namespace/test/test_command_name/+/response"
+        );
+    }
 
     #[test_case("command_name", ""; "new_empty_command_name")]
     #[test_case("command_name", " "; "new_whitespace_command_name")]
@@ -1601,97 +1592,112 @@ mod tests {
         }
     }
 
-    // // Happy scenario tests for response topic prefix and suffix
-    // // For a null response topic, valid provided and null prefixes and suffixes all are okay
-    // #[test_case(Some("custom/prefix".to_string()), Some("custom/suffix".to_string()), "custom/prefix/test/req/topic/custom/suffix"; "new_response_topic_prefix_and_suffix")]
-    // #[test_case(None, Some("custom/suffix".to_string()), "test/req/topic/custom/suffix"; "new_none_response_topic_prefix")]
-    // #[test_case(Some("custom/prefix".to_string()), None, "custom/prefix/test/req/topic"; "new_none_response_topic_suffix")]
-    // #[test_case(None, None, "clients/test_client/test/req/topic"; "new_none_response_topic_prefix_and_suffix")]
-    // #[tokio::test]
-    // async fn test_new_response_pattern_prefix_suffix_args(
-    //     response_topic_prefix: Option<String>,
-    //     response_topic_suffix: Option<String>,
-    //     expected_response_topic_subscribe_pattern: &str,
-    // ) {
-    //     let session = create_session();
-    //     let managed_client = session.create_managed_client();
+    // Happy scenario tests for response topic prefix and suffix
+    // For a null response topic, valid provided and null prefixes and suffixes all are okay
+    #[test_case(Some("custom/prefix".to_string()), Some("custom/suffix".to_string()), "custom/prefix/test/req/topic/custom/suffix"; "new_response_topic_prefix_and_suffix")]
+    #[test_case(None, Some("custom/suffix".to_string()), "test/req/topic/custom/suffix"; "new_none_response_topic_prefix")]
+    #[test_case(Some("custom/prefix".to_string()), None, "custom/prefix/test/req/topic"; "new_none_response_topic_suffix")]
+    #[test_case(None, None, "clients/test_client/test/req/topic"; "new_none_response_topic_prefix_and_suffix")]
+    #[tokio::test]
+    async fn test_new_response_pattern_prefix_suffix_args(
+        response_topic_prefix: Option<String>,
+        response_topic_suffix: Option<String>,
+        expected_response_topic_subscribe_pattern: &str,
+    ) {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
 
-    //     let command_name = "test_command_name".to_string();
-    //     let request_topic_pattern = "test/req/topic".to_string();
+        let command_name = "test_command_name".to_string();
+        let request_topic_pattern = "test/req/topic".to_string();
 
-    //     let invoker_options = OptionsBuilder::default()
-    //         .request_topic_pattern(request_topic_pattern)
-    //         .command_name(command_name)
-    //         .response_topic_prefix(response_topic_prefix)
-    //         .response_topic_suffix(response_topic_suffix)
-    //         .build()
-    //         .unwrap();
+        let invoker_options = OptionsBuilder::default()
+            .request_topic_pattern(request_topic_pattern)
+            .command_name(command_name)
+            .response_topic_prefix(response_topic_prefix)
+            .response_topic_suffix(response_topic_suffix)
+            .build()
+            .unwrap();
 
-    //     let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
-    //         ApplicationContextBuilder::default().build().unwrap(),
-    //         managed_client,
-    //         invoker_options,
-    //     );
-    //     assert!(invoker.is_ok());
-    //     assert_eq!(
-    //         invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
-    //         expected_response_topic_subscribe_pattern
-    //     );
-    // }
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            invoker_options,
+        );
+        assert!(invoker.is_ok());
+        assert_eq!(
+            invoker
+                .unwrap()
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
+            expected_response_topic_subscribe_pattern
+        );
+    }
 
-    // // If response pattern prefix/suffix are not specified, the default response topic prefix is used
-    // #[tokio::test]
-    // async fn test_new_response_pattern_default_prefix() {
-    //     let session = create_session();
-    //     let managed_client = session.create_managed_client();
-    //     let command_name = "test_command_name";
-    //     let request_topic_pattern = "test/req/topic";
+    // If response pattern prefix/suffix are not specified, the default response topic prefix is used
+    #[tokio::test]
+    async fn test_new_response_pattern_default_prefix() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let command_name = "test_command_name";
+        let request_topic_pattern = "test/req/topic";
 
-    //     let invoker_options = OptionsBuilder::default()
-    //         .request_topic_pattern(request_topic_pattern)
-    //         .command_name(command_name)
-    //         .topic_token_map(create_topic_tokens())
-    //         .build()
-    //         .unwrap();
-    //     let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
-    //         ApplicationContextBuilder::default().build().unwrap(),
-    //         managed_client,
-    //         invoker_options,
-    //     );
-    //     assert!(invoker.is_ok());
-    //     assert_eq!(
-    //         invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
-    //         "clients/test_client/test/req/topic"
-    //     );
-    // }
+        let invoker_options = OptionsBuilder::default()
+            .request_topic_pattern(request_topic_pattern)
+            .command_name(command_name)
+            .topic_token_map(create_topic_tokens())
+            .build()
+            .unwrap();
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            invoker_options,
+        );
+        assert!(invoker.is_ok());
+        assert_eq!(
+            invoker
+                .unwrap()
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
+            "clients/test_client/test/req/topic"
+        );
+    }
 
-    // // If response pattern suffix is specified, there is no prefix added
-    // #[tokio::test]
-    // async fn test_new_response_pattern_only_suffix() {
-    //     let session = create_session();
-    //     let managed_client = session.create_managed_client();
-    //     let command_name = "test_command_name";
-    //     let request_topic_pattern = "test/req/topic";
-    //     let response_topic_suffix = "custom/suffix";
+    // If response pattern suffix is specified, there is no prefix added
+    #[tokio::test]
+    async fn test_new_response_pattern_only_suffix() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let command_name = "test_command_name";
+        let request_topic_pattern = "test/req/topic";
+        let response_topic_suffix = "custom/suffix";
 
-    //     let invoker_options = OptionsBuilder::default()
-    //         .request_topic_pattern(request_topic_pattern)
-    //         .command_name(command_name)
-    //         .topic_token_map(create_topic_tokens())
-    //         .response_topic_suffix(response_topic_suffix.to_string())
-    //         .build()
-    //         .unwrap();
-    //     let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
-    //         ApplicationContextBuilder::default().build().unwrap(),
-    //         managed_client,
-    //         invoker_options,
-    //     );
-    //     assert!(invoker.is_ok());
-    //     assert_eq!(
-    //         invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
-    //         "test/req/topic/custom/suffix"
-    //     );
-    // }
+        let invoker_options = OptionsBuilder::default()
+            .request_topic_pattern(request_topic_pattern)
+            .command_name(command_name)
+            .topic_token_map(create_topic_tokens())
+            .response_topic_suffix(response_topic_suffix.to_string())
+            .build()
+            .unwrap();
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            invoker_options,
+        );
+        assert!(invoker.is_ok());
+        assert_eq!(
+            invoker
+                .unwrap()
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
+            "test/req/topic/custom/suffix"
+        );
+    }
 
     /// Tests success: Timeout specified on invoke and there is no error
     #[tokio::test]

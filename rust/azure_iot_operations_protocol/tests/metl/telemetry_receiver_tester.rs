@@ -23,7 +23,7 @@ use uuid::Uuid;
 
 use crate::metl::aio_protocol_error_checker;
 use crate::metl::defaults::ReceiverDefaults;
-use crate::metl::mqtt_hub::MqttHub;
+use crate::metl::mqtt_hub::{MqttHub, to_is_utf8};
 use crate::metl::qos::{self, new_packet_identifier_dup_qos};
 use crate::metl::test_case::TestCase;
 use crate::metl::test_case_action::TestCaseAction;
@@ -33,8 +33,6 @@ use crate::metl::test_case_received_telemetry::TestCaseReceivedTelemetry;
 use crate::metl::test_case_receiver::TestCaseReceiver;
 use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
-
-use super::mqtt_hub::to_is_utf8;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
@@ -69,7 +67,7 @@ impl TelemetryReceiverTester {
             }
         }
 
-        // force connack to be first
+        // force connack to happen before other events are injected
         mqtt_hub.await_operation().await;
         session_monitor.connected().await;
 
@@ -398,7 +396,7 @@ impl TelemetryReceiverTester {
             .unwrap();
 
             let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
-                payload_is_utf8: to_is_utf8(format_indicator),
+                payload_is_utf8: to_is_utf8(format_indicator.as_ref()),
                 message_expiry_interval,
                 user_properties,
                 content_type: content_type.as_ref().map(|ct| ct.as_str().into()),

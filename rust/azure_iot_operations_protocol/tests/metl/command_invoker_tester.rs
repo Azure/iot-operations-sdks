@@ -19,10 +19,9 @@ use serde_json;
 use tokio::sync::oneshot;
 use tokio::time;
 
-use super::mqtt_hub::to_is_utf8;
 use crate::metl::aio_protocol_error_checker;
 use crate::metl::defaults::{InvokerDefaults, get_invoker_defaults};
-use crate::metl::mqtt_hub::MqttHub;
+use crate::metl::mqtt_hub::{MqttHub, to_is_utf8};
 use crate::metl::qos::{self, new_packet_identifier_dup_qos};
 use crate::metl::test_case::TestCase;
 use crate::metl::test_case_action::TestCaseAction;
@@ -60,7 +59,7 @@ impl CommandInvokerTester {
             }
         }
 
-        // force connack to be first
+        // force connack to happen before other events are injected
         mqtt_hub.await_operation().await;
         session_monitor.connected().await;
 
@@ -95,7 +94,8 @@ impl CommandInvokerTester {
         let test_case_serializer = &test_case.prologue.invokers[0].serializer;
 
         let mut invocation_chans: HashMap<i32, Option<InvokeResultReceiver>> = HashMap::new();
-        let mut correlation_ids: HashMap<i32, Option<Bytes>> = HashMap::new();
+        let mut correlation_ids: HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>> =
+            HashMap::new();
         let mut packet_ids: HashMap<i32, u16> = HashMap::new();
 
         for test_case_action in &test_case.actions {
@@ -423,7 +423,7 @@ impl CommandInvokerTester {
     fn receive_response(
         action: &TestCaseAction<InvokerDefaults>,
         mqtt_hub: &mut MqttHub,
-        correlation_ids: &mut HashMap<i32, Option<Bytes>>,
+        correlation_ids: &mut HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
         packet_ids: &mut HashMap<i32, u16>,
         tcs: &TestCaseSerializer<InvokerDefaults>,
     ) {
@@ -515,7 +515,7 @@ impl CommandInvokerTester {
             .unwrap();
 
             let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
-                payload_is_utf8: to_is_utf8(format_indicator),
+                payload_is_utf8: to_is_utf8(format_indicator.as_ref()),
                 message_expiry_interval,
                 correlation_data,
                 user_properties,
@@ -571,7 +571,7 @@ impl CommandInvokerTester {
     async fn await_publish(
         action: &TestCaseAction<InvokerDefaults>,
         mqtt_hub: &mut MqttHub,
-        correlation_ids: &mut HashMap<i32, Option<Bytes>>,
+        correlation_ids: &mut HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
     ) {
         if let TestCaseAction::AwaitPublish {
             defaults_type: _,
@@ -612,7 +612,7 @@ impl CommandInvokerTester {
     fn check_published_message(
         expected_message: &TestCasePublishedMessage,
         mqtt_hub: &MqttHub,
-        correlation_ids: &HashMap<i32, Option<Bytes>>,
+        correlation_ids: &HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
     ) {
         let published_message: &azure_mqtt::mqtt_proto::Publish<Bytes> =
             if let Some(correlation_index) = expected_message.correlation_index {
@@ -647,18 +647,20 @@ impl CommandInvokerTester {
             }
         }
 
-        if let Some(ref expected_content_type) = expected_message.content_type {
-            let pub_content_type = published_message
-                .other_properties
-                .content_type
-                .as_ref()
-                .unwrap();
-            assert_eq!(*pub_content_type, **expected_content_type);
+        if expected_message.content_type.is_some() {
+            assert_eq!(
+                published_message
+                    .other_properties
+                    .content_type
+                    .as_ref()
+                    .map(std::convert::AsRef::as_ref),
+                expected_message.content_type.as_deref()
+            );
         }
 
         if expected_message.format_indicator.is_some() {
             assert_eq!(
-                to_is_utf8(&expected_message.format_indicator),
+                to_is_utf8(expected_message.format_indicator.as_ref()),
                 published_message.other_properties.payload_is_utf8
             );
         }

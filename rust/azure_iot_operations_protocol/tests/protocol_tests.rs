@@ -31,7 +31,6 @@ const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandExecutorResponsePubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandInvokerInvalidResponseTopicPrefix_ThrowsException",
     "CommandInvokerInvalidResponseTopicSuffix_ThrowsException",
-    // "CommandInvokerPubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandInvokerWithZeroTimeout_ThrowsException",
     "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess", // this might be able to be tested once acks have the epoch
     "TelemetrySenderSendWithCloudEventSpecVersionNonNumeric_Success",
@@ -123,7 +122,7 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
     {
         let mqtt_client_id = get_client_id(&test_case, "SessionInvokerTestClient", test_case_index);
         let connection_settings = MqttConnectionSettingsBuilder::default()
-            .client_id(mqtt_client_id.clone())
+            .client_id(mqtt_client_id)
             .hostname("localhost")
             .tcp_port(1883u16)
             .use_tls(false)
@@ -134,7 +133,6 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
         let session = Session::new(session_options).unwrap();
         let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
         let mqtt_hub = MqttHub::new(
-            mqtt_client_id,
             MqttEmulationLevel::Event,
             incoming_packets_tx,
             outgoing_packets_rx,
@@ -180,7 +178,7 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
         let mqtt_client_id =
             get_client_id(&test_case, "SessionExecutorTestClient", test_case_index);
         let connection_settings = MqttConnectionSettingsBuilder::default()
-            .client_id(mqtt_client_id.clone())
+            .client_id(mqtt_client_id)
             .hostname("localhost")
             .tcp_port(1883u16)
             .use_tls(false)
@@ -191,7 +189,6 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
         let session = Session::new(session_options).unwrap();
         let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
         let mqtt_hub = MqttHub::new(
-            mqtt_client_id,
             MqttEmulationLevel::Event,
             incoming_packets_tx,
             outgoing_packets_rx,
@@ -237,7 +234,7 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
         let mqtt_client_id =
             get_client_id(&test_case, "SessionReceiverTestClient", test_case_index);
         let connection_settings = MqttConnectionSettingsBuilder::default()
-            .client_id(mqtt_client_id.clone())
+            .client_id(mqtt_client_id)
             .hostname("localhost")
             .tcp_port(1883u16)
             .use_tls(false)
@@ -247,8 +244,7 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
             .build()?;
         let session = Session::new(session_options).unwrap();
         let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
-        let mut mqtt_hub = MqttHub::new(
-            mqtt_client_id,
+        let mqtt_hub = MqttHub::new(
             MqttEmulationLevel::Event,
             incoming_packets_tx,
             outgoing_packets_rx,
@@ -293,7 +289,7 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
     {
         let mqtt_client_id = get_client_id(&test_case, "SessionSenderTestClient", test_case_index);
         let connection_settings = MqttConnectionSettingsBuilder::default()
-            .client_id(mqtt_client_id.clone())
+            .client_id(mqtt_client_id)
             .hostname("localhost")
             .tcp_port(1883u16)
             .use_tls(false)
@@ -304,7 +300,6 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
         let session = Session::new(session_options).unwrap();
         let (incoming_packets_tx, outgoing_packets_rx) = session.get_packet_channels();
         let mqtt_hub = MqttHub::new(
-            mqtt_client_id,
             MqttEmulationLevel::Event,
             incoming_packets_tx,
             outgoing_packets_rx,
@@ -346,8 +341,6 @@ fn does_standalone_support(requirements: &[TestFeatureKind]) -> bool {
 
 fn does_session_support(requirements: &[TestFeatureKind]) -> bool {
     !requirements.contains(&TestFeatureKind::Unobtanium)
-        // && !requirements.contains(&TestFeatureKind::TopicFiltering)
-        // && !requirements.contains(&TestFeatureKind::Caching)
         && !requirements.contains(&TestFeatureKind::Dispatch)
         && !requirements.contains(&TestFeatureKind::MultipleSerializers)
 }

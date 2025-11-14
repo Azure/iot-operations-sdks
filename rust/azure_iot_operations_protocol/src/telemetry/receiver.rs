@@ -294,12 +294,6 @@ where
             .transpose()
             .map_err(|e| e.to_string())?;
 
-        // Parse topic
-        let topic = value.topic_name.as_str().to_string();
-        // std::str::from_utf8(&value.topic)
-        //     .map_err(|e| e.to_string())?
-        //     .to_string();
-
         // Deserialize payload
         let format_indicator = publish_properties.payload_format_indicator.into();
 
@@ -316,7 +310,7 @@ where
             timestamp,
             // NOTE: Topic Tokens cannot be created from just a Publish, they need additional information
             topic_tokens: HashMap::default(),
-            topic,
+            topic: value.topic_name.as_str().to_string(),
         };
         Ok(telemetry_message)
     }
@@ -446,18 +440,6 @@ where
         })?;
 
         let mqtt_receiver = client.create_filtered_pub_receiver(telemetry_topic.clone());
-        //  {
-        //     Ok(receiver) => receiver,
-        //     Err(e) => {
-        //         return Err(AIOProtocolError::new_configuration_invalid_error(
-        //             Some(Box::new(e)),
-        //             "topic_pattern",
-        //             Value::String(telemetry_topic.to_string()),
-        //             Some("Could not parse subscription topic pattern".to_string()),
-        //             None,
-        //         ));
-        //     }
-        // };
 
         Ok(Self {
             application_hlc: application_context.application_hlc,
@@ -515,10 +497,9 @@ where
                             }
                         },
                         Err(e) => {
-                            // TODO: adjust logs
-                            log::error!("Unsuback error: {e}");
+                            log::error!("Unsubscribe completion error: {e}");
                             return Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on telemetry receiver unsuback".to_string()),
+                                Some("MQTT error on telemetry receiver unsubscribe".to_string()),
                                 Box::new(e),
                                 None,
                             ));
@@ -571,10 +552,9 @@ where
                     })?;
                 }
                 Err(e) => {
-                    // TODO: adjust logs
-                    log::error!("Suback error: {e}");
+                    log::error!("Subscribe completion error: {e}");
                     return Err(AIOProtocolError::new_mqtt_error(
-                        Some("MQTT error on telemetry receiver suback".to_string()),
+                        Some("MQTT error on telemetry receiver subscribe".to_string()),
                         Box::new(e),
                         None,
                     ));
@@ -628,14 +608,14 @@ where
                     // Get pkid for logging
                     let pkid = match m.qos {
                         azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
-                            // TODO: maybe we should log with something else
+                            // TODO: maybe we should log with something else, but this matches old behavior
                             0
                         }
                         azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info) => {
                             delivery_info.packet_identifier.get()
                         }
                         azure_mqtt::packet::DeliveryQoS::ExactlyOnce(_) => {
-                            // This should never happen as the executor should always receive QoS 1 messages
+                            // This should never happen as the telemetry receiver should always receive QoS 1 messages
                             log::warn!("Received QoS 2 telemetry message");
                             continue;
                         }

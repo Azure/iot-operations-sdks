@@ -19,9 +19,10 @@ use serde_json;
 use tokio::time;
 use uuid::Uuid;
 
+use crate::metl::aio_protocol_error_checker;
 use crate::metl::countdown_event_map::CountdownEventMap;
 use crate::metl::defaults::ExecutorDefaults;
-use crate::metl::mqtt_hub::MqttHub;
+use crate::metl::mqtt_hub::{MqttHub, to_is_utf8};
 use crate::metl::qos::{self, new_packet_identifier_dup_qos};
 use crate::metl::test_case::TestCase;
 use crate::metl::test_case_action::TestCaseAction;
@@ -30,7 +31,6 @@ use crate::metl::test_case_executor::TestCaseExecutor;
 use crate::metl::test_case_published_message::TestCasePublishedMessage;
 use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
-use crate::metl::{aio_protocol_error_checker, mqtt_hub::to_is_utf8};
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
@@ -57,7 +57,7 @@ impl CommandExecutorTester {
             }
         }
 
-        // force connack to be first
+        // force connack to happen before other events are injected
         mqtt_hub.await_operation().await;
         session_monitor.connected().await;
 
@@ -101,7 +101,8 @@ impl CommandExecutorTester {
         let test_case_serializer = &test_case.prologue.executors[0].serializer;
 
         let mut source_ids: HashMap<i32, Uuid> = HashMap::new();
-        let mut correlation_ids: HashMap<i32, Option<Bytes>> = HashMap::new();
+        let mut correlation_ids: HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>> =
+            HashMap::new();
         let mut packet_ids: HashMap<i32, u16> = HashMap::new();
 
         for test_case_action in &test_case.actions {
@@ -252,7 +253,7 @@ impl CommandExecutorTester {
                         metadata.push((key.clone(), val.clone()));
                     } else if let Some(kvp) = request.custom_user_data.iter().find(|&m| m.0 == *key)
                     {
-                        metadata.push((key.clone(), kvp.1.to_string()));
+                        metadata.push((key.clone(), kvp.1.clone()));
                     }
                 }
 
@@ -365,7 +366,7 @@ impl CommandExecutorTester {
         action: &TestCaseAction<ExecutorDefaults>,
         mqtt_hub: &mut MqttHub,
         source_ids: &mut HashMap<i32, Uuid>,
-        correlation_ids: &mut HashMap<i32, Option<Bytes>>,
+        correlation_ids: &mut HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
         packet_ids: &mut HashMap<i32, u16>,
         tcs: &TestCaseSerializer<ExecutorDefaults>,
     ) {
@@ -414,9 +415,9 @@ impl CommandExecutorTester {
                     correlation_data.clone()
                 } else {
                     let correlation_data = if let Some(correlation_id) = correlation_id {
-                        Some(Bytes::from(correlation_id.clone()))
+                        Some(correlation_id.as_bytes().into())
                     } else {
-                        Some(Bytes::copy_from_slice(Uuid::new_v4().as_bytes()))
+                        Some(Uuid::new_v4().as_bytes().into())
                     };
                     correlation_ids.insert(*correlation_index, correlation_data.clone());
                     correlation_data
@@ -461,7 +462,7 @@ impl CommandExecutorTester {
             .unwrap();
 
             let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
-                payload_is_utf8: to_is_utf8(format_indicator),
+                payload_is_utf8: to_is_utf8(format_indicator.as_ref()),
                 message_expiry_interval,
                 response_topic: response_topic
                     .clone()
@@ -520,7 +521,7 @@ impl CommandExecutorTester {
     async fn await_publish(
         action: &TestCaseAction<ExecutorDefaults>,
         mqtt_hub: &mut MqttHub,
-        correlation_ids: &HashMap<i32, Option<Bytes>>,
+        correlation_ids: &HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
     ) {
         if let TestCaseAction::AwaitPublish {
             defaults_type: _,
@@ -589,7 +590,7 @@ impl CommandExecutorTester {
     fn check_published_message(
         expected_message: &TestCasePublishedMessage,
         mqtt_hub: &MqttHub,
-        correlation_ids: &HashMap<i32, Option<Bytes>>,
+        correlation_ids: &HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
     ) {
         let published_message =
             if let Some(correlation_index) = expected_message.correlation_index {
@@ -620,9 +621,7 @@ impl CommandExecutorTester {
             if let Some(payload) = payload {
                 assert_eq!(published_message.payload, *payload.as_bytes(), "payload");
             } else {
-                assert!(azure_mqtt::buffer_pool::Shared::is_empty(
-                    &published_message.payload
-                ));
+                assert!(&published_message.payload.is_empty());
             }
         }
 
@@ -639,7 +638,7 @@ impl CommandExecutorTester {
 
         if expected_message.format_indicator.is_some() {
             assert_eq!(
-                to_is_utf8(&expected_message.format_indicator),
+                to_is_utf8(expected_message.format_indicator.as_ref()),
                 published_message.other_properties.payload_is_utf8
             );
         }
