@@ -7,14 +7,25 @@ use std::time::Duration;
 
 use rand::Rng;
 
-use crate::error::ConnectionError;
+use crate::error::{ConnectError, ProtocolError};
+use crate::control_packet::Disconnect;
+
+pub enum ConnectionLoss {
+    DisconnectByServer(Disconnect),
+    IoError(std::io::Error),
+    ProtocolError(ProtocolError),
+}
 
 /// Trait defining interface for reconnect policies.
 pub trait ReconnectPolicy: Send {
-    /// Get the next reconnect delay.
+    /// Get the next reconnect delay after a connection failure.
     /// Returns None if no reconnect should be attempted.
-    fn next_reconnect_delay(&self, prev_attempts: u32, error: &ConnectionError)
+    fn connect_failure_reconnect_delay(&self, prev_attempts: u32, error: &ConnectError)
     -> Option<Duration>;
+
+    /// Get the next reconnect delay after a connection loss.
+    /// Returns None if no reconnect should be attempted.
+    fn connection_loss_reconnect_delay(&self, reason: &ConnectionLoss) -> Option<Duration>;
 }
 
 /// A reconnect policy that will exponentially backoff the the delay between reconnect attempts.
@@ -34,7 +45,7 @@ impl ExponentialBackoffWithJitter {
     const BASE_DELAY_MS: u64 = 2;
 
     /// Determine if a reconnect should be attempted.
-    fn should_reconnect(&self, prev_attempts: u32, _error: &ConnectionError) -> bool {
+    fn should_reconnect(&self, prev_attempts: u32, _error: &ConnectError) -> bool {
         if let Some(max_attempts) = self.max_reconnect_attempts {
             prev_attempts < max_attempts
         } else {
@@ -68,16 +79,16 @@ impl Default for ExponentialBackoffWithJitter {
 }
 
 impl ReconnectPolicy for ExponentialBackoffWithJitter {
-    fn next_reconnect_delay(
-        &self,
-        attempt_count: u32,
-        error: &ConnectionError,
-    ) -> Option<Duration> {
-        if self.should_reconnect(attempt_count, error) {
-            let reconnect_delay = self.calculate_delay(attempt_count);
-            Some(reconnect_delay)
+    fn connect_failure_reconnect_delay(&self, prev_attempts: u32, error: &ConnectError) -> Option<Duration>
+    {
+        if self.should_reconnect(prev_attempts, error) {
+            Some(self.calculate_delay(prev_attempts))
         } else {
             None
         }
+    }
+
+    fn connection_loss_reconnect_delay(&self, _reason: &ConnectionLoss) -> Option<Duration> {
+        return Some(Duration::from_secs(0));
     }
 }

@@ -19,6 +19,8 @@ pub type PubAck = azure_mqtt::packet::PubAck;
 pub type SubAck = azure_mqtt::packet::SubAck;
 /// UNSUBACK packet
 pub type UnsubAck = azure_mqtt::packet::UnsubAck;
+/// DISCONNECT packet
+pub type Disconnect = azure_mqtt::packet::Disconnect;
 
 /// Properties for a CONNECT packet
 pub type ConnectProperties = azure_mqtt::packet::ConnectProperties;
