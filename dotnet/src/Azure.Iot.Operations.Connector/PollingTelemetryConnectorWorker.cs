@@ -69,9 +69,37 @@ namespace Azure.Iot.Operations.Connector
 
                 var datasetSamplingTimer = new Timer(async (state) =>
                 {
+                    byte[] sampledData;
                     try
                     {
-                        byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
+                        sampledData = await datasetSampler.SampleDatasetAsync(dataset);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to sample the dataset");
+
+                        try
+                        {
+                            await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
+                                currentDeviceStatus.Config ??= new ConfigStatus();
+                                currentDeviceStatus.Config.Error =
+                                    new ConfigError()
+                                    {
+                                        Message = $"Unable to sample the device. Error message: {e.Message}",
+                                    };
+                                currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                return currentDeviceStatus;
+                            }, null, cancellationToken);
+                        }
+                        catch (Exception e2)
+                        {
+                            _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                        }
+                        return;
+                    }
+
+                    try
+                    {
                         await args.AssetClient.ForwardSampledDatasetAsync(dataset, sampledData);
 
                         // Only report a status for this dataset if it hasn't been reported yet already
@@ -106,7 +134,7 @@ namespace Azure.Iot.Operations.Connector
                     }
                     catch (Exception e)
                     {
-                        _logger.LogError(e, "Failed to sample the dataset");
+                        _logger.LogError(e, "Failed to forward the sampled dataset");
 
                         try
                         {
