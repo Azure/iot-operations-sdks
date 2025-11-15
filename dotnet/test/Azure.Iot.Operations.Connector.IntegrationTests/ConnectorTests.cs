@@ -82,14 +82,14 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             await using AzureDeviceRegistryClient adrClient = new(new(), mqttClient);
 
             // Check that the device status was reported
-            DeviceStatus deviceStatus = await adrClient.GetDeviceStatusAsync("my-thermostat", "my-rest-thermostat-endpoint-name");
+            DeviceStatus deviceStatus = await adrClient.GetDeviceStatusAsync("my-rest-thermostat-device-name", "my-rest-thermostat-endpoint-name");
             Assert.NotNull(deviceStatus.Config);
             Assert.Null(deviceStatus.Config.Error);
             Assert.NotNull(deviceStatus.Config.LastTransitionTime);
 
             // Check that both asset statuses were reported
-            AssetStatus asset1Status = await adrClient.GetAssetStatusAsync("my-thermostat", "my-rest-thermostat-endpoint-name", "my-rest-thermostat-asset1");
-            AssetStatus asset2Status = await adrClient.GetAssetStatusAsync("my-thermostat", "my-rest-thermostat-endpoint-name", "my-rest-thermostat-asset2");
+            AssetStatus asset1Status = await adrClient.GetAssetStatusAsync("my-rest-thermostat-device-name", "my-rest-thermostat-endpoint-name", "my-rest-thermostat-asset1");
+            AssetStatus asset2Status = await adrClient.GetAssetStatusAsync("my-rest-thermostat-device-name", "my-rest-thermostat-endpoint-name", "my-rest-thermostat-asset2");
             Assert.NotNull(asset1Status.Config);
             Assert.Null(asset1Status.Config.Error);
             Assert.NotNull(asset1Status.Config.LastTransitionTime);
