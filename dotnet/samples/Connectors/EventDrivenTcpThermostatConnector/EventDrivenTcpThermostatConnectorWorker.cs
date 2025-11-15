@@ -202,6 +202,9 @@ namespace EventDrivenTcpThermostatConnector
                                             Error = null,
                                             MessageSchemaReference = args.AssetClient.GetRegisteredEventMessageSchema(eventGroupName, assetEvent.Name)
                                         });
+
+                                        _logger.LogInformation("Event group count: {}", currentAssetStatus.EventGroups?.Count);
+
                                         return currentAssetStatus;
                                     }, null, cancellationToken);
 
