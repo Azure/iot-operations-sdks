@@ -94,15 +94,26 @@ public record AssetStatus
     public void UpdateEventStatus(string eventGroupName, AssetDatasetEventStreamStatus eventNewStatus)
     {
         EventGroups ??= new();
+        bool eventGroupPresent = false;
         EventGroups.ForEach(
             (eventGroupStatus) => {
                 if (eventGroupStatus.Name.Equals(eventGroupName))
                 {
+                    eventGroupPresent = true;
                     eventGroupStatus.Events ??= new();
                     eventGroupStatus.Events.RemoveAll((eventStatus) => eventStatus.Name.Equals(eventNewStatus.Name));
                     eventGroupStatus.Events.Add(eventNewStatus);
                 }
             });
+
+        if (!eventGroupPresent)
+        {
+            EventGroups.Add(new()
+            {
+                Name = eventGroupName,
+                Events = new List<AssetDatasetEventStreamStatus>() { eventNewStatus }
+            });
+        }
     }
 
     /// <summary>
