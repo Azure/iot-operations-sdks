@@ -24,15 +24,15 @@ prologue:
 A common use for `prologue`-only cases is to test initialization error-checking:
 
 ```yaml
-test-name: CommandInvokerInvalidResponseTopicPrefix_ThrowsException_Attenuated
+test-name: CommandInvokerInvalidResponseTopicSuffix_ThrowsException_Attenuated
 description:
   condition: >-
-    CommandInvoker initialized with a response topic prefix that is invalid.
+    CommandInvoker initialized with a response topic suffix that is invalid.
   expect: >-
     CommandInvoker throws 'invalid configuration' exception; error details unchecked.
 prologue:
   invokers:
-  - response-topic-prefix: "prefix/{in/valid}"
+  - response-topic-suffix: "suffix/{in/valid}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
@@ -42,24 +42,24 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetrySenderSend_TimeoutPropagated
+test-name: TelemetryReceiverReceivesWrongContentType_NotRelayed
 description:
   condition: >-
-    TelemetrySender sends a Telemetry.
+    TelemetryReceiver receives telemetry with mismatched ContentType metadata.
   expect: >-
-    TelemetrySender copies Telemetry timout value into message expiry interval.
+    TelemetryReceiver does not relay telemetry to user code.
 prologue:
-  senders:
+  receivers:
   - { }
 actions:
-- action: send telemetry
-  timeout: { seconds: 3 }
-- action: await publish
-- action: await send
+- action: receive telemetry
+  content-type: "raw/0"
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
 epilogue:
-  published-messages:
-  - topic: "mock/test"
-    expiry: 3
+  acknowledgement-count: 1
+  telemetry-count: 0
 ```
 
 ### Key/value kinds
@@ -309,7 +309,7 @@ epilogue:
     is-application-error: false
     metadata:
       "__supProtMajVer": "1"
-      "__requestProtVer": "this is not a valid protocol version"
+      "__requestProtVer": "123456.0"
       "__protVer": "1.0"
 ```
 
@@ -343,7 +343,6 @@ Each element of the `published-messages` array can have the following child keys
 | format-indicator | check | no | integer | The value of the PayloadFormatIndicator header in the message. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
 | command-status | check | no | integer or null | HTTP status code in the message, or null if no status code present. |
-| is-application-error | check | no | boolean | In an error response, whether the error is in the application rather than in the platform. |
 | expiry | check | no | integer | The message expiry in seconds. |
 
 The value for `correlation-index` is an arbitrary number that will be given a replacement values by the test engine.
@@ -425,7 +424,7 @@ An `await publish` action causes the test system to wait for the CommandExecutor
 
 ```yaml
 - action: await publish
-  correlation-index: 0
+  correlation-index: 1
 ```
 
 When the value of the `action` key is `await publish`, the following sibling keys are also available:
@@ -489,14 +488,14 @@ Following is an example CommandInvoker prologue:
 ```yaml
 prologue:
   invokers:
-  - topic-namespace: "invalid/{modelId}"
+  - request-topic: "mock/{in/valid}/test"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'topicnamespace'
-      property-value: "invalid/{modelId}"
+      property-name: 'requesttopicpattern'
+      property-value: "mock/{in/valid}/test"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -752,7 +751,6 @@ When the value of the `action` key is `receive response`, the following sibling 
 | message-expiry | drive | no | [Duration](#duration) or null |  | { "seconds": 10 } | Maximum duration for which a response remains desired by the requester. |
 | status | drive | no | string or null |  | "200" | HTTP status code. |
 | status-message | drive | no | string or null |  | null | Human-readable status message. |
-| is-application-error | drive | no | string or null |  | null | Nominally boolean value indicating whether a non-200 status is an application-level error. |
 | invalid-property-name | drive | no | string or null |  | null | The name of an MQTT property in a request header that is missing or has an invalid value. |
 | invalid-property-value | drive | no | string or null |  | null | The value of an MQTT property in a request header that is invalid. |
 | packet-index | match | no | integer |  |  | An arbitrary numeric value used to identify the packet ID in the message. |
@@ -959,8 +957,8 @@ A `receive telemetry` action causes the TelemetryReceiver to receive a telemetry
   metadata:
     "id": "dtmi:test:someAssignedId;1"
     "source": "dtmi:test:myEventSource;1"
-    "type": "test-type"
-    "specversion": "0.707"
+    "type": ""
+    "specversion": "1.0"
     "time": "1955-11-12T22:04:00Z"
     "subject": "mock/test"
     "dataschema": "dtmi:test:MyModel:_contents:__test;1"
@@ -1088,10 +1086,10 @@ epilogue:
     payload: "Test_Telemetry"
     metadata:
       "source": "dtmi:test:myEventSource;1"
-      "type": "test-type"
+      "type": "ms.aio.telemetry"
       "specversion": "1.0"
+      "id": "::::"
       "subject": "mock/test"
-      "dataschema": "dtmi:test:MyModel:_contents:__test;1"
 ```
 
 #### SenderEpilogue
@@ -1130,12 +1128,14 @@ Following is an example TelemetrySender actions array:
 actions:
 - action: send telemetry
   cloud-event:
-    source: "dtmi:test:myEventSource;1"
+    source: "::::"
 - action: await send
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false
+    supplemental:
+      property-name: 'cloudevent'
 ```
 
 #### SenderAction
@@ -1315,7 +1315,7 @@ The value of `mqtt-config` provides MQTT client configuration settings, as in th
 
 ```yaml
   mqtt-config:
-    client-id: "MySenderClientId"
+    client-id: "ThisInvokerId"
 ```
 
 The MQTT configuration can have the following child keys:
@@ -1330,7 +1330,7 @@ The value of `push-acks` is a collection of queues of ACKs that are used sequent
 
 ```yaml
   push-acks:
-    publish: [ drop ]
+    publish: [ fail ]
 ```
 
 By convention, these arrays are written in YAML flow style.
