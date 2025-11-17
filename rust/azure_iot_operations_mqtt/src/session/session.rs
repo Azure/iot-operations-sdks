@@ -22,6 +22,9 @@ use crate::{
     error::{ConnectionError, ConnectionErrorKind},
 };
 
+#[cfg(feature = "test-utils")]
+use crate::test_utils::InjectedPacketChannels;
+
 /// Options for configuring a new [`Session`]
 #[derive(Builder)]
 #[builder(pattern = "owned")]
@@ -43,6 +46,9 @@ pub struct SessionOptions {
     /// Indicates if the Session should use features specific for use with the AIO MQTT Broker
     #[builder(default = "Some(AIOBrokerFeaturesBuilder::default().build().unwrap())")]
     aio_broker_features: Option<AIOBrokerFeatures>,
+    #[cfg(feature = "test-utils")]
+    #[builder(default)]
+    injected_packet_channels: Option<InjectedPacketChannels>,
 }
 
 /// Options for configuring features on a [`Session`] that are specific to the AIO broker
@@ -86,37 +92,6 @@ impl Session {
     /// # Errors
     /// Returns a [`SessionConfigError`] if there are errors using the session options.
     pub fn new(options: SessionOptions) -> Result<Self, SessionConfigError> {
-        Self::internal_new(
-            options,
-            #[cfg(feature = "test-utils")]
-            false,
-        )
-    }
-
-    /// Create a new [`Session`] with the provided options structure that uses test
-    /// network packet injection instead of a real network connection.
-    ///
-    /// # Errors
-    /// Returns a [`SessionConfigError`] if there are errors using the session options.
-    #[cfg(feature = "test-utils")]
-    pub fn new_with_test_packet_injection(
-        options: SessionOptions,
-    ) -> Result<Self, SessionConfigError> {
-        Self::internal_new(
-            options,
-            #[cfg(feature = "test-utils")]
-            true,
-        )
-    }
-
-    /// Create a new [`Session`] with the provided options structure.
-    ///
-    /// # Errors
-    /// Returns a [`SessionConfigError`] if there are errors using the session options.
-    fn internal_new(
-        options: SessionOptions,
-        #[cfg(feature = "test-utils")] use_test_transport_config: bool,
-    ) -> Result<Self, SessionConfigError> {
         let client_id = options.connection_settings.client_id.clone();
 
         // Add AIO metric and features to user properties when using AIO MQTT broker features
@@ -140,7 +115,7 @@ impl Session {
                 options.publish_qos0_queue_size,
                 options.publish_qos1_qos2_queue_size,
                 #[cfg(feature = "test-utils")]
-                use_test_transport_config,
+                options.injected_packet_channels,
             )?;
 
         let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options);
@@ -158,26 +133,6 @@ impl Session {
             disconnect_handle: Arc::new(Mutex::new(None)),
             notify_force_exit: Arc::new(Notify::new()),
         })
-    }
-
-    /// Get the underlying network packet channels for testing purposes.
-    /// These can be used for the lifetime of the Session
-    /// NOTE: this should only be called once per session, and is only intended for test use
-    #[cfg(feature = "test-utils")]
-    pub fn get_packet_channels(
-        &self,
-    ) -> (
-        crate::azure_mqtt_adapter::IncomingPacketsTx,
-        crate::azure_mqtt_adapter::OutgoingPacketsRx,
-    ) {
-        assert!(
-            self.connect_parameters.use_test_transport_config,
-            "get_packet_channels called on Session not configured for test transport"
-        );
-        (
-            self.connect_parameters.incoming_packets_tx.clone(),
-            self.connect_parameters.outgoing_packets_rx.clone(),
-        )
     }
 
     /// Return a new instance of [`SessionExitHandle`] that can be used to end this [`Session`]
