@@ -3,6 +3,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
     using System.IO;
     using System.Text.RegularExpressions;
     using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
     internal class JsonSchemaSupport
@@ -29,42 +30,43 @@ namespace Azure.Iot.Operations.SchemaGenerator
 
         internal string GetReferencePath(string reference, string refBase)
         {
-            return Path.GetRelativePath(this.workingDir.FullName, Path.Combine(refBase, reference)).Replace('\\', '/');
+            return Path.GetDirectoryName(reference) == string.Empty ? $"./{reference}" :
+                Path.GetRelativePath(this.workingDir.FullName, Path.Combine(refBase, reference)).Replace('\\', '/');
         }
 
-        internal string GetTypeAndAddenda(TDDataSchema tdSchema, string backupSchemaName, string refBase)
+        internal string GetTypeAndAddenda(ValueTracker<TDDataSchema> tdSchema, string backupSchemaName, string refBase)
         {
-            if (tdSchema.Ref != null)
+            if (tdSchema.Value.Ref?.Value != null)
             {
-                return $"\"$ref\": \"{GetReferencePath(tdSchema.Ref, refBase)}\"";
+                return $"\"$ref\": \"{GetReferencePath(tdSchema.Value.Ref.Value.Value, refBase)}\"";
             }
 
-            if ((tdSchema.Type == TDValues.TypeObject && tdSchema.AdditionalProperties == null) ||
-                (tdSchema.Type == TDValues.TypeString && tdSchema.Enum != null))
+            if ((tdSchema.Value.Type?.Value.Value == TDValues.TypeObject && tdSchema.Value.AdditionalProperties?.Value == null) ||
+                (tdSchema.Value.Type?.Value.Value == TDValues.TypeString && tdSchema.Value.Enum != null))
             {
-                return $"\"$ref\": \"{this.schemaNamer.ApplyBackupSchemaName(tdSchema.Title, backupSchemaName)}.json\"";
+                return $"\"$ref\": \"{this.schemaNamer.ApplyBackupSchemaName(tdSchema.Value.Title?.Value.Value, backupSchemaName)}.json\"";
             }
 
-            switch (tdSchema.Type ?? string.Empty)
+            switch (tdSchema.Value.Type?.Value.Value ?? string.Empty)
             {
                 case TDValues.TypeObject:
-                    return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(tdSchema.AdditionalProperties!, backupSchemaName, refBase)} }}";
+                    return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(tdSchema.Value.AdditionalProperties!, backupSchemaName, refBase)} }}";
                 case TDValues.TypeArray:
-                    string itemsProp = tdSchema.Items != null ? $", \"items\": {{ {GetTypeAndAddenda(tdSchema.Items, backupSchemaName, refBase)} }}" : string.Empty;
+                    string itemsProp = tdSchema.Value.Items?.Value != null ? $", \"items\": {{ {GetTypeAndAddenda(tdSchema.Value.Items, backupSchemaName, refBase)} }}" : string.Empty;
                     return $"\"type\": \"array\"{itemsProp}";
                 case TDValues.TypeString:
-                    string formatProp = TDValues.FormatValues.Contains(tdSchema.Format ?? string.Empty) ? $", \"format\": \"{tdSchema.Format}\"" :
-                        tdSchema.Pattern != null && Regex.IsMatch(Iso8601DurationExample, tdSchema.Pattern) && !Regex.IsMatch(AnArbitraryString, tdSchema.Pattern) ? @", ""format"": ""duration""" : string.Empty;
-                    string patternProp = tdSchema.Pattern != null && Regex.IsMatch(DecimalExample, tdSchema.Pattern) && !Regex.IsMatch(AnArbitraryString, tdSchema.Pattern) ? $", \"pattern\": \"{DecimalPattern}\"" : string.Empty;
-                    string encodingProp = tdSchema.ContentEncoding == TDValues.ContentEncodingBase64 ? @", ""contentEncoding"": ""base64""" : string.Empty;
-                    string enumProp = tdSchema.Enum != null ? $", \"enum\": [ {string.Join(", ", $"\"{tdSchema.Enum}\"")} ]" : string.Empty;
+                    string formatProp = TDValues.FormatValues.Contains(tdSchema.Value.Format?.Value.Value ?? string.Empty) ? $", \"format\": \"{tdSchema.Value.Format!.Value.Value}\"" :
+                        tdSchema.Value.Pattern?.Value != null && Regex.IsMatch(Iso8601DurationExample, tdSchema.Value.Pattern.Value.Value) && !Regex.IsMatch(AnArbitraryString, tdSchema.Value.Pattern.Value.Value) ? @", ""format"": ""duration""" : string.Empty;
+                    string patternProp = tdSchema.Value.Pattern?.Value != null && Regex.IsMatch(DecimalExample, tdSchema.Value.Pattern.Value.Value) && !Regex.IsMatch(AnArbitraryString, tdSchema.Value.Pattern.Value.Value) ? $", \"pattern\": \"{DecimalPattern}\"" : string.Empty;
+                    string encodingProp = tdSchema.Value.ContentEncoding?.Value.Value == TDValues.ContentEncodingBase64 ? @", ""contentEncoding"": ""base64""" : string.Empty;
+                    string enumProp = tdSchema.Value.Enum != null ? $", \"enum\": [ {string.Join(", ", $"\"{tdSchema.Value.Enum}\"")} ]" : string.Empty;
                     return $"\"type\": \"string\"{formatProp}{patternProp}{encodingProp}{enumProp}";
                 case TDValues.TypeNumber:
-                    string numberFormat = tdSchema.Minimum >= -3.40e+38 && tdSchema.Maximum <= 3.40e+38 ? "float" : "double";
+                    string numberFormat = tdSchema.Value.Minimum?.Value.Value >= -3.40e+38 && tdSchema.Value.Maximum?.Value.Value <= 3.40e+38 ? "float" : "double";
                     return $"\"type\": \"number\", \"format\": \"{numberFormat}\"";
                 case TDValues.TypeInteger:
-                    string minProp = tdSchema.Minimum != null ? $", \"minimum\": {(long)tdSchema.Minimum}" : string.Empty;
-                    string maxProp = tdSchema.Maximum != null ? $", \"maximum\": {(long)tdSchema.Maximum}" : string.Empty;
+                    string minProp = tdSchema.Value.Minimum?.Value != null ? $", \"minimum\": {(long)tdSchema.Value.Minimum.Value.Value}" : string.Empty;
+                    string maxProp = tdSchema.Value.Maximum?.Value != null ? $", \"maximum\": {(long)tdSchema.Value.Maximum.Value.Value}" : string.Empty;
                     return $"\"type\": \"integer\"{minProp}{maxProp}";
                 case TDValues.TypeBoolean:
                     return @"""type"": ""boolean""";

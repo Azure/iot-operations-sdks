@@ -1,6 +1,6 @@
 namespace Azure.Iot.Operations.SchemaGenerator
 {
-    using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using Azure.Iot.Operations.CodeGeneration;
 
@@ -13,42 +13,59 @@ namespace Azure.Iot.Operations.SchemaGenerator
             this.jsonSchemaSupport = new JsonSchemaSupport(schemaNamer, workingDir);
         }
 
-        internal ISchemaTemplateTransform GetSchemaTransform(string schemaName, SchemaSpec schemaSpec)
+        internal bool TryGetSchemaTransform(string schemaName, SchemaSpec schemaSpec, [NotNullWhen(true)] out ISchemaTemplateTransform? transform)
         {
-            return schemaSpec switch
+            switch (schemaSpec)
             {
-                ObjectSpec objectSpec => GetObjectSchemaTransform(schemaName, objectSpec),
-                EnumSpec enumSpec => GetEnumSchemaTransform(schemaName, enumSpec),
-                AliasSpec aliasSpec => GetAliasSchemaTransform(schemaName, aliasSpec),
-                _ => throw new NotSupportedException($"Unable to transform schema spec of type {schemaSpec.GetType()}."),
-            };
+                case ObjectSpec objectSpec:
+                    return TryGetObjectSchemaTransform(schemaName, objectSpec, out transform);
+                case EnumSpec enumSpec:
+                    return TryGetEnumSchemaTransform(schemaName, enumSpec, out transform);
+                case AliasSpec aliasSpec:
+                    return GetAliasSchemaTransform(schemaName, aliasSpec, out transform);
+                default:
+                    transform = null;
+                    return false;
+            }
         }
 
-        internal ISchemaTemplateTransform GetObjectSchemaTransform(string schemaName, ObjectSpec objectSpec)
+        internal bool TryGetObjectSchemaTransform(string schemaName, ObjectSpec objectSpec, [NotNullWhen(true)] out ISchemaTemplateTransform? transform)
         {
-            return objectSpec.Format switch
+            switch (objectSpec.Format)
             {
-                SerializationFormat.Json => new ObjectJsonSchema(this.jsonSchemaSupport, schemaName, objectSpec),
-                _ => throw new NotSupportedException($"Serialization format {objectSpec.Format} is not supported."),
-            };
+                case SerializationFormat.Json:
+                    transform = new ObjectJsonSchema(this.jsonSchemaSupport, schemaName, objectSpec);
+                    return true;
+                default:
+                    transform = null;
+                    return false;
+            }
         }
 
-        internal ISchemaTemplateTransform GetEnumSchemaTransform(string schemaName, EnumSpec enumSpec)
+        internal bool TryGetEnumSchemaTransform(string schemaName, EnumSpec enumSpec, [NotNullWhen(true)] out ISchemaTemplateTransform? transform)
         {
-            return enumSpec.Format switch
+            switch (enumSpec.Format)
             {
-                SerializationFormat.Json => new EnumJsonSchema(schemaName, enumSpec),
-                _ => throw new NotSupportedException($"Serialization format {enumSpec.Format} is not supported."),
-            };
+                case SerializationFormat.Json:
+                    transform = new EnumJsonSchema(schemaName, enumSpec);
+                    return true;
+                default:
+                    transform = null;
+                    return false;
+            }
         }
 
-        internal ISchemaTemplateTransform GetAliasSchemaTransform(string schemaName, AliasSpec aliasSpec)
+        internal bool GetAliasSchemaTransform(string schemaName, AliasSpec aliasSpec, [NotNullWhen(true)] out ISchemaTemplateTransform? transform)
         {
-            return aliasSpec.Format switch
+            switch (aliasSpec.Format)
             {
-                SerializationFormat.Json => new AliasJsonSchema(this.jsonSchemaSupport, schemaName, aliasSpec),
-                _ => throw new NotSupportedException($"Serialization format {aliasSpec.Format} is not supported."),
-            };
+                case SerializationFormat.Json:
+                    transform = new AliasJsonSchema(this.jsonSchemaSupport, schemaName, aliasSpec);
+                    return true;
+                default:
+                    transform = null;
+                    return false;
+            }
         }
     }
 }

@@ -1,29 +1,31 @@
 ﻿namespace Azure.Iot.Operations.SchemaGenerator
 {
-    using System;
     using System.Linq;
     using System.Collections.Generic;
     using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
-    internal record ObjectSpec(string? Description, Dictionary<string, FieldSpec> Fields, SerializationFormat Format, string SchemaName) : SchemaSpec(Format)
+    internal record ObjectSpec(string? Description, Dictionary<string, FieldSpec> Fields, SerializationFormat Format, string SchemaName, long TokenIndex) : SchemaSpec(Format, TokenIndex)
     {
-        internal static ObjectSpec CreateFromDataSchema(SchemaNamer schemaNamer, TDDataSchema dataSchema, SerializationFormat format, string backupName, string? defaultDescription = null)
+        internal static ObjectSpec CreateFromDataSchema(ErrorReporter errorReporter, SchemaNamer schemaNamer, ValueTracker<TDDataSchema> dataSchema, SerializationFormat format, string backupName, string? defaultDescription = null)
         {
-            string schemaName = schemaNamer.ApplyBackupSchemaName(dataSchema.Title, backupName);
+            string schemaName = schemaNamer.ApplyBackupSchemaName(dataSchema.Value.Title?.Value.Value, backupName);
 
-            if (dataSchema.Type != TDValues.TypeObject)
+            if (dataSchema.Value.Type?.Value.Value != TDValues.TypeObject)
             {
-                throw new Exception($"Cannot create object spec from schema definition with type {dataSchema.Type ?? "unspecfied"}.");
+                errorReporter.ReportError($"Object schema '{schemaName}' must have type 'object'.", dataSchema.TokenIndex);
             }
 
             Dictionary<string, FieldSpec> fieldSpecs = new();
-            foreach (KeyValuePair<string, TDDataSchema> property in dataSchema.Properties ?? new Dictionary<string, TDDataSchema>())
+            foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> property in dataSchema.Value.Properties?.Entries ?? new Dictionary<string, ValueTracker<TDDataSchema>>())
             {
-                fieldSpecs[property.Key] = new FieldSpec(property.Value.Description ?? $"The '{property.Key}' Field.", property.Value, Require: dataSchema.Required?.Contains(property.Key) ?? false, schemaNamer.GetBackupSchemaName(schemaName, property.Key), string.Empty);
+                fieldSpecs[property.Key] = new FieldSpec(property.Value.Value.Description?.Value.Value ?? $"The '{property.Key}' Field.", property.Value, Require: dataSchema.Value.Required?.Elements?.Any(e => e.Value.Value == property.Key) ?? false, schemaNamer.GetBackupSchemaName(schemaName, property.Key), string.Empty);
             }
 
-            return new ObjectSpec(dataSchema.Description ?? defaultDescription, fieldSpecs, format, schemaName);
+            string? description = dataSchema.Value.Description?.Value.Value ?? defaultDescription;
+
+            return new ObjectSpec(description, fieldSpecs, format, schemaName, dataSchema.TokenIndex);
         }
 
         internal static ObjectSpec CreateFixed(SchemaNamer schemaNamer, string description, Dictionary<string, (string, string)> fieldSketches, SerializationFormat format, string schemaName)
@@ -32,7 +34,8 @@
                 description,
                 fieldSketches.ToDictionary(f => f.Key, f => FieldSpec.CreateFixed(f.Value.Item1, f.Value.Item2, schemaNamer.GetBackupSchemaName(schemaName, f.Value.Item1))),
                 format,
-                schemaName);
+                schemaName,
+                TokenIndex: -1);
         }
     }
 }

@@ -8,21 +8,22 @@
     public class TypeNamer
     {
         private TypeNameInfo? typeNameInfo;
-        private bool suppressTitles;
         private Dictionary<string, string> nameRules;
         private bool capitalizeCaptures;
+
+        public bool SuppressTitles { get; }
 
         public TypeNamer(string? typeNameInfoText)
         {
             this.typeNameInfo = typeNameInfoText != null ? JsonSerializer.Deserialize<TypeNameInfo>(typeNameInfoText) : null;
-            this.suppressTitles = this.typeNameInfo?.SuppressTitles ?? false;
+            this.SuppressTitles = this.typeNameInfo?.SuppressTitles ?? false;
             this.nameRules = this.typeNameInfo?.NameRules ?? new();
             this.capitalizeCaptures = this.typeNameInfo?.CapitalizeCaptures ?? false;
         }
 
         public string GenerateTypeName(string schemaName, string? keyName, string? title)
         {
-            if (title != null && !this.suppressTitles)
+            if (title != null && !this.SuppressTitles)
             {
                 return title;
             }

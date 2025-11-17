@@ -1,18 +1,22 @@
 ﻿namespace Azure.Iot.Operations.SchemaGenerator
 {
     using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
-    internal record FieldSpec(string Description, TDDataSchema Schema, bool Require, string BackupSchemaName, string Base, bool Fragment = false, bool ForceOption = false)
+    internal record FieldSpec(string Description, ValueTracker<TDDataSchema> Schema, bool Require, string BackupSchemaName, string Base, bool Fragment = false, bool ForceOption = false)
     {
         internal static FieldSpec CreateFixed(string title, string description, string backupSchemaName)
         {
             return new FieldSpec(
                 description,
-                new TDDataSchema
+                new ValueTracker<TDDataSchema>
                 {
-                    Title = title,
-                    Type = TDValues.TypeObject,
+                    Value = new TDDataSchema
+                    {
+                        Title = new ValueTracker<StringHolder> { Value = new StringHolder { Value = title } },
+                        Type = new ValueTracker<StringHolder> { Value = new StringHolder { Value = TDValues.TypeObject } },
+                    },
                 },
                 Require: false,
                 backupSchemaName,
@@ -32,7 +36,7 @@
             }
 
             return Description == other.Description &&
-                Schema.Equals(other.Schema) &&
+                Schema == other.Schema &&
                 Require == other.Require &&
                 BackupSchemaName == other.BackupSchemaName &&
                 Fragment == other.Fragment;

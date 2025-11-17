@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Text.RegularExpressions;
     using Azure.Iot.Operations.CodeGeneration;
     using Azure.Iot.Operations.EnvoyGenerator;
@@ -14,10 +16,14 @@
 
     internal class CommandHandler
     {
+        private const ConsoleColor ErrorColor = ConsoleColor.Red;
+        private const ConsoleColor WarningColor = ConsoleColor.Yellow;
+
         private static readonly Dictionary<string, TargetLanguage> LanguageMap = new()
         {
             { "csharp", TargetLanguage.CSharp },
             { "rust", TargetLanguage.Rust },
+            { "none", TargetLanguage.None },
         };
 
         public static readonly string[] SupportedLanguages = LanguageMap.Keys.ToArray();
@@ -36,12 +42,34 @@
                 string projectName = LegalizeProjectName(options.OutputDir.Name);
                 TargetLanguage targetLanguage = LanguageMap[options.Language.ToLowerInvariant()];
 
-                List<ParsedThing> parsedThings = ParseThings(options.ThingFiles);
+                ErrorLog errorLog = new(options.WorkingDir.FullName);
+
+                List<ParsedThing> parsedThings = ParseThings(options.ThingFiles, errorLog);
+
+                if (errorLog.HasErrors)
+                {
+                    DisplayErrors("Parsing", errorLog);
+                    return 1;
+                }
 
                 Dictionary<SerializationFormat, List<GeneratedItem>> generatedSchemas = SchemaGenerator.GenerateSchemas(parsedThings, projectName, options.WorkingDir);
+
+                errorLog.CheckForDuplicates();
+                if (errorLog.HasErrors)
+                {
+                    DisplayErrors("Schema generation", errorLog);
+                    return 1;
+                }
+
                 foreach (List<GeneratedItem> schemas in generatedSchemas.Values)
                 {
                     WriteItems(schemas, options.WorkingDir);
+                }
+
+                if (targetLanguage == TargetLanguage.None)
+                {
+                    Console.WriteLine("No code generation requested; exiting after schema generation.");
+                    return 0;
                 }
 
                 FileInfo[] schemaFiles = options.SchemaFiles.SelectMany(fs => Directory.GetFiles(Path.GetDirectoryName(fs) ?? string.Empty, Path.GetFileName(fs)), (_, f) => new FileInfo(f)).ToArray();
@@ -57,9 +85,16 @@
                 foreach (KeyValuePair<SerializationFormat, List<GeneratedItem>> schemaSet in generatedSchemas)
                 {
                     Dictionary<string, string> schemaTextsByName = schemaSet.Value.ToDictionary(s => Path.GetFullPath(Path.Combine(options.WorkingDir.FullName, s.FolderPath, s.FileName)).Replace('\\', '/'), s => s.Content);
-                    TypeGenerator typeGenerator = new TypeGenerator(schemaSet.Key, targetLanguage, typeNamer);
+                    TypeGenerator typeGenerator = new TypeGenerator(schemaSet.Key, targetLanguage, typeNamer, errorLog);
                     generatedTypes.AddRange(typeGenerator.GenerateTypes(schemaTextsByName, new CodeName(options.GenNamespace), projectName, options.OutputSourceSubdir));
                 }
+
+                if (errorLog.HasErrors)
+                {
+                    DisplayErrors("Type generation", errorLog);
+                    return 1;
+                }
+
                 WriteItems(generatedTypes, options.OutputDir);
 
                 List<string> typeNames = generatedTypes.Select(gt => Path.GetFileNameWithoutExtension(gt.FileName)).ToList();
@@ -80,17 +115,21 @@
                     generateProject: !options.NoProj,
                     defaultImpl: options.DefaultImpl);
                 WriteItems(generatedEnvoys, options.OutputDir);
+
+                DisplayWarnings(errorLog);
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ErrorColor;
                 Console.WriteLine($"Code generation failed with exception: {ex.Message}");
+                Console.ResetColor();
                 return 1;
             }
 
             return 0;
         }
 
-        private static List<ParsedThing> ParseThings(FileInfo[] thingFiles)
+        private static List<ParsedThing> ParseThings(FileInfo[] thingFiles, ErrorLog errorLog)
         {
             List<ParsedThing> parsedThings = new();
 
@@ -101,22 +140,92 @@
                 using (StreamReader thingReader = thingFile.OpenText())
                 {
                     string thingText = thingReader.ReadToEnd();
-                    List<TDThing> things = TDParser.ParseMultiple(thingText);
+                    byte[] thingBytes = Encoding.UTF8.GetBytes(thingText);
+                    ErrorReporter errorReporter = new ErrorReporter(errorLog, thingFile.FullName, thingBytes);
 
-                    foreach (TDThing thing in things)
+                    if (TryGetThings(errorReporter, thingBytes, out List<TDThing>? things))
                     {
-                        string? schemaNamesFilename = thing.Links?.FirstOrDefault(l => l.Relation == TDValues.RelationSchemaNaming)?.Href;
-                        string? schemaNameInfoText = schemaNamesFilename != null ? File.ReadAllText(Path.Combine(thingFile.DirectoryName!, schemaNamesFilename)) : null;
-                        SchemaNamer schemaNamer = new SchemaNamer(schemaNameInfoText);
+                        int thingCount = 0;
+                        foreach (TDThing thing in things)
+                        {
+                            ValueTracker<StringHolder>? schemaNamesFilename = thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationSchemaNaming)?.Value.Href;
+                            if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, out SchemaNamer? schemaNamer))
+                            {
+                                thingCount++;
+                                parsedThings.Add(new ParsedThing(thing, thingFile.Name, thingFile.DirectoryName!, schemaNamer, errorReporter));
+                            }
+                        }
 
-                        parsedThings.Add(new ParsedThing(thing, thingFile.DirectoryName!, schemaNamer));
+                        Console.WriteLine($" {thingCount} {(thingCount == 1 ? "TD" : "TDs")} parsed");
                     }
-
-                    Console.WriteLine($" {things.Count} {(things.Count == 1 ? "TD" : "TDs")} parsed");
                 }
             }
 
             return parsedThings;
+        }
+
+        private static bool TryGetSchemaNamer(ErrorReporter errorReporter, string folderPath, ValueTracker<StringHolder>? namerFilename, [NotNullWhen(true)] out SchemaNamer? schemaNamer)
+        {
+            if (namerFilename == null)
+            {
+                schemaNamer = new SchemaNamer();
+                return true;
+            }
+
+            FileInfo namerFile = new FileInfo(Path.Combine(folderPath, namerFilename.Value.Value));
+            if (!namerFile.Exists)
+            {
+                errorReporter.ReportError($"Could not find schema naming file '{namerFilename.Value.Value}'.", namerFilename.TokenIndex);
+
+                schemaNamer = null;
+                return false;
+            }
+
+            string schemaNameInfoText = namerFile.OpenText().ReadToEnd();
+
+            try
+            {
+                schemaNamer = new SchemaNamer(schemaNameInfoText);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errorReporter.ReportError($"Failed to parse schema naming file '{namerFilename.Value.Value}': {ex.Message}", namerFilename.TokenIndex);
+                schemaNamer = null;
+                return false;
+            }
+        }
+
+        private static bool TryGetThings(ErrorReporter errorReporter, byte[] thingBytes, [NotNullWhen(true)] out List<TDThing>? things)
+        {
+            try
+            {
+                things = TDParser.Parse(thingBytes);
+            }
+            catch (Exception ex)
+            {
+                errorReporter.ReportJsonException(ex);
+                things = null;
+                return false;
+            }
+
+            foreach (TDThing thing in things)
+            {
+                foreach (ITraversable item in thing.Traverse())
+                {
+                    if (item is ISourceTracker tracker && tracker.DeserializingFailed)
+                    {
+                        errorReporter.ReportError($"TD deserialization error: {tracker.DeserializationError ?? string.Empty}.", tracker.TokenIndex);
+                    }
+
+                    if (item is ValueTracker<TDDataSchema> dataSchema && dataSchema.Value.Ref != null)
+                    {
+                        errorReporter.RegisterReference(dataSchema.Value.Ref.TokenIndex, dataSchema.Value.Ref.Value.Value);
+                    }
+                }
+            }
+
+            return true;
         }
 
         private static void WriteItems(List<GeneratedItem> generatedItems, DirectoryInfo destDir)
@@ -167,30 +276,39 @@
 
             if (!anyThingFiles && !anySchemaFiles)
             {
+                Console.ForegroundColor = ErrorColor;
                 Console.WriteLine($"No Thing Description files specified, and no schema files {(options.SchemaFiles.Length > 0 ? "found" : "specified")}.");
                 Console.WriteLine("Use option --help for CLI usage and options.");
+                Console.ResetColor();
                 return false;
             }
 
             if (!SupportedLanguages.Contains(options.Language))
             {
-                Console.WriteLine($"language \"{options.Language}\" not recognized.  Language must be {string.Join(" or ", SupportedLanguages.Select(l => $"'{l}'"))}");
+                string langCondition = string.IsNullOrEmpty(options.Language) ? "language not specified" : $"language '{options.Language}' not recognized";
+                Console.ForegroundColor = ErrorColor;
+                Console.WriteLine($"{langCondition}; language must be {string.Join(" or ", SupportedLanguages.Select(l => $"'{l}'"))} (use 'none' for no code generation)");
+                Console.ResetColor();
                 return false;
             }
 
             if (options.ClientOnly && options.ServerOnly)
             {
+                Console.ForegroundColor = ErrorColor;
                 Console.WriteLine("options --clientOnly and --serverOnly are mutually exclusive");
+                Console.ResetColor();
                 return false;
             }
 
             if (options.ThingFiles.Any(mf => !mf.Exists))
             {
+                Console.ForegroundColor = ErrorColor;
                 Console.WriteLine("All Thing Description files must exist.  Non-existent files specified:");
                 foreach (FileInfo f in options.ThingFiles.Where(tf => !tf.Exists))
                 {
                     Console.WriteLine($"  {f.FullName}");
                 }
+                Console.ResetColor();
                 return false;
             }
 
@@ -217,8 +335,52 @@
         {
             if (pathName != null && pathName.StartsWith("--"))
             {
+                Console.ForegroundColor = WarningColor;
                 Console.WriteLine($"Warning: {optionName} \"{pathName}\" looks like a flag.  Did you forget to specify a value?");
+                Console.ResetColor();
             }
+        }
+
+        private static void DisplayErrors(string generationPhase, ErrorLog errorLog)
+        {
+            if (errorLog.Errors.Count > 0 || errorLog.FatalError != null)
+            {
+                Console.ForegroundColor = ErrorColor;
+                Console.WriteLine();
+                Console.WriteLine($"{generationPhase} FAILED with the following errors:");
+                if (errorLog.FatalError != null)
+                {
+                    Console.WriteLine($"  FATAL: {FormatErrorRecord(errorLog.FatalError)}");
+                }
+                foreach (ErrorRecord error in errorLog.Errors.OrderBy(e => (e.Filename, e.LineNumber)))
+                {
+                    Console.WriteLine($"  ERROR: {FormatErrorRecord(error)}");
+                }
+                Console.ResetColor();
+            }
+        }
+
+
+        private static void DisplayWarnings(ErrorLog errorLog)
+        {
+            if (errorLog.Warnings.Count > 0)
+            {
+                Console.ForegroundColor = WarningColor;
+                Console.WriteLine();
+                foreach (ErrorRecord error in errorLog.Warnings.OrderBy(e => (e.CrossRef, e.Filename, e.LineNumber)))
+                {
+                    Console.WriteLine($"  WARNING: {FormatErrorRecord(error)}");
+                }
+                Console.ResetColor();
+            }
+        }
+
+        private static string FormatErrorRecord(ErrorRecord error)
+        {
+            string cfLineInfo = error.CfLineNumber > 0 ? $", cf. Line: {error.CfLineNumber}" : string.Empty;
+            string lineInfo = error.LineNumber > 0 ? $", Line: {error.LineNumber}" : string.Empty;
+            string sourceInfo = error.LineNumber >= 0 ? $" (File: {error.Filename}{lineInfo}{cfLineInfo})" : string.Empty;
+            return $"{error.Message}{sourceInfo}";
         }
     }
 }

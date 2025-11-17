@@ -25,64 +25,64 @@
             }
 
             string tdJson = File.ReadAllText(file.FullName);
-            List<TDThing>? things = TDParser.ParseMultiple(tdJson);
+            List<TDThing>? things = TDParser.Parse(tdJson);
             if (things != null)
             {
                 TDThing? thing = things.First();
-                if (thing.Context != null)
+                if (thing.Context?.Elements != null)
                 {
-                    foreach (var context in thing.Context)
+                    foreach (var context in thing.Context.Elements)
                     {
                         Console.WriteLine($"@context: {context}");
                     }
                 }
                 Console.WriteLine($"ID: {thing.Id}");
                 Console.WriteLine($"Title: {thing.Title}");
-                if (thing.Forms != null)
+                if (thing.Forms?.Elements != null)
                 {
-                    foreach (var form in thing.Forms)
+                    foreach (var form in thing.Forms.Elements)
                     {
-                        Console.WriteLine($"Form href: {form.Href}");
-                        if (form.ContentType != null)
+                        Console.WriteLine($"Form href: {form.Value.Href}");
+                        if (form.Value.ContentType != null)
                         {
-                            Console.WriteLine($"  ContentType: {form.ContentType}");
+                            Console.WriteLine($"  ContentType: {form.Value.ContentType}");
                         }
-                        if (form.Topic != null)
+                        if (form.Value.Topic != null)
                         {
-                            Console.WriteLine($"  Topic: {form.Topic}");
+                            Console.WriteLine($"  Topic: {form.Value.Topic}");
                         }
-                        if (form.Op != null)
+                        if (form.Value.Op != null)
                         {
-                            Console.WriteLine($"  Op: {string.Join(", ", form.Op)}");
+                            Console.WriteLine($"  Op: {string.Join(", ", form.Value.Op)}");
                         }
                     }
                 }
-                if (thing.Events != null)
+                if (thing.Events?.Entries != null)
                 {
-                    foreach (var evt in thing.Events)
+                    foreach (var evt in thing.Events.Entries)
                     {
                         Console.WriteLine($"Event: {evt.Key}");
                     }
                 }
-                if (thing.SchemaDefinitions != null)
+                if (thing.SchemaDefinitions?.Entries != null)
                 {
-                    foreach (var schema in thing.SchemaDefinitions)
+                    foreach (var schema in thing.SchemaDefinitions.Entries)
                     {
                         Console.WriteLine($"SchemaDefinition: {schema.Key}");
-                        if (schema.Value.AdditionalProperties != null)
+                        if (schema.Value.Value.AdditionalProperties != null)
                         {
-                            Console.WriteLine($"  AdditionalProperties: {schema.Value.AdditionalProperties}");
+                            Console.WriteLine($"  AdditionalProperties: {schema.Value.Value.AdditionalProperties}");
                         }
                     }
                 }
-                if (thing.Properties != null)
+                if (thing.Properties?.Entries != null)
                 {
-                    foreach (var prop in thing.Properties)
+                    foreach (var prop in thing.Properties.Entries)
                     {
                         Console.WriteLine($"Property: {prop.Key}");
-                        if (prop.Value.AdditionalProperties != null)
+                        if (prop.Value.Value.AdditionalProperties != null)
                         {
-                            Console.WriteLine($"  AdditionalProperties: {prop.Value.AdditionalProperties}");
+                            Console.WriteLine($"  AdditionalProperties: {prop.Value.Value.AdditionalProperties}");
                         }
                     }
                 }

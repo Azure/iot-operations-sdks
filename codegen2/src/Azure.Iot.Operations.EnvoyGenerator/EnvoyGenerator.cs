@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text.Json;
     using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
     public static class EnvoyGenerator
@@ -32,11 +32,16 @@
 
             foreach (ParsedThing parsedThing in parsedThings)
             {
-                CodeName serviceName = new CodeName(parsedThing.Thing.Title ?? genNamespace);
+                if (parsedThing.Thing.Title == null)
+                {
+                    throw new System.InvalidOperationException($"Thing defined in file '{parsedThing.FileName}' is missing a root-level 'title' property.");
+                }
 
-                List<ActionSpec> actionSpecs = ActionEnvoyGenerator.GenerateActionEnvoys(parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, typesToSerialize);
-                List<EventSpec> eventSpecs = EventEnvoyGenerator.GenerateEventEnvoys(parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, typesToSerialize);
-                List<PropertySpec> propSpecs = PropertyEnvoyGenerator.GeneratePropertyEnvoys(parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, aggErrorSpecs, typesToSerialize);
+                CodeName serviceName = new CodeName(parsedThing.Thing.Title?.Value.Value ?? genNamespace);
+
+                List<ActionSpec> actionSpecs = ActionEnvoyGenerator.GenerateActionEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, typesToSerialize);
+                List<EventSpec> eventSpecs = EventEnvoyGenerator.GenerateEventEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, typesToSerialize);
+                List<PropertySpec> propSpecs = PropertyEnvoyGenerator.GeneratePropertyEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, aggErrorSpecs, typesToSerialize);
                 GenerateServiceEnvoys(parsedThing.SchemaNamer, serviceName, actionSpecs, propSpecs, eventSpecs, envoyFactory, transforms);
                 CollectNamedConstants(parsedThing.Thing, parsedThing.SchemaNamer, schemaConstants);
             }
@@ -68,7 +73,7 @@
 
         private static void CollectNamedConstants(TDThing tdThing, SchemaNamer schemaNamer, Dictionary<string, Dictionary<string, TypedConstant>> schemaConstants)
         {
-            IEnumerable<KeyValuePair<string, TDDataSchema>>? constDefs = tdThing.SchemaDefinitions?.Where(d => d.Value.Const != null);
+            IEnumerable<KeyValuePair<string, ValueTracker<TDDataSchema>>>? constDefs = tdThing.SchemaDefinitions?.Entries?.Where(d => d.Value.Value.Const?.Value != null);
 
             if (constDefs?.Any() ?? false)
             {
@@ -81,20 +86,10 @@
 
                 foreach (var constDef in constDefs)
                 {
-                    if (constDef.Value.Type == TDValues.TypeString || constDef.Value.Type == TDValues.TypeNumber || constDef.Value.Type == TDValues.TypeInteger || constDef.Value.Type == TDValues.TypeBoolean)
+                    if (constDef.Value.Value.Type?.Value.Value == TDValues.TypeString || constDef.Value.Value.Type?.Value.Value == TDValues.TypeNumber || constDef.Value.Value.Type?.Value.Value == TDValues.TypeInteger || constDef.Value.Value.Type?.Value.Value == TDValues.TypeBoolean)
                     {
-                        JsonElement constElt = (JsonElement)constDef.Value.Const!;
-                        object constValue = constDef.Value.Type switch
-                        {
-                            TDValues.TypeString => constElt.GetString()!,
-                            TDValues.TypeNumber => constElt.GetDouble(),
-                            TDValues.TypeInteger => constElt.GetInt32(),
-                            TDValues.TypeBoolean => constElt.GetBoolean(),
-                            _ => null!,
-                        };
-
-                        string constName = schemaNamer.ChooseTitleOrName(constDef.Value.Title, constDef.Key);
-                        namedConstants[constName] = new TypedConstant(new CodeName(constName), constDef.Value.Type, constValue, constDef.Value.Description);
+                        string constName = schemaNamer.ChooseTitleOrName(constDef.Value.Value.Title?.Value.Value, constDef.Key);
+                        namedConstants[constName] = new TypedConstant(new CodeName(constName), constDef.Value.Value.Type.Value.Value, constDef.Value.Value.Const!.Value!.Value, constDef.Value.Value.Description?.Value.Value);
                     }
                 }
             }

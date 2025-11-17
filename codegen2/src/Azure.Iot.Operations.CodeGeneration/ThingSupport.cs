@@ -2,40 +2,44 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
     public static class ThingSupport
     {
-        public static List<SerializationFormat> GetSerializationFormats(List<TDThing> things)
+        public static List<SerializationFormat> GetSerializationFormats(ErrorReporter errorReporter, List<TDThing> things)
         {
             HashSet<SerializationFormat> formats = new();
 
             foreach (TDThing thing in things)
             {
-                AddFormatsFromLinks(thing.Links, formats);
-                AddFormatsFromForms(thing.Forms, formats);
+                AddFormatsFromLinks(errorReporter, thing.Links?.Elements, formats);
+                AddFormatsFromForms(errorReporter, thing.Forms?.Elements, formats);
 
-                if (thing.Actions != null)
+                foreach (KeyValuePair<string, ValueTracker<TDAction>> actionKvp in thing.Actions?.Entries ?? new())
                 {
-                    foreach (TDAction action in thing.Actions.Values)
+                    TDAction? action = actionKvp.Value.Value;
+                    if (action != null)
                     {
-                        AddFormatsFromForms(action.Forms, formats);
+                        AddFormatsFromForms(errorReporter, action.Forms?.Elements, formats);
                     }
                 }
 
-                if (thing.Properties != null)
+                foreach (KeyValuePair<string, ValueTracker<TDProperty>> propKvp in thing.Properties?.Entries ?? new())
                 {
-                    foreach (TDProperty property in thing.Properties.Values)
+                    TDProperty? property = propKvp.Value.Value;
+                    if (property != null)
                     {
-                        AddFormatsFromForms(property.Forms, formats);
+                        AddFormatsFromForms(errorReporter, property.Forms?.Elements, formats);
                     }
                 }
 
-                if (thing.Events != null)
+                foreach (KeyValuePair<string, ValueTracker<TDEvent>> eventKvp in thing.Events?.Entries ?? new())
                 {
-                    foreach (TDEvent evt in thing.Events.Values)
+                    TDEvent? eachEvent = eventKvp.Value.Value;
+                    if (eachEvent != null)
                     {
-                        AddFormatsFromForms(evt.Forms, formats);
+                        AddFormatsFromForms(errorReporter, eachEvent.Forms?.Elements, formats);
                     }
                 }
             }
@@ -43,57 +47,66 @@
             return formats.ToList();
         }
 
-        public static SerializationFormat ContentTypeToFormat(string? contentType)
+        public static SerializationFormat ContentTypeToFormat(ErrorReporter errorReporter, ValueTracker<StringHolder>? contentType)
         {
-            return contentType switch
+            if (contentType?.Value == null)
             {
-                TDValues.ContentTypeJson => SerializationFormat.Json,
-                _ => SerializationFormat.None,
-            };
+                return SerializationFormat.None;
+            }
+
+            switch (contentType.Value.Value)
+            {
+                case TDValues.ContentTypeJson:
+                    return SerializationFormat.Json;
+            }
+
+            errorReporter.ReportError($"Unsupported content type '{contentType.Value.Value}'.", contentType.TokenIndex);
+
+            return SerializationFormat.None;
         }
 
-        private static void AddFormatsFromForms(IEnumerable<TDForm>? forms, HashSet<SerializationFormat> formats)
+        private static void AddFormatsFromForms(ErrorReporter errorReporter, IEnumerable<ValueTracker<TDForm>>? forms, HashSet<SerializationFormat> formats)
         {
             if (forms == null)
             {
                 return;
             }
 
-            foreach (TDForm form in forms)
+            foreach (ValueTracker<TDForm> form in forms)
             {
-                AddFormatFromContentType(form.ContentType, formats);
-                AddFormatsFromSchemaReferences(form.AdditionalResponses, formats);
-                AddFormatsFromSchemaReferences(form.HeaderInfo, formats);
+                AddFormatFromContentType(errorReporter, form.Value.ContentType, formats);
+                AddFormatsFromSchemaReferences(errorReporter, form.Value.AdditionalResponses?.Elements, formats);
+                AddFormatsFromSchemaReferences(errorReporter, form.Value.HeaderInfo?.Elements, formats);
             }
         }
 
-        private static void AddFormatsFromLinks(IEnumerable<TDLink>? links, HashSet<SerializationFormat> formats)
+        private static void AddFormatsFromLinks(ErrorReporter errorReporter, IEnumerable<ValueTracker<TDLink>>? links, HashSet<SerializationFormat> formats)
         {
             if (links != null)
             {
-                foreach (TDLink link in links)
+                foreach (ValueTracker<TDLink> link in links)
                 {
-                    AddFormatFromContentType(link.ContentType, formats);
+                    AddFormatFromContentType(errorReporter, link.Value.ContentType, formats);
                 }
             }
         }
 
-        private static void AddFormatsFromSchemaReferences(IEnumerable<TDSchemaReference>? schemaRefs, HashSet<SerializationFormat> formats)
+        private static void AddFormatsFromSchemaReferences(ErrorReporter errorReporter, IEnumerable<ValueTracker<TDSchemaReference>>? schemaRefs, HashSet<SerializationFormat> formats)
         {
             if (schemaRefs != null)
             {
-                foreach (TDSchemaReference resp in schemaRefs)
+                foreach (ValueTracker<TDSchemaReference> resp in schemaRefs)
                 {
-                    AddFormatFromContentType(resp.ContentType, formats);
+                    AddFormatFromContentType(errorReporter, resp.Value.ContentType, formats);
                 }
             }
         }
 
-        private static void AddFormatFromContentType(string? contentType, HashSet<SerializationFormat> formats)
+        private static void AddFormatFromContentType(ErrorReporter errorReporter, ValueTracker<StringHolder>? contentType, HashSet<SerializationFormat> formats)
         {
-            if (contentType != null)
+            if (contentType?.Value != null)
             {
-                formats.Add(ContentTypeToFormat(contentType));
+                formats.Add(ContentTypeToFormat(errorReporter, contentType));
             }
         }
     }

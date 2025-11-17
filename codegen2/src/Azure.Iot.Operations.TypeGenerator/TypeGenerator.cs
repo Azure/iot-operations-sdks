@@ -8,8 +8,9 @@
     {
         private ISchemaStandardizer schemaStandardizer;
         private ITypeGenerator typeGenerator;
+        private ErrorLog errorLog;
 
-        public TypeGenerator(SerializationFormat serializationFormat, TargetLanguage targetLanguage, TypeNamer typeNamer)
+        public TypeGenerator(SerializationFormat serializationFormat, TargetLanguage targetLanguage, TypeNamer typeNamer, ErrorLog errorLog)
         {
             this.schemaStandardizer = serializationFormat switch
             {
@@ -23,6 +24,8 @@
                 TargetLanguage.Rust => new RustTypeGenerator(),
                 _ => throw new NotSupportedException($"Target language {targetLanguage} is not supported."),
             };
+
+            this.errorLog = errorLog;
         }
 
         public List<GeneratedItem> GenerateTypes(Dictionary<string, string> schemaTextsByName, CodeName genNamespace, string projectName, string srcSubdir)
@@ -31,11 +34,14 @@
 
             CycleBreaker cycleBreaker = new (this.typeGenerator.TargetLanguage);
 
-            foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaTextsByName))
+            if (schemaStandardizer.TryGetStandardizedSchemas(schemaTextsByName, this.errorLog, out List<SchemaType> standardizedSchemas))
             {
-                cycleBreaker.AddIndirectionAsNeeded(schemaType);
+                foreach (SchemaType schemaType in standardizedSchemas)
+                {
+                    cycleBreaker.AddIndirectionAsNeeded(schemaType);
 
-                generatedTypes.Add(this.typeGenerator.GenerateTypeFromSchema(schemaType, projectName, genNamespace, schemaStandardizer.SerializationFormat, srcSubdir));
+                    generatedTypes.Add(this.typeGenerator.GenerateTypeFromSchema(schemaType, projectName, genNamespace, schemaStandardizer.SerializationFormat, srcSubdir));
+                }
             }
 
             return generatedTypes;

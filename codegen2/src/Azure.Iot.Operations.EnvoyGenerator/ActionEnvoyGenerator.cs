@@ -3,30 +3,37 @@
     using System.Collections.Generic;
     using System.Linq;
     using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
     internal static class ActionEnvoyGenerator
     {
-        internal static List<ActionSpec> GenerateActionEnvoys(TDThing tdThing, SchemaNamer schemaNamer, CodeName serviceName, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms, Dictionary<string, ErrorSpec> errorSpecs, HashSet<string> typesToSerialize)
+        internal static List<ActionSpec> GenerateActionEnvoys(ErrorReporter errorReporter, TDThing tdThing, SchemaNamer schemaNamer, CodeName serviceName, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms, Dictionary<string, ErrorSpec> errorSpecs, HashSet<string> typesToSerialize)
         {
             List<ActionSpec> actionSpecs = new();
 
-            foreach (KeyValuePair<string, TDAction> actionKvp in tdThing.Actions ?? new())
+            foreach (KeyValuePair<string, ValueTracker<TDAction>> actionKvp in tdThing.Actions?.Entries ?? new())
             {
-                FormInfo? actionForm = FormInfo.CreateFromForm(actionKvp.Value.Forms?.FirstOrDefault(f => (f.Op?.Values.Contains(TDValues.OpInvokeAction) ?? false) || (f.Op?.Values.Contains(TDValues.OpQueryAction) ?? false)), tdThing.SchemaDefinitions);
-                actionForm ??= FormInfo.CreateFromForm(actionKvp.Value.Forms?.FirstOrDefault(f => f.Op == null), tdThing.SchemaDefinitions);
+                TDAction? action = actionKvp.Value.Value;
+                if (action == null)
+                {
+                    continue;
+                }
+
+                FormInfo? actionForm = FormInfo.CreateFromForm(errorReporter, action.Forms?.Elements?.FirstOrDefault(f => (f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpInvokeAction) ?? false) || (f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpQueryAction) ?? false))?.Value, tdThing.SchemaDefinitions?.Entries);
+                actionForm ??= FormInfo.CreateFromForm(errorReporter, action.Forms?.Elements?.FirstOrDefault(f => f.Value.Op == null)?.Value, tdThing.SchemaDefinitions?.Entries);
 
                 if (actionForm?.TopicPattern != null && actionForm.Format != SerializationFormat.None)
                 {
-                    string? inputSchemaType = actionKvp.Value.Input != null ? schemaNamer.GetActionInSchema(actionKvp.Value.Input, actionKvp.Key) : null;
-                    string? outArgsType = actionKvp.Value.Output != null ? schemaNamer.GetActionOutSchema(actionKvp.Value.Output, actionKvp.Key) : null;
+                    string? inputSchemaType = action.Input != null ? schemaNamer.GetActionInSchema(action.Input?.Value, actionKvp.Key) : null;
+                    string? outArgsType = action.Output != null ? schemaNamer.GetActionOutSchema(action.Output?.Value, actionKvp.Key) : null;
                     string? outputSchemaType = actionForm.ErrorRespSchema != null ? schemaNamer.GetActionRespSchema(actionKvp.Key) : outArgsType;
-                    string? errSchemaName = schemaNamer.ChooseTitleOrName(actionForm.ErrorRespSchema?.Title, actionForm.ErrorRespName);
+                    string? errSchemaName = schemaNamer.ChooseTitleOrName(actionForm.ErrorRespSchema?.Value.Title?.Value?.Value, actionForm.ErrorRespName);
 
-                    List<string> normalResultNames = actionKvp.Value.Output?.Properties?.Keys?.ToList() ?? new();
-                    List<string> normalRequiredNames = actionKvp.Value.Output?.Required?.ToList() ?? new();
-                    string? headerCodeSchema = schemaNamer.ChooseTitleOrName(actionForm.HeaderCodeSchema?.Title, actionForm.HeaderCodeName);
-                    string? headerInfoSchema = schemaNamer.ChooseTitleOrName(actionForm.HeaderInfoSchema?.Title, actionForm.HeaderInfoName);
+                    List<string> normalResultNames = action.Output?.Value?.Properties?.Entries?.Keys?.ToList() ?? new();
+                    List<ValueTracker<StringHolder>> normalRequiredNames = action.Output?.Value?.Required?.Elements?.ToList() ?? new();
+                    string? headerCodeSchema = schemaNamer.ChooseTitleOrName(actionForm.HeaderCodeSchema?.Value.Title?.Value?.Value, actionForm.HeaderCodeName);
+                    string? headerInfoSchema = schemaNamer.ChooseTitleOrName(actionForm.HeaderInfoSchema?.Value.Title?.Value?.Value, actionForm.HeaderInfoName);
 
                     bool doesTargetExecutor = DoesTopicReferToExecutor(actionForm.TopicPattern);
 
@@ -49,7 +56,7 @@
 
                     foreach (IEnvoyTemplateTransform transform in envoyFactory.GetActionTransforms(
                         schemaNamer,
-                        tdThing.Id!,
+                        tdThing.Id!.Value!.Value,
                         serviceName,
                         actionKvp.Key,
                         inputSchemaType,
@@ -57,7 +64,7 @@
                         actionForm.Format,
                         actionForm.ServiceGroupId,
                         actionForm.TopicPattern,
-                        actionKvp.Value.Idempotent,
+                        action.Idempotent?.Value.Value ?? false,
                         normalResultNames,
                         normalRequiredNames,
                         outArgsType,
@@ -67,7 +74,7 @@
                         headerCodeSchema,
                         actionForm.HeaderInfoName,
                         headerInfoSchema,
-                        actionForm.HeaderCodeSchema?.Enum?.ToList(),
+                        actionForm.HeaderCodeSchema?.Value.Enum?.Elements?.Select(e => e.Value.Value).ToList(),
                         doesTargetExecutor))
                     {
                         transforms[transform.FileName] = transform;
@@ -94,13 +101,13 @@
 
                         ErrorSpec errorSpec = new ErrorSpec(
                             errSchemaName!,
-                            actionForm.ErrorRespSchema.Description ?? "The action could not be completed",
-                            actionForm.ErrorRespSchema.ErrorMessage,
-                            actionForm.ErrorRespSchema.Required?.Contains(actionForm.ErrorRespSchema.ErrorMessage ?? string.Empty) ?? false,
+                            actionForm.ErrorRespSchema.Value.Description?.Value.Value ?? "The action could not be completed",
+                            actionForm.ErrorRespSchema.Value.ErrorMessage?.Value.Value,
+                            actionForm.ErrorRespSchema.Value.Required?.Elements?.Any(e => e.Value.Value == (actionForm.ErrorRespSchema.Value.ErrorMessage?.Value?.Value ?? string.Empty)) ?? false,
                             actionForm.HeaderCodeName,
-                            schemaNamer.ChooseTitleOrName(actionForm.HeaderCodeSchema?.Title, actionForm.HeaderCodeName),
+                            schemaNamer.ChooseTitleOrName(actionForm.HeaderCodeSchema?.Value.Title?.Value.Value, actionForm.HeaderCodeName),
                             actionForm.HeaderInfoName,
-                            schemaNamer.ChooseTitleOrName(actionForm.HeaderInfoSchema?.Title, actionForm.HeaderInfoName));
+                            schemaNamer.ChooseTitleOrName(actionForm.HeaderInfoSchema?.Value.Title?.Value.Value, actionForm.HeaderInfoName));
 
                         errorSpecs[errSchemaName!] = errorSpec;
                     }

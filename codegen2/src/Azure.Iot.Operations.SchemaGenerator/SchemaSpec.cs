@@ -2,20 +2,21 @@
 {
     using System.Diagnostics.CodeAnalysis;
     using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
-    internal record SchemaSpec(SerializationFormat Format)
+    internal record SchemaSpec(SerializationFormat Format, long TokenIndex)
     {
-        internal static bool TryCreateFromDataSchema(SchemaNamer schemaNamer, TDDataSchema dataSchema, SerializationFormat format, string backupName, [NotNullWhen(true)] out SchemaSpec? schemaSpec)
+        internal static bool TryCreateFromDataSchema(ErrorReporter errorReporter, SchemaNamer schemaNamer, ValueTracker<TDDataSchema> dataSchema, SerializationFormat format, string backupName, [NotNullWhen(true)] out SchemaSpec? schemaSpec)
         {
-            if (dataSchema.Type == TDValues.TypeObject && dataSchema.AdditionalProperties == null)
+            if (dataSchema.Value.Type?.Value.Value == TDValues.TypeObject && dataSchema.Value.AdditionalProperties == null)
             {
-                schemaSpec = ObjectSpec.CreateFromDataSchema(schemaNamer, dataSchema, format, backupName);
+                schemaSpec = ObjectSpec.CreateFromDataSchema(errorReporter, schemaNamer, dataSchema, format, backupName);
                 return true;
             }
-            else if (dataSchema.Type == TDValues.TypeString && dataSchema.Enum != null)
+            else if (dataSchema.Value.Enum != null)
             {
-                schemaSpec = EnumSpec.CreateFromDataSchema(schemaNamer, dataSchema, format, backupName);
+                schemaSpec = EnumSpec.CreateFromDataSchema(errorReporter, schemaNamer, dataSchema, format, backupName);
                 return true;
             }
             else

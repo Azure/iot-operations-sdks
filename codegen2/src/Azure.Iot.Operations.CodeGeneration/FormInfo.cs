@@ -2,40 +2,41 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
     public record FormInfo(
         SerializationFormat Format,
         bool HasErrorResponse,
         string? ErrorRespName,
-        TDDataSchema? ErrorRespSchema,
+        ValueTracker<TDDataSchema>? ErrorRespSchema,
         SerializationFormat ErrorRespFormat,
         string? HeaderInfoName,
-        TDDataSchema? HeaderInfoSchema,
+        ValueTracker<TDDataSchema>? HeaderInfoSchema,
         SerializationFormat HeaderInfoFormat,
         string? HeaderCodeName,
-        TDDataSchema? HeaderCodeSchema,
+        ValueTracker<TDDataSchema>? HeaderCodeSchema,
         string? ServiceGroupId,
         string? TopicPattern)
     {
-        public static FormInfo? CreateFromForm(TDForm? form, Dictionary<string, TDDataSchema>? schemaDefinitions)
+        public static FormInfo? CreateFromForm(ErrorReporter errorReporter, TDForm? form, Dictionary<string, ValueTracker<TDDataSchema>>? schemaDefinitions)
         {
             if (form == null)
             {
                 return null;
             }
 
-            SerializationFormat format = ThingSupport.ContentTypeToFormat(form.ContentType);
+            SerializationFormat format = ThingSupport.ContentTypeToFormat(errorReporter, form.ContentType);
 
-            bool hasErrorResponse = form.AdditionalResponses?.Any(r => !r.Success) ?? false;
+            bool hasErrorResponse = form.AdditionalResponses?.Elements?.Any(r => !(r.Value.Success?.Value.Value ?? false)) ?? false;
 
-            TDSchemaReference? errorSchemaRef = form.AdditionalResponses?.FirstOrDefault(r => !r.Success && r.Schema != null);
-            var (errorRespName, errorRespSchema, errorRespFormat) = GetSchemaAndFormat(errorSchemaRef, form, schemaDefinitions);
+            ValueTracker<TDSchemaReference>? errorSchemaRef = form.AdditionalResponses?.Elements?.FirstOrDefault(r => !(r.Value.Success?.Value.Value ?? false) && r.Value.Schema != null);
+            var (errorRespName, errorRespSchema, errorRespFormat) = GetSchemaAndFormat(errorReporter, errorSchemaRef?.Value, form, schemaDefinitions);
 
-            TDSchemaReference? headerSchemaRef = form.HeaderInfo?.FirstOrDefault(r => r.Schema != null);
-            var (headerInfoName, headerInfoSchema, headerInfoFormat) = GetSchemaAndFormat(headerSchemaRef, form, schemaDefinitions);
+            ValueTracker<TDSchemaReference>? headerSchemaRef = form.HeaderInfo?.Elements?.FirstOrDefault(r => r.Value.Schema != null);
+            var (headerInfoName, headerInfoSchema, headerInfoFormat) = GetSchemaAndFormat(errorReporter, headerSchemaRef?.Value, form, schemaDefinitions);
 
-            TDDataSchema? headerCodeSchema = GetSchema(form.HeaderCode, schemaDefinitions);
+            ValueTracker<TDDataSchema>? headerCodeSchema = GetSchema(form.HeaderCode?.Value?.Value, schemaDefinitions);
 
             return new FormInfo(
                 format,
@@ -46,26 +47,26 @@
                 headerInfoName,
                 headerInfoSchema,
                 headerInfoFormat,
-                form.HeaderCode,
+                form.HeaderCode?.Value?.Value,
                 headerCodeSchema,
-                form.ServiceGroupId,
-                form.Topic);
+                form.ServiceGroupId?.Value?.Value,
+                form.Topic?.Value?.Value);
         }
 
-        private static (string?, TDDataSchema?, SerializationFormat) GetSchemaAndFormat(TDSchemaReference? schemaRef, TDForm? form, Dictionary<string, TDDataSchema>? schemaDefinitions)
+        private static (string?, ValueTracker<TDDataSchema>?, SerializationFormat) GetSchemaAndFormat(ErrorReporter errorReporter, TDSchemaReference? schemaRef, TDForm? form, Dictionary<string, ValueTracker<TDDataSchema>>? schemaDefinitions)
         {
-            string? schemaName = schemaRef?.Schema;
-            SerializationFormat schemaFormat = ThingSupport.ContentTypeToFormat(schemaRef?.ContentType ?? form?.ContentType);
+            string? schemaName = schemaRef?.Schema?.Value?.Value;
+            SerializationFormat schemaFormat = ThingSupport.ContentTypeToFormat(errorReporter, schemaRef?.ContentType ?? form?.ContentType);
 
-            TDDataSchema? schema = null;
+            ValueTracker<TDDataSchema>? schema = null;
             schemaDefinitions?.TryGetValue(schemaName ?? string.Empty, out schema);
 
             return (schemaName, schema, schemaFormat);
         }
 
-        private static TDDataSchema? GetSchema(string? schemaName, Dictionary<string, TDDataSchema>? schemaDefinitions)
+        private static ValueTracker<TDDataSchema>? GetSchema(string? schemaName, Dictionary<string, ValueTracker<TDDataSchema>>? schemaDefinitions)
         {
-            return schemaDefinitions?.TryGetValue(schemaName ?? string.Empty, out TDDataSchema? schema) ?? false ? schema : null;
+            return schemaDefinitions?.TryGetValue(schemaName ?? string.Empty, out ValueTracker<TDDataSchema>? schema) ?? false ? schema : null;
         }
     }
 }

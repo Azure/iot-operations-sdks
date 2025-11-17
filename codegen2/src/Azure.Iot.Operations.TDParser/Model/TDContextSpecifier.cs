@@ -2,60 +2,107 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text.Json;
-    using System.Text.Json.Serialization;
 
-    public class TDContextSpecifier
+    public class TDContextSpecifier : IEquatable<TDContextSpecifier>, IDeserializable<TDContextSpecifier>
     {
-        public string? Remote { get; set; }
+        public ValueTracker<StringHolder>? Remote { get; set; }
 
-        public Dictionary<string, string>? Local { get; set; }
+        public MapTracker<StringHolder>? Local { get; set; }
 
-        public override string ToString()
+        public virtual bool Equals(TDContextSpecifier? other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (Remote != other.Remote)
+            {
+                return false;
+            }
+            if (Local != other.Local)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return (Remote, Local).GetHashCode();
+        }
+
+        public static bool operator ==(TDContextSpecifier? left, TDContextSpecifier? right)
+        {
+            if (left is null)
+            {
+                return right is null;
+            }
+            else
+            {
+                return left.Equals(right);
+            }
+        }
+
+        public static bool operator !=(TDContextSpecifier? left, TDContextSpecifier? right)
+        {
+            return !(left == right);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            else if (ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+            else if (obj is not TDContextSpecifier other)
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(other);
+            }
+        }
+
+        public IEnumerable<ITraversable> Traverse()
         {
             if (Remote != null)
             {
-                return Remote;
+                foreach (ITraversable item in Remote.Traverse())
+                {
+                    yield return item;
+                }
             }
-            else if (Local != null)
+            if (Local != null)
             {
-                return string.Join(", ", Local.Select(kv => $"{kv.Key}: {kv.Value}"));
-            }
-            else
-            {
-                return string.Empty;
+                foreach (ITraversable item in Local.Traverse())
+                {
+                    yield return item;
+                }
             }
         }
-    }
 
-    public sealed class ContextSpecifierJsonConverter : JsonConverter<TDContextSpecifier>
-    {
-        public override TDContextSpecifier Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public static TDContextSpecifier Deserialize(ref Utf8JsonReader reader)
         {
-            return new TDContextSpecifier
+            switch (reader.TokenType)
             {
-                Remote = reader.TokenType == JsonTokenType.String ? reader.GetString() : null,
-                Local = reader.TokenType == JsonTokenType.StartObject ? JsonSerializer.Deserialize<Dictionary<string, string>>(ref reader, options) : null
-            };
-        }
-
-        public override void Write(
-            Utf8JsonWriter writer,
-            TDContextSpecifier amount,
-            JsonSerializerOptions options)
-        {
-            if (amount.Remote != null)
-            {
-                writer.WriteStringValue(amount.Remote);
-            }
-            else if (amount.Local != null)
-            {
-                JsonSerializer.Serialize(writer, amount.Local, options);
-            }
-            else
-            {
-                writer.WriteNullValue();
+                case JsonTokenType.StartObject:
+                    return new TDContextSpecifier
+                    {
+                        Local = MapTracker<StringHolder>.Deserialize(ref reader),
+                    };
+                case JsonTokenType.String:
+                    return new TDContextSpecifier
+                    {
+                        Remote = ValueTracker<StringHolder>.Deserialize(ref reader),
+                    };
+                default:
+                    throw new InvalidOperationException($"expected string or JSON object but found {reader.TokenType}");
             }
         }
     }

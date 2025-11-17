@@ -3,14 +3,15 @@
     using System.Collections.Generic;
     using System.Linq;
     using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
     internal static class PropertySchemaGenerator
     {
-        internal static void GeneratePropertySchemas(TDThing tdThing, string dirName, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        internal static void GeneratePropertySchemas(ErrorReporter errorReporter, TDThing tdThing, string dirName, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
-            FormInfo? readAllPropsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpReadAllProps) ?? false), tdThing.SchemaDefinitions);
-            FormInfo? writeMultPropsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpWriteMultProps) ?? false), tdThing.SchemaDefinitions);
+            FormInfo? readAllPropsForm = FormInfo.CreateFromForm(errorReporter, tdThing.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpReadAllProps) ?? false)?.Value, tdThing.SchemaDefinitions?.Entries);
+            FormInfo? writeMultPropsForm = FormInfo.CreateFromForm(errorReporter, tdThing.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpWriteMultProps) ?? false)?.Value, tdThing.SchemaDefinitions?.Entries);
 
             Dictionary<string, FieldSpec> readValueFields = new();
             Dictionary<string, FieldSpec> writeValueFields = new();
@@ -19,17 +20,19 @@
             HashSet<string> readErrorSchemaNames = new();
             HashSet<string> writeErrorSchemaNames = new();
 
-            if (tdThing.Properties != null)
+            foreach (KeyValuePair<string, ValueTracker<TDProperty>> propKvp in tdThing.Properties?.Entries ?? new())
             {
-                foreach (KeyValuePair<string, TDProperty> propKvp in tdThing.Properties)
+                TDProperty? property = propKvp.Value.Value;
+                if (property != null)
                 {
                     ProcessProperty(
+                        errorReporter,
                         schemaNamer,
                         propKvp.Key,
-                        propKvp.Value,
+                        property,
                         projectName,
                         dirName,
-                        tdThing.SchemaDefinitions,
+                        tdThing.SchemaDefinitions?.Entries,
                         schemaSpecs,
                         readValueFields,
                         readErrorFields,
@@ -38,12 +41,13 @@
                         isRead: true);
 
                     ProcessProperty(
+                        errorReporter,
                         schemaNamer,
                         propKvp.Key,
-                        propKvp.Value,
+                        property,
                         projectName,
                         dirName,
-                        tdThing.SchemaDefinitions,
+                        tdThing.SchemaDefinitions?.Entries,
                         schemaSpecs,
                         writeValueFields,
                         writeErrorFields,
@@ -86,12 +90,13 @@
         }
 
         private static void ProcessProperty(
+            ErrorReporter errorReporter,
             SchemaNamer schemaNamer,
             string propName,
             TDProperty tdProperty,
             string projectName,
             string dirName,
-            Dictionary<string, TDDataSchema>? schemaDefinitions,
+            Dictionary<string, ValueTracker<TDDataSchema>>? schemaDefinitions,
             Dictionary<string, SchemaSpec> schemaSpecs,
             Dictionary<string, FieldSpec> valueFields,
             Dictionary<string, FieldSpec> errorFields,
@@ -99,39 +104,40 @@
             HashSet<string> errorSchemaNames,
             bool isRead)
         {
-            if (tdProperty.ReadOnly && !isRead)
+            if ((tdProperty.ReadOnly?.Value.Value ?? false) && !isRead)
             {
                 return;
             }
 
             string operation = isRead ? TDValues.OpReadProp : TDValues.OpWriteProp;
-            FormInfo? propForm = FormInfo.CreateFromForm(tdProperty.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(operation) ?? false), schemaDefinitions);
-            propForm ??= FormInfo.CreateFromForm(tdProperty.Forms?.FirstOrDefault(f => f.Op == null), schemaDefinitions);
+            FormInfo? propForm = FormInfo.CreateFromForm(errorReporter, tdProperty.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == operation) ?? false)?.Value, schemaDefinitions);
+            propForm ??= FormInfo.CreateFromForm(errorReporter, tdProperty.Forms?.Elements?.FirstOrDefault(f => f.Value.Op == null)?.Value, schemaDefinitions);
 
             FieldSpec propFieldSpec = new(
-                tdProperty.Description ?? (isRead ? $"The '{propName}' Property value." : $"Value for the '{propName}' Property."),
-                tdProperty as TDDataSchema,
+                tdProperty.Description?.Value.Value ?? (isRead ? $"The '{propName}' Property value." : $"Value for the '{propName}' Property."),
+                new ValueTracker<TDDataSchema> { Value = tdProperty as TDDataSchema },
                 BackupSchemaName: schemaNamer.GetPropValueSchema(propName),
                 Require: isRead,
                 Base: dirName,
-                Fragment: tdProperty.Placeholder);
+                Fragment: tdProperty.Placeholder?.Value.Value ?? false);
             valueFields[propName] = propFieldSpec;
 
-            if (propForm?.TopicPattern != null && (isRead || tdProperty.Placeholder))
+            if (propForm?.TopicPattern != null && (isRead || (tdProperty.Placeholder?.Value.Value ?? false)))
             {
                 string propSchemaName = isRead ? schemaNamer.GetPropSchema(propName) : schemaNamer.GetWritablePropSchema(propName);
                 ObjectSpec propObjectSpec = new(
-                    tdProperty.Description ?? $"Container for{(isRead ? "" : " writing to")} the '{propName}' Property.",
+                    tdProperty.Description?.Value.Value ?? $"Container for{(isRead ? "" : " writing to")} the '{propName}' Property.",
                     new Dictionary<string, FieldSpec> { { propName, propFieldSpec } },
                     propForm.Format,
-                    propSchemaName);
+                    propSchemaName,
+                    TokenIndex: -1);
                 schemaSpecs[propSchemaName] = propObjectSpec;
             }
 
             if (propForm?.ErrorRespSchema != null)
             {
                 FieldSpec respFieldSpec = new(
-                    tdProperty.Description ?? $"{(isRead ? "Read" : "Write")} error for the '{propName}' Property.",
+                    tdProperty.Description?.Value.Value ?? $"{(isRead ? "Read" : "Write")} error for the '{propName}' Property.",
                     propForm.ErrorRespSchema,
                     BackupSchemaName: propForm.ErrorRespName!,
                     Require: false,
@@ -155,10 +161,11 @@
 
                     string respSchemaName = isRead ? schemaNamer.GetPropReadRespSchema(propName) : schemaNamer.GetPropWriteRespSchema(propName);
                     ObjectSpec respObjectSpec = new(
-                        tdProperty.Description ?? $"Response to a '{propName}' Property {(isRead ? "read" : "write")}.",
+                        tdProperty.Description?.Value.Value ?? $"Response to a '{propName}' Property {(isRead ? "read" : "write")}.",
                         responseFields,
                         propForm.Format,
-                        respSchemaName);
+                        respSchemaName,
+                        TokenIndex: -1);
                     schemaSpecs[respSchemaName] = respObjectSpec;
 
                     SchemaGenerationSupport.AddSchemaReference(propForm.ErrorRespName!, propForm.ErrorRespFormat, referencedSchemas);
@@ -190,7 +197,8 @@
                         $"Values {preposition} {quantifier} Properties.",
                         valueFields,
                         topLevelPropsForm.Format,
-                        propsSchema);
+                        propsSchema,
+                        TokenIndex: -1);
                 }
 
                 if (topLevelPropsForm.HasErrorResponse)
@@ -199,7 +207,8 @@
                         $"Errors from any Property {operation}.",
                         errorFields,
                         topLevelPropsForm.Format,
-                        errorSchema);
+                        errorSchema,
+                        TokenIndex: -1);
 
                     Dictionary<string, (string, string)> fieldSketches = new();
                     fieldSketches[schemaNamer.AggregateRespErrorField] = (errorSchema, "Errors when operation fails.");

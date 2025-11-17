@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.IO;
     using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
     public static class SchemaGenerator
@@ -16,18 +17,20 @@
                 Dictionary<string, SchemaSpec> schemaSpecs = new();
                 Dictionary<string, HashSet<SerializationFormat>> referencedSchemas = new();
 
-                PropertySchemaGenerator.GeneratePropertySchemas(parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
-                ActionSchemaGenerator.GenerateActionSchemas(parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
-                EventSchemaGenerator.GenerateEventSchemas(parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
+                PropertySchemaGenerator.GeneratePropertySchemas(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
+                ActionSchemaGenerator.GenerateActionSchemas(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
+                EventSchemaGenerator.GenerateEventSchemas(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
 
-                Dictionary<string, SchemaSpec> closedSchemaSpecs = ComputeClosedSchemaSpecs(parsedThing.Thing, parsedThing.SchemaNamer, schemaSpecs, referencedSchemas);
+                Dictionary<string, SchemaSpec> closedSchemaSpecs = ComputeClosedSchemaSpecs(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, schemaSpecs, referencedSchemas);
 
                 SchemaTransformFactory transformFactory = new(parsedThing.SchemaNamer, workingDir);
 
                 foreach (KeyValuePair<string, SchemaSpec> schemaSpec in closedSchemaSpecs)
                 {
-                    ISchemaTemplateTransform transform = transformFactory.GetSchemaTransform(schemaSpec.Key, schemaSpec.Value);
-                    transforms[transform.FileName] = transform;
+                    if (transformFactory.TryGetSchemaTransform(schemaSpec.Key, schemaSpec.Value, out ISchemaTemplateTransform? transform))
+                    {
+                        transforms[transform.FileName] = transform;
+                    }
                 }
             }
 
@@ -47,7 +50,7 @@
             return generatedSchemas;
         }
 
-        private static Dictionary<string, SchemaSpec> ComputeClosedSchemaSpecs(TDThing thing, SchemaNamer schemaNamer, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        private static Dictionary<string, SchemaSpec> ComputeClosedSchemaSpecs(ErrorReporter errorReporter, TDThing thing, SchemaNamer schemaNamer, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
             Dictionary<string, SchemaSpec> closedSchemaSpecs = new();
 
@@ -55,82 +58,84 @@
             {
                 foreach (SerializationFormat format in referencedSchema.Value)
                 {
-                    if (thing.SchemaDefinitions?.TryGetValue(referencedSchema.Key, out TDDataSchema? dataSchema) ?? false)
+                    if (thing.SchemaDefinitions?.Entries?.TryGetValue(referencedSchema.Key, out ValueTracker<TDDataSchema>? dataSchema) ?? false)
                     {
-                        ComputeClosureOfDataSchema(schemaNamer, referencedSchema.Key, dataSchema, format, closedSchemaSpecs);
+                        ComputeClosureOfDataSchema(errorReporter, schemaNamer, referencedSchema.Key, dataSchema, format, closedSchemaSpecs);
                     }
                 }
             }
 
             foreach (KeyValuePair<string, SchemaSpec> schemaSpec in schemaSpecs)
             {
-                ComputeClosureOfSchemaSpec(schemaNamer, schemaSpec.Key, schemaSpec.Value, closedSchemaSpecs);
+                ComputeClosureOfSchemaSpec(errorReporter, schemaNamer, schemaSpec.Key, schemaSpec.Value, closedSchemaSpecs);
             }
 
             return closedSchemaSpecs;
         }
 
-        private static void ComputeClosureOfSchemaSpec(SchemaNamer schemaNamer, string schemaName, SchemaSpec schemaSpec, Dictionary<string, SchemaSpec> closedSchemaSpecs)
+        private static void ComputeClosureOfSchemaSpec(ErrorReporter errorReporter, SchemaNamer schemaNamer, string schemaName, SchemaSpec schemaSpec, Dictionary<string, SchemaSpec> closedSchemaSpecs)
         {
-            if (IsDuplicate(schemaName, schemaSpec, closedSchemaSpecs))
+            if (IsLocalDuplicate(errorReporter, schemaName, schemaSpec, closedSchemaSpecs))
             {
                 return;
             }
 
             closedSchemaSpecs[schemaName] = schemaSpec;
+            errorReporter.RegisterName(schemaName, schemaSpec.TokenIndex);
 
             if (schemaSpec is ObjectSpec objectSpec)
             {
                 foreach (KeyValuePair<string, FieldSpec> field in objectSpec.Fields)
                 {
-                    ComputeClosureOfDataSchema(schemaNamer, field.Value.BackupSchemaName, field.Value.Schema, schemaSpec.Format, closedSchemaSpecs);
+                    ComputeClosureOfDataSchema(errorReporter, schemaNamer, field.Value.BackupSchemaName, field.Value.Schema, schemaSpec.Format, closedSchemaSpecs);
                 }
             }
         }
 
-        private static void ComputeClosureOfDataSchema(SchemaNamer schemaNamer, string backupName, TDDataSchema dataSchema, SerializationFormat format, Dictionary<string, SchemaSpec> closedSchemaSpecs)
+        private static void ComputeClosureOfDataSchema(ErrorReporter errorReporter, SchemaNamer schemaNamer, string backupName, ValueTracker<TDDataSchema> dataSchema, SerializationFormat format, Dictionary<string, SchemaSpec> closedSchemaSpecs)
         {
-            if (IsProxy(dataSchema))
+            if (IsProxy(dataSchema.Value))
             {
                 return;
             }
 
-            string schemaName = schemaNamer.ApplyBackupSchemaName(dataSchema.Title, backupName);
+            string schemaName = schemaNamer.ApplyBackupSchemaName(dataSchema.Value.Title?.Value.Value, backupName);
 
-            if (SchemaSpec.TryCreateFromDataSchema(schemaNamer, dataSchema, format, backupName, out SchemaSpec? schemaSpec))
+            if (SchemaSpec.TryCreateFromDataSchema(errorReporter, schemaNamer, dataSchema, format, backupName, out SchemaSpec? schemaSpec))
             {
-                if (IsDuplicate(schemaName, schemaSpec, closedSchemaSpecs))
+                if (IsLocalDuplicate(errorReporter, schemaName, schemaSpec, closedSchemaSpecs))
                 {
                     return;
                 }
 
                 closedSchemaSpecs[schemaName] = schemaSpec;
+                errorReporter.RegisterName(schemaName, schemaSpec.TokenIndex);
             }
 
-            if (dataSchema.Properties != null)
+            if (dataSchema.Value.Properties?.Entries != null)
             {
-                foreach (KeyValuePair<string, TDDataSchema> property in dataSchema.Properties)
+                foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> property in dataSchema.Value.Properties.Entries)
                 {
-                    ComputeClosureOfDataSchema(schemaNamer, schemaNamer.GetBackupSchemaName(schemaName, property.Key), property.Value, format, closedSchemaSpecs);
+                    ComputeClosureOfDataSchema(errorReporter, schemaNamer, schemaNamer.GetBackupSchemaName(schemaName, property.Key), property.Value, format, closedSchemaSpecs);
                 }
             }
-            else if (dataSchema.Items != null)
+            else if (dataSchema.Value.Items?.Value != null)
             {
-                ComputeClosureOfDataSchema(schemaNamer, backupName, dataSchema.Items, format, closedSchemaSpecs);
+                ComputeClosureOfDataSchema(errorReporter, schemaNamer, backupName, dataSchema.Value.Items, format, closedSchemaSpecs);
             }
-            else if (dataSchema.AdditionalProperties != null)
+            else if (dataSchema.Value.AdditionalProperties?.Value != null)
             {
-                ComputeClosureOfDataSchema(schemaNamer, backupName, dataSchema.AdditionalProperties, format, closedSchemaSpecs);
+                ComputeClosureOfDataSchema(errorReporter, schemaNamer, backupName, dataSchema.Value.AdditionalProperties, format, closedSchemaSpecs);
             }
         }
 
         private static bool IsProxy(TDDataSchema dataSchema)
         {
-            return (dataSchema.Type == TDValues.TypeObject && (dataSchema.AdditionalProperties == null || dataSchema.AdditionalProperties == null) && dataSchema.Properties == null) ||
-                (dataSchema.Type == TDValues.TypeArray && dataSchema.Items == null);
+            return (dataSchema.Type?.Value.Value == TDValues.TypeObject && (dataSchema.AdditionalProperties == null || dataSchema.AdditionalProperties == null) && dataSchema.Properties == null) ||
+                (dataSchema.Type?.Value.Value == TDValues.TypeArray && dataSchema.Items == null);
         }
 
-        private static bool IsDuplicate(string schemaName, SchemaSpec schemaSpec, Dictionary<string, SchemaSpec> closedSchemaSpecs)
+        private static bool IsLocalDuplicate(ErrorReporter errorReporter, string schemaName, SchemaSpec schemaSpec, Dictionary<string, SchemaSpec> closedSchemaSpecs)
         {
             if (!closedSchemaSpecs.TryGetValue(schemaName, out SchemaSpec? existingSpec))
             {
@@ -139,25 +144,36 @@
 
             if (existingSpec.GetType() != schemaSpec.GetType())
             {
-                throw new System.Exception($"Duplicate schema name {schemaName} on different schema types.");
+                errorReporter.ReportError($"Schema name {schemaName} is duplicated on schema with different type.", schemaSpec.TokenIndex, existingSpec.TokenIndex);
+                return false;
             }
             else if (existingSpec is ObjectSpec existingObjectSpec && schemaSpec is ObjectSpec newObjectSpec)
             {
-                if (existingObjectSpec.Fields.Count != newObjectSpec.Fields.Count)
-                {
-                    throw new System.Exception($"Duplicate schema name {schemaName} on objects with different field counts.");
-                }
-
                 foreach (KeyValuePair<string, FieldSpec> field in existingObjectSpec.Fields)
                 {
                     if (!newObjectSpec.Fields.TryGetValue(field.Key, out FieldSpec? newField))
                     {
-                        throw new System.Exception($"Duplicate schema name {schemaName} on objects with different field names (`{field.Key}` present in only one).");
+                        errorReporter.ReportError($"Schema name {schemaName} is duplicated but schema has field '{field.Key}' not present in other schema.", field.Value.Schema.TokenIndex, newObjectSpec.TokenIndex);
+                        return false;
                     }
+                }
 
-                    if (!field.Value.Equals(newField))
+                foreach (KeyValuePair<string, FieldSpec> field in newObjectSpec.Fields)
+                {
+                    if (!existingObjectSpec.Fields.TryGetValue(field.Key, out FieldSpec? extantField))
                     {
-                        throw new System.Exception($"Duplicate schema name {schemaName} on objects with different values for field `{field.Key}`.");
+                        errorReporter.ReportError($"Schema name {schemaName} is duplicated but schema has field '{field.Key}' not present in other schema.", field.Value.Schema.TokenIndex, existingObjectSpec.TokenIndex);
+                        return false;
+                    }
+                }
+
+                foreach (KeyValuePair<string, FieldSpec> field in newObjectSpec.Fields)
+                {
+                    FieldSpec existingFieldValue = existingObjectSpec.Fields[field.Key];
+                    if (!field.Value.Equals(existingFieldValue))
+                    {
+                        errorReporter.ReportError($"Schema name {schemaName} is duplicated but field '{field.Key}' has different value.", field.Value.Schema.TokenIndex, existingFieldValue.Schema.TokenIndex);
+                        return false;
                     }
                 }
 
@@ -165,16 +181,21 @@
             }
             else if (existingSpec is EnumSpec existingEnumSpec && schemaSpec is EnumSpec newEnumSpec)
             {
-                if (existingEnumSpec.Values.Count != newEnumSpec.Values.Count)
-                {
-                    throw new System.Exception($"Duplicate schema name {schemaName} on enums with different value counts.");
-                }
-
                 foreach (string value in existingEnumSpec.Values)
                 {
                     if (!newEnumSpec.Values.Contains(value))
                     {
-                        throw new System.Exception($"Duplicate schema name {schemaName} on enums with different values (`{value}` present in only one).");
+                        errorReporter.ReportError($"Schema name {schemaName} is duplicated but schema has enum value '{value}' not present in other schema.", existingEnumSpec.TokenIndex, newEnumSpec.TokenIndex);
+                        return false;
+                    }
+                }
+
+                foreach (string value in newEnumSpec.Values)
+                {
+                    if (!existingEnumSpec.Values.Contains(value))
+                    {
+                        errorReporter.ReportError($"Schema name {schemaName} is duplicated but schema has enum value '{value}' not present in other schema.", newEnumSpec.TokenIndex, existingEnumSpec.TokenIndex);
+                        return false;
                     }
                 }
 

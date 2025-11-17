@@ -1,7 +1,6 @@
 ﻿namespace Azure.Iot.Operations.CodeGeneration
 {
     using System.Diagnostics.CodeAnalysis;
-    using System.IO;
     using System.Linq;
     using System.Text.Json;
     using Azure.Iot.Operations.TDParser.Model;
@@ -11,7 +10,7 @@
         private SchemaNameInfo? schemaNameInfo;
         private bool suppressTitles;
 
-        public SchemaNamer(string? schemaNameInfoText)
+        public SchemaNamer(string? schemaNameInfoText = null)
         {
             this.schemaNameInfo = schemaNameInfoText != null ? JsonSerializer.Deserialize<SchemaNameInfo>(schemaNameInfoText) : null;
             this.suppressTitles = this.schemaNameInfo?.SuppressTitles ?? false;
@@ -100,9 +99,9 @@
 
         private string Expand(TDDataSchema? dataSchema, FuncInfo? funcInfo, string defaultOut, params string[] args)
         {
-            if (!this.suppressTitles && dataSchema?.Ref == null && dataSchema?.Title != null)
+            if (!this.suppressTitles && dataSchema?.Ref == null && dataSchema?.Title?.Value != null)
             {
-                return dataSchema.Title;
+                return dataSchema.Title.Value.Value;
             }
 
             if (funcInfo == null || funcInfo.Output == null || funcInfo.Input == null || funcInfo.Input.Length < args.Length)

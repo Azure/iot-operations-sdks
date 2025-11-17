@@ -1,16 +1,142 @@
 ﻿namespace Azure.Iot.Operations.TDParser.Model
 {
-    using System.Text.Json.Serialization;
+    using System;
+    using System.Collections.Generic;
+    using System.Text.Json;
 
-    public class TDProperty : TDDataSchema
+    public class TDProperty : TDDataSchema, IEquatable<TDProperty>, IDeserializable<TDProperty>
     {
-        [JsonPropertyName("readOnly")]
-        public bool ReadOnly { get; set; }
+        public ValueTracker<BoolHolder>? ReadOnly { get; set; }
 
-        [JsonPropertyName("dtv:placeholder")]
-        public bool Placeholder { get; set; }
+        public ValueTracker<BoolHolder>? Placeholder { get; set; }
 
-        [JsonPropertyName("forms")]
-        public TDForm[]? Forms { get; set; }
+        public ArrayTracker<TDForm>? Forms { get; set; }
+
+        public virtual bool Equals(TDProperty? other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            else
+            {
+                return base.Equals(other) &&
+                       ReadOnly == other.ReadOnly &&
+                       Placeholder == other.Placeholder &&
+                       Forms == other.Forms;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return (base.GetHashCode(), ReadOnly, Placeholder, Forms).GetHashCode();
+        }
+
+        public static bool operator ==(TDProperty? left, TDProperty? right)
+        {
+            if (left is null)
+            {
+                return right is null;
+            }
+            else
+            {
+                return left.Equals(right);
+            }
+        }
+
+        public static bool operator !=(TDProperty? left, TDProperty? right)
+        {
+            return !(left == right);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            else if (ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+            else if (obj is not TDProperty other)
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(other);
+            }
+        }
+
+        public override IEnumerable<ITraversable> Traverse()
+        {
+            foreach (ITraversable baseChild in base.Traverse())
+            {
+                yield return baseChild;
+            }
+
+            if (ReadOnly != null)
+            {
+                foreach (ITraversable item in ReadOnly.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (Placeholder != null)
+            {
+                foreach (ITraversable item in Placeholder.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (Forms != null)
+            {
+                foreach (ITraversable item in Forms.Traverse())
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        public static new TDProperty Deserialize(ref Utf8JsonReader reader)
+        {
+            if (reader.TokenType != JsonTokenType.StartObject)
+            {
+                throw new InvalidOperationException($"expected JSON object but found {reader.TokenType}");
+            }
+
+            TDProperty prop = new();
+
+            reader.Read();
+            while (reader.TokenType == JsonTokenType.PropertyName)
+            {
+                string propertyName = reader.GetString()!;
+                reader.Read();
+
+                if (!TryLoadPropertyValues(prop, propertyName, ref reader))
+                {
+                    switch (propertyName)
+                    {
+                        case "readOnly":
+                            prop.ReadOnly = ValueTracker<BoolHolder>.Deserialize(ref reader);
+                            break;
+                        case "dtv:placeholder":
+                            prop.Placeholder = ValueTracker<BoolHolder>.Deserialize(ref reader);
+                            break;
+                        case "forms":
+                            prop.Forms = ArrayTracker<TDForm>.Deserialize(ref reader);
+                            break;
+                        default:
+                            reader.Skip();
+                            break;
+                    }
+                }
+
+                reader.Read();
+            }
+
+            return prop;
+        }
     }
 }

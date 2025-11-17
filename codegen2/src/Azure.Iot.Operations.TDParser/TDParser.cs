@@ -7,33 +7,32 @@
 
     public class TDParser
     {
-        private static JsonSerializerOptions serializerOptions = new JsonSerializerOptions
+        public static List<TDThing> Parse(string tdJson)
         {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            Converters =
-            {
-                new ContextSpecifierJsonConverter(),
-                new TDStringArrayJsonConverter(),
-            }
-        };
-
-        public static TDThing? Parse(string tdJson)
-        {
-            return JsonSerializer.Deserialize<TDThing>(tdJson, serializerOptions);
+            return Parse(Encoding.UTF8.GetBytes(tdJson));
         }
 
-        public static List<TDThing> ParseMultiple(string tdJson)
+        public static List<TDThing> Parse(byte[] tdJson)
         {
-            Utf8JsonReader reader = new Utf8JsonReader(Encoding.UTF8.GetBytes(tdJson));
-            JsonElement rootElt = JsonElement.ParseValue(ref reader);
+            Utf8JsonReader reader = new Utf8JsonReader(tdJson);
 
-            if (rootElt.ValueKind == JsonValueKind.Array)
+            reader.Read();
+            if (reader.TokenType == JsonTokenType.StartArray)
             {
-                return JsonSerializer.Deserialize<List<TDThing>>(rootElt, serializerOptions) ?? new();
+                List<TDThing> things = new();
+
+                reader.Read();
+                while (reader.TokenType != JsonTokenType.EndArray)
+                {
+                    things.Add(TDThing.Deserialize(ref reader));
+                    reader.Read();
+                }
+
+                return things;
             }
-            else if (rootElt.ValueKind == JsonValueKind.Object)
+            else if (reader.TokenType == JsonTokenType.StartObject)
             {
-                TDThing? thing = JsonSerializer.Deserialize<TDThing>(rootElt, serializerOptions);
+                TDThing? thing = TDThing.Deserialize(ref reader);
                 if (thing != null)
                 {
                     return new List<TDThing> { thing };

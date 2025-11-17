@@ -7,6 +7,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     using System.Reflection;
     using System.Text.RegularExpressions;
     using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TDParser;
 
     internal class EnvoyTransformFactory
     {
@@ -63,7 +64,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string topicPattern,
             bool idempotent,
             List<string> normalResultFields,
-            List<string> normalRequiredFields,
+            List<ValueTracker<StringHolder>> normalRequiredFields,
             string? normalResultSchema,
             string? errorResultName,
             string? errorResultSchema,
@@ -81,7 +82,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             ITypeName? outputSchema = outputSchemaType != null ? new CodeName(outputSchemaType) : null;
 
             List<CodeName> normalFields = normalResultFields.Select(f => new CodeName(f)).ToList();
-            List<CodeName> requiredFields = normalRequiredFields.Select(f => new CodeName(f)).ToList();
+            List<CodeName> requiredFields = normalRequiredFields.Select(f => new CodeName(f.Value.Value)).ToList();
             CodeName? normalSchema = normalResultSchema != null ? new CodeName(normalResultSchema) : null;
             CodeName? errorName = errorResultName != null ? new CodeName(errorResultName) : null;
             CodeName? errorSchema = errorResultSchema != null ? new CodeName(errorResultSchema) : null;

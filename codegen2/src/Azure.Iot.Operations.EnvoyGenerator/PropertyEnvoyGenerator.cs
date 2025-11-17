@@ -3,21 +3,28 @@
     using System.Collections.Generic;
     using System.Linq;
     using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
     internal static class PropertyEnvoyGenerator
     {
-        internal static List<PropertySpec> GeneratePropertyEnvoys(TDThing tdThing, SchemaNamer schemaNamer, CodeName serviceName, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms, Dictionary<string, ErrorSpec> errorSpecs, Dictionary<string, AggregateErrorSpec> aggErrorSpecs, HashSet<string> typesToSerialize)
+        internal static List<PropertySpec> GeneratePropertyEnvoys(ErrorReporter errorReporter, TDThing tdThing, SchemaNamer schemaNamer, CodeName serviceName, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms, Dictionary<string, ErrorSpec> errorSpecs, Dictionary<string, AggregateErrorSpec> aggErrorSpecs, HashSet<string> typesToSerialize)
         {
             List<PropertySpec> propertySpecs = new();
             Dictionary<string, string> readInnerErrors = new();
             Dictionary<string, string> writeInnerErrors = new();
 
-            foreach (KeyValuePair<string, TDProperty> propKvp in tdThing.Properties ?? new())
+            foreach (KeyValuePair<string, ValueTracker<TDProperty>> propKvp in tdThing.Properties?.Entries ?? new())
             {
-                FormInfo? readPropForm = FormInfo.CreateFromForm(propKvp.Value.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpReadProp) ?? false), tdThing.SchemaDefinitions);
-                FormInfo? writePropForm = FormInfo.CreateFromForm(propKvp.Value.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpWriteProp) ?? false), tdThing.SchemaDefinitions);
-                FormInfo? noOpForm = FormInfo.CreateFromForm(propKvp.Value.Forms?.FirstOrDefault(f => f.Op == null), tdThing.SchemaDefinitions);
+                TDProperty? property = propKvp.Value.Value;
+                if (property == null)
+                {
+                    continue;
+                }
+
+                FormInfo? readPropForm = FormInfo.CreateFromForm(errorReporter, property.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpReadProp) ?? false)?.Value, tdThing.SchemaDefinitions?.Entries);
+                FormInfo? writePropForm = FormInfo.CreateFromForm(errorReporter, property.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpWriteProp) ?? false)?.Value, tdThing.SchemaDefinitions?.Entries);
+                FormInfo? noOpForm = FormInfo.CreateFromForm(errorReporter, property.Forms?.Elements?.FirstOrDefault(f => f.Value.Op == null)?.Value, tdThing.SchemaDefinitions?.Entries);
                 readPropForm ??= noOpForm;
                 writePropForm ??= noOpForm;
 
@@ -34,11 +41,11 @@
                 string? writeReqSchema = null;
                 string? writeRespSchema = null;
                 string? writeErrorSchema = null;
-                if (!propKvp.Value.ReadOnly)
+                if (!property.ReadOnly?.Value.Value ?? false)
                 {
                     if (writePropForm?.TopicPattern != null && writePropForm.Format != SerializationFormat.None)
                     {
-                        writeReqSchema = propKvp.Value.Placeholder ? schemaNamer.GetWritablePropSchema(propKvp.Key) : propSchema;
+                        writeReqSchema = (property.Placeholder?.Value.Value ?? false) ? schemaNamer.GetWritablePropSchema(propKvp.Key) : propSchema;
                         typesToSerialize.Add(writeReqSchema);
 
                         if (writePropForm.HasErrorResponse)
@@ -85,7 +92,7 @@
 
                     foreach (IEnvoyTemplateTransform transform in envoyFactory.GetPropertyTransforms(
                         schemaNamer,
-                        tdThing.Id!,
+                        tdThing.Id!.Value!.Value,
                         serviceName,
                         propKvp.Key,
                         propSchema,
@@ -111,7 +118,7 @@
             }
 
             string? readAllRespSchema = null;
-            FormInfo? readAllPropsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpReadAllProps) ?? false), tdThing.SchemaDefinitions);
+            FormInfo? readAllPropsForm = FormInfo.CreateFromForm(errorReporter, tdThing.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpReadAllProps) ?? false)?.Value, tdThing.SchemaDefinitions?.Entries);
             if (readAllPropsForm?.TopicPattern != null && readAllPropsForm.Format != SerializationFormat.None)
             {
                 readAllRespSchema = readAllPropsForm.HasErrorResponse ? schemaNamer.AggregatePropReadRespSchema : schemaNamer.AggregatePropSchema;
@@ -128,7 +135,7 @@
 
             string? writeMultiReqSchema = null;
             string? writeMultiRespSchema = null;
-            FormInfo? writeMultPropsForm = FormInfo.CreateFromForm(tdThing.Forms?.FirstOrDefault(f => f.Op?.Values.Contains(TDValues.OpWriteMultProps) ?? false), tdThing.SchemaDefinitions);
+            FormInfo? writeMultPropsForm = FormInfo.CreateFromForm(errorReporter, tdThing.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpWriteMultProps) ?? false)?.Value, tdThing.SchemaDefinitions?.Entries);
             if (writeMultPropsForm?.TopicPattern != null && writeMultPropsForm.Format != SerializationFormat.None)
             {
                 writeMultiReqSchema = schemaNamer.AggregatePropWriteSchema;
@@ -179,7 +186,7 @@
 
                 foreach (IEnvoyTemplateTransform transform in envoyFactory.GetPropertyTransforms(
                     schemaNamer,
-                    tdThing.Id!,
+                    tdThing.Id!.Value!.Value,
                     serviceName,
                     schemaNamer.AggregatePropName,
                     schemaNamer.AggregatePropSchema,
@@ -213,13 +220,13 @@
                 return null;
             }
 
-            string errSchemaName = schemaNamer.ChooseTitleOrName(form.ErrorRespSchema.Title, form.ErrorRespName)!;
+            string errSchemaName = schemaNamer.ChooseTitleOrName(form.ErrorRespSchema.Value.Title?.Value.Value, form.ErrorRespName)!;
             typesToSerialize.Add(errSchemaName);
             errorSpecs[errSchemaName] = new ErrorSpec(
                 errSchemaName,
-                form.ErrorRespSchema.Description ?? "The action could not be completed",
-                form.ErrorRespSchema.ErrorMessage,
-                form.ErrorRespSchema.Required?.Contains(form.ErrorRespSchema.ErrorMessage ?? string.Empty) ?? false);
+                form.ErrorRespSchema.Value.Description?.Value.Value ?? "The action could not be completed",
+                form.ErrorRespSchema.Value.ErrorMessage?.Value.Value,
+                form.ErrorRespSchema.Value.Required?.Elements?.Any(e => e.Value.Value == (form.ErrorRespSchema.Value.ErrorMessage?.Value.Value ?? string.Empty)) ?? false);
             innerErrors[propName] = errSchemaName;
             return errSchemaName;
         }

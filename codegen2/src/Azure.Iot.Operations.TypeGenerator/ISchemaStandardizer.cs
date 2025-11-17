@@ -7,6 +7,6 @@
     {
         SerializationFormat SerializationFormat { get; }
 
-        List<SchemaType> GetStandardizedSchemas(Dictionary<string, string> schemaTextsByName);
+        bool TryGetStandardizedSchemas(Dictionary<string, string> schemaTextsByName, ErrorLog errorLog, out List<SchemaType> schemaTypes);
     }
 }

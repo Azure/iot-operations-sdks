@@ -1,15 +1,19 @@
 ﻿namespace Azure.Iot.Operations.TypeGenerator
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Text.Json;
+    using System.Text.RegularExpressions;
     using Azure.Iot.Operations.CodeGeneration;
 
     internal class JsonSchemaStandardizer : ISchemaStandardizer
     {
-        private static readonly string[] InternalDefsKeys = new string[] { "$defs", "definitions" };
+        private static readonly Regex TitleRegex = new(@"^[A-Z][A-Za-z0-9]*$", RegexOptions.Compiled);
+        private static readonly Regex EnumValueRegex = new(@"^[A-Za-z][A-Za-z0-9_]*$", RegexOptions.Compiled);
 
         private readonly TypeNamer typeNamer;
 
@@ -20,275 +24,926 @@
 
         public SerializationFormat SerializationFormat { get => SerializationFormat.Json; }
 
-        public List<SchemaType> GetStandardizedSchemas(Dictionary<string, string> schemaTextsByName)
+        public bool TryGetStandardizedSchemas(Dictionary<string, string> schemaTextsByName, ErrorLog errorLog, out List<SchemaType> schemaTypes)
         {
-            Dictionary<string, JsonElement> rootElementsByName = GetRootElementsFromSchemaTexts(schemaTextsByName);
+            Dictionary<string, SchemaRoot> schemaRootsByName = GetSchemaRootsFromSchemaTexts(schemaTextsByName, errorLog);
 
-            List<SchemaType> schemaTypes = new();
+            Dictionary<CodeName, SchemaType> schemaTypeDict = new();
+            bool hasError = false;
 
-            foreach (KeyValuePair<string, JsonElement> namedRootElt in rootElementsByName)
+            foreach (KeyValuePair<string, SchemaRoot> namedSchemaRoot in schemaRootsByName)
             {
-                CollateAliasTypes(namedRootElt.Key, namedRootElt.Value, schemaTypes, rootElementsByName);
-                CollateSchemaTypes(namedRootElt.Key, null, namedRootElt.Value, schemaTypes, rootElementsByName);
-
-                foreach (string internalDefsKey in InternalDefsKeys)
+                if (!TryGetSchemaType(namedSchemaRoot.Key, null, namedSchemaRoot.Value.JsonTracker, false, schemaTypeDict, schemaRootsByName, namedSchemaRoot.Value.ErrorReporter, out _, true))
                 {
-                    if (namedRootElt.Value.TryGetProperty(internalDefsKey, out JsonElement defsElt))
+                    hasError = true;
+                }
+
+                foreach (string internalDefsKey in JsonSchemaValues.InternalDefsKeys)
+                {
+                    if (namedSchemaRoot.Value.JsonTracker.TryGetProperty(internalDefsKey, out JsonTracker defsTracker))
                     {
-                        foreach (JsonProperty defProp in defsElt.EnumerateObject())
+                        foreach (KeyValuePair<string, JsonTracker> defProp in defsTracker.EnumerateObject())
                         {
-                            CollateSchemaTypes(namedRootElt.Key, defProp.Name, defProp.Value, schemaTypes, rootElementsByName);
+                            if (!TryGetSchemaType(namedSchemaRoot.Key, defProp.Key, defProp.Value, false, schemaTypeDict, schemaRootsByName, namedSchemaRoot.Value.ErrorReporter, out _, false))
+                            {
+                                hasError = true;
+                            }
                         }
                     }
                 }
             }
 
-            return schemaTypes;
+            schemaTypes = schemaTypeDict.Values.ToList();
+            return !hasError;
         }
 
-        private Dictionary<string, JsonElement> GetRootElementsFromSchemaTexts(Dictionary<string, string> schemaTextsByName)
+        private Dictionary<string, SchemaRoot> GetSchemaRootsFromSchemaTexts(Dictionary<string, string> schemaTextsByName, ErrorLog errorLog)
         {
-            Dictionary<string, JsonElement> rootElementsByName = new();
+            Dictionary<string, SchemaRoot> schemaRootsByName = new();
 
             foreach (KeyValuePair<string, string> namedSchemaText in schemaTextsByName)
             {
-                using (JsonDocument schemaDoc = JsonDocument.Parse(namedSchemaText.Value))
+                byte[] schemaBytes = Encoding.UTF8.GetBytes(namedSchemaText.Value);
+                string schemaFilePath = Path.GetFullPath(namedSchemaText.Key);
+                string schemaFolder = Path.GetDirectoryName(namedSchemaText.Value)!;
+                ErrorReporter errorReporter = new ErrorReporter(errorLog, schemaFilePath, schemaBytes);
+                Utf8JsonReader reader = new Utf8JsonReader(schemaBytes);
+                reader.Read();
+                schemaRootsByName[namedSchemaText.Key] = new SchemaRoot(JsonTracker.Deserialize(ref reader), schemaFilePath, schemaFolder, errorReporter);
+            }
+
+            return schemaRootsByName;
+        }
+
+        private bool TryGetSchemaType(
+            string docName,
+            string? defKey,
+            JsonTracker schemaTracker,
+            bool orNull,
+            Dictionary<CodeName, SchemaType>? schemaTypes,
+            Dictionary<string, SchemaRoot> schemaRootsByName,
+            ErrorReporter? errorReporter,
+            [NotNullWhen(true)] out SchemaType? schemaType,
+            bool isTopLevel = false)
+        {
+            schemaType = null;
+            bool hasError = false;
+
+            if (schemaTracker.ValueKind != JsonValueKind.Object)
+            {
+                errorReporter?.ReportError("JSON Schema definition has non-object value", schemaTracker.TokenIndex);
+                return false;
+            }
+
+            if (!TryGetNestedNullableJsonElement(ref schemaTracker, errorReporter, ref orNull))
+            {
+                return false;
+            }
+
+            if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyTitle, out JsonTracker titleTracker))
+            {
+                string? title = titleTracker.GetString();
+                if (titleTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(title))
                 {
-                    rootElementsByName[namedSchemaText.Key] = schemaDoc.RootElement.Clone();
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyTitle}' property has non-string or empty value", titleTracker.TokenIndex);
+                    hasError = true;
+                }
+                else if (!this.typeNamer.SuppressTitles && !TitleRegex.IsMatch(title))
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyTitle}' property value \"{title}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters", titleTracker.TokenIndex);
+                    hasError = true;
+                }
+            }
+            else if (isTopLevel)
+            {
+                errorReporter?.ReportError($"JSON Schema file missing top-level '{JsonSchemaValues.PropertyTitle}' property", schemaTracker.TokenIndex);
+                hasError = true;
+            }
+
+            if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyDescription, out JsonTracker descTracker))
+            {
+                if (descTracker.ValueKind != JsonValueKind.String)
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyDescription}' property has non-string value", descTracker.TokenIndex);
+                    hasError = true;
                 }
             }
 
-            return rootElementsByName;
+            if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyRef, out _))
+            {
+                return TryGetReferenceSchemaType(docName, defKey, schemaTracker, orNull, schemaTypes, schemaRootsByName, errorReporter, out schemaType) && !hasError;
+            }
+
+            if (!schemaTracker.TryGetProperty(JsonSchemaValues.PropertyType, out JsonTracker typeTracker))
+            {
+                errorReporter?.ReportError($"JSON Schema definition has neither '{JsonSchemaValues.PropertyType}' nor '{JsonSchemaValues.PropertyRef}' property", schemaTracker.TokenIndex);
+                return false;
+            }
+
+            if (typeTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(typeTracker.GetString()))
+            {
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyType}' property has non-string or empty value", typeTracker.TokenIndex);
+                return false;
+            }
+
+            if (hasError)
+            {
+                return false;
+            }
+
+            switch (typeTracker.GetString()!)
+            {
+                case JsonSchemaValues.TypeObject:
+                    return TryGetObjectSchemaType(docName, defKey, schemaTracker, orNull, schemaTypes, schemaRootsByName, errorReporter, out schemaType, isTopLevel);
+                case JsonSchemaValues.TypeArray:
+                    return TryGetArraySchemaType(docName, defKey, schemaTracker, orNull, schemaTypes, schemaRootsByName, errorReporter, out schemaType);
+                case JsonSchemaValues.TypeString:
+                    return TryGetStringSchemaType(docName, defKey, schemaTracker, orNull, schemaTypes, schemaRootsByName, errorReporter, out schemaType);
+                case JsonSchemaValues.TypeInteger:
+                    return TryGetIntegerSchemaType(schemaTracker, orNull, errorReporter, out schemaType);
+                case JsonSchemaValues.TypeNumber:
+                    return TryGetNumberSchemaType(schemaTracker, orNull, errorReporter, out schemaType);
+                case JsonSchemaValues.TypeBoolean:
+                    return TryGetBooleanSchemaType(schemaTracker, orNull, errorReporter, out schemaType);
+                default:
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyType}' property has unrecognized value \"{typeTracker.GetString()}\"", typeTracker.TokenIndex);
+                    return false;
+            }
         }
 
-        internal void CollateAliasTypes(string docName, JsonElement schemaElt, List<SchemaType> schemaTypes, Dictionary<string, JsonElement> rootElementsByName)
+        private bool TryGetNestedNullableJsonElement(ref JsonTracker jsonTracker, ErrorReporter? errorReporter, ref bool orNull)
         {
-            if (!schemaElt.TryGetProperty("title", out JsonElement titleElt) || !schemaElt.TryGetProperty("$ref", out JsonElement referencingElt))
+            if (!jsonTracker.TryGetProperty(JsonSchemaValues.PropertyAnyOf, out JsonTracker anyOfTracker))
             {
-                return;
+                return true;
             }
 
-            CodeName schemaName = new CodeName(this.typeNamer.GenerateTypeName(docName, null, titleElt.GetString()));
-
-            string? description = schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null;
-
-            GetReferenceInfo(docName, referencingElt, rootElementsByName, out string refName, out string? refKey, out JsonElement refElt, out string? refTitle);
-            CodeName referencedName = new CodeName(this.typeNamer.GenerateTypeName(refName, refKey, refTitle));
-
-            if (!referencedName.Equals(schemaName))
+            if (anyOfTracker.ValueKind != JsonValueKind.Array)
             {
-                schemaTypes.Add(new AliasType(schemaName, description, referencedName, orNull: false));
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property has non-array value", anyOfTracker.TokenIndex);
+                return false;
             }
+
+            if (anyOfTracker.GetArrayLength() != 2)
+            {
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property must have exactly two elements to represent a nullable type", anyOfTracker.TokenIndex);
+                return false;
+            }
+
+            if (!TryDetermineNullType(anyOfTracker[0], "first", errorReporter, out bool firstIsNull) ||
+                !TryDetermineNullType(anyOfTracker[1], "second", errorReporter, out bool secondIsNull))
+            {
+                return false;
+            }
+
+            if (firstIsNull && secondIsNull)
+            {
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property has two elements that both have type '{JsonSchemaValues.TypeNull}'", anyOfTracker.TokenIndex);
+                return false;
+            }
+            if (!firstIsNull && !secondIsNull)
+            {
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property has two elements neither of which has type '{JsonSchemaValues.TypeNull}'", anyOfTracker.TokenIndex);
+                return false;
+            }
+
+            jsonTracker = firstIsNull ? anyOfTracker[1] : anyOfTracker[0];
+            orNull = true;
+            return true;
         }
 
-        internal void CollateSchemaTypes(string docName, string? defKey, JsonElement schemaElt, List<SchemaType> schemaTypes, Dictionary<string, JsonElement> rootElementsByName)
+        private bool TryDetermineNullType(JsonTracker tracker, string ordinal, ErrorReporter? errorReporter, out bool isNull)
         {
-            if (!schemaElt.TryGetProperty("type", out JsonElement typeElt))
+            isNull = false;
+
+            if (tracker.ValueKind != JsonValueKind.Object)
             {
-                return;
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' {ordinal} element is not a JSON object", tracker.TokenIndex);
+                return false;
+            }
+            if (!tracker.TryGetProperty(JsonSchemaValues.PropertyType, out JsonTracker typeTracker))
+            {
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' {ordinal} element missing '{JsonSchemaValues.PropertyType}' property", tracker.TokenIndex);
+                return false;
+            }
+            if (typeTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(typeTracker.GetString()))
+            {
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' {ordinal} element '{JsonSchemaValues.PropertyType}' property has non-string or empty value", typeTracker.TokenIndex);
+                return false;
+            }
+            if (typeTracker.GetString() == JsonSchemaValues.TypeNull)
+            {
+                isNull = true;
+                return true;
             }
 
-            string type = typeElt.GetString()!;
-            if (type == "object" && schemaElt.TryGetProperty("additionalProperties", out JsonElement addlPropsElt) && addlPropsElt.ValueKind == JsonValueKind.Object)
+            return true;
+        }
+
+        private bool TryGetReferenceSchemaType(
+            string docName,
+            string? defKey,
+            JsonTracker schemaTracker,
+            bool orNull,
+            Dictionary<CodeName, SchemaType>? schemaTypes,
+            Dictionary<string, SchemaRoot> schemaRootsByName,
+            ErrorReporter? errorReporter,
+            [NotNullWhen(true)] out SchemaType? schemaType)
+        {
+            schemaType = null;
+            bool hasError = false;
+
+            JsonTracker referencingTracker = schemaTracker.GetProperty(JsonSchemaValues.PropertyRef);
+
+            if (!TryGetReferenceInfo(docName, referencingTracker, schemaRootsByName, errorReporter, out string refName, out string? refKey, out JsonTracker refTracker))
             {
-                CollateSchemaTypes(docName, defKey, addlPropsElt, schemaTypes, rootElementsByName);
-                return;
+                hasError = true;
             }
-            else if (type == "array" && schemaElt.TryGetProperty("items", out JsonElement itemsElt) && itemsElt.ValueKind == JsonValueKind.Object)
+
+            foreach (KeyValuePair<string, JsonTracker> prop in schemaTracker.EnumerateObject())
             {
-                CollateSchemaTypes(docName, defKey, itemsElt, schemaTypes, rootElementsByName);
-                return;
-            }
-
-            string? title = schemaElt.TryGetProperty("title", out JsonElement titleElt) ? titleElt.GetString() : null;
-            CodeName schemaName = new CodeName(this.typeNamer.GenerateTypeName(docName, defKey, title));
-
-            string? description = schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null;
-
-            if (schemaElt.TryGetProperty("properties", out JsonElement propertiesElt) && typeElt.GetString() == "object")
-            {
-                foreach (JsonProperty objProp in propertiesElt.EnumerateObject())
+                if (prop.Key != JsonSchemaValues.PropertySchema && 
+                    prop.Key != JsonSchemaValues.PropertyRef &&
+                    prop.Key != JsonSchemaValues.PropertyTitle &&
+                    prop.Key != JsonSchemaValues.PropertyDescription)
                 {
-                    CollateSchemaTypes(docName, objProp.Name, objProp.Value, schemaTypes, rootElementsByName);
+                    errorReporter?.ReportWarning($"JSON Schema element has '{JsonSchemaValues.PropertyRef}' property, so '{prop.Key}' property will be ignored", prop.Value.TokenIndex);
                 }
-
-                HashSet<string> requiredFields = schemaElt.TryGetProperty("required", out JsonElement requiredElt) ? requiredElt.EnumerateArray().Select(e => e.GetString()!).ToHashSet() : new HashSet<string>();
-                schemaTypes.Add(new ObjectType(
-                    schemaName,
-                    description,
-                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(docName, p.Name, p.Value, requiredFields, rootElementsByName)), orNull: false));
             }
-            else if (schemaElt.TryGetProperty("enum", out JsonElement enumElt))
+
+            if (hasError || !TryGetSchemaType(refName, refKey, refTracker, orNull, null, schemaRootsByName, null, out schemaType))
             {
-                CodeName[] enumValues = enumElt.EnumerateArray().Select(e => new CodeName(e.GetString()!)).ToArray();
-                schemaTypes.Add(new EnumType(
-                    schemaName,
-                    description,
-                    enumValues,
-                    orNull: false));
+                return false;
             }
-        }
 
-        private ObjectType.FieldInfo GetObjectTypeFieldInfo(string docName, string fieldName, JsonElement schemaElt, HashSet<string> requiredFields, Dictionary<string, JsonElement> rootElementsByName)
-        {
-            bool isRequired = requiredFields.Contains(fieldName);
-            return new ObjectType.FieldInfo(
-                GetSchemaTypeFromJsonElement(docName, fieldName, schemaElt, rootElementsByName, isOptional: !isRequired),
-                isRequired,
-                schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null);
-        }
-
-        private SchemaType GetSchemaTypeFromJsonElement(string docName, string keyName, JsonElement schemaElt, Dictionary<string, JsonElement> rootElementsByName, bool isOptional)
-        {
-            bool orNull = TryGetNestedNullableJsonElement(ref schemaElt) || isOptional;
-
-            if (!schemaElt.TryGetProperty("$ref", out JsonElement referencingElt))
+            if (schemaTypes != null && schemaTracker.TryGetProperty(JsonSchemaValues.PropertyTitle, out JsonTracker titleTracker) && schemaType is ReferenceType refType)
             {
-                if (schemaElt.TryGetProperty("type", out JsonElement typeElt))
+                CodeName schemaName = new CodeName(this.typeNamer.GenerateTypeName(docName, null, titleTracker.GetString()));
+                if (!refType.SchemaName.Equals(schemaName))
                 {
-                    string? title = schemaElt.TryGetProperty("title", out JsonElement titleElt) ? titleElt.GetString() : null;
-                    CodeName schemaName = new CodeName(this.typeNamer.GenerateTypeName(docName, keyName, title));
-
-                    if (typeElt.GetString() == "object" && (!schemaElt.TryGetProperty("additionalProperties", out JsonElement addlPropsElt) || addlPropsElt.ValueKind == JsonValueKind.False))
+                    if (schemaTypes.ContainsKey(schemaName))
                     {
-                        return new ReferenceType(schemaName, isNullable: true, orNull: orNull);
+                        errorReporter?.ReportError($"JSON Schema defines duplicate type name '{schemaName.AsGiven}'", schemaTracker.TokenIndex);
+                        return false;
                     }
-                    else if (typeElt.GetString() == "string" && schemaElt.TryGetProperty("enum", out _))
+
+                    string? description = schemaTracker.TryGetProperty(JsonSchemaValues.PropertyDescription, out JsonTracker descTracker) ? descTracker.GetString() : null;
+                    schemaTypes[schemaName] = new AliasType(schemaName, description, refType.SchemaName, orNull: false);
+                }
+            }
+
+            return true;
+        }
+
+        private bool TryGetObjectSchemaType(
+            string docName,
+            string? defKey,
+            JsonTracker schemaTracker,
+            bool orNull,
+            Dictionary<CodeName, SchemaType>? schemaTypes,
+            Dictionary<string, SchemaRoot> schemaRootsByName,
+            ErrorReporter? errorReporter,
+            [NotNullWhen(true)] out SchemaType? schemaType,
+            bool isTopLevel)
+        {
+            schemaType = null;
+
+            if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyAdditionalProperties, out JsonTracker addlPropsTracker))
+            {
+                if (addlPropsTracker.ValueKind == JsonValueKind.Object)
+                {
+                    if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyProperties, out _))
                     {
-                        return new ReferenceType(schemaName, isNullable: false, orNull: orNull);
+                        errorReporter?.ReportError($"JSON Schema element has both a '{JsonSchemaValues.PropertyProperties}' property and an object-valued '{JsonSchemaValues.PropertyAdditionalProperties}' property -- intended type is ambiguous between Object and Map", schemaTracker.TokenIndex);
+                        return false;
                     }
-                }
 
-                return GetPrimitiveTypeFromJsonElement(docName, keyName, schemaElt, orNull, rootElementsByName);
-            }
-
-            GetReferenceInfo(docName, referencingElt, rootElementsByName, out string refName, out string? refKey, out JsonElement refElt, out string? refTitle);
-            CodeName referencedName = new CodeName(this.typeNamer.GenerateTypeName(refName, refKey, refTitle));
-
-            if (refElt.TryGetProperty("properties", out _) || refElt.TryGetProperty("enum", out _))
-            {
-                string type = refElt.GetProperty("type").GetString()!;
-                return new ReferenceType(referencedName, type == "object", orNull);
-            }
-
-            return GetPrimitiveTypeFromJsonElement(docName, keyName, refElt, orNull, rootElementsByName);
-        }
-
-        private bool TryGetNestedNullableJsonElement(ref JsonElement jsonElement)
-        {
-            if (jsonElement.TryGetProperty("anyOf", out JsonElement anyOfElt) && anyOfElt.ValueKind == JsonValueKind.Array)
-            {
-                if (anyOfElt[0].TryGetProperty("type", out JsonElement typeElt) && typeElt.GetString() == "null")
-                {
-                    jsonElement = anyOfElt[1];
-                    return true;
-                }
-                else if (anyOfElt[1].TryGetProperty("type", out typeElt) && typeElt.GetString() == "null")
-                {
-                    jsonElement = anyOfElt[0];
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private SchemaType GetPrimitiveTypeFromJsonElement(string docName, string keyName, JsonElement schemaElt, bool orNull, Dictionary<string, JsonElement> rootElementsByName)
-        {
-            switch (schemaElt.GetProperty("type").GetString())
-            {
-                case "array":
-                    return new ArrayType(GetSchemaTypeFromJsonElement(docName, keyName, schemaElt.GetProperty("items"), rootElementsByName, isOptional: false), orNull);
-                case "object":
-                    JsonElement typeAndAddendaElt = schemaElt.GetProperty("additionalProperties");
-                    return new MapType(GetSchemaTypeFromJsonElement(docName, keyName, typeAndAddendaElt, rootElementsByName, isOptional: false), orNull);
-                case "boolean":
-                    return new BooleanType(orNull);
-                case "number":
-                    return schemaElt.GetProperty("format").GetString() == "float" ? new FloatType(orNull) : new DoubleType(orNull);
-                case "integer":
-                    if (schemaElt.TryGetProperty("maximum", out JsonElement maxElt))
+                    foreach (KeyValuePair<string, JsonTracker> prop in schemaTracker.EnumerateObject())
                     {
-                        return maxElt.GetUInt64() switch
+                        if (prop.Key != JsonSchemaValues.PropertySchema &&
+                            prop.Key != JsonSchemaValues.PropertyType &&
+                            prop.Key != JsonSchemaValues.PropertyTitle &&
+                            prop.Key != JsonSchemaValues.PropertyAdditionalProperties &&
+                            prop.Key != JsonSchemaValues.PropertyDescription)
                         {
-                            < 128 => new ByteType(orNull),
-                            < 256 => new UnsignedByteType(orNull),
-                            < 32768 => new ShortType(orNull),
-                            < 65536 => new UnsignedShortType(orNull),
-                            < 2147483648 => new IntegerType(orNull),
-                            < 4294967296 => new UnsignedIntegerType(orNull),
-                            < 9223372036854775808 => new LongType(orNull),
-                            _ => new UnsignedLongType(orNull),
-                        };
+                            errorReporter?.ReportWarning($"JSON Schema element defines a Map type, so '{prop.Key}' property will be ignored", prop.Value.TokenIndex);
+                        }
+                    }
+
+                    if (!TryGetSchemaType(
+                        docName,
+                        defKey,
+                        addlPropsTracker,
+                        orNull: false,
+                        schemaTypes,
+                        schemaRootsByName,
+                        errorReporter,
+                        out SchemaType? valueSchemaType))
+                    {
+                        return false;
+                    }
+
+                    schemaType = new MapType(valueSchemaType, orNull);
+                    return true;
+                }
+                else if (addlPropsTracker.ValueKind != JsonValueKind.False)
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAdditionalProperties}' property must have a value that is either a JSON object or a literal false", addlPropsTracker.TokenIndex);
+                    return false;
+                }
+            }
+
+            if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyProperties, out JsonTracker propertiesTracker))
+            {
+                bool hasError = false;
+
+                if (propertiesTracker.ValueKind != JsonValueKind.Object)
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyProperties}' property has non-object value", propertiesTracker.TokenIndex);
+                    return false;
+                }
+
+                HashSet<string> requiredFields = new();
+                if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyRequired, out JsonTracker requiredTracker))
+                {
+                    if (requiredTracker.ValueKind != JsonValueKind.Array)
+                    {
+                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyRequired}' property has non-array value", requiredTracker.TokenIndex);
+                        hasError = true;
                     }
                     else
                     {
-                        return schemaElt.TryGetProperty("minimum", out JsonElement minElt) && minElt.GetInt64() >= 0 ? new UnsignedLongType(orNull) : new LongType(orNull);
-                    }
-                case "string":
-                    if (schemaElt.TryGetProperty("format", out JsonElement formatElt))
-                    {
-                        return formatElt.GetString() switch
+                        foreach (JsonTracker reqTracker in requiredTracker.EnumerateArray())
                         {
-                            "date" => new DateType(orNull),
-                            "date-time" => new DateTimeType(orNull),
-                            "time" => new TimeType(orNull),
-                            "duration" => new DurationType(orNull),
-                            "uuid" => new UuidType(orNull),
-                            _ => throw new Exception($"unrecognized 'string' schema (format = {formatElt.GetString()})"),
-                        };
+                            string? reqName = reqTracker.GetString();
+                            if (reqTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(reqName))
+                            {
+                                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyRequired}' element in array has non-string or empty value", reqTracker.TokenIndex);
+                                hasError = true;
+                            }
+                            else if (!propertiesTracker.TryGetProperty(reqName, out _))
+                            {
+                                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyRequired}' element in array has value '{reqName}' that does not correspond to any property in '{JsonSchemaValues.PropertyProperties}' element", reqTracker.TokenIndex);
+                                hasError = true;
+                            }
+                            else
+                            {
+                                requiredFields.Add(reqName!);
+                            }
+                        }
                     }
-                    if (schemaElt.TryGetProperty("contentEncoding", out JsonElement encodingElt))
+                }
+
+                Dictionary<CodeName, ObjectType.FieldInfo> objectFields = new();
+                if (schemaTypes != null)
+                {
+                    foreach (KeyValuePair<string, JsonTracker> objProp in propertiesTracker.EnumerateObject())
                     {
-                        return encodingElt.GetString() switch
+                        bool isRequired = requiredFields.Contains(objProp.Key);
+                        if (TryGetSchemaType(
+                            docName,
+                            objProp.Key,
+                            objProp.Value,
+                            orNull: !isRequired,
+                            schemaTypes,
+                            schemaRootsByName,
+                            errorReporter,
+                            out SchemaType? fieldSchemaType))
                         {
-                            "base64" => new BytesType(orNull),
-                            _ => throw new Exception($"unrecognized 'string' schema (contentEncoding = {encodingElt.GetString()})"),
-                        };
+                            string? fieldDesc = objProp.Value.TryGetProperty(JsonSchemaValues.PropertyDescription, out JsonTracker fieldDescTracker) ? fieldDescTracker.GetString() : null;
+                            objectFields[new CodeName(objProp.Key)] = new ObjectType.FieldInfo(fieldSchemaType, isRequired, fieldDesc);
+                        }
+                        else
+                        {
+                            hasError = true;
+                        }
                     }
-                    if (schemaElt.TryGetProperty("pattern", out JsonElement patternElt))
+                }
+
+                if (!isTopLevel)
+                {
+                    foreach (string internalDefsKey in JsonSchemaValues.InternalDefsKeys)
                     {
-                        return patternElt.GetString() switch
+                        if (schemaTracker.TryGetProperty(internalDefsKey, out JsonTracker internalDefsTracker))
                         {
-                            "^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$" => new DecimalType(orNull),
-                            _ => throw new Exception($"unrecognized 'string' schema (pattern = {patternElt.GetString()})"),
-                        };
+                            errorReporter?.ReportWarning($"JSON Schema element is not a top-level Object type definition, so '{internalDefsKey}' property will be ignored", internalDefsTracker.TokenIndex);
+                        }
                     }
-                    return new StringType(orNull);
-                default:
-                    throw new Exception($"unrecognized schema (type = {schemaElt.GetProperty("type").GetString()})");
+                }
+
+                foreach (KeyValuePair<string, JsonTracker> prop in schemaTracker.EnumerateObject())
+                {
+                    if (prop.Key != JsonSchemaValues.PropertySchema &&
+                        prop.Key != JsonSchemaValues.PropertyType &&
+                        prop.Key != JsonSchemaValues.PropertyTitle &&
+                        prop.Key != JsonSchemaValues.PropertyProperties &&
+                        prop.Key != JsonSchemaValues.PropertyAdditionalProperties &&
+                        prop.Key != JsonSchemaValues.PropertyDescription &&
+                        prop.Key != JsonSchemaValues.PropertyRequired &&
+                        !JsonSchemaValues.InternalDefsKeys.Contains(prop.Key))
+                    {
+                        errorReporter?.ReportWarning($"JSON Schema element defines an Object type, so '{prop.Key}' property will be ignored", prop.Value.TokenIndex);
+                    }
+                }
+
+                if (hasError)
+                {
+                    return false;
+                }
+
+                string? title = schemaTracker.TryGetProperty(JsonSchemaValues.PropertyTitle, out JsonTracker titleTracker) ? titleTracker.GetString() : null;
+                CodeName schemaName = new CodeName(this.typeNamer.GenerateTypeName(docName, defKey, title));
+
+                if (schemaTypes != null)
+                {
+                    if (schemaTypes.ContainsKey(schemaName))
+                    {
+                        errorReporter?.ReportError($"JSON Schema defines duplicate type name '{schemaName.AsGiven}'", schemaTracker.TokenIndex);
+                        return false;
+                    }
+
+                    string? description = schemaTracker.TryGetProperty(JsonSchemaValues.PropertyDescription, out JsonTracker descTracker) ? descTracker.GetString() : null;
+
+                    schemaTypes[schemaName] = new ObjectType(
+                        schemaName,
+                        description,
+                        objectFields,
+                        orNull: false);
+                }
+
+                schemaType = new ReferenceType(schemaName, isNullable: true, orNull: orNull);
+                return true;
             }
+
+            errorReporter?.ReportError($"JSON Schema element has neither a '{JsonSchemaValues.PropertyProperties}' property nor an object-valued '{JsonSchemaValues.PropertyAdditionalProperties}' property", schemaTracker.TokenIndex);
+            return false;
         }
 
-        private void GetReferenceInfo(
+        private bool TryGetArraySchemaType(
             string docName,
-            JsonElement referencingElt,
-            Dictionary<string, JsonElement> rootElementsByName,
+            string? defKey,
+            JsonTracker schemaTracker,
+            bool orNull,
+            Dictionary<CodeName, SchemaType>? schemaTypes,
+            Dictionary<string, SchemaRoot> schemaRootsByName,
+            ErrorReporter? errorReporter,
+            [NotNullWhen(true)] out SchemaType? schemaType)
+        {
+            schemaType = null;
+            bool hasError = false;
+
+            if (!schemaTracker.TryGetProperty(JsonSchemaValues.PropertyItems, out JsonTracker itemsTracker))
+            {
+                errorReporter?.ReportError($"JSON Schema element has type '{JsonSchemaValues.TypeArray}' but no '{JsonSchemaValues.PropertyItems}' element", schemaTracker.TokenIndex);
+                hasError = true;
+            }
+            else if (itemsTracker.ValueKind != JsonValueKind.Object)
+            {
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyItems}' property has non-object value", itemsTracker.TokenIndex);
+                hasError = true;
+            }
+
+            foreach (KeyValuePair<string, JsonTracker> prop in schemaTracker.EnumerateObject())
+            {
+                if (prop.Key != JsonSchemaValues.PropertySchema &&
+                    prop.Key != JsonSchemaValues.PropertyType &&
+                    prop.Key != JsonSchemaValues.PropertyTitle &&
+                    prop.Key != JsonSchemaValues.PropertyItems &&
+                    prop.Key != JsonSchemaValues.PropertyDescription)
+                {
+                    errorReporter?.ReportWarning($"JSON Schema element defines an Array type, so '{prop.Key}' property will be ignored", prop.Value.TokenIndex);
+                }
+            }
+
+            if (hasError || !TryGetSchemaType(
+                docName,
+                defKey,
+                itemsTracker,
+                orNull: false,
+                schemaTypes,
+                schemaRootsByName,
+                errorReporter,
+                out SchemaType? itemSchemaType))
+            {
+                return false;
+            }
+
+            schemaType = new ArrayType(itemSchemaType, orNull);
+            return true;
+        }
+
+        private bool TryGetStringSchemaType(
+            string docName,
+            string? defKey,
+            JsonTracker schemaTracker,
+            bool orNull,
+            Dictionary<CodeName, SchemaType>? schemaTypes,
+            Dictionary<string, SchemaRoot> schemaRootsByName,
+            ErrorReporter? errorReporter,
+            [NotNullWhen(true)] out SchemaType? schemaType)
+        {
+            schemaType = null;
+            int modifierCount = 0;
+            bool hasError = false;
+
+            if (!schemaTracker.TryGetProperty(JsonSchemaValues.PropertyEnum, out JsonTracker enumTracker))
+            {
+                if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyFormat, out JsonTracker formatTracker))
+                {
+                    modifierCount++;
+                    if (formatTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(formatTracker.GetString()))
+                    {
+                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has non-string or empty value", formatTracker.TokenIndex);
+                        hasError = true;
+                    }
+                }
+                if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyContentEncoding, out JsonTracker encodingTracker))
+                {
+                    modifierCount++;
+                    if (encodingTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(encodingTracker.GetString()))
+                    {
+                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyContentEncoding}' property has non-string or empty value", encodingTracker.TokenIndex);
+                        hasError = true;
+                    }
+                }
+                if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyPattern, out JsonTracker patternTracker))
+                {
+                    modifierCount++;
+                    if (patternTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(patternTracker.GetString()))
+                    {
+                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyPattern}' property has non-string or empty value", patternTracker.TokenIndex);
+                        hasError = true;
+                    }
+                }
+
+                if (modifierCount > 1)
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.TypeString}' type can have at most one of '{JsonSchemaValues.PropertyFormat}', '{JsonSchemaValues.PropertyContentEncoding}', or '{JsonSchemaValues.PropertyPattern}' properties", schemaTracker.TokenIndex);
+                    hasError = true;
+                }
+
+                foreach (KeyValuePair<string, JsonTracker> prop in schemaTracker.EnumerateObject())
+                {
+                    if (prop.Key != JsonSchemaValues.PropertySchema &&
+                        prop.Key != JsonSchemaValues.PropertyType &&
+                        prop.Key != JsonSchemaValues.PropertyFormat &&
+                        prop.Key != JsonSchemaValues.PropertyContentEncoding &&
+                        prop.Key != JsonSchemaValues.PropertyPattern &&
+                        prop.Key != JsonSchemaValues.PropertyDescription)
+                    {
+                        errorReporter?.ReportWarning($"JSON Schema element defines a String type, so '{prop.Key}' property will be ignored", prop.Value.TokenIndex);
+                    }
+                }
+
+                if (hasError)
+                {
+                    return false;
+                }
+
+                if (formatTracker.ValueKind == JsonValueKind.String)
+                {
+                    switch (formatTracker.GetString()!)
+                    {
+                        case JsonSchemaValues.FormatDate:
+                            schemaType = new DateType(orNull);
+                            return true;
+                        case JsonSchemaValues.FormatDateTime:
+                            schemaType = new DateTimeType(orNull);
+                            return true;
+                        case JsonSchemaValues.FormatTime:
+                            schemaType = new TimeType(orNull);
+                            return true;
+                        case JsonSchemaValues.FormatDuration:
+                            schemaType = new DurationType(orNull);
+                            return true;
+                        case JsonSchemaValues.FormatUuid:
+                            schemaType = new UuidType(orNull);
+                            return true;
+                        default:
+                            errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has unrecognized value \"{formatTracker.GetString()}\"", formatTracker.TokenIndex);
+                            return false;
+                    }
+                }
+
+                if (encodingTracker.ValueKind == JsonValueKind.String)
+                {
+                    switch (encodingTracker.GetString()!)
+                    {
+                        case JsonSchemaValues.ContentEncodingBase64:
+                            schemaType = new BytesType(orNull);
+                            return true;
+                        default:
+                            errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyContentEncoding}' property has unrecognized value \"{encodingTracker.GetString()}\"", encodingTracker.TokenIndex);
+                            return false;
+                    }
+                }
+
+                if (patternTracker.ValueKind == JsonValueKind.String)
+                {
+                    switch (patternTracker.GetString())
+                    {
+                        case JsonSchemaValues.PatternDecimal:
+                            schemaType = new DecimalType(orNull);
+                            return true;
+                        default:
+                            errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyPattern}' property has unprocessable value \"{patternTracker.GetString()}\"", patternTracker.TokenIndex);
+                            return false;
+                    }
+                }
+
+                schemaType = new StringType(orNull);
+                return true;
+            }
+
+            List<CodeName> enumValues = new();
+            if (enumTracker.ValueKind != JsonValueKind.Array)
+            {
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyEnum}' property has non-array value", enumTracker.TokenIndex);
+                hasError = true;
+            }
+            else
+            {
+                foreach (JsonTracker valueTracker in enumTracker.EnumerateArray())
+                {
+                    if (valueTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(valueTracker.GetString()))
+                    {
+                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyEnum}' element in array has non-string or empty value", valueTracker.TokenIndex);
+                        hasError = true;
+                    }
+                    else if (!EnumValueRegex.IsMatch(valueTracker.GetString()!))
+                    {
+                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyEnum}' element value \"{valueTracker.GetString()}\"must start with a letter and contain only alphanumerics and underscores", valueTracker.TokenIndex);
+                        hasError = true;
+                    }
+                    else
+                    {
+                        enumValues.Add(new CodeName(valueTracker.GetString()!));
+                    }
+                }
+            }
+
+            foreach (KeyValuePair<string, JsonTracker> prop in schemaTracker.EnumerateObject())
+            {
+                if (prop.Key != JsonSchemaValues.PropertySchema &&
+                    prop.Key != JsonSchemaValues.PropertyType &&
+                    prop.Key != JsonSchemaValues.PropertyTitle &&
+                    prop.Key != JsonSchemaValues.PropertyEnum &&
+                    prop.Key != JsonSchemaValues.PropertyDescription)
+                {
+                    errorReporter?.ReportWarning($"JSON Schema element defines an enumerated String type, so '{prop.Key}' property will be ignored", prop.Value.TokenIndex);
+                }
+            }
+
+            if (hasError)
+            {
+                return false;
+            }
+
+            string? title = schemaTracker.TryGetProperty(JsonSchemaValues.PropertyTitle, out JsonTracker titleTracker) ? titleTracker.GetString() : null;
+            CodeName schemaName = new CodeName(this.typeNamer.GenerateTypeName(docName, defKey, title));
+
+            if (schemaTypes != null)
+            {
+                if (schemaTypes.ContainsKey(schemaName))
+                {
+                    errorReporter?.ReportError($"JSON Schema defines duplicate type name '{schemaName.AsGiven}'", schemaTracker.TokenIndex);
+                    return false;
+                }
+
+                string? description = schemaTracker.TryGetProperty(JsonSchemaValues.PropertyDescription, out JsonTracker descTracker) ? descTracker.GetString() : null;
+
+                schemaTypes[schemaName] = new EnumType(
+                    schemaName,
+                    description,
+                    enumValues.ToArray(),
+                    orNull: false);
+            }
+
+            schemaType = new ReferenceType(schemaName, isNullable: true, orNull: orNull);
+            return true;
+        }
+
+        private bool TryGetIntegerSchemaType(JsonTracker schemaTracker, bool orNull, ErrorReporter? errorReporter, [NotNullWhen(true)] out SchemaType? schemaType)
+        {
+            schemaType = null;
+            bool hasError = false;
+            long minimum = 0;
+            ulong maximum = ulong.MaxValue;
+
+            if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyMaximum, out JsonTracker maxTracker))
+            {
+                if (maxTracker.ValueKind != JsonValueKind.Number)
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMaximum}' property has non-numeric value", maxTracker.TokenIndex);
+                    hasError = true;
+                }
+                else if (!double.IsInteger(maxTracker.GetDouble()))
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMaximum}' property has non-integer numeric value", maxTracker.TokenIndex);
+                    hasError = true;
+                }
+                else if (maxTracker.GetDouble() < 0)
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMaximum}' property has negative value", maxTracker.TokenIndex);
+                    hasError = true;
+                }
+                else
+                {
+                    maximum = maxTracker.GetUInt64();
+                }
+            }
+
+            if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyMinimum, out JsonTracker minTracker))
+            {
+                if (minTracker.ValueKind != JsonValueKind.Number)
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMinimum}' property has non-numeric value", minTracker.TokenIndex);
+                    hasError = true;
+                }
+                else if (!double.IsInteger(minTracker.GetDouble()))
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMinimum}' property has non-integer numeric value", minTracker.TokenIndex);
+                    hasError = true;
+                }
+                else if (minTracker.GetDouble() > 0)
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMinimum}' property has positive value", minTracker.TokenIndex);
+                    hasError = true;
+                }
+                else
+                {
+                    minimum = minTracker.GetInt64();
+                }
+            }
+
+            foreach (KeyValuePair<string, JsonTracker> prop in schemaTracker.EnumerateObject())
+            {
+                if (prop.Key != JsonSchemaValues.PropertySchema &&
+                    prop.Key != JsonSchemaValues.PropertyType &&
+                    prop.Key != JsonSchemaValues.PropertyMaximum &&
+                    prop.Key != JsonSchemaValues.PropertyMinimum &&
+                    prop.Key != JsonSchemaValues.PropertyDescription)
+                {
+                    errorReporter?.ReportWarning($"JSON Schema element defines an Integer type, so '{prop.Key}' property will be ignored", prop.Value.TokenIndex);
+                }
+            }
+
+            if (hasError)
+            {
+                return false;
+            }
+
+            schemaType = (minimum, maximum) switch
+            {
+                ( >= (long)sbyte.MinValue, <= (ulong)sbyte.MaxValue) => new ByteType(orNull),
+                ( >= (long)byte.MinValue, <= (ulong)byte.MaxValue) => new UnsignedByteType(orNull),
+                ( >= (long)short.MinValue, <= (ulong)short.MaxValue) => new ShortType(orNull),
+                ( >= (long)ushort.MinValue, <= (ulong)ushort.MaxValue) => new UnsignedShortType(orNull),
+                ( >= (long)int.MinValue, <= (ulong)int.MaxValue) => new IntegerType(orNull),
+                ( >= (long)uint.MinValue, <= (ulong)uint.MaxValue) => new UnsignedIntegerType(orNull),
+                ( >= (long)long.MinValue, <= (ulong)long.MaxValue) => new LongType(orNull),
+                ( >= (long)ulong.MinValue, <= (ulong)ulong.MaxValue) => new UnsignedLongType(orNull),
+                _ => new UnsignedLongType(orNull),
+            };
+
+            return true;
+        }
+
+        private bool TryGetNumberSchemaType(JsonTracker schemaTracker, bool orNull, ErrorReporter? errorReporter, [NotNullWhen(true)] out SchemaType? schemaType)
+        {
+            schemaType = null;
+            bool hasError = false;
+            bool isDouble = true;
+
+            if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyFormat, out JsonTracker formatTracker))
+            {
+                if (formatTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(formatTracker.GetString()))
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has non-string or empty value", formatTracker.TokenIndex);
+                    hasError = true;
+                }
+                else
+                {
+                    switch (formatTracker.GetString()!)
+                    {
+                        case JsonSchemaValues.FormatFloat:
+                            isDouble = false;
+                            break;
+                        case JsonSchemaValues.FormatDouble:
+                            isDouble = true;
+                            break;
+                        default:
+                            errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has unrecognized value -- must be either '{JsonSchemaValues.FormatFloat}' or '{JsonSchemaValues.FormatDouble}'", formatTracker.TokenIndex);
+                            hasError = true;
+                            break;
+                    }
+                }
+            }
+
+            foreach (KeyValuePair<string, JsonTracker> prop in schemaTracker.EnumerateObject())
+            {
+                if (prop.Key != JsonSchemaValues.PropertySchema &&
+                    prop.Key != JsonSchemaValues.PropertyType &&
+                    prop.Key != JsonSchemaValues.PropertyFormat &&
+                    prop.Key != JsonSchemaValues.PropertyDescription)
+                {
+                    errorReporter?.ReportWarning($"JSON Schema element defines a Number type, so '{prop.Key}' property will be ignored", prop.Value.TokenIndex);
+                }
+            }
+
+            if (hasError)
+            {
+                return false;
+            }
+
+            schemaType = isDouble ? new DoubleType(orNull) : new FloatType(orNull);
+            return true;
+        }
+
+        private bool TryGetBooleanSchemaType(JsonTracker schemaTracker, bool orNull, ErrorReporter? errorReporter, [NotNullWhen(true)] out SchemaType? schemaType)
+        {
+            foreach (KeyValuePair<string, JsonTracker> prop in schemaTracker.EnumerateObject())
+            {
+                if (prop.Key != JsonSchemaValues.PropertySchema &&
+                    prop.Key != JsonSchemaValues.PropertyType &&
+                    prop.Key != JsonSchemaValues.PropertyDescription)
+                {
+                    errorReporter?.ReportWarning($"JSON Schema element defines a Boolean type, so '{prop.Key}' property will be ignored", prop.Value.TokenIndex);
+                }
+            }
+
+            schemaType = new BooleanType(orNull);
+            return true;
+        }
+
+        private bool TryGetReferenceInfo(
+            string docName,
+            JsonTracker referencingTracker,
+            Dictionary<string, SchemaRoot> schemaRootsByName,
+            ErrorReporter? errorReporter,
             out string referencedName,
             out string? referencedKey,
-            out JsonElement referencedElt,
-            out string? referencedTitle)
+            out JsonTracker referencedTracker)
         {
-            string refString = Uri.UnescapeDataString(referencingElt.GetString()!);
-            int fragIx = refString.IndexOf('#');
+            referencedName = string.Empty;
+            referencedKey = null;
+            referencedTracker = new JsonTracker();
+
+            if (referencingTracker.ValueKind != JsonValueKind.String)
+            {
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyRef}' property has non-string value", referencingTracker.TokenIndex);
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(referencingTracker.GetString()))
+            {
+                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyRef}' property has empty string value", referencingTracker.TokenIndex);
+                return false;
+            }
+
+            string refString = referencingTracker.GetString()!;
+            string unescapedString = Uri.UnescapeDataString(refString);
+            int fragIx = unescapedString.IndexOf('#');
 
             string baseRef = fragIx switch
             {
-                < 0 => refString,
-                > 0 => refString.Substring(0, fragIx),
+                < 0 => unescapedString,
+                > 0 => unescapedString.Substring(0, fragIx),
                 0 => docName,
             };
-            string fragment = fragIx < 0 ? string.Empty : refString.Substring(fragIx + 2);
+            string fragment = fragIx < 0 ? string.Empty : unescapedString.Substring(fragIx + 2);
 
             referencedName = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(docName)!, baseRef)).Replace('\\', '/');
-            JsonElement rootElt = rootElementsByName[referencedName];
+            if (!schemaRootsByName.TryGetValue(referencedName, out SchemaRoot? schemaRoot) || schemaRoot == null)
+            {
+                errorReporter?.ReportReferenceError($"JSON Schema '{JsonSchemaValues.PropertyRef}' value", $"no file provided with name {referencedName}", refString, referencingTracker.TokenIndex);
+                return false;
+            }
 
             int sepIx = fragment.IndexOf('/');
             string? refCollection = sepIx > 0 ? fragment.Substring(0, sepIx) : null;
             referencedKey = sepIx > 0 ? fragment.Substring(sepIx + 1) : null;
 
-            referencedElt = referencedKey != null ? rootElt.GetProperty(refCollection!).GetProperty(referencedKey) : rootElt;
-            referencedTitle = referencedElt.GetProperty("title").GetString()!;
+            if (referencedKey != null)
+            {
+                if (!schemaRoot.JsonTracker.TryGetProperty(refCollection!, out JsonTracker collectionTracker))
+                {
+                    errorReporter?.ReportReferenceError($"JSON Schema '{JsonSchemaValues.PropertyRef}' value", $"no root '{refCollection}' property found in {referencedName}", refString, referencingTracker.TokenIndex);
+                    return false;
+                }
+
+                if (!collectionTracker.TryGetProperty(referencedKey, out referencedTracker))
+                {
+                    errorReporter?.ReportReferenceError($"JSON Schema '{JsonSchemaValues.PropertyRef}' value", $"no '{referencedKey}' property found under root '{refCollection}' property in {referencedName}", refString, referencingTracker.TokenIndex);
+                    return false;
+                }
+            }
+            else
+            {
+                referencedTracker = schemaRoot.JsonTracker;
+            }
+
+            return true;
         }
     }
 }

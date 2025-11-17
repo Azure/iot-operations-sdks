@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.TDParser;
 
     public record ActionSpec(
         CodeName Name,
@@ -29,7 +30,7 @@
             string? outputSchemaType,
             SerializationFormat format,
             List<string> normalResultNames,
-            List<string> normalRequiredNames,
+            List<ValueTracker<StringHolder>> normalRequiredNames,
             string? normalResultSchema,
             string? errorResultName,
             string? errorResultSchema,
@@ -46,7 +47,7 @@
                 outputSchemaType != null ? new CodeName(outputSchemaType) : null,
                 format.GetEmptyTypeName(),
                 normalResultNames.ConvertAll(name => new CodeName(name)),
-                normalRequiredNames.ConvertAll(name => new CodeName(name)),
+                normalRequiredNames.ConvertAll(name => new CodeName(name.Value.Value)),
                 normalResultSchema != null ? new CodeName(normalResultSchema) : null,
                 errorResultName != null ? new CodeName(errorResultName) : null,
                 errorResultSchema != null ? new CodeName(errorResultSchema) : null,
