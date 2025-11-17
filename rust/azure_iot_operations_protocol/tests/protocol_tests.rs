@@ -159,7 +159,7 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
                     mqtt_hub,
                 )
                 .await;
-                exit_handle.exit_force().await;
+                exit_handle.try_exit().unwrap();
             });
         });
     }
@@ -220,7 +220,7 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
                     mqtt_hub,
                 )
                 .await;
-                exit_handle.exit_force().await;
+                exit_handle.try_exit().unwrap();
             });
         });
     }
@@ -281,7 +281,7 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
                     mqtt_hub,
                 )
                 .await;
-                exit_handle.exit_force().await;
+                exit_handle.try_exit().unwrap();
             });
         });
     }
@@ -341,7 +341,7 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
                     mqtt_hub,
                 )
                 .await;
-                exit_handle.exit_force().await;
+                exit_handle.try_exit().unwrap();
             });
         });
     }

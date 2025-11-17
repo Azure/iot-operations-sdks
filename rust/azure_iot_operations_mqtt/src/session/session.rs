@@ -536,6 +536,7 @@ impl SessionExitHandle {
     ///
     /// Returns true if the exit was graceful, and false if the exit was forced.
     pub async fn exit_force(&self) -> bool {
+        // TODO: once this is implemented, change METL tests back to using this instead of try_exit().unwrap()
         unimplemented!()
     }
 }
