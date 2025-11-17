@@ -57,7 +57,6 @@ use std::fmt;
 
 use thiserror::Error;
 
-use crate::auth::SatAuthContextInitError;
 use crate::azure_mqtt_adapter as adapter;
 use crate::error::{ClientError, ConnectError};
 
@@ -84,9 +83,6 @@ enum SessionErrorRepr {
     /// The [`Session`] was ended by an IO error.
     #[error("{0}")]
     IoError(#[from] std::io::Error),
-    /// The [`Session`] was ended by an error in the SAT auth context.
-    #[error("{0}")]
-    SatAuthError(#[from] SatAuthContextInitError),
 }
 
 /// Error configuring a [`Session`].
