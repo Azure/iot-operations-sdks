@@ -18,10 +18,14 @@ const SAT_AUTHENTICATION_METHOD: &str = "K8S-SAT";
 
 #[async_trait::async_trait]
 pub trait AuthPolicy: Send + Sync {
+    /// Return the `AuthenticationInfo` to use for connecting with MQTT enhanced authentication.
     fn authentication_info(&self) -> AuthenticationInfo;
 
+    /// Return the response authentication data to an AUTH challenge from the server.
     fn auth_challenge(&self, auth: &Auth) -> Option<Bytes>;
 
+    /// Await notification that reauthentication should occur, returning the authentication data
+    /// to send to the server.
     async fn reauth_notified(&self) -> Option<Bytes>;
 }
 

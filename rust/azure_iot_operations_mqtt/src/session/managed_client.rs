@@ -43,7 +43,7 @@ impl SessionManagedClient {
         SessionPubReceiver { pub_rx }
     }
 
-    pub fn create_unfiltered_pub_receiver(self) -> SessionPubReceiver {
+    pub fn create_unfiltered_pub_receiver(&self) -> SessionPubReceiver {
         let pub_rx = self.dispatcher.lock().unwrap().create_unfiltered_receiver();
         SessionPubReceiver { pub_rx }
     }

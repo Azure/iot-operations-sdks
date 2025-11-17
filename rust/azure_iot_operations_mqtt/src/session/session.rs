@@ -113,6 +113,8 @@ impl Session {
         // TODO: This would ideally come directly from the SessionOptions instead of MQTT connection settings
         let auth_policy = if let Some(sat_file) = options.connection_settings.sat_file.as_ref() {
             Some(
+                // TODO: This error should propagate, however currently `SessionConfigError` is tightly coupled to the
+                // `azure_mqtt_adapter`, so it cannot.
                 Arc::new(SatAuthFileMonitor::new(std::path::PathBuf::from(sat_file)).unwrap())
                     as Arc<dyn AuthPolicy>,
             )
