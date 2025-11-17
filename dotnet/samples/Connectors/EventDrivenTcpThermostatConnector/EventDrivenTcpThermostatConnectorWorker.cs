@@ -34,6 +34,7 @@ namespace EventDrivenTcpThermostatConnector
                 _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
                 await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
                     currentDeviceStatus.Config ??= new();
+                    currentDeviceStatus.Config.Error = null,
                     currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
                     currentDeviceStatus.Endpoints ??= new();
                     currentDeviceStatus.Endpoints.Inbound ??= new();
@@ -84,6 +85,7 @@ namespace EventDrivenTcpThermostatConnector
                     await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
                         currentAssetStatus.Config ??= new();
                         currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                        currentAssetStatus.Config.Error = null;
                         currentAssetStatus.EventGroups ??= new();
                         currentAssetStatus.EventGroups.Clear();
                         return currentAssetStatus;
@@ -106,6 +108,7 @@ namespace EventDrivenTcpThermostatConnector
                     await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
                         currentAssetStatus.Config ??= new();
                         currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                        currentAssetStatus.Config.Error = null;
                         currentAssetStatus.EventGroups ??= new();
                         currentAssetStatus.ClearEventGroupStatus(eventGroup.Name);
                         return currentAssetStatus;
@@ -132,6 +135,7 @@ namespace EventDrivenTcpThermostatConnector
                     await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
                         currentAssetStatus.Config ??= new();
                         currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                        currentAssetStatus.Config.Error = null;
                         currentAssetStatus.UpdateEventStatus(eventGroup.Name, new()
                         {
                             Name = assetEvent.Name,
@@ -196,6 +200,7 @@ namespace EventDrivenTcpThermostatConnector
                                     await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
                                         currentAssetStatus.Config ??= new();
                                         currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                        currentAssetStatus.Config.Error = null;
                                         currentAssetStatus.UpdateEventStatus(eventGroupName, new()
                                         {
                                             Name = assetEvent.Name,
@@ -233,6 +238,7 @@ namespace EventDrivenTcpThermostatConnector
                     await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
                         currentDeviceStatus.Config ??= new();
                         currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                        currentDeviceStatus.Config.Error = null;
                         currentDeviceStatus.SetEndpointError(
                             InboundEndpointName,
                             new ConfigError()

@@ -29,6 +29,7 @@ namespace Azure.Iot.Operations.Connector
                 await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
                     currentDeviceStatus.Config ??= new();
                     currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                    currentDeviceStatus.Config.Error = null;
                     return currentDeviceStatus;
                 }, null, cancellationToken);
             }
@@ -108,6 +109,7 @@ namespace Azure.Iot.Operations.Connector
                                 (currentAssetStatus) =>
                                 {
                                     currentAssetStatus.Config ??= new();
+                                    currentAssetStatus.Config.Error = null,
                                     currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
                                     currentAssetStatus.UpdateDatasetStatus(new AssetDatasetEventStreamStatus()
                                     {
