@@ -18,7 +18,7 @@ pub enum ConnectionLoss {
 
 /// Trait defining interface for reconnect policies.
 pub trait ReconnectPolicy: Send {
-    /// Get the next reconnect delay after a connection failure.
+    /// Get the next reconnect delay after a failure to connect.
     /// Returns None if no reconnect should be attempted.
     fn connect_failure_reconnect_delay(
         &self,
