@@ -7,8 +7,8 @@ use std::time::Duration;
 
 use rand::Rng;
 
-use crate::error::{ConnectError, ProtocolError};
 use crate::control_packet::Disconnect;
+use crate::error::{ConnectError, ProtocolError};
 
 pub enum ConnectionLoss {
     DisconnectByServer(Disconnect),
@@ -20,8 +20,11 @@ pub enum ConnectionLoss {
 pub trait ReconnectPolicy: Send {
     /// Get the next reconnect delay after a connection failure.
     /// Returns None if no reconnect should be attempted.
-    fn connect_failure_reconnect_delay(&self, prev_attempts: u32, error: &ConnectError)
-    -> Option<Duration>;
+    fn connect_failure_reconnect_delay(
+        &self,
+        prev_attempts: u32,
+        error: &ConnectError,
+    ) -> Option<Duration>;
 
     /// Get the next reconnect delay after a connection loss.
     /// Returns None if no reconnect should be attempted.
@@ -79,8 +82,11 @@ impl Default for ExponentialBackoffWithJitter {
 }
 
 impl ReconnectPolicy for ExponentialBackoffWithJitter {
-    fn connect_failure_reconnect_delay(&self, prev_attempts: u32, error: &ConnectError) -> Option<Duration>
-    {
+    fn connect_failure_reconnect_delay(
+        &self,
+        prev_attempts: u32,
+        error: &ConnectError,
+    ) -> Option<Duration> {
         if self.should_reconnect(prev_attempts, error) {
             Some(self.calculate_delay(prev_attempts))
         } else {

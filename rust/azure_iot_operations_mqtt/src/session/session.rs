@@ -7,23 +7,24 @@ use std::sync::{Arc, Mutex, Weak};
 use std::time::Duration;
 
 use azure_mqtt::{
-    client::{Connection, DisconnectedEvent, ConnectResult, ConnectEnhancedAuthResult},
-    packet::{ConnAck, DisconnectProperties, SessionExpiryInterval},
+    client::{
+        ConnectEnhancedAuthResult, ConnectResult, Connection, DisconnectedEvent, ReauthResult,
+    },
+    packet::{AuthProperties, ConnAck, DisconnectProperties, SessionExpiryInterval},
 };
 use tokio::sync::Notify;
 
+use crate::session::auth_policy::{AuthPolicy, SatAuthFileMonitor};
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::managed_client::SessionManagedClient;
-use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy, ConnectionLoss};
+use crate::session::reconnect_policy::{
+    ConnectionLoss, ExponentialBackoffWithJitter, ReconnectPolicy,
+};
 use crate::session::state::SessionState;
 use crate::session::{
     SessionConfigError, SessionError, SessionErrorRepr, SessionExitError, SessionExitErrorKind,
 };
 use crate::{MqttConnectionSettings, azure_mqtt_adapter::AzureMqttConnectParameters};
-use crate::{
-    auth::SatAuthContext,
-    //error::{ConnectionError, ConnectionErrorKind},
-};
 
 /// Options for configuring a new [`Session`]
 #[derive(Builder)]
@@ -66,7 +67,7 @@ pub struct Session {
     /// Underlying MQTT Receiver
     receiver: Option<azure_mqtt::client::Receiver>,
     /// Underlying MQTT connect handle
-    connect_handle: Option<azure_mqtt::client::ConnectHandle>, 
+    connect_handle: Option<azure_mqtt::client::ConnectHandle>,
     /// disconnect handle
     disconnect_handle: Arc<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
     /// Underlying MQTT reauthorization handle
@@ -79,6 +80,8 @@ pub struct Session {
     incoming_pub_dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     /// Reconnect policy
     reconnect_policy: Box<dyn ReconnectPolicy>,
+    /// Enhanced authentication policy
+    auth_policy: Option<Arc<dyn AuthPolicy>>,
     /// Current state
     state: Arc<SessionState>,
     /// Notifier for a force exit signal
@@ -106,6 +109,17 @@ impl Session {
             vec![]
         };
 
+        // Create AuthPolicy if SAT file is provided
+        // TODO: This would ideally come directly from the SessionOptions instead of MQTT connection settings
+        let auth_policy = if let Some(sat_file) = options.connection_settings.sat_file.as_ref() {
+            Some(
+                Arc::new(SatAuthFileMonitor::new(std::path::PathBuf::from(sat_file)).unwrap())
+                    as Arc<dyn AuthPolicy>,
+            )
+        } else {
+            None
+        };
+
         let (client_options, connect_parameters) = options
             .connection_settings
             .to_azure_mqtt_connect_parameters(
@@ -130,6 +144,7 @@ impl Session {
             client_id,
             incoming_pub_dispatcher,
             reconnect_policy: options.reconnect_policy,
+            auth_policy,
             state: Arc::new(SessionState::default()),
             notify_force_exit: Arc::new(Notify::new()),
         })
@@ -167,13 +182,13 @@ impl Session {
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
     pub async fn run(mut self) -> Result<(), SessionError> {
-        // TODO: Start monitoring SAT auth here, keeping the value updated.
-
         // NOTE: This task does not need to be cleaned up. It exits gracefully on its own,
         // without the need for explicit cancellation after Session is dropped at the end
         // of this method.
         tokio::task::spawn(Session::receive(
-            self.receiver.take().expect("Receiver should always be present at start of run"),
+            self.receiver
+                .take()
+                .expect("Receiver should always be present at start of run"),
             self.incoming_pub_dispatcher.clone(),
         ));
 
@@ -187,21 +202,24 @@ impl Session {
                 Err(e) => {
                     log::debug!("Failed to connect MQTT session: {e:?}");
                     prev_reconnection_attempts += 1;
-                    match self.reconnect_policy.connect_failure_reconnect_delay(prev_reconnection_attempts, &e) {
+                    match self
+                        .reconnect_policy
+                        .connect_failure_reconnect_delay(prev_reconnection_attempts, &e)
+                    {
                         Some(delay) => {
                             log::debug!("Retrying connect in {delay:?}...");
                             tokio::time::sleep(delay).await;
                             continue;
-                        },
+                        }
                         None => return Err(SessionErrorRepr::ReconnectHalted.into()),
                     }
-                },
+                }
             };
 
             // Check to see if the MQTT session has been lost
             if !connack.session_present && prev_connected {
                 // TODO: try and disconnect here?
-                return Err(SessionErrorRepr::SessionLost.into())
+                return Err(SessionErrorRepr::SessionLost.into());
             }
 
             log::debug!("Connected MQTT session: {connack:?}");
@@ -213,22 +231,36 @@ impl Session {
             prev_connected = true;
             prev_reconnection_attempts = 0;
 
-            // TODO: start reauth task here
+            if let Some(auth_policy) = &self.auth_policy {
+                tokio::task::spawn(Session::reauth_monitor(
+                    auth_policy.clone(),
+                    self.reauth_handle.take().expect(
+                        "ReauthHandle should always be present after connect with AuthPolicy",
+                    ),
+                ));
+            }
 
             let (connect_handle, disconnected_event) = connection.run_until_disconnect().await;
             self.connect_handle = Some(connect_handle);
             *self.disconnect_handle.lock().unwrap() = None;
+            self.reauth_handle = None;
             self.state.transition_disconnected();
             let connection_loss = match disconnected_event {
                 // User-initiated disconnect with exit handle
                 // TODO: Is this truly the only way this happens? I think so, but double-check
                 DisconnectedEvent::ApplicationDisconnect => return Ok(()),
-                DisconnectedEvent::ServerDisconnect(disconnect) => ConnectionLoss::DisconnectByServer(disconnect),
+                DisconnectedEvent::ServerDisconnect(disconnect) => {
+                    ConnectionLoss::DisconnectByServer(disconnect)
+                }
                 DisconnectedEvent::IoError(io_err) => ConnectionLoss::IoError(io_err),
-                DisconnectedEvent::ProtocolError(proto_err) => ConnectionLoss::ProtocolError(proto_err),
-                // TODO: how to handle force exit from exit handle?
+                DisconnectedEvent::ProtocolError(proto_err) => {
+                    ConnectionLoss::ProtocolError(proto_err)
+                } // TODO: how to handle force exit from exit handle?
             };
-            match self.reconnect_policy.connection_loss_reconnect_delay(&connection_loss) {
+            match self
+                .reconnect_policy
+                .connection_loss_reconnect_delay(&connection_loss)
+            {
                 Some(delay) => tokio::time::sleep(delay).await,
                 None => return Err(SessionErrorRepr::ReconnectHalted.into()),
             }
@@ -236,16 +268,18 @@ impl Session {
     }
 
     /// Helper for connecting
-    async fn connect(&mut self, clean_start: bool) -> Result<(Connection, ConnAck), azure_mqtt::error::ConnectError> {
-        // TODO: pull this from a stored source of truth to avoid too many re-reads.
-        let authentication_info = self.connect_parameters.fetch_authentication_info().unwrap(); // TODO: handle unwrap
-
+    async fn connect(
+        &mut self,
+        clean_start: bool,
+    ) -> Result<(Connection, ConnAck), azure_mqtt::error::ConnectError> {
         let ch = self
             .connect_handle
             .take()
             .expect("ConnectHandle should always be present for connect attempt");
 
-        let result = if let Some(authentication_info) = authentication_info {
+        let result = if let Some(authentication_info) =
+            self.auth_policy.as_ref().map(|ap| ap.authentication_info())
+        {
             match ch.connect_enhanced_auth(
                     // TODO: maybe add something about certs expiring can fail this and why it's ok to panic? Or change this to not panic if it fails and instead end the session
                 self.connect_parameters.connection_transport_config().expect("connection transport config has already been validated and inputs can't change"),
@@ -260,6 +294,7 @@ impl Session {
             )
             .await {
                 ConnectEnhancedAuthResult::Continue(..) => {
+                    // TODO: Implement this anyway
                     unimplemented!("This should not occur in AIO MQTT scenarios")
                 }
                 ConnectEnhancedAuthResult::Success(
@@ -313,7 +348,10 @@ impl Session {
         result
     }
 
-    async fn receive(mut receiver: azure_mqtt::client::Receiver, dispatcher: Arc<Mutex<IncomingPublishDispatcher>>) {
+    async fn receive(
+        mut receiver: azure_mqtt::client::Receiver,
+        dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
+    ) {
         while let Some((publish, manual_ack)) = receiver.recv().await {
             log::debug!("Incoming PUBLISH: {publish:?}");
             // Dispatch the message to receivers
@@ -341,66 +379,99 @@ impl Session {
             }
         }
     }
+
+    /// Perform MQTT enhanced auth reauthentication as dictated by the `AuthPolicy`.
+    /// This function runs indefinitely and must be cancelled upon MQTT client disconnect.
+    async fn reauth_monitor(
+        auth_policy: Arc<dyn AuthPolicy>,
+        reauth_handle: azure_mqtt::client::ReauthHandle,
+    ) {
+        loop {
+            log::debug!("Waiting for reauthentication notification from AuthPolicy...");
+            let auth_data = auth_policy.reauth_notified().await;
+            log::debug!("AuthPolicy indicates reauthentication is required. Attempting...");
+
+            let mut result = match reauth_handle
+                .reauth(auth_data, AuthProperties::default())
+                .await
+            {
+                Ok(ct) => {
+                    match ct.await {
+                        Ok(r) => r,
+                        Err(_) => {
+                            log::warn!(
+                                "Reauth operation cancelled. Exiting reauthentication monitor."
+                            );
+                            // NOTE: This only could really happen if an MQTT disconnect happened while
+                            // waiting for the reauth response. Completely harmless.
+                            return;
+                        }
+                    }
+                }
+                Err(_) => {
+                    log::warn!("Reauth handle detached. Exiting reauthentication monitor.");
+                    // NOTE: This only could really happen if an MQTT disconnect AND a reauth notification
+                    // occurr at the same time, which is extremely unlikely, and also completely harmless.
+                    return;
+                }
+            };
+
+            loop {
+                match result {
+                    ReauthResult::Continue(auth, reauth_token) => {
+                        log::debug!("Reauth requires additional steps");
+                        let auth_data = auth_policy.auth_challenge(&auth);
+                        result = match reauth_token
+                            .continue_reauth(auth_data, AuthProperties::default())
+                            .await
+                        {
+                            Ok(ct) => {
+                                match ct.await {
+                                    Ok(r) => r,
+                                    Err(_) => {
+                                        log::warn!(
+                                            "Reauth operation cancelled. Exiting reauthentication monitor."
+                                        );
+                                        // NOTE: This only could really happen if an MQTT disconnect happened while
+                                        // waiting for the reauth response. Completely harmless.
+                                        return;
+                                    }
+                                }
+                            }
+                            Err(_) => {
+                                log::warn!(
+                                    "Reauth handle detached. Exiting reauthentication monitor."
+                                );
+                                // NOTE: This only could really happen if an MQTT disconnect AND a reauth notification
+                                // occurr at the same time, which is extremely unlikely, and also completely harmless.
+                                return;
+                            }
+                        };
+                        continue;
+                    }
+                    ReauthResult::Success(_) => {
+                        log::debug!("Reauthentication successful.");
+                        break;
+                    }
+                    ReauthResult::Failure => {
+                        log::warn!("Reauthentication failed");
+                        log::warn!(
+                            "Server expected to close the connection due to reauthentication failure."
+                        );
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
-
-// /// Run background tasks for [`Session.run()`]
-// async fn run_background(
-//     client: azure_mqtt::client::Client,
-//     sat_auth_context: Option<SatAuthContext>,
-//     cancel_token: CancellationToken,
-// ) {
-//     /// Maintain the SAT token authentication by renewing it when the SAT file changes
-//     async fn maintain_sat_auth(
-//         mut sat_auth_context: SatAuthContext,
-//         client: azure_mqtt::client::Client,
-//     ) -> ! {
-//         let mut retrying = false;
-//         loop {
-//             // Wait for the SAT file to change if not retrying
-//             if !retrying {
-//                 sat_auth_context.notified().await;
-//             }
-
-//             // Re-authenticate the client
-//             if sat_auth_context
-//                 .reauth(Duration::from_secs(10), &client)
-//                 .await
-//                 .is_ok()
-//             {
-//                 log::debug!("SAT token renewed successfully");
-//                 // Drain the notification so we don't re-auth again for a prior change to the SAT file
-//                 sat_auth_context.drain_notify().await;
-//                 retrying = false;
-//                 continue;
-//             }
-//             log::error!("Error renewing SAT token, retrying...");
-//             retrying = true;
-//             // Wait before retrying
-//             tokio::time::sleep(Duration::from_secs(10)).await;
-//         }
-//     }
-
-//     // Run the background tasks
-//     if let Some(sat_auth_context) = sat_auth_context {
-//         tokio::select! {
-//             () = cancel_token.cancelled() => {
-//                 log::debug!("Session background task cancelled");
-//             }
-//             () = maintain_sat_auth(sat_auth_context, client) => {
-//                 log::error!("`maintain_sat_auth` task ended unexpectedly.");
-//             }
-//         }
-//     }
-// }
-
-
 /// Handle used to end an MQTT session.
 #[derive(Clone)]
 pub struct SessionExitHandle {
     /// The disconnector used to issue disconnect requests
     disconnect_handle: Weak<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
     /// Notifier for force exit
-    force_exit: Arc<Notify>,            // TODO: can this be a oneshot?
+    force_exit: Arc<Notify>, // TODO: can this be a oneshot?
 }
 
 impl SessionExitHandle {
@@ -431,7 +502,7 @@ impl SessionExitHandle {
                 kind: SessionExitErrorKind::BrokerUnavailable,
             })?
             .disconnect(&DisconnectProperties {
-                session_expiry_interval: Some(SessionExpiryInterval::Duration(0)), 
+                session_expiry_interval: Some(SessionExpiryInterval::Duration(0)),
                 ..Default::default()
             })
             // NOTE: This error is likely impossible because we already were able to take the
@@ -441,12 +512,10 @@ impl SessionExitHandle {
                 attempted: false,
                 kind: SessionExitErrorKind::Detached,
             }))
-        
+
         // TODO: does the idea of an "attempted" exit even make sense anymore?
         // Should MQTT client wait for server to close connection?
     }
-
-
 
     /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
     /// This will cause the [`Session::run()`] method to return.
@@ -461,14 +530,12 @@ impl SessionExitHandle {
     }
 }
 
-
-
 /// Monitor for session state changes in the [`Session`].
 ///
 /// This is largely for informational purposes.
 #[derive(Clone)]
 pub struct SessionMonitor {
-    state: Arc<SessionState>,   // TODO: should this be a weakref?
+    state: Arc<SessionState>, // TODO: should this be a weakref?
 }
 
 impl SessionMonitor {

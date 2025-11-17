@@ -42,6 +42,7 @@
 //! discarded. Thus, in order to guarantee that messages will not be lost, you should create the
 //! [`SessionPubReceiver`] *before* subscribing to the topic filter.
 
+pub mod auth_policy;
 pub(crate) mod dispatcher;
 pub mod managed_client; // TODO: This really ought be private, but we need it public for testing
 pub(crate) mod plenary_ack;
