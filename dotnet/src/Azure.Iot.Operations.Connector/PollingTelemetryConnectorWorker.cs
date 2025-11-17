@@ -49,10 +49,8 @@ namespace Azure.Iot.Operations.Connector
 
             Dictionary<string, Timer> datasetsTimers = new();
             _assetsSamplingTimers[args.AssetName] = datasetsTimers;
-            Dictionary<string, bool> okayStatusReportedByDataset = new();
             foreach (AssetDataset dataset in args.Asset.Datasets!)
             {
-                okayStatusReportedByDataset.Add(dataset.Name, false);
                 EndpointCredentials? credentials = null;
                 if (args.Device.Endpoints != null
                     && args.Device.Endpoints.Inbound != null
@@ -102,34 +100,29 @@ namespace Azure.Iot.Operations.Connector
                     {
                         await args.AssetClient.ForwardSampledDatasetAsync(dataset, sampledData);
 
-                        // Only report a status for this dataset if it hasn't been reported yet already
-                        if (!okayStatusReportedByDataset[dataset.Name])
+                        try
                         {
-                            try
-                            {
-                                // The dataset was sampled as expected, so report the asset status as okay
-                                _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
-                                await args.AssetClient.GetAndUpdateAssetStatusAsync(
-                                    (currentAssetStatus) =>
+                            // The dataset was sampled as expected, so report the asset status as okay
+                            _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
+                            await args.AssetClient.GetAndUpdateAssetStatusAsync(
+                                (currentAssetStatus) =>
+                                {
+                                    currentAssetStatus.Config ??= new();
+                                    currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                    currentAssetStatus.UpdateDatasetStatus(new AssetDatasetEventStreamStatus()
                                     {
-                                        currentAssetStatus.Config ??= new();
-                                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                                        currentAssetStatus.UpdateDatasetStatus(new AssetDatasetEventStreamStatus()
-                                        {
-                                            Name = dataset.Name,
-                                            MessageSchemaReference = args.AssetClient.GetRegisteredDatasetMessageSchema(dataset.Name),
-                                            Error = null
-                                        });
-                                        return currentAssetStatus;
-                                    },
-                                    null,
-                                    cancellationToken);
-                                okayStatusReportedByDataset[dataset.Name] = true;
-                            }
-                            catch (Exception e2)
-                            {
-                                _logger.LogError(e2, "Failed to report asset status to Azure Device Registry service");
-                            }
+                                        Name = dataset.Name,
+                                        MessageSchemaReference = args.AssetClient.GetRegisteredDatasetMessageSchema(dataset.Name),
+                                        Error = null
+                                    });
+                                    return currentAssetStatus;
+                                },
+                                null,
+                                cancellationToken);
+                        }
+                        catch (Exception e2)
+                        {
+                            _logger.LogError(e2, "Failed to report asset status to Azure Device Registry service");
                         }
                     }
                     catch (Exception e)
