@@ -34,6 +34,7 @@ use crate::metl::test_payload::TestPayload;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
+// TODO: this struct could probably be removed
 pub struct CommandExecutorTester {}
 
 impl CommandExecutorTester {

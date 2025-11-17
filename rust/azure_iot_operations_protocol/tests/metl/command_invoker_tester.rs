@@ -36,6 +36,7 @@ const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 type InvokeResultReceiver =
     oneshot::Receiver<Result<rpc_command::invoker::Response<TestPayload>, AIOProtocolError>>;
 
+// TODO: this struct could probably be removed
 pub struct CommandInvokerTester {}
 
 impl CommandInvokerTester {

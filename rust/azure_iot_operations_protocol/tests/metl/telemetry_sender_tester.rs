@@ -34,6 +34,7 @@ const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
 type SendResultReceiver = oneshot::Receiver<Result<(), AIOProtocolError>>;
 
+// TODO: this struct could probably be removed
 pub struct TelemetrySenderTester {}
 
 impl TelemetrySenderTester {

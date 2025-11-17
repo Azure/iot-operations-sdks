@@ -44,6 +44,7 @@ struct ReceivedTelemetry {
     source_id: Option<String>,
 }
 
+// TODO: this struct could probably be removed
 pub struct TelemetryReceiverTester {}
 
 impl TelemetryReceiverTester {
