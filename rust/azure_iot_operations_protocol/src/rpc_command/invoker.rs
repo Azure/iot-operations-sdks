@@ -897,7 +897,7 @@ where
                 match sub_ct.await {
                     Ok(suback) => {
                         suback.as_result().map_err(|e| {
-                            log::error!("[ERROR] suback error: {e}");
+                            log::error!("[ERROR] suback error: {suback:?}");
                             AIOProtocolError::new_mqtt_error(
                                 Some("MQTT Error on command invoker suback".to_string()),
                                 Box::new(e),
@@ -1306,7 +1306,7 @@ where
                     Ok(unsub_completion_token) => match unsub_completion_token.await {
                         Ok(unsuback) => {
                             unsuback.as_result().map_err(|e| {
-                                log::error!("[{}] Unsuback error: {e}", self.command_name);
+                                log::error!("[{}] Unsuback error: {unsuback:?}", self.command_name);
                                 AIOProtocolError::new_mqtt_error(
                                     Some("MQTT error on command invoker unsuback".to_string()),
                                     Box::new(e),

@@ -488,7 +488,7 @@ where
                                 self.receiver_state = State::ShutdownSuccessful;
                             }
                             Err(e) => {
-                                log::error!("Unsuback error: {e}");
+                                log::error!("Unsuback error: {unsuback:?}");
                                 return Err(AIOProtocolError::new_mqtt_error(
                                     Some("MQTT error on telemetry receiver unsuback".to_string()),
                                     Box::new(e),
@@ -543,7 +543,7 @@ where
             Ok(sub_ct) => match sub_ct.await {
                 Ok(suback) => {
                     suback.as_result().map_err(|e| {
-                        log::error!("Suback error: {e}");
+                        log::error!("Suback error: {suback:?}");
                         AIOProtocolError::new_mqtt_error(
                             Some("MQTT error on telemetry receiver suback".to_string()),
                             Box::new(e),

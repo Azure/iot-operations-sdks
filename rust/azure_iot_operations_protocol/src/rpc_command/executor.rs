@@ -526,7 +526,7 @@ where
                                 self.executor_state = State::ShutdownSuccessful;
                             }
                             Err(e) => {
-                                log::error!("[{}] Unsuback error: {e}", self.command_name);
+                                log::error!("[{}] Unsuback error: {unsuback:?}", self.command_name);
                                 return Err(AIOProtocolError::new_mqtt_error(
                                     Some("MQTT error on command executor unsuback".to_string()),
                                     Box::new(e),
@@ -587,7 +587,7 @@ where
             Ok(sub_ct) => match sub_ct.await {
                 Ok(suback) => {
                     suback.as_result().map_err(|e| {
-                        log::error!("[{}] Suback error: {e}", self.command_name);
+                        log::error!("[{}] Suback error: {suback:?}", self.command_name);
                         AIOProtocolError::new_mqtt_error(
                             Some("MQTT error on command executor suback".to_string()),
                             Box::new(e),
@@ -1321,7 +1321,7 @@ where
                             }
                             Err(e) => {
                                 log::error!(
-                                    "[{}][pkid: {}] Puback error: {e}",
+                                    "[{}][pkid: {}] Puback error: {puback:?}",
                                     response_arguments.command_name,
                                     pkid
                                 );
