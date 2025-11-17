@@ -13,6 +13,7 @@ use tokio::sync::Notify;
 
 use crate::control_packet::{Auth, AuthenticationInfo};
 
+/// Used as the authentication method for the MQTT client when using SAT.
 const SAT_AUTHENTICATION_METHOD: &str = "K8S-SAT";
 
 #[async_trait::async_trait]
