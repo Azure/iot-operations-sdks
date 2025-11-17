@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//#![warn(missing_docs)]
+#![warn(missing_docs)]
 
 //! MQTT version 5.0 client library providing flexibility for decoupled asynchronous applications
 //!
