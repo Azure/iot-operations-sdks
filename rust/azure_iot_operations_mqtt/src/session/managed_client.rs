@@ -34,12 +34,12 @@ impl SessionManagedClient {
         &self.client_id
     }
 
-    pub fn create_filtered_pub_receiver(&self, topic_filter: &TopicFilter) -> SessionPubReceiver {
+    pub fn create_filtered_pub_receiver(&self, topic_filter: TopicFilter) -> SessionPubReceiver {
         let pub_rx = self
             .dispatcher
             .lock()
             .unwrap()
-            .create_filtered_receiver(&topic_filter);
+            .create_filtered_receiver(topic_filter);
         SessionPubReceiver { pub_rx }
     }
 

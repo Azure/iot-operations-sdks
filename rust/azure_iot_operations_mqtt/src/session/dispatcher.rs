@@ -53,7 +53,7 @@ impl IncomingPublishDispatcher {
     ///
     /// # Arguments
     /// * `topic_filter` - The topic filter to match incoming publishes against
-    pub fn create_filtered_receiver(&mut self, topic_filter: &TopicFilter) -> PublishRx {
+    pub fn create_filtered_receiver(&mut self, topic_filter: TopicFilter) -> PublishRx {
         // NOTE: We prune the filtered txs before registering any more to ensure that closed
         // txs (or entire vectors of txs) don't stick around in the HashMap indefinitely, making
         // dispatching more expensive. We also do cleanup during a dispatch, but since dispatching
@@ -62,14 +62,14 @@ impl IncomingPublishDispatcher {
         self.prune_filtered_txs();
 
         let (tx, rx) = unbounded_channel();
-        match self.filtered_txs.get_mut(topic_filter) {
+        match self.filtered_txs.get_mut(&topic_filter) {
             // If the topic filter is already in use, add to the associated vector
             Some(v) => {
                 v.push(tx);
                 // Otherwise, create a new vector and add
             }
             _ => {
-                self.filtered_txs.insert(topic_filter.clone(), vec![tx]);
+                self.filtered_txs.insert(topic_filter, vec![tx]);
             }
         }
 
