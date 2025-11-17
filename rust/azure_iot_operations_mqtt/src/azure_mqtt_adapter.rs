@@ -7,7 +7,7 @@ use std::num::{NonZero, NonZeroU16, NonZeroU32};
 use std::{fmt, fs, time::Duration};
 
 use azure_mqtt::client::{ClientOptions, ConnectionTransportConfig, ConnectionTransportTlsConfig};
-use azure_mqtt::packet::{AuthenticationInfo, ConnectProperties, SessionExpiryInterval, Will};
+use azure_mqtt::packet::{ConnectProperties, SessionExpiryInterval, Will};
 use bytes::Bytes;
 use openssl::{
     pkey::{PKey, Private},
@@ -194,30 +194,6 @@ pub struct AzureMqttConnectParameters {
 }
 
 impl AzureMqttConnectParameters {
-    /// Retrieve authentication info if SAT file is provided
-    ///
-    /// # Returns
-    /// - `Ok(Some(AuthenticationInfo))` if SAT file is provided and read successfully
-    /// - `Ok(None)` if no SAT file is provided
-    /// - `Err(ConnectionSettingsAdapterError)` if there is an error reading the SAT file
-    pub fn authentication_info(
-        &self,
-    ) -> Result<Option<AuthenticationInfo>, ConnectionSettingsAdapterError> {
-        if let Some(sat_file) = &self.sat_file {
-            let sat_auth = fs::read(sat_file).map_err(|e| ConnectionSettingsAdapterError {
-                msg: "cannot read sat auth file".to_string(),
-                field: ConnectionSettingsField::SatAuthFile(sat_file.clone()),
-                source: Some(Box::new(e)),
-            })?;
-            Ok(Some(AuthenticationInfo {
-                method: "K8S-SAT".to_string(),
-                data: Some(sat_auth.into()),
-            }))
-        } else {
-            Ok(None)
-        }
-    }
-
     /// Create a new `ConnectionTransportConfig` from stored parameters
     ///
     /// # Errors

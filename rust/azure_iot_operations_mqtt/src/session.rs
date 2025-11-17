@@ -42,6 +42,7 @@
 //! discarded. Thus, in order to guarantee that messages will not be lost, you should create the
 //! [`SessionPubReceiver`] *before* subscribing to the topic filter.
 
+pub mod auth_policy;
 pub(crate) mod dispatcher;
 pub mod managed_client; // TODO: This really ought be private, but we need it public for testing
 pub(crate) mod plenary_ack;
@@ -56,9 +57,8 @@ use std::fmt;
 
 use thiserror::Error;
 
-use crate::auth::SatAuthContextInitError;
 use crate::azure_mqtt_adapter as adapter;
-use crate::error::{ClientError, ConnectionError};
+use crate::error::{ClientError, ConnectError};
 
 /// Error describing why a [`Session`] ended prematurely
 #[derive(Debug, Error)]
@@ -73,7 +73,7 @@ enum SessionErrorRepr {
     SessionLost,
     /// MQTT session was ended due to an unrecoverable connection error
     #[error(transparent)]
-    ConnectionError(#[from] ConnectionError),
+    ConnectionError(#[from] ConnectError),
     /// Reconnect attempts were halted by the reconnect policy, ending the MQTT session
     #[error("reconnection halted by reconnect policy")]
     ReconnectHalted,
@@ -83,9 +83,6 @@ enum SessionErrorRepr {
     /// The [`Session`] was ended by an IO error.
     #[error("{0}")]
     IoError(#[from] std::io::Error),
-    /// The [`Session`] was ended by an error in the SAT auth context.
-    #[error("{0}")]
-    SatAuthError(#[from] SatAuthContextInitError),
 }
 
 /// Error configuring a [`Session`].
