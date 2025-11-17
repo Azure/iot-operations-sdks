@@ -26,7 +26,6 @@ openssl = "0.10.66"                                                             
 rand = "0.8.5"
 thiserror.workspace = true
 tokio.workspace = true
-tokio-util.workspace = true
 
 [dev-dependencies]
 azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
@@ -37,7 +36,8 @@ test-case.workspace = true
 tokio-test.workspace = true
 
 [features]
-test-utils = []
+default = [ ]
+test-utils = ["azure_mqtt/__integration"]
 
 [lints]
 workspace = true

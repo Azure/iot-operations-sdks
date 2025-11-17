@@ -20,6 +20,9 @@ pub mod token;
 
 mod azure_mqtt_adapter; // TODO: Maybe not needed in new client integration
 
+#[cfg(feature = "test-utils")]
+pub mod test_utils;
+
 #[macro_use]
 extern crate derive_builder;
 #[macro_use]

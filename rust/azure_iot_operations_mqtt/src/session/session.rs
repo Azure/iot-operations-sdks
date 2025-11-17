@@ -26,6 +26,9 @@ use crate::session::{
 };
 use crate::{MqttConnectionSettings, azure_mqtt_adapter::AzureMqttConnectParameters};
 
+#[cfg(feature = "test-utils")]
+use crate::test_utils::InjectedPacketChannels;
+
 /// Options for configuring a new [`Session`]
 #[derive(Builder)]
 #[builder(pattern = "owned")]
@@ -47,6 +50,9 @@ pub struct SessionOptions {
     /// Indicates if the Session should use features specific for use with the AIO MQTT Broker
     #[builder(default = "Some(AIOBrokerFeaturesBuilder::default().build().unwrap())")]
     aio_broker_features: Option<AIOBrokerFeatures>,
+    #[cfg(feature = "test-utils")]
+    #[builder(default)]
+    injected_packet_channels: Option<InjectedPacketChannels>,
 }
 
 /// Options for configuring features on a [`Session`] that are specific to the AIO broker
@@ -129,6 +135,8 @@ impl Session {
                 options.max_packet_identifier,
                 options.publish_qos0_queue_size,
                 options.publish_qos1_qos2_queue_size,
+                #[cfg(feature = "test-utils")]
+                options.injected_packet_channels,
             )?;
 
         let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options);
@@ -528,6 +536,7 @@ impl SessionExitHandle {
     ///
     /// Returns true if the exit was graceful, and false if the exit was forced.
     pub async fn exit_force(&self) -> bool {
+        // TODO: once this is implemented, change METL tests back to using this instead of try_exit().unwrap()
         unimplemented!()
     }
 }

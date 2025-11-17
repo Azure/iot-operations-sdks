@@ -16,6 +16,8 @@ use openssl::{
 use thiserror::Error;
 
 use crate::connection_settings::MqttConnectionSettings;
+#[cfg(feature = "test-utils")]
+use crate::test_utils::InjectedPacketChannels;
 
 type ClientCert = (X509, PKey<Private>, Vec<X509>);
 
@@ -183,6 +185,7 @@ pub struct AzureMqttConnectParameters {
     pub connection_timeout: Duration,
     // Optional SAT file path for authentication, saved here to be read later
     sat_file: Option<String>,
+
     /// properties used to create the `ConnectionTransportConfig` on demand
     ca_file: Option<String>,
     cert_file: Option<String>,
@@ -191,6 +194,10 @@ pub struct AzureMqttConnectParameters {
     use_tls: bool,
     hostname: String,
     tcp_port: u16,
+
+    /// Injected packet channels for test purposes. Can be None to use normal transport config.
+    #[cfg(feature = "test-utils")]
+    pub injected_packet_channels: Option<InjectedPacketChannels>,
 }
 
 impl AzureMqttConnectParameters {
@@ -201,6 +208,22 @@ impl AzureMqttConnectParameters {
     pub fn connection_transport_config(
         &self,
     ) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
+        #[cfg(feature = "test-utils")]
+        if let Some(injected_packet_channels) = &self.injected_packet_channels {
+            let (incoming_packets_tx, incoming_packets_rx) = tokio::sync::mpsc::unbounded_channel();
+            let (outgoing_packets_tx, outgoing_packets_rx) = tokio::sync::mpsc::unbounded_channel();
+            injected_packet_channels
+                .incoming_packets_tx
+                .set_new_tx(incoming_packets_tx);
+            injected_packet_channels
+                .outgoing_packets_rx
+                .set_new_rx(outgoing_packets_rx);
+            return Ok(ConnectionTransportConfig::Test {
+                incoming_packets: incoming_packets_rx,
+                outgoing_packets: outgoing_packets_tx,
+            });
+        }
+
         create_connection_transport_config(
             self.ca_file.clone(),
             self.cert_file.clone(),
@@ -228,6 +251,7 @@ impl MqttConnectionSettings {
         max_packet_identifier: azure_mqtt::packet::PacketIdentifier,
         publish_qos0_queue_size: usize,
         publish_qos1_qos2_queue_size: usize,
+        #[cfg(feature = "test-utils")] injected_packet_channels: Option<InjectedPacketChannels>,
     ) -> Result<(ClientOptions, AzureMqttConnectParameters), ConnectionSettingsAdapterError> {
         let client_options = ClientOptions {
             client_id: Some(self.client_id),
@@ -289,9 +313,6 @@ impl MqttConnectionSettings {
                 will: None,
                 username: self.username,
                 password,
-                connect_properties,
-                connection_timeout: self.connection_timeout,
-                sat_file: self.sat_file,
                 ca_file: self.ca_file,
                 cert_file: self.cert_file,
                 key_file: self.key_file,
@@ -299,6 +320,11 @@ impl MqttConnectionSettings {
                 use_tls: self.use_tls,
                 hostname: self.hostname,
                 tcp_port: self.tcp_port,
+                connect_properties,
+                connection_timeout: self.connection_timeout,
+                sat_file: self.sat_file,
+                #[cfg(feature = "test-utils")]
+                injected_packet_channels,
             },
         ))
     }
@@ -399,6 +425,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            None,
         );
         assert!(result.is_ok());
     }
@@ -419,6 +446,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            None,
         );
         assert!(result.is_ok());
     }
@@ -438,6 +466,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            None,
         );
         assert!(result.is_ok());
     }
@@ -461,6 +490,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            None,
         );
         assert!(result.is_ok());
     }
@@ -484,6 +514,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            None,
         );
         assert!(result.is_ok());
     }
@@ -508,6 +539,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::new(500).unwrap(),
             200,
             200,
+            None,
         );
         assert!(result.is_ok());
     }
@@ -529,6 +561,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            None,
         );
         assert!(result.is_ok());
     }
@@ -555,6 +588,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            None,
         );
         assert!(result.is_ok());
     }
@@ -579,6 +613,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            None,
         );
         assert!(result.is_ok());
     }
@@ -607,6 +642,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            None,
         );
         assert!(result.is_ok());
     }
@@ -626,6 +662,7 @@ mod tests {
             azure_mqtt::packet::PacketIdentifier::MAX,
             100,
             100,
+            None,
         );
         assert!(result.is_ok());
         assert_eq!(

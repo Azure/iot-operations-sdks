@@ -3,6 +3,7 @@
 
 use std::collections::HashMap;
 
+use azure_iot_operations_mqtt::control_packet::{TopicFilter, TopicName};
 use regex::Regex;
 
 /// Wildcard token
@@ -43,6 +44,13 @@ impl std::fmt::Display for TopicPatternError {
         } else {
             write!(f, "{}", self.kind)
         }
+    }
+}
+
+impl From<azure_iot_operations_mqtt::error::TopicError> for TopicPatternError {
+    fn from(_value: azure_iot_operations_mqtt::error::TopicError) -> Self {
+        // TODO: implement this error conversion or switch to a different error handling method
+        todo!()
     }
 }
 
@@ -283,22 +291,20 @@ impl TopicPattern {
         })
     }
 
-    /// Get the subscribe topic for the pattern
+    /// Get the subscribe topic filter for the pattern
     ///
     /// If a share name is present, it is prepended to the topic pattern
     ///
-    /// Returns the subscribe topic for the pattern
-    #[must_use]
-    pub fn as_subscribe_topic(&self) -> String {
-        let topic = self
+    /// Returns the subscribe topic filter for the pattern
+    pub fn as_subscribe_topic(&self) -> Result<TopicFilter, TopicPatternError> {
+        let mut topic = self
             .pattern_regex
             .replace_all(&self.dynamic_pattern, WILDCARD)
             .to_string();
         if let Some(share_name) = &self.share_name {
-            format!("$share/{share_name}/{topic}")
-        } else {
-            topic
+            topic = format!("$share/{share_name}/{topic}");
         }
+        Ok(TopicFilter::new(&topic)?)
     }
 
     /// Get the publish topic for the pattern
@@ -320,7 +326,7 @@ impl TopicPattern {
     pub fn as_publish_topic(
         &self,
         tokens: &HashMap<String, String>,
-    ) -> Result<String, TopicPatternError> {
+    ) -> Result<TopicName, TopicPatternError> {
         // Initialize the publish topic with the same capacity as the pattern to avoid reallocations
         let mut publish_topic = String::with_capacity(self.dynamic_pattern.len());
 
@@ -358,8 +364,7 @@ impl TopicPattern {
         }
 
         publish_topic.push_str(&self.dynamic_pattern[last_match..]);
-
-        Ok(publish_topic)
+        Ok(TopicName::new(&publish_topic)?)
     }
 
     /// Compare an MQTT topic name to the [`TopicPattern`], identifying tokens in the topic name and
@@ -539,7 +544,7 @@ mod tests {
     fn test_topic_pattern_as_subscribe_topic(pattern: &str, result: &str) {
         let pattern = TopicPattern::new(pattern, None, None, &HashMap::new()).unwrap();
 
-        assert_eq!(pattern.as_subscribe_topic(), result);
+        assert_eq!(pattern.as_subscribe_topic().unwrap().as_str(), result);
     }
 
     #[test_case("invalid ShareName"; "contains space")]
@@ -569,9 +574,9 @@ mod tests {
         )
         .unwrap();
 
-        assert_eq!(pattern.as_subscribe_topic(), result);
+        assert_eq!(pattern.as_subscribe_topic().unwrap().as_str(), result);
         assert_eq!(
-            pattern.as_publish_topic(&HashMap::new()).unwrap(),
+            pattern.as_publish_topic(&HashMap::new()).unwrap().as_str(),
             "test/testRepl1"
         );
     }
@@ -590,7 +595,7 @@ mod tests {
     ) {
         let pattern = TopicPattern::new(pattern, None, None, tokens).unwrap();
 
-        assert_eq!(pattern.as_publish_topic(tokens).unwrap(), result);
+        assert_eq!(pattern.as_publish_topic(tokens).unwrap().as_str(), result);
     }
 
     #[test_case("{testToken}", &HashMap::new(), "testToken", ""; "no replacement")]

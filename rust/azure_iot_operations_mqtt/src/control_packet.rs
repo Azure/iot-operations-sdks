@@ -10,6 +10,10 @@ pub type TopicFilter = azure_mqtt::topic::TopicFilter;
 
 /// Quality of Service
 pub type QoS = azure_mqtt::packet::QoS;
+/// Quality of Service on a received message
+pub type DeliveryQoS = azure_mqtt::packet::DeliveryQoS;
+/// Payload Format Indicator
+pub type PayloadFormatIndicator = azure_mqtt::packet::PayloadFormatIndicator;
 
 /// PUBLISH packet
 pub type Publish = azure_mqtt::packet::Publish;

@@ -3,8 +3,9 @@
 use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr, sync::Arc};
 
 use azure_iot_operations_mqtt::{
-    control_packet::{Publish, QoS},
-    interface::{AckToken, ManagedClient, PubReceiver},
+    control_packet::{Publish, QoS, TopicFilter},
+    session::managed_client::{SessionManagedClient, SessionPubReceiver},
+    token::AckToken,
 };
 use chrono::{DateTime, Utc};
 use tokio_util::sync::CancellationToken;
@@ -13,7 +14,7 @@ use crate::{
     ProtocolVersion,
     application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
-        aio_protocol_error::{AIOProtocolError, Value},
+        aio_protocol_error::AIOProtocolError,
         hybrid_logical_clock::HybridLogicalClock,
         payload_serialize::{FormatIndicator, PayloadSerialize},
         topic_processor::TopicPattern,
@@ -235,7 +236,7 @@ where
         //  we won't want to keep entire copies of all Publishes, so we will just copy the
         //  properties once.
 
-        let publish_properties = value.properties.unwrap_or_default();
+        let publish_properties = value.properties;
 
         // Parse user properties
         let expected_aio_properties = [
@@ -293,16 +294,9 @@ where
             .transpose()
             .map_err(|e| e.to_string())?;
 
-        // Parse topic
-        let topic = std::str::from_utf8(&value.topic)
-            .map_err(|e| e.to_string())?
-            .to_string();
-
         // Deserialize payload
-        let format_indicator = publish_properties.payload_format_indicator.try_into().unwrap_or_else(|e| {
-            log::error!("Received invalid payload format indicator: {e}. This should not be possible to receive from the broker. Using default.");
-            FormatIndicator::default()
-        });
+        let format_indicator = publish_properties.payload_format_indicator.into();
+
         let content_type = publish_properties.content_type;
         let payload = T::deserialize(&value.payload, content_type.as_ref(), &format_indicator)
             .map_err(|e| format!("{e:?}"))?;
@@ -316,7 +310,7 @@ where
             timestamp,
             // NOTE: Topic Tokens cannot be created from just a Publish, they need additional information
             topic_tokens: HashMap::default(),
-            topic,
+            topic: value.topic_name.as_str().to_string(),
         };
         Ok(telemetry_message)
     }
@@ -365,20 +359,18 @@ pub struct Options {
 /// let receiver_options = telemetry::receiver::OptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
-/// let mut receiver: telemetry::Receiver<Vec<u8>, _> = telemetry::Receiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
+/// let mut receiver: telemetry::Receiver<Vec<u8>> = telemetry::Receiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// // let telemetry_message = receiver.recv().await.unwrap();
 /// ```
-pub struct Receiver<T, C>
+pub struct Receiver<T>
 where
     T: PayloadSerialize + Send + Sync + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     // Static properties of the receiver
     application_hlc: Arc<ApplicationHybridLogicalClock>,
-    mqtt_client: C,
-    mqtt_receiver: C::PubReceiver,
-    telemetry_topic: String,
+    mqtt_client: SessionManagedClient,
+    mqtt_receiver: SessionPubReceiver,
+    telemetry_topic: TopicFilter,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
     // Describes state
@@ -398,11 +390,9 @@ enum State {
 }
 
 /// Implementation of a Telemetry Sender
-impl<T, C> Receiver<T, C>
+impl<T> Receiver<T>
 where
     T: PayloadSerialize + Send + Sync + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`Receiver`].
     ///
@@ -423,7 +413,7 @@ where
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         receiver_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validation for topic pattern and related options done in
@@ -442,20 +432,14 @@ where
         })?;
 
         // Get the telemetry topic
-        let telemetry_topic = topic_pattern.as_subscribe_topic();
+        let telemetry_topic = topic_pattern.as_subscribe_topic().map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(
+                e,
+                "receiver_options.topic_pattern",
+            )
+        })?;
 
-        let mqtt_receiver = match client.create_filtered_pub_receiver(&telemetry_topic) {
-            Ok(receiver) => receiver,
-            Err(e) => {
-                return Err(AIOProtocolError::new_configuration_invalid_error(
-                    Some(Box::new(e)),
-                    "topic_pattern",
-                    Value::String(telemetry_topic),
-                    Some("Could not parse subscription topic pattern".to_string()),
-                    None,
-                ));
-            }
-        };
+        let mqtt_receiver = client.create_filtered_pub_receiver(telemetry_topic.clone());
 
         Ok(Self {
             application_hlc: application_context.application_hlc,
@@ -489,17 +473,33 @@ where
                 self.receiver_state = State::ShutdownSuccessful;
             }
             State::Subscribed => {
-                let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+                let unsubscribe_result = self
+                    .mqtt_client
+                    .unsubscribe(
+                        self.telemetry_topic.clone(),
+                        azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
+                    )
+                    .await;
 
                 match unsubscribe_result {
                     Ok(unsub_ct) => match unsub_ct.await {
-                        Ok(()) => {
-                            self.receiver_state = State::ShutdownSuccessful;
-                        }
+                        Ok(unsuback) => match unsuback.as_result() {
+                            Ok(()) => {
+                                self.receiver_state = State::ShutdownSuccessful;
+                            }
+                            Err(e) => {
+                                log::error!("Unsuback error: {unsuback:?}");
+                                return Err(AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT error on telemetry receiver unsuback".to_string()),
+                                    Box::new(e),
+                                    None,
+                                ));
+                            }
+                        },
                         Err(e) => {
-                            log::error!("Unsuback error: {e}");
+                            log::error!("Unsubscribe completion error: {e}");
                             return Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on telemetry receiver unsuback".to_string()),
+                                Some("MQTT error on telemetry receiver unsubscribe".to_string()),
                                 Box::new(e),
                                 None,
                             ));
@@ -528,16 +528,33 @@ where
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
         let subscribe_result = self
             .mqtt_client
-            .subscribe(&self.telemetry_topic, QoS::AtLeastOnce)
+            .subscribe(
+                self.telemetry_topic.clone(),
+                QoS::AtLeastOnce,
+                // TODO: validate these are the right settings
+                false,
+                true,
+                azure_iot_operations_mqtt::control_packet::RetainHandling::Send,
+                azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),
+            )
             .await;
 
         match subscribe_result {
             Ok(sub_ct) => match sub_ct.await {
-                Ok(()) => { /* Success */ }
+                Ok(suback) => {
+                    suback.as_result().map_err(|e| {
+                        log::error!("Suback error: {suback:?}");
+                        AIOProtocolError::new_mqtt_error(
+                            Some("MQTT error on telemetry receiver suback".to_string()),
+                            Box::new(e),
+                            None,
+                        )
+                    })?;
+                }
                 Err(e) => {
-                    log::error!("Suback error: {e}");
+                    log::error!("Subscribe completion error: {e}");
                     return Err(AIOProtocolError::new_mqtt_error(
-                        Some("MQTT error on telemetry receiver suback".to_string()),
+                        Some("MQTT error on telemetry receiver subscribe".to_string()),
                         Box::new(e),
                         None,
                     ));
@@ -589,7 +606,20 @@ where
                     }
 
                     // Get pkid for logging
-                    let pkid = m.pkid;
+                    let pkid = match m.qos {
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtMostOnce => {
+                            // TODO: maybe we should log with something else, but this matches old behavior
+                            0
+                        }
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtLeastOnce(
+                            delivery_info,
+                        ) => delivery_info.packet_identifier.get(),
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::ExactlyOnce(_) => {
+                            // This should never happen as the telemetry receiver should always receive QoS 1 messages
+                            log::warn!("Received QoS 2 telemetry message");
+                            continue;
+                        }
+                    };
 
                     // Process the received message
                     log::info!("[pkid: {pkid}] Received message");
@@ -648,11 +678,9 @@ where
     }
 }
 
-impl<T, C> Drop for Receiver<T, C>
+impl<T> Drop for Receiver<T>
 where
     T: PayloadSerialize + Send + Sync + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {
         // Cancel all tasks awaiting responses
@@ -666,7 +694,13 @@ where
                 let telemetry_topic = self.telemetry_topic.clone();
                 let mqtt_client = self.mqtt_client.clone();
                 async move {
-                    match mqtt_client.unsubscribe(telemetry_topic.clone()).await {
+                    match mqtt_client
+                        .unsubscribe(
+                            telemetry_topic.clone(),
+                            azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
+                        )
+                        .await
+                    {
                         Ok(_) => {
                             log::debug!(
                                 "Unsubscribe sent on topic {telemetry_topic}. Unsuback may still be pending."
@@ -691,12 +725,15 @@ mod tests {
     use super::*;
     use crate::{
         application::ApplicationContextBuilder,
-        common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload},
+        common::{
+            aio_protocol_error::{AIOProtocolErrorKind, Value},
+            payload_serialize::MockPayload,
+        },
         telemetry::receiver::{OptionsBuilder, Receiver},
     };
     use azure_iot_operations_mqtt::{
         MqttConnectionSettingsBuilder,
-        session::{Session, SessionOptionsBuilder},
+        session::session::{Session, SessionOptionsBuilder},
     };
 
     // TODO: This should return a mock Session instead
@@ -726,7 +763,7 @@ mod tests {
             .build()
             .unwrap();
 
-        Receiver::<MockPayload, _>::new(
+        Receiver::<MockPayload>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -744,7 +781,7 @@ mod tests {
             .build()
             .unwrap();
 
-        Receiver::<MockPayload, _>::new(
+        Receiver::<MockPayload>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -761,7 +798,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let result: Result<Receiver<MockPayload, _>, _> = Receiver::new(
+        let result: Result<Receiver<MockPayload>, _> = Receiver::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -792,7 +829,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let mut receiver: Receiver<MockPayload, _> = Receiver::new(
+        let mut receiver: Receiver<MockPayload> = Receiver::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,

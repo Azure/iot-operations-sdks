@@ -3,12 +3,12 @@
 
 use std::collections::HashMap;
 use std::convert::TryFrom;
-use std::marker::PhantomData;
 use std::sync::{Arc, Mutex};
 
 use async_std::future;
-use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::{
+    managed_client::SessionManagedClient, session::SessionMonitor,
+};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -23,8 +23,8 @@ use uuid::Uuid;
 
 use crate::metl::aio_protocol_error_checker;
 use crate::metl::defaults::ReceiverDefaults;
-use crate::metl::mqtt_hub::MqttHub;
-use crate::metl::qos;
+use crate::metl::mqtt_hub::{MqttHub, to_is_utf8};
+use crate::metl::qos::{self, new_packet_identifier_dup_qos};
 use crate::metl::test_case::TestCase;
 use crate::metl::test_case_action::TestCaseAction;
 use crate::metl::test_case_catch::TestCaseCatch;
@@ -44,22 +44,14 @@ struct ReceivedTelemetry {
     source_id: Option<String>,
 }
 
-pub struct TelemetryReceiverTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
-    managed_client: PhantomData<C>,
-}
+// TODO: this struct could probably be removed
+pub struct TelemetryReceiverTester {}
 
-impl<C> TelemetryReceiverTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl TelemetryReceiverTester {
     pub async fn test_telemetry_receiver(
         test_case: TestCase<ReceiverDefaults>,
-        managed_client: C,
+        managed_client: SessionManagedClient,
+        session_monitor: SessionMonitor,
         mut mqtt_hub: MqttHub,
     ) {
         if let Some(push_acks) = test_case.prologue.push_acks.as_ref() {
@@ -75,6 +67,10 @@ where
                 mqtt_hub.enqueue_unsuback(ack_kind.clone());
             }
         }
+
+        // force connack to happen before other events are injected
+        mqtt_hub.await_operation().await;
+        session_monitor.connected().await;
 
         let receiver_count = test_case.prologue.receivers.len();
         let mut telemetry_counts = Vec::with_capacity(receiver_count);
@@ -187,7 +183,7 @@ where
     }
 
     async fn receiver_loop(
-        mut receiver: telemetry::Receiver<TestPayload, C>,
+        mut receiver: telemetry::Receiver<TestPayload>,
         telemetry_count: Arc<Mutex<i32>>,
         telemetry_tx: mpsc::UnboundedSender<ReceivedTelemetry>,
     ) {
@@ -242,11 +238,11 @@ where
     }
 
     async fn get_telemetry_receiver(
-        managed_client: C,
+        managed_client: SessionManagedClient,
         tcr: &TestCaseReceiver<ReceiverDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<telemetry::Receiver<TestPayload, C>> {
+    ) -> Option<telemetry::Receiver<TestPayload>> {
         let mut receiver_options_builder = telemetry::receiver::OptionsBuilder::default();
 
         if let Some(telemetry_topic) = tcr.telemetry_topic.as_ref() {
@@ -305,7 +301,7 @@ where
                                 catch.error_kind
                             );
                         }
-                    };
+                    }
                     None
                 } else {
                     Some(receiver)
@@ -342,19 +338,26 @@ where
             packet_index,
         } = action
         {
-            let mut user_properties: Vec<(String, String)> = metadata
+            let mut user_properties: Vec<(
+                azure_mqtt::packet::ByteStr<Bytes>,
+                azure_mqtt::packet::ByteStr<Bytes>,
+            )> = metadata
                 .iter()
-                .map(|(k, v)| (k.clone(), v.clone()))
+                .map(|(k, v)| (k.as_str().into(), v.as_str().into()))
                 .collect();
 
             if let Some(source_index) = source_index {
                 if let Some(source_id) = source_ids.get(source_index) {
-                    user_properties
-                        .push(("__srcId".to_string(), source_id.hyphenated().to_string()));
+                    user_properties.push((
+                        "__srcId".into(),
+                        source_id.hyphenated().to_string().as_str().into(),
+                    ));
                 } else {
                     let source_id = Uuid::new_v4();
-                    user_properties
-                        .push(("__srcId".to_string(), source_id.hyphenated().to_string()));
+                    user_properties.push((
+                        "__srcId".into(),
+                        source_id.hyphenated().to_string().as_str().into(),
+                    ));
                     source_ids.insert(*source_index, source_id);
                 }
             }
@@ -378,9 +381,9 @@ where
             }
 
             let topic = if let Some(topic) = topic {
-                Bytes::copy_from_slice(topic.as_bytes())
+                topic.clone()
             } else {
-                Bytes::new()
+                String::new()
             };
 
             let payload = serde_json::to_vec(&TestPayload {
@@ -393,21 +396,24 @@ where
             })
             .unwrap();
 
-            let properties = PublishProperties {
-                payload_format_indicator: *format_indicator,
+            let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
+                payload_is_utf8: to_is_utf8(format_indicator.as_ref()),
                 message_expiry_interval,
                 user_properties,
-                content_type: content_type.clone(),
+                content_type: content_type.as_ref().map(|ct| ct.as_str().into()),
                 ..Default::default()
             };
 
-            let publish = Publish {
-                qos: qos::to_enum(*qos),
-                topic,
-                pkid: packet_id,
+            let publish = azure_mqtt::mqtt_proto::Publish::<Bytes> {
+                packet_identifier_dup_qos: new_packet_identifier_dup_qos(
+                    qos::to_enum(*qos),
+                    false,
+                    packet_id,
+                ),
+                topic_name: azure_mqtt::mqtt_proto::Topic::new(topic).unwrap().into(),
                 payload: payload.into(),
-                properties: Some(properties),
-                ..Default::default()
+                other_properties: properties,
+                retain: false,
             };
 
             mqtt_hub.receive_message(publish);

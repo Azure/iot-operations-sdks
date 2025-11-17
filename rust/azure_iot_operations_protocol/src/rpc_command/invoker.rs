@@ -3,7 +3,11 @@
 
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
+use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
+use azure_iot_operations_mqtt::{
+    control_packet::{Publish, PublishProperties, QoS, TopicFilter},
+    session::managed_client::SessionPubReceiver,
+};
 use bytes::Bytes;
 use iso8601_duration;
 use tokio::{
@@ -333,15 +337,7 @@ where
         //  we won't want to keep entire copies of all Publishes, so we will just copy the
         //  properties once.
 
-        let publish_properties =
-            value
-                .properties
-                .ok_or(AIOProtocolError::new_header_missing_error(
-                    "Properties",
-                    false,
-                    Some("Properties missing from MQTT message".to_string()),
-                    None,
-                ))?;
+        let publish_properties = value.properties;
 
         // Parse user properties
         let expected_aio_properties = [
@@ -605,7 +601,7 @@ pub struct Options {
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let invoker: rpc_command::Invoker<Vec<u8>, Vec<u8>, _> = rpc_command::Invoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
+/// let invoker: rpc_command::Invoker<Vec<u8>, Vec<u8>> = rpc_command::Invoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
 /// let request = rpc_command::invoker::RequestBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .timeout(Duration::from_secs(2))
@@ -626,6 +622,7 @@ where
     command_name: String,
     request_topic_pattern: TopicPattern,
     response_topic_pattern: TopicPattern,
+    response_topic_filter: TopicFilter,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
     // Describes state
@@ -747,21 +744,12 @@ where
         // Create mutex to track invoker state
         let invoker_state_mutex = Arc::new(Mutex::new(State::New));
 
+        let response_topic_filter = response_topic_pattern.as_subscribe_topic().map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(e, "response_topic_pattern")
+        })?;
+
         // Create a filtered receiver from the Managed Client
-        let mqtt_receiver = match client
-            .create_filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic())
-        {
-            Ok(receiver) => receiver,
-            Err(e) => {
-                return Err(AIOProtocolError::new_configuration_invalid_error(
-                    Some(Box::new(e)),
-                    "response_topic_pattern",
-                    Value::String(response_topic_pattern.as_subscribe_topic()),
-                    Some("Could not parse response topic pattern".to_string()),
-                    Some(invoker_options.command_name),
-                ));
-            }
-        };
+        let mqtt_receiver = client.create_filtered_pub_receiver(response_topic_filter.clone());
 
         // Create the channel to send responses on
         let response_tx = Sender::new(5);
@@ -791,6 +779,7 @@ where
             command_name: invoker_options.command_name,
             request_topic_pattern,
             response_topic_pattern,
+            response_topic_filter,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
             invoker_state_mutex,
@@ -889,21 +878,37 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     async fn subscribe_to_response_filter(&self) -> Result<(), AIOProtocolError> {
-        let response_subscribe_topic = self.response_topic_pattern.as_subscribe_topic();
         // Send subscribe
         let subscribe_result = self
             .mqtt_client
-            .subscribe(response_subscribe_topic, QoS::AtLeastOnce)
+            .subscribe(
+                self.response_topic_filter.clone(),
+                QoS::AtLeastOnce,
+                // TODO: validate these are the right settings
+                false,
+                true,
+                azure_iot_operations_mqtt::control_packet::RetainHandling::Send,
+                azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),
+            )
             .await;
         match subscribe_result {
-            Ok(suback) => {
+            Ok(sub_ct) => {
                 // Wait for suback
-                match suback.await {
-                    Ok(()) => { /* Success */ }
+                match sub_ct.await {
+                    Ok(suback) => {
+                        suback.as_result().map_err(|e| {
+                            log::error!("[ERROR] suback error: {suback:?}");
+                            AIOProtocolError::new_mqtt_error(
+                                Some("MQTT Error on command invoker suback".to_string()),
+                                Box::new(e),
+                                Some(self.command_name.clone()),
+                            )
+                        })?;
+                    }
                     Err(e) => {
-                        log::error!("[ERROR] suback error: {e}");
+                        log::error!("[ERROR] subscribe completion error: {e}");
                         return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT Error on command invoker suback".to_string()),
+                            Some("MQTT Error on command invoker subscribe".to_string()),
                             Box::new(e),
                             Some(self.command_name.clone()),
                         ));
@@ -988,8 +993,8 @@ where
         let publish_properties = PublishProperties {
             correlation_data: Some(correlation_data.clone()),
             response_topic: Some(response_topic),
-            payload_format_indicator: Some(request.serialized_payload.format_indicator as u8),
-            content_type: Some(request.serialized_payload.content_type.to_string()),
+            payload_format_indicator: request.serialized_payload.format_indicator.into(),
+            content_type: Some(request.serialized_payload.content_type.clone()),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: request.custom_user_data,
             topic_alias: None,
@@ -1057,14 +1062,22 @@ where
                                     Some(command_name.clone()),
                                 ))
                             },
-                            puback = publish_completion_token => {
-                                match puback {
-                                    // if puback is Ok, continue and wait for the response
-                                    Ok(()) => Ok(()),
+                            publish_completion_token_result = publish_completion_token => {
+                                match publish_completion_token_result {
+                                    Ok(puback) => {
+                                        // if puback is Ok, continue and wait for the response
+                                        puback.as_result().map_err(|e| {
+                                            AIOProtocolError::new_mqtt_error(
+                                                Some("MQTT Puback indicated failure".to_string()),
+                                                Box::new(e),
+                                                Some(command_name),
+                                            )
+                                        })
+                                    },
                                     Err(e) => {
-                                        log::error!("[ERROR] puback error: {e}");
+                                        log::error!("[ERROR] publish completion error: {e}");
                                         Err(AIOProtocolError::new_mqtt_error(
-                                            Some("MQTT Error on command invoke puback".to_string()),
+                                            Some("MQTT Error on command invoke publish".to_string()),
                                             Box::new(e),
                                             Some(command_name),
                                         ))
@@ -1109,17 +1122,13 @@ where
                                 Ok(rsp_pub) => {
                                     if let Some(rsp_pub) = rsp_pub {
                                         // check correlation id for match, otherwise loop again
-                                        if let Some(ref rsp_properties) = rsp_pub.properties {
-                                            if let Some(ref response_correlation_data) =
-                                                rsp_properties.correlation_data
-                                            {
-                                                if *response_correlation_data == correlation_data {
-                                                    // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                                    // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
-                                                    return Ok(rsp_pub);
-                                                }
+                                        if let Some(ref response_correlation_data) =
+                                            rsp_pub.properties.correlation_data
+                                            && *response_correlation_data == correlation_data {
+                                                // This is implicit validation of the correlation data - if it's malformed it won't match the request
+                                                // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
+                                                return Ok(rsp_pub);
                                             }
-                                        }
                                     } else {
                                         log::error!(
                                             "Command Invoker has been shutdown and will no longer receive a response"
@@ -1211,7 +1220,7 @@ where
     }
 
     async fn receive_response_loop(
-        mut mqtt_receiver: C::PubReceiver,
+        mut mqtt_receiver: SessionPubReceiver,
         response_tx: Sender<Option<Publish>>,
         shutdown_notifier: Arc<Notify>,
         command_name: String,
@@ -1240,7 +1249,12 @@ where
                                 let command_name_clone = command_name.clone();
                                 async move {
                                     match ack_token.ack().await {
-                                        Ok(_) => { },
+                                        Ok(ack_ct) => {
+                                            match ack_ct.await {
+                                                Ok(()) => { },
+                                                Err(e) => log::error!("[{command_name_clone}] Error acking message: {e}"),
+                                            }
+                                        },
                                         Err(e) => {
                                             log::error!("[{command_name_clone}] Error acking message: {e}");
                                         }
@@ -1282,23 +1296,36 @@ where
                 *invoker_state_mutex_guard = State::ShutdownInitiated;
                 let unsubscribe_result = self
                     .mqtt_client
-                    .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
+                    .unsubscribe(
+                        self.response_topic_filter.clone(),
+                        azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
+                    )
                     .await;
 
                 match unsubscribe_result {
-                    Ok(unsub_completion_token) => {
-                        match unsub_completion_token.await {
-                            Ok(()) => { /* Success */ }
-                            Err(e) => {
-                                log::error!("[{}] Unsuback error: {e}", self.command_name);
-                                return Err(AIOProtocolError::new_mqtt_error(
+                    Ok(unsub_completion_token) => match unsub_completion_token.await {
+                        Ok(unsuback) => {
+                            unsuback.as_result().map_err(|e| {
+                                log::error!("[{}] Unsuback error: {unsuback:?}", self.command_name);
+                                AIOProtocolError::new_mqtt_error(
                                     Some("MQTT error on command invoker unsuback".to_string()),
                                     Box::new(e),
                                     Some(self.command_name.clone()),
-                                ));
-                            }
+                                )
+                            })?;
                         }
-                    }
+                        Err(e) => {
+                            log::error!(
+                                "[{}] Unsubscribe completion error: {e}",
+                                self.command_name
+                            );
+                            return Err(AIOProtocolError::new_mqtt_error(
+                                Some("MQTT error on command invoker unsubscribe".to_string()),
+                                Box::new(e),
+                                Some(self.command_name.clone()),
+                            ));
+                        }
+                    },
                     Err(e) => {
                         log::error!(
                             "[{}] Client error while unsubscribing: {e}",
@@ -1330,7 +1357,7 @@ where
         // drop can't be async, but we can spawn a task to unsubscribe
         tokio::spawn({
             let invoker_state_mutex = self.invoker_state_mutex.clone();
-            let unsubscribe_filter = self.response_topic_pattern.as_subscribe_topic();
+            let unsubscribe_filter = self.response_topic_filter.clone();
             let mqtt_client = self.mqtt_client.clone();
             async move { drop_unsubscribe(mqtt_client, invoker_state_mutex, unsubscribe_filter).await }
         });
@@ -1344,7 +1371,7 @@ where
 async fn drop_unsubscribe(
     mqtt_client: SessionManagedClient,
     invoker_state_mutex: Arc<Mutex<State>>,
-    unsubscribe_filter: String,
+    unsubscribe_filter: TopicFilter,
 ) {
     let mut invoker_state_mutex_guard = invoker_state_mutex.lock().await;
     match *invoker_state_mutex_guard {
@@ -1354,7 +1381,13 @@ async fn drop_unsubscribe(
         State::ShutdownInitiated | State::Subscribed => {
             // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
             *invoker_state_mutex_guard = State::ShutdownInitiated;
-            match mqtt_client.unsubscribe(unsubscribe_filter.clone()).await {
+            match mqtt_client
+                .unsubscribe(
+                    unsubscribe_filter.clone(),
+                    azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
+                )
+                .await
+            {
                 Ok(_) => {
                     log::debug!(
                         "Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending."
@@ -1434,14 +1467,18 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         )
         .unwrap();
         assert_eq!(
-            invoker.response_topic_pattern.as_subscribe_topic(),
+            invoker
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             "clients/test_client/test/test_command_name/+/request"
         );
     }
@@ -1461,7 +1498,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1469,7 +1506,11 @@ mod tests {
         .unwrap();
         // prefix and suffix should be ignored if response_topic_pattern is provided
         assert_eq!(
-            invoker.response_topic_pattern.as_subscribe_topic(),
+            invoker
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             "test_namespace/test/test_command_name/+/response"
         );
     }
@@ -1534,7 +1575,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1577,14 +1618,19 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         );
         assert!(invoker.is_ok());
         assert_eq!(
-            invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
+            invoker
+                .unwrap()
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             expected_response_topic_subscribe_pattern
         );
     }
@@ -1603,14 +1649,19 @@ mod tests {
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         );
         assert!(invoker.is_ok());
         assert_eq!(
-            invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
+            invoker
+                .unwrap()
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             "clients/test_client/test/req/topic"
         );
     }
@@ -1631,14 +1682,19 @@ mod tests {
             .response_topic_suffix(response_topic_suffix.to_string())
             .build()
             .unwrap();
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         );
         assert!(invoker.is_ok());
         assert_eq!(
-            invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
+            invoker
+                .unwrap()
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             "test/req/topic/custom/suffix"
         );
     }
@@ -1658,7 +1714,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1728,7 +1784,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1787,7 +1843,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1848,7 +1904,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1921,7 +1977,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1976,7 +2032,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
