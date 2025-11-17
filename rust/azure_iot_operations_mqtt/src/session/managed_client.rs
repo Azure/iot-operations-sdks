@@ -39,7 +39,7 @@ impl SessionManagedClient {
             .dispatcher
             .lock()
             .unwrap()
-            .create_filtered_receiver(&topic_filter);
+            .create_filtered_receiver(topic_filter);
         SessionPubReceiver { pub_rx }
     }
 

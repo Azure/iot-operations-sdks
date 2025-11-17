@@ -23,6 +23,10 @@ pub type PubAck = azure_mqtt::packet::PubAck;
 pub type SubAck = azure_mqtt::packet::SubAck;
 /// UNSUBACK packet
 pub type UnsubAck = azure_mqtt::packet::UnsubAck;
+/// DISCONNECT packet
+pub type Disconnect = azure_mqtt::packet::Disconnect;
+/// AUTH packet
+pub type Auth = azure_mqtt::packet::Auth;
 
 /// Properties for a CONNECT packet
 pub type ConnectProperties = azure_mqtt::packet::ConnectProperties;
@@ -38,6 +42,8 @@ pub type AuthProperties = azure_mqtt::packet::AuthProperties;
 /// Connect Return Code
 pub type ConnectReturnCode = azure_mqtt::packet::ConnAckReason;
 
+/// Authentication Info
+pub type AuthenticationInfo = azure_mqtt::packet::AuthenticationInfo;
 /// Retain Handling
 pub type RetainHandling = azure_mqtt::packet::RetainHandling;
 /// Session Expiry Interval
