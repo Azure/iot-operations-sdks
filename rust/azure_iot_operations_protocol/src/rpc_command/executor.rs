@@ -515,7 +515,7 @@ where
                     .mqtt_client
                     .unsubscribe(
                         self.request_topic_filter.clone(),
-                        azure_mqtt::packet::UnsubscribeProperties::default(),
+                        azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
                     )
                     .await;
 
@@ -578,8 +578,8 @@ where
                 // TODO: validate these are the right settings
                 false,
                 true,
-                azure_mqtt::packet::RetainHandling::Send,
-                azure_mqtt::packet::SubscribeProperties::default(),
+                azure_iot_operations_mqtt::control_packet::RetainHandling::Send,
+                azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),
             )
             .await;
 
@@ -652,15 +652,15 @@ where
                         continue;
                     };
                     let pkid = match m.qos {
-                        azure_mqtt::packet::DeliveryQoS::AtMostOnce
-                        | azure_mqtt::packet::DeliveryQoS::ExactlyOnce(_) => {
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtMostOnce
+                        | azure_iot_operations_mqtt::control_packet::DeliveryQoS::ExactlyOnce(_) => {
                             // This should never happen as the executor should always receive QoS 1 messages
                             log::warn!("[{}] Received non QoS 1 message", self.command_name);
                             continue;
                         }
-                        azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info) => {
-                            delivery_info.packet_identifier.get()
-                        }
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtLeastOnce(
+                            delivery_info,
+                        ) => delivery_info.packet_identifier.get(),
                     };
                     // Process the request
                     log::info!("[{}][pkid: {}] Received request", self.command_name, pkid);
@@ -1397,7 +1397,7 @@ where
                     match mqtt_client
                         .unsubscribe(
                             request_topic.clone(),
-                            azure_mqtt::packet::UnsubscribeProperties::default(),
+                            azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
                         )
                         .await
                     {

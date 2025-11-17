@@ -28,26 +28,26 @@ impl TryFrom<Option<u8>> for FormatIndicator {
     }
 }
 
-impl From<FormatIndicator> for azure_mqtt::packet::PayloadFormatIndicator {
+impl From<FormatIndicator> for azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator {
     fn from(value: FormatIndicator) -> Self {
         match value {
             FormatIndicator::UnspecifiedBytes => {
-                azure_mqtt::packet::PayloadFormatIndicator::Unspecified
+                azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator::Unspecified
             }
             FormatIndicator::Utf8EncodedCharacterData => {
-                azure_mqtt::packet::PayloadFormatIndicator::UTF8
+                azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator::UTF8
             }
         }
     }
 }
 
-impl From<azure_mqtt::packet::PayloadFormatIndicator> for FormatIndicator {
-    fn from(value: azure_mqtt::packet::PayloadFormatIndicator) -> Self {
+impl From<azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator> for FormatIndicator {
+    fn from(value: azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator) -> Self {
         match value {
-            azure_mqtt::packet::PayloadFormatIndicator::Unspecified => {
+            azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator::Unspecified => {
                 FormatIndicator::UnspecifiedBytes
             }
-            azure_mqtt::packet::PayloadFormatIndicator::UTF8 => {
+            azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator::UTF8 => {
                 FormatIndicator::Utf8EncodedCharacterData
             }
         }
@@ -252,7 +252,9 @@ mod tests {
     fn test_to_from_mqtt_format_indicator(prop: FormatIndicator) {
         assert_eq!(
             prop,
-            FormatIndicator::from(azure_mqtt::packet::PayloadFormatIndicator::from(prop))
+            FormatIndicator::from(
+                azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator::from(prop)
+            )
         );
     }
 }

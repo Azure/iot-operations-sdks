@@ -887,8 +887,8 @@ where
                 // TODO: validate these are the right settings
                 false,
                 true,
-                azure_mqtt::packet::RetainHandling::Send,
-                azure_mqtt::packet::SubscribeProperties::default(),
+                azure_iot_operations_mqtt::control_packet::RetainHandling::Send,
+                azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),
             )
             .await;
         match subscribe_result {
@@ -1298,7 +1298,7 @@ where
                     .mqtt_client
                     .unsubscribe(
                         self.response_topic_filter.clone(),
-                        azure_mqtt::packet::UnsubscribeProperties::default(),
+                        azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
                     )
                     .await;
 
@@ -1384,7 +1384,7 @@ async fn drop_unsubscribe(
             match mqtt_client
                 .unsubscribe(
                     unsubscribe_filter.clone(),
-                    azure_mqtt::packet::UnsubscribeProperties::default(),
+                    azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
                 )
                 .await
             {

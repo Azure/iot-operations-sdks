@@ -9,6 +9,7 @@ use thiserror::Error;
 
 pub type ClientError = azure_mqtt::error::ClientError;
 pub type CompletionError = azure_mqtt::client::token::completion::CompletionError;
+pub type TopicError = azure_mqtt::topic::TopicError;
 
 /// Error executing an MQTT publish
 #[derive(Debug, Error)]

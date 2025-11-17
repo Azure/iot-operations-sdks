@@ -14,7 +14,7 @@ use crate::{
     ProtocolVersion,
     application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
-        aio_protocol_error::{AIOProtocolError, Value},
+        aio_protocol_error::AIOProtocolError,
         hybrid_logical_clock::HybridLogicalClock,
         payload_serialize::{FormatIndicator, PayloadSerialize},
         topic_processor::TopicPattern,
@@ -477,7 +477,7 @@ where
                     .mqtt_client
                     .unsubscribe(
                         self.telemetry_topic.clone(),
-                        azure_mqtt::packet::UnsubscribeProperties::default(),
+                        azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
                     )
                     .await;
 
@@ -534,8 +534,8 @@ where
                 // TODO: validate these are the right settings
                 false,
                 true,
-                azure_mqtt::packet::RetainHandling::Send,
-                azure_mqtt::packet::SubscribeProperties::default(),
+                azure_iot_operations_mqtt::control_packet::RetainHandling::Send,
+                azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),
             )
             .await;
 
@@ -607,14 +607,14 @@ where
 
                     // Get pkid for logging
                     let pkid = match m.qos {
-                        azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtMostOnce => {
                             // TODO: maybe we should log with something else, but this matches old behavior
                             0
                         }
-                        azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info) => {
-                            delivery_info.packet_identifier.get()
-                        }
-                        azure_mqtt::packet::DeliveryQoS::ExactlyOnce(_) => {
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtLeastOnce(
+                            delivery_info,
+                        ) => delivery_info.packet_identifier.get(),
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::ExactlyOnce(_) => {
                             // This should never happen as the telemetry receiver should always receive QoS 1 messages
                             log::warn!("Received QoS 2 telemetry message");
                             continue;
@@ -697,7 +697,7 @@ where
                     match mqtt_client
                         .unsubscribe(
                             telemetry_topic.clone(),
-                            azure_mqtt::packet::UnsubscribeProperties::default(),
+                            azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
                         )
                         .await
                     {
@@ -725,7 +725,10 @@ mod tests {
     use super::*;
     use crate::{
         application::ApplicationContextBuilder,
-        common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload},
+        common::{
+            aio_protocol_error::{AIOProtocolErrorKind, Value},
+            payload_serialize::MockPayload,
+        },
         telemetry::receiver::{OptionsBuilder, Receiver},
     };
     use azure_iot_operations_mqtt::{

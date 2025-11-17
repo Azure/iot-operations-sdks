@@ -486,7 +486,7 @@ where
         // Send publish
         // TODO: use actual QoS value once API is nailed down
         match message.qos {
-            azure_mqtt::packet::QoS::AtMostOnce => {
+            azure_iot_operations_mqtt::control_packet::QoS::AtMostOnce => {
                 let publish_result = self
                     .mqtt_client
                     .publish_qos0(
@@ -515,7 +515,7 @@ where
                     }
                 }
             }
-            azure_mqtt::packet::QoS::AtLeastOnce => {
+            azure_iot_operations_mqtt::control_packet::QoS::AtLeastOnce => {
                 let publish_result = self
                     .mqtt_client
                     .publish_qos1(
@@ -557,7 +557,7 @@ where
                     }
                 }
             }
-            azure_mqtt::packet::QoS::ExactlyOnce => unreachable!(
+            azure_iot_operations_mqtt::control_packet::QoS::ExactlyOnce => unreachable!(
                 "QoS::ExactlyOnce is not supported for telemetry sending and isn't possible to set on Message"
             ),
         }
