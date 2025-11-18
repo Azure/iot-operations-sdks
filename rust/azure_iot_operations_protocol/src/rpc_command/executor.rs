@@ -5,7 +5,7 @@ use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
-use azure_iot_operations_mqtt::session::managed_client::{
+use azure_iot_operations_mqtt::session::{
     SessionManagedClient, SessionPubReceiver,
 };
 use azure_iot_operations_mqtt::{
@@ -1448,7 +1448,7 @@ async fn handle_ack(
 
 #[cfg(test)]
 mod tests {
-    use azure_iot_operations_mqtt::session::session::{Session, SessionOptionsBuilder};
+    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;

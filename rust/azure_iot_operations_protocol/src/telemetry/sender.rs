@@ -7,7 +7,7 @@ use std::time::SystemTime;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
-use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use bytes::Bytes;
 use chrono::{DateTime, SecondsFormat, Utc};
 use uuid::Uuid;
@@ -580,7 +580,7 @@ mod tests {
     };
     use azure_iot_operations_mqtt::{
         MqttConnectionSettingsBuilder,
-        session::session::{Session, SessionOptionsBuilder},
+        session::{Session, SessionOptionsBuilder},
     };
 
     use super::MessageBuilder;
