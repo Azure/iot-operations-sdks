@@ -7,7 +7,7 @@ use env_logger::Builder;
 use thiserror::Error;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
@@ -25,7 +25,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .init();
 
     // Create a Session
@@ -51,7 +51,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .command_name("increment")
         .build()
         .unwrap();
-    let incr_invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload, _> =
+    let incr_invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload> =
         rpc_command::Invoker::new(
             application_context,
             session.create_managed_client(),
@@ -68,7 +68,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 /// Indefinitely send 'increment' command requests
 async fn increment_invoke_loop(
-    invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload, SessionManagedClient>,
+    invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload>,
 ) {
     loop {
         let payload = rpc_command::invoker::RequestBuilder::default()

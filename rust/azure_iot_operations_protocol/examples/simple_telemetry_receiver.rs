@@ -7,7 +7,7 @@ use std::time::Duration;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder,
     common::payload_serialize::{
@@ -27,7 +27,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .init();
 
     // Create a Session
@@ -55,7 +55,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         )]))
         .auto_ack(false)
         .build()?;
-    let receiver: telemetry::Receiver<SampleTelemetry, _> = telemetry::Receiver::new(
+    let receiver: telemetry::Receiver<SampleTelemetry> = telemetry::Receiver::new(
         application_context,
         session.create_managed_client(),
         receiver_options,
@@ -72,7 +72,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 // Handle incoming telemetry messages
 async fn telemetry_loop(
-    mut telemetry_receiver: telemetry::Receiver<SampleTelemetry, SessionManagedClient>,
+    mut telemetry_receiver: telemetry::Receiver<SampleTelemetry>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     while let Some(msg_result) = telemetry_receiver.recv().await {
         let (message, ack_token) = msg_result?;
