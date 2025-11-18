@@ -1250,7 +1250,7 @@ where
                                     match ack_token.ack().await {
                                         Ok(ack_ct) => {
                                             match ack_ct.await {
-                                                Ok(()) => { log::info!("[{command_name_clone}] Message acked successfully"); },
+                                                Ok(()) => { },
                                                 Err(e) => log::error!("[{command_name_clone}] Error acking message: {e}"),
                                             }
                                         },
