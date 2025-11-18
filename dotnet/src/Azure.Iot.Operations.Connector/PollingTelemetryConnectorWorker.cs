@@ -109,7 +109,7 @@ namespace Azure.Iot.Operations.Connector
                                 (currentAssetStatus) =>
                                 {
                                     currentAssetStatus.Config ??= new();
-                                    currentAssetStatus.Config.Error = null,
+                                    currentAssetStatus.Config.Error = null;
                                     currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
                                     currentAssetStatus.UpdateDatasetStatus(new AssetDatasetEventStreamStatus()
                                     {
