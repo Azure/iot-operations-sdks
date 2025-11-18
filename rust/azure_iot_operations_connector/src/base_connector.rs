@@ -6,9 +6,7 @@
 use std::{sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::session::{
-    SessionError,
-    managed_client::SessionManagedClient,
-    session::{Session, SessionOptionsBuilder},
+    SessionError, SessionManagedClient, {Session, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::{azure_device_registry, schema_registry, state_store};
