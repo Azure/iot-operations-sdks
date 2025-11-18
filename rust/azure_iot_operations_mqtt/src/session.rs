@@ -12,7 +12,7 @@
 //!
 //! # [`Session`] lifespan
 //! Each instance of [`Session`] is single use - after configuring a [`Session`], and creating any
-//! other necessary components from it, calling the [`run`](crate::session::Session::run) method
+//! other necessary components from it, calling the [`run`](crate::session::run) method
 //! will consume the [`Session`] and block (asynchronously) until the MQTT session shared between
 //! client and broker ends. Note that a MQTT session can span multiple connects and disconnects to
 //! the broker.

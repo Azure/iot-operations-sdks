@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::{session::managed_client::SessionManagedClient, token::AckToken};
+use azure_iot_operations_mqtt::{session::SessionManagedClient, token::AckToken};
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry;

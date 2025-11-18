@@ -19,7 +19,7 @@ use std::{collections::HashMap, time::Duration};
 use azure_iot_operations_connector::deployment_artifacts::{
     azure_device_registry::DeviceEndpointCreateObservation, connector::ConnectorArtifacts,
 };
-use azure_iot_operations_mqtt::session::session::{Session, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_otel::Otel;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;

@@ -8,7 +8,7 @@
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::{
-    session::{managed_client::SessionManagedClient, session::SessionMonitor},
+    session::{SessionManagedClient, SessionMonitor},
     token::AckToken,
 };
 use azure_iot_operations_protocol::{
@@ -668,7 +668,7 @@ mod tests {
 
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-    use azure_iot_operations_mqtt::session::session::{Session, SessionOptionsBuilder};
+    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
     use crate::state_store::{Error, ErrorKind, SetOptions};

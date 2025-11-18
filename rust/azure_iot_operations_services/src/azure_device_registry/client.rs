@@ -7,7 +7,7 @@
 
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::{session::managed_client::SessionManagedClient, token::AckToken};
+use azure_iot_operations_mqtt::{session::SessionManagedClient, token::AckToken};
 use azure_iot_operations_protocol::application::ApplicationContext;
 use derive_builder::Builder;
 use tokio::sync::Notify;
@@ -1321,7 +1321,7 @@ impl Client {
 mod tests {
     use super::*;
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-    use azure_iot_operations_mqtt::session::session::{Session, SessionOptionsBuilder};
+    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
     use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind;
     use test_case::test_case;

@@ -4,7 +4,7 @@
 use azure_iot_operations_connector::deployment_artifacts::connector::{
     ConnectorArtifacts, Protocol, TlsMode,
 };
-use azure_iot_operations_mqtt::session::session::{Session, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_otel::Otel;
 use std::path::PathBuf;
 use std::time::Duration;

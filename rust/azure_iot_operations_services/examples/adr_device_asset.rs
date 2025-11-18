@@ -5,7 +5,7 @@ use std::{collections::HashMap, time::Duration};
 
 use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
-    session::session::{Session, SessionExitHandle, SessionOptionsBuilder},
+    session::{Session, SessionExitHandle, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{self, models};

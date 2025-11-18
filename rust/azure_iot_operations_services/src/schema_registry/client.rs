@@ -8,7 +8,7 @@
 use std::sync::Arc;
 use std::time::Duration;
 
-use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc_command;
 
@@ -178,7 +178,7 @@ mod tests {
 
     use azure_iot_operations_mqtt::{
         MqttConnectionSettingsBuilder,
-        session::session::{Session, SessionOptionsBuilder},
+        session::{Session, SessionOptionsBuilder},
     };
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
