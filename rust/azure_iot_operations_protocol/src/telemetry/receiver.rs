@@ -221,6 +221,8 @@ pub struct Message<T: PayloadSerialize> {
     pub topic_tokens: HashMap<String, String>,
     /// Incoming message topic
     pub topic: String,
+    /// Indicates if the message is a duplicate delivery if QoS 1 (DUP flag in MQTT publish)
+    pub duplicate: Option<bool>,
 }
 
 impl<T> TryFrom<Publish> for Message<T>
@@ -300,6 +302,16 @@ where
         let content_type = publish_properties.content_type;
         let payload = T::deserialize(&value.payload, content_type.as_ref(), &format_indicator)
             .map_err(|e| format!("{e:?}"))?;
+        let duplicate = match value.qos {
+            azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtMostOnce => None,
+            azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtLeastOnce(delivery_info) => {
+                Some(delivery_info.dup)
+            }
+            azure_iot_operations_mqtt::control_packet::DeliveryQoS::ExactlyOnce(_) => {
+                // Before conversion, a check is done to prevent any QoS 2 messages from being processed
+                unreachable!()
+            }
+        };
 
         let telemetry_message = Message {
             payload,
@@ -311,6 +323,7 @@ where
             // NOTE: Topic Tokens cannot be created from just a Publish, they need additional information
             topic_tokens: HashMap::default(),
             topic: value.topic_name.as_str().to_string(),
+            duplicate,
         };
         Ok(telemetry_message)
     }
