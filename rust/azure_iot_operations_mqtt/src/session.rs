@@ -17,14 +17,10 @@
 //! client and broker ends. Note that a MQTT session can span multiple connects and disconnects to
 //! the broker.
 //!
-//! The MQTT session can be ended one of three ways:
-//! 1. The MQTT broker ends the MQTT session
-//! 2. The [`ReconnectPolicy`](crate::session::reconnect_policy::ReconnectPolicy) configured on the
+//! The MQTT session can be ended one of two ways:
+//! 1. The [`ReconnectPolicy`](crate::session::reconnect_policy::ReconnectPolicy) configured on the
 //!    [`Session`] halts reconnection attempts, causing the [`Session`] to end the MQTT session.
-//! 3. The user uses the [`SessionExitHandle`] to end the MQTT session.
-//!    <div class="warning">The SessionExitHandle currently only causes the exit of the Session client
-//!    not the end of the MQTT session shared with the broker. This limitation will be fixed in future
-//!    updates.</div>
+//! 2. The user uses the [`SessionExitHandle`] to end the MQTT session.
 //!
 //! # Sending and receiving data over MQTT
 //! A [`Session`] can be used to create a [`SessionManagedClient`] for sending data (i.e. outgoing
