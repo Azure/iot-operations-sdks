@@ -37,6 +37,11 @@ namespace Azure.Iot.Operations.Connector
         /// Get the current status of this asset and then optionally update it.
         /// </summary>
         /// <param name="handler">The function that determines the new asset status when given the current asset status.</param>
+        /// <param name="onlyIfChanged">
+        /// Only send the status update if the new status is different from the current status. If the only
+        /// difference between the current and new status is a 'LastTransitionTime' field, then the statuses will be
+        /// considered identical.
+        /// </param>
         /// <param name="commandTimeout">The timeout for each of the 'get' and 'update' commands.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The latest asset status after this operation.</returns>
@@ -48,14 +53,14 @@ namespace Azure.Iot.Operations.Connector
         /// another thread is in the middle of updating the same asset. This ensures that the current device status provided in <paramref name="handler"/>
         /// stays accurate while any updating occurs.
         /// </remarks>
-        public async Task<AssetStatus> GetAndUpdateAssetStatusAsync(Func<AssetStatus, AssetStatus?> handler, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        public async Task<AssetStatus> GetAndUpdateAssetStatusAsync(Func<AssetStatus, AssetStatus?> handler, bool onlyIfChanged = false, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             await _semaphore.WaitAsync(cancellationToken);
             try
             {
                 AssetStatus currentStatus = await GetAssetStatusAsync(commandTimeout, cancellationToken);
                 AssetStatus? desiredStatus = handler.Invoke(currentStatus);
-                if (desiredStatus != null)
+                if (desiredStatus != null && (!onlyIfChanged || currentStatus.EqualTo(desiredStatus)))
                 {
                     return await UpdateAssetStatusAsync(desiredStatus, commandTimeout, cancellationToken);
                 }

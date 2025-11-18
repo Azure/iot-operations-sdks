@@ -43,7 +43,7 @@ namespace EventDrivenTcpThermostatConnector
                         currentDeviceStatus.Endpoints.Inbound.Add(args.InboundEndpointName, new());
                     }
                     return currentDeviceStatus;
-                }, null, cancellationToken);
+                }, true, null, cancellationToken);
             }
             catch (Exception e)
             {
@@ -89,7 +89,7 @@ namespace EventDrivenTcpThermostatConnector
                         currentAssetStatus.EventGroups ??= new();
                         currentAssetStatus.EventGroups.Clear();
                         return currentAssetStatus;
-                    }, null, cancellationToken);
+                    }, true, null, cancellationToken);
                 }
                 catch (Exception e)
                 {
@@ -112,7 +112,7 @@ namespace EventDrivenTcpThermostatConnector
                         currentAssetStatus.EventGroups ??= new();
                         currentAssetStatus.ClearEventGroupStatus(eventGroup.Name);
                         return currentAssetStatus;
-                    }, null, cancellationToken);
+                    }, true, null, cancellationToken);
                 }
                 catch (Exception e)
                 {
@@ -145,7 +145,7 @@ namespace EventDrivenTcpThermostatConnector
                             }
                         });
                         return currentAssetStatus;
-                    }, null, cancellationToken);
+                    }, true, null, cancellationToken);
                 }
                 catch (Exception e)
                 {
@@ -211,7 +211,7 @@ namespace EventDrivenTcpThermostatConnector
                                         _logger.LogInformation("Event group count: {}", currentAssetStatus.EventGroups?.Count);
 
                                         return currentAssetStatus;
-                                    }, null, cancellationToken);
+                                    }, true, null, cancellationToken);
 
                                     alreadyReportedAssetStatus = true;
                                 }
@@ -246,7 +246,7 @@ namespace EventDrivenTcpThermostatConnector
                                 Message = "Unable to connect to the TCP endpoint. The connector will retry to connect."
                             });
                         return currentDeviceStatus;
-                    }, null, cancellationToken);
+                    }, true, null, cancellationToken);
                 }
                 catch (Exception e)
                 {

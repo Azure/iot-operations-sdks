@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.Connector
                     currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
                     currentDeviceStatus.Config.Error = null;
                     return currentDeviceStatus;
-                }, null, cancellationToken);
+                }, true, null, cancellationToken);
             }
             catch (Exception e)
             {
@@ -88,7 +88,7 @@ namespace Azure.Iot.Operations.Connector
                                     };
                                 currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
                                 return currentDeviceStatus;
-                            }, null, cancellationToken);
+                            }, true, null, cancellationToken);
                         }
                         catch (Exception e2)
                         {
@@ -119,6 +119,7 @@ namespace Azure.Iot.Operations.Connector
                                     });
                                     return currentAssetStatus;
                                 },
+                                true,
                                 null,
                                 cancellationToken);
                         }
@@ -142,7 +143,7 @@ namespace Azure.Iot.Operations.Connector
                                     };
                                 currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
                                 return currentDeviceStatus;
-                            }, null, cancellationToken);
+                            }, true, null, cancellationToken);
                         }
                         catch (Exception e2)
                         {
