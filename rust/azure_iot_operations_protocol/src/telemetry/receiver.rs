@@ -4,7 +4,7 @@ use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr,
 
 use azure_iot_operations_mqtt::{
     control_packet::{Publish, QoS, TopicFilter},
-    session::managed_client::{SessionManagedClient, SessionPubReceiver},
+    session::{SessionManagedClient, SessionPubReceiver},
     token::AckToken,
 };
 use chrono::{DateTime, Utc};
@@ -733,7 +733,7 @@ mod tests {
     };
     use azure_iot_operations_mqtt::{
         MqttConnectionSettingsBuilder,
-        session::session::{Session, SessionOptionsBuilder},
+        session::{Session, SessionOptionsBuilder},
     };
 
     // TODO: This should return a mock Session instead

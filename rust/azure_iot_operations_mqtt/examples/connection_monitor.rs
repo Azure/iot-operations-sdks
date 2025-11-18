@@ -6,7 +6,7 @@ use std::time::{Duration, Instant};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::session::{
+use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionMonitor, SessionOptionsBuilder,
 };
 
@@ -71,7 +71,7 @@ async fn uptime_monitor(monitor: SessionMonitor) {
 async fn exit_after_duration(exit_handle: SessionExitHandle, duration: Duration) {
     tokio::time::sleep(duration).await;
     log::info!("Exiting session after {duration:?}");
-    match exit_handle.try_exit().await {
+    match exit_handle.try_exit() {
         Ok(()) => println!("Session exited successfully"),
         Err(e) => {
             log::info!("Graceful session exit failed: {e}");
