@@ -12,4 +12,29 @@ public record DetailsSchemaElement
     public string? Info { get; set; }
 
     public string? Message { get; set; }
+
+    internal bool EqualTo(DetailsSchemaElement other)
+    {
+        if (!string.Equals(Code, other.Code))
+        {
+            return false;
+        }
+
+        if (!string.Equals(CorrelationId, other.CorrelationId))
+        {
+            return false;
+        }
+
+        if (!string.Equals(Info, other.Info))
+        {
+            return false;
+        }
+
+        if (!string.Equals(Message, other.Message))
+        {
+            return false;
+        }
+
+        return true;
+    }
 }
