@@ -15,8 +15,8 @@ use std::time::Duration;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::session::session::{Session, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::control_packet::{PublishProperties, TopicName};
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 
 const CLIENT_ID: &str = "aio_example_client";
 const HOSTNAME: &str = "localhost";
@@ -63,7 +63,12 @@ async fn send_messages(client: SessionManagedClient) {
         i += 1;
         let payload = format!("Hello #{i}");
         match client
-            .publish(TOPIC, QoS::AtLeastOnce, false, payload)
+            .publish_qos1(
+                TopicName::new(TOPIC).unwrap(),
+                false,
+                payload,
+                PublishProperties::default(),
+            )
             .await
         {
             Ok(_) => println!("Sent message #{i}"),

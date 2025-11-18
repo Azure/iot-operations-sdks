@@ -71,7 +71,7 @@ use crate::{MqttConnectionSettings, azure_mqtt_adapter::AzureMqttConnectParamete
 
 mod auth_policy;
 pub(crate) mod dispatcher;
-mod managed_client; // TODO: This really ought be private, but we need it public for testing (TODO: is this still true?)
+mod managed_client;
 pub(crate) mod plenary_ack;
 pub mod reconnect_policy;
 mod state;
