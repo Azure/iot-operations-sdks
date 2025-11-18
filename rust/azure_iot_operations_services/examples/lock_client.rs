@@ -7,8 +7,8 @@ use std::{sync::Arc, time::Duration};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
+use azure_iot_operations_mqtt::session::session::{
+    Session, SessionExitHandle, SessionOptionsBuilder,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::leased_lock::{SetCondition, SetOptions, lock};
@@ -54,8 +54,8 @@ fn create_clients(
 ) -> (
     Session,
     SessionExitHandle,
-    Arc<state_store::Client<SessionManagedClient>>,
-    lock::Client<SessionManagedClient>,
+    Arc<state_store::Client>,
+    lock::Client,
 ) {
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
@@ -107,8 +107,8 @@ fn create_clients(
 /// 2. Sets a key in the State Store using the `fencing_token` obtained from the lock.
 /// 3. Releases a lock.
 async fn lock_client_1_operations(
-    state_store_client_arc: Arc<state_store::Client<SessionManagedClient>>,
-    lock_client: lock::Client<SessionManagedClient>,
+    state_store_client_arc: Arc<state_store::Client>,
+    lock_client: lock::Client,
     exit_handle: SessionExitHandle,
 ) {
     let lock_expiry = Duration::from_secs(10);
@@ -158,7 +158,7 @@ async fn lock_client_1_operations(
             log::error!("Failed setting key {e}");
             return;
         }
-    };
+    }
 
     // 3.
 
@@ -171,11 +171,11 @@ async fn lock_client_1_operations(
             log::error!("Failed releasing lock {e}");
             return;
         }
-    };
+    }
 
     state_store_client_arc.shutdown().await.unwrap();
 
-    exit_handle.try_exit().await.unwrap();
+    exit_handle.try_exit().unwrap();
 }
 
 /// In `lock_client_2_operations` you will find the following examples:
@@ -183,8 +183,8 @@ async fn lock_client_1_operations(
 /// 5. Sets a key in the State Store using the `fencing_token` obtained from the lock.
 /// 6. Releases the lock.
 async fn lock_client_2_operations(
-    state_store_client_arc: Arc<state_store::Client<SessionManagedClient>>,
-    lock_client: lock::Client<SessionManagedClient>,
+    state_store_client_arc: Arc<state_store::Client>,
+    lock_client: lock::Client,
     exit_handle: SessionExitHandle,
 ) {
     let lock_expiry = Duration::from_secs(10);
@@ -234,7 +234,7 @@ async fn lock_client_2_operations(
             log::error!("Failed setting key {e}");
             return;
         }
-    };
+    }
 
     // 6.
     match lock_client.unlock(request_timeout).await {
@@ -245,9 +245,9 @@ async fn lock_client_2_operations(
             log::error!("Failed releasing lock {e}");
             return;
         }
-    };
+    }
 
     state_store_client_arc.shutdown().await.unwrap();
 
-    exit_handle.try_exit().await.unwrap();
+    exit_handle.try_exit().unwrap();
 }

@@ -5,7 +5,7 @@ use std::{collections::HashMap, time::Duration};
 
 use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
-    session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
+    session::session::{Session, SessionExitHandle, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{self, models};
@@ -61,7 +61,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 async fn azure_device_registry_operations(
-    azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
+    azure_device_registry_client: azure_device_registry::Client,
     exit_handle: SessionExitHandle,
 ) {
     // observe for updates for our Device + Inbound Endpoint
@@ -87,7 +87,7 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Observing for device updates failed: {e}");
         }
-    };
+    }
 
     // observe for updates for our Asset
     match azure_device_registry_client
@@ -113,7 +113,7 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Observing for asset updates failed: {e}");
         }
-    };
+    }
 
     // run device operations and log any errors
     match device_operations(&azure_device_registry_client).await {
@@ -123,7 +123,7 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Device operations failed: {e}");
         }
-    };
+    }
 
     // run asset operations and log any errors
     match asset_operations(&azure_device_registry_client).await {
@@ -133,7 +133,7 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Asset operations failed: {e}");
         }
-    };
+    }
 
     // Unobserve must be called on clean-up to prevent getting notifications for this in the future
     match azure_device_registry_client
@@ -150,7 +150,7 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Unobserving for device updates failed: {e}");
         }
-    };
+    }
 
     // Unobserve must be called on clean-up to prevent getting notifications for this in the future
     match azure_device_registry_client
@@ -168,7 +168,7 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Unobserving for Asset updates failed: {e}");
         }
-    };
+    }
 
     match azure_device_registry_client.shutdown().await {
         Ok(()) => {
@@ -182,7 +182,7 @@ async fn azure_device_registry_operations(
     }
 
     log::info!("Exiting session");
-    match exit_handle.try_exit().await {
+    match exit_handle.try_exit() {
         Ok(()) => log::info!("Session exited gracefully"),
         Err(e) => {
             log::error!("Graceful session exit failed: {e}");
@@ -193,7 +193,7 @@ async fn azure_device_registry_operations(
 }
 
 async fn device_operations(
-    azure_device_registry_client: &azure_device_registry::Client<SessionManagedClient>,
+    azure_device_registry_client: &azure_device_registry::Client,
 ) -> Result<(), Box<dyn std::error::Error>> {
     // Get Device + Inbound Endpoint details and send status update
     let device = azure_device_registry_client
@@ -268,7 +268,7 @@ async fn device_operations(
 }
 
 async fn asset_operations(
-    azure_device_registry_client: &azure_device_registry::Client<SessionManagedClient>,
+    azure_device_registry_client: &azure_device_registry::Client,
 ) -> Result<(), Box<dyn std::error::Error>> {
     // Get Asset details and send status update
     let asset = azure_device_registry_client

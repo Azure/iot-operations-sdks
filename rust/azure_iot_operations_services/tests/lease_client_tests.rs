@@ -10,8 +10,8 @@ use env_logger::Builder;
 use tokio::{sync::Notify, time::sleep, time::timeout};
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
+use azure_iot_operations_mqtt::session::session::{
+    Session, SessionExitHandle, SessionOptionsBuilder,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::leased_lock::lease;
@@ -57,8 +57,8 @@ fn initialize_client(
     key_name: &str,
 ) -> (
     Session,
-    Arc<state_store::Client<SessionManagedClient>>,
-    lease::Client<SessionManagedClient>,
+    Arc<state_store::Client>,
+    lease::Client,
     SessionExitHandle,
 ) {
     let connection_settings = MqttConnectionSettingsBuilder::default()
@@ -141,7 +141,7 @@ async fn lease_single_holder_acquires_a_lease_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -208,7 +208,7 @@ async fn lease_two_holders_attempt_to_acquire_with_release_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client1.shutdown().await.is_ok());
 
-            exit_handle1.try_exit().await.unwrap();
+            exit_handle1.try_exit().unwrap();
         }
     });
 
@@ -246,7 +246,7 @@ async fn lease_two_holders_attempt_to_acquire_with_release_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client2.shutdown().await.is_ok());
 
-            exit_handle2.try_exit().await.unwrap();
+            exit_handle2.try_exit().unwrap();
         }
     });
 
@@ -321,7 +321,7 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client1.shutdown().await.is_ok());
 
-            exit_handle1.try_exit().await.unwrap();
+            exit_handle1.try_exit().unwrap();
         }
     });
 
@@ -361,7 +361,7 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client2.shutdown().await.is_ok());
 
-            exit_handle2.try_exit().await.unwrap();
+            exit_handle2.try_exit().unwrap();
         }
     });
 
@@ -410,7 +410,7 @@ async fn lease_second_holder_acquires_non_released_expired_lease_network_tests()
             // Shutdown state store client and underlying resources
             assert!(state_store_client1.shutdown().await.is_ok());
 
-            exit_handle1.try_exit().await.unwrap();
+            exit_handle1.try_exit().unwrap();
         }
     });
 
@@ -429,7 +429,7 @@ async fn lease_second_holder_acquires_non_released_expired_lease_network_tests()
             // Shutdown state store client and underlying resources
             assert!(state_store_client2.shutdown().await.is_ok());
 
-            exit_handle2.try_exit().await.unwrap();
+            exit_handle2.try_exit().unwrap();
         }
     });
 
@@ -486,7 +486,7 @@ async fn lease_second_holder_observes_until_lease_is_released_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client1.shutdown().await.is_ok());
 
-            exit_handle1.try_exit().await.unwrap();
+            exit_handle1.try_exit().unwrap();
         }
     });
 
@@ -520,7 +520,7 @@ async fn lease_second_holder_observes_until_lease_is_released_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client2.shutdown().await.is_ok());
 
-            exit_handle2.try_exit().await.unwrap();
+            exit_handle2.try_exit().unwrap();
         }
     });
 
@@ -565,7 +565,7 @@ async fn lease_shutdown_state_store_while_observing_lease_network_tests() {
             assert!(receive_notifications_result.is_ok());
             assert!(receive_notifications_result.unwrap().is_none());
 
-            exit_handle1.try_exit().await.unwrap();
+            exit_handle1.try_exit().unwrap();
         }
     });
 
@@ -610,7 +610,7 @@ async fn lease_second_holder_observes_until_lease_expires_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client1.shutdown().await.is_ok());
 
-            exit_handle1.try_exit().await.unwrap();
+            exit_handle1.try_exit().unwrap();
         }
     });
 
@@ -643,7 +643,7 @@ async fn lease_second_holder_observes_until_lease_expires_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client2.shutdown().await.is_ok());
 
-            exit_handle2.try_exit().await.unwrap();
+            exit_handle2.try_exit().unwrap();
         }
     });
 
@@ -695,7 +695,7 @@ async fn lease_attempt_to_release_twice_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -733,7 +733,7 @@ async fn lease_attempt_to_observe_that_does_not_exist_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -810,7 +810,7 @@ async fn lease_single_holder_acquires_a_lease_with_auto_renewal_network_tests() 
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -893,7 +893,7 @@ async fn lease_single_holder_acquires_with_and_without_auto_renewal_network_test
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -947,7 +947,7 @@ async fn lease_acquire_with_auto_renewal_and_client_cloning_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 

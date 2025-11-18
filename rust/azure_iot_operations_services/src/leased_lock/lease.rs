@@ -9,17 +9,12 @@ use tokio::{select, sync::Notify};
 
 use crate::leased_lock::{Error, ErrorKind, LeaseObservation, SetCondition, SetOptions};
 use crate::state_store;
-use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 
 /// Lease client struct.
 #[derive(Clone)]
-pub struct Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync,
-{
-    state_store: Arc<state_store::Client<C>>,
+pub struct Client {
+    state_store: Arc<state_store::Client>,
     lease_name: Vec<u8>,
     lease_holder_name: Vec<u8>,
     current_fencing_token: Arc<Mutex<Option<HybridLogicalClock>>>,
@@ -31,11 +26,7 @@ where
 /// Notes:
 /// Do not call any of the methods of this client after the `state_store` parameter is shutdown.
 /// Calling any of the methods in this implementation after the `state_store` is shutdown results in undefined behavior.
-impl<C> Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync,
-    C::PubReceiver: Send + Sync,
-{
+impl Client {
     /// Create a new Lease Client.
     ///
     /// Notes:
@@ -45,7 +36,7 @@ where
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the either `lease_name` or `lease_holder_name` is empty.
     pub fn new(
-        state_store: Arc<state_store::Client<C>>,
+        state_store: Arc<state_store::Client>,
         lease_name: Vec<u8>,
         lease_holder_name: Vec<u8>,
     ) -> Result<Self, Error> {
