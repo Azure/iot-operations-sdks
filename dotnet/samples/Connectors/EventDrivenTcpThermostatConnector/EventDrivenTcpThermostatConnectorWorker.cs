@@ -34,7 +34,7 @@ namespace EventDrivenTcpThermostatConnector
                 _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
                 await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
                     currentDeviceStatus.Config ??= new();
-                    currentDeviceStatus.Config.Error = null,
+                    currentDeviceStatus.Config.Error = null;
                     currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
                     currentDeviceStatus.Endpoints ??= new();
                     currentDeviceStatus.Endpoints.Inbound ??= new();
