@@ -125,7 +125,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 fullTopicPattern = topicNamespace + "/" + topicPattern;
             }
 
-            TopicTokens = topicPattern != null ? MqttTopicProcessor.GetReplacementMap(fullTopicPattern, message.Topic) : new Dictionary<string, string>();
+            TopicTokens = MqttTopicProcessor.GetReplacementMap(fullTopicPattern, message.Topic);
         }
 
         internal void MarshalTo(MqttApplicationMessage message)
