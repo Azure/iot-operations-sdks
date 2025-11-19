@@ -355,7 +355,7 @@ impl Session {
             if !connack.session_present && prev_connected {
                 // TODO: try and disconnect here?
                 log::debug!("MQTT session not present on connection");
-                log::debug!("Exiting Session due to session loss");
+                log::debug!("Exiting Session due to MQTT session loss");
                 return Err(SessionErrorRepr::SessionLost.into());
             }
 
