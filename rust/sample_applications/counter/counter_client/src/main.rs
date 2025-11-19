@@ -112,7 +112,7 @@ async fn counter_telemetry_check(
     counter_value_receiver.shutdown().await.unwrap();
 
     // Exit the session now that we're done
-    exit_handle.try_exit().await.unwrap();
+    exit_handle.try_exit().unwrap();
 }
 
 /// Send a read request, 15 increment requests, and another read request and wait for their responses.

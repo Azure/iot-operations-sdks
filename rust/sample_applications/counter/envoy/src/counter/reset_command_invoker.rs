@@ -3,7 +3,7 @@
 use std::collections::HashMap;
 use std::time::Duration;
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::rpc_command;
@@ -75,23 +75,16 @@ impl ResetRequestBuilder {
 }
 
 /// Command Invoker for `reset`
-pub struct ResetCommandInvoker<C>(rpc_command::Invoker<EmptyJson, EmptyJson, C>)
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static;
+pub struct ResetCommandInvoker(rpc_command::Invoker<EmptyJson, EmptyJson>);
 
-impl<C> ResetCommandInvoker<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl ResetCommandInvoker {
     /// Creates a new [`ResetCommandInvoker`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         options: &CommandInvokerOptions,
     ) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
