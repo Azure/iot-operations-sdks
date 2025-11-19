@@ -6,7 +6,7 @@
 use std::{sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::session::{
-    Session, SessionError, SessionManagedClient, SessionOptionsBuilder,
+    SessionError, SessionManagedClient, {Session, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::{azure_device_registry, schema_registry, state_store};
@@ -35,9 +35,9 @@ pub(crate) struct ConnectorContext {
     /// Timeout for State Store operations
     pub(crate) state_store_timeout: Duration,
     /// Clients used to perform connector operations
-    azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
-    pub(crate) state_store_client: Arc<state_store::Client<SessionManagedClient>>,
-    schema_registry_client: schema_registry::Client<SessionManagedClient>,
+    azure_device_registry_client: azure_device_registry::Client,
+    pub(crate) state_store_client: Arc<state_store::Client>,
+    schema_registry_client: schema_registry::Client,
 }
 
 #[allow(clippy::missing_fields_in_debug)]

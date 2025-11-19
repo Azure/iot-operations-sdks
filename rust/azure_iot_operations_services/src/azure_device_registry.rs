@@ -5,7 +5,7 @@
 
 use core::fmt::Debug;
 
-use azure_iot_operations_mqtt::interface::AckToken;
+use azure_iot_operations_mqtt::token::AckToken;
 use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
 use chrono::{DateTime, Utc};
 use thiserror::Error;

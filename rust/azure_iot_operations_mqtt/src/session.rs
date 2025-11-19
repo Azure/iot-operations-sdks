@@ -205,7 +205,7 @@ pub struct Session {
     reauth_handle: Option<azure_mqtt::client::ReauthHandle>,
     /// Parameters for establishing an MQTT connection using the `azure_mqtt` crate
     connect_parameters: AzureMqttConnectParameters,
-    /// Client ID of the underlying rumqttc client
+    /// Client ID of the underlying MQTT client
     client_id: String,
     /// Receiver dispatcher for incoming publishes
     incoming_pub_dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
