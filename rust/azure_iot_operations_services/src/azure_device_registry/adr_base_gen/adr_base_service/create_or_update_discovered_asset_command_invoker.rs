@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use std::error::Error;
 use std::time::Duration;
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -90,29 +90,21 @@ impl CreateOrUpdateDiscoveredAssetRequestBuilder {
 }
 
 /// Command Invoker for `createOrUpdateDiscoveredAsset`
-pub struct CreateOrUpdateDiscoveredAssetCommandInvoker<C>(
+pub struct CreateOrUpdateDiscoveredAssetCommandInvoker(
     rpc_command::Invoker<
         CreateOrUpdateDiscoveredAssetRequestPayload,
         CreateOrUpdateDiscoveredAssetResponseSchema,
-        C,
     >,
-)
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static;
+);
 
-impl<C> CreateOrUpdateDiscoveredAssetCommandInvoker<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl CreateOrUpdateDiscoveredAssetCommandInvoker {
     /// Creates a new [`CreateOrUpdateDiscoveredAssetCommandInvoker`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         options: &CommandInvokerOptions,
     ) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();

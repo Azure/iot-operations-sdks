@@ -8,7 +8,7 @@ use std::sync::atomic;
 
 use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
-    session::session::{Session, SessionOptionsBuilder},
+    session::{Session, SessionOptionsBuilder},
     test_utils::{IncomingPacketsTx, InjectedPacketChannels, OutgoingPacketsRx},
 };
 use tokio::runtime::Builder;

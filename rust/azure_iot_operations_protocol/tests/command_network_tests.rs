@@ -6,9 +6,7 @@ use std::{env, time::Duration};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::{
     common::payload_serialize::{
@@ -41,8 +39,8 @@ fn setup_test<
 ) -> Result<
     (
         Session,
-        rpc_command::Invoker<TReq, TResp, SessionManagedClient>,
-        rpc_command::Executor<TReq, TResp, SessionManagedClient>,
+        rpc_command::Invoker<TReq, TResp>,
+        rpc_command::Executor<TReq, TResp>,
         SessionExitHandle,
     ),
     (),
@@ -50,7 +48,7 @@ fn setup_test<
     let _ = Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations", log::LevelFilter::Warn)
         .try_init();
     if env::var("ENABLE_NETWORK_TESTS").is_err() {
@@ -81,7 +79,7 @@ fn setup_test<
         .command_name(client_id)
         .build()
         .unwrap();
-    let invoker: rpc_command::Invoker<TReq, TResp, _> = rpc_command::Invoker::new(
+    let invoker: rpc_command::Invoker<TReq, TResp> = rpc_command::Invoker::new(
         application_context.clone(),
         session.create_managed_client(),
         invoker_options,
@@ -93,7 +91,7 @@ fn setup_test<
         .command_name(client_id)
         .build()
         .unwrap();
-    let executor: rpc_command::Executor<TReq, TResp, _> = rpc_command::Executor::new(
+    let executor: rpc_command::Executor<TReq, TResp> = rpc_command::Executor::new(
         application_context,
         session.create_managed_client(),
         executor_options,
@@ -194,7 +192,7 @@ async fn command_basic_invoke_response_network_tests() {
             // cleanup should be successful
             assert!(invoker.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -305,7 +303,7 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
             // cleanup should be successful
             assert!(invoker.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -558,7 +556,7 @@ async fn command_complex_invoke_response_network_tests() {
             // cleanup should be successful
             assert!(invoker.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 

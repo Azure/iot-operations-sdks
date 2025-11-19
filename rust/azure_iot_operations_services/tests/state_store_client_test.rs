@@ -8,9 +8,7 @@ use std::{env, time::Duration};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 use azure_iot_operations_services::state_store::{self, SetCondition, SetOptions};
@@ -68,20 +66,11 @@ const VALUE3: &[u8] = b"value3";
 const VALUE4: &[u8] = b"value4";
 const TIMEOUT: Duration = Duration::from_secs(10);
 
-fn setup_test(
-    client_id: &str,
-) -> Result<
-    (
-        Session,
-        state_store::Client<SessionManagedClient>,
-        SessionExitHandle,
-    ),
-    (),
-> {
+fn setup_test(client_id: &str) -> Result<(Session, state_store::Client, SessionExitHandle), ()> {
     let _ = Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations", log::LevelFilter::Warn)
         .try_init();
     if env::var("ENABLE_NETWORK_TESTS").is_err() {
@@ -183,7 +172,7 @@ async fn state_store_basic_set_delete_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -310,7 +299,7 @@ async fn state_store_fencing_token_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -367,7 +356,7 @@ async fn state_store_key_not_found_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -489,7 +478,7 @@ async fn state_store_set_conditions_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -573,7 +562,7 @@ async fn state_store_key_set_conditions_2_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -666,7 +655,7 @@ async fn state_store_set_key_notifications_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -760,7 +749,7 @@ async fn state_store_del_key_notifications_network_tests() {
             // Also validates that recv gets None after shutdown.
             assert!(receive_notifications_task.await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -856,7 +845,7 @@ async fn state_store_observe_unobserve_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -1044,7 +1033,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 
@@ -1074,7 +1063,7 @@ async fn state_store_shutdown_right_away_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.try_exit().unwrap();
         }
     });
 

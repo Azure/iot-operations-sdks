@@ -238,7 +238,7 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
         .await
     {
         log::error!("{asset_log_identifier} Error reporting asset status: {e}");
-    };
+    }
 
     loop {
         match asset_client.recv_notification().await {

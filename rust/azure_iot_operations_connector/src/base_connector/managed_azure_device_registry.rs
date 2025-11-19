@@ -1492,7 +1492,7 @@ impl AssetClient {
                         }
                         updates.status_updated = true;
                     }
-                };
+                }
             }
         }
     }
