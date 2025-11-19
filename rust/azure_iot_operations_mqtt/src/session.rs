@@ -335,7 +335,7 @@ impl Session {
             let (connection, connack) = match self.connect(clean_start).await {
                 Ok((connection, connack)) => (connection, connack),
                 Err(e) => {
-                    log::debug!("Failed to connect MQTT session: {e:?}");
+                    log::warn!("Failed to connect MQTT session: {e:?}");
                     prev_reconnection_attempts += 1;
                     match self
                         .reconnect_policy
@@ -346,7 +346,11 @@ impl Session {
                             tokio::time::sleep(delay).await;
                             continue;
                         }
-                        None => return Err(SessionErrorRepr::ReconnectHalted.into()),
+                        None => {
+                            log::info!("Reconnect policy has halted reconnection attempts");
+                            log::info!("Exiting Session due to reconnection halt");
+                            return Err(SessionErrorRepr::ReconnectHalted.into());
+                        }
                     }
                 }
             };
@@ -354,10 +358,11 @@ impl Session {
             // Check to see if the MQTT session has been lost
             if !connack.session_present && prev_connected {
                 // TODO: try and disconnect here?
+                log::info!("MQTT session not present on connection");
+                log::info!("Exiting Session due to MQTT session loss");
                 return Err(SessionErrorRepr::SessionLost.into());
             }
 
-            log::debug!("Connected MQTT session: {connack:?}");
             self.state.transition_connected();
 
             // Indicate we have established a connection at least once, and will now attempt
@@ -383,7 +388,10 @@ impl Session {
             let connection_loss = match disconnected_event {
                 // User-initiated disconnect with exit handle
                 // TODO: Is this truly the only way this happens? I think so, but double-check
-                DisconnectedEvent::ApplicationDisconnect => return Ok(()),
+                DisconnectedEvent::ApplicationDisconnect => {
+                    log::info!("Exiting Session due to application-issued end session");
+                    return Ok(());
+                }
                 DisconnectedEvent::ServerDisconnect(disconnect) => {
                     ConnectionLoss::DisconnectByServer(disconnect)
                 }
@@ -415,6 +423,7 @@ impl Session {
         let result = if let Some(authentication_info) =
             self.auth_policy.as_ref().map(|ap| ap.authentication_info())
         {
+            log::debug!("Using enhanced authentication for MQTT connect");
             match ch.connect_enhanced_auth(
                     // TODO: maybe add something about certs expiring can fail this and why it's ok to panic? Or change this to not panic if it fails and instead end the session
                 self.connect_parameters.connection_transport_config().expect("connection transport config has already been validated and inputs can't change"),
@@ -451,6 +460,7 @@ impl Session {
                 }
             }
         } else {
+            log::debug!("Using standard authentication for MQTT connect");
             match ch.connect(
                 // TODO: maybe add something about certs expiring can fail this and why it's ok to panic? Or change this to not panic if it fails and instead end the session
                 self.connect_parameters.connection_transport_config().expect("connection transport config has already been validated and inputs can't change"),
@@ -488,7 +498,7 @@ impl Session {
         dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     ) {
         while let Some((publish, manual_ack)) = receiver.recv().await {
-            log::debug!("Incoming PUBLISH: {publish:?}");
+            log::debug!("Incoming PUBLISH: {publish:?}"); // TODO: Remove, redundant with MQTT layer
             // Dispatch the message to receivers
             if dispatcher
                 .lock()
