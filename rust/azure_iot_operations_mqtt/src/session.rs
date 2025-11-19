@@ -335,7 +335,7 @@ impl Session {
             let (connection, connack) = match self.connect(clean_start).await {
                 Ok((connection, connack)) => (connection, connack),
                 Err(e) => {
-                    log::debug!("Failed to connect MQTT session: {e:?}");
+                    log::warn!("Failed to connect MQTT session: {e:?}");
                     prev_reconnection_attempts += 1;
                     match self
                         .reconnect_policy
@@ -346,7 +346,11 @@ impl Session {
                             tokio::time::sleep(delay).await;
                             continue;
                         }
-                        None => return Err(SessionErrorRepr::ReconnectHalted.into()),
+                        None => {
+                            log::info!("Reconnect policy has halted reconnection attempts");
+                            log::info!("Exiting Session due to reconnection halt");
+                            return Err(SessionErrorRepr::ReconnectHalted.into());
+                        }
                     }
                 }
             };
@@ -354,12 +358,11 @@ impl Session {
             // Check to see if the MQTT session has been lost
             if !connack.session_present && prev_connected {
                 // TODO: try and disconnect here?
-                log::debug!("MQTT session not present on connection");
-                log::debug!("Exiting Session due to MQTT session loss");
+                log::info!("MQTT session not present on connection");
+                log::info!("Exiting Session due to MQTT session loss");
                 return Err(SessionErrorRepr::SessionLost.into());
             }
 
-            log::debug!("Connected MQTT session: {connack:?}");
             self.state.transition_connected();
 
             // Indicate we have established a connection at least once, and will now attempt
@@ -385,7 +388,10 @@ impl Session {
             let connection_loss = match disconnected_event {
                 // User-initiated disconnect with exit handle
                 // TODO: Is this truly the only way this happens? I think so, but double-check
-                DisconnectedEvent::ApplicationDisconnect => return Ok(()),
+                DisconnectedEvent::ApplicationDisconnect => {
+                    log::info!("Exiting Session due to application-issued end session");
+                    return Ok(());
+                }
                 DisconnectedEvent::ServerDisconnect(disconnect) => {
                     ConnectionLoss::DisconnectByServer(disconnect)
                 }
@@ -492,7 +498,7 @@ impl Session {
         dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     ) {
         while let Some((publish, manual_ack)) = receiver.recv().await {
-            log::debug!("Incoming PUBLISH: {publish:?}");
+            log::debug!("Incoming PUBLISH: {publish:?}"); // TODO: Remove, redundant with MQTT layer
             // Dispatch the message to receivers
             if dispatcher
                 .lock()
