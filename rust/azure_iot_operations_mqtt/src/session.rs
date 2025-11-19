@@ -354,6 +354,8 @@ impl Session {
             // Check to see if the MQTT session has been lost
             if !connack.session_present && prev_connected {
                 // TODO: try and disconnect here?
+                log::debug!("MQTT session not present on connection");
+                log::debug!("Exiting Session due to session loss");
                 return Err(SessionErrorRepr::SessionLost.into());
             }
 
@@ -415,6 +417,7 @@ impl Session {
         let result = if let Some(authentication_info) =
             self.auth_policy.as_ref().map(|ap| ap.authentication_info())
         {
+            log::debug!("Using enhanced authentication for MQTT connect");
             match ch.connect_enhanced_auth(
                     // TODO: maybe add something about certs expiring can fail this and why it's ok to panic? Or change this to not panic if it fails and instead end the session
                 self.connect_parameters.connection_transport_config().expect("connection transport config has already been validated and inputs can't change"),
@@ -451,6 +454,7 @@ impl Session {
                 }
             }
         } else {
+            log::debug!("Using standard authentication for MQTT connect");
             match ch.connect(
                 // TODO: maybe add something about certs expiring can fail this and why it's ok to panic? Or change this to not panic if it fails and instead end the session
                 self.connect_parameters.connection_transport_config().expect("connection transport config has already been validated and inputs can't change"),
