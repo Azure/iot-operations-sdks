@@ -37,7 +37,7 @@ const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess",
     "TelemetrySenderSendWithCloudEventSpecVersionNonNumeric_Success",
     "CommandExecutorValidTopicNamespaceWithTopicTokens_Success",
-    "TelemetryReceiverWithTopicNamespaceAndTopicTokens_Success"
+    "TelemetryReceiverWithTopicNamespaceAndTopicTokens_Success",
 ];
 
 /*
