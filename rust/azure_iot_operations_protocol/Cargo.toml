@@ -29,7 +29,7 @@ fluent-uri = "0.3.2"
 async-std = "1.12"
 async-trait = "0.1.81"
 azure_iot_operations_mqtt = { version = "0.11.0", path = "../azure_iot_operations_mqtt", registry = "aio-sdks", features = ["test-utils"] }
-azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "b051bf497c763626d62c2fb89a0b738403df4c44", features = ["__integration"] }
+azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "6be7651e6e111528167264de4922d4687bc09a5c", features = ["__integration"] }
 ctor = "0.2"
 datatest-stable = "0.2"
 env_logger.workspace = true
