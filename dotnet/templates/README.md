@@ -17,7 +17,7 @@ If you have any questions or need any support, please file an issue [here](https
 To install these templates using the published package in Nuget.org, run the following command:
 
 ```bash
-dotnet new install Azure.Iot.Operations.Template
+dotnet new install Azure.Iot.Operations.Templates
 ```
 
 Alternatively, to install these templates from source, run the following command in this directory:
@@ -47,7 +47,7 @@ Note that this command will create the project "MyConnectorApp" in the same dire
 To uninstall these templates when they were installed from the published package in Nuget.org, run the following command:
 
 ```bash
-dotnet new uninstall Azure.Iot.Operations.Template
+dotnet new uninstall Azure.Iot.Operations.Templates
 ```
 
 Alternatively, to uninstall these templates when they were installed from source, run the following command in this directory:
