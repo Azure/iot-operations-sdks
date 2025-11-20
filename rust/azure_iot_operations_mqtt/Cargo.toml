@@ -14,7 +14,7 @@ publish = true
 [dependencies]
 anyhow = "1.0.86"                                                                   # TODO: reconsider inclusion once TLS library is finalized
 async-trait = "0.1.81"
-azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "bf10ae861513d021f84c58b713ca974be07bd405" }
+azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "448b8c956d9727c6c4c0297321948b7576260350" }
 bytes.workspace = true
 derive_builder.workspace = true
 derive-getters.workspace = true
