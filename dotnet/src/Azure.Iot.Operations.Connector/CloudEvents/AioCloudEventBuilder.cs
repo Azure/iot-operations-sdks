@@ -164,10 +164,7 @@ public static class AioCloudEventBuilder
         }
         else
         {
-            if (string.IsNullOrWhiteSpace(deviceIdentifier))
-            {
-                throw new InvalidOperationException("Unable to determine device identifier: all identification fields are null or empty.");
-            }
+            throw new InvalidOperationException("Unable to determine device identifier: all identification fields are null or empty.");
         }
 
         var source = $"ms-aio:{deviceIdentifier}";
