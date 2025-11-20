@@ -440,9 +440,9 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DetailsSchemaElement ToModel(this DetailsSchemaElementSchema source)
+    internal static ConfigErrorDetails ToModel(this DetailsSchemaElementSchema source)
     {
-        return new DetailsSchemaElement
+        return new ConfigErrorDetails
         {
             Code = source.Code,
             Message = source.Message,

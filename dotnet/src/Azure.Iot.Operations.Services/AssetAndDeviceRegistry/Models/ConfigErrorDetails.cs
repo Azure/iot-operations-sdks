@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record DetailsSchemaElement
+public record ConfigErrorDetails
 {
     public string? Code { get; set; }
 

@@ -15,7 +15,7 @@ public record ConfigError
     /// <summary>
     /// Array of error details that describe the status of each error.
     /// </summary>
-    public List<DetailsSchemaElement>? Details { get; set; } = default;
+    public List<ConfigErrorDetails>? Details { get; set; } = default;
 
     /// <summary>
     /// Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).
