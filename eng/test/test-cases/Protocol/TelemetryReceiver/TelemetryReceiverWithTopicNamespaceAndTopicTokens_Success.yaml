@@ -1,0 +1,33 @@
+---
+test-name: TelemetryReceiverWithTopicNamespaceAndTopicTokens_Success
+description:
+  condition: >-
+    Telemetry is received with a topic namespace and standard/custom topic tokens.
+  expect: >-
+    The telemetry receiver should parse out the standard and custom topic tokens correctly.
+
+prologue:
+  receivers:
+  - topic-namespace: "this/is/a/namespace"
+    telemetry-topic: "mock/{modelId}/test/{ex:foobar}"
+    topic-token-map:
+      "modelId": "dtmi:test:MyModel;1"
+
+actions:
+- action: receive telemetry
+  topic: "this/is/a/namespace/mock/dtmi:test:MyModel;1/test/MyValue"
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  telemetry-count: 1
+  subscribed-topics:
+  - "this/is/a/namespace/mock/dtmi:test:MyModel;1/test/+"
+  acknowledgement-count: 1
+  received-telemetries:
+  - telemetry-value: "Test_Telemetry"
+    topic-tokens:
+      "modelId": "dtmi:test:MyModel;1"
+      "ex:foobar": "MyValue"
+...
