@@ -13,7 +13,7 @@ public record ConfigErrorDetails
 
     public string? Message { get; set; }
 
-    internal bool EqualTo(DetailsSchemaElement other)
+    internal bool EqualTo(ConfigErrorDetails other)
     {
         if (!string.Equals(Code, other.Code))
         {

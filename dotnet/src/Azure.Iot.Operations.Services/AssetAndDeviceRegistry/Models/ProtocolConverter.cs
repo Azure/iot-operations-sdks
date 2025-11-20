@@ -398,9 +398,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DetailsSchemaElementSchema ToProtocol(this ConfigErrorDetails source)
+    internal static AdrBaseService.ConfigErrorDetailsSchema ToProtocol(this ConfigErrorDetails source)
     {
-        return new AdrBaseService.DetailsSchemaElementSchema
+        return new AdrBaseService.ConfigErrorDetailsSchema
         {
             Code = source.Code,
             Message = source.Message,
