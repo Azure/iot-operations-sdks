@@ -345,7 +345,7 @@ impl Cache {
                             return CacheEntryStatus::Expired;
                         }
 
-                        // If the entry is registered, it means it has not been completed yet
+                        // If the entry is in progress, it means it has not been completed yet
                         // any duplicate requests should await the cancellation token to complete
                         // their acknowledgement
                         CacheEntryStatus::InProgress(processing_cancellation_token.clone())
@@ -1969,7 +1969,7 @@ mod tests {
     }
 
     #[test]
-    fn test_cache_found_registered() {
+    fn test_cache_found_in_progress() {
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
         let key = CacheKey {
             response_topic: TopicName::new("test_response_topic").unwrap(),
@@ -1984,7 +1984,7 @@ mod tests {
         match cache.get(&key) {
             CacheEntryStatus::InProgress(_) => { /* Success */ }
             _ => {
-                panic!("Expected registered entry");
+                panic!("Expected in progress entry");
             }
         }
     }
@@ -2104,7 +2104,7 @@ mod tests {
     }
 
     #[test]
-    fn test_cache_registered_expired_with_different_key_set() {
+    fn test_cache_in_progress_expired_with_different_key_set() {
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
         let old_key = CacheKey {
             response_topic: TopicName::new("test_response_topic").unwrap(),
@@ -2159,7 +2159,7 @@ mod tests {
     }
 
     #[test]
-    fn test_cache_found_registered_notified_completion() {
+    fn test_cache_found_in_progress_notified_completion() {
         // This tests the verified flow of registering to completion in case a dupe comes in
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
         let processing_cancellation_token = CancellationToken::new();
@@ -2180,7 +2180,7 @@ mod tests {
             match cache.get(&key) {
                 CacheEntryStatus::InProgress(_) => { /* Success */ }
                 _ => {
-                    panic!("Expected registered entry");
+                    panic!("Expected in progress entry");
                 }
             }
         }
@@ -2192,7 +2192,7 @@ mod tests {
                 assert!(cancellation_token.is_cancelled());
             }
             _ => {
-                panic!("Expected registered entry");
+                panic!("Expected in progress entry");
             }
         }
     }
