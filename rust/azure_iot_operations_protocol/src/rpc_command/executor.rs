@@ -263,12 +263,15 @@ struct CacheKey {
 /// Command Executor Cache Entry struct.
 #[derive(Clone, Debug)]
 enum CacheEntry {
-    Complete {
+    /// Indicates that the response is completed and cached
+    Cached {
         serialized_payload: SerializedPayload,
         properties: PublishProperties,
         expiration_time: Instant,
     },
-    Registered {
+    /// Indicates that the request is in progress
+    InProgress {
+        /// Used for deduped requests to await the completion of the original request in order to ack
         processing_cancellation_token: CancellationToken,
         expiration_time: Instant,
     },
@@ -277,10 +280,6 @@ enum CacheEntry {
 /// Command Executor Cache Entry Status enum.
 ///
 /// Used to indicate the status of a cache entry.
-///
-/// Note: It is not possible for a cache entry to be in progress due to the nature of the underlying
-/// session. If a command request is received, the session will drop duplicates while the original
-/// request is being processed.
 #[derive(Debug)]
 enum CacheEntryStatus {
     /// The cache entry is cached and has not expired
@@ -289,6 +288,7 @@ enum CacheEntryStatus {
         properties: PublishProperties,
         response_message_expiry_interval: u32,
     },
+    /// The cache entry is in progress
     InProgress(CancellationToken),
     /// The cache entry is expired
     Expired,
@@ -315,7 +315,7 @@ impl Cache {
         match cache.get(key) {
             Some(entry) => {
                 match entry {
-                    CacheEntry::Complete {
+                    CacheEntry::Cached {
                         serialized_payload,
                         properties,
                         expiration_time,
@@ -323,7 +323,7 @@ impl Cache {
                         let response_message_expiry_interval =
                             get_response_message_expiry_interval(*expiration_time);
 
-                        // Check if the entry has expired
+                        // Check if the entry has expired, return the entry if not
                         if let Some(response_message_expiry_interval) =
                             response_message_expiry_interval
                         {
@@ -336,7 +336,7 @@ impl Cache {
                             CacheEntryStatus::Expired
                         }
                     }
-                    CacheEntry::Registered {
+                    CacheEntry::InProgress {
                         processing_cancellation_token,
                         expiration_time,
                     } => {
@@ -365,11 +365,21 @@ impl Cache {
         let mut cache = self.0.lock().unwrap();
         cache.retain(|_, entry| {
             match entry {
-                CacheEntry::Complete {
-                    expiration_time, ..
-                } | CacheEntry::Registered {
+                CacheEntry::Cached {
                     expiration_time, ..
                 } => {
+                    // Retain only non-expired entries
+                    expiration_time.elapsed().is_zero()
+                }
+                CacheEntry::InProgress {
+                    expiration_time,
+                    processing_cancellation_token,
+                } => {
+                    // Cancel the processing token for expired entries
+                    // Note, this only affects the case where the entry was marked as in progress,
+                    // but timed out before the drop guard was created
+                    processing_cancellation_token.cancel();
+
                     // Retain only non-expired entries
                     expiration_time.elapsed().is_zero()
                 }
@@ -720,8 +730,11 @@ where
                     };
                     // Process the request
                     log::info!("[{}][pkid: {}] Received request", self.command_name, pkid);
-                    let processing_cancellation_token = CancellationToken::new();
                     let message_received_time = Instant::now();
+
+                    // Create a cancellation token to be used to track cache entry state, once the
+                    // entry has gone from InProgress to Cached or removed, this token will be cancelled
+                    let processing_cancellation_token = CancellationToken::new();
 
                     // Clone properties
                     let properties = m.properties;
@@ -870,7 +883,7 @@ where
                         // If there is no entry for this correlation ID we register it as in progress
                         self.cache.set(
                             cache_key.clone(),
-                            CacheEntry::Registered {
+                            CacheEntry::InProgress {
                                 processing_cancellation_token: processing_cancellation_token
                                     .clone(),
                                 expiration_time: command_expiration_time,
@@ -1165,6 +1178,7 @@ where
         }
     }
 
+    /// Process a duplicate command by sending the cached response.
     async fn process_duplicate_command(
         client: SessionManagedClient,
         response_topic: TopicName,
@@ -1217,6 +1231,7 @@ where
         }
     }
 
+    /// Process a command request, finish building the response and send it.
     #[allow(clippy::type_complexity)]
     async fn process_command(
         application_hlc: Arc<ApplicationHybridLogicalClock>,
@@ -1404,7 +1419,7 @@ where
 
                 // Store cache, even if the response is an error
                 if let Some(cached_key) = response_arguments.cached_key {
-                    let cache_entry = CacheEntry::Complete {
+                    let cache_entry = CacheEntry::Cached {
                         serialized_payload: serialized_payload.clone(),
                         properties: publish_properties.clone(),
                         expiration_time: command_expiration_time,
@@ -1419,7 +1434,8 @@ where
             }
             _ => {
                 // Happens when the command expiration time was not able to be calculated.
-                // We don't cache the response in this case.
+                // We don't cache the response in this case. Note that we did not set a in progress
+                // entry for this case since it requires a valid expiration time.
                 publish_properties.message_expiry_interval =
                     Some(DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS);
             }
@@ -1572,7 +1588,7 @@ fn get_response_message_expiry_interval(command_expiration_time: Instant) -> Opt
 
         match response_message_expiry_interval.try_into() {
             Ok(interval) => Some(interval),
-            Err(_) => unreachable!(), // Unreachable, will be smaller than u32::MAX
+            Err(_) => unreachable!(), // Unreachable, will be less than or equal to u32::MAX, see unit test "test_get_response_message_expiry_interval_at_limit"
         }
     }
 }
@@ -1926,7 +1942,7 @@ mod tests {
             content_type: "application/json".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         };
-        let entry = CacheEntry::Complete {
+        let entry = CacheEntry::Cached {
             serialized_payload: entered_serialized_payload.clone(),
             properties: PublishProperties::default(),
             expiration_time: Instant::now() + Duration::from_secs(60),
@@ -1959,7 +1975,7 @@ mod tests {
             response_topic: TopicName::new("test_response_topic").unwrap(),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let entry = CacheEntry::Registered {
+        let entry = CacheEntry::InProgress {
             processing_cancellation_token: CancellationToken::new(),
             expiration_time: Instant::now() + Duration::from_secs(60),
         };
@@ -1980,7 +1996,7 @@ mod tests {
             response_topic: TopicName::new("test_response_topic").unwrap(),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let entry = CacheEntry::Complete {
+        let entry = CacheEntry::Cached {
             serialized_payload: SerializedPayload {
                 payload: Bytes::from("test_payload").to_vec(),
                 content_type: "application/json".to_string(),
@@ -1999,7 +2015,7 @@ mod tests {
             content_type: "application/json".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         };
-        let new_entry = CacheEntry::Complete {
+        let new_entry = CacheEntry::Cached {
             serialized_payload: new_serialized_payload.clone(),
             properties: PublishProperties::default(),
             expiration_time: Instant::now() + Duration::from_secs(60),
@@ -2034,7 +2050,7 @@ mod tests {
             response_topic: TopicName::new("test_response_topic").unwrap(),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let old_entry = CacheEntry::Complete {
+        let old_entry = CacheEntry::Cached {
             serialized_payload: SerializedPayload {
                 payload: Bytes::from("test_payload").to_vec(),
                 content_type: "application/json".to_string(),
@@ -2057,7 +2073,7 @@ mod tests {
             content_type: "application/json".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         };
-        let new_entry = CacheEntry::Complete {
+        let new_entry = CacheEntry::Cached {
             serialized_payload: new_serialized_payload.clone(),
             properties: PublishProperties::default(),
             expiration_time: Instant::now() + Duration::from_secs(60),
@@ -2094,7 +2110,7 @@ mod tests {
             response_topic: TopicName::new("test_response_topic").unwrap(),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let old_entry = CacheEntry::Registered {
+        let old_entry = CacheEntry::InProgress {
             processing_cancellation_token: CancellationToken::new(),
             expiration_time: Instant::now() - Duration::from_secs(60),
         };
@@ -2112,7 +2128,7 @@ mod tests {
             content_type: "application/json".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         };
-        let new_entry = CacheEntry::Complete {
+        let new_entry = CacheEntry::Cached {
             serialized_payload: new_serialized_payload.clone(),
             properties: PublishProperties::default(),
             expiration_time: Instant::now() + Duration::from_secs(60),
@@ -2151,7 +2167,7 @@ mod tests {
             response_topic: TopicName::new("test_response_topic").unwrap(),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let entry = CacheEntry::Registered {
+        let entry = CacheEntry::InProgress {
             processing_cancellation_token: processing_cancellation_token.clone(),
             expiration_time: Instant::now() + Duration::from_secs(60),
         };
