@@ -55,7 +55,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         )]))
         .auto_ack(false)
         .build()?;
-    let receiver: telemetry::Receiver<SampleTelemetry, _> = telemetry::Receiver::new(
+    let receiver: telemetry::Receiver<SampleTelemetry> = telemetry::Receiver::new(
         application_context,
         session.create_managed_client(),
         receiver_options,
@@ -72,7 +72,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 // Handle incoming telemetry messages
 async fn telemetry_loop(
-    mut telemetry_receiver: telemetry::Receiver<SampleTelemetry, SessionManagedClient>,
+    mut telemetry_receiver: telemetry::Receiver<SampleTelemetry>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     while let Some(msg_result) = telemetry_receiver.recv().await {
         let (message, ack_token) = msg_result?;
