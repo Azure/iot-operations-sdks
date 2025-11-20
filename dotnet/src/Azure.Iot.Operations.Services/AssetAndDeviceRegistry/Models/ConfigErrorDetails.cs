@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record DetailsSchemaElement
+public record ConfigErrorDetails
 {
     public string? Code { get; set; }
 
@@ -13,7 +13,7 @@ public record DetailsSchemaElement
 
     public string? Message { get; set; }
 
-    internal bool EqualTo(DetailsSchemaElement other)
+    internal bool EqualTo(ConfigErrorDetails other)
     {
         if (!string.Equals(Code, other.Code))
         {

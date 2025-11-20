@@ -15,7 +15,7 @@ public record ConfigError
     /// <summary>
     /// Array of error details that describe the status of each error.
     /// </summary>
-    public List<DetailsSchemaElement>? Details { get; set; } = default;
+    public List<ConfigErrorDetails>? Details { get; set; } = default;
 
     /// <summary>
     /// Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).
@@ -50,7 +50,7 @@ public record ConfigError
             }
 
             // All detail entries in this are present exactly once in other
-            foreach (DetailsSchemaElement detail in Details)
+            foreach (ConfigErrorDetails detail in Details)
             {
                 var matches = other.Details.Select((a) => a.EqualTo(detail));
                 if (matches == null || matches.Count() != 1)
@@ -60,7 +60,7 @@ public record ConfigError
             }
 
             // All detail entries in other are present exactly once in this
-            foreach (DetailsSchemaElement detail in other.Details)
+            foreach (ConfigErrorDetails detail in other.Details)
             {
                 var matches = Details.Select((a) => a.EqualTo(detail));
                 if (matches == null || matches.Count() != 1)
