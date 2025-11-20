@@ -13,7 +13,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 
-const CLIENT_ID: &str = "aio_example_client";
+const CLIENT_ID: &str = "aio_send_receive_client";
 const HOSTNAME: &str = "localhost";
 
 const PORT: u16 = 1883;
