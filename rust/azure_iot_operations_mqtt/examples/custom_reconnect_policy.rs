@@ -6,11 +6,11 @@ use std::time::Duration;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::error::ConnectionError;
+use azure_iot_operations_mqtt::control_packet::{PublishProperties, TopicName};
+use azure_iot_operations_mqtt::error::ConnectError;
 use azure_iot_operations_mqtt::session::{
-    reconnect_policy::ReconnectPolicy,
-    session::{Session, SessionOptionsBuilder},
+    reconnect_policy::{ConnectionLoss, ReconnectPolicy},
+    {Session, SessionManagedClient, SessionOptionsBuilder},
 };
 
 const CLIENT_ID: &str = "aio_example_client";
@@ -23,7 +23,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .init();
 
     // Build the options and settings for the session.
@@ -56,7 +56,12 @@ async fn send_messages(client: SessionManagedClient) {
         i += 1;
         let payload = format!("Hello #{i}");
         match client
-            .publish(TOPIC, QoS::AtLeastOnce, false, payload)
+            .publish_qos1(
+                TopicName::new(TOPIC).unwrap(),
+                false,
+                payload,
+                PublishProperties::default(),
+            )
             .await
         {
             Ok(_) => println!("Sent message #{i}"),
@@ -74,15 +79,23 @@ async fn send_messages(client: SessionManagedClient) {
 struct CustomReconnectPolicy {}
 
 impl ReconnectPolicy for CustomReconnectPolicy {
-    fn next_reconnect_delay(
+    fn connect_failure_reconnect_delay(
         &self,
         prev_attempts: u32,
-        _error: &ConnectionError,
+        _error: &ConnectError,
     ) -> Option<Duration> {
         if prev_attempts < 10 {
             Some(Duration::from_secs(1))
         } else {
             None
+        }
+    }
+
+    fn connection_loss_reconnect_delay(&self, reason: &ConnectionLoss) -> Option<Duration> {
+        if matches!(reason, ConnectionLoss::DisconnectByServer(_)) {
+            None
+        } else {
+            Some(Duration::from_secs(1))
         }
     }
 }

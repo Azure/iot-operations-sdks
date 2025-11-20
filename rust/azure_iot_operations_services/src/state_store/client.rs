@@ -8,8 +8,8 @@
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::{
-    interface::{AckToken, ManagedClient},
-    session::SessionMonitor,
+    session::{SessionManagedClient, SessionMonitor},
+    token::AckToken,
 };
 use azure_iot_operations_protocol::{
     application::ApplicationContext, common::hybrid_logical_clock::HybridLogicalClock, rpc_command,
@@ -68,22 +68,14 @@ pub struct ClientOptions {
 }
 
 /// State store client implementation
-pub struct Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync,
-{
-    invoker: rpc_command::Invoker<state_store::resp3::Request, state_store::resp3::Response, C>,
+pub struct Client {
+    invoker: rpc_command::Invoker<state_store::resp3::Request, state_store::resp3::Response>,
     notification_dispatcher:
         Arc<Dispatcher<(state_store::KeyNotification, Option<AckToken>), String>>,
     shutdown_notifier: Arc<Notify>,
 }
 
-impl<C> Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync,
-    C::PubReceiver: Send + Sync,
-{
+impl Client {
     /// Create a new State Store Client
     ///
     /// <div class="warning">
@@ -102,7 +94,7 @@ where
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         session_monitor: SessionMonitor,
         options: ClientOptions,
     ) -> Result<Self, Error> {
@@ -119,7 +111,6 @@ where
         let invoker: rpc_command::Invoker<
             state_store::resp3::Request,
             state_store::resp3::Response,
-            C,
         > = rpc_command::Invoker::new(application_context.clone(), client.clone(), invoker_options)
             .map_err(ErrorKind::from)?;
 
@@ -145,7 +136,7 @@ where
 
         // Start the receive key notification loop
         task::spawn({
-            let notification_receiver: telemetry::Receiver<state_store::resp3::Operation, C> =
+            let notification_receiver: telemetry::Receiver<state_store::resp3::Operation> =
                 telemetry::Receiver::new(application_context, client, receiver_options)
                     .map_err(ErrorKind::from)?;
             let shutdown_notifier_clone = shutdown_notifier.clone();
@@ -578,7 +569,7 @@ where
 
     async fn receive_key_notification_loop(
         shutdown_notifier: Arc<Notify>,
-        mut receiver: telemetry::Receiver<state_store::resp3::Operation, C>,
+        mut receiver: telemetry::Receiver<state_store::resp3::Operation>,
         notification_dispatcher: Arc<
             Dispatcher<(state_store::KeyNotification, Option<AckToken>), String>,
         >,
@@ -664,11 +655,7 @@ where
     }
 }
 
-impl<C> Drop for Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync,
-    C::PubReceiver: Send + Sync,
-{
+impl Drop for Client {
     fn drop(&mut self) {
         self.shutdown_notifier.notify_one();
         log::info!("State Store Client has been dropped.");

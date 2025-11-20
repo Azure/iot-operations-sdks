@@ -3,19 +3,22 @@
 
 use std::{env, sync::Arc, time::Duration};
 
-use test_case::test_case;
 use tokio::sync::Notify;
 
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubSub, PubReceiver};
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::{
+    MqttConnectionSettingsBuilder,
+    control_packet::{
+        PublishProperties, RetainHandling, SubscribeProperties, TopicFilter, TopicName,
+    },
+};
 
 fn setup_test(client_id: &str) -> Result<Session, ()> {
     let _ = env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations", log::LevelFilter::Warn)
         .try_init();
     if env::var("ENABLE_NETWORK_TESTS").is_err() {
@@ -40,10 +43,8 @@ fn setup_test(client_id: &str) -> Result<Session, ()> {
     Ok(session)
 }
 
-#[test_case(QoS::AtLeastOnce; "QoS 1")]
-//#[test_case(QoS::ExactlyOnce; "QoS 2")]
 #[tokio::test]
-async fn test_simple_recv(qos: QoS) {
+async fn test_simple_recv() {
     let client_id = "network_test_simple_recv";
     let Ok(session) = setup_test(client_id) else {
         // Network tests disabled, skipping tests
@@ -70,7 +71,15 @@ async fn test_simple_recv(qos: QoS) {
             // Wait for subscribe from receiver task
             notify_sub.notified().await;
             // Publish a message
-            let ct = client.publish(topic, qos, false, payload).await.unwrap();
+            let ct = client
+                .publish_qos1(
+                    TopicName::new(topic).unwrap(),
+                    false,
+                    payload,
+                    PublishProperties::default(),
+                )
+                .await
+                .unwrap();
             assert!(ct.await.is_ok());
             // Indicate completion
             sender_done.notify_one();
@@ -82,10 +91,23 @@ async fn test_simple_recv(qos: QoS) {
         let client = managed_client.clone();
         let notify_sub = notify_sub.clone();
         let receiver_done = receiver_done.clone();
+        let topic_filter = TopicFilter::new(topic).unwrap();
         async move {
-            let mut receiver = client.create_filtered_pub_receiver(topic).unwrap();
+            let mut receiver = client.create_filtered_pub_receiver(topic_filter.clone());
             // Subscribe
-            client.subscribe(topic, qos).await.unwrap().await.unwrap();
+            client
+                .subscribe(
+                    topic_filter,
+                    QoS::AtLeastOnce,
+                    false,
+                    false,
+                    RetainHandling::DoNotSend,
+                    SubscribeProperties::default(),
+                )
+                .await
+                .unwrap()
+                .await
+                .unwrap();
             // Notify the sender that the subscription is ready
             notify_sub.notify_one();
             // Wait for message
@@ -100,7 +122,7 @@ async fn test_simple_recv(qos: QoS) {
     let test_complete = async move {
         sender_done.notified().await;
         receiver_done.notified().await;
-        exit_handle.try_exit().await
+        exit_handle.try_exit()
     };
 
     assert!(
@@ -118,10 +140,8 @@ async fn test_simple_recv(qos: QoS) {
     );
 }
 
-#[test_case(QoS::AtLeastOnce; "QoS 1")]
-// #[test_case(QoS::ExactlyOnce; "QoS 2")]
 #[tokio::test]
-async fn test_simple_recv_manual_ack(qos: QoS) {
+async fn test_simple_recv_manual_ack() {
     let client_id = "network_test_simple_recv_manual_ack";
     let Ok(session) = setup_test(client_id) else {
         // Network tests disabled, skipping tests
@@ -149,7 +169,15 @@ async fn test_simple_recv_manual_ack(qos: QoS) {
             // Wait for subscribe from receiver task
             notify_sub.notified().await;
             // Publish a message
-            let ct = client.publish(topic, qos, false, payload).await.unwrap();
+            let ct = client
+                .publish_qos1(
+                    TopicName::new(topic).unwrap(),
+                    false,
+                    payload,
+                    PublishProperties::default(),
+                )
+                .await
+                .unwrap();
             let ct_complete = tokio::task::spawn(ct);
             assert!(!ct_complete.is_finished());
             // Wait for ack from receiver task
@@ -167,10 +195,23 @@ async fn test_simple_recv_manual_ack(qos: QoS) {
         let notify_ack = notify_ack.clone();
         let notify_sub = notify_sub.clone();
         let receiver_done = receiver_done.clone();
+        let topic_filter = TopicFilter::new(topic).unwrap();
         async move {
-            let mut receiver = client.create_filtered_pub_receiver(topic).unwrap();
+            let mut receiver = client.create_filtered_pub_receiver(topic_filter.clone());
             // Subscribe
-            client.subscribe(topic, qos).await.unwrap().await.unwrap();
+            client
+                .subscribe(
+                    topic_filter,
+                    QoS::AtLeastOnce,
+                    false,
+                    false,
+                    RetainHandling::DoNotSend,
+                    SubscribeProperties::default(),
+                )
+                .await
+                .unwrap()
+                .await
+                .unwrap();
             // Notify the sender that the subscription is ready
             notify_sub.notify_one();
             // Wait for message
@@ -190,7 +231,7 @@ async fn test_simple_recv_manual_ack(qos: QoS) {
     let test_complete = async move {
         sender_done.notified().await;
         receiver_done.notified().await;
-        exit_handle.try_exit().await
+        exit_handle.try_exit()
     };
 
     let sender_jh = tokio::task::spawn(sender);

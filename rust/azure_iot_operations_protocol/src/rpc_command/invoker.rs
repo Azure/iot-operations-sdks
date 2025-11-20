@@ -3,10 +3,9 @@
 
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::session::managed_client::SessionManagedClient;
 use azure_iot_operations_mqtt::{
     control_packet::{Publish, PublishProperties, QoS, TopicFilter},
-    session::managed_client::SessionPubReceiver,
+    session::{SessionManagedClient, SessionPubReceiver},
 };
 use bytes::Bytes;
 use iso8601_duration;
@@ -1424,7 +1423,7 @@ mod tests {
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-    use azure_iot_operations_mqtt::session::session::{Session, SessionOptionsBuilder};
+    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 
     use super::*;
     use crate::application::ApplicationContextBuilder;
