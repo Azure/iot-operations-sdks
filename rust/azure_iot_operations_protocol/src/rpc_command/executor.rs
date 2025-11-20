@@ -15,7 +15,7 @@ use azure_iot_operations_mqtt::{
 use bytes::Bytes;
 use tokio::sync::oneshot;
 use tokio::time::{Instant, timeout};
-use tokio_util::sync::CancellationToken;
+use tokio_util::sync::{CancellationToken, DropGuard};
 
 use crate::{
     ProtocolVersion,
@@ -191,7 +191,7 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
                         "content_type",
-                        Value::String(serialized_payload.content_type.to_string()),
+                        Value::String(serialized_payload.content_type.clone()),
                         Some(format!(
                             "Content type '{}' of command response is not valid UTF-8",
                             serialized_payload.content_type
@@ -263,11 +263,14 @@ struct CacheKey {
 }
 
 /// Command Executor Cache Entry struct.
-#[derive(Clone, PartialEq, Debug)]
-struct CacheEntry {
-    serialized_payload: SerializedPayload,
-    properties: PublishProperties,
-    expiration_time: Instant,
+#[derive(Clone, Debug)]
+enum CacheEntry {
+    Complete {
+        serialized_payload: SerializedPayload,
+        properties: PublishProperties,
+        expiration_time: Instant,
+    },
+    Registered(CancellationToken),
 }
 
 /// Command Executor Cache Entry Status enum.
@@ -277,10 +280,15 @@ struct CacheEntry {
 /// Note: It is not possible for a cache entry to be in progress due to the nature of the underlying
 /// session. If a command request is received, the session will drop duplicates while the original
 /// request is being processed.
-#[derive(PartialEq, Debug)]
+#[derive(Debug)]
 enum CacheEntryStatus {
     /// The cache entry is cached and has not expired
-    Cached(CacheEntry),
+    Cached {
+        serialized_payload: SerializedPayload,
+        properties: PublishProperties,
+        response_message_expiry_interval: u32,
+    },
+    InProgress(CancellationToken),
     /// The cache entry is expired
     Expired,
     /// The cache entry is not found
@@ -302,13 +310,40 @@ impl Cache {
     /// Returns a [`CacheEntryStatus`] indicating the status of the cache entry.
     fn get(&self, key: &CacheKey) -> CacheEntryStatus {
         let cache = self.0.lock().unwrap();
-        cache.get(key).map_or(CacheEntryStatus::NotFound, |entry| {
-            if entry.expiration_time.elapsed().is_zero() {
-                CacheEntryStatus::Cached(entry.clone())
-            } else {
-                CacheEntryStatus::Expired
+
+        match cache.get(key) {
+            Some(entry) => {
+                match entry {
+                    CacheEntry::Complete {
+                        serialized_payload,
+                        properties,
+                        expiration_time,
+                    } => {
+                        let response_message_expiry_interval = get_response_message_expiry_interval(*expiration_time);
+
+                        // Check if the entry has expired
+                        if response_message_expiry_interval == 0 {
+                            CacheEntryStatus::Expired
+                        } else {
+                            CacheEntryStatus::Cached {
+                                serialized_payload: serialized_payload.clone(),
+                                properties: properties.clone(),
+                                response_message_expiry_interval,
+                            }
+                        }
+                    }
+                    CacheEntry::Registered(cancellation_token) => {
+                        // If the entry is registered, it means it has not been completed yet
+                        // any duplicate requests should await the cancellation token to complete
+                        // their acknowledgement
+                        CacheEntryStatus::InProgress(cancellation_token.clone())
+                    }
+                }
             }
-        })
+            None => {
+                CacheEntryStatus::NotFound
+            }
+        }
     }
 
     /// Set a cache entry in the cache. Also removes expired cache entries.
@@ -318,7 +353,20 @@ impl Cache {
     /// `entry` - The cache entry to set.
     fn set(&self, key: CacheKey, entry: CacheEntry) {
         let mut cache = self.0.lock().unwrap();
-        cache.retain(|_, entry| entry.expiration_time.elapsed().is_zero());
+        cache.retain(|_, entry| {
+            match entry {
+                CacheEntry::Complete {
+                    expiration_time, ..
+                } => {
+                    // Retain only non-expired entries
+                    expiration_time.elapsed().is_zero()
+                }
+                CacheEntry::Registered(_) => {
+                    // Always retain registered entries, they will always be transitioned to complete
+                    true
+                }
+            }
+        });
         cache.insert(key, entry);
     }
 }
@@ -664,6 +712,7 @@ where
                     };
                     // Process the request
                     log::info!("[{}][pkid: {}] Received request", self.command_name, pkid);
+                    let processing_cancellation_token = CancellationToken::new();
                     let message_received_time = Instant::now();
 
                     // Clone properties
@@ -770,7 +819,7 @@ where
                             Some("Correlation data missing".to_string());
                         response_arguments.invalid_property_name =
                             Some("Correlation Data".to_string());
-                    };
+                    }
 
                     'process_request: {
                         // If the cache key was not created it means the correlation data was invalid
@@ -800,10 +849,21 @@ where
                         // Check cache
                         response_arguments.cached_entry_status = self.cache.get(cache_key);
 
-                        // If the cache entry is not found, continue processing the request
-                        if response_arguments.cached_entry_status != CacheEntryStatus::NotFound {
+                        if !matches!(
+                            response_arguments.cached_entry_status,
+                            CacheEntryStatus::NotFound
+                        ) {
+                            // This means there is an entry for this correlation ID so either we
+                            // have a cached response, the request is already being processed or it
+                            // is expired.
                             break 'process_request;
                         }
+
+                        // If there is no entry for this correlation ID we register it as in progress
+                        self.cache.set(
+                            cache_key.clone(),
+                            CacheEntry::Registered(processing_cancellation_token.clone()),
+                        );
 
                         // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
                         let mut request_protocol_version = DEFAULT_RPC_COMMAND_PROTOCOL_VERSION; // assume default version if none is provided
@@ -824,7 +884,7 @@ where
                                 response_arguments.supported_protocol_major_versions =
                                     Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
                                 response_arguments.request_protocol_version =
-                                    Some(protocol_version.to_string());
+                                    Some(protocol_version.clone());
                                 break 'process_request;
                             }
                         }
@@ -973,10 +1033,10 @@ where
                                             client_clone,
                                             pkid,
                                             response_arguments,
-                                            Some(response_rx),
-                                            Some(publish_completion_tx),
+                                            response_rx,
+                                            publish_completion_tx,
                                             cache_clone,
-
+                                            processing_cancellation_token.drop_guard(),
                                         ) => {
                                             // Finished processing command
                                             handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
@@ -990,23 +1050,62 @@ where
 
                     // Checking that command expiration time was calculated and has not
                     // expired. If it has, we do not respond to the invoker.
-                    if let Some(command_expiration_time) = command_expiration_time {
-                        if !command_expiration_time.elapsed().is_zero() {
+                    if let Some(command_expiration_time) = command_expiration_time
+                        && !command_expiration_time.elapsed().is_zero() {
                             continue;
                         }
-                    }
 
-                    // If the command has expired, we do not respond to the invoker.
                     match response_arguments.cached_entry_status {
+                        CacheEntryStatus::Cached {
+                            serialized_payload,
+                            properties,
+                            response_message_expiry_interval,
+                        } => {
+                            // Process the duplicate command
+                            tokio::task::spawn({
+                                let client_clone = self.mqtt_client.clone();
+                                let executor_cancellation_token_clone =
+                                    self.executor_cancellation_token.clone();
+                                async move {
+                                    tokio::select! {
+                                        () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
+                                        () = Self::process_duplicate_command(
+                                            client_clone,
+                                            response_arguments.response_topic,
+                                            serialized_payload,
+                                            properties,
+                                            response_message_expiry_interval,
+                                            response_arguments.command_name,
+                                            pkid,
+                                        ) => {
+                                            // Finished processing duplicate command
+                                            handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
+                                        },
+                                    }
+                                }
+                            });
+                        }
+                        CacheEntryStatus::InProgress(cancellation_token) => {
+                            // If the command is currently in progress that means this message
+                            // is a dupe and we need to wait for the original to complete before
+                            // acking.
+                            tokio::task::spawn(handle_in_progress_duplicate_ack(
+                                ack_token,
+                                cancellation_token.clone(),
+                                self.executor_cancellation_token.clone(),
+                                pkid,
+                            ));
+                        }
                         CacheEntryStatus::Expired => {
+                            // If the command has expired, we do not respond to the invoker.
                             log::debug!(
                                 "[{}][pkid: {}] Duplicate request has expired",
                                 self.command_name,
                                 pkid
                             );
-                            continue;
                         }
-                        _ => {
+                        CacheEntryStatus::NotFound => {
+                            // Indicates the command should be processed as an error
                             tokio::task::spawn({
                                 let app_hlc_clone = self.application_hlc.clone();
                                 let client_clone = self.mqtt_client.clone();
@@ -1017,14 +1116,13 @@ where
                                 async move {
                                     tokio::select! {
                                         () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
-                                        () = Self::process_command(
+                                        () = Self::process_error(
                                             app_hlc_clone,
                                             client_clone,
                                             pkid,
                                             response_arguments,
-                                            None,
-                                            None,
                                             cache_clone,
+                                            processing_cancellation_token.drop_guard(),
                                         ) => {
                                             // Finished processing command
                                             handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
@@ -1055,238 +1153,399 @@ where
         }
     }
 
+    async fn process_duplicate_command(
+        client: SessionManagedClient,
+        response_topic: TopicName,
+        serialized_payload: SerializedPayload,
+        mut publish_properties: PublishProperties,
+        response_message_expiry_interval: u32,
+        command_name: String,
+        pkid: u16,
+    ) {
+        log::debug!(
+            "[{command_name}][pkid: {pkid}] Duplicate request, responding with cached response"
+        );
+
+        publish_properties.message_expiry_interval = Some(response_message_expiry_interval);
+
+        match client
+            .publish_qos1(
+                response_topic,
+                false,
+                serialized_payload.payload,
+                publish_properties,
+            )
+            .await
+        {
+            Ok(publish_completion_token) => {
+                // Wait and handle puback
+                match publish_completion_token.await {
+                    Ok(puback) => {
+                        match puback.as_result() {
+                            Ok(_) => { /* Success */ }
+                            Err(_e) => {
+                                log::error!(
+                                    "[{command_name}][pkid: {pkid}] Puback error on cached response: {puback:?}"
+                                );
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        log::error!(
+                            "[{command_name}][pkid: {pkid}] Publish completion error on cached response: {e}"
+                        );
+                    }
+                }
+            }
+            Err(e) => {
+                log::error!(
+                    "[{command_name}][pkid: {pkid}] Client error on cached response publish: {e}"
+                );
+            }
+        }
+    }
+
+    async fn process_error(
+        application_hlc: Arc<ApplicationHybridLogicalClock>,
+        client: SessionManagedClient,
+        pkid: u16,
+        response_arguments: ResponseArguments,
+        cache: Cache,
+        _processing_drop_guard: DropGuard,
+    ) {
+        let serialized_payload = SerializedPayload::default();
+        let mut publish_properties = PublishProperties::default();
+
+        let mut user_properties: Vec<(String, String)> = Vec::new();
+
+        user_properties.push((
+            UserProperty::IsApplicationError.to_string(),
+            response_arguments.is_application_error.to_string(),
+        ));
+
+        user_properties.push((
+            UserProperty::Status.to_string(),
+            (response_arguments.status_code as u16).to_string(),
+        ));
+
+        user_properties.push((
+            UserProperty::ProtocolVersion.to_string(),
+            RPC_COMMAND_PROTOCOL_VERSION.to_string(),
+        ));
+
+        user_properties.push((
+            UserProperty::SourceId.to_string(),
+            client.client_id().to_string(),
+        ));
+
+        // Update HLC and use as the timestamp.
+        // If there are errors updating the HLC (unlikely when updating against now),
+        // the timestamp will not be added.
+        if let Ok(timestamp_str) = application_hlc.update_now() {
+            user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
+        }
+
+        if let Some(status_message) = response_arguments.status_message {
+            log::error!(
+                "[{}][pkid: {}] {}",
+                response_arguments.command_name,
+                pkid,
+                status_message
+            );
+            user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
+        }
+
+        if let Some(name) = response_arguments.invalid_property_name {
+            user_properties.push((UserProperty::InvalidPropertyName.to_string(), name));
+        }
+
+        if let Some(value) = response_arguments.invalid_property_value {
+            user_properties.push((UserProperty::InvalidPropertyValue.to_string(), value));
+        }
+
+        if let Some(supported_protocol_major_versions) =
+            response_arguments.supported_protocol_major_versions
+        {
+            user_properties.push((
+                UserProperty::SupportedMajorVersions.to_string(),
+                supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
+            ));
+        }
+
+        if let Some(request_protocol_version) = response_arguments.request_protocol_version {
+            user_properties.push((
+                UserProperty::RequestProtocolVersion.to_string(),
+                request_protocol_version,
+            ));
+        }
+
+        // Create publish properties
+        publish_properties.payload_format_indicator = serialized_payload.format_indicator.into();
+        publish_properties.topic_alias = None;
+        publish_properties.response_topic = None;
+        publish_properties.correlation_data = response_arguments.correlation_data;
+        publish_properties.user_properties = user_properties;
+        publish_properties.subscription_identifiers = Vec::new();
+        publish_properties.content_type = Some(serialized_payload.content_type.clone());
+
+        match response_arguments.command_expiration_time {
+            Some(command_expiration_time) => {
+                let response_message_expiry_interval = get_response_message_expiry_interval(command_expiration_time);
+
+                if response_message_expiry_interval == 0 {
+                    log::error!(
+                        "[{}][pkid: {}] Request timed out",
+                        response_arguments.command_name,
+                        pkid
+                    );
+                    return;
+                }
+
+                publish_properties.message_expiry_interval = Some(response_message_expiry_interval);
+
+                // Store cache, even if the response is an error
+                if let Some(cached_key) = response_arguments.cached_key {
+                    // Replace the entry from in progress to complete.
+                    let cache_entry = CacheEntry::Complete {
+                        serialized_payload: serialized_payload.clone(),
+                        properties: publish_properties.clone(),
+                        expiration_time: command_expiration_time,
+                    };
+                    log::info!(
+                        "[{}][pkid: {}] Caching response",
+                        response_arguments.command_name,
+                        pkid
+                    );
+                    cache.set(cached_key, cache_entry);
+                }
+            }
+            _ => {
+                // Happens when the command expiration time was not able to be calculated.
+                // We don't cache the response in this case.
+                publish_properties.message_expiry_interval =
+                    Some(DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS);
+            }
+        }
+
+        // Try to publish
+        match client
+            .publish_qos1(
+                response_arguments.response_topic,
+                false,
+                serialized_payload.payload,
+                publish_properties,
+            )
+            .await
+        {
+            Ok(publish_completion_token) => {
+                // Wait and handle puback
+                match publish_completion_token.await {
+                    Ok(puback) => {
+                        match puback.as_result() {
+                            Ok(()) => { /* Success */ }
+                            Err(_e) => {
+                                log::error!(
+                                    "[{}][pkid: {}] Puback error: {puback:?}",
+                                    response_arguments.command_name,
+                                    pkid
+                                );
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        log::error!(
+                            "[{}][pkid: {}] Publish completion error: {e}",
+                            response_arguments.command_name,
+                            pkid
+                        );
+                    }
+                }
+            }
+            Err(e) => {
+                log::error!(
+                    "[{}][pkid: {}] Client error on command executor response publish: {e}",
+                    response_arguments.command_name,
+                    pkid
+                );
+            }
+        }
+    }
+
     async fn process_command(
         application_hlc: Arc<ApplicationHybridLogicalClock>,
         client: SessionManagedClient,
         pkid: u16,
         mut response_arguments: ResponseArguments,
-        response_rx: Option<oneshot::Receiver<Response<TResp>>>,
-        completion_tx: Option<oneshot::Sender<Result<(), AIOProtocolError>>>,
+        response_rx: oneshot::Receiver<Response<TResp>>,
+        completion_tx: oneshot::Sender<Result<(), AIOProtocolError>>,
         cache: Cache,
+        _processing_drop_guard: DropGuard,
     ) {
         let mut serialized_payload = SerializedPayload::default();
         let mut publish_properties = PublishProperties::default();
-        let cache_not_found = response_arguments.cached_entry_status == CacheEntryStatus::NotFound;
 
-        if let CacheEntryStatus::Cached(entry) = response_arguments.cached_entry_status {
-            // The command has already been processed, we can respond with the cached response
-            log::debug!(
-                "[{}][pkid: {}] Duplicate request, responding with cached response",
-                response_arguments.command_name,
-                pkid
-            );
-            publish_properties = entry.properties;
-            serialized_payload = entry.serialized_payload;
-        } else {
-            let mut user_properties: Vec<(String, String)> = Vec::new();
-            'process_response: {
-                let Some(command_expiration_time) = response_arguments.command_expiration_time
-                else {
-                    break 'process_response;
-                };
-                if let Some(response_rx) = response_rx {
-                    // Wait for response
-                    let response = if let Ok(response_timer) = timeout(
-                        command_expiration_time.duration_since(Instant::now()),
-                        response_rx,
-                    )
-                    .await
-                    {
-                        if let Ok(response_app) = response_timer {
-                            response_app
-                        } else {
-                            // Happens when the sender is dropped by the application.
-                            response_arguments.status_code = StatusCode::InternalServerError;
-                            response_arguments.status_message =
-                                Some("Request has been dropped by the application".to_string());
-                            response_arguments.is_application_error = true;
-                            break 'process_response;
-                        }
-                    } else {
-                        log::error!(
-                            "[{}][pkid: {}] Request timed out",
-                            response_arguments.command_name,
-                            pkid
-                        );
-                        // Notify the application that a timeout occurred
-                        if let Some(completion_tx) = completion_tx {
-                            let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
-                                false,
-                                None,
-                                &response_arguments.command_name,
-                                Duration::from_secs(
-                                    response_arguments
-                                        .message_expiry_interval
-                                        .unwrap_or_default()
-                                        .into(),
-                                ),
-                                None,
-                                Some(response_arguments.command_name.clone()),
-                            )));
-                        }
-                        return;
-                    };
+        let mut user_properties: Vec<(String, String)> = Vec::new();
 
-                    user_properties = response.custom_user_data;
+        // Wait for response
+        if let Ok(response_timer) = timeout(
+            response_arguments
+                .command_expiration_time
+                .unwrap()
+                .duration_since(Instant::now()),
+            response_rx,
+        )
+        .await
+        {
+            if let Ok(response_app) = response_timer {
+                user_properties = response_app.custom_user_data;
+                // Serialize payload
+                serialized_payload = response_app.serialized_payload;
 
-                    // Serialize payload
-                    serialized_payload = response.serialized_payload;
-
-                    if serialized_payload.payload.is_empty() {
-                        response_arguments.status_code = StatusCode::NoContent;
-                    }
-                } else { /* Error */
+                if serialized_payload.payload.is_empty() {
+                    response_arguments.status_code = StatusCode::NoContent;
                 }
-            }
-
-            if response_arguments.status_code != StatusCode::Ok
-                || response_arguments.status_code != StatusCode::NoContent
-            {
+            } else {
+                // Happens when the sender is dropped by the application.
+                response_arguments.status_code = StatusCode::InternalServerError;
+                response_arguments.status_message =
+                    Some("Request has been dropped by the application".to_string());
+                response_arguments.is_application_error = true;
                 user_properties.push((
                     UserProperty::IsApplicationError.to_string(),
                     response_arguments.is_application_error.to_string(),
                 ));
             }
+        } else {
+            log::error!(
+                "[{}][pkid: {}] Request timed out",
+                response_arguments.command_name,
+                pkid
+            );
+            // Notify the application that a timeout occurred
+            let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
+                false,
+                None,
+                &response_arguments.command_name,
+                Duration::from_secs(
+                    response_arguments
+                        .message_expiry_interval
+                        .unwrap_or_default()
+                        .into(),
+                ),
+                None,
+                Some(response_arguments.command_name.clone()),
+            )));
+            return;
+        }
 
+        user_properties.push((
+            UserProperty::Status.to_string(),
+            (response_arguments.status_code as u16).to_string(),
+        ));
+
+        user_properties.push((
+            UserProperty::ProtocolVersion.to_string(),
+            RPC_COMMAND_PROTOCOL_VERSION.to_string(),
+        ));
+
+        user_properties.push((
+            UserProperty::SourceId.to_string(),
+            client.client_id().to_string(),
+        ));
+
+        // Update HLC and use as the timestamp.
+        // If there are errors updating the HLC (unlikely when updating against now),
+        // the timestamp will not be added.
+        if let Ok(timestamp_str) = application_hlc.update_now() {
+            user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
+        }
+
+        if let Some(status_message) = response_arguments.status_message {
+            log::error!(
+                "[{}][pkid: {}] {}",
+                response_arguments.command_name,
+                pkid,
+                status_message
+            );
+            user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
+        }
+
+        if let Some(name) = response_arguments.invalid_property_name {
+            user_properties.push((UserProperty::InvalidPropertyName.to_string(), name));
+        }
+
+        if let Some(value) = response_arguments.invalid_property_value {
+            user_properties.push((UserProperty::InvalidPropertyValue.to_string(), value));
+        }
+
+        if let Some(supported_protocol_major_versions) =
+            response_arguments.supported_protocol_major_versions
+        {
             user_properties.push((
-                UserProperty::Status.to_string(),
-                (response_arguments.status_code as u16).to_string(),
+                UserProperty::SupportedMajorVersions.to_string(),
+                supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
             ));
+        }
 
+        if let Some(request_protocol_version) = response_arguments.request_protocol_version {
             user_properties.push((
-                UserProperty::ProtocolVersion.to_string(),
-                RPC_COMMAND_PROTOCOL_VERSION.to_string(),
+                UserProperty::RequestProtocolVersion.to_string(),
+                request_protocol_version,
             ));
+        }
 
-            user_properties.push((
-                UserProperty::SourceId.to_string(),
-                client.client_id().to_string(),
-            ));
-
-            // Update HLC and use as the timestamp.
-            // If there are errors updating the HLC (unlikely when updating against now),
-            // the timestamp will not be added.
-            if let Ok(timestamp_str) = application_hlc.update_now() {
-                user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
-            }
-
-            if let Some(status_message) = response_arguments.status_message {
-                log::error!(
-                    "[{}][pkid: {}] {}",
-                    response_arguments.command_name,
-                    pkid,
-                    status_message
-                );
-                user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
-            }
-
-            if let Some(name) = response_arguments.invalid_property_name {
-                user_properties.push((UserProperty::InvalidPropertyName.to_string(), name));
-            }
-
-            if let Some(value) = response_arguments.invalid_property_value {
-                user_properties.push((UserProperty::InvalidPropertyValue.to_string(), value));
-            }
-
-            if let Some(supported_protocol_major_versions) =
-                response_arguments.supported_protocol_major_versions
-            {
-                user_properties.push((
-                    UserProperty::SupportedMajorVersions.to_string(),
-                    supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
-                ));
-            }
-
-            if let Some(request_protocol_version) = response_arguments.request_protocol_version {
-                user_properties.push((
-                    UserProperty::RequestProtocolVersion.to_string(),
-                    request_protocol_version,
-                ));
-            }
-
-            // Create publish properties
-            publish_properties.payload_format_indicator =
-                serialized_payload.format_indicator.into();
-            publish_properties.topic_alias = None;
-            publish_properties.response_topic = None;
-            publish_properties.correlation_data = response_arguments.correlation_data;
-            publish_properties.user_properties = user_properties;
-            publish_properties.subscription_identifiers = Vec::new();
-            publish_properties.content_type = Some(serialized_payload.content_type.to_string());
-        };
+        // Create publish properties
+        publish_properties.payload_format_indicator = serialized_payload.format_indicator.into();
+        publish_properties.topic_alias = None;
+        publish_properties.response_topic = None;
+        publish_properties.correlation_data = response_arguments.correlation_data;
+        publish_properties.user_properties = user_properties;
+        publish_properties.subscription_identifiers = Vec::new();
+        publish_properties.content_type = Some(serialized_payload.content_type.to_string());
 
         match response_arguments.command_expiration_time {
             Some(command_expiration_time) => {
-                // Calculating remaining time until the command expires
-                let response_message_expiry_interval =
-                    command_expiration_time.saturating_duration_since(Instant::now());
-                if response_message_expiry_interval.is_zero() {
+                let response_message_expiry_interval = get_response_message_expiry_interval(command_expiration_time);
+
+                if response_message_expiry_interval == 0 {
                     log::error!(
                         "[{}][pkid: {}] Request timed out",
                         response_arguments.command_name,
                         pkid
                     );
                     // Notify the application that a timeout occurred
-                    if let Some(completion_tx) = completion_tx {
-                        let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
-                            false,
-                            None,
-                            &response_arguments.command_name,
-                            Duration::from_secs(
-                                response_arguments
-                                    .message_expiry_interval
-                                    .unwrap_or_default()
-                                    .into(),
-                            ),
-                            None,
-                            Some(response_arguments.command_name.clone()),
-                        )));
-                    }
+                    let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
+                        false,
+                        None,
+                        &response_arguments.command_name,
+                        Duration::from_secs(
+                            response_arguments
+                                .message_expiry_interval
+                                .unwrap_or_default()
+                                .into(),
+                        ),
+                        None,
+                        Some(response_arguments.command_name.clone()),
+                    )));
                     return;
                 }
-
-                // Rounding remaining expiration time up to the nearest second
-                let response_message_expiry_interval =
-                    if response_message_expiry_interval.subsec_nanos() != 0 {
-                        // NOTE: We should always be able to add 1 since the seconds portion of the
-                        // response_message_expiry_interval is always at least one less than its initial
-                        // value when received in this block.
-                        // NOTE: Rounding up to the nearest second to ensure the invoker will time out
-                        // at or before the response expires.
-                        response_message_expiry_interval.as_secs().saturating_add(1)
-                    } else {
-                        response_message_expiry_interval.as_secs()
-                    };
-
-                let Ok(response_message_expiry_interval) =
-                    response_message_expiry_interval.try_into()
-                else {
-                    // Unreachable, will be smaller than u32::MAX
-                    log::error!(
-                        "[{}][pkid: {}] Message expiry interval is too large",
-                        response_arguments.command_name,
-                        pkid
-                    );
-                    return;
-                };
 
                 publish_properties.message_expiry_interval = Some(response_message_expiry_interval);
 
                 // Store cache, even if the response is an error
-                if cache_not_found {
-                    if let Some(cached_key) = response_arguments.cached_key {
-                        let cache_entry = CacheEntry {
-                            properties: publish_properties.clone(),
-                            serialized_payload: serialized_payload.clone(),
-                            expiration_time: command_expiration_time,
-                        };
-                        log::info!(
-                            "[{}][pkid: {}] Caching response",
-                            response_arguments.command_name,
-                            pkid
-                        );
-                        cache.set(cached_key, cache_entry);
-                    }
+                if let Some(cached_key) = response_arguments.cached_key {
+                    // Replace the entry from in progress to complete.
+                    let cache_entry = CacheEntry::Complete {
+                        serialized_payload: serialized_payload.clone(),
+                        properties: publish_properties.clone(),
+                        expiration_time: command_expiration_time,
+                    };
+                    log::info!(
+                        "[{}][pkid: {}] Caching response",
+                        response_arguments.command_name,
+                        pkid
+                    );
+                    cache.set(cached_key, cache_entry);
                 }
             }
             _ => {
@@ -1313,11 +1572,9 @@ where
                     Ok(puback) => {
                         match puback.as_result() {
                             Ok(()) => {
-                                if let Some(completion_tx) = completion_tx {
-                                    // We ignore the error as the receiver may have been dropped indicating that the
-                                    // application is not interested in the completion of the publish.
-                                    let _ = completion_tx.send(Ok(()));
-                                }
+                                // We ignore the error as the receiver may have been dropped indicating that the
+                                // application is not interested in the completion of the publish.
+                                let _ = completion_tx.send(Ok(()));
                             }
                             Err(e) => {
                                 log::error!(
@@ -1325,18 +1582,15 @@ where
                                     response_arguments.command_name,
                                     pkid
                                 );
-                                if let Some(completion_tx) = completion_tx {
-                                    // Ignore error as receiver may have been dropped
-                                    let _ =
-                                        completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
-                                            Some(
-                                                "MQTT error on command executor response puback"
-                                                    .to_string(),
-                                            ),
-                                            Box::new(e),
-                                            Some(response_arguments.command_name.clone()),
-                                        )));
-                                }
+                                // Ignore error as receiver may have been dropped
+                                let _ = completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
+                                    Some(
+                                        "MQTT error on command executor response puback"
+                                            .to_string(),
+                                    ),
+                                    Box::new(e),
+                                    Some(response_arguments.command_name.clone()),
+                                )));
                             }
                         }
                     }
@@ -1346,14 +1600,12 @@ where
                             response_arguments.command_name,
                             pkid
                         );
-                        if let Some(completion_tx) = completion_tx {
-                            // Ignore error as receiver may have been dropped
-                            let _ = completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on command executor response publish".to_string()),
-                                Box::new(e),
-                                Some(response_arguments.command_name.clone()),
-                            )));
-                        }
+                        // Ignore error as receiver may have been dropped
+                        let _ = completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
+                            Some("MQTT error on command executor response publish".to_string()),
+                            Box::new(e),
+                            Some(response_arguments.command_name.clone()),
+                        )));
                     }
                 }
             }
@@ -1364,16 +1616,92 @@ where
                     pkid
                 );
                 // Notify error publishing
-                if let Some(completion_tx) = completion_tx {
-                    // Ignore error as receiver may have been dropped
-                    let _ = completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
-                        Some("MQTT error on command executor response publish".to_string()),
-                        Box::new(e),
-                        Some(response_arguments.command_name.clone()),
-                    )));
-                }
+                // Ignore error as receiver may have been dropped
+                let _ = completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
+                    Some("MQTT error on command executor response publish".to_string()),
+                    Box::new(e),
+                    Some(response_arguments.command_name.clone()),
+                )));
             }
         }
+    }
+
+    async fn publish_response(application_hlc: Arc<ApplicationHybridLogicalClock>, client: SessionManagedClient, response_arguments: ResponseArguments, pkid: u16, serialized_payload: SerializedPayload, mut user_properties: Vec<(String, String)>, mut publish_properties: PublishProperties) -> Result<(), AIOProtocolError> {
+        if response_arguments.status_code != StatusCode::Ok
+                || response_arguments.status_code != StatusCode::NoContent
+            {
+                user_properties.push((
+                    UserProperty::IsApplicationError.to_string(),
+                    response_arguments.is_application_error.to_string(),
+                ));
+            }
+        
+        user_properties.push((
+            UserProperty::Status.to_string(),
+            (response_arguments.status_code as u16).to_string(),
+        ));
+
+        user_properties.push((
+            UserProperty::ProtocolVersion.to_string(),
+            RPC_COMMAND_PROTOCOL_VERSION.to_string(),
+        ));
+
+        user_properties.push((
+            UserProperty::SourceId.to_string(),
+            client.client_id().to_string(),
+        ));
+
+        // Update HLC and use as the timestamp.
+        // If there are errors updating the HLC (unlikely when updating against now),
+        // the timestamp will not be added.
+        if let Ok(timestamp_str) = application_hlc.update_now() {
+            user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
+        }
+
+        if let Some(status_message) = response_arguments.status_message {
+                log::error!(
+                    "[{}][pkid: {}] {}",
+                    response_arguments.command_name,
+                    pkid,
+                    status_message
+                );
+                user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
+            }
+
+        if let Some(name) = response_arguments.invalid_property_name {
+                user_properties.push((UserProperty::InvalidPropertyName.to_string(), name));
+            }
+
+            if let Some(value) = response_arguments.invalid_property_value {
+                user_properties.push((UserProperty::InvalidPropertyValue.to_string(), value));
+            }
+
+            if let Some(supported_protocol_major_versions) =
+                response_arguments.supported_protocol_major_versions
+            {
+                user_properties.push((
+                    UserProperty::SupportedMajorVersions.to_string(),
+                    supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
+                ));
+            }
+
+            if let Some(request_protocol_version) = response_arguments.request_protocol_version {
+                user_properties.push((
+                    UserProperty::RequestProtocolVersion.to_string(),
+                    request_protocol_version,
+                ));
+            }
+
+        // Create publish properties
+        publish_properties.payload_format_indicator = serialized_payload.format_indicator.into();
+        publish_properties.topic_alias = None;
+        publish_properties.response_topic = None;
+        publish_properties.correlation_data = response_arguments.correlation_data;
+        publish_properties.user_properties = user_properties;
+        publish_properties.subscription_identifiers = Vec::new();
+        publish_properties.content_type = Some(serialized_payload.content_type.to_string());
+        
+        todo!()
     }
 }
 
@@ -1418,6 +1746,37 @@ where
     }
 }
 
+fn get_response_message_expiry_interval(
+    command_expiration_time: Instant,
+) -> u32 {
+    // Calculate the remaining time until the command expires
+    let response_message_expiry_interval =
+        command_expiration_time.saturating_duration_since(Instant::now());
+
+    // Check if the entry has expired
+    if response_message_expiry_interval.is_zero() {
+        0
+    } else {
+        // Rounding remaining expiration time up to the nearest second
+        let response_message_expiry_interval = if response_message_expiry_interval.subsec_nanos() != 0
+        {
+            // NOTE: We should always be able to add 1 since the seconds portion of the
+            // response_message_expiry_interval is always at least one less than its initial
+            // value when received in this block.
+            // NOTE: Rounding up to the nearest second to ensure the invoker will time out
+            // at or before the response expires.
+            response_message_expiry_interval.as_secs().saturating_add(1)
+        } else {
+            response_message_expiry_interval.as_secs()
+        };
+
+        match response_message_expiry_interval.try_into() {
+            Ok(interval) => interval,
+            Err(_) => unreachable!(), // Unreachable, will be smaller than u32::MAX
+        }
+    }
+}
+
 /// Wait on an [`AckToken`] ack to complete, if the [`CancellationToken`] is cancelled, the ack is dropped.
 /// # Arguments
 /// * `ack_token` - [`AckToken`] ack to wait on
@@ -1435,13 +1794,29 @@ async fn handle_ack(
                 Ok(ack_ct) => {
                     match ack_ct.await {
                         Ok(()) => log::info!("[pkid: {pkid}] Acknowledged"),
-                        Err(e) => log::error!("[pkid: {pkid}] Ack error: {e}"),
+                        Err(e) => log::error!("[pkid: {pkid}] Ack error: {e}"), // FIN: This can now be the cancellation ACK so should we print something else?
                     }
                 },
                 Err(e) => {
                     log::error!("[pkid: {pkid}] Ack error: {e}");
                 }
             }
+        }
+    }
+}
+
+async fn handle_in_progress_duplicate_ack(
+    ack_token: AckToken,
+    in_progress_cancellation_token: CancellationToken,
+    executor_cancellation_token: CancellationToken,
+    pkid: u16,
+) {
+    tokio::select! {
+        () = executor_cancellation_token.cancelled() => { /* executor dropped */ },
+        () = in_progress_cancellation_token.cancelled() => {
+            // This means the in progress command has finished processing, we can now ack the
+            // duplicate ack
+            handle_ack(ack_token, executor_cancellation_token, pkid).await;
         }
     }
 }
@@ -1724,7 +2099,7 @@ mod tests {
             response_topic: TopicName::new("test_response_topic").unwrap(),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let status = cache.get(&key);
+        let status = cache.get_or_register(&key);
         assert_eq!(status, CacheEntryStatus::NotFound);
     }
 
@@ -1745,7 +2120,7 @@ mod tests {
             expiration_time: Instant::now() + Duration::from_secs(60),
         };
         cache.set(key.clone(), entry.clone());
-        let status = cache.get(&key);
+        let status = cache.get_or_register(&key);
         assert_eq!(status, CacheEntryStatus::Cached(entry));
     }
 
@@ -1766,7 +2141,7 @@ mod tests {
             expiration_time: Instant::now() - Duration::from_secs(60),
         };
         cache.set(key.clone(), entry);
-        let status = cache.get(&key);
+        let status = cache.get_or_register(&key);
         assert_eq!(status, CacheEntryStatus::Expired);
 
         // Set a new entry and check if the expired entry is deleted
@@ -1782,7 +2157,7 @@ mod tests {
         // The cache should never see another entry with the same key, this is for testing purposes only.
         cache.set(key.clone(), new_entry.clone());
 
-        let new_status = cache.get(&key);
+        let new_status = cache.get_or_register(&key);
         assert_eq!(new_status, CacheEntryStatus::Cached(new_entry));
     }
 
@@ -1803,7 +2178,7 @@ mod tests {
             expiration_time: Instant::now() - Duration::from_secs(60),
         };
         cache.set(key.clone(), entry);
-        let status = cache.get(&key);
+        let status = cache.get_or_register(&key);
         assert_eq!(status, CacheEntryStatus::Expired);
 
         // Set a new entry with a different key and check if the expired entry is deleted
@@ -1822,9 +2197,9 @@ mod tests {
         };
         cache.set(new_key.clone(), new_entry.clone());
 
-        let status = cache.get(&key);
+        let status = cache.get_or_register(&key);
         assert_eq!(status, CacheEntryStatus::NotFound);
-        let status = cache.get(&new_key);
+        let status = cache.get_or_register(&new_key);
         assert_eq!(status, CacheEntryStatus::Cached(new_entry));
     }
 
