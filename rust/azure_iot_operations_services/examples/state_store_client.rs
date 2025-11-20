@@ -4,9 +4,7 @@
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::state_store::{self, SetOptions};
 use env_logger::Builder;
@@ -16,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .init();
 
     // Create a Session and exit handle
@@ -50,7 +48,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-async fn state_store_operations(client: state_store::Client<SessionManagedClient>) {
+async fn state_store_operations(client: state_store::Client) {
     let state_store_key = b"someKey";
     let state_store_value = b"someValue";
     let timeout = Duration::from_secs(10);
@@ -112,7 +110,7 @@ async fn state_store_operations(client: state_store::Client<SessionManagedClient
 // Exit the Session
 async fn exit(exit_handle: SessionExitHandle) {
     log::info!("Exiting session");
-    match exit_handle.try_exit().await {
+    match exit_handle.try_exit() {
         Ok(()) => log::info!("Session exited gracefully"),
         Err(e) => {
             log::error!("Graceful session exit failed: {e}");

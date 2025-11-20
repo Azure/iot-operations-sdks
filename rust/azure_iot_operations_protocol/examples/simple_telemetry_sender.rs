@@ -7,7 +7,7 @@ use std::time::Duration;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder,
     common::payload_serialize::{
@@ -27,7 +27,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .init();
 
     // Create a Session
@@ -50,7 +50,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let sender_options = telemetry::sender::OptionsBuilder::default()
         .topic_pattern(TOPIC)
         .build()?;
-    let telemetry_sender: telemetry::Sender<SampleTelemetry, _> = telemetry::Sender::new(
+    let telemetry_sender: telemetry::Sender<SampleTelemetry> = telemetry::Sender::new(
         application_context,
         session.create_managed_client(),
         sender_options,
@@ -66,9 +66,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 /// Indefinitely send Telemetry
-async fn telemetry_loop(
-    telemetry_sender: telemetry::Sender<SampleTelemetry, SessionManagedClient>,
-) {
+async fn telemetry_loop(telemetry_sender: telemetry::Sender<SampleTelemetry>) {
     loop {
         let cloud_event = telemetry::sender::CloudEventBuilder::default()
             .source("aio://oven/sample")

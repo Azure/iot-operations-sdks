@@ -19,7 +19,7 @@ use std::{collections::HashMap, time::Duration};
 use azure_iot_operations_connector::deployment_artifacts::{
     azure_device_registry::DeviceEndpointCreateObservation, connector::ConnectorArtifacts,
 };
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_otel::Otel;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
@@ -103,7 +103,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 // This function runs in a loop, waiting for device creation notifications.
 async fn run_program(
     mut device_creation_observation: DeviceEndpointCreateObservation,
-    azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
+    azure_device_registry_client: azure_device_registry::Client,
 ) {
     let timeout = Duration::from_secs(10);
 
@@ -138,7 +138,7 @@ async fn run_program(
                     Err(e) => {
                         log::error!("Observing for device updates failed: {e}");
                     }
-                };
+                }
 
                 // Get device + endpoint details from ADR Service and send status update
                 match azure_device_registry_client
@@ -204,7 +204,7 @@ async fn run_program(
                             Err(e) => {
                                 log::error!("Update device status request failed: {e}");
                             }
-                        };
+                        }
                         // if we didn't accept the inbound endpoint, then no reason to manage the assets
                         if !any_errors {
                             // Spawn a new task to handle asset creation notifications
@@ -252,7 +252,7 @@ async fn run_program(
                                                     "Observing for asset updates failed: {e}"
                                                 );
                                             }
-                                        };
+                                        }
 
                                         // Get asset details from ADR Service and send status update
                                         match azure_device_registry_client_clone
@@ -338,7 +338,7 @@ async fn run_program(
                                                         "Unobserving for Asset updates failed: {e}"
                                                     );
                                                 }
-                                            };
+                                            }
                                         });
                                     } else {
                                         // The asset creation observation has been dropped
@@ -360,14 +360,14 @@ async fn run_program(
                                                     "Unobserving for device updates failed: {e}"
                                                 );
                                             }
-                                        };
+                                        }
                                         break;
                                     }
                                 }
                             });
                         }
                     }
-                };
+                }
             }
             None => panic!("device_creation_observer has been dropped"),
         }

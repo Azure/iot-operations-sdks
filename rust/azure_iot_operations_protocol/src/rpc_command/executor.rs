@@ -5,9 +5,7 @@ use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
-use azure_iot_operations_mqtt::session::{
-    SessionManagedClient, SessionPubReceiver,
-};
+use azure_iot_operations_mqtt::session::{SessionManagedClient, SessionPubReceiver};
 use azure_iot_operations_mqtt::{
     control_packet::{PublishProperties, QoS, TopicFilter, TopicName},
     token::AckToken,
