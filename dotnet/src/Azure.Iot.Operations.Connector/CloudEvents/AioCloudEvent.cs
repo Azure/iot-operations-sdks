@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Connector.CloudEvents;
 /// Azure IoT Operations CloudEvent with automatic metadata population.
 /// Contains all CloudEvents fields with AIO-specific extensions (aiodeviceref, aioassetref).
 /// This class holds all the CloudEvents headers that will be automatically
-/// populated based on connector, device, asset, and dataset configuration.
+/// populated based on connector, device, asset, and dataset/event configuration.
 /// </summary>
 public class AioCloudEvent
 {
