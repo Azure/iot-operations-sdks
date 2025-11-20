@@ -223,10 +223,7 @@ public static class AioCloudEventBuilder
         }
         else
         {
-            if (string.IsNullOrWhiteSpace(assetIdentifier))
-            {
-                throw new InvalidOperationException("Unable to determine asset identifier: all identification fields are null or empty.");
-            }
+            throw new InvalidOperationException("Unable to determine asset identifier: all identification fields are null or empty.");
         }
 
         var subject = $"{assetIdentifier}/{name}";
