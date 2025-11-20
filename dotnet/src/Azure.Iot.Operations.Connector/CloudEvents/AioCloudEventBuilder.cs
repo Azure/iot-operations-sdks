@@ -217,7 +217,7 @@ public static class AioCloudEventBuilder
             assetIdentifier = asset.ExternalAssetId;
         }
         // Priority 3: Asset name from Attributes
-        else if(!string.IsNullOrWhiteSpace(assetName))
+        else if (!string.IsNullOrWhiteSpace(assetName))
         {
             assetIdentifier = assetName;
         }
