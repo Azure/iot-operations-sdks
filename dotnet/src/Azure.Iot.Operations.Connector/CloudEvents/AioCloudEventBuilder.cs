@@ -145,7 +145,7 @@ public static class AioCloudEventBuilder
     {
         string? deviceIdentifier = null;
 
-        // Priority 1: Device compound key (customer master data), not available untill ADR implementation
+        // Priority 1: Device compound key (customer master data), not available until ADR implementation
 
         // Priority 2: Protocol specific identifier (device inbound endpoint address)
         if (!string.IsNullOrWhiteSpace(endpointAddress))
