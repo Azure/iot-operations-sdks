@@ -212,7 +212,7 @@ public static class AioCloudEventBuilder
     {
         string? assetIdentifier = null;
 
-        // Priority 1: Asset compound key (customer master data), not available untill ADR implementation
+        // Priority 1: Asset compound key (customer master data), not available until ADR implementation
 
         // Priority 2: External asset ID if different from UUID
         if (!string.IsNullOrWhiteSpace(asset.ExternalAssetId) && !IsEqualToUuid(asset.ExternalAssetId, asset.Uuid))
