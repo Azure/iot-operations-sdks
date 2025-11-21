@@ -17,6 +17,8 @@ In each of our language protocol libraries, we will expose two new functions:
 
 However, this new addition will __not__ replace the existing APIs for interacting with cloud event headers in the protocol's senders/receivers. See the [alternatives considered](#alternatives-considered) section for why those need to remain.
 
+Additionally, each language protocol library should provide the same cloud event APIs for publishing RPC requests/responses as the telemetry sender/receiver currently have.
+
 ### Proposed API addition
 
 ```csharp
@@ -42,4 +44,6 @@ public class CloudEvent
 
 1. Remove any awareness of cloud event headers from our protocol sender/receivers and only use a generic function for converting between cloud event header values and the corresponding MQTT user properties.
   - This would simplify our sender/receiver classes a bit since they no longer need to treat cloud headers any differently than other MQTT user properties, but...
-  - The ```subject``` cloud event property should default to the MQTT topic that the MQTT message is published to, but this information is only available within the telemetry sender at publishing time. Taking this approach would disallow the SDK from providing a default value for ```subject``` and would make it difficult for the user to calculate the correct value since we don't currently expose it.
+  - The ```subject``` cloud event property should default to the MQTT topic that the MQTT message is published to, but this information is only available within the telemetry sender at publishing time. Taking this approach would 
+    - Disallow the SDK from providing a default value for ```subject``` since we wouldn't know when a user intends a request to have cloud event headers
+    - Make it difficult for the user to calculate the correct value for ```subject``` since the sender/receiver classes don't directly expose the target MQTT topic.
