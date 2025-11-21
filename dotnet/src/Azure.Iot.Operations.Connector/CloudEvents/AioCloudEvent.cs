@@ -9,44 +9,40 @@ namespace Azure.Iot.Operations.Connector.CloudEvents;
 /// Azure IoT Operations CloudEvent with automatic metadata population.
 /// Contains all CloudEvents fields with AIO-specific extensions (aiodeviceref, aioassetref).
 /// This class holds all the CloudEvents headers that will be automatically
-/// populated based on connector, device, asset, and dataset configuration.
+/// populated based on connector, device, asset, and dataset/event configuration.
 /// </summary>
 public class AioCloudEvent
 {
+    private Dictionary<string, string>? _extensions;
+
     /// <summary>
     /// Generated CloudEvents source URI.
-    /// Formula: ms-aio:<Device-CompoundKey>|<ProtocolSpecificIdentifier>|<Device-externaldeviceId*>|<Device-Name>[/Sub-Source]
     /// </summary>
     public required Uri Source { get; init; }
 
     /// <summary>
     /// Generated CloudEvents type string.
-    /// Formula: ["DataSet"|"Event"]/<typeref-property-value>
     /// </summary>
     public required string Type { get; init; }
 
     /// <summary>
     /// Generated CloudEvents subject string.
-    /// Formula: <Asset-CompoundKey>|<Asset-ExternalAssetId*>|<AssetName>/<DataSet-Name>|<EventGroup-Name>[/Sub-Subject]
     /// </summary>
     public required string Subject { get; init; }
 
     /// <summary>
     /// Schema registry ID for the payload schema.
-    /// Maps to CloudEvents dataschema attribute.
     /// </summary>
     public string? DataSchema { get; init; }
 
     /// <summary>
     /// Generated aiodeviceref value.
-    /// Formula: ms-aio:<DeviceUUID>_<EndpointName>
     /// AIO-specific extension attribute.
     /// </summary>
     public required string AioDeviceRef { get; init; }
 
     /// <summary>
     /// Generated aioassetref value.
-    /// Formula: ms-aio:<AssetUUID>
     /// AIO-specific extension attribute.
     /// </summary>
     public required string AioAssetRef { get; init; }
@@ -75,7 +71,7 @@ public class AioCloudEvent
     /// <returns>Dictionary containing aiodeviceref and aioassetref extension attributes.</returns>
     public Dictionary<string, string> GetExtensions()
     {
-        return new Dictionary<string, string>
+        return _extensions ??= new Dictionary<string, string>
         {
             ["aiodeviceref"] = AioDeviceRef,
             ["aioassetref"] = AioAssetRef
