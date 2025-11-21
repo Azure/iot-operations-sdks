@@ -25,14 +25,14 @@ Additionally, each language protocol library should provide the same cloud event
 public class CloudEvent
 {
     // The existing cloud event class and the fields it describes
-    public Uri Source => source;
-    public string SpecVersion => specversion;
-    public string Type => type;
-    public string? Id { get; set; }
-    public DateTime? Time { get; set; }
-    public string? DataContentType { get; internal set; }
-    public string? Subject { get; set; }
-    public string? DataSchema { get; set; }
+    public Uri Source;
+    public string SpecVersion;
+    public string Type;
+    public string? Id;
+    public DateTime? Time;
+    public string? DataContentType;
+    public string? Subject;
+    public string? DataSchema;
 
     // The two new APIs for converting to and from Mqtt user properties
     public List<MqttUserProperty> CreateMqttUserProperties();
