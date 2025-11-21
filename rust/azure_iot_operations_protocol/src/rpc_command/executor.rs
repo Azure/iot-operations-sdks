@@ -56,7 +56,7 @@ struct ResponseArguments {
     supported_protocol_major_versions: Option<Vec<u16>>,
     request_protocol_version: Option<String>,
     cached_key: Option<CacheKey>,
-    cached_entry_status: CacheEntryStatus,
+    cache_lookup_result: CacheLookupResult,
 }
 
 /// Command Executor Request struct.
@@ -262,6 +262,7 @@ struct CacheKey {
 
 /// Command Executor Cache Entry struct.
 #[derive(Clone, Debug)]
+#[allow(clippy::large_enum_variant)]
 enum CacheEntry {
     /// Indicates that the response is completed and cached
     Cached {
@@ -273,15 +274,14 @@ enum CacheEntry {
     InProgress {
         /// Used for deduped requests to await the completion of the original request in order to ack
         processing_cancellation_token: CancellationToken,
-        expiration_time: Instant,
     },
 }
 
-/// Command Executor Cache Entry Status enum.
+/// Command Executor Cache Lookup Result enum
 ///
 /// Used to indicate the status of a cache entry.
 #[derive(Debug)]
-enum CacheEntryStatus {
+enum CacheLookupResult {
     /// The cache entry is cached and has not expired
     Cached {
         serialized_payload: SerializedPayload,
@@ -303,13 +303,13 @@ enum CacheEntryStatus {
 struct Cache(Arc<Mutex<HashMap<CacheKey, CacheEntry>>>);
 
 impl Cache {
-    /// Get a cache entry from the [`Cache`].
+    /// Get the status of a cache entry from the [`Cache`].
     ///
     /// # Arguments
-    /// `key` - The cache key to get the cache entry for.
+    /// `key` - The cache key to look for.
     ///
-    /// Returns a [`CacheEntryStatus`] indicating the status of the cache entry.
-    fn get(&self, key: &CacheKey) -> CacheEntryStatus {
+    /// Returns a [`CacheLookupResult`] indicating the result of the get.
+    fn get(&self, key: &CacheKey) -> CacheLookupResult {
         let cache = self.0.lock().unwrap();
 
         match cache.get(key) {
@@ -327,32 +327,27 @@ impl Cache {
                         if let Some(response_message_expiry_interval) =
                             response_message_expiry_interval
                         {
-                            CacheEntryStatus::Cached {
+                            CacheLookupResult::Cached {
                                 serialized_payload: serialized_payload.clone(),
                                 properties: properties.clone(),
                                 response_message_expiry_interval,
                             }
                         } else {
-                            CacheEntryStatus::Expired
+                            CacheLookupResult::Expired
                         }
                     }
                     CacheEntry::InProgress {
                         processing_cancellation_token,
-                        expiration_time,
+                        ..
                     } => {
-                        if !expiration_time.elapsed().is_zero() {
-                            // If the entry has expired, return Expired
-                            return CacheEntryStatus::Expired;
-                        }
-
                         // If the entry is in progress, it means it has not been completed yet
                         // any duplicate requests should await the cancellation token to complete
                         // their acknowledgement
-                        CacheEntryStatus::InProgress(processing_cancellation_token.clone())
+                        CacheLookupResult::InProgress(processing_cancellation_token.clone())
                     }
                 }
             }
-            None => CacheEntryStatus::NotFound,
+            None => CacheLookupResult::NotFound,
         }
     }
 
@@ -371,21 +366,28 @@ impl Cache {
                     // Retain only non-expired entries
                     expiration_time.elapsed().is_zero()
                 }
-                CacheEntry::InProgress {
-                    expiration_time,
-                    processing_cancellation_token,
-                } => {
-                    // Cancel the processing token for expired entries
-                    // Note, this only affects the case where the entry was marked as in progress,
-                    // but timed out before the drop guard was created
-                    processing_cancellation_token.cancel();
-
-                    // Retain only non-expired entries
-                    expiration_time.elapsed().is_zero()
+                CacheEntry::InProgress { .. } => {
+                    // Always retain in progress entries
+                    true
                 }
             }
         });
         cache.insert(key, entry);
+    }
+
+    /// Remove a cache entry from the cache.
+    fn remove(&self, key: &CacheKey) {
+        let mut cache = self.0.lock().unwrap();
+        let removed_entry = cache.remove(key);
+
+        if let Some(CacheEntry::InProgress {
+            processing_cancellation_token,
+            ..
+        }) = removed_entry
+        {
+            // Cancel any awaiting duplicate requests
+            processing_cancellation_token.cancel();
+        }
     }
 }
 
@@ -790,7 +792,7 @@ where
                         supported_protocol_major_versions: None,
                         request_protocol_version: None,
                         cached_key: None,
-                        cached_entry_status: CacheEntryStatus::NotFound,
+                        cache_lookup_result: CacheLookupResult::NotFound,
                     };
 
                     // Get message expiry interval
@@ -868,11 +870,11 @@ where
                         }
 
                         // Check cache
-                        response_arguments.cached_entry_status = self.cache.get(cache_key);
+                        response_arguments.cache_lookup_result = self.cache.get(cache_key);
 
                         if !matches!(
-                            response_arguments.cached_entry_status,
-                            CacheEntryStatus::NotFound
+                            response_arguments.cache_lookup_result,
+                            CacheLookupResult::NotFound
                         ) {
                             // This means there is an entry for this correlation ID so either we
                             // have a cached response, the request is already being processed or it
@@ -886,7 +888,6 @@ where
                             CacheEntry::InProgress {
                                 processing_cancellation_token: processing_cancellation_token
                                     .clone(),
-                                expiration_time: command_expiration_time,
                             },
                         );
 
@@ -1077,11 +1078,15 @@ where
                     if let Some(command_expiration_time) = command_expiration_time
                         && !command_expiration_time.elapsed().is_zero()
                     {
+                        if let Some(cached_key) = response_arguments.cached_key {
+                            // Remove the cache entry as it has expired
+                            self.cache.remove(&cached_key);
+                        }
                         continue;
                     }
 
-                    match response_arguments.cached_entry_status {
-                        CacheEntryStatus::Cached {
+                    match response_arguments.cache_lookup_result {
+                        CacheLookupResult::Cached {
                             serialized_payload,
                             properties,
                             response_message_expiry_interval,
@@ -1110,7 +1115,7 @@ where
                                 }
                             });
                         }
-                        CacheEntryStatus::InProgress(cancellation_token) => {
+                        CacheLookupResult::InProgress(cancellation_token) => {
                             // If the command is currently in progress that means this message
                             // is a dupe and we need to wait for the original to complete before
                             // acking.
@@ -1121,7 +1126,7 @@ where
                                 pkid,
                             ));
                         }
-                        CacheEntryStatus::Expired => {
+                        CacheLookupResult::Expired => {
                             // If the command has expired, we do not respond to the invoker.
                             log::debug!(
                                 "[{}][pkid: {}] Duplicate request has expired",
@@ -1129,7 +1134,7 @@ where
                                 pkid
                             );
                         }
-                        CacheEntryStatus::NotFound => {
+                        CacheLookupResult::NotFound => {
                             // Indicates the command should be processed as an error
                             tokio::task::spawn({
                                 let app_hlc_clone = self.application_hlc.clone();
@@ -1294,6 +1299,10 @@ where
                             Some(response_arguments.command_name.clone()),
                         )));
                     }
+                    if let Some(cached_key) = response_arguments.cached_key {
+                        // Remove the cache entry as it has expired
+                        cache.remove(&cached_key);
+                    }
                     return;
                 };
 
@@ -1413,6 +1422,10 @@ where
                             None,
                             Some(response_arguments.command_name.clone()),
                         )));
+                    }
+                    if let Some(cached_key) = response_arguments.cached_key {
+                        // Remove the cache entry as it has expired
+                        cache.remove(&cached_key);
                     }
                     return;
                 }
@@ -1927,7 +1940,7 @@ mod tests {
             correlation_data: Bytes::from("test_correlation_data"),
         };
         let status = cache.get(&key);
-        assert!(matches!(status, CacheEntryStatus::NotFound));
+        assert!(matches!(status, CacheLookupResult::NotFound));
     }
 
     #[test]
@@ -1950,7 +1963,7 @@ mod tests {
         cache.set(key.clone(), entry.clone());
         let status = cache.get(&key);
         match status {
-            CacheEntryStatus::Cached {
+            CacheLookupResult::Cached {
                 serialized_payload,
                 properties,
                 response_message_expiry_interval,
@@ -1977,12 +1990,11 @@ mod tests {
         };
         let entry = CacheEntry::InProgress {
             processing_cancellation_token: CancellationToken::new(),
-            expiration_time: Instant::now() + Duration::from_secs(60),
         };
         cache.set(key.clone(), entry.clone());
 
         match cache.get(&key) {
-            CacheEntryStatus::InProgress(_) => { /* Success */ }
+            CacheLookupResult::InProgress(_) => { /* Success */ }
             _ => {
                 panic!("Expected in progress entry");
             }
@@ -2007,7 +2019,7 @@ mod tests {
         };
         cache.set(key.clone(), entry);
         let status = cache.get(&key);
-        assert!(matches!(status, CacheEntryStatus::Expired));
+        assert!(matches!(status, CacheLookupResult::Expired));
 
         // Set a new entry and check if the expired entry is deleted
         let new_serialized_payload = SerializedPayload {
@@ -2025,7 +2037,7 @@ mod tests {
 
         let new_status = cache.get(&key);
         match new_status {
-            CacheEntryStatus::Cached {
+            CacheLookupResult::Cached {
                 serialized_payload,
                 properties,
                 response_message_expiry_interval,
@@ -2061,7 +2073,7 @@ mod tests {
         };
         cache.set(old_key.clone(), old_entry);
         let status = cache.get(&old_key);
-        assert!(matches!(status, CacheEntryStatus::Expired));
+        assert!(matches!(status, CacheLookupResult::Expired));
 
         // Set a new entry with a different key and check if the expired entry is deleted
         let new_key = CacheKey {
@@ -2081,11 +2093,11 @@ mod tests {
         cache.set(new_key.clone(), new_entry.clone());
 
         let old_status = cache.get(&old_key);
-        assert!(matches!(old_status, CacheEntryStatus::NotFound));
+        assert!(matches!(old_status, CacheLookupResult::NotFound));
         let new_status = cache.get(&new_key);
 
         match new_status {
-            CacheEntryStatus::Cached {
+            CacheLookupResult::Cached {
                 serialized_payload,
                 properties,
                 response_message_expiry_interval,
@@ -2112,11 +2124,10 @@ mod tests {
         };
         let old_entry = CacheEntry::InProgress {
             processing_cancellation_token: CancellationToken::new(),
-            expiration_time: Instant::now() - Duration::from_secs(60),
         };
         cache.set(old_key.clone(), old_entry);
         let status = cache.get(&old_key);
-        assert!(matches!(status, CacheEntryStatus::Expired));
+        assert!(matches!(status, CacheLookupResult::Expired));
 
         // Set a new entry with a different key and check if the expired entry is deleted
         let new_key = CacheKey {
@@ -2136,11 +2147,11 @@ mod tests {
         cache.set(new_key.clone(), new_entry.clone());
 
         let old_status = cache.get(&old_key);
-        assert!(matches!(old_status, CacheEntryStatus::NotFound));
+        assert!(matches!(old_status, CacheLookupResult::NotFound));
         let new_status = cache.get(&new_key);
 
         match new_status {
-            CacheEntryStatus::Cached {
+            CacheLookupResult::Cached {
                 serialized_payload,
                 properties,
                 response_message_expiry_interval,
@@ -2169,7 +2180,6 @@ mod tests {
         };
         let entry = CacheEntry::InProgress {
             processing_cancellation_token: processing_cancellation_token.clone(),
-            expiration_time: Instant::now() + Duration::from_secs(60),
         };
         cache.set(key.clone(), entry.clone());
 
@@ -2178,7 +2188,7 @@ mod tests {
             let _processing_drop_guard = processing_cancellation_token.drop_guard();
 
             match cache.get(&key) {
-                CacheEntryStatus::InProgress(_) => { /* Success */ }
+                CacheLookupResult::InProgress(_) => { /* Success */ }
                 _ => {
                     panic!("Expected in progress entry");
                 }
@@ -2187,7 +2197,7 @@ mod tests {
 
         // If a dupe comes in, and checks the cancellation token it should know it can ack
         match cache.get(&key) {
-            CacheEntryStatus::InProgress(cancellation_token) => {
+            CacheLookupResult::InProgress(cancellation_token) => {
                 // Since the command processing simulation ended, the cancellation token should be cancelled
                 assert!(cancellation_token.is_cancelled());
             }
