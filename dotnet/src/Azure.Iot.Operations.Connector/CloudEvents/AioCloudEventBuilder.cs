@@ -36,10 +36,10 @@ public static class AioCloudEventBuilder
         string? assetName = null,
         string? subSubject = null)
     {
-        if (device == null) throw new ArgumentNullException(nameof(device));
-        if (endpointName == null) throw new ArgumentNullException(nameof(endpointName));
-        if (asset == null) throw new ArgumentNullException(nameof(asset));
-        if (dataset == null) throw new ArgumentNullException(nameof(dataset));
+        ArgumentNullException.ThrowIfNull(device);
+        ArgumentNullException.ThrowIfNull(endpointName);
+        ArgumentNullException.ThrowIfNull(asset);
+        ArgumentNullException.ThrowIfNull(dataset);
 
         var source = BuildSource(device, endpointAddress, deviceName, dataset.DataSource);
         var type = BuildType("DataSet", dataset.TypeRef);
@@ -85,11 +85,11 @@ public static class AioCloudEventBuilder
         string? assetName = null,
         string? subSubject = null)
     {
-        if (device == null) throw new ArgumentNullException(nameof(device));
-        if (endpointName == null) throw new ArgumentNullException(nameof(endpointName));
-        if (asset == null) throw new ArgumentNullException(nameof(asset));
-        if (eventGroupName == null) throw new ArgumentNullException(nameof(eventGroupName));
-        if (assetEvent == null) throw new ArgumentNullException(nameof(assetEvent));
+        ArgumentNullException.ThrowIfNull(device);
+        ArgumentNullException.ThrowIfNull(endpointName);
+        ArgumentNullException.ThrowIfNull(asset);
+        ArgumentNullException.ThrowIfNull(eventGroupName);
+        ArgumentNullException.ThrowIfNull(assetEvent);
 
         var dataSource = assetEvent.DataSource;
         var source = BuildSource(device, endpointAddress, deviceName, dataSource);

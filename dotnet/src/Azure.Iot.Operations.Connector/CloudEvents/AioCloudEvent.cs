@@ -13,6 +13,8 @@ namespace Azure.Iot.Operations.Connector.CloudEvents;
 /// </summary>
 public class AioCloudEvent
 {
+    private Dictionary<string, string>? _extensions;
+
     /// <summary>
     /// Generated CloudEvents source URI.
     /// Formula: ms-aio:<Device-CompoundKey>|<ProtocolSpecificIdentifier>|<Device-externaldeviceId*>|<Device-Name>[/Sub-Source]
@@ -75,7 +77,7 @@ public class AioCloudEvent
     /// <returns>Dictionary containing aiodeviceref and aioassetref extension attributes.</returns>
     public Dictionary<string, string> GetExtensions()
     {
-        return new Dictionary<string, string>
+        return _extensions ??= new Dictionary<string, string>
         {
             ["aiodeviceref"] = AioDeviceRef,
             ["aioassetref"] = AioAssetRef
