@@ -2,7 +2,9 @@
 
 ## Context: 
 
+```
 Note that this ADR builds upon previous ADRs [10](./0010-cloud-event-content-type.md) and [11](./0011-cloud-events-api.md).
+```
 
 There have been asks for our Azure Iot Operations Protocol package to support the creation of cloud event headers in a generic enough way that any application could take it as a dependency even if that application doesn't use our telemetry/RPC protocol clients.
 
