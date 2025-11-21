@@ -2127,9 +2127,10 @@ mod tests {
         };
         cache.set(old_key.clone(), old_entry);
         let status = cache.get(&old_key);
-        assert!(matches!(status, CacheLookupResult::Expired));
+        // While in progress, the entry can't expire.
+        assert!(matches!(status, CacheLookupResult::InProgress(..)));
 
-        // Set a new entry with a different key and check if the expired entry is deleted
+        // Set a new entry with a different key and check if the expired entry is not deleted
         let new_key = CacheKey {
             response_topic: TopicName::new("new_test_response_topic").unwrap(),
             correlation_data: Bytes::from("new_test_correlation_data"),
@@ -2147,7 +2148,7 @@ mod tests {
         cache.set(new_key.clone(), new_entry.clone());
 
         let old_status = cache.get(&old_key);
-        assert!(matches!(old_status, CacheLookupResult::NotFound));
+        assert!(matches!(old_status, CacheLookupResult::InProgress(..)));
         let new_status = cache.get(&new_key);
 
         match new_status {
