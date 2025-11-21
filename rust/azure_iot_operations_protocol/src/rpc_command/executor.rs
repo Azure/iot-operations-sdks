@@ -290,8 +290,6 @@ enum CacheLookupResult {
     },
     /// The cache entry is in progress
     InProgress(CancellationToken),
-    /// The cache entry is expired
-    Expired,
     /// The cache entry is not found
     NotFound,
 }
@@ -333,7 +331,8 @@ impl Cache {
                                 response_message_expiry_interval,
                             }
                         } else {
-                            CacheLookupResult::Expired
+                            // Entry has expired, return not found
+                            CacheLookupResult::NotFound
                         }
                     }
                     CacheEntry::InProgress {
@@ -1125,14 +1124,6 @@ where
                                 self.executor_cancellation_token.clone(),
                                 pkid,
                             ));
-                        }
-                        CacheLookupResult::Expired => {
-                            // If the command has expired, we do not respond to the invoker.
-                            log::debug!(
-                                "[{}][pkid: {}] Duplicate request has expired",
-                                self.command_name,
-                                pkid
-                            );
                         }
                         CacheLookupResult::NotFound => {
                             // Indicates the command should be processed as an error
@@ -2019,7 +2010,7 @@ mod tests {
         };
         cache.set(key.clone(), entry);
         let status = cache.get(&key);
-        assert!(matches!(status, CacheLookupResult::Expired));
+        assert!(matches!(status, CacheLookupResult::NotFound));
 
         // Set a new entry and check if the expired entry is deleted
         let new_serialized_payload = SerializedPayload {
@@ -2073,7 +2064,7 @@ mod tests {
         };
         cache.set(old_key.clone(), old_entry);
         let status = cache.get(&old_key);
-        assert!(matches!(status, CacheLookupResult::Expired));
+        assert!(matches!(status, CacheLookupResult::NotFound));
 
         // Set a new entry with a different key and check if the expired entry is deleted
         let new_key = CacheKey {
