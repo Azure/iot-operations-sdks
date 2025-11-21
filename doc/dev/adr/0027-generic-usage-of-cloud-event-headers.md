@@ -5,7 +5,7 @@
 > Note that this ADR builds upon previous ADRs [10](./0010-cloud-event-content-type.md) and [11](./0011-cloud-events-api.md).
 
 
-There have been asks for our SDK to support the creation of cloud event headers in a generic enough way that any application could take it as a dependency even if that application doesn't use our telemetry/RPC protocol clients.
+There have been asks for our SDK to support the creation and parsing of cloud event headers in a generic enough way that any application could take it as a dependency even if that application doesn't use our telemetry/RPC protocol clients.
 
 Currently, our protocol package does allow users to pass in cloud event headers when sending telemetry messages, but the knowledge of what MQTT user property name is associated with each cloud event header is hidden within the protocol library.
 
@@ -14,11 +14,11 @@ Currently, our protocol package does allow users to pass in cloud event headers 
 In each of our language protocol libraries, we will expose two new functions:
 
  1. One for parsing a "cloud event" type from a given set of MQTT user properties
- 2. One for populating a set of MQTT user properties from a given "cloud event" type.
+ 2. One for populating a list of MQTT user properties from a given "cloud event" type.
 
 However, this new addition will __not__ replace the existing APIs for interacting with cloud event headers in the protocol's senders/receivers. See the [alternatives considered](#alternatives-considered) section for why those need to remain.
 
-Additionally, each language protocol library should provide the same cloud event APIs for publishing RPC requests/responses as the telemetry sender/receiver currently have.
+Additionally, each language protocol library should provide the same APIs for publishing RPC requests/responses with cloud event headers as the telemetry sender/receiver currently have.
 
 ### Proposed API addition
 
