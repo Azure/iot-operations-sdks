@@ -337,7 +337,6 @@ impl Cache {
                     }
                     CacheEntry::InProgress {
                         processing_cancellation_token,
-                        ..
                     } => {
                         // If the entry is in progress, it means it has not been completed yet
                         // any duplicate requests should await the cancellation token to complete
@@ -365,28 +364,17 @@ impl Cache {
                     // Retain only non-expired entries
                     expiration_time.elapsed().is_zero()
                 }
-                CacheEntry::InProgress { .. } => {
-                    // Always retain in progress entries
-                    true
+                CacheEntry::InProgress {
+                    processing_cancellation_token,
+                } => {
+                    // If an entry is in progress and its processing cancellation token is cancelled
+                    // it means it timed out so it can be safely removed. If it didn't time out it
+                    // would have been converted to a Cached entry.
+                    !processing_cancellation_token.is_cancelled()
                 }
             }
         });
         cache.insert(key, entry);
-    }
-
-    /// Remove a cache entry from the cache.
-    fn remove(&self, key: &CacheKey) {
-        let mut cache = self.0.lock().unwrap();
-        let removed_entry = cache.remove(key);
-
-        if let Some(CacheEntry::InProgress {
-            processing_cancellation_token,
-            ..
-        }) = removed_entry
-        {
-            // Cancel any awaiting duplicate requests
-            processing_cancellation_token.cancel();
-        }
     }
 }
 
@@ -736,6 +724,10 @@ where
                     // Create a cancellation token to be used to track cache entry state, once the
                     // entry has gone from InProgress to Cached or removed, this token will be cancelled
                     let processing_cancellation_token = CancellationToken::new();
+                    let processing_cancellation_token_clone = processing_cancellation_token.clone();
+                    // This drop guard will stay alive until the request processing is complete,
+                    // whether a timeout occurs, or we have an ok or error response.
+                    let processing_drop_guard = processing_cancellation_token.drop_guard();
 
                     // Clone properties
                     let properties = m.properties;
@@ -885,8 +877,7 @@ where
                         self.cache.set(
                             cache_key.clone(),
                             CacheEntry::InProgress {
-                                processing_cancellation_token: processing_cancellation_token
-                                    .clone(),
+                                processing_cancellation_token: processing_cancellation_token_clone,
                             },
                         );
 
@@ -1060,7 +1051,7 @@ where
                                             response_arguments,
                                             (Some(response_rx), Some(publish_completion_tx)),
                                             cache_clone,
-                                            processing_cancellation_token.drop_guard(),
+                                            processing_drop_guard,
                                         ) => {
                                             // Finished processing command
                                             handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
@@ -1077,10 +1068,6 @@ where
                     if let Some(command_expiration_time) = command_expiration_time
                         && !command_expiration_time.elapsed().is_zero()
                     {
-                        if let Some(cached_key) = response_arguments.cached_key {
-                            // Remove the cache entry as it has expired
-                            self.cache.remove(&cached_key);
-                        }
                         continue;
                     }
 
@@ -1143,7 +1130,7 @@ where
                                             response_arguments,
                                             (None, None),
                                             cache_clone,
-                                            processing_cancellation_token.drop_guard(),
+                                            processing_drop_guard,
                                         ) => {
                                             // Finished processing command
                                             handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
@@ -1203,13 +1190,10 @@ where
                 // Wait and handle puback
                 match publish_completion_token.await {
                     Ok(puback) => {
-                        match puback.as_result() {
-                            Ok(()) => { /* Success */ }
-                            Err(_e) => {
-                                log::error!(
-                                    "[{command_name}][pkid: {pkid}] Puback error on cached response: {puback:?}"
-                                );
-                            }
+                        if !puback.is_success() {
+                            log::error!(
+                                "[{command_name}][pkid: {pkid}] Puback error on cached response: {puback:?}"
+                            );
                         }
                     }
                     Err(e) => {
@@ -1289,10 +1273,6 @@ where
                             None,
                             Some(response_arguments.command_name.clone()),
                         )));
-                    }
-                    if let Some(cached_key) = response_arguments.cached_key {
-                        // Remove the cache entry as it has expired
-                        cache.remove(&cached_key);
                     }
                     return;
                 };
@@ -1413,10 +1393,6 @@ where
                             None,
                             Some(response_arguments.command_name.clone()),
                         )));
-                    }
-                    if let Some(cached_key) = response_arguments.cached_key {
-                        // Remove the cache entry as it has expired
-                        cache.remove(&cached_key);
                     }
                     return;
                 }
@@ -1993,7 +1969,7 @@ mod tests {
     }
 
     #[test]
-    fn test_cache_found_expired() {
+    fn test_cache_expired_entry_not_found() {
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
         let key = CacheKey {
             response_topic: TopicName::new("test_response_topic").unwrap(),
@@ -2047,7 +2023,7 @@ mod tests {
     }
 
     #[test]
-    fn test_cache_found_expired_with_different_key_set() {
+    fn test_cache_expired_entry_not_found_with_different_key_set() {
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
         let old_key = CacheKey {
             response_topic: TopicName::new("test_response_topic").unwrap(),
@@ -2107,7 +2083,7 @@ mod tests {
     }
 
     #[test]
-    fn test_cache_in_progress_expired_with_different_key_set() {
+    fn test_cache_in_progress_found_with_different_key_set() {
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
         let old_key = CacheKey {
             response_topic: TopicName::new("test_response_topic").unwrap(),
@@ -2121,7 +2097,7 @@ mod tests {
         // While in progress, the entry can't expire.
         assert!(matches!(status, CacheLookupResult::InProgress(..)));
 
-        // Set a new entry with a different key and check if the expired entry is not deleted
+        // Set a new entry with a different key and check if the in progress entry is still present
         let new_key = CacheKey {
             response_topic: TopicName::new("new_test_response_topic").unwrap(),
             correlation_data: Bytes::from("new_test_correlation_data"),
@@ -2162,7 +2138,7 @@ mod tests {
     }
 
     #[test]
-    fn test_cache_found_in_progress_notified_completion() {
+    fn test_cache_in_progress_notified_completion() {
         // This tests the verified flow of registering to completion in case a dupe comes in
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
         let processing_cancellation_token = CancellationToken::new();
