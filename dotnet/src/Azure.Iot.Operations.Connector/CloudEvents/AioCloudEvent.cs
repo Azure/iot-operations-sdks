@@ -17,38 +17,32 @@ public class AioCloudEvent
 
     /// <summary>
     /// Generated CloudEvents source URI.
-    /// Formula: ms-aio:<Device-CompoundKey>|<ProtocolSpecificIdentifier>|<Device-externaldeviceId*>|<Device-Name>[/Sub-Source]
     /// </summary>
     public required Uri Source { get; init; }
 
     /// <summary>
     /// Generated CloudEvents type string.
-    /// Formula: ["DataSet"|"Event"]/<typeref-property-value>
     /// </summary>
     public required string Type { get; init; }
 
     /// <summary>
     /// Generated CloudEvents subject string.
-    /// Formula: <Asset-CompoundKey>|<Asset-ExternalAssetId*>|<AssetName>/<DataSet-Name>|<EventGroup-Name>[/Sub-Subject]
     /// </summary>
     public required string Subject { get; init; }
 
     /// <summary>
     /// Schema registry ID for the payload schema.
-    /// Maps to CloudEvents dataschema attribute.
     /// </summary>
     public string? DataSchema { get; init; }
 
     /// <summary>
     /// Generated aiodeviceref value.
-    /// Formula: ms-aio:<DeviceUUID>_<EndpointName>
     /// AIO-specific extension attribute.
     /// </summary>
     public required string AioDeviceRef { get; init; }
 
     /// <summary>
     /// Generated aioassetref value.
-    /// Formula: ms-aio:<AssetUUID>
     /// AIO-specific extension attribute.
     /// </summary>
     public required string AioAssetRef { get; init; }
