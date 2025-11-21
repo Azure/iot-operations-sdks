@@ -174,7 +174,7 @@ impl Client {
 
         self.invoker.shutdown().await.map_err(ErrorKind::from)?;
 
-        log::info!("Shutdown");
+        log::info!("State Store Client shutdown");
         Ok(())
     }
 
@@ -605,12 +605,12 @@ impl Client {
                         match m {
                             Ok((notification, ack_token)) => {
                                 let Some(key_name) = notification.topic_tokens.get("encodedKeyName") else {
-                                    log::error!("Key Notification missing encodedKeyName topic token.");
+                                    log::warn!("Key Notification missing encodedKeyName topic token.");
                                     continue;
                                 };
                                 let decoded_key_name = HEXUPPER.decode(key_name.as_bytes()).unwrap();
                                 let Some(notification_timestamp) = notification.timestamp else {
-                                    log::error!("Received key notification with no version. Ignoring.");
+                                    log::warn!("Received key notification with no version. Ignoring.");
                                     continue;
                                 };
                                 let key_notification = state_store::KeyNotification {
@@ -622,15 +622,15 @@ impl Client {
                                 // Try to send the notification to the associated receiver
                                 match notification_dispatcher.dispatch(key_name, (key_notification.clone(), ack_token)) {
                                     Ok(()) => {
-                                        log::debug!("Key Notification dispatched: {key_notification:?}");
+                                        log::debug!("Key Notification dispatched: {key_notification}");
                                     }
 
                                     Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::SendError }) => {
-                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {payload:?}");
+                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {payload}");
 
                                     }
                                     Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
-                                        log::warn!("Key is not being observed. Received Notification: {payload:?} for {receiver_id}");
+                                        log::warn!("Key is not being observed. Received Notification: {payload} for {receiver_id}");
                                     }
                                 }
                             }

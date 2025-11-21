@@ -585,7 +585,7 @@ where
             Ok(sub_ct) => match sub_ct.await {
                 Ok(suback) => {
                     suback.as_result().map_err(|e| {
-                        log::error!("[{}] Suback error: {suback:?}", self.command_name);
+                        log::error!("[{}] Executor suback error: {suback:?}", self.command_name);
                         AIOProtocolError::new_mqtt_error(
                             Some("MQTT error on command executor suback".to_string()),
                             Box::new(e),
@@ -594,7 +594,10 @@ where
                     })?;
                 }
                 Err(e) => {
-                    log::error!("[{}] Subscribe completion error: {e}", self.command_name);
+                    log::error!(
+                        "[{}] Executor subscribe completion error: {e}",
+                        self.command_name
+                    );
                     return Err(AIOProtocolError::new_mqtt_error(
                         Some("MQTT error on command executor subscribe".to_string()),
                         Box::new(e),
@@ -604,7 +607,7 @@ where
             },
             Err(e) => {
                 log::error!(
-                    "[{}] Client error while subscribing: {e}",
+                    "[{}] Executor client error while subscribing: {e}",
                     self.command_name
                 );
                 return Err(AIOProtocolError::new_mqtt_error(
@@ -661,7 +664,7 @@ where
                         ) => delivery_info.packet_identifier.get(),
                     };
                     // Process the request
-                    log::info!("[{}][pkid: {}] Received request", self.command_name, pkid);
+                    log::debug!("[{}][pkid: {}] Received request", self.command_name, pkid);
                     let message_received_time = Instant::now();
 
                     // Clone properties
@@ -670,7 +673,7 @@ where
                     // Get response topic
                     let response_topic = if let Some(rt) = properties.response_topic {
                         if !is_valid_replacement(rt.as_str()) {
-                            log::error!(
+                            log::warn!(
                                 "[{}][pkid: {}] Response topic invalid, command response will not be published",
                                 self.command_name,
                                 pkid
@@ -687,8 +690,8 @@ where
                         }
                         rt
                     } else {
-                        log::error!(
-                            "[{}][pkid: {}] Response topic missing",
+                        log::warn!(
+                            "[{}][pkid: {}] Response topic missing, command response will not be published",
                             self.command_name,
                             pkid
                         );
@@ -898,7 +901,8 @@ where
                                     /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
                                     // Don't return error, although above properties shouldn't be in the request
                                     log::warn!(
-                                        "Request should not contain MQTT user property {key}. Value is {value}"
+                                        "[{}] Request should not contain MQTT user property {key}. Value is {value}",
+                                        self.command_name
                                     );
                                     user_data.push((key, value));
                                 }
@@ -1101,6 +1105,7 @@ where
                             break 'process_response;
                         }
                     } else {
+                        // TODO: does this return to the application (should be err) or not (should be warn)?
                         log::error!(
                             "[{}][pkid: {}] Request timed out",
                             response_arguments.command_name,
@@ -1169,8 +1174,8 @@ where
             }
 
             if let Some(status_message) = response_arguments.status_message {
-                log::error!(
-                    "[{}][pkid: {}] {}",
+                log::warn!(
+                    "[{}][pkid: {}] sending error reponse to invoker: {}",
                     response_arguments.command_name,
                     pkid,
                     status_message
@@ -1219,6 +1224,7 @@ where
                 let response_message_expiry_interval =
                     command_expiration_time.saturating_duration_since(Instant::now());
                 if response_message_expiry_interval.is_zero() {
+                    // TODO: does this return to the application (should be err) or not (should be warn)?
                     log::error!(
                         "[{}][pkid: {}] Request timed out",
                         response_arguments.command_name,
@@ -1278,7 +1284,7 @@ where
                             serialized_payload: serialized_payload.clone(),
                             expiration_time: command_expiration_time,
                         };
-                        log::info!(
+                        log::debug!(
                             "[{}][pkid: {}] Caching response",
                             response_arguments.command_name,
                             pkid
@@ -1432,7 +1438,7 @@ async fn handle_ack(
             match ack_res {
                 Ok(ack_ct) => {
                     match ack_ct.await {
-                        Ok(()) => log::info!("[pkid: {pkid}] Acknowledged"),
+                        Ok(()) => log::debug!("[pkid: {pkid}] Acknowledged"),
                         Err(e) => log::error!("[pkid: {pkid}] Ack error: {e}"),
                     }
                 },

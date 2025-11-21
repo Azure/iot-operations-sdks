@@ -498,7 +498,7 @@ impl Session {
         dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     ) {
         while let Some((publish, manual_ack)) = receiver.recv().await {
-            log::debug!("Incoming PUBLISH: {publish:?}"); // TODO: Remove, redundant with MQTT layer
+            log::trace!("Incoming PUBLISH: {publish:?}"); // TODO: Remove, redundant with MQTT layer
             // Dispatch the message to receivers
             if dispatcher
                 .lock()

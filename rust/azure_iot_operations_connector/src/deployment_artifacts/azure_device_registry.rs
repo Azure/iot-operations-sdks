@@ -350,7 +350,7 @@ impl FileMountMap {
                     // 1. The receiver is closed which means the `FileMountMap` is dropped, this should not happen.
                     // 2. The receiver is full which means we are not receiving notifications fast enough or
                     //    are out of space, this should be handled by the caller via a retry.
-                    log::warn!("Failed to send device creation notification");
+                    log::error!("Failed to send device creation notification");
                     panic!("Failed to send device creation notification");
                 }
             }
@@ -407,7 +407,7 @@ impl FileMountMap {
                     // 1. The receiver is closed which means the `FileMountMap` is dropped, this should not happen.
                     // 2. The receiver is full which means we are not receiving notifications fast enough or
                     //    are out of space, this should be handled by the caller via a retry.
-                    log::warn!("Failed to send device creation notification");
+                    log::error!("Failed to send device creation notification");
                     panic!("Failed to send device creation notification");
                 }
             }

@@ -677,7 +677,7 @@ impl DeviceEndpointClient {
                 create_notification = self.asset_create_observation.recv_notification(), if !self.pending_asset_creation => {
                     let Some((asset_ref, asset_deletion_token)) = create_notification else {
                         // if the create notification is None, then the device endpoint has been deleted
-                        log::debug!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
+                        log::info!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
                         // unobserve as cleanup
                         // Spawn a new task to prevent a possible cancellation and ensure the deleted
                         // notification reaches the application.
@@ -1647,7 +1647,7 @@ impl AssetClient {
         tokio::select! {
             biased;
             () = self.asset_deletion_token.cancelled() => {
-                log::debug!("Asset deletion token received, stopping asset update observation for {:?}", self.asset_ref);
+                log::info!("Asset deletion token received, stopping asset update observation for {:?}", self.asset_ref);
                 // unobserve as cleanup
                 // Spawn a new task to prevent a possible cancellation and ensure the deleted
                 // notification reaches the application.

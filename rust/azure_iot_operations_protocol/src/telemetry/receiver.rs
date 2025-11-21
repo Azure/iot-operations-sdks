@@ -622,7 +622,7 @@ where
                     };
 
                     // Process the received message
-                    log::info!("[pkid: {pkid}] Received message");
+                    log::debug!("[pkid: {pkid}] Received message");
 
                     match TryInto::<Message<T>>::try_into(m) {
                         Ok(mut message) => {
@@ -636,7 +636,7 @@ where
                             // Update application HLC
                             if let Some(hlc) = &message.timestamp {
                                 if let Err(e) = self.application_hlc.update(hlc) {
-                                    log::error!(
+                                    log::warn!(
                                         "[pkid: {pkid}]: Failure updating application HLC against {hlc}: {e}"
                                     );
                                 }
@@ -644,7 +644,7 @@ where
                             return Some(Ok((message, ack_token)));
                         }
                         Err(e_string) => {
-                            log::error!("[pkid: {pkid}] {e_string}");
+                            log::warn!("[pkid: {pkid}] {e_string}");
 
                             // Ack on error to prevent redelivery
                             if let Some(ack_token) = ack_token {

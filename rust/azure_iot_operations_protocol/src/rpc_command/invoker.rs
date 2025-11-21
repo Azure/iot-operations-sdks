@@ -468,10 +468,7 @@ where
             // Response with payload
             StatusCode::Ok | StatusCode::NoContent => {
                 let content_type = publish_properties.content_type;
-                let format_indicator = publish_properties.payload_format_indicator.try_into().unwrap_or_else(|e| {
-                    log::error!("Received invalid payload format indicator: {e}. This should not be possible to receive from the broker. Using default.");
-                    FormatIndicator::default()
-                });
+                let format_indicator = publish_properties.payload_format_indicator.into();
 
                 if matches!(status_code, StatusCode::NoContent) && !value.payload.is_empty() {
                     return Err(AIOProtocolError::new_payload_invalid_error(
@@ -896,7 +893,7 @@ where
                 match sub_ct.await {
                     Ok(suback) => {
                         suback.as_result().map_err(|e| {
-                            log::error!("[ERROR] suback error: {suback:?}");
+                            log::error!("[{}] Invoker suback error: {suback:?}", self.command_name);
                             AIOProtocolError::new_mqtt_error(
                                 Some("MQTT Error on command invoker suback".to_string()),
                                 Box::new(e),
@@ -905,7 +902,10 @@ where
                         })?;
                     }
                     Err(e) => {
-                        log::error!("[ERROR] subscribe completion error: {e}");
+                        log::error!(
+                            "[{}] IInvoker subscribe completion error: {e}",
+                            self.command_name
+                        );
                         return Err(AIOProtocolError::new_mqtt_error(
                             Some("MQTT Error on command invoker subscribe".to_string()),
                             Box::new(e),
@@ -915,7 +915,10 @@ where
                 }
             }
             Err(e) => {
-                log::error!("[ERROR] client error while subscribing: {e}");
+                log::error!(
+                    "[{}] Invoker client error while subscribing: {e}",
+                    self.command_name
+                );
                 return Err(AIOProtocolError::new_mqtt_error(
                     Some("Client error on command invoker subscribe".to_string()),
                     Box::new(e),
@@ -1074,7 +1077,7 @@ where
                                         })
                                     },
                                     Err(e) => {
-                                        log::error!("[ERROR] publish completion error: {e}");
+                                        log::error!("[{command_name}] Invoker publish completion error: {e}");
                                         Err(AIOProtocolError::new_mqtt_error(
                                             Some("MQTT Error on command invoke publish".to_string()),
                                             Box::new(e),
@@ -1086,7 +1089,7 @@ where
                         }
                     }
                     Err(e) => {
-                        log::error!("[ERROR] client error while publishing: {e}");
+                        log::error!("[{command_name}] Invoker client error while publishing: {e}");
                         Err(AIOProtocolError::new_mqtt_error(
                             Some("Client error on command invoker request publish".to_string()),
                             Box::new(e),
@@ -1130,7 +1133,7 @@ where
                                             }
                                     } else {
                                         log::error!(
-                                            "Command Invoker has been shutdown and will no longer receive a response"
+                                            "[{command_name}] Command Invoker has been shutdown and will no longer receive a response"
                                         );
                                         return Err(AIOProtocolError::new_cancellation_error(
                                             false,
@@ -1145,15 +1148,15 @@ where
                                     // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
                                 }
                                 Err(RecvError::Lagged(e)) => {
-                                    log::error!(
-                                        "[ERROR] Invoker response receiver lagged. Response may not be received. Number of skipped messages: {e}"
+                                    log::warn!(
+                                        "[{command_name}] Invoker response receiver lagged. Response may not be received. Number of skipped messages: {e}"
                                     );
                                     // Keep waiting for response even though it may have gotten overwritten.
                                     continue;
                                 }
                                 Err(RecvError::Closed) => {
                                     log::error!(
-                                        "[ERROR] MQTT Receiver has been cleaned up and will no longer send a response"
+                                        "[{command_name}] MQTT Receiver has been cleaned up and will no longer send a response"
                                     );
                                     return Err(AIOProtocolError::new_cancellation_error(
                                         false,
