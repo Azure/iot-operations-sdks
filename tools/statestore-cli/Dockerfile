@@ -19,6 +19,15 @@ RUN --mount=type=secret,id=CARGO_TOKEN,target=/run/secrets/cargo_token \
     cargo build -p "statestore-cli" --release
 
 # Finalize image
-FROM mcr.microsoft.com/azurelinux/distroless/base:3.0 AS final
-COPY --from=build /app/target/release/statestore-cli /bin/statestore-cli
-ENTRYPOINT ["/bin/statestore-cli"]
+FROM mcr.microsoft.com/azurelinux/base/core:3.0 AS final
+RUN tdnf install -y shadow-utils && tdnf clean all -y
+# Create non-root user
+ARG USERNAME="aio_devs"
+ARG USERGROUP="aio_dataflow"
+
+RUN groupadd -r ${USERGROUP} && \
+    useradd -r -g ${USERGROUP} ${USERNAME}
+
+USER ${USERNAME}
+COPY --from=build --chown=${USERNAME}:${USERGROUP} /app/target/release/statestore-cli /opt/app/statestore-cli
+ENTRYPOINT ["/opt/app/statestore-cli"]
