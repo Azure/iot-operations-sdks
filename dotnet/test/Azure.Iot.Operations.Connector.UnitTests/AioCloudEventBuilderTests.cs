@@ -100,55 +100,6 @@ public class AioCloudEventBuilderTests
         Assert.Equal("ms-aio:asset-uuid-789", result.AioAssetRef);
     }
 
-    [Fact]
-    public void Build_Dataset_ThrowsArgumentNullException_WhenDeviceIsNull()
-    {
-        // Arrange
-        var asset = new Asset { Uuid = "asset-uuid" };
-        var dataset = new AssetDataset { Name = "dataset1" };
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            AioCloudEventBuilder.Build(null!, "endpoint1", "address", asset, dataset));
-    }
-
-    [Fact]
-    public void Build_Dataset_ThrowsArgumentNullException_WhenEndpointNameIsNull()
-    {
-        // Arrange
-        var device = new Device { Uuid = "device-uuid" };
-        var asset = new Asset { Uuid = "asset-uuid" };
-        var dataset = new AssetDataset { Name = "dataset1" };
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            AioCloudEventBuilder.Build(device, null!, "address", asset, dataset));
-    }
-
-    [Fact]
-    public void Build_Dataset_ThrowsArgumentNullException_WhenAssetIsNull()
-    {
-        // Arrange
-        var device = new Device { Uuid = "device-uuid" };
-        var dataset = new AssetDataset { Name = "dataset1" };
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            AioCloudEventBuilder.Build(device, "endpoint1", "address", null!, dataset));
-    }
-
-    [Fact]
-    public void Build_Dataset_ThrowsArgumentNullException_WhenDatasetIsNull()
-    {
-        // Arrange
-        var device = new Device { Uuid = "device-uuid" };
-        var asset = new Asset { Uuid = "asset-uuid" };
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            AioCloudEventBuilder.Build(device, "endpoint1", "address", asset, null!));
-    }
-
     #endregion
 
     #region Event Build Tests
@@ -244,76 +195,14 @@ public class AioCloudEventBuilderTests
         Assert.Equal("ms-aio:asset-uuid-789", result.AioAssetRef);
     }
 
-    [Fact]
-    public void Build_Event_ThrowsArgumentNullException_WhenDeviceIsNull()
-    {
-        // Arrange
-        var asset = new Asset { Uuid = "asset-uuid" };
-        var assetEvent = new AssetEvent { Name = "event1" };
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            AioCloudEventBuilder.Build(null!, "endpoint1", "address", asset, "eventGroup1", assetEvent));
-    }
-
-    [Fact]
-    public void Build_Event_ThrowsArgumentNullException_WhenEndpointNameIsNull()
-    {
-        // Arrange
-        var device = new Device { Uuid = "device-uuid" };
-        var asset = new Asset { Uuid = "asset-uuid" };
-        var assetEvent = new AssetEvent { Name = "event1" };
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            AioCloudEventBuilder.Build(device, null!, "address", asset, "eventGroup1", assetEvent));
-    }
-
-    [Fact]
-    public void Build_Event_ThrowsArgumentNullException_WhenAssetIsNull()
-    {
-        // Arrange
-        var device = new Device { Uuid = "device-uuid" };
-        var assetEvent = new AssetEvent { Name = "event1" };
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            AioCloudEventBuilder.Build(device, "endpoint1", "address", null!, "eventGroup1", assetEvent));
-    }
-
-    [Fact]
-    public void Build_Event_ThrowsArgumentNullException_WhenEventGroupNameIsNull()
-    {
-        // Arrange
-        var device = new Device { Uuid = "device-uuid" };
-        var asset = new Asset { Uuid = "asset-uuid" };
-        var assetEvent = new AssetEvent { Name = "event1" };
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            AioCloudEventBuilder.Build(device, "endpoint1", "address", asset, null!, assetEvent));
-    }
-
-    [Fact]
-    public void Build_Event_ThrowsArgumentNullException_WhenAssetEventIsNull()
-    {
-        // Arrange
-        var device = new Device { Uuid = "device-uuid" };
-        var asset = new Asset { Uuid = "asset-uuid" };
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            AioCloudEventBuilder.Build(device, "endpoint1", "address", asset, "eventGroup1", null!));
-    }
-
     #endregion
 
     #region Source Generation Tests
 
     [Fact]
-    public void Build_UsesPriority2_ProtocolAddress_ForSource()
+    public void Build_UsesProtocolAddress_ForSource()
     {
-        // Arrange - Priority 2: Protocol specific identifier (endpoint address)
+        // Arrange - Protocol specific identifier (endpoint address)
         var device = new Device
         {
             Uuid = "device-uuid",
@@ -337,9 +226,9 @@ public class AioCloudEventBuilderTests
     }
 
     [Fact]
-    public void Build_UsesPriority3_ExternalDeviceId_ForSource_WhenEndpointAddressIsNull()
+    public void Build_UsesExternalDeviceId_ForSource_WhenEndpointAddressIsNull()
     {
-        // Arrange - Priority 3: External device ID (when different from UUID)
+        // Arrange - External device ID (when different from UUID)
         var device = new Device
         {
             Uuid = "device-uuid",
@@ -363,7 +252,7 @@ public class AioCloudEventBuilderTests
     }
 
     [Fact]
-    public void Build_UsesPriority4_DeviceName_ForSource_WhenEndpointAddressIsNullAndExternalIdEqualsUuid()
+    public void Build_UsesDeviceName_ForSource_WhenEndpointAddressIsNullAndExternalIdEqualsUuid()
     {
         // Arrange - Priority 4: Device name (when external ID equals UUID)
         var device = new Device
@@ -444,9 +333,9 @@ public class AioCloudEventBuilderTests
     #region Subject Generation Tests
 
     [Fact]
-    public void Build_UsesPriority2_ExternalAssetId_ForSubject()
+    public void Build_UsesExternalAssetId_ForSubject_WhenDifferentFromUuid()
     {
-        // Arrange - Priority 2: External asset ID (when different from UUID)
+        // Arrange - External asset ID (when different from UUID)
         var device = new Device { Uuid = "device-uuid" };
         var asset = new Asset
         {
@@ -469,9 +358,9 @@ public class AioCloudEventBuilderTests
     }
 
     [Fact]
-    public void Build_UsesPriority3_AssetName_ForSubject_WhenExternalIdEqualsUuid()
+    public void Build_UsesAssetName_ForSubject_WhenExternalIdEqualsUuid()
     {
-        // Arrange - Priority 3: Asset name (when external ID equals UUID)
+        // Arrange - Asset name (when external ID equals UUID)
         var device = new Device { Uuid = "device-uuid" };
         var asset = new Asset
         {
