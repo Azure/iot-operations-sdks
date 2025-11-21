@@ -143,29 +143,15 @@ public static class AioCloudEventBuilder
     /// <returns>The formatted CloudEvents source string.</returns>
     private static string BuildSource(Device device, string? endpointAddress, string? deviceName, string? dataSource)
     {
-        string? deviceIdentifier = null;
-
         // Priority 1: Device compound key (customer master data), not available until ADR implementation
-
         // Priority 2: Protocol specific identifier (device inbound endpoint address)
-        if (!string.IsNullOrWhiteSpace(endpointAddress))
-        {
-            deviceIdentifier = endpointAddress;
-        }
         // Priority 3: External device ID if different from UUID
-        else if (!string.IsNullOrWhiteSpace(device.ExternalDeviceId) && !IsEqualToUuid(device.ExternalDeviceId, device.Uuid))
-        {
-            deviceIdentifier = device.ExternalDeviceId;
-        }
         // Priority 4: Device name
-        else if (!string.IsNullOrWhiteSpace(deviceName))
-        {
-            deviceIdentifier = deviceName;
-        }
-        else
-        {
+        string? deviceIdentifier =
+            !string.IsNullOrWhiteSpace(endpointAddress) ? endpointAddress :
+            !string.IsNullOrWhiteSpace(device.ExternalDeviceId) && !IsEqualToUuid(device.ExternalDeviceId, device.Uuid) ? device.ExternalDeviceId :
+            !string.IsNullOrWhiteSpace(deviceName) ? deviceName :
             throw new InvalidOperationException("Unable to determine device identifier: all identification fields are null or empty.");
-        }
 
         var source = $"ms-aio:{deviceIdentifier}";
 
@@ -207,24 +193,13 @@ public static class AioCloudEventBuilder
     /// <returns>The formatted CloudEvents subject string.</returns>
     private static string BuildSubject(Asset asset, string? assetName, string name, string? subSubject)
     {
-        string? assetIdentifier = null;
-
         // Priority 1: Asset compound key (customer master data), not available until ADR implementation
-
         // Priority 2: External asset ID if different from UUID
-        if (!string.IsNullOrWhiteSpace(asset.ExternalAssetId) && !IsEqualToUuid(asset.ExternalAssetId, asset.Uuid))
-        {
-            assetIdentifier = asset.ExternalAssetId;
-        }
         // Priority 3: Asset name from Attributes
-        else if (!string.IsNullOrWhiteSpace(assetName))
-        {
-            assetIdentifier = assetName;
-        }
-        else
-        {
+        string? assetIdentifier =
+            !string.IsNullOrWhiteSpace(asset.ExternalAssetId) && !IsEqualToUuid(asset.ExternalAssetId, asset.Uuid) ? asset.ExternalAssetId :
+            !string.IsNullOrWhiteSpace(assetName) ? assetName :
             throw new InvalidOperationException("Unable to determine asset identifier: all identification fields are null or empty.");
-        }
 
         var subject = $"{assetIdentifier}/{name}";
 
