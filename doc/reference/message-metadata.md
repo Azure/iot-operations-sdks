@@ -17,7 +17,7 @@ MQTT messages will include some system and user properties to define metadata va
 
 ### CloudEvents Header
 
-Telemetry messages can include  [CloudEvents](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md) as defined by the [CloudEvents MQTT bindings](https://github.com/cloudevents/spec/blob/main/cloudevents/bindings/mqtt-protocol-binding.md), as we are only targeting MQTT5 we will use the [Binary Content Mode](https://github.com/cloudevents/spec/blob/main/cloudevents/bindings/mqtt-protocol-binding.md#31-binary-content-mode).
+Telemetry and RPC messages can include  [CloudEvents](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md) as defined by the [CloudEvents MQTT bindings](https://github.com/cloudevents/spec/blob/main/cloudevents/bindings/mqtt-protocol-binding.md), as we are only targeting MQTT5 we will use the [Binary Content Mode](https://github.com/cloudevents/spec/blob/main/cloudevents/bindings/mqtt-protocol-binding.md#31-binary-content-mode).
 
 #### CloudEvents Properties
 
