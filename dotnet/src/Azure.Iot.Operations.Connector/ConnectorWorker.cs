@@ -291,7 +291,7 @@ namespace Azure.Iot.Operations.Connector
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            CloudEvent? cloudEvent = null;
+            CloudEvents.AioCloudEvent? aioCloudEvent = null;
             Schema? registeredDatasetMessageSchema = null;
             if (!_registeredDatasetMessageSchemas.ContainsKey($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}"))
             {
@@ -327,14 +327,14 @@ namespace Azure.Iot.Operations.Connector
 
             if (_registeredDatasetMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", out registeredDatasetMessageSchema))
             {
-                if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
-                {
-                    cloudEvent = ConstructCloudEventHeaders(inboundEndpointName, registeredDatasetMessageSchema);
-                }
-                else
-                {
-                    _logger.LogError("Cannot construct cloud event headers for dataset because its inbound endpoint name is not a valid Uri or Uri reference");
-                }
+                aioCloudEvent = ConstructCloudEventHeadersForDataset(
+                    device,
+                    deviceName,
+                    inboundEndpointName,
+                    asset,
+                    assetName,
+                    dataset,
+                    registeredDatasetMessageSchema);
             }
 
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
@@ -355,8 +355,17 @@ namespace Azure.Iot.Operations.Connector
 
                     var messageMetadata = new OutgoingTelemetryMetadata
                     {
-                        CloudEvent = cloudEvent
+                        CloudEvent = aioCloudEvent?.ToCloudEvent(_applicationContext.ApplicationHlc.Timestamp)
                     };
+
+                    // Add AIO-specific extension attributes to UserData
+                    if (aioCloudEvent != null)
+                    {
+                        foreach (var extension in aioCloudEvent.GetExtensions())
+                        {
+                            messageMetadata.UserData[extension.Key] = extension.Value;
+                        }
+                    }
 
                     Retain? retain = destination.Configuration.Retain;
                     if (retain != null)
@@ -460,17 +469,18 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            CloudEvent? cloudEvent = null;
+            CloudEvents.AioCloudEvent? aioCloudEvent = null;
             if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent.Name}", out registeredEventMessageSchema))
             {
-                if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
-                {
-                    cloudEvent = ConstructCloudEventHeaders(inboundEndpointName, registeredEventMessageSchema);
-                }
-                else
-                {
-                    _logger.LogError("Cannot construct cloud event headers for event because its inbound endpoint name is not a valid Uri or Uri reference.");
-                }
+                aioCloudEvent = ConstructCloudEventHeadersForEvent(
+                    device,
+                    deviceName,
+                    inboundEndpointName,
+                    asset,
+                    assetName,
+                    eventGroupName,
+                    assetEvent,
+                    registeredEventMessageSchema);
             }
 
             foreach (var destination in assetEvent.Destinations)
@@ -483,8 +493,17 @@ namespace Azure.Iot.Operations.Connector
 
                     var messageMetadata = new OutgoingTelemetryMetadata
                     {
-                        CloudEvent = cloudEvent
+                        CloudEvent = aioCloudEvent?.ToCloudEvent(_applicationContext.ApplicationHlc.Timestamp)
                     };
+
+                    // Add AIO-specific extension attributes to UserData
+                    if (aioCloudEvent != null)
+                    {
+                        foreach (var extension in aioCloudEvent.GetExtensions())
+                        {
+                            messageMetadata.UserData[extension.Key] = extension.Value;
+                        }
+                    }
 
                     Retain? retain = destination.Configuration.Retain;
                     if (retain != null)
@@ -751,14 +770,102 @@ namespace Azure.Iot.Operations.Connector
             return compoundDeviceName + "_" + assetName;
         }
 
-        private CloudEvent ConstructCloudEventHeaders(string inboundEndpointName, Schema registeredSchema)
+        private CloudEvents.AioCloudEvent? ConstructCloudEventHeadersForDataset(
+            Device device,
+            string deviceName,
+            string inboundEndpointName,
+            Asset asset,
+            string assetName,
+            AssetDataset dataset,
+            Schema registeredSchema)
         {
-            return new(new Uri(inboundEndpointName, UriKind.RelativeOrAbsolute))
+            try
             {
-                DataSchema = $"aio-sr://{registeredSchema.Namespace}/{registeredSchema.Name}:{registeredSchema.Version}",
-                Time = _applicationContext.ApplicationHlc.Timestamp,
-                Id = Guid.NewGuid().ToString(),
-            };
+                // Find the endpoint from the device to get the protocol address
+                string endpointAddress = inboundEndpointName;
+                if (device.Endpoints?.Inbound != null &&
+                    device.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var endpoint))
+                {
+                    endpointAddress = endpoint.Address;
+                }
+                else
+                {
+                    _logger.LogError($"Endpoint {inboundEndpointName} not found in device {deviceName}, using endpoint name as address");
+                }
+
+                // Create MessageSchemaReference from registered schema
+                var schemaRef = new MessageSchemaReference
+                {
+                    SchemaRegistryNamespace = registeredSchema.Namespace,
+                    SchemaName = registeredSchema.Name,
+                    SchemaVersion = registeredSchema.Version
+                };
+
+                // Build and return the AIO CloudEvent
+                return CloudEvents.AioCloudEventBuilder.Build(
+                    device,
+                    inboundEndpointName,
+                    endpointAddress,
+                    asset,
+                    dataset,
+                    schemaRef,
+                    deviceName,
+                    assetName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to construct CloudEvents headers for dataset {dataset.Name}");
+                return null;
+            }
+        }
+
+        private CloudEvents.AioCloudEvent? ConstructCloudEventHeadersForEvent(
+            Device device,
+            string deviceName,
+            string inboundEndpointName,
+            Asset asset,
+            string assetName,
+            string eventGroupName,
+            AssetEvent assetEvent,
+            Schema registeredSchema)
+        {
+            try
+            {
+                // Find the endpoint from the device to get the protocol address
+                string endpointAddress = inboundEndpointName;
+                if (device.Endpoints?.Inbound != null &&
+                    device.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var endpoint))
+                {
+                    endpointAddress = endpoint.Address;
+                }
+                else
+                {
+                    _logger.LogError($"Endpoint {inboundEndpointName} not found in device {deviceName}, using endpoint name as address");
+                }
+
+                var schemaRef = new MessageSchemaReference
+                {
+                    SchemaRegistryNamespace = registeredSchema.Namespace,
+                    SchemaName = registeredSchema.Name,
+                    SchemaVersion = registeredSchema.Version
+                };
+
+                return CloudEvents.AioCloudEventBuilder.Build(
+                    device,
+                    inboundEndpointName,
+                    endpointAddress,
+                    asset,
+                    eventGroupName,
+                    assetEvent,
+                    schemaRef,
+                    deviceName,
+                    assetName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to construct CloudEvents headers for event {assetEvent.Name}");
+                return null;
+            }
         }
     }
 }
