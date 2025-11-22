@@ -63,7 +63,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
 
-        internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId, string? topicPattern = null)
+        internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId, string? topicPattern = null, string? topicNamespace = null)
         {
             UserData = [];
 
@@ -92,7 +92,20 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 }
             }
 
-            TopicTokens = topicPattern != null ? MqttTopicProcessor.GetReplacementMap(topicPattern, message.Topic) : new Dictionary<string, string>();
+            if (topicPattern != null)
+            {
+                string fullTopicPattern = topicPattern;
+                if (topicNamespace != null)
+                {
+                    fullTopicPattern = topicNamespace + "/" + topicPattern;
+                }
+
+                TopicTokens = MqttTopicProcessor.GetReplacementMap(fullTopicPattern, message.Topic);
+            }
+            else
+            {
+                TopicTokens = new Dictionary<string, string>();
+            }
 
             PacketId = packetId;
         }

@@ -1,11 +1,10 @@
 ﻿using System.Buffers;
-using System.Globalization;
-using System.Net.Mime;
 using System.Text.Json;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.StateStore;
-using Microsoft.IdentityModel.Tokens;
 using Xunit;
 
 namespace Azure.Iot.Operations.Connector.IntegrationTests
@@ -79,6 +78,53 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 Assert.Fail("Timed out waiting for polling telemetry connector to push expected data to DSS. This likely means the connector did not deploy successfully");
             }
+
+            await using AzureDeviceRegistryClient adrClient = new(new(), mqttClient);
+
+            // A connector's status may fluctuate over time depending on if mqtt telemetry or state store requests
+            // timeout. This retry logic allows for checking the status over the course of a few seconds to see
+            // if it is okay at any point or if it reports an unexpected status consistently.
+            int retryCount = 0;
+            while (true)
+            {
+                try
+                {
+                    // Check that the device status was reported
+                    DeviceStatus deviceStatus = await adrClient.GetDeviceStatusAsync("my-rest-thermostat-device-name", "my-rest-thermostat-endpoint-name");
+                    Assert.NotNull(deviceStatus.Config);
+                    Assert.Null(deviceStatus.Config.Error);
+                    Assert.NotNull(deviceStatus.Config.LastTransitionTime);
+
+                    // Check that both asset statuses were reported
+                    AssetStatus asset1Status = await adrClient.GetAssetStatusAsync("my-rest-thermostat-device-name", "my-rest-thermostat-endpoint-name", "my-rest-thermostat-asset1");
+                    AssetStatus asset2Status = await adrClient.GetAssetStatusAsync("my-rest-thermostat-device-name", "my-rest-thermostat-endpoint-name", "my-rest-thermostat-asset2");
+                    Assert.NotNull(asset1Status.Config);
+                    Assert.Null(asset1Status.Config.Error);
+                    Assert.NotNull(asset1Status.Config.LastTransitionTime);
+                    Assert.NotNull(asset1Status.Datasets);
+                    Assert.Single(asset1Status.Datasets);
+                    Assert.Equal("thermostat_status", asset1Status.Datasets.First().Name);
+                    Assert.Null(asset1Status.Datasets.First().Error);
+
+                    Assert.NotNull(asset2Status.Config);
+                    Assert.Null(asset2Status.Config.Error);
+                    Assert.NotNull(asset2Status.Config.LastTransitionTime);
+                    Assert.NotNull(asset2Status.Datasets);
+                    Assert.Single(asset2Status.Datasets);
+                    Assert.Equal("thermostat_status", asset2Status.Datasets.First().Name);
+                    Assert.Null(asset2Status.Datasets.First().Error);
+                    break;
+                }
+                catch (Exception)
+                {
+                    if (++retryCount > 5)
+                    {
+                        throw;
+                    }
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(3));
+            }
         }
 
         [Fact]
@@ -121,6 +167,49 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             catch (TimeoutException)
             {
                 Assert.Fail("Timed out waiting for TCP connector telemetry to reach MQTT broker. This likely means the connector did not deploy successfully");
+            }
+
+            await using AzureDeviceRegistryClient adrClient = new(new(), mqttClient);
+
+            // A connector's status may fluctuate over time depending on if mqtt telemetry or state store requests
+            // timeout. This retry logic allows for checking the status over the course of a few seconds to see
+            // if it is okay at any point or if it reports an unexpected status consistently.
+            int retryCount = 0;
+            while (true)
+            {
+                try
+                {
+                    // Check that the device status was reported
+                    DeviceStatus deviceStatus = await adrClient.GetDeviceStatusAsync("my-tcp-thermostat", "my_tcp_endpoint");
+                    Assert.NotNull(deviceStatus.Config);
+                    Assert.Null(deviceStatus.Config.Error);
+                    Assert.NotNull(deviceStatus.Config.LastTransitionTime);
+
+                    // Check that both asset statuses were reported
+                    AssetStatus assetStatus = await adrClient.GetAssetStatusAsync("my-tcp-thermostat", "my_tcp_endpoint", "my-tcp-thermostat-asset");
+                    Assert.NotNull(assetStatus.Config);
+                    Assert.Null(assetStatus.Config.Error);
+                    Assert.NotNull(assetStatus.Config.LastTransitionTime);
+                    Assert.NotNull(assetStatus.EventGroups);
+                    Assert.Single(assetStatus.EventGroups);
+                    var eventGroupStatus = assetStatus.EventGroups.First();
+                    Assert.Equal("my-event-group", eventGroupStatus.Name);
+                    Assert.NotNull(eventGroupStatus.Events);
+                    Assert.Single(eventGroupStatus.Events);
+                    var eventStatus = eventGroupStatus.Events.First();
+                    Assert.Equal("thermostat_status_changed", eventStatus.Name);
+                    Assert.Null(eventStatus.Error);
+                    break;
+                }
+                catch (Exception)
+                {
+                    if (++retryCount > 5)
+                    {
+                        throw;
+                    }
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(3));
             }
         }
 
