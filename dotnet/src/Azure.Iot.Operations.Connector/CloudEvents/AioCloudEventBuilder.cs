@@ -147,7 +147,7 @@ public static class AioCloudEventBuilder
 
         if (!string.IsNullOrWhiteSpace(dataSource))
         {
-            source += $"/{dataSource}";
+            source += dataSource.StartsWith('/') ? dataSource : $"/{dataSource}";
         }
 
         return source;
