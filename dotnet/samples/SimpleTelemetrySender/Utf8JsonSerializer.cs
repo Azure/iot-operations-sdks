@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
 
-namespace SimpleRpcServer;
+namespace SimpleTelemetrySender;
 
 public class EmptyJson
 {

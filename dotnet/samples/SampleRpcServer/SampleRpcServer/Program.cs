@@ -1,26 +1,21 @@
 ﻿using System.Diagnostics;
 using Azure.Iot.Operations.Mqtt.Session;
-using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
-using Microsoft.Extensions.Configuration;
-using SampleRpcServer;
+using SimpleRpcServer;
 
 string commandName = "someCommandName";
 
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .AddEnvironmentVariables()
-    .AddCommandLine(args)
-    .Build();
+// If you want to log the MQTT layer publishes, subscribes, connects, etc.
+bool logMqtt = false;
 
-var mqttDiag = Convert.ToBoolean(configuration["mqttDiag"]);
-if (mqttDiag) Trace.Listeners.Add(new ConsoleTraceListener());
-await using MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogging = mqttDiag });
-ApplicationContext applicationContext = new();
+if (logMqtt) Trace.Listeners.Add(new ConsoleTraceListener());
+await using MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogging = logMqtt });
 
 await mqttClient.ConnectAsync(MqttConnectionSettings.FromEnvVars());
 
-await using SampleCommandExecutor rpcExecutor = new(applicationContext, mqttClient, commandName, new Utf8JsonSerializer())
+Console.WriteLine("Connected to the MQTT broker");
+
+await using SampleCommandExecutor rpcExecutor = new(new(), mqttClient, commandName, new Utf8JsonSerializer())
 {
     OnCommandReceived = (request, cancellationToken) =>
     {
@@ -42,8 +37,9 @@ await using SampleCommandExecutor rpcExecutor = new(applicationContext, mqttClie
 
 await rpcExecutor.StartAsync();
 
+Console.WriteLine("Now listening for RPC requests...");
+
 await Task.Delay(TimeSpan.FromMinutes(1));
 
-
-
+Console.WriteLine("Shutting down...");
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 
-namespace SampleRpcServer
+namespace SimpleRpcServer
 {
     [CommandTopic("rpc/command-samples/{commandName}")]
     public class SampleCommandExecutor : CommandExecutor<PayloadObject, PayloadObject>
