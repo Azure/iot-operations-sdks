@@ -3,7 +3,7 @@ module github.com/Azure/iot-operations-sdks/go/mqtt
 go 1.24.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/internal v0.3.0
+	github.com/Azure/iot-operations-sdks/go/internal v0.3.1
 	github.com/eclipse/paho.golang v0.23.0
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/iancoleman/strcase v0.3.0
