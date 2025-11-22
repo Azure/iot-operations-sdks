@@ -26,5 +26,6 @@ var payload = new PayloadObject()
     OtherField = "someOtherValue"
 };
 
+Console.WriteLine("Sending RPC request...");
 PayloadObject response = (await rpcInvoker.InvokeCommandAsync(payload)).Response;
 Console.WriteLine("Received RPC response");
