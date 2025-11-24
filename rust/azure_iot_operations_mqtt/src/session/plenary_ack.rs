@@ -140,7 +140,7 @@ impl InnerState {
     /// Called by PlenaryAckMember to indicate a member has acked
     async fn member_ack(self: &Arc<Self>) -> Result<PlenaryAckCompletionToken, ClientError> {
         self.counter.fetch_add(1, Ordering::SeqCst);
-        self.trigger_if_ready();
+        self.trigger_if_ready().await;
 
         // Early exit if result is ready
         if let Some(result) = self.result.get() {
@@ -158,38 +158,38 @@ impl InnerState {
         }
     }
 
-    fn trigger_if_ready(self: &Arc<Self>) -> () {
+    async fn trigger_if_ready(self: &Arc<Self>) -> () {
         // Check if sealed
-        if let Some(total) = *self.sealed.lock().unwrap() {
+        let sealed = {
+            self.sealed.lock().unwrap().clone()
+        };
+        if let Some(total) = sealed {
             // Check if all members have acked
             if self.counter.load(Ordering::SeqCst) == total {
                 // Check if result is not yet set
                 if self.result.get().is_none() {
                     // Trigger manual ack
-                    let c = self.clone();
                     let manual_ack = self.manual_ack.lock().unwrap().take().unwrap(); // TODO: guarantee? Is Option really the best option?
-                    tokio::spawn(async move {
-                        let result = match manual_ack {
-                            ManualAcknowledgement::QoS0 => {
-                                unimplemented!("no ack on qos 0") // TODO: better error
-                            }
-                            ManualAcknowledgement::QoS1(token) => {
-                                token.accept(PubAckProperties::default()).await
-                            }
-                            ManualAcknowledgement::QoS2(_token) => {
-                                unimplemented!("QoS2 not yet supported")
-                            }
-                        };
+                    let result = match manual_ack {
+                        ManualAcknowledgement::QoS0 => {
+                            unimplemented!("no ack on qos 0") // TODO: better error
+                        }
+                        ManualAcknowledgement::QoS1(token) => {
+                            token.accept(PubAckProperties::default()).await
+                        }
+                        ManualAcknowledgement::QoS2(_token) => {
+                            unimplemented!("QoS2 not yet supported")
+                        }
+                    };
 
-                        // Map the token result to a PlenaryAckCompletionToken
-                        let result =
-                            result.map(|ct| PlenaryAckCompletionToken { inner: ct.shared() });
+                    // Map the token result to a PlenaryAckCompletionToken
+                    let result =
+                        result.map(|ct| PlenaryAckCompletionToken { inner: ct.shared() });
 
-                        // TODO: what is the return type?
-                        // TODO: clean up
-                        c.result.set(result).unwrap();
-                        c.notify.notify_waiters();
-                    });
+                    // TODO: what is the return type?
+                    // TODO: clean up
+                    self.result.set(result).unwrap();
+                    self.notify.notify_waiters();
                 }
             }
         }

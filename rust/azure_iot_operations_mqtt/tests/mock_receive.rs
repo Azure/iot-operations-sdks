@@ -38,7 +38,7 @@ fn setup_client_and_mock_server(client_id: &str) -> (Session, MockServer) {
 /// - receive messages via recv_manual_ack()
 /// - no PUBACKS are sent because QoS 0
 /// - no mechanism for sending PUBACKs is exposed
-async fn qos0_single_reciever_test_logic(
+async fn qos0_single_receiver_test_logic(
     mock_server: MockServer,
     mut receiver: SessionPubReceiver,
     topic_name: &str,
@@ -95,7 +95,7 @@ async fn qos0_single_filtered_receiver() {
     let topic_filter = TopicFilter::new("test/subscribe/topic").unwrap();
     let receiver = managed_client.create_filtered_pub_receiver(topic_filter);
 
-    qos0_single_reciever_test_logic(mock_server, receiver, "test/subscribe/topic").await;
+    qos0_single_receiver_test_logic(mock_server, receiver, "test/subscribe/topic").await;
 }
 
 #[tokio::test]
@@ -112,7 +112,7 @@ async fn qos0_single_unfiltered_receiver() {
     // NOTE: Do not actually subscribe here, as it's not necessary for the test
     let receiver = managed_client.create_unfiltered_pub_receiver();
 
-    qos0_single_reciever_test_logic(mock_server, receiver, "test/subscribe/topic").await;
+    qos0_single_receiver_test_logic(mock_server, receiver, "test/subscribe/topic").await;
 }
 
 /// Common test logic for filtered/unfiltered single receiver tests at QoS 1.
@@ -200,7 +200,7 @@ async fn qos1_single_receiver_test_logic(
     assert_eq!(puback.packet_identifier, 3);
     assert_eq!(puback.reason_code, mqtt_proto::PubAckReasonCode::Success);
 
-    ///////////// Multiple messages (unorderd acks) using recv_manual_ack() and AckToken /////////////
+    ///////////// Multiple messages (unordered acks) using recv_manual_ack() and AckToken /////////////
 
     // Send multiple publishes from mock server and receive them via recv_manual_ack()
     let proto_publish4 = mqtt_proto::Publish {
@@ -269,7 +269,7 @@ async fn qos1_single_receiver_test_logic(
     let puback6 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 6
     assert_eq!(puback6.packet_identifier, 6);
 
-    ///////////// Multiple messages (unorderd acks) using recv_manual_ack() with dropped AckTokens /////////////
+    ///////////// Multiple messages (unordered acks) using recv_manual_ack() with dropped AckTokens /////////////
 
     // Send multiple publishes from mock server and receive them via recv_manual_ack()
     let proto_publish7 = mqtt_proto::Publish {
@@ -458,7 +458,7 @@ async fn qos0_multiple_identical_filtered_receivers() {
 #[tokio::test]
 async fn qos0_multiple_unfiltered_receivers() {
     let (session, mock_server) =
-        setup_client_and_mock_server("qos0_multiple_identical_filtered_receivers_test_client");
+        setup_client_and_mock_server("qos0_multiple_unfiltered_receivers_test_client");
     let managed_client = session.create_managed_client();
 
     // Start the session run loop
