@@ -573,7 +573,7 @@ impl Session {
                         } else {
                             log::warn!("Reauth handle detached. Exiting reauthentication monitor.");
                             // NOTE: This only could really happen if an MQTT disconnect AND a reauth notification
-                            // occurr at the same time, which is extremely unlikely, and also completely harmless.
+                            // occur at the same time, which is extremely unlikely, and also completely harmless.
                             return;
                         };
                     }
