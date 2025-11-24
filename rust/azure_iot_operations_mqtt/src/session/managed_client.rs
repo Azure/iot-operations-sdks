@@ -142,7 +142,7 @@ impl SessionManagedClient {
             .await
     }
 
-    /// Issue an MQTT `UNSUBSCRIBE` to receive `PUBLISH`es on the provided topic filter.
+    /// Issue an MQTT `UNSUBSCRIBE` to stop receiving `PUBLISH`es on the provided topic filter.
     ///
     /// If connection is unavailable, `UNSUBSCRIBE` will be queued and delivered when connection is
     /// re-established. Blocks if at capacity for queueing.
