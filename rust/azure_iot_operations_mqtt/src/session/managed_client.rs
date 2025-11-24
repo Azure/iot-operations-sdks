@@ -38,6 +38,8 @@ impl SessionManagedClient {
 
     /// Creates a new [`SessionPubReceiver`] that will receive incoming publishes matching the
     /// provided topic filter.
+    /// 
+    /// Note that you still must subscribe before you can receive any messages.
     ///
     /// # Panics
     /// Panics if internal state is invalid (this should not be possible).
@@ -55,6 +57,8 @@ impl SessionManagedClient {
     /// sent to any filtered receivers.
     ///
     /// If you want to receive ALL publishes, use a filtered receiver with a wildcard topic (#).
+    /// 
+    /// Note that you still must subscribe before you can receive any messages.
     ///
     /// # Panics
     /// Panics if internal state is invalid (this should not be possible).
