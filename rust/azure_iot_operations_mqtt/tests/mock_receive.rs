@@ -269,7 +269,7 @@ async fn qos1_single_receiver_test_logic(
     let puback6 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 6
     assert_eq!(puback6.packet_identifier, 6);
 
-    ///////////// Multiple messages (unorderd acks) using recv_manual_ack() with dropped AckTokens /////////////
+    ///////////// Multiple messages (unordered acks) using recv_manual_ack() with dropped AckTokens /////////////
 
     // Send multiple publishes from mock server and receive them via recv_manual_ack()
     let proto_publish7 = mqtt_proto::Publish {
