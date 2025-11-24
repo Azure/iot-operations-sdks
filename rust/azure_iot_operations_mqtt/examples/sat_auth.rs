@@ -18,7 +18,7 @@ use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, TopicName};
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 
-const CLIENT_ID: &str = "aio_example_client";
+const CLIENT_ID: &str = "aio_sat_auth_client";
 const HOSTNAME: &str = "localhost";
 const TOPIC: &str = "hello/mqtt";
 

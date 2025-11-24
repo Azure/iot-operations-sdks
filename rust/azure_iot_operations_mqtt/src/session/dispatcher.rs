@@ -24,6 +24,7 @@ impl AckToken {
     }
 }
 
+#[derive(Debug)]
 pub struct AckCompletionToken(PlenaryAckCompletionToken);
 
 impl Future for AckCompletionToken {
@@ -118,6 +119,7 @@ impl IncomingPublishDispatcher {
 
         // Once all dispatches have been made, seal the PlenaryAck to allow acknowledgements to proceed.
         if let Some(cell) = plenary_ack {
+            log::debug!("Sealing PlenaryAck after dispatching to receivers");
             cell.borrow_mut().seal();
         }
 
