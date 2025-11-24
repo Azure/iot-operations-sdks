@@ -368,8 +368,8 @@ impl Cache {
                     processing_cancellation_token,
                 } => {
                     // If an entry is in progress and its processing cancellation token is cancelled
-                    // it means it timed out so it can be safely removed. If it didn't time out it
-                    // would have been converted to a Cached entry.
+                    // it means it timed out or the application dropped it, so it can be safely
+                    // removed. If it didn't time out it would have been converted to a Cached entry.
                     !processing_cancellation_token.is_cancelled()
                 }
             }
@@ -868,8 +868,7 @@ where
                             CacheLookupResult::NotFound
                         ) {
                             // This means there is an entry for this correlation ID so either we
-                            // have a cached response, the request is already being processed or it
-                            // is expired.
+                            // have a cached response or the request is already being processed.
                             break 'process_request;
                         }
 
@@ -1063,13 +1062,11 @@ where
                         }
                     }
 
-                    // Checking that command expiration time was calculated and has not
-                    // expired. If it has, we do not respond to the invoker.
-                    if let Some(command_expiration_time) = command_expiration_time
-                        && !command_expiration_time.elapsed().is_zero()
-                    {
+                    // Checking that command expiration time was calculated, if it has not we do not
+                    // respond to the invoker.
+                    let Some(command_expiration_time) = command_expiration_time else {
                         continue;
-                    }
+                    };
 
                     match response_arguments.cache_lookup_result {
                         CacheLookupResult::Cached {
@@ -1114,30 +1111,34 @@ where
                         }
                         CacheLookupResult::NotFound => {
                             // Indicates the command should be processed as an error
-                            tokio::task::spawn({
-                                let app_hlc_clone = self.application_hlc.clone();
-                                let client_clone = self.mqtt_client.clone();
-                                let cache_clone = self.cache.clone();
-                                let executor_cancellation_token_clone =
-                                    self.executor_cancellation_token.clone();
-                                async move {
-                                    tokio::select! {
-                                        () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
-                                        () = Self::process_command(
-                                            app_hlc_clone,
-                                            client_clone,
-                                            pkid,
-                                            response_arguments,
-                                            (None, None),
-                                            cache_clone,
-                                            processing_drop_guard,
-                                        ) => {
-                                            // Finished processing command
-                                            handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
-                                        },
+
+                            // Check the command has not expired, if it has, we do not respond to the invoker.
+                            if command_expiration_time.elapsed().is_zero() {
+                                tokio::task::spawn({
+                                    let app_hlc_clone = self.application_hlc.clone();
+                                    let client_clone = self.mqtt_client.clone();
+                                    let cache_clone = self.cache.clone();
+                                    let executor_cancellation_token_clone =
+                                        self.executor_cancellation_token.clone();
+                                    async move {
+                                        tokio::select! {
+                                            () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
+                                            () = Self::process_command(
+                                                app_hlc_clone,
+                                                client_clone,
+                                                pkid,
+                                                response_arguments,
+                                                (None, None),
+                                                cache_clone,
+                                                processing_drop_guard,
+                                            ) => {
+                                                // Finished processing command
+                                                handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
+                                            },
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                     }
 
