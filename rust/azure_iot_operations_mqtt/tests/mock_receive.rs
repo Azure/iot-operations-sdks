@@ -200,7 +200,7 @@ async fn qos1_single_receiver_test_logic(
     assert_eq!(puback.packet_identifier, 3);
     assert_eq!(puback.reason_code, mqtt_proto::PubAckReasonCode::Success);
 
-    ///////////// Multiple messages (unorderd acks) using recv_manual_ack() and AckToken /////////////
+    ///////////// Multiple messages (unordered acks) using recv_manual_ack() and AckToken /////////////
 
     // Send multiple publishes from mock server and receive them via recv_manual_ack()
     let proto_publish4 = mqtt_proto::Publish {
