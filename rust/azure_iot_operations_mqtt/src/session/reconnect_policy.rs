@@ -16,7 +16,7 @@ pub enum ConnectionLossReason {
     DisconnectByServer(Disconnect),
     /// Disconnected due to an I/O error.
     IoError(std::io::Error),
-    /// Disconnected due to a protocol error.
+    /// Disconnected due to a protocol error committed by the server.
     ProtocolError(ProtocolError),
 }
 
