@@ -38,7 +38,7 @@ impl SessionManagedClient {
 
     /// Creates a new [`SessionPubReceiver`] that will receive incoming publishes matching the
     /// provided topic filter.
-    /// 
+    ///
     /// Note that you still must subscribe before you can receive any messages.
     ///
     /// # Panics
@@ -57,7 +57,7 @@ impl SessionManagedClient {
     /// sent to any filtered receivers.
     ///
     /// If you want to receive ALL publishes, use a filtered receiver with a wildcard topic (#).
-    /// 
+    ///
     /// Note that you still must subscribe before you can receive any messages.
     ///
     /// # Panics
@@ -73,8 +73,8 @@ impl SessionManagedClient {
     /// If connection is unavailable, `PUBLISH` will be queued and delivered when connection is
     /// re-established. Blocks if at capacity for queueing.
     ///
-    /// Returns a token that can be awaited to indicate the completion of the `PUBLISH` operation
-    /// (i.e. when the `PUBLISH` has been sent to the server).
+    /// Returns a token that can be awaited to indicate the result of the completion of the
+    /// `PUBLISH` operation (i.e. when the `PUBLISH` has been sent to the server).
     ///
     /// # Errors
     /// Returns a [`DetachedError`] if the `PUBLISH` could not be issued due to being detached from
@@ -96,8 +96,8 @@ impl SessionManagedClient {
     /// If connection is unavailable, `PUBLISH` will be queued and delivered when connection is
     /// re-established. Blocks if at capacity for queueing.
     ///
-    /// Returns a token that can be awaited to indicate the completion of the `PUBLISH` operation
-    /// (i.e. when the corresponding PUBACK is received from the server).
+    /// Returns a token that can be awaited to indicate the result of the completion of the
+    /// `PUBLISH` operation (i.e. when the corresponding PUBACK is received from the server).
     ///
     /// # Errors
     /// Returns a [`DetachedError`] if the `PUBLISH` could not be issued due to being detached from
@@ -119,8 +119,8 @@ impl SessionManagedClient {
     /// If connection is unavailable, `SUBSCRIBE` will be queued and delivered when connection is
     /// re-established. Blocks if at capacity for queueing.
     ///
-    /// Returns a token that can be awaited to indicate the completion of the `SUBSCRIBE` operation
-    /// (i.e. when the corresponding SUBACK is received from the server).
+    /// Returns a token that can be awaited to indicate the result of the completion of the
+    /// `SUBSCRIBE` operation (i.e. when the corresponding SUBACK is received from the server).
     ///
     /// # Errors
     /// Returns a [`DetachedError`] if the `SUBSCRIBE` could not be issued due to being detached from
@@ -151,8 +151,8 @@ impl SessionManagedClient {
     /// If connection is unavailable, `UNSUBSCRIBE` will be queued and delivered when connection is
     /// re-established. Blocks if at capacity for queueing.
     ///
-    /// Returns a token that can be awaited to indicate the completion of the `UNSUBSCRIBE` operation
-    /// (i.e. when the corresponding UNSUBACK is received from the server).
+    /// Returns a token that can be awaited to indicate the result of the completion of the
+    /// `UNSUBSCRIBE` operation (i.e. when the corresponding UNSUBACK is received from the server).
     ///
     /// # Errors
     /// Returns a [`DetachedError`] if the `UNSUBSCRIBE` could not be issued due to being detached
