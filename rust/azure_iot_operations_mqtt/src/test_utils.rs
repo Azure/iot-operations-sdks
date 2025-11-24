@@ -2,11 +2,14 @@
 // Licensed under the MIT License.
 
 //! Utilities for testing MQTT operations by injecting and capturing packets.
+//! Note that these test utilites are provided AS IS without any guarantee of stability
 
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
+use azure_mqtt::mqtt_proto;
 use bytes::Bytes;
+use futures::FutureExt;
 use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender};
 
 /// Struct containing channels for injecting incoming packets and capturing outgoing packets
@@ -104,5 +107,122 @@ impl OutgoingPacketsRx {
     ) {
         let mut curr_rx = self.outgoing_packets_rx.lock().unwrap();
         *curr_rx = new_rx;
+    }
+}
+
+/// Mock MQTT server for testing purposes
+pub struct MockServer {
+    to_client_tx: IncomingPacketsTx,
+    from_client_rx: OutgoingPacketsRx,
+}
+
+impl MockServer {
+    /// Create a new MockServer
+    pub fn new(to_client_tx: IncomingPacketsTx, from_client_rx: OutgoingPacketsRx) -> MockServer {
+        MockServer {
+            to_client_tx,
+            from_client_rx,
+        }
+    }
+
+    /// Panic if the next packet received is not a CONNECT packet.
+    /// Send a CONNACK packet with Success reason code in response, with the provided
+    /// session_present flag.
+    pub async fn expect_connect_and_accept(&self, session_present: bool) {
+        self.expect_connect_and_respond_custom(mqtt_proto::ConnAck {
+            reason_code: mqtt_proto::ConnectReasonCode::Success { session_present },
+            other_properties: mqtt_proto::ConnAckOtherProperties::default(),
+        })
+        .await
+    }
+
+    /// Panic if the next packet received is not a CONNECT packet.
+    /// Send the provided CONNACK packet in response.
+    pub async fn expect_connect_and_respond_custom(&self, connack: mqtt_proto::ConnAck<Bytes>) {
+        match self.from_client_rx.recv().await {
+            Some(mqtt_proto::Packet::Connect(_)) => {
+                self.to_client_tx.send(mqtt_proto::Packet::ConnAck(connack));
+            }
+            Some(other) => {
+                panic!(
+                    "Expected CONNECT packet, but received different packet: {:?}",
+                    other
+                );
+            }
+            None => {
+                panic!("Expected CONNECT packet, but connection was closed");
+            }
+        }
+    }
+
+    /// Panic if the next packet received is not a SUBSCRIBE packet.
+    /// Send a SUBACK packet granting the requested QoS in response.
+    pub async fn expect_subscribe_and_accept(&self) {
+        match self.from_client_rx.recv().await {
+            Some(mqtt_proto::Packet::Subscribe(subscribe)) => {
+                //let granted_qos = match subscribe.
+                let rc_vec = subscribe
+                    .subscribe_to
+                    .iter()
+                    .map(|st| match st.options.maximum_qos {
+                        mqtt_proto::QoS::AtMostOnce => mqtt_proto::SubscribeReasonCode::GrantedQoS0,
+                        mqtt_proto::QoS::AtLeastOnce => {
+                            mqtt_proto::SubscribeReasonCode::GrantedQoS1
+                        }
+                        mqtt_proto::QoS::ExactlyOnce => {
+                            mqtt_proto::SubscribeReasonCode::GrantedQoS2
+                        }
+                    })
+                    .collect();
+
+                self.to_client_tx
+                    .send(mqtt_proto::Packet::SubAck(mqtt_proto::SubAck {
+                        packet_identifier: subscribe.packet_identifier,
+                        reason_codes: rc_vec,
+                        other_properties: mqtt_proto::SubAckOtherProperties::default(),
+                    }));
+            }
+            Some(other) => {
+                panic!(
+                    "Expected SUBSCRIBE packet, but received different packet: {:?}",
+                    other
+                );
+            }
+            None => {
+                panic!("Expected SUBSCRIBE packet, but connection was closed");
+            }
+        }
+    }
+
+    /// Panic if the next packet received is not a PUBACK packet.
+    /// Return the received PUBACK packet for further inspection.
+    pub async fn expect_puback_and_return(&self) -> mqtt_proto::PubAck<Bytes> {
+        match self.from_client_rx.recv().await {
+            Some(mqtt_proto::Packet::PubAck(puback)) => puback,
+            Some(other) => {
+                panic!(
+                    "Expected PUBACK packet, but received different packet: {:?}",
+                    other
+                );
+            }
+            None => {
+                panic!("Expected PUBACK packet, but connection was closed");
+            }
+        }
+    }
+
+    /// Panic if any packet is ready to be received
+    pub fn expect_no_packet(&self) {
+        match self.from_client_rx.recv().now_or_never() {
+            Some(_) => {
+                panic!("Expected no packet, but received a packet");
+            }
+            None => return,
+        }
+    }
+
+    /// Send a PUBLISH packet to the client
+    pub fn send_publish(&self, publish: mqtt_proto::Publish<Bytes>) {
+        self.to_client_tx.send(mqtt_proto::Packet::Publish(publish))
     }
 }
