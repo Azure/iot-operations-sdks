@@ -10,9 +10,13 @@ use rand::Rng;
 use crate::control_packet::Disconnect;
 use crate::error::{ConnectError, ProtocolError};
 
-pub enum ConnectionLoss {
+/// Reason for connection loss.
+pub enum ConnectionLossReason {
+    /// Disconnected by server with DISCONNECT packet.
     DisconnectByServer(Disconnect),
+    /// Disconnected due to an I/O error.
     IoError(std::io::Error),
+    /// Disconnected due to a protocol error.
     ProtocolError(ProtocolError),
 }
 
@@ -28,7 +32,7 @@ pub trait ReconnectPolicy: Send {
 
     /// Get the next reconnect delay after a connection loss.
     /// Returns None if no reconnect should be attempted.
-    fn connection_loss_reconnect_delay(&self, reason: &ConnectionLoss) -> Option<Duration>;
+    fn connection_loss_reconnect_delay(&self, reason: &ConnectionLossReason) -> Option<Duration>;
 }
 
 /// A reconnect policy that will exponentially backoff the the delay between reconnect attempts.
@@ -94,7 +98,7 @@ impl ReconnectPolicy for ExponentialBackoffWithJitter {
         }
     }
 
-    fn connection_loss_reconnect_delay(&self, _reason: &ConnectionLoss) -> Option<Duration> {
-        return Some(Duration::from_secs(0));
+    fn connection_loss_reconnect_delay(&self, _reason: &ConnectionLossReason) -> Option<Duration> {
+        Some(Duration::from_secs(0))
     }
 }

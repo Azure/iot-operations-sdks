@@ -9,7 +9,7 @@ use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, TopicName};
 use azure_iot_operations_mqtt::error::ConnectError;
 use azure_iot_operations_mqtt::session::{
-    reconnect_policy::{ConnectionLoss, ReconnectPolicy},
+    reconnect_policy::{ConnectionLossReason, ReconnectPolicy},
     {Session, SessionManagedClient, SessionOptionsBuilder},
 };
 
@@ -91,8 +91,8 @@ impl ReconnectPolicy for CustomReconnectPolicy {
         }
     }
 
-    fn connection_loss_reconnect_delay(&self, reason: &ConnectionLoss) -> Option<Duration> {
-        if matches!(reason, ConnectionLoss::DisconnectByServer(_)) {
+    fn connection_loss_reconnect_delay(&self, reason: &ConnectionLossReason) -> Option<Duration> {
+        if matches!(reason, ConnectionLossReason::DisconnectByServer(_)) {
             None
         } else {
             Some(Duration::from_secs(1))
