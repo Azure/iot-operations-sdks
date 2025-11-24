@@ -458,7 +458,7 @@ async fn qos0_multiple_identical_filtered_receivers() {
 #[tokio::test]
 async fn qos0_multiple_unfiltered_receivers() {
     let (session, mock_server) =
-        setup_client_and_mock_server("qos0_multiple_identical_filtered_receivers_test_client");
+        setup_client_and_mock_server("qos0_multiple_unfiltered_receivers_test_client");
     let managed_client = session.create_managed_client();
 
     // Start the session run loop
