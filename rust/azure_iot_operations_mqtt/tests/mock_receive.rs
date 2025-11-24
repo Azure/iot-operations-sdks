@@ -38,7 +38,7 @@ fn setup_client_and_mock_server(client_id: &str) -> (Session, MockServer) {
 /// - receive messages via recv_manual_ack()
 /// - no PUBACKS are sent because QoS 0
 /// - no mechanism for sending PUBACKs is exposed
-async fn qos0_single_reciever_test_logic(
+async fn qos0_single_receiver_test_logic(
     mock_server: MockServer,
     mut receiver: SessionPubReceiver,
     topic_name: &str,
