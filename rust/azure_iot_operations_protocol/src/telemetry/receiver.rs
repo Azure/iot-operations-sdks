@@ -221,6 +221,8 @@ pub struct Message<T: PayloadSerialize> {
     pub topic_tokens: HashMap<String, String>,
     /// Incoming message topic
     pub topic: String,
+    /// Indicates if the message is a duplicate delivery if QoS 1 (DUP flag in MQTT publish)
+    pub duplicate: Option<bool>,
 }
 
 impl<T> TryFrom<Publish> for Message<T>
@@ -300,6 +302,16 @@ where
         let content_type = publish_properties.content_type;
         let payload = T::deserialize(&value.payload, content_type.as_ref(), &format_indicator)
             .map_err(|e| format!("{e:?}"))?;
+        let duplicate = match value.qos {
+            azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtMostOnce => None,
+            azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtLeastOnce(delivery_info) => {
+                Some(delivery_info.dup)
+            }
+            azure_iot_operations_mqtt::control_packet::DeliveryQoS::ExactlyOnce(_) => {
+                // Before conversion, a check is done to prevent any QoS 2 messages from being processed
+                unreachable!()
+            }
+        };
 
         let telemetry_message = Message {
             payload,
@@ -311,6 +323,7 @@ where
             // NOTE: Topic Tokens cannot be created from just a Publish, they need additional information
             topic_tokens: HashMap::default(),
             topic: value.topic_name.as_str().to_string(),
+            duplicate,
         };
         Ok(telemetry_message)
     }
@@ -398,7 +411,7 @@ where
     ///
     /// # Arguments
     /// * `application_context` - [`ApplicationContext`] that the telemetry receiver is part of.
-    /// * `client` - [`ManagedClient`] to use for telemetry communication.
+    /// * `client` - [`SessionManagedClient`] to use for telemetry communication.
     /// * `receiver_options` - [`Options`] to configure the telemetry receiver.
     ///
     /// Returns Ok([`Receiver`]) on success, otherwise returns[`AIOProtocolError`].
@@ -579,6 +592,11 @@ where
     /// - Returns [`AIOProtocolError`] on error.
     ///
     /// A received message can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
+    /// If successful [`AckToken::ack`] will return a completion token that can be awaited to ensure the acknowledgement
+    /// was delivered on the wire. The acknowledgement may fail to be delivered because of a network disconnection
+    /// at which point a duplicate message may be received once the connection is re-established. The [`Message`]
+    /// contains a [`duplicate`](Message::duplicate) field that indicates if the message is a duplicate delivery. It is
+    /// left up to the application to handle duplicate messages appropriately.
     ///
     /// Will also subscribe to the telemetry topic if not already subscribed.
     ///

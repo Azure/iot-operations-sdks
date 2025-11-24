@@ -3,14 +3,15 @@
 
 //! Common error types
 
-use std::fmt;
-
-use thiserror::Error;
-
-pub type ClientError = azure_mqtt::error::ClientError;
+/// Indicates a component has become detached from the Session.
+pub type DetachedError = azure_mqtt::error::DetachedError;
+/// Indicates that an MQTT operation has failed to complete successfully.
 pub type CompletionError = azure_mqtt::client::token::completion::CompletionError;
+/// Error connecting to an MQTT server.
 pub type ConnectError = azure_mqtt::error::ConnectError;
+/// Error indicating a violation of the MQTT protocol.
 pub type ProtocolError = azure_mqtt::error::ProtocolError;
+/// Error related to MQTT topic names or filters.
 pub type TopicError = azure_mqtt::topic::TopicError;
 
 // /// Error executing an MQTT publish

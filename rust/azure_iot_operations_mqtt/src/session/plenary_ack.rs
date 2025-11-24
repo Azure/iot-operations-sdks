@@ -18,7 +18,7 @@ use azure_mqtt::{
         ManualAcknowledgement,
         token::completion::{CompletionError, PubAckCompletionToken},
     },
-    error::ClientError,
+    error::DetachedError,
     packet::PubAckProperties,
 };
 use futures::future::{FutureExt, Shared};
@@ -43,7 +43,7 @@ impl PlenaryAck {
         }
     }
 
-    pub fn seal(&mut self) -> () {
+    pub fn seal(&mut self) {
         // TODO: consume self?
         if !self.state.is_sealed() {
             self.state.seal(self.members);
@@ -76,7 +76,7 @@ pub struct PlenaryAckMember {
 }
 
 impl PlenaryAckMember {
-    pub async fn ack(mut self) -> Result<PlenaryAckCompletionToken, ClientError> {
+    pub async fn ack(mut self) -> Result<PlenaryAckCompletionToken, DetachedError> {
         self.signaled = true;
         self.state.member_ack().await
     }
@@ -115,8 +115,8 @@ struct InnerState {
     sealed: Mutex<Option<usize>>,
     /// Will be used to trigger acknowledgement when all members have acked
     manual_ack: Mutex<Option<ManualAcknowledgement>>, // TODO: can this be combined with Result? they're related.
-    /// Holds the result of the ManualAcknowledgement
-    result: OnceCell<Result<PlenaryAckCompletionToken, ClientError>>, // TODO: Can this be made generic to support QoS2?
+    /// Holds the result of the `ManualAcknowledgement`
+    result: OnceCell<Result<PlenaryAckCompletionToken, DetachedError>>, // TODO: Can this be made generic to support QoS2?
     /// Notify waiters when result has been set
     notify: Notify,
 }
@@ -127,7 +127,7 @@ impl InnerState {
     }
 
     fn seal(self: &Arc<Self>, total_members: usize) {
-        log::debug!("Sealing PlenaryAck with {} members", total_members);
+        log::debug!("Sealing PlenaryAck with {total_members} members");
         // TODO: validate not called twice?
         self.sealed.lock().unwrap().replace(total_members);
         // We have to do a potential trigger here in order to handle two cases:
@@ -137,8 +137,8 @@ impl InnerState {
         self.trigger_if_ready();
     }
 
-    /// Called by PlenaryAckMember to indicate a member has acked
-    async fn member_ack(self: &Arc<Self>) -> Result<PlenaryAckCompletionToken, ClientError> {
+    /// Called by `PlenaryAckMember` to indicate a member has acked
+    async fn member_ack(self: &Arc<Self>) -> Result<PlenaryAckCompletionToken, DetachedError> {
         self.counter.fetch_add(1, Ordering::SeqCst);
         self.trigger_if_ready().await;
 
@@ -158,7 +158,7 @@ impl InnerState {
         }
     }
 
-    async fn trigger_if_ready(self: &Arc<Self>) -> () {
+    async fn trigger_if_ready(self: &Arc<Self>) {
         // Check if sealed
         let sealed = {
             self.sealed.lock().unwrap().clone()
