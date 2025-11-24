@@ -40,7 +40,6 @@ pub enum ConnectionSettingsField {
     UseTls(bool),
     ReceivePacketSizeMax(u32),
     ReceiveMax(u16),
-    SatAuthFile(String),
 }
 
 impl fmt::Display for ConnectionSettingsField {
@@ -53,7 +52,6 @@ impl fmt::Display for ConnectionSettingsField {
                 write!(f, "Receive Packet Size Max: {v}")
             }
             ConnectionSettingsField::ReceiveMax(v) => write!(f, "Receive Max: {v}"),
-            ConnectionSettingsField::SatAuthFile(v) => write!(f, "SAT Auth File: {v:?}"),
         }
     }
 }
@@ -183,8 +181,6 @@ pub struct AzureMqttConnectParameters {
     pub connect_properties: ConnectProperties,
     /// Connection timeout duration
     pub connection_timeout: Duration,
-    // Optional SAT file path for authentication, saved here to be read later
-    sat_file: Option<String>,
 
     /// properties used to create the `ConnectionTransportConfig` on demand
     ca_file: Option<String>,
@@ -258,10 +254,10 @@ impl MqttConnectionSettings {
             max_packet_identifier,
             publish_qos0_queue_size,
             publish_qos1_qos2_queue_size,
-            ..Default::default()
         };
 
         let keep_alive = azure_mqtt::packet::KeepAlive::Duration(
+            #[allow(clippy::cast_possible_truncation)] // Easier to do it this way
             NonZeroU16::new(self.keep_alive.as_secs() as u16).ok_or_else(|| {
                 ConnectionSettingsAdapterError {
                     msg: "cannot convert keep_alive to NonZeroU16".to_string(),
@@ -322,7 +318,6 @@ impl MqttConnectionSettings {
                 tcp_port: self.tcp_port,
                 connect_properties,
                 connection_timeout: self.connection_timeout,
-                sat_file: self.sat_file,
                 #[cfg(feature = "test-utils")]
                 injected_packet_channels,
             },

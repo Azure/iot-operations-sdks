@@ -52,7 +52,7 @@ pub struct SatAuthFileMonitor {
 impl SatAuthFileMonitor {
     pub fn new(file_path: PathBuf) -> Result<Self, SatAuthError> {
         if !file_path.is_file() {
-            Err(SatAuthError::InvalidPath)?
+            Err(SatAuthError::InvalidPath)?;
         }
         let dir_path = file_path
             .parent()

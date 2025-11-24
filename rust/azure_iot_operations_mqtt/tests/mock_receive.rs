@@ -95,7 +95,7 @@ async fn qos0_single_filtered_receiver() {
     let topic_filter = TopicFilter::new("test/subscribe/topic").unwrap();
     let receiver = managed_client.create_filtered_pub_receiver(topic_filter);
 
-    qos0_single_reciever_test_logic(mock_server, receiver, "test/subscribe/topic").await;
+    qos0_single_receiver_test_logic(mock_server, receiver, "test/subscribe/topic").await;
 }
 
 #[tokio::test]
@@ -112,7 +112,7 @@ async fn qos0_single_unfiltered_receiver() {
     // NOTE: Do not actually subscribe here, as it's not necessary for the test
     let receiver = managed_client.create_unfiltered_pub_receiver();
 
-    qos0_single_reciever_test_logic(mock_server, receiver, "test/subscribe/topic").await;
+    qos0_single_receiver_test_logic(mock_server, receiver, "test/subscribe/topic").await;
 }
 
 /// Common test logic for filtered/unfiltered single receiver tests at QoS 1.
