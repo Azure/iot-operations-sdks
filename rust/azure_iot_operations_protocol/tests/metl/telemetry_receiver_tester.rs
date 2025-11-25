@@ -93,13 +93,14 @@ impl TelemetryReceiverTester {
                 &mut mqtt_hub,
             )
             .await
-                && !test_case.actions.is_empty() {
-                    tokio::task::spawn(Self::receiver_loop(
-                        receiver,
-                        telemetry_count,
-                        telemetry_tx.clone(),
-                    ));
-                }
+                && !test_case.actions.is_empty()
+            {
+                tokio::task::spawn(Self::receiver_loop(
+                    receiver,
+                    telemetry_count,
+                    telemetry_tx.clone(),
+                ));
+            }
         }
 
         let test_case_serializer = &test_case.prologue.receivers[0].serializer;

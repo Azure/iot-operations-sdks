@@ -7,11 +7,11 @@ use crate::metl::test_case_duration::TestCaseDuration;
 pub fn get_default_telemetry_name<T: DefaultsType + Default>() -> Option<String> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_action) = default_test_case.actions.as_ref()
-            && let Some(default_send_telemetry) = default_action.send_telemetry.as_ref()
-                && let Some(default_telemetry_name) = default_send_telemetry.telemetry_name.as_ref()
-                {
-                    return Some(default_telemetry_name.clone());
-                }
+        && let Some(default_send_telemetry) = default_action.send_telemetry.as_ref()
+        && let Some(default_telemetry_name) = default_send_telemetry.telemetry_name.as_ref()
+    {
+        return Some(default_telemetry_name.clone());
+    }
 
     None
 }
@@ -19,10 +19,11 @@ pub fn get_default_telemetry_name<T: DefaultsType + Default>() -> Option<String>
 pub fn get_default_timeout<T: DefaultsType + Default>() -> Option<TestCaseDuration> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_action) = default_test_case.actions.as_ref()
-            && let Some(default_send_telemetry) = default_action.send_telemetry.as_ref()
-                && let Some(default_timeout) = default_send_telemetry.timeout.as_ref() {
-                    return Some((*default_timeout).clone());
-                }
+        && let Some(default_send_telemetry) = default_action.send_telemetry.as_ref()
+        && let Some(default_timeout) = default_send_telemetry.timeout.as_ref()
+    {
+        return Some((*default_timeout).clone());
+    }
 
     None
 }
@@ -30,12 +31,11 @@ pub fn get_default_timeout<T: DefaultsType + Default>() -> Option<TestCaseDurati
 pub fn get_default_telemetry_value<T: DefaultsType + Default>() -> Option<String> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_action) = default_test_case.actions.as_ref()
-            && let Some(default_send_telemetry) = default_action.send_telemetry.as_ref()
-                && let Some(default_telemetry_value) =
-                    default_send_telemetry.telemetry_value.as_ref()
-                {
-                    return Some(default_telemetry_value.clone());
-                }
+        && let Some(default_send_telemetry) = default_action.send_telemetry.as_ref()
+        && let Some(default_telemetry_value) = default_send_telemetry.telemetry_value.as_ref()
+    {
+        return Some(default_telemetry_value.clone());
+    }
 
     None
 }
@@ -43,10 +43,11 @@ pub fn get_default_telemetry_value<T: DefaultsType + Default>() -> Option<String
 pub fn get_default_qos<T: DefaultsType + Default>() -> Option<i32> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_action) = default_test_case.actions.as_ref()
-            && let Some(default_send_telemetry) = default_action.send_telemetry.as_ref()
-                && let Some(default_qos) = default_send_telemetry.qos {
-                    return Some(default_qos);
-                }
+        && let Some(default_send_telemetry) = default_action.send_telemetry.as_ref()
+        && let Some(default_qos) = default_send_telemetry.qos
+    {
+        return Some(default_qos);
+    }
 
     None
 }

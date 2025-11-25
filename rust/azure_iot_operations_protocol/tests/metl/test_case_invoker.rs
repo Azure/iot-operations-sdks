@@ -49,10 +49,11 @@ pub struct TestCaseInvoker<T: DefaultsType + Default> {
 pub fn get_default_command_name<T: DefaultsType + Default>() -> Option<String> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_prologue) = default_test_case.prologue.as_ref()
-            && let Some(default_invoker) = default_prologue.invoker.as_ref()
-                && let Some(default_command_name) = default_invoker.command_name.as_ref() {
-                    return Some(default_command_name.clone());
-                }
+        && let Some(default_invoker) = default_prologue.invoker.as_ref()
+        && let Some(default_command_name) = default_invoker.command_name.as_ref()
+    {
+        return Some(default_command_name.clone());
+    }
 
     None
 }
@@ -60,10 +61,11 @@ pub fn get_default_command_name<T: DefaultsType + Default>() -> Option<String> {
 pub fn get_default_request_topic<T: DefaultsType + Default>() -> Option<String> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_prologue) = default_test_case.prologue.as_ref()
-            && let Some(default_invoker) = default_prologue.invoker.as_ref()
-                && let Some(default_request_topic) = default_invoker.request_topic.as_ref() {
-                    return Some(default_request_topic.clone());
-                }
+        && let Some(default_invoker) = default_prologue.invoker.as_ref()
+        && let Some(default_request_topic) = default_invoker.request_topic.as_ref()
+    {
+        return Some(default_request_topic.clone());
+    }
 
     None
 }
@@ -71,10 +73,11 @@ pub fn get_default_request_topic<T: DefaultsType + Default>() -> Option<String> 
 pub fn get_default_topic_namespace<T: DefaultsType + Default>() -> Option<String> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_prologue) = default_test_case.prologue.as_ref()
-            && let Some(default_invoker) = default_prologue.invoker.as_ref()
-                && let Some(default_topic_namespace) = default_invoker.topic_namespace.as_ref() {
-                    return Some(default_topic_namespace.clone());
-                }
+        && let Some(default_invoker) = default_prologue.invoker.as_ref()
+        && let Some(default_topic_namespace) = default_invoker.topic_namespace.as_ref()
+    {
+        return Some(default_topic_namespace.clone());
+    }
 
     None
 }
@@ -82,12 +85,11 @@ pub fn get_default_topic_namespace<T: DefaultsType + Default>() -> Option<String
 pub fn get_default_response_topic_prefix<T: DefaultsType + Default>() -> Option<String> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_prologue) = default_test_case.prologue.as_ref()
-            && let Some(default_invoker) = default_prologue.invoker.as_ref()
-                && let Some(default_response_topic_prefix) =
-                    default_invoker.response_topic_prefix.as_ref()
-                {
-                    return Some(default_response_topic_prefix.clone());
-                }
+        && let Some(default_invoker) = default_prologue.invoker.as_ref()
+        && let Some(default_response_topic_prefix) = default_invoker.response_topic_prefix.as_ref()
+    {
+        return Some(default_response_topic_prefix.clone());
+    }
 
     None
 }
@@ -95,12 +97,11 @@ pub fn get_default_response_topic_prefix<T: DefaultsType + Default>() -> Option<
 pub fn get_default_response_topic_suffix<T: DefaultsType + Default>() -> Option<String> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_prologue) = default_test_case.prologue.as_ref()
-            && let Some(default_invoker) = default_prologue.invoker.as_ref()
-                && let Some(default_response_topic_suffix) =
-                    default_invoker.response_topic_suffix.as_ref()
-                {
-                    return Some(default_response_topic_suffix.clone());
-                }
+        && let Some(default_invoker) = default_prologue.invoker.as_ref()
+        && let Some(default_response_topic_suffix) = default_invoker.response_topic_suffix.as_ref()
+    {
+        return Some(default_response_topic_suffix.clone());
+    }
 
     None
 }

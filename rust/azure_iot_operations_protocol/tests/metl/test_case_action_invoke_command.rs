@@ -7,10 +7,11 @@ use crate::metl::test_case_duration::TestCaseDuration;
 pub fn get_default_command_name<T: DefaultsType + Default>() -> Option<String> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_action) = default_test_case.actions.as_ref()
-            && let Some(default_invoke_command) = default_action.invoke_command.as_ref()
-                && let Some(default_command_name) = default_invoke_command.command_name.as_ref() {
-                    return Some(default_command_name.clone());
-                }
+        && let Some(default_invoke_command) = default_action.invoke_command.as_ref()
+        && let Some(default_command_name) = default_invoke_command.command_name.as_ref()
+    {
+        return Some(default_command_name.clone());
+    }
 
     None
 }
@@ -18,10 +19,11 @@ pub fn get_default_command_name<T: DefaultsType + Default>() -> Option<String> {
 pub fn get_default_request_value<T: DefaultsType + Default>() -> Option<String> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_action) = default_test_case.actions.as_ref()
-            && let Some(default_invoke_command) = default_action.invoke_command.as_ref()
-                && let Some(default_request_value) = default_invoke_command.request_value.as_ref() {
-                    return Some(default_request_value.clone());
-                }
+        && let Some(default_invoke_command) = default_action.invoke_command.as_ref()
+        && let Some(default_request_value) = default_invoke_command.request_value.as_ref()
+    {
+        return Some(default_request_value.clone());
+    }
 
     None
 }
@@ -29,10 +31,11 @@ pub fn get_default_request_value<T: DefaultsType + Default>() -> Option<String> 
 pub fn get_default_timeout<T: DefaultsType + Default>() -> Option<TestCaseDuration> {
     if let Some(default_test_case) = T::get_defaults()
         && let Some(default_action) = default_test_case.actions.as_ref()
-            && let Some(default_invoke_command) = default_action.invoke_command.as_ref()
-                && let Some(default_timeout) = default_invoke_command.timeout.as_ref() {
-                    return Some((*default_timeout).clone());
-                }
+        && let Some(default_invoke_command) = default_action.invoke_command.as_ref()
+        && let Some(default_timeout) = default_invoke_command.timeout.as_ref()
+    {
+        return Some((*default_timeout).clone());
+    }
 
     None
 }
