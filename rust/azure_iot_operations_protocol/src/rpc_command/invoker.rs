@@ -56,7 +56,7 @@ where
     serialized_payload: SerializedPayload,
     /// Strongly link `Request` with type `TReq`
     #[builder(private)]
-    request_payload_type: PhantomData<TReq>,
+    payload_type: PhantomData<TReq>,
     /// User data that will be set as custom MQTT User Properties on the Request message.
     /// Can be used to pass additional metadata to the executor.
     /// Default is an empty vector.
@@ -70,6 +70,7 @@ where
     #[builder(setter(custom))]
     timeout: Duration,
 }
+
 impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
     /// Add a payload to the command request. Validates successful serialization of the payload.
     ///
@@ -92,7 +93,7 @@ impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
                         "content_type",
-                        Value::String(serialized_payload.content_type.to_string()),
+                        Value::String(serialized_payload.content_type.clone()),
                         Some(format!(
                             "Content type '{}' of command request is not valid UTF-8",
                             serialized_payload.content_type
@@ -101,7 +102,7 @@ impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
                     ));
                 }
                 self.serialized_payload = Some(serialized_payload);
-                self.request_payload_type = Some(PhantomData);
+                self.payload_type = Some(PhantomData);
                 Ok(self)
             }
         }
@@ -384,7 +385,7 @@ where
                             Some(format!(
                                 "Received a response with an unparsable protocol version number: {protocol_version}"
                             )),
-                            protocol_version.to_string(),
+                            protocol_version.clone(),
                             SUPPORTED_PROTOCOL_VERSIONS.to_vec(),
                             None,
                             false,
@@ -468,10 +469,7 @@ where
             // Response with payload
             StatusCode::Ok | StatusCode::NoContent => {
                 let content_type = publish_properties.content_type;
-                let format_indicator = publish_properties.payload_format_indicator.try_into().unwrap_or_else(|e| {
-                    log::error!("Received invalid payload format indicator: {e}. This should not be possible to receive from the broker. Using default.");
-                    FormatIndicator::default()
-                });
+                let format_indicator = publish_properties.payload_format_indicator.into();
 
                 if matches!(status_code, StatusCode::NoContent) && !value.payload.is_empty() {
                     return Err(AIOProtocolError::new_payload_invalid_error(
@@ -625,7 +623,7 @@ where
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
     // Describes state
-    invoker_state_mutex: Arc<Mutex<State>>,
+    state_mutex: Arc<Mutex<State>>,
     // Used to send information to manage state
     shutdown_notifier: Arc<Notify>,
     response_tx: Sender<Option<Publish>>,
@@ -659,14 +657,14 @@ where
     /// - [`request_topic_pattern`](OptionsBuilder::request_topic_pattern) is empty or whitespace
     /// - [`response_topic_pattern`](OptionsBuilder::response_topic_pattern) is Some and empty or whitespace
     ///     - [`response_topic_pattern`](OptionsBuilder::response_topic_pattern) is None and
-    ///         [`response_topic_prefix`](OptionsBuilder::response_topic_prefix) or
-    ///         [`response_topic_suffix`](OptionsBuilder::response_topic_suffix) are Some and empty or whitespace
+    ///       [`response_topic_prefix`](OptionsBuilder::response_topic_prefix) or
+    ///       [`response_topic_suffix`](OptionsBuilder::response_topic_suffix) are Some and empty or whitespace
     /// - [`request_topic_pattern`](OptionsBuilder::request_topic_pattern),
-    ///     [`response_topic_pattern`](OptionsBuilder::response_topic_pattern),
-    ///     [`topic_namespace`](OptionsBuilder::topic_namespace),
-    ///     [`response_topic_prefix`](OptionsBuilder::response_topic_prefix),
-    ///     [`response_topic_suffix`](OptionsBuilder::response_topic_suffix),
-    ///     are Some and invalid or contain a token with no valid replacement
+    ///   [`response_topic_pattern`](OptionsBuilder::response_topic_pattern),
+    ///   [`topic_namespace`](OptionsBuilder::topic_namespace),
+    ///   [`response_topic_prefix`](OptionsBuilder::response_topic_prefix),
+    ///   [`response_topic_suffix`](OptionsBuilder::response_topic_suffix),
+    ///   are Some and invalid or contain a token with no valid replacement
     /// - [`topic_token_map`](OptionsBuilder::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     pub fn new(
         application_context: ApplicationContext,
@@ -781,7 +779,7 @@ where
             response_topic_filter,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            invoker_state_mutex,
+            state_mutex: invoker_state_mutex,
             shutdown_notifier,
             response_tx,
         })
@@ -1002,7 +1000,7 @@ where
 
         // Subscribe to the response topic if we're not already subscribed and the invoker hasn't been shutdown
         {
-            let mut invoker_state = self.invoker_state_mutex.lock().await;
+            let mut invoker_state = self.state_mutex.lock().await;
             match *invoker_state {
                 State::New => {
                     self.subscribe_to_response_filter().await?;
@@ -1149,7 +1147,6 @@ where
                                         "[ERROR] Invoker response receiver lagged. Response may not be received. Number of skipped messages: {e}"
                                     );
                                     // Keep waiting for response even though it may have gotten overwritten.
-                                    continue;
                                 }
                                 Err(RecvError::Closed) => {
                                     log::error!(
@@ -1285,7 +1282,7 @@ where
         // Notify the receiver loop to close the MQTT Receiver
         self.shutdown_notifier.notify_one();
 
-        let mut invoker_state_mutex_guard = self.invoker_state_mutex.lock().await;
+        let mut invoker_state_mutex_guard = self.state_mutex.lock().await;
         match *invoker_state_mutex_guard {
             State::New | State::ShutdownSuccessful => {
                 /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
@@ -1355,7 +1352,7 @@ where
     fn drop(&mut self) {
         // drop can't be async, but we can spawn a task to unsubscribe
         tokio::spawn({
-            let invoker_state_mutex = self.invoker_state_mutex.clone();
+            let invoker_state_mutex = self.state_mutex.clone();
             let unsubscribe_filter = self.response_topic_filter.clone();
             let mqtt_client = self.mqtt_client.clone();
             async move { drop_unsubscribe(mqtt_client, invoker_state_mutex, unsubscribe_filter).await }
@@ -1586,7 +1583,7 @@ mod tests {
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
                 assert_eq!(e.property_name, Some(error_property_name.to_string()));
-                assert!(e.property_value == Some(Value::String(error_property_value.to_string())));
+                assert!(e.property_value == Some(Value::String(error_property_value.clone())));
             }
         }
     }
@@ -1700,7 +1697,7 @@ mod tests {
 
     /// Tests success: Timeout specified on invoke and there is no error
     #[tokio::test]
-    #[ignore] // test ignored because waiting for the suback hangs forever. Leaving the test for now until we have a full testing framework
+    #[ignore = "test ignored because waiting for the suback hangs forever. Leaving the test for now until we have a full testing framework"]
     async fn test_invoke_timeout_parameter() {
         // Get mutexes for checking static PayloadSerialize calls
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
@@ -1754,7 +1751,7 @@ mod tests {
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut invoker_state = invoker.invoker_state_mutex.lock().await;
+        let mut invoker_state = invoker.state_mutex.lock().await;
         *invoker_state = State::Subscribed;
         drop(invoker_state);
 
@@ -1889,7 +1886,7 @@ mod tests {
     }
 
     #[tokio::test]
-    #[ignore] // test ignored because waiting for the suback hangs forever. Leaving the test for now until we have a full testing framework
+    #[ignore = "test ignored because waiting for the suback hangs forever. Leaving the test for now until we have a full testing framework"]
     async fn test_invoke_deserialize_error() {
         // Get mutexes for checking static PayloadSerialize calls
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
@@ -1940,7 +1937,7 @@ mod tests {
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut invoker_state = invoker.invoker_state_mutex.lock().await;
+        let mut invoker_state = invoker.state_mutex.lock().await;
         *invoker_state = State::Subscribed;
         drop(invoker_state);
 
@@ -2127,7 +2124,7 @@ mod tests {
 
     /// Tests failure: Timeout specified as 0 (invalid value) on invoke and an `ArgumentInvalid` error is returned
     #[test_case(Duration::from_secs(0); "invoke_timeout_0")]
-    /// Tests failure: Timeout specified as > u32::max (invalid value) on invoke and an `ArgumentInvalid` error is returned
+    /// Tests failure: Timeout specified as > `u32::max` (invalid value) on invoke and an `ArgumentInvalid` error is returned
     #[test_case(Duration::from_secs(u64::from(u32::MAX) + 1); "invoke_timeout_u32_max")]
     fn test_request_timeout_invalid_value(timeout: Duration) {
         let mut mock_request_payload = MockPayload::new();
@@ -2151,7 +2148,7 @@ mod tests {
         assert!(request_builder_result.is_err());
     }
 
-    /// Tests success: application_error_headers() returns no Application Error Code and Payload since custom_user_data has none.
+    /// Tests success: `application_error_headers()` returns no Application Error Code and Payload since `custom_user_data` has none.
     #[tokio::test]
     async fn test_no_app_error_code_and_payload() {
         let user_data: Vec<(String, String)> = Vec::new();
@@ -2162,7 +2159,7 @@ mod tests {
         assert!(application_error_payload.is_none());
     }
 
-    /// Tests success: custom_user_data contains both Application Error Code and Payload.
+    /// Tests success: `custom_user_data` contains both Application Error Code and Payload.
     #[tokio::test]
     async fn test_response_with_app_error_code_and_payload() {
         let error_code_content = "5888";
@@ -2184,7 +2181,7 @@ mod tests {
         );
     }
 
-    /// Tests success: custom_user_data contains Application Error Code, but no Payload.
+    /// Tests success: `custom_user_data` contains Application Error Code, but no Payload.
     #[tokio::test]
     async fn test_response_with_app_error_code_but_no_payload() {
         let error_code_content = "5888";

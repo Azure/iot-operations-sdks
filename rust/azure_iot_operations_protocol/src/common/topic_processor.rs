@@ -161,16 +161,15 @@ impl TopicPattern {
             });
         }
 
-        if let Some(share_name) = &share_name {
-            if share_name.trim().is_empty()
+        if let Some(share_name) = &share_name
+            && (share_name.trim().is_empty()
                 || contains_invalid_char(share_name)
-                || share_name.contains('/')
-            {
-                return Err(TopicPatternError {
-                    msg: None,
-                    kind: TopicPatternErrorKind::ShareName(share_name.to_string()),
-                });
-            }
+                || share_name.contains('/'))
+        {
+            return Err(TopicPatternError {
+                msg: None,
+                kind: TopicPatternErrorKind::ShareName(share_name.clone()),
+            });
         }
 
         // Matches empty levels at the start, middle, or end of the pattern
@@ -260,7 +259,7 @@ impl TopicPattern {
                         msg: None,
                         kind: TopicPatternErrorKind::TokenReplacement(
                             token_without_braces.to_string(),
-                            val.to_string(),
+                            val.clone(),
                         ),
                     });
                 }
@@ -313,7 +312,7 @@ impl TopicPattern {
     ///
     /// # Arguments
     /// * `tokens` - A map of token replacements for the topic pattern, can be empty if there are
-    ///     no replacements to be made
+    ///   no replacements to be made
     ///
     /// # Errors
     /// The error kind will be [`TopicPatternErrorKind::TokenReplacement`] if the topic
@@ -347,10 +346,7 @@ impl TopicPattern {
                 if !is_valid_replacement(val) {
                     return Err(TopicPatternError {
                         msg: None,
-                        kind: TopicPatternErrorKind::TokenReplacement(
-                            key.to_string(),
-                            val.to_string(),
-                        ),
+                        kind: TopicPatternErrorKind::TokenReplacement(key.to_string(), val.clone()),
                     });
                 }
                 publish_topic.push_str(val);
