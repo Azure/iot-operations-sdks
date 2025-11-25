@@ -28,13 +28,13 @@ use metl::test_feature_kind::TestFeatureKind;
 static TEST_CASE_INDEX: atomic::AtomicI32 = atomic::AtomicI32::new(0);
 
 const PROBLEMATIC_TEST_CASES: &[&str] = &[
-    "CommandExecutorRequestExpiresWhileDisconnected_RequestNotAcknowledged",
-    "CommandExecutorResponsePubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandInvokerInvalidResponseTopicPrefix_ThrowsException",
     "CommandInvokerInvalidResponseTopicSuffix_ThrowsException",
     "CommandInvokerWithZeroTimeout_ThrowsException",
-    "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess", // this might be able to be tested once acks have the epoch
     "TelemetrySenderSendWithCloudEventSpecVersionNonNumeric_Success",
+    "CommandExecutorDispatchConcurrencyBelowNeed_TimeoutErrors", // skipped because rust doesn't have execution timeout
+    "CommandExecutorZeroTimeout_ThrowsException", // skipped because rust doesn't have execution timeout
+    "CommandExecutorTimesOutStalledRequest_RpcErrorTimeout", // skipped because rust doesn't have execution timeout
 ];
 
 /*
@@ -362,7 +362,6 @@ fn does_standalone_support(requirements: &[TestFeatureKind]) -> bool {
 
 fn does_session_support(requirements: &[TestFeatureKind]) -> bool {
     !requirements.contains(&TestFeatureKind::Unobtanium)
-        && !requirements.contains(&TestFeatureKind::Dispatch)
         && !requirements.contains(&TestFeatureKind::MultipleSerializers)
 }
 
