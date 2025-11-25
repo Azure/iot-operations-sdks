@@ -158,8 +158,8 @@ impl Client {
             .internal_acquire(lease_expiration, request_timeout)
             .await;
 
-        if let Some(renewal_period) = renewal_period {
-            if renewal_period > Duration::ZERO {
+        if let Some(renewal_period) = renewal_period
+            && renewal_period > Duration::ZERO {
                 let self_clone = self.clone();
 
                 tokio::task::spawn({
@@ -184,7 +184,6 @@ impl Client {
                     }
                 });
             }
-        }
 
         acquire_result
     }
