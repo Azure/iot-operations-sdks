@@ -227,7 +227,6 @@ pub fn get_device_endpoint_names(mount_path: &Path) -> Result<HashSet<DeviceEndp
                     }
                     Err(err) => {
                         log::warn!("Failed to parse device endpoint from file name: {err:?}");
-                        continue;
                     }
                 }
             }

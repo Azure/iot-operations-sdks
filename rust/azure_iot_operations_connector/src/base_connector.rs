@@ -97,7 +97,7 @@ impl BaseConnector {
         // Create Session
         let mqtt_connection_settings = connector_artifacts
             .to_mqtt_connection_settings("0")
-            .map_err(|e| e.to_string())?;
+            .map_err(|e| e.clone())?;
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(mqtt_connection_settings)
             .build()

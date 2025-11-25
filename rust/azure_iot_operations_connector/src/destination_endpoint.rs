@@ -286,6 +286,7 @@ impl Forwarder {
 }
 
 #[derive(Debug)]
+#[allow(clippy::large_enum_variant)]
 pub(crate) enum ForwarderDestination {
     DefaultDestination(Arc<Destination>),
     DataOperationDestination(Destination),
