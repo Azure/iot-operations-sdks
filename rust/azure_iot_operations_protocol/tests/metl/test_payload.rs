@@ -44,13 +44,12 @@ impl PayloadSerialize for TestPayload {
     ) -> Result<Self, DeserializationError<Self::Error>> {
         let test_payload: TestPayload = serde_json::from_slice(payload).unwrap();
 
-        if let Some(content_type) = content_type {
-            if !test_payload.accept_content_types.contains(content_type) {
+        if let Some(content_type) = content_type
+            && !test_payload.accept_content_types.contains(content_type) {
                 return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type}'."
                 )));
             }
-        }
 
         if *format_indicator == FormatIndicator::Utf8EncodedCharacterData
             && !test_payload.allow_character_data
