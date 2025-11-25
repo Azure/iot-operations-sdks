@@ -152,20 +152,17 @@ async fn process_window(
                                 Err(e) => {
                                     // Error while sending telemetry
                                     log::error!("{e:?}");
-                                    continue;
                                 }
                             }
                         }
                         Err(e) => {
                             // Deserialization error
                             log::error!("{e:?}");
-                            continue;
                         }
                     }
                 } else {
                     log::info!("Sensor data not found in state store");
-                    continue;
-                };
+                }
             }
             // Error while fetching data from state store
             Err(e) => log::error!("{e:?}"),
@@ -251,7 +248,10 @@ impl From<Vec<f64>> for WindowSensorData {
         let mean = sensor_data.iter().sum::<f64>()
             / f64::from(u32::try_from(sensor_data.len()).expect("element count should fit in u32"));
         let median = if count % 2 == 0 {
-            (sensor_data[sensor_data.len() / 2] + sensor_data[sensor_data.len() / 2 - 1]) / 2.0
+            f64::midpoint(
+                sensor_data[sensor_data.len() / 2],
+                sensor_data[sensor_data.len() / 2 - 1],
+            )
         } else {
             sensor_data[sensor_data.len() / 2]
         };
