@@ -14,25 +14,23 @@ public static class AioCloudEventBuilder
     /// Builds AIO CloudEvent for a specific asset and dataset combination.
     /// </summary>
     /// <param name="device">ADR Device model.</param>
+    /// <param name="deviceName">Device name for fallback in source/subject generation.</param>
     /// <param name="endpointName">Endpoint name from the asset's deviceRef.</param>
     /// <param name="endpointAddress">Endpoint address/protocol identifier.</param>
     /// <param name="asset">ADR Asset model.</param>
     /// <param name="dataset">ADR AssetDataset model.</param>
+    /// <param name="assetName">Asset name.</param>
     /// <param name="messageSchemaReference">Optional message schema reference reported to ADR. Used to construct the aio-sr:// DataSchema URI.</param>
-    /// <param name="deviceName">Device name for fallback in source/subject generation.</param>
-    /// <param name="assetName">Asset name for fallback in subject generation.</param>
-    /// <param name="subSubject">Optional sub-subject to append to the CloudEvents subject.</param>
     /// <returns>Generated AIO CloudEvent.</returns>
     public static AioCloudEvent Build(
         Device device,
+        string deviceName,
         string endpointName,
         string? endpointAddress,
         Asset asset,
         AssetDataset dataset,
-        MessageSchemaReference? messageSchemaReference = null,
-        string? deviceName = null,
-        string? assetName = null,
-        string? subSubject = null)
+        string assetName,
+        MessageSchemaReference? messageSchemaReference = null)
     {
         ArgumentNullException.ThrowIfNull(device);
         ArgumentNullException.ThrowIfNull(endpointName);
@@ -41,7 +39,7 @@ public static class AioCloudEventBuilder
 
         var source = BuildSource(device, endpointAddress, deviceName, dataset.DataSource);
         var type = BuildType("DataSet", dataset.TypeRef);
-        var subject = BuildSubject(asset, assetName, dataset.Name, subSubject);
+        var subject = BuildSubject(asset, assetName, dataset.Name);
         var aioDeviceRef = BuildAioDeviceRef(device, endpointName);
         var aioAssetRef = BuildAioAssetRef(asset);
         var dataSchema = BuildDataSchemaUri(messageSchemaReference);
@@ -61,27 +59,25 @@ public static class AioCloudEventBuilder
     /// Builds AIO CloudEvent for a specific asset and event combination.
     /// </summary>
     /// <param name="device">ADR Device model.</param>
+    /// <param name="deviceName">Device name for fallback in source/subject generation.</param>
     /// <param name="endpointName">Endpoint name from the asset's deviceRef.</param>
     /// <param name="endpointAddress">Endpoint address/protocol identifier.</param>
     /// <param name="asset">ADR Asset model.</param>
-    /// <param name="eventGroupName">Event group name.</param>
     /// <param name="assetEvent">ADR AssetEvent model.</param>
-    /// <param name="messageSchemaReference">Optional message schema reference reported to ADR. Used to construct the aio-sr:// DataSchema URI.</param>
-    /// <param name="deviceName">Device name for fallback in source/subject generation.</param>
     /// <param name="assetName">Asset name for fallback in subject generation.</param>
-    /// <param name="subSubject">Optional sub-subject to append to the CloudEvents subject.</param>
+    /// <param name="eventGroupName">Event group name.</param>
+    /// <param name="messageSchemaReference">Optional message schema reference reported to ADR. Used to construct the aio-sr:// DataSchema URI.</param>
     /// <returns>Generated AIO CloudEvent.</returns>
     public static AioCloudEvent Build(
         Device device,
+        string deviceName,
         string endpointName,
         string? endpointAddress,
         Asset asset,
-        string eventGroupName,
         AssetEvent assetEvent,
-        MessageSchemaReference? messageSchemaReference = null,
-        string? deviceName = null,
-        string? assetName = null,
-        string? subSubject = null)
+        string assetName,
+        string eventGroupName,
+        MessageSchemaReference? messageSchemaReference = null)
     {
         ArgumentNullException.ThrowIfNull(device);
         ArgumentNullException.ThrowIfNull(endpointName);
@@ -95,7 +91,7 @@ public static class AioCloudEventBuilder
         // Use assetEvent.TypeRef
         var type = BuildType("Event", assetEvent.TypeRef);
 
-        var subject = BuildSubject(asset, assetName, eventGroupName, subSubject);
+        var subject = BuildSubject(asset, assetName, eventGroupName, assetEvent.Name);
 
         var aioDeviceRef = BuildAioDeviceRef(device, endpointName);
         var aioAssetRef = BuildAioAssetRef(asset);
@@ -131,23 +127,22 @@ public static class AioCloudEventBuilder
     /// Builds the CloudEvents source value.
     /// </summary>
     /// <param name="device">ADR Device model.</param>
-    /// <param name="endpointAddress">Endpoint address/protocol identifier.</param>
+    /// <param name="protocolSpecificIdentifier">Protocol specific identifier.</param>
     /// <param name="deviceName">Device name for fallback in source generation.</param>
     /// <param name="dataSource">Optional data source sub-path to append.</param>
     /// <returns>The formatted CloudEvents source string.</returns>
-    private static string BuildSource(Device device, string? endpointAddress, string? deviceName, string? dataSource)
+    private static string BuildSource(Device device, string? protocolSpecificIdentifier, string deviceName, string? dataSource)
     {
         string? deviceIdentifier =
-            !string.IsNullOrWhiteSpace(endpointAddress) ? endpointAddress :
+            !string.IsNullOrWhiteSpace(protocolSpecificIdentifier) ? protocolSpecificIdentifier :
             !string.IsNullOrWhiteSpace(device.ExternalDeviceId) && !IsEqualToUuid(device.ExternalDeviceId, device.Uuid) ? device.ExternalDeviceId :
-            !string.IsNullOrWhiteSpace(deviceName) ? deviceName :
-            throw new InvalidOperationException("Unable to determine device identifier: all identification fields are null or empty.");
+            deviceName;
 
         var source = $"ms-aio:{deviceIdentifier}";
 
-        if (!string.IsNullOrWhiteSpace(dataSource))
+        if (!string.IsNullOrWhiteSpace(dataSource) && IsValidUriParts($"{source}/", dataSource.TrimStart('/')))
         {
-            source += dataSource.StartsWith('/') ? dataSource : $"/{dataSource}";
+            source += $"/{dataSource.TrimStart('/')}";
         }
 
         return source;
@@ -177,7 +172,7 @@ public static class AioCloudEventBuilder
     /// <param name="name">Dataset name or event group name.</param>
     /// <param name="subSubject">Optional sub-subject to append.</param>
     /// <returns>The formatted CloudEvents subject string.</returns>
-    private static string BuildSubject(Asset asset, string? assetName, string name, string? subSubject)
+    private static string BuildSubject(Asset asset, string assetName, string name, string? subSubject = null)
     {
         string? assetIdentifier =
             !string.IsNullOrWhiteSpace(asset.ExternalAssetId) && !IsEqualToUuid(asset.ExternalAssetId, asset.Uuid) ? asset.ExternalAssetId :
@@ -186,12 +181,17 @@ public static class AioCloudEventBuilder
 
         var subject = $"{assetIdentifier}/{name}";
 
-        if (!string.IsNullOrWhiteSpace(subSubject))
+        if (!string.IsNullOrWhiteSpace(subSubject) && IsValidUriParts(null, subSubject.TrimStart('/')))
         {
-            subject += $"/{subSubject}";
+            subject += $"/{subSubject.TrimStart('/')}";
         }
 
         return subject;
+    }
+
+    private static bool IsValidUriParts(string? baseUri, string? segment)
+    {
+        return !string.IsNullOrEmpty(segment) && Uri.TryCreate(new Uri(baseUri ?? "http://dummy/"), segment, out _);
     }
 
     /// <summary>

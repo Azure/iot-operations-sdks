@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             TaskCompletionSource<MqttApplicationMessage> asset1TelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
-                if (isValidPayload(args.ApplicationMessage.Payload))
+                if (IsValidPayload(args.ApplicationMessage.Payload))
                 {
                     if (args.ApplicationMessage.Topic.Equals(asset1TelemetryTopic))
                     {
@@ -137,7 +137,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             TaskCompletionSource<MqttApplicationMessage> assetTelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
-                if (isValidPayload(args.ApplicationMessage.Payload))
+                if (IsValidPayload(args.ApplicationMessage.Payload))
                 {
                     if (args.ApplicationMessage.Topic.Equals(assetTelemetryTopic))
                     {
@@ -245,7 +245,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             }
         }
 
-        private static string safeGetUserProperty(MqttApplicationMessage mqttMessage, string name)
+        private static string SafeGetUserProperty(MqttApplicationMessage mqttMessage, string name)
         {
             if (mqttMessage.UserProperties == null)
             {
@@ -265,20 +265,20 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
         private static string GetCloudEventSourceFromMqttMessage(MqttApplicationMessage mqttMessage)
         {
-            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.Source));
+            return SafeGetUserProperty(mqttMessage, nameof(CloudEvent.Source));
         }
 
         private static string GetCloudEventTimeFromMqttMessage(MqttApplicationMessage mqttMessage)
         {
-            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.Time));
+            return SafeGetUserProperty(mqttMessage, nameof(CloudEvent.Time));
         }
 
         private static string GetCloudEventDataSchemaFromMqttMessage(MqttApplicationMessage mqttMessage)
         {
-            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.DataSchema));
+            return SafeGetUserProperty(mqttMessage, nameof(CloudEvent.DataSchema));
         }
 
-        private bool isValidPayload(ReadOnlySequence<byte> payload)
+        private bool IsValidPayload(ReadOnlySequence<byte> payload)
         {
             try
             {

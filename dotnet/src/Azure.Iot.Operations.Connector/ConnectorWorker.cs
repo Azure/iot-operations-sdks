@@ -4,6 +4,7 @@
 using System.Collections.Concurrent;
 using System.Data;
 using System.Text;
+using Azure.Iot.Operations.Connector.CloudEvents;
 using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Connector.Exceptions;
 using Azure.Iot.Operations.Protocol;
@@ -770,7 +771,7 @@ namespace Azure.Iot.Operations.Connector
             return compoundDeviceName + "_" + assetName;
         }
 
-        private CloudEvents.AioCloudEvent? ConstructCloudEventHeadersForDataset(
+        private AioCloudEvent? ConstructCloudEventHeadersForDataset(
             Device device,
             string deviceName,
             string inboundEndpointName,
@@ -782,15 +783,11 @@ namespace Azure.Iot.Operations.Connector
             try
             {
                 // Find the endpoint from the device to get the protocol address
-                string endpointAddress = inboundEndpointName;
+                string? endpointAddress = null;
                 if (device.Endpoints?.Inbound != null &&
                     device.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var endpoint))
                 {
                     endpointAddress = endpoint.Address;
-                }
-                else
-                {
-                    _logger.LogError($"Endpoint {inboundEndpointName} not found in device {deviceName}, using endpoint name as address");
                 }
 
                 // Create MessageSchemaReference from registered schema
@@ -802,15 +799,14 @@ namespace Azure.Iot.Operations.Connector
                 };
 
                 // Build and return the AIO CloudEvent
-                return CloudEvents.AioCloudEventBuilder.Build(
+                return AioCloudEventBuilder.Build(
                     device,
+                    deviceName,
                     inboundEndpointName,
                     endpointAddress,
                     asset,
                     dataset,
-                    schemaRef,
-                    deviceName,
-                    assetName);
+                    assetName, schemaRef);
             }
             catch (Exception ex)
             {
@@ -819,7 +815,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private CloudEvents.AioCloudEvent? ConstructCloudEventHeadersForEvent(
+        private AioCloudEvent? ConstructCloudEventHeadersForEvent(
             Device device,
             string deviceName,
             string inboundEndpointName,
@@ -850,16 +846,10 @@ namespace Azure.Iot.Operations.Connector
                     SchemaVersion = registeredSchema.Version
                 };
 
-                return CloudEvents.AioCloudEventBuilder.Build(
+                return AioCloudEventBuilder.Build(
                     device,
-                    inboundEndpointName,
-                    endpointAddress,
-                    asset,
-                    eventGroupName,
-                    assetEvent,
-                    schemaRef,
                     deviceName,
-                    assetName);
+                    inboundEndpointName, endpointAddress, asset, assetEvent, assetName, eventGroupName, schemaRef);
             }
             catch (Exception ex)
             {

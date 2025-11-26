@@ -44,19 +44,13 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            messageSchemaRef,
             "device-name",
-            "asset-name",
-            "sub-subject");
+            "endpoint1", "protocol-address", asset, dataset, "asset-name", messageSchemaReference: messageSchemaRef);
 
         // Assert
         Assert.Equal(new Uri("ms-aio:protocol-address/sub-source"), result.Source);
         Assert.Equal("DataSet/telemetry", result.Type);
-        Assert.Equal("ext-asset-012/dataset1/sub-subject", result.Subject);
+        Assert.Equal("ext-asset-012/dataset1", result.Subject);
         Assert.Equal("aio-sr://test-namespace/test-schema:1.0.0", result.DataSchema);
         Assert.Equal("ms-aio:device-uuid-123_endpoint1", result.AioDeviceRef);
         Assert.Equal("ms-aio:asset-uuid-789", result.AioAssetRef);
@@ -84,12 +78,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            deviceName: "device-name",
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: "protocol-address", asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert
         Assert.Equal(new Uri("ms-aio:protocol-address"), result.Source);
@@ -136,21 +125,12 @@ public class AioCloudEventBuilderTests
 
         // Act
         var result = AioCloudEventBuilder.Build(
-            device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            "eventGroup1",
-            assetEvent,
-            messageSchemaRef,
-            "device-name",
-            "asset-name",
-            "sub-subject");
+            device, "device-name", "endpoint1", "protocol-address", asset, assetEvent, "asset-name", "eventGroup1", messageSchemaRef);
 
         // Assert
         Assert.Equal(new Uri("ms-aio:protocol-address/event-source"), result.Source);
         Assert.Equal("Event/alarm", result.Type);
-        Assert.Equal("ext-asset-012/eventGroup1/sub-subject", result.Subject);
+        Assert.Equal("ext-asset-012/eventGroup1/event1", result.Subject);
         Assert.Equal("aio-sr://test-namespace/event-schema:2.0.0", result.DataSchema);
         Assert.Equal("ms-aio:device-uuid-123_endpoint1", result.AioDeviceRef);
         Assert.Equal("ms-aio:asset-uuid-789", result.AioAssetRef);
@@ -177,19 +157,12 @@ public class AioCloudEventBuilderTests
 
         // Act
         var result = AioCloudEventBuilder.Build(
-            device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            "eventGroup1",
-            assetEvent,
-            deviceName: "device-name",
-            assetName: "asset-name");
+            device, deviceName: "device-name", endpointName: "endpoint1", endpointAddress: "protocol-address", asset: asset, assetEvent: assetEvent, assetName: "asset-name", eventGroupName: "eventGroup1");
 
         // Assert
         Assert.Equal(new Uri("ms-aio:protocol-address"), result.Source);
         Assert.Equal("Event", result.Type);
-        Assert.Equal("asset-name/eventGroup1", result.Subject);
+        Assert.Equal("asset-name/eventGroup1/event1", result.Subject);
         Assert.Null(result.DataSchema);
         Assert.Equal("ms-aio:device-uuid-123_endpoint1", result.AioDeviceRef);
         Assert.Equal("ms-aio:asset-uuid-789", result.AioAssetRef);
@@ -214,12 +187,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            deviceName: "device-name",
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: "protocol-address", asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert
         Assert.Equal(new Uri("ms-aio:protocol-address"), result.Source);
@@ -240,12 +208,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            null,
-            asset,
-            dataset,
-            deviceName: "device-name",
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: null, asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert
         Assert.Equal(new Uri("ms-aio:ext-device-id"), result.Source);
@@ -266,41 +229,10 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            null,
-            asset,
-            dataset,
-            deviceName: "device-name",
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: null, asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert
         Assert.Equal(new Uri("ms-aio:device-name"), result.Source);
-    }
-
-    [Fact]
-    public void Build_ThrowsInvalidOperationException_WhenNoDeviceIdentifierAvailable()
-    {
-        // Arrange - No valid device identifier
-        var device = new Device
-        {
-            Uuid = "device-uuid-123",
-            ExternalDeviceId = "device-uuid-123"
-        };
-        var asset = new Asset { Uuid = "asset-uuid" };
-        var dataset = new AssetDataset { Name = "dataset1" };
-
-        // Act & Assert
-        var ex = Assert.Throws<InvalidOperationException>(() =>
-            AioCloudEventBuilder.Build(
-                device,
-                "endpoint1",
-                null,
-                asset,
-                dataset,
-                deviceName: null,
-                assetName: "asset-name"));
-
-        Assert.Contains("Unable to determine device identifier", ex.Message);
     }
 
     [Fact]
@@ -318,11 +250,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: "protocol-address", asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert
         Assert.Equal(new Uri("ms-aio:protocol-address/subsource/path"), result.Source);
@@ -347,11 +275,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: "protocol-address", asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert
         Assert.Equal("ext-asset-id/dataset1", result.Subject);
@@ -372,61 +296,10 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: "protocol-address", asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert
         Assert.Equal("asset-name/dataset1", result.Subject);
-    }
-
-    [Fact]
-    public void Build_ThrowsInvalidOperationException_WhenNoAssetIdentifierAvailable()
-    {
-        // Arrange - No valid asset identifier
-        var device = new Device { Uuid = "device-uuid" };
-        var asset = new Asset
-        {
-            Uuid = "asset-uuid-123",
-            ExternalAssetId = "asset-uuid-123"
-        };
-        var dataset = new AssetDataset { Name = "dataset1" };
-
-        // Act & Assert
-        var ex = Assert.Throws<InvalidOperationException>(() =>
-            AioCloudEventBuilder.Build(
-                device,
-                "endpoint1",
-                "protocol-address",
-                asset,
-                dataset,
-                assetName: null));
-
-        Assert.Contains("Unable to determine asset identifier", ex.Message);
-    }
-
-    [Fact]
-    public void Build_AppendsSubSubject_ToSubject_WhenProvided()
-    {
-        // Arrange
-        var device = new Device { Uuid = "device-uuid" };
-        var asset = new Asset { Uuid = "asset-uuid" };
-        var dataset = new AssetDataset { Name = "dataset1" };
-
-        // Act
-        var result = AioCloudEventBuilder.Build(
-            device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            assetName: "asset-name",
-            subSubject: "additional/path");
-
-        // Assert
-        Assert.Equal("asset-name/dataset1/additional/path", result.Subject);
     }
 
     #endregion
@@ -448,11 +321,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: "protocol-address", asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert
         Assert.Equal("DataSet", result.Type);
@@ -473,11 +342,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: "protocol-address", asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert
         Assert.Equal("DataSet/custom-type", result.Type);
@@ -498,12 +363,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            "eventGroup1",
-            assetEvent,
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: "protocol-address", asset: asset, assetEvent: assetEvent, assetName: "asset-name", eventGroupName: "eventGroup1");
 
         // Assert
         Assert.Equal("Event", result.Type);
@@ -524,12 +384,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            "eventGroup1",
-            assetEvent,
-            assetName: "asset-name");
+            "device-name", "endpoint1", "protocol-address", asset, assetEvent, "asset-name", "eventGroup1");
 
         // Assert
         Assert.Equal("Event/alarm-type", result.Type);
@@ -550,11 +405,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint-name",
-            "protocol-address",
-            asset,
-            dataset,
-            assetName: "asset-name");
+            "device-name", "endpoint-name", "protocol-address", asset, dataset, "asset-name");
 
         // Assert
         Assert.Equal("ms-aio:device-uuid-123_endpoint-name", result.AioDeviceRef);
@@ -572,11 +423,7 @@ public class AioCloudEventBuilderTests
         var ex = Assert.Throws<InvalidOperationException>(() =>
             AioCloudEventBuilder.Build(
                 device,
-                "endpoint1",
-                "protocol-address",
-                asset,
-                dataset,
-                assetName: "asset-name"));
+                "device-name", "endpoint1", "protocol-address", asset, dataset, "asset-name"));
 
         Assert.Contains("Device UUID is required", ex.Message);
     }
@@ -596,11 +443,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            assetName: "asset-name");
+            "device-name", "endpoint1", "protocol-address", asset, dataset, "asset-name");
 
         // Assert
         Assert.Equal("ms-aio:asset-uuid-456", result.AioAssetRef);
@@ -618,11 +461,7 @@ public class AioCloudEventBuilderTests
         var ex = Assert.Throws<InvalidOperationException>(() =>
             AioCloudEventBuilder.Build(
                 device,
-                "endpoint1",
-                "protocol-address",
-                asset,
-                dataset,
-                assetName: "asset-name"));
+                "device-name", "endpoint1", "protocol-address", asset, dataset, "asset-name"));
 
         Assert.Contains("Asset UUID is required", ex.Message);
     }
@@ -642,12 +481,8 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            messageSchemaReference: null,
-            assetName: "asset-name");
+            "device-name",
+            "endpoint1", "protocol-address", asset, dataset, "asset-name", messageSchemaReference: null);
 
         // Assert
         Assert.Null(result.DataSchema);
@@ -670,12 +505,8 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            messageSchemaRef,
-            assetName: "asset-name");
+            "device-name",
+            "endpoint1", "protocol-address", asset, dataset, "asset-name", messageSchemaReference: messageSchemaRef);
 
         // Assert
         Assert.Equal("aio-sr://my-namespace/my-schema:3.2.1", result.DataSchema);
@@ -700,12 +531,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            null,
-            asset,
-            dataset,
-            deviceName: "device-name",
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: null, asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert - Should use device name (priority 4) not external ID
         Assert.Equal(new Uri("ms-aio:device-name"), result.Source);
@@ -726,12 +552,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            null,
-            asset,
-            dataset,
-            deviceName: "device-name",
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: null, asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert - Should use device name (priority 4) not external ID
         Assert.Equal(new Uri("ms-aio:device-name"), result.Source);
@@ -752,12 +573,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            null,
-            asset,
-            dataset,
-            deviceName: "device-name",
-            assetName: "asset-name");
+            deviceName: "device-name", endpointName: "endpoint1", endpointAddress: null, asset: asset, dataset: dataset, assetName: "asset-name");
 
         // Assert - Should use device name (priority 4) not external ID
         Assert.Equal(new Uri("ms-aio:device-name"), result.Source);
@@ -778,11 +594,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            assetName: "asset-name");
+            "device-name", "endpoint1", "protocol-address", asset, dataset, "asset-name");
 
         // Assert - Should use asset name (priority 3) not external ID
         Assert.Equal("asset-name/dataset1", result.Subject);
@@ -803,11 +615,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            null,
-            asset,
-            dataset,
-            assetName: "asset-name");
+            "device-name", "endpoint1", null, asset, dataset, "asset-name");
 
         // Assert - Should use external ID (priority 3)
         Assert.Equal(new Uri("ms-aio:different-external-id"), result.Source);
@@ -828,11 +636,7 @@ public class AioCloudEventBuilderTests
         // Act
         var result = AioCloudEventBuilder.Build(
             device,
-            "endpoint1",
-            "protocol-address",
-            asset,
-            dataset,
-            assetName: "asset-name");
+            "device-name", "endpoint1", "protocol-address", asset, dataset, "asset-name");
 
         // Assert - Should use external asset ID (priority 2)
         Assert.Equal("different-external-asset-id/dataset1", result.Subject);
