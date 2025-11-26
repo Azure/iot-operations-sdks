@@ -48,9 +48,13 @@ impl std::fmt::Display for TopicPatternError {
 }
 
 impl From<azure_iot_operations_mqtt::error::TopicError> for TopicPatternError {
-    fn from(_value: azure_iot_operations_mqtt::error::TopicError) -> Self {
-        // TODO: implement this error conversion or switch to a different error handling method
-        todo!()
+    fn from(value: azure_iot_operations_mqtt::error::TopicError) -> Self {
+        // `TopicError` wraps `DecodeError` which may contain non-topic-related errors,
+        // so we cannot match specifically for topic validation failures.
+        TopicPatternError {
+            msg: Some(value.to_string()),
+            kind: TopicPatternErrorKind::Pattern(value.to_string()),
+        }
     }
 }
 
