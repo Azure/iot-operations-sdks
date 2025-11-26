@@ -288,7 +288,7 @@ impl MqttConnectionSettings {
 
         let keep_alive = azure_mqtt::client::KeepAliveConfig::Duration {
             ping_after,
-            response_timeout: Duration::from_secs(2),
+            response_timeout: Duration::from_secs(2),   // TODO: Make configurable?
         };
 
         let password = if let Some(password_file) = self.password_file {
