@@ -33,9 +33,11 @@ public static class AioCloudEventBuilder
         MessageSchemaReference? messageSchemaReference = null)
     {
         ArgumentNullException.ThrowIfNull(device);
-        ArgumentNullException.ThrowIfNull(endpointName);
+        ArgumentException.ThrowIfNullOrEmpty(deviceName);
+        ArgumentException.ThrowIfNullOrEmpty(endpointName);
         ArgumentNullException.ThrowIfNull(asset);
         ArgumentNullException.ThrowIfNull(dataset);
+        ArgumentException.ThrowIfNullOrEmpty(assetName);
 
         var source = BuildSource(device, endpointAddress, deviceName, dataset.DataSource);
         var type = BuildType("DataSet", dataset.TypeRef);
@@ -80,9 +82,11 @@ public static class AioCloudEventBuilder
         MessageSchemaReference? messageSchemaReference = null)
     {
         ArgumentNullException.ThrowIfNull(device);
-        ArgumentNullException.ThrowIfNull(endpointName);
+        ArgumentException.ThrowIfNullOrEmpty(deviceName);
+        ArgumentException.ThrowIfNullOrEmpty(endpointName);
         ArgumentNullException.ThrowIfNull(asset);
-        ArgumentNullException.ThrowIfNull(eventGroupName);
+        ArgumentException.ThrowIfNullOrEmpty(assetName);
+        ArgumentException.ThrowIfNullOrEmpty(eventGroupName);
         ArgumentNullException.ThrowIfNull(assetEvent);
 
         var dataSource = assetEvent.DataSource;

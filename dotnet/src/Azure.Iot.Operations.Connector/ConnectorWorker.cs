@@ -806,7 +806,8 @@ namespace Azure.Iot.Operations.Connector
                     endpointAddress,
                     asset,
                     dataset,
-                    assetName, schemaRef);
+                    assetName,
+                    schemaRef);
             }
             catch (Exception ex)
             {
@@ -828,15 +829,11 @@ namespace Azure.Iot.Operations.Connector
             try
             {
                 // Find the endpoint from the device to get the protocol address
-                string endpointAddress = inboundEndpointName;
+                string? endpointAddress = null;
                 if (device.Endpoints?.Inbound != null &&
                     device.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var endpoint))
                 {
                     endpointAddress = endpoint.Address;
-                }
-                else
-                {
-                    _logger.LogError($"Endpoint {inboundEndpointName} not found in device {deviceName}, using endpoint name as address");
                 }
 
                 var schemaRef = new MessageSchemaReference
@@ -849,7 +846,13 @@ namespace Azure.Iot.Operations.Connector
                 return AioCloudEventBuilder.Build(
                     device,
                     deviceName,
-                    inboundEndpointName, endpointAddress, asset, assetEvent, assetName, eventGroupName, schemaRef);
+                    inboundEndpointName,
+                    endpointAddress,
+                    asset,
+                    assetEvent,
+                    assetName,
+                    eventGroupName,
+                    schemaRef);
             }
             catch (Exception ex)
             {
