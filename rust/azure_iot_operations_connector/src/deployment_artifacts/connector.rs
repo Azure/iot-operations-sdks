@@ -564,7 +564,8 @@ mod tests {
         pub fn index_file_contents(&self) -> String {
             let mut contents = String::new();
             for mount in &self.volumes {
-                contents.push_str(&format!("{}\n", mount.path().to_str().unwrap()));
+                let mount_str = format!("{}\n", mount.path().to_str().unwrap());
+                contents.push_str(&mount_str);
             }
             contents
         }

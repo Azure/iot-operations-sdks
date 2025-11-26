@@ -117,7 +117,8 @@ pub struct MockServer {
 }
 
 impl MockServer {
-    /// Create a new MockServer
+    /// Create a new `MockServer`
+    #[must_use]
     pub fn new(to_client_tx: IncomingPacketsTx, from_client_rx: OutgoingPacketsRx) -> MockServer {
         MockServer {
             to_client_tx,
@@ -128,7 +129,10 @@ impl MockServer {
     /// Panic if the next packet received is not a CONNECT packet.
     /// Send a CONNACK packet with Success reason code in response, with the provided
     /// session_present flag.
-    pub async fn expect_connect_and_accept(&self, session_present: bool) -> mqtt_proto::Connect<Bytes>{
+    pub async fn expect_connect_and_accept(
+        &self,
+        session_present: bool,
+    ) -> mqtt_proto::Connect<Bytes> {
         self.expect_connect_and_respond_custom(mqtt_proto::ConnAck {
             reason_code: mqtt_proto::ConnectReasonCode::Success { session_present },
             other_properties: mqtt_proto::ConnAckOtherProperties::default(),
@@ -138,17 +142,17 @@ impl MockServer {
 
     /// Panic if the next packet received is not a CONNECT packet.
     /// Send the provided CONNACK packet in response.
-    pub async fn expect_connect_and_respond_custom(&self, connack: mqtt_proto::ConnAck<Bytes>) -> mqtt_proto::Connect<Bytes> {
+    pub async fn expect_connect_and_respond_custom(
+        &self,
+        connack: mqtt_proto::ConnAck<Bytes>,
+    ) -> mqtt_proto::Connect<Bytes> {
         match self.from_client_rx.recv().await {
             Some(mqtt_proto::Packet::Connect(connect)) => {
                 self.to_client_tx.send(mqtt_proto::Packet::ConnAck(connack));
                 connect
             }
             Some(other) => {
-                panic!(
-                    "Expected CONNECT packet, but received different packet: {:?}",
-                    other
-                );
+                panic!("Expected CONNECT packet, but received different packet: {other:?}",);
             }
             None => {
                 panic!("Expected CONNECT packet, but connection was closed");
@@ -158,6 +162,7 @@ impl MockServer {
 
     /// Panic if the next packet received is not a SUBSCRIBE packet.
     /// Send a SUBACK packet granting the requested QoS in response.
+    #[allow(clippy::missing_panics_doc)]
     pub async fn expect_subscribe_and_accept(&self) {
         match self.from_client_rx.recv().await {
             Some(mqtt_proto::Packet::Subscribe(subscribe)) => {
@@ -184,10 +189,7 @@ impl MockServer {
                     }));
             }
             Some(other) => {
-                panic!(
-                    "Expected SUBSCRIBE packet, but received different packet: {:?}",
-                    other
-                );
+                panic!("Expected SUBSCRIBE packet, but received different packet: {other:?}",);
             }
             None => {
                 panic!("Expected SUBSCRIBE packet, but connection was closed");
@@ -197,14 +199,12 @@ impl MockServer {
 
     /// Panic if the next packet received is not a PUBACK packet.
     /// Return the received PUBACK packet for further inspection.
+    #[allow(clippy::missing_panics_doc)]
     pub async fn expect_puback_and_return(&self) -> mqtt_proto::PubAck<Bytes> {
         match self.from_client_rx.recv().await {
             Some(mqtt_proto::Packet::PubAck(puback)) => puback,
             Some(other) => {
-                panic!(
-                    "Expected PUBACK packet, but received different packet: {:?}",
-                    other
-                );
+                panic!("Expected PUBACK packet, but received different packet: {other:?}",);
             }
             None => {
                 panic!("Expected PUBACK packet, but connection was closed");
@@ -213,17 +213,16 @@ impl MockServer {
     }
 
     /// Panic if any packet is ready to be received
+    #[allow(clippy::missing_panics_doc)]
+    #[allow(clippy::manual_assert)]
     pub fn expect_no_packet(&self) {
-        match self.from_client_rx.recv().now_or_never() {
-            Some(_) => {
-                panic!("Expected no packet, but received a packet");
-            }
-            None => return,
+        if self.from_client_rx.recv().now_or_never().is_some() {
+            panic!("Expected no packet, but received a packet");
         }
     }
 
     /// Send a PUBLISH packet to the client
     pub fn send_publish(&self, publish: mqtt_proto::Publish<Bytes>) {
-        self.to_client_tx.send(mqtt_proto::Packet::Publish(publish))
+        self.to_client_tx.send(mqtt_proto::Packet::Publish(publish));
     }
 }

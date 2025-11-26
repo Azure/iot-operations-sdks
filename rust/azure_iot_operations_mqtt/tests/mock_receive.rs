@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+#![allow(clippy::doc_markdown)]
+
 use tokio_test::assert_pending;
 
 use azure_iot_operations_mqtt::{
@@ -23,8 +25,8 @@ fn setup_client_and_mock_server(client_id: &str) -> (Session, MockServer) {
     let options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .injected_packet_channels(Some(InjectedPacketChannels {
-            incoming_packets_tx: incoming_packets_tx,
-            outgoing_packets_rx: outgoing_packets_rx,
+            incoming_packets_tx,
+            outgoing_packets_rx,
         }))
         .build()
         .unwrap();

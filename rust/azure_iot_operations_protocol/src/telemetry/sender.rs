@@ -92,7 +92,7 @@ impl CloudEventBuilder {
 
         if let Some(sv) = &self.spec_version {
             CloudEventFields::SpecVersion.validate(sv, &spec_version)?;
-            spec_version = sv.to_string();
+            spec_version.clone_from(sv);
         }
 
         if let Some(source) = &self.source {
@@ -166,7 +166,7 @@ pub struct Message<T: PayloadSerialize> {
     serialized_payload: SerializedPayload,
     /// Strongly link `TelemetryMessage` with type `T`
     #[builder(private)]
-    message_payload_type: PhantomData<T>,
+    payload_type: PhantomData<T>,
     /// Quality of Service of the telemetry message. Can only be `AtMostOnce` or `AtLeastOnce`.
     #[builder(default = "QoS::AtLeastOnce")]
     qos: QoS,
@@ -182,6 +182,7 @@ pub struct Message<T: PayloadSerialize> {
     /// properties. Default is 10 seconds.
     #[builder(default = "Duration::from_secs(10)")]
     #[builder(setter(custom))]
+    #[allow(clippy::struct_field_names)]
     message_expiry: Duration,
     /// Cloud event of the telemetry message.
     #[builder(default = "None")]
@@ -218,7 +219,7 @@ impl<T: PayloadSerialize> MessageBuilder<T> {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
                         "content_type",
-                        Value::String(serialized_payload.content_type.to_string()),
+                        Value::String(serialized_payload.content_type.clone()),
                         Some(format!(
                             "Content type '{}' of telemetry message type is not valid UTF-8",
                             serialized_payload.content_type
@@ -227,7 +228,7 @@ impl<T: PayloadSerialize> MessageBuilder<T> {
                     ));
                 }
                 self.serialized_payload = Some(serialized_payload);
-                self.message_payload_type = Some(PhantomData);
+                self.payload_type = Some(PhantomData);
                 Ok(self)
             }
         }
@@ -274,17 +275,18 @@ impl<T: PayloadSerialize> MessageBuilder<T> {
                 }
             }
         }
-        if let Some(qos) = &self.qos {
-            if *qos != QoS::AtMostOnce && *qos != QoS::AtLeastOnce {
-                return Err("QoS must be AtMostOnce or AtLeastOnce".to_string());
-            }
+        if let Some(qos) = &self.qos
+            && *qos != QoS::AtMostOnce
+            && *qos != QoS::AtLeastOnce
+        {
+            return Err("QoS must be AtMostOnce or AtLeastOnce".to_string());
         }
         // If there's a cloud event, make sure the content type is valid for the cloud event spec version
-        if let Some(Some(cloud_event)) = &self.cloud_event {
-            if let Some(serialized_payload) = &self.serialized_payload {
-                CloudEventFields::DataContentType
-                    .validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
-            }
+        if let Some(Some(cloud_event)) = &self.cloud_event
+            && let Some(serialized_payload) = &self.serialized_payload
+        {
+            CloudEventFields::DataContentType
+                .validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
         }
         if self.persist == Some(true) && self.retain == Some(false) {
             return Err("Persist cannot be used without retain".to_string());
@@ -296,6 +298,7 @@ impl<T: PayloadSerialize> MessageBuilder<T> {
 /// Telemetry Sender Options struct
 #[derive(Builder, Clone)]
 #[builder(setter(into, strip_option))]
+#[allow(clippy::struct_field_names)]
 pub struct Options {
     /// Topic pattern for the telemetry message.
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
@@ -370,8 +373,8 @@ where
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if
     /// - [`topic_pattern`](OptionsBuilder::topic_pattern) is empty or whitespace
     /// - [`topic_pattern`](OptionsBuilder::topic_pattern),
-    ///     [`topic_namespace`](OptionsBuilder::topic_namespace),
-    ///     are Some and invalid or contain a token with no valid replacement
+    ///   [`topic_namespace`](OptionsBuilder::topic_namespace),
+    ///   are Some and invalid or contain a token with no valid replacement
     /// - [`topic_token_map`](OptionsBuilder::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
@@ -476,7 +479,7 @@ where
             correlation_data: Some(correlation_data),
             response_topic: None,
             payload_format_indicator: message.serialized_payload.format_indicator.into(),
-            content_type: Some(message.serialized_payload.content_type.to_string()),
+            content_type: Some(message.serialized_payload.content_type.clone()),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: message.custom_user_data,
             topic_alias: None,
@@ -719,7 +722,7 @@ mod tests {
         }
     }
 
-    /// Tests failure: Timeout specified as > u32::max (invalid value) on send and an `ArgumentInvalid` error is returned
+    /// Tests failure: Timeout specified as > `u32::max` (invalid value) on send and an `ArgumentInvalid` error is returned
     #[test_case(Duration::from_secs(u64::from(u32::MAX) + 1); "send_timeout_u32_max")]
     fn test_send_timeout_invalid_value(timeout: Duration) {
         let mut mock_telemetry_payload = MockPayload::new();
