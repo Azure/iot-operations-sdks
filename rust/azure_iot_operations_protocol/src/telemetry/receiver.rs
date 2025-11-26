@@ -85,7 +85,7 @@ impl CloudEventBuilder {
 
         if let Some(sv) = &self.spec_version {
             CloudEventFields::SpecVersion.validate(sv, &spec_version)?;
-            spec_version = sv.to_string();
+            spec_version.clone_from(sv);
         }
 
         if let Some(id) = &self.id {
@@ -382,14 +382,15 @@ where
     // Static properties of the receiver
     application_hlc: Arc<ApplicationHybridLogicalClock>,
     mqtt_client: SessionManagedClient,
+    #[allow(clippy::struct_field_names)]
     mqtt_receiver: SessionPubReceiver,
     telemetry_topic: TopicFilter,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
     // Describes state
-    receiver_state: State,
+    state: State,
     // Information to manage state
-    receiver_cancellation_token: CancellationToken,
+    cancellation_token: CancellationToken,
     // User autoack setting
     auto_ack: bool,
 }
@@ -461,8 +462,8 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
-            receiver_state: State::New,
-            receiver_cancellation_token: CancellationToken::new(),
+            state: State::New,
+            cancellation_token: CancellationToken::new(),
             auto_ack: receiver_options.auto_ack,
         })
     }
@@ -480,10 +481,10 @@ where
         // Close the receiver, no longer receive messages
         self.mqtt_receiver.close();
 
-        match self.receiver_state {
+        match self.state {
             State::New | State::ShutdownSuccessful => {
                 // If subscribe has not been called or shutdown was successful, do not unsubscribe
-                self.receiver_state = State::ShutdownSuccessful;
+                self.state = State::ShutdownSuccessful;
             }
             State::Subscribed => {
                 let unsubscribe_result = self
@@ -498,7 +499,7 @@ where
                     Ok(unsub_ct) => match unsub_ct.await {
                         Ok(unsuback) => match unsuback.as_result() {
                             Ok(()) => {
-                                self.receiver_state = State::ShutdownSuccessful;
+                                self.state = State::ShutdownSuccessful;
                             }
                             Err(e) => {
                                 log::error!("Unsuback error: {unsuback:?}");
@@ -606,11 +607,11 @@ where
         &mut self,
     ) -> Option<Result<(Message<T>, Option<AckToken>), AIOProtocolError>> {
         // Subscribe to the telemetry topic if not already subscribed
-        if self.receiver_state == State::New {
+        if self.state == State::New {
             if let Err(e) = self.try_subscribe().await {
                 return Some(Err(e));
             }
-            self.receiver_state = State::Subscribed;
+            self.state = State::Subscribed;
         }
 
         loop {
@@ -652,12 +653,12 @@ where
                                 .extend(self.topic_pattern.parse_tokens(&message.topic));
 
                             // Update application HLC
-                            if let Some(hlc) = &message.timestamp {
-                                if let Err(e) = self.application_hlc.update(hlc) {
-                                    log::error!(
-                                        "[pkid: {pkid}]: Failure updating application HLC against {hlc}: {e}"
-                                    );
-                                }
+                            if let Some(hlc) = &message.timestamp
+                                && let Err(e) = self.application_hlc.update(hlc)
+                            {
+                                log::error!(
+                                    "[pkid: {pkid}]: Failure updating application HLC against {hlc}: {e}"
+                                );
                             }
                             return Some(Ok((message, ack_token)));
                         }
@@ -668,7 +669,7 @@ where
                             if let Some(ack_token) = ack_token {
                                 tokio::spawn({
                                     let receiver_cancellation_token_clone =
-                                        self.receiver_cancellation_token.clone();
+                                        self.cancellation_token.clone();
                                     async move {
                                         tokio::select! {
                                             () = receiver_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
@@ -702,12 +703,12 @@ where
 {
     fn drop(&mut self) {
         // Cancel all tasks awaiting responses
-        self.receiver_cancellation_token.cancel();
+        self.cancellation_token.cancel();
         // Close the receiver
         self.mqtt_receiver.close();
 
         // If the receiver has not unsubscribed, attempt to unsubscribe
-        if State::Subscribed == self.receiver_state {
+        if State::Subscribed == self.state {
             tokio::spawn({
                 let telemetry_topic = self.telemetry_topic.clone();
                 let mqtt_client = self.mqtt_client.clone();

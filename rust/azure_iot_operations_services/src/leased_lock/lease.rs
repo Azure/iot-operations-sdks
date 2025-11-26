@@ -158,32 +158,32 @@ impl Client {
             .internal_acquire(lease_expiration, request_timeout)
             .await;
 
-        if let Some(renewal_period) = renewal_period {
-            if renewal_period > Duration::ZERO {
-                let self_clone = self.clone();
+        if let Some(renewal_period) = renewal_period
+            && renewal_period > Duration::ZERO
+        {
+            let self_clone = self.clone();
 
-                tokio::task::spawn({
-                    async move {
-                        loop {
-                            select! {
-                                () = self_clone.auto_renewal_notify.notified() => {
-                                    break; // Auto-renewal is cancelled.
-                                }
-                                () = tokio::time::sleep(renewal_period) => {
-                                    if self_clone
-                                        .internal_acquire(lease_expiration, request_timeout)
-                                        .await
-                                        .is_err()
-                                    {
-                                        // Acquire failed. Stopping Auto-renewal.
-                                        break;
-                                    }
+            tokio::task::spawn({
+                async move {
+                    loop {
+                        select! {
+                            () = self_clone.auto_renewal_notify.notified() => {
+                                break; // Auto-renewal is cancelled.
+                            }
+                            () = tokio::time::sleep(renewal_period) => {
+                                if self_clone
+                                    .internal_acquire(lease_expiration, request_timeout)
+                                    .await
+                                    .is_err()
+                                {
+                                    // Acquire failed. Stopping Auto-renewal.
+                                    break;
                                 }
                             }
                         }
                     }
-                });
-            }
+                }
+            });
         }
 
         acquire_result

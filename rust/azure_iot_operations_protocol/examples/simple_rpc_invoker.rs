@@ -139,12 +139,12 @@ impl PayloadSerialize for IncrResponsePayload {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<IncrResponsePayload, DeserializationError<IncrSerializerError>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/json" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/json"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+            )));
         }
         let payload = match std::str::from_utf8(payload) {
             Ok(p) => p,
