@@ -8,13 +8,6 @@ pub type TopicName = azure_mqtt::topic::TopicName;
 /// Topic Filter
 pub type TopicFilter = azure_mqtt::topic::TopicFilter;
 
-/// Quality of Service
-pub type QoS = azure_mqtt::packet::QoS;
-/// Quality of Service on a received message
-pub type DeliveryQoS = azure_mqtt::packet::DeliveryQoS;
-/// Payload Format Indicator
-pub type PayloadFormatIndicator = azure_mqtt::packet::PayloadFormatIndicator;
-
 /// PUBLISH packet
 pub type Publish = azure_mqtt::packet::Publish;
 /// PUBACK packet
@@ -36,11 +29,23 @@ pub type PublishProperties = azure_mqtt::packet::PublishProperties;
 pub type SubscribeProperties = azure_mqtt::packet::SubscribeProperties;
 /// Properties for a UNSUBSCRIBE packet
 pub type UnsubscribeProperties = azure_mqtt::packet::UnsubscribeProperties;
+/// Properties for a DISCONNECT packet
+pub type DisconnectProperties = azure_mqtt::packet::DisconnectProperties;
 /// Properties for an AUTH packet
 pub type AuthProperties = azure_mqtt::packet::AuthProperties;
 
 /// Connect Return Code
 pub type ConnectReturnCode = azure_mqtt::packet::ConnAckReason;
+/// PubAck Reason Code
+pub type PubAckReasonCode = azure_mqtt::packet::PubAckReason;
+/// SubAck Reason Code
+pub type SubAckReasonCode = azure_mqtt::packet::SubAckReason;
+/// UnsubAck Reason Code
+pub type UnsubAckReasonCode = azure_mqtt::packet::UnsubAckReason;
+/// Disconnect Reason Code
+pub type DisconnectReasonCode = azure_mqtt::packet::DisconnectReason;
+/// Auth Reason Code
+pub type AuthReasonCode = azure_mqtt::packet::AuthReason;
 
 /// Authentication Info
 pub type AuthenticationInfo = azure_mqtt::packet::AuthenticationInfo;
@@ -48,3 +53,11 @@ pub type AuthenticationInfo = azure_mqtt::packet::AuthenticationInfo;
 pub type RetainHandling = azure_mqtt::packet::RetainHandling;
 /// Session Expiry Interval
 pub type SessionExpiryInterval = azure_mqtt::packet::SessionExpiryInterval;
+/// Quality of Service
+pub type QoS = azure_mqtt::packet::QoS;
+/// Quality of Service on a received message
+pub type DeliveryQoS = azure_mqtt::packet::DeliveryQoS;
+/// Payload Format Indicator
+pub type PayloadFormatIndicator = azure_mqtt::packet::PayloadFormatIndicator;
+/// Packet Identifier
+pub type PacketIdentifier = azure_mqtt::packet::PacketIdentifier;

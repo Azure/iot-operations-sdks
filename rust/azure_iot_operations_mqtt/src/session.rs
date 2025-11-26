@@ -326,6 +326,25 @@ impl Session {
             self.incoming_pub_dispatcher.clone(),
         ));
 
+        // NOTE: We have to clone this to access it after we send the rest of `self` into
+        // the connection runner task.
+        // Consider factoring out connection-related components into their own substruct
+        // to avoid this pattern, and some others (e.g. semantically odd Option fields, etc.)
+        let notify_force_exit = self.notify_force_exit.clone();
+
+        tokio::select! {
+            res = self.connection_runner() => {
+                res
+            }
+            _ = notify_force_exit.notified() => {
+                log::info!("Exiting Session non-gracefully due to application-issued force exit command");
+                log::info!("Note that the MQTT server may still retain the MQTT session");
+                Err(SessionErrorRepr::ForceExit.into())
+            }
+        }
+    }
+
+    async fn connection_runner(&mut self) -> Result<(), SessionError> {
         let mut clean_start = self.connect_parameters.initial_clean_start;
         let mut prev_connected = false;
         let mut prev_reconnection_attempts = 0;
@@ -385,7 +404,7 @@ impl Session {
                 // User-initiated disconnect with exit handle
                 // TODO: Is this truly the only way this happens? I think so, but double-check
                 DisconnectedEvent::ApplicationDisconnect => {
-                    log::info!("Exiting Session due to application-issued end session");
+                    log::info!("Exiting Session gracefully due to application-issued exit command");
                     return Ok(());
                 }
                 DisconnectedEvent::ServerDisconnect(disconnect) => {
@@ -657,10 +676,17 @@ impl SessionExitHandle {
     /// has ended.
     ///
     /// Returns true if the exit was graceful, and false if the exit was forced.
-    #[allow(clippy::unused_async)] // TODO: remove once implemented
     pub async fn exit_force(&self) -> bool {
+        // TODO: should this be async?
         // TODO: once this is implemented, change METL tests back to using this instead of try_exit().unwrap()
-        unimplemented!()
+
+        if self.try_exit().is_ok() {
+            true
+        } else {
+            log::debug!("Session not connected, forcing exit immediately");
+            self.force_exit.notify_one();
+            false
+        }
     }
 }
 

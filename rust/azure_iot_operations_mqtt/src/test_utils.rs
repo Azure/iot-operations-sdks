@@ -128,7 +128,7 @@ impl MockServer {
     /// Panic if the next packet received is not a CONNECT packet.
     /// Send a CONNACK packet with Success reason code in response, with the provided
     /// session_present flag.
-    pub async fn expect_connect_and_accept(&self, session_present: bool) {
+    pub async fn expect_connect_and_accept(&self, session_present: bool) -> mqtt_proto::Connect<Bytes>{
         self.expect_connect_and_respond_custom(mqtt_proto::ConnAck {
             reason_code: mqtt_proto::ConnectReasonCode::Success { session_present },
             other_properties: mqtt_proto::ConnAckOtherProperties::default(),
@@ -138,10 +138,11 @@ impl MockServer {
 
     /// Panic if the next packet received is not a CONNECT packet.
     /// Send the provided CONNACK packet in response.
-    pub async fn expect_connect_and_respond_custom(&self, connack: mqtt_proto::ConnAck<Bytes>) {
+    pub async fn expect_connect_and_respond_custom(&self, connack: mqtt_proto::ConnAck<Bytes>) -> mqtt_proto::Connect<Bytes> {
         match self.from_client_rx.recv().await {
-            Some(mqtt_proto::Packet::Connect(_)) => {
+            Some(mqtt_proto::Packet::Connect(connect)) => {
                 self.to_client_tx.send(mqtt_proto::Packet::ConnAck(connack));
+                connect
             }
             Some(other) => {
                 panic!(
