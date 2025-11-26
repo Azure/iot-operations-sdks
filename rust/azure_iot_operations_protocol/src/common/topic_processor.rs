@@ -115,6 +115,8 @@ pub struct TopicPattern {
     pattern_regex: Regex,
     /// The share name for the topic pattern
     share_name: Option<String>,
+    /// The namespace prefix length (including trailing slash) for parsing
+    namespace_prefix_len: usize,
 }
 
 impl TopicPattern {
@@ -185,6 +187,7 @@ impl TopicPattern {
 
         // Used to accumulate the pattern as checks and replacements are made
         let mut acc_pattern = String::new();
+        let mut namespace_prefix_len = 0;
 
         if let Some(topic_namespace) = topic_namespace {
             if !is_valid_replacement(topic_namespace) {
@@ -195,6 +198,7 @@ impl TopicPattern {
             }
             acc_pattern.push_str(topic_namespace);
             acc_pattern.push('/');
+            namespace_prefix_len = topic_namespace.len() + 1; // +1 for the '/' separator
         }
 
         // Matches any tokens in the pattern, i.e foo/{bar} would match {bar}
@@ -287,6 +291,7 @@ impl TopicPattern {
             dynamic_pattern: acc_pattern,
             pattern_regex,
             share_name,
+            namespace_prefix_len,
         })
     }
 
@@ -371,13 +376,19 @@ impl TopicPattern {
     pub fn parse_tokens(&self, topic: &str) -> HashMap<String, String> {
         let mut tokens = HashMap::new();
 
-        // Create a mutable reference to the topic string
-        let mut topic_ref = topic;
+        // Skip the namespace prefix to align with the static pattern
+        let topic_ref = if topic.len() >= self.namespace_prefix_len {
+            &topic[self.namespace_prefix_len..]
+        } else {
+            // Topic is shorter than namespace, no tokens can be extracted
+            return tokens;
+        };
 
-        // Marks the index of the last match in the topic
+        // Use the original efficient approach but on the namespace-adjusted topic
+        let mut topic_ref = topic_ref;
         let mut last_token_end = 0;
 
-        // Find all the tokens in the pattern
+        // Find all the tokens in the static pattern
         for find in self.pattern_regex.find_iter(&self.static_pattern) {
             // Get the start and end indices of the current match
             let token_start = find.start();
@@ -634,5 +645,21 @@ mod tests {
         let pattern = TopicPattern::new(pattern, None, None, &HashMap::new()).unwrap();
 
         assert_eq!(pattern.parse_tokens(topic), *result);
+    }
+
+    #[test]
+    fn test_topic_pattern_parse_tokens_with_topic_namespace() {
+        let topic = "testNamespace/testTopic/testTokenValue";
+        let pattern = "testTopic/{testToken}";
+        let namespace = "testNamespace";
+        let token_replacements =
+            HashMap::from([("testToken".to_string(), "testReplacement".to_string())]);
+
+        let topic_pattern =
+            TopicPattern::new(pattern, None, Some(namespace), &token_replacements).unwrap();
+
+        let parsed_tokens = topic_pattern.parse_tokens(topic);
+
+        assert_eq!(parsed_tokens.get("testToken").unwrap(), "testTokenValue");
     }
 }
