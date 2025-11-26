@@ -14,6 +14,8 @@ use crate::error::{ConnectError, ProtocolError};
 pub enum ConnectionLossReason {
     /// Disconnected by server with DISCONNECT packet.
     DisconnectByServer(Disconnect),
+    /// Disconnected due to ping timeout.
+    PingTimeout,
     /// Disconnected due to an I/O error.
     IoError(std::io::Error),
     /// Disconnected due to a protocol error committed by the server.
