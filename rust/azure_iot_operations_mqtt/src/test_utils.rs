@@ -4,12 +4,15 @@
 //! Utilities for testing MQTT operations by injecting and capturing packets.
 //! Note that these test utilites are provided AS IS without any guarantee of stability
 
+use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use azure_mqtt::mqtt_proto;
 use bytes::Bytes;
 use futures::FutureExt;
+use rand::Rng;
+use tempfile::TempDir;
 use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender};
 
 /// Struct containing channels for injecting incoming packets and capturing outgoing packets
@@ -127,8 +130,10 @@ impl MockServer {
     }
 
     /// Panic if the next packet received is not a CONNECT packet.
+    /// Return the received CONNECT packet for further inspection.
     /// Send a CONNACK packet with Success reason code in response, with the provided
-    /// session_present flag.
+    /// `session_present` flag.
+    #[allow(clippy::missing_panics_doc)]
     pub async fn expect_connect_and_accept(
         &self,
         session_present: bool,
@@ -142,6 +147,7 @@ impl MockServer {
 
     /// Panic if the next packet received is not a CONNECT packet.
     /// Send the provided CONNACK packet in response.
+    #[allow(clippy::missing_panics_doc)]
     pub async fn expect_connect_and_respond_custom(
         &self,
         connack: mqtt_proto::ConnAck<Bytes>,
@@ -156,6 +162,21 @@ impl MockServer {
             }
             None => {
                 panic!("Expected CONNECT packet, but connection was closed");
+            }
+        }
+    }
+
+    /// Panic if the next packet received is not a DISCONNECT packet.
+    /// Return the received DISCONNECT packet for further inspection.
+    #[allow(clippy::missing_panics_doc)]
+    pub async fn expect_disconnect(&self) -> mqtt_proto::Disconnect<Bytes> {
+        match self.from_client_rx.recv().await {
+            Some(mqtt_proto::Packet::Disconnect(disconnect)) => disconnect,
+            Some(other) => {
+                panic!("Expected DISCONNECT packet, but received different packet: {other:?}",);
+            }
+            None => {
+                panic!("Expected DISCONNECT packet, but connection was closed");
             }
         }
     }
@@ -212,6 +233,28 @@ impl MockServer {
         }
     }
 
+    /// Panic if the next packet received is not an AUTH packet.
+    /// Return the received AUTH packet for further inspection.s
+    pub async fn expect_auth_and_accept(&self) -> mqtt_proto::Auth<Bytes> {
+        match self.from_client_rx.recv().await {
+            Some(mqtt_proto::Packet::Auth(auth)) => {
+                self.to_client_tx.send(mqtt_proto::Packet::Auth(mqtt_proto::Auth {
+                    reason_code: mqtt_proto::AuthenticateReasonCode::Success,
+                    authentication: None, // TODO: is this right?
+                    reason_string: None,
+                    user_properties: vec![],
+                }));
+                auth
+            }
+            Some(other) => {
+                panic!("Expected AUTH packet, but received different packet: {other:?}",);
+            }
+            None => {
+                panic!("Expected AUTH packet, but connection was closed");
+            }
+        }
+    }
+
     /// Panic if any packet is ready to be received
     #[allow(clippy::missing_panics_doc)]
     #[allow(clippy::manual_assert)]
@@ -225,4 +268,64 @@ impl MockServer {
     pub fn send_publish(&self, publish: mqtt_proto::Publish<Bytes>) {
         self.to_client_tx.send(mqtt_proto::Packet::Publish(publish));
     }
+}
+
+/// Mock SAT file for testing purposes
+pub struct MockSatFile {
+    /// Parent directory for the SAT file
+    /// Keep this here even though it's unused to ensure the temp dir isn't deleted
+    _parent_dir: TempDir,
+    /// Path to the SAT file
+    file_path: PathBuf,
+}
+
+impl MockSatFile {
+    /// Create a new mock SAT file for testing purposes
+    pub fn new() -> Self {
+        // Create parent directory as SAT files have their own dir
+        let dir = TempDir::new().unwrap();
+        // Create mock SAT file inside the dir
+        let fp = dir.path().join("sat_file.sat");
+        // Write arbitrary mock contents to the SAT file
+        let mut buf = Vec::new();
+        fill_utf8(&mut buf, 16);
+        std::fs::write(&fp, buf).unwrap();
+
+        MockSatFile {
+            _parent_dir: dir,
+            file_path: fp,
+        }
+    }
+
+    /// Get the path to the mock SAT file
+    pub fn path(&self) -> &Path {
+        self.file_path.as_path()
+    }
+
+    /// Get the string representation of the path to the mock SAT file
+    #[allow(clippy::missing_panics_doc)]
+    pub fn path_as_str(&self) -> &str {
+        self.file_path.to_str().unwrap()
+    }
+
+    /// Update the contents of the mock SAT file with arbitrary bytes
+    /// This can be used to trigger reauthentication in tests.
+    pub fn update_contents(&self) {
+        let mut buf = Vec::new();
+        fill_utf8(&mut buf, 16);
+        std::fs::write(&self.file_path, buf).unwrap();
+    }
+}
+
+/// Fill the provided buffer with random UTF-8 characters up to the specified length
+fn fill_utf8(buf: &mut Vec<u8>, len: usize) {
+    let mut rng = rand::thread_rng();
+    buf.clear();
+    for _ in 0..len {
+        let c: char = rng.gen_range(0x20u32..0x10FFFF)
+            .try_into()
+            .unwrap_or('�');
+        buf.extend(c.to_string().as_bytes());
+    }
+
 }

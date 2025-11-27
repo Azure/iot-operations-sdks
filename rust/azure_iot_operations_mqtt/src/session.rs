@@ -78,7 +78,7 @@ mod state;
 pub struct SessionError(#[from] SessionErrorRepr);
 
 /// Internal error for [`Session`] runs.
-#[derive(Error, Debug)]
+#[derive(Error, Debug, Eq, PartialEq)]
 enum SessionErrorRepr {
     /// MQTT session was lost due to a connection error.
     #[error("session state not present on broker after reconnect")]
@@ -98,7 +98,7 @@ enum SessionErrorRepr {
 pub struct SessionConfigError(#[from] adapter::ConnectionSettingsAdapterError);
 
 /// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
-#[derive(Error, Debug)]
+#[derive(Error, Debug, Eq, PartialEq)]
 #[error("{kind} (network attempt = {attempted})")]
 pub struct SessionExitError {
     attempted: bool,
@@ -336,7 +336,7 @@ impl Session {
             res = self.connection_runner() => {
                 res
             }
-            _ = notify_force_exit.notified() => {
+            () = notify_force_exit.notified() => {
                 log::info!("Exiting Session non-gracefully due to application-issued force exit command");
                 log::info!("Note that the MQTT server may still retain the MQTT session");
                 Err(SessionErrorRepr::ForceExit.into())

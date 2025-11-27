@@ -34,17 +34,17 @@ pub type DisconnectProperties = azure_mqtt::packet::DisconnectProperties;
 /// Properties for an AUTH packet
 pub type AuthProperties = azure_mqtt::packet::AuthProperties;
 
-/// Connect Return Code
+/// CONNECT Return Code
 pub type ConnectReturnCode = azure_mqtt::packet::ConnAckReason;
-/// PubAck Reason Code
+/// PUBACK Reason Code
 pub type PubAckReasonCode = azure_mqtt::packet::PubAckReason;
-/// SubAck Reason Code
+/// SUBACK Reason Code
 pub type SubAckReasonCode = azure_mqtt::packet::SubAckReason;
-/// UnsubAck Reason Code
+/// UNSUBACK Reason Code
 pub type UnsubAckReasonCode = azure_mqtt::packet::UnsubAckReason;
-/// Disconnect Reason Code
+/// DISCONNECT Reason Code
 pub type DisconnectReasonCode = azure_mqtt::packet::DisconnectReason;
-/// Auth Reason Code
+/// AUTH Reason Code
 pub type AuthReasonCode = azure_mqtt::packet::AuthReason;
 
 /// Authentication Info
