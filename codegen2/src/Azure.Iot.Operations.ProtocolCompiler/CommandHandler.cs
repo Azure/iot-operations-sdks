@@ -54,7 +54,7 @@
 
                 Dictionary<SerializationFormat, List<GeneratedItem>> generatedSchemas = SchemaGenerator.GenerateSchemas(parsedThings, projectName, options.WorkingDir);
 
-                errorLog.CheckForDuplicates();
+                errorLog.CheckForDuplicatesInThings();
                 if (errorLog.HasErrors)
                 {
                     DisplayErrors("Schema generation", errorLog);
@@ -89,6 +89,7 @@
                     generatedTypes.AddRange(typeGenerator.GenerateTypes(schemaTextsByName, new CodeName(options.GenNamespace), projectName, options.OutputSourceSubdir));
                 }
 
+                errorLog.CheckForDuplicatesInSchemas();
                 if (errorLog.HasErrors)
                 {
                     DisplayErrors("Type generation", errorLog);
@@ -220,7 +221,7 @@
 
                     if (item is ValueTracker<TDDataSchema> dataSchema && dataSchema.Value.Ref != null)
                     {
-                        errorReporter.RegisterReference(dataSchema.Value.Ref.TokenIndex, dataSchema.Value.Ref.Value.Value);
+                        errorReporter.RegisterReferenceFromThing(dataSchema.Value.Ref.TokenIndex, dataSchema.Value.Ref.Value.Value);
                     }
                 }
             }

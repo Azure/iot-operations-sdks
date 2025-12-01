@@ -281,12 +281,7 @@
                 CodeName schemaName = new CodeName(this.typeNamer.GenerateTypeName(docName, null, titleTracker.GetString()));
                 if (!refType.SchemaName.Equals(schemaName))
                 {
-                    if (schemaTypes.ContainsKey(schemaName))
-                    {
-                        errorReporter?.ReportError($"JSON Schema defines duplicate type name '{schemaName.AsGiven}'", schemaTracker.TokenIndex);
-                        return false;
-                    }
-
+                    errorReporter?.RegisterSchemaName(schemaName.AsGiven, schemaTracker.TokenIndex);
                     string? description = schemaTracker.TryGetProperty(JsonSchemaValues.PropertyDescription, out JsonTracker descTracker) ? descTracker.GetString() : null;
                     schemaTypes[schemaName] = new AliasType(schemaName, description, refType.SchemaName, orNull: false);
                 }
@@ -456,14 +451,8 @@
 
                 if (schemaTypes != null)
                 {
-                    if (schemaTypes.ContainsKey(schemaName))
-                    {
-                        errorReporter?.ReportError($"JSON Schema defines duplicate type name '{schemaName.AsGiven}'", schemaTracker.TokenIndex);
-                        return false;
-                    }
-
+                    errorReporter?.RegisterSchemaName(schemaName.AsGiven, schemaTracker.TokenIndex);
                     string? description = schemaTracker.TryGetProperty(JsonSchemaValues.PropertyDescription, out JsonTracker descTracker) ? descTracker.GetString() : null;
-
                     schemaTypes[schemaName] = new ObjectType(
                         schemaName,
                         description,
@@ -704,14 +693,8 @@
 
             if (schemaTypes != null)
             {
-                if (schemaTypes.ContainsKey(schemaName))
-                {
-                    errorReporter?.ReportError($"JSON Schema defines duplicate type name '{schemaName.AsGiven}'", schemaTracker.TokenIndex);
-                    return false;
-                }
-
+                errorReporter?.RegisterSchemaName(schemaName.AsGiven, schemaTracker.TokenIndex);
                 string? description = schemaTracker.TryGetProperty(JsonSchemaValues.PropertyDescription, out JsonTracker descTracker) ? descTracker.GetString() : null;
-
                 schemaTypes[schemaName] = new EnumType(
                     schemaName,
                     description,

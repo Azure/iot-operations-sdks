@@ -21,15 +21,20 @@
             this.byteStream = byteStream;
         }
 
-        public void RegisterName(string name, long byteIndex)
-        {
-            this.errorLog.RegisterName(name, this.filename, GetLineNumber(byteIndex));
-        }
-
-        public void RegisterReference(long byteIndex, string refValue)
+        public void RegisterReferenceFromThing(long byteIndex, string refValue)
         {
             string refPath = Path.GetDirectoryName(refValue) == string.Empty ? refValue : Path.GetFullPath(Path.Combine(this.basePath, refValue)).Replace('\\', '/');
-            this.errorLog.RegisterReference(refPath, this.filename, GetLineNumber(byteIndex), refValue);
+            this.errorLog.RegisterReferenceFromThing(refPath, this.filename, GetLineNumber(byteIndex), refValue);
+        }
+
+        public void RegisterNameInThing(string name, long byteIndex)
+        {
+            this.errorLog.RegisterNameInThing(name, this.filename, GetLineNumber(byteIndex));
+        }
+
+        public void RegisterSchemaName(string name, long byteIndex)
+        {
+            this.errorLog.RegisterSchemaName(name, this.filename, this.basePath, GetLineNumber(byteIndex));
         }
 
         public void ReportError(string message, long byteIndex, long cfByteIndex = -1, ErrorLevel level = ErrorLevel.Error)

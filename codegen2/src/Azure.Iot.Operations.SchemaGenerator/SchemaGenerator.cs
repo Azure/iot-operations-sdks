@@ -81,7 +81,7 @@
             }
 
             closedSchemaSpecs[schemaName] = schemaSpec;
-            errorReporter.RegisterName(schemaName, schemaSpec.TokenIndex);
+            errorReporter.RegisterNameInThing(schemaName, schemaSpec.TokenIndex);
 
             if (schemaSpec is ObjectSpec objectSpec)
             {
@@ -109,7 +109,7 @@
                 }
 
                 closedSchemaSpecs[schemaName] = schemaSpec;
-                errorReporter.RegisterName(schemaName, schemaSpec.TokenIndex);
+                errorReporter.RegisterNameInThing(schemaName, schemaSpec.TokenIndex);
             }
 
             if (dataSchema.Value.Properties?.Entries != null)
@@ -131,8 +131,7 @@
 
         private static bool IsProxy(TDDataSchema dataSchema)
         {
-            return (dataSchema.Type?.Value.Value == TDValues.TypeObject && (dataSchema.AdditionalProperties == null || dataSchema.AdditionalProperties == null) && dataSchema.Properties == null) ||
-                (dataSchema.Type?.Value.Value == TDValues.TypeArray && dataSchema.Items == null);
+            return dataSchema.Type?.Value.Value == TDValues.TypeObject && dataSchema.AdditionalProperties == null && dataSchema.Properties == null;
         }
 
         private static bool IsLocalDuplicate(ErrorReporter errorReporter, string schemaName, SchemaSpec schemaSpec, Dictionary<string, SchemaSpec> closedSchemaSpecs)
