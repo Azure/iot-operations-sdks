@@ -14,7 +14,7 @@ Currently, our protocol package does allow users to pass in cloud event headers 
 In each of our language protocol libraries, we will expose two new functions:
 
  1. One for parsing a "cloud event" type from a given set of MQTT user properties and the content type of the MQTT message
- 2. One for populating a list of MQTT user properties from a given "cloud event" type.
+ 2. One for populating a list of MQTT user properties and MQTT message content type from a given "cloud event" type.
    - This user flow should include the SDK providing default values of:
      - "1.0" for ```specversion```
      - The current UTC time for ```timestamp```
@@ -39,9 +39,15 @@ public class CloudEvent
     public string? Subject;
     public string? DataSchema;
 
-    // The two new APIs for converting to and from Mqtt user properties
-    public List<MqttUserProperty> CreateMqttUserProperties();
-    public static CloudEvent CreateFromMqttUserProperties(List<MqttUserProperty> mqttUserProperties, string contentType);
+    // The two new APIs for converting to and from Mqtt user properties/Mqtt content type
+    public CloudEventMqttContext CreateMqttMessageContext();
+    public static CloudEvent CreateFromMqttUserProperties(CloudEventMqttContext mqttMessageContext);
+}
+
+public class CloudEventMqttContext
+{
+    public List<MqttUserProperty> MqttUserProperties;
+    public string MqttMessageContentType;
 }
 ```
 
