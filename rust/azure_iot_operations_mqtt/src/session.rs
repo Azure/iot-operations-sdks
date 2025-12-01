@@ -74,12 +74,23 @@ mod state;
 
 /// Error describing why a [`Session`] ended prematurely
 #[derive(Debug, Error)]
-#[error(transparent)]
-pub struct SessionError(#[from] SessionErrorRepr);
+#[error("{kind}")]
+// pub struct SessionError(#[from] SessionErrorKind);
+pub struct SessionError {
+    kind: SessionErrorKind,
+}
 
-/// Internal error for [`Session`] runs.
-#[derive(Error, Debug, Eq, PartialEq)]
-enum SessionErrorRepr {
+impl SessionError {
+    /// Return the corresponding [`SessionErrorKind`] for this error
+    #[must_use]
+    pub fn kind(&self) -> SessionErrorKind {
+        self.kind
+    }
+}
+
+/// An enumeration of categories of [`SessionError`]
+#[derive(Error, Debug, Eq, PartialEq, Clone, Copy)]
+pub enum SessionErrorKind {
     /// MQTT session was lost due to a connection error.
     #[error("session state not present on broker after reconnect")]
     SessionLost,
@@ -90,6 +101,12 @@ enum SessionErrorRepr {
     #[error("session ended by force exit")]
     #[allow(dead_code)] // TODO: remove when force exit is implemented
     ForceExit,
+}
+
+impl From<SessionErrorKind> for SessionError {
+    fn from(kind: SessionErrorKind) -> Self {
+        Self { kind }
+    }
 }
 
 /// Error configuring a [`Session`].
@@ -319,7 +336,7 @@ impl Session {
         // NOTE: This task does not need to be cleaned up. It exits gracefully on its own,
         // without the need for explicit cancellation after Session is dropped at the end
         // of this method.
-        tokio::task::spawn(Session::receive(
+        let jh = tokio::task::spawn(Session::receive(
             self.receiver
                 .take()
                 .expect("Receiver should always be present at start of run"),
@@ -336,10 +353,13 @@ impl Session {
             res = self.connection_runner() => {
                 res
             }
+            _ = jh => {
+                unreachable!()
+            }
             () = notify_force_exit.notified() => {
                 log::info!("Exiting Session non-gracefully due to application-issued force exit command");
                 log::info!("Note that the MQTT server may still retain the MQTT session");
-                Err(SessionErrorRepr::ForceExit.into())
+                Err(SessionErrorKind::ForceExit.into())
             }
         }
     }
@@ -366,7 +386,7 @@ impl Session {
                     }
                     log::info!("Reconnect policy has halted reconnection attempts");
                     log::info!("Exiting Session due to reconnection halt");
-                    return Err(SessionErrorRepr::ReconnectHalted.into());
+                    return Err(SessionErrorKind::ReconnectHalted.into());
                 }
             };
 
@@ -375,7 +395,7 @@ impl Session {
                 // TODO: try and disconnect here?
                 log::info!("MQTT session not present on connection");
                 log::info!("Exiting Session due to MQTT session loss");
-                return Err(SessionErrorRepr::SessionLost.into());
+                return Err(SessionErrorKind::SessionLost.into());
             }
 
             self.state.transition_connected();
@@ -416,12 +436,16 @@ impl Session {
                     ConnectionLossReason::ProtocolError(proto_err)
                 } // TODO: how to handle force exit from exit handle?
             };
-            match self
+            if let Some(delay) = self
                 .reconnect_policy
                 .connection_loss_reconnect_delay(&connection_loss)
             {
-                Some(delay) => tokio::time::sleep(delay).await,
-                None => return Err(SessionErrorRepr::ReconnectHalted.into()),
+                log::debug!("Reconnecting in {delay:?}...");
+                tokio::time::sleep(delay).await;
+            } else {
+                log::info!("Reconnect policy has halted reconnection attempts");
+                log::info!("Exiting Session due to reconnection halt");
+                return Err(SessionErrorKind::ReconnectHalted.into());
             }
         }
     }
@@ -677,8 +701,8 @@ impl SessionExitHandle {
     /// has ended.
     ///
     /// Returns true if the exit was graceful, and false if the exit was forced.
-    pub async fn exit_force(&self) -> bool {
-        // TODO: should this be async?
+    #[allow(clippy::must_use_candidate)]
+    pub fn force_exit(&self) -> bool {
         // TODO: once this is implemented, change METL tests back to using this instead of try_exit().unwrap()
 
         if self.try_exit().is_ok() {

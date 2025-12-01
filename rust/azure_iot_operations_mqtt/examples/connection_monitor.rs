@@ -76,7 +76,7 @@ async fn exit_after_duration(exit_handle: SessionExitHandle, duration: Duration)
         Err(e) => {
             log::info!("Graceful session exit failed: {e}");
             log::info!("Forcing session exit");
-            exit_handle.exit_force().await;
+            exit_handle.force_exit();
         }
     }
 }

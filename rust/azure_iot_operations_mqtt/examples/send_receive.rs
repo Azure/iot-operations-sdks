@@ -61,7 +61,7 @@ async fn run_program(client: SessionManagedClient, exit_handle: SessionExitHandl
         }
         Err(e) => {
             println!("Program failed: {e}");
-            exit(exit_handle).await;
+            exit(&exit_handle);
         }
     }
 }
@@ -127,13 +127,13 @@ async fn send_messages(
 }
 
 // Exit the Session
-async fn exit(exit_handle: SessionExitHandle) {
+fn exit(exit_handle: &SessionExitHandle) {
     match exit_handle.try_exit() {
         Ok(()) => println!("Session exited gracefully"),
         Err(e) => {
             println!("Graceful session exit failed: {e}");
             println!("Forcing session exit");
-            exit_handle.exit_force().await;
+            exit_handle.force_exit();
         }
     }
 }

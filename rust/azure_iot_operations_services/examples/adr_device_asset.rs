@@ -187,7 +187,7 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Graceful session exit failed: {e}");
             log::warn!("Forcing session exit");
-            exit_handle.exit_force().await;
+            exit_handle.force_exit();
         }
     }
 }
