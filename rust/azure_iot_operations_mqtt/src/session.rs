@@ -53,13 +53,13 @@ use thiserror::Error;
 use tokio::sync::Notify;
 
 use crate::azure_mqtt_adapter as adapter;
-use crate::error::{ClientError, ConnectError};
+use crate::error::DetachedError;
 pub use crate::session::managed_client::{SessionManagedClient, SessionPubReceiver};
 use crate::session::state::SessionState;
 use crate::session::{
     auth_policy::{AuthPolicy, SatAuthFileMonitor},
     dispatcher::IncomingPublishDispatcher,
-    reconnect_policy::{ConnectionLoss, ExponentialBackoffWithJitter, ReconnectPolicy},
+    reconnect_policy::{ConnectionLossReason, ExponentialBackoffWithJitter, ReconnectPolicy},
 };
 #[cfg(feature = "test-utils")]
 use crate::test_utils::InjectedPacketChannels;
@@ -83,18 +83,13 @@ enum SessionErrorRepr {
     /// MQTT session was lost due to a connection error.
     #[error("session state not present on broker after reconnect")]
     SessionLost,
-    /// MQTT session was ended due to an unrecoverable connection error
-    #[error(transparent)]
-    ConnectionError(#[from] ConnectError),
     /// Reconnect attempts were halted by the reconnect policy, ending the MQTT session
     #[error("reconnection halted by reconnect policy")]
     ReconnectHalted,
     /// The [`Session`] was ended by a user-initiated force exit. The broker may still retain the MQTT session.
     #[error("session ended by force exit")]
+    #[allow(dead_code)] // TODO: remove when force exit is implemented
     ForceExit,
-    /// The [`Session`] was ended by an IO error.
-    #[error("{0}")]
-    IoError(#[from] std::io::Error),
 }
 
 /// Error configuring a [`Session`].
@@ -124,8 +119,8 @@ impl SessionExitError {
     }
 }
 
-impl From<ClientError> for SessionExitError {
-    fn from(_err: ClientError) -> Self {
+impl From<DetachedError> for SessionExitError {
+    fn from(_err: DetachedError) -> Self {
         SessionExitError {
             attempted: false,
             kind: SessionExitErrorKind::Detached,
@@ -224,6 +219,7 @@ impl Session {
     ///
     /// # Errors
     /// Returns a [`SessionConfigError`] if there are errors using the session options.
+    #[allow(clippy::missing_panics_doc)] // TODO: Remove once a better way to handle auth policy failure
     pub fn new(options: SessionOptions) -> Result<Self, SessionConfigError> {
         let client_id = options.connection_settings.client_id.clone();
 
@@ -242,16 +238,16 @@ impl Session {
 
         // Create AuthPolicy if SAT file is provided
         // TODO: This would ideally come directly from the SessionOptions instead of MQTT connection settings
-        let auth_policy = if let Some(sat_file) = options.connection_settings.sat_file.as_ref() {
-            Some(
+        let auth_policy = options
+            .connection_settings
+            .sat_file
+            .as_ref()
+            .map(|sat_file| {
                 // TODO: This error should propagate, however currently `SessionConfigError` is tightly coupled to the
                 // `azure_mqtt_adapter`, so it cannot.
                 Arc::new(SatAuthFileMonitor::new(std::path::PathBuf::from(sat_file)).unwrap())
-                    as Arc<dyn AuthPolicy>,
-            )
-        } else {
-            None
-        };
+                    as Arc<dyn AuthPolicy>
+            });
 
         let (client_options, connect_parameters) = options
             .connection_settings
@@ -316,6 +312,9 @@ impl Session {
     ///
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
+    ///
+    /// # Panics
+    /// Panics if internal state is invalid (this should not be possible)
     pub async fn run(mut self) -> Result<(), SessionError> {
         // NOTE: This task does not need to be cleaned up. It exits gracefully on its own,
         // without the need for explicit cancellation after Session is dropped at the end
@@ -337,21 +336,18 @@ impl Session {
                 Err(e) => {
                     log::warn!("Failed to connect MQTT session: {e:?}");
                     prev_reconnection_attempts += 1;
-                    match self
+
+                    if let Some(delay) = self
                         .reconnect_policy
                         .connect_failure_reconnect_delay(prev_reconnection_attempts, &e)
                     {
-                        Some(delay) => {
-                            log::debug!("Retrying connect in {delay:?}...");
-                            tokio::time::sleep(delay).await;
-                            continue;
-                        }
-                        None => {
-                            log::info!("Reconnect policy has halted reconnection attempts");
-                            log::info!("Exiting Session due to reconnection halt");
-                            return Err(SessionErrorRepr::ReconnectHalted.into());
-                        }
+                        log::debug!("Retrying connect in {delay:?}...");
+                        tokio::time::sleep(delay).await;
+                        continue;
                     }
+                    log::info!("Reconnect policy has halted reconnection attempts");
+                    log::info!("Exiting Session due to reconnection halt");
+                    return Err(SessionErrorRepr::ReconnectHalted.into());
                 }
             };
 
@@ -393,11 +389,12 @@ impl Session {
                     return Ok(());
                 }
                 DisconnectedEvent::ServerDisconnect(disconnect) => {
-                    ConnectionLoss::DisconnectByServer(disconnect)
+                    ConnectionLossReason::DisconnectByServer(disconnect)
                 }
-                DisconnectedEvent::IoError(io_err) => ConnectionLoss::IoError(io_err),
+                DisconnectedEvent::PingTimeout => ConnectionLossReason::PingTimeout,
+                DisconnectedEvent::IoError(io_err) => ConnectionLossReason::IoError(io_err),
                 DisconnectedEvent::ProtocolError(proto_err) => {
-                    ConnectionLoss::ProtocolError(proto_err)
+                    ConnectionLossReason::ProtocolError(proto_err)
                 } // TODO: how to handle force exit from exit handle?
             };
             match self
@@ -420,7 +417,7 @@ impl Session {
             .take()
             .expect("ConnectHandle should always be present for connect attempt");
 
-        let result = if let Some(authentication_info) =
+        if let Some(authentication_info) =
             self.auth_policy.as_ref().map(|ap| ap.authentication_info())
         {
             log::debug!("Using enhanced authentication for MQTT connect");
@@ -489,8 +486,7 @@ impl Session {
                     Err(connect_error)
                 }
             }
-        };
-        result
+        }
     }
 
     async fn receive(
@@ -536,29 +532,23 @@ impl Session {
             let auth_data = auth_policy.reauth_notified().await;
             log::debug!("AuthPolicy indicates reauthentication is required. Attempting...");
 
-            let mut result = match reauth_handle
+            let mut result = if let Ok(ct) = reauth_handle
                 .reauth(auth_data, AuthProperties::default())
                 .await
             {
-                Ok(ct) => {
-                    match ct.await {
-                        Ok(r) => r,
-                        Err(_) => {
-                            log::warn!(
-                                "Reauth operation cancelled. Exiting reauthentication monitor."
-                            );
-                            // NOTE: This only could really happen if an MQTT disconnect happened while
-                            // waiting for the reauth response. Completely harmless.
-                            return;
-                        }
-                    }
-                }
-                Err(_) => {
-                    log::warn!("Reauth handle detached. Exiting reauthentication monitor.");
-                    // NOTE: This only could really happen if an MQTT disconnect AND a reauth notification
-                    // occurr at the same time, which is extremely unlikely, and also completely harmless.
+                if let Ok(r) = ct.await {
+                    r
+                } else {
+                    log::warn!("Reauth operation cancelled. Exiting reauthentication monitor.");
+                    // NOTE: This only could really happen if an MQTT disconnect happened while
+                    // waiting for the reauth response. Completely harmless.
                     return;
                 }
+            } else {
+                log::warn!("Reauth handle detached. Exiting reauthentication monitor.");
+                // NOTE: This only could really happen if an MQTT disconnect AND a reauth notification
+                // occur at the same time, which is extremely unlikely, and also completely harmless.
+                return;
             };
 
             loop {
@@ -566,33 +556,27 @@ impl Session {
                     ReauthResult::Continue(auth, reauth_token) => {
                         log::debug!("Reauth requires additional steps");
                         let auth_data = auth_policy.auth_challenge(&auth);
-                        result = match reauth_token
+
+                        result = if let Ok(ct) = reauth_token
                             .continue_reauth(auth_data, AuthProperties::default())
                             .await
                         {
-                            Ok(ct) => {
-                                match ct.await {
-                                    Ok(r) => r,
-                                    Err(_) => {
-                                        log::warn!(
-                                            "Reauth operation cancelled. Exiting reauthentication monitor."
-                                        );
-                                        // NOTE: This only could really happen if an MQTT disconnect happened while
-                                        // waiting for the reauth response. Completely harmless.
-                                        return;
-                                    }
-                                }
-                            }
-                            Err(_) => {
+                            if let Ok(r) = ct.await {
+                                r
+                            } else {
                                 log::warn!(
-                                    "Reauth handle detached. Exiting reauthentication monitor."
+                                    "Reauth operation cancelled. Exiting reauthentication monitor."
                                 );
-                                // NOTE: This only could really happen if an MQTT disconnect AND a reauth notification
-                                // occurr at the same time, which is extremely unlikely, and also completely harmless.
+                                // NOTE: This only could really happen if an MQTT disconnect happened while
+                                // waiting for the reauth response. Completely harmless.
                                 return;
                             }
+                        } else {
+                            log::warn!("Reauth handle detached. Exiting reauthentication monitor.");
+                            // NOTE: This only could really happen if an MQTT disconnect AND a reauth notification
+                            // occur at the same time, which is extremely unlikely, and also completely harmless.
+                            return;
                         };
-                        continue;
                     }
                     ReauthResult::Success(_) => {
                         log::debug!("Reauthentication successful.");
@@ -616,6 +600,7 @@ pub struct SessionExitHandle {
     /// The disconnector used to issue disconnect requests
     disconnect_handle: Weak<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
     /// Notifier for force exit
+    #[allow(dead_code)] // TODO: remove once implemented
     force_exit: Arc<Notify>, // TODO: can this be a oneshot?
 }
 
@@ -628,6 +613,9 @@ impl SessionExitHandle {
     /// # Errors
     /// * [`SessionExitError`] of kind [`SessionExitErrorKind::Detached`] if the Session no longer exists.
     /// * [`SessionExitError`] of kind [`SessionExitErrorKind::BrokerUnavailable`] if the Session is not connected to the broker.
+    ///
+    /// # Panics
+    /// Panics if internal state is invalid (this should not be possible).
     pub fn try_exit(&self) -> Result<(), SessionExitError> {
         log::debug!("Attempting to exit session gracefully");
 
@@ -670,6 +658,7 @@ impl SessionExitHandle {
     /// has ended.
     ///
     /// Returns true if the exit was graceful, and false if the exit was forced.
+    #[allow(clippy::unused_async)] // TODO: remove once implemented
     pub async fn exit_force(&self) -> bool {
         // TODO: once this is implemented, change METL tests back to using this instead of try_exit().unwrap()
         unimplemented!()

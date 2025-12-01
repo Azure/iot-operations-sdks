@@ -1048,7 +1048,6 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
     );
 }
 
-#[ignore]
 #[tokio::test]
 async fn state_store_shutdown_right_away_network_tests() {
     let Ok((session, state_store_client, exit_handle)) =
@@ -1058,8 +1057,13 @@ async fn state_store_shutdown_right_away_network_tests() {
         return;
     };
 
+    let session_monitor = session.create_session_monitor();
+
     let test_task = tokio::task::spawn({
         async move {
+            // Wait for the session to be connected
+            // Ensures we have a proper connection to cleanly exit from.
+            session_monitor.connected().await;
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
@@ -1071,8 +1075,8 @@ async fn state_store_shutdown_right_away_network_tests() {
     // while still running the test task and the session to completion on the happy path
     assert!(
         tokio::try_join!(
+            async move { session.run().await.map_err(|e| { e.to_string() }) },
             async move { test_task.await.map_err(|e| { e.to_string() }) },
-            async move { session.run().await.map_err(|e| { e.to_string() }) }
         )
         .is_ok()
     );

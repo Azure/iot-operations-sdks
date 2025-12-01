@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+#![allow(dead_code)] // TODO: remove
+
 //! Types for tracking the state of a [`crate::session::Session`].
 
 use std::fmt;

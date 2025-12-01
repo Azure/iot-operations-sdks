@@ -13,17 +13,37 @@ use std::{
 use azure_mqtt::{client::ManualAcknowledgement, packet::Publish, topic::TopicFilter};
 use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender, unbounded_channel};
 
-use crate::error::{ClientError, CompletionError};
+use crate::error::{CompletionError, DetachedError};
 use crate::session::plenary_ack::{PlenaryAck, PlenaryAckCompletionToken, PlenaryAckMember};
 
+/// Provides the ability to manually acknowledge a received publish.
+///
+/// If dropped, this token will automatically trigger acknowledgement.
 pub struct AckToken(PlenaryAckMember);
 
 impl AckToken {
-    pub async fn ack(self) -> Result<AckCompletionToken, ClientError> {
-        self.0.ack().await.map(|token| AckCompletionToken(token))
+    /// Acknowledge the publish that this token corresponds to.
+    ///
+    /// If this publish was delivered to multiple receivers, all receivers must acknowledge
+    /// the publish before the acknowledgement is process can trigger, and this method will
+    /// block until that occurs, providing an [`AckCompletionToken`] once this MQTT operation
+    /// is underway.
+    ///
+    /// # Errors
+    /// Returns a [`DetachedError`] if the acknowledgement fails due to being detached from the
+    /// Session.
+    pub async fn ack(self) -> Result<AckCompletionToken, DetachedError> {
+        self.0.ack().await.map(AckCompletionToken)
     }
 }
 
+/// Token that can be awaited for the eventual completion of an acknowledgement operation for
+/// a publish (PUBACK).
+///
+/// As acknowledgements are required to be delivered in the order that the corresponding publishes
+/// were received, the acknowledgement will not be sent to the server until all publishes received
+/// prior to the one this token corresponds to have also been acknowledged.
+#[derive(Debug)]
 pub struct AckCompletionToken(PlenaryAckCompletionToken);
 
 impl Future for AckCompletionToken {
@@ -118,6 +138,7 @@ impl IncomingPublishDispatcher {
 
         // Once all dispatches have been made, seal the PlenaryAck to allow acknowledgements to proceed.
         if let Some(cell) = plenary_ack {
+            log::debug!("Sealing PlenaryAck after dispatching to receivers");
             cell.borrow_mut().seal();
         }
 

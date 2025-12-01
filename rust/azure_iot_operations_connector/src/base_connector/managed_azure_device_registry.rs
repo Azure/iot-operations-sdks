@@ -712,7 +712,6 @@ impl DeviceEndpointClient {
                         // Always send the result (Some or None) to unblock the receiver
                         let _ = asset_completion_tx.send(asset_client);
                     });
-                    continue; // Continue the loop to wait for task completion
                 }
             }
         }
@@ -2497,7 +2496,7 @@ impl DataOperationClient {
                     // If the dataset doesn't exist in the current status, then add it
                     new_status.datasets.get_or_insert_with(Vec::new).push(
                         adr_models::DatasetEventStreamStatus {
-                            name: dataset_name.to_string(),
+                            name: dataset_name.clone(),
                             message_schema_reference: Some(message_schema_reference.clone()),
                             error: None,
                         },
@@ -2527,7 +2526,7 @@ impl DataOperationClient {
                         // If the event doesn't exist in the current status, then add it
                         event_group_status.events.get_or_insert_with(Vec::new).push(
                             adr_models::DatasetEventStreamStatus {
-                                name: event_name.to_string(),
+                                name: event_name.clone(),
                                 message_schema_reference: Some(message_schema_reference.clone()),
                                 error: None,
                             },
@@ -2537,9 +2536,9 @@ impl DataOperationClient {
                     // If the event group doesn't exist in the current status, then add it
                     new_status.event_groups.get_or_insert_with(Vec::new).push(
                         adr_models::EventGroupStatus {
-                            name: event_group_name.to_string(),
+                            name: event_group_name.clone(),
                             events: Some(vec![adr_models::DatasetEventStreamStatus {
-                                name: event_name.to_string(),
+                                name: event_name.clone(),
                                 message_schema_reference: Some(message_schema_reference.clone()),
                                 error: None,
                             }]),
@@ -2561,7 +2560,7 @@ impl DataOperationClient {
                     // If the stream doesn't exist in the current status, then add it
                     new_status.streams.get_or_insert_with(Vec::new).push(
                         adr_models::DatasetEventStreamStatus {
-                            name: stream_name.to_string(),
+                            name: stream_name.clone(),
                             message_schema_reference: Some(message_schema_reference.clone()),
                             error: None,
                         },
