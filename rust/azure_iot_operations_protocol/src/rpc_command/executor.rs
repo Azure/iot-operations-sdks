@@ -1325,15 +1325,15 @@ where
             user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
         }
 
-            if let Some(status_message) = response_arguments.status_message {
-                log::warn!(
-                    "[{}][pkid: {}] sending error reponse to invoker: {}",
-                    response_arguments.command_name,
-                    pkid,
-                    status_message
-                );
-                user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
-            }
+        if let Some(status_message) = response_arguments.status_message {
+            log::warn!(
+                "[{}][pkid: {}] sending error reponse to invoker: {}",
+                response_arguments.command_name,
+                pkid,
+                status_message
+            );
+            user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
+        }
 
         if let Some(name) = response_arguments.invalid_property_name {
             user_properties.push((UserProperty::InvalidPropertyName.to_string(), name));

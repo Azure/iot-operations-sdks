@@ -586,7 +586,7 @@ impl Client {
                             log::info!("Telemetry Receiver shutdown");
                         }
                         Err(e) => {
-                            log::error!("Error shutting down Telemetry Receiver: {e}");
+                            log::warn!("Error shutting down Telemetry Receiver: {e}");
                             // try shutdown again, but not indefinitely
                             if shutdown_attempt_count < 3 {
                                 shutdown_attempt_count += 1;
