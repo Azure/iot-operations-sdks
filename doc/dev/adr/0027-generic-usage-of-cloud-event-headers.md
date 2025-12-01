@@ -33,7 +33,7 @@ public class CloudEvent
     public Uri Source;
     public string SpecVersion;
     public string Type;
-    public string? Id;
+    public string Id;
     public DateTime? Time;
     public string? DataContentType;
     public string? Subject;
