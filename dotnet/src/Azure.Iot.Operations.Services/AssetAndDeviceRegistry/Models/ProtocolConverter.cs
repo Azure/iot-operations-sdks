@@ -325,7 +325,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AssetManagementGroupStatusSchemaElementSchema ToProtocol(this AssetManagementGroupStatusSchemaElement source)
+    internal static AssetManagementGroupStatusSchemaElementSchema ToProtocol(this AssetManagementGroupStatus source)
     {
         return new AssetManagementGroupStatusSchemaElementSchema
         {
@@ -334,7 +334,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AssetManagementGroupActionStatusSchemaElementSchema ToProtocol(this AssetManagementGroupActionStatusSchemaElement source)
+    internal static AssetManagementGroupActionStatusSchemaElementSchema ToProtocol(this AssetManagementGroupActionStatus source)
     {
         return new AssetManagementGroupActionStatusSchemaElementSchema
         {
@@ -398,7 +398,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DetailsSchemaElementSchema ToProtocol(this DetailsSchemaElement source)
+    internal static AdrBaseService.DetailsSchemaElementSchema ToProtocol(this ConfigErrorDetails source)
     {
         return new AdrBaseService.DetailsSchemaElementSchema
         {

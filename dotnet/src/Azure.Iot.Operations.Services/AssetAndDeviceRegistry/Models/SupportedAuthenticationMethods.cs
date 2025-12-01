@@ -3,9 +3,9 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public enum DiscoveredAssetEndpointProfileResponseStatus
+public enum SupportedAuthenticationMethods
 {
-    Created = 0,
-    Duplicate = 1,
-    Failed = 2
+    Anonymous = 0,
+    Certificate = 1,
+    UsernamePassword = 2
 }

@@ -391,6 +391,7 @@ impl Session {
                 DisconnectedEvent::ServerDisconnect(disconnect) => {
                     ConnectionLossReason::DisconnectByServer(disconnect)
                 }
+                DisconnectedEvent::PingTimeout => ConnectionLossReason::PingTimeout,
                 DisconnectedEvent::IoError(io_err) => ConnectionLossReason::IoError(io_err),
                 DisconnectedEvent::ProtocolError(proto_err) => {
                     ConnectionLossReason::ProtocolError(proto_err)

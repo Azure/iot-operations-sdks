@@ -713,7 +713,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                             {
                                 ["inner-key"] = "inner-value"
                             },
-                            Details = new List<AdrBaseService.DetailsSchemaElementSchema>
+                            Details = new List<AdrBaseService.ConfigErrorDetailsSchema>
                             {
                                 new()
                                 {

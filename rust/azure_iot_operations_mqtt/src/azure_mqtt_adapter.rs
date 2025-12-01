@@ -6,7 +6,9 @@
 use std::num::{NonZero, NonZeroU16, NonZeroU32};
 use std::{fmt, fs, time::Duration};
 
-use azure_mqtt::client::{ClientOptions, ConnectionTransportConfig, ConnectionTransportTlsConfig};
+use azure_mqtt::client::{
+    ClientOptions, ConnectionTransportConfig, ConnectionTransportTlsConfig, ConnectionTransportType,
+};
 use azure_mqtt::packet::{ConnectProperties, SessionExpiryInterval, Will};
 use bytes::Bytes;
 use openssl::{
@@ -38,6 +40,7 @@ pub enum ConnectionSettingsField {
     SessionExpiry(Duration),
     PasswordFile(String),
     UseTls(bool),
+    KeepAlive(Duration),
     ReceivePacketSizeMax(u32),
     ReceiveMax(u16),
 }
@@ -48,6 +51,7 @@ impl fmt::Display for ConnectionSettingsField {
             ConnectionSettingsField::SessionExpiry(v) => write!(f, "Session Expiry: {v:?}"),
             ConnectionSettingsField::PasswordFile(v) => write!(f, "Password File: {v:?}"),
             ConnectionSettingsField::UseTls(v) => write!(f, "Use TLS: {v:?}"),
+            ConnectionSettingsField::KeepAlive(v) => write!(f, "Keep Alive: {v:?}"),
             ConnectionSettingsField::ReceivePacketSizeMax(v) => {
                 write!(f, "Receive Packet Size Max: {v}")
             }
@@ -118,6 +122,7 @@ fn create_connect_properties(
 }
 
 /// Create [`ConnectionTransportConfig`]
+#[allow(clippy::too_many_arguments)]
 fn create_connection_transport_config(
     ca_file: Option<String>,
     cert_file: Option<String>,
@@ -126,8 +131,9 @@ fn create_connection_transport_config(
     use_tls: bool,
     hostname: String,
     tcp_port: u16,
+    timeout: Duration,
 ) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
-    if use_tls {
+    let transport_type = if use_tls {
         let (client_cert, ca_trust_bundle) =
             tls_config(ca_file, cert_file, key_file, key_password_file).map_err(|e| {
                 ConnectionSettingsAdapterError {
@@ -152,17 +158,22 @@ fn create_connection_transport_config(
                 }
             })?;
 
-        Ok(ConnectionTransportConfig::Tls {
+        ConnectionTransportType::Tls {
             config,
             hostname,
             port: tcp_port,
-        })
+        }
     } else {
-        Ok(ConnectionTransportConfig::Tcp {
+        ConnectionTransportType::Tcp {
             hostname,
             port: tcp_port,
-        })
-    }
+        }
+    };
+
+    Ok(ConnectionTransportConfig {
+        transport_type,
+        timeout: Some(timeout),
+    })
 }
 
 /// Parameters for establishing an MQTT connection using the `azure_mqtt` crate
@@ -170,7 +181,7 @@ pub struct AzureMqttConnectParameters {
     /// Initial clean start flag, use ONLY during the initial connection
     pub initial_clean_start: bool,
     /// Keep alive duration
-    pub keep_alive: azure_mqtt::packet::KeepAlive,
+    pub keep_alive: azure_mqtt::client::KeepAliveConfig,
     /// Will message
     pub will: Option<Will>,
     /// Username
@@ -214,9 +225,13 @@ impl AzureMqttConnectParameters {
             injected_packet_channels
                 .outgoing_packets_rx
                 .set_new_rx(outgoing_packets_rx);
-            return Ok(ConnectionTransportConfig::Test {
-                incoming_packets: incoming_packets_rx,
-                outgoing_packets: outgoing_packets_tx,
+
+            return Ok(ConnectionTransportConfig {
+                transport_type: ConnectionTransportType::Test {
+                    incoming_packets: incoming_packets_rx,
+                    outgoing_packets: outgoing_packets_tx,
+                },
+                timeout: Some(self.connection_timeout),
             });
         }
 
@@ -228,6 +243,7 @@ impl AzureMqttConnectParameters {
             self.use_tls,
             self.hostname.clone(),
             self.tcp_port,
+            self.connection_timeout,
         )
     }
 }
@@ -256,16 +272,24 @@ impl MqttConnectionSettings {
             publish_qos1_qos2_queue_size,
         };
 
-        let keep_alive = azure_mqtt::packet::KeepAlive::Duration(
-            #[allow(clippy::cast_possible_truncation)] // Easier to do it this way
-            NonZeroU16::new(self.keep_alive.as_secs() as u16).ok_or_else(|| {
+        let ping_after =
+            NonZeroU16::new(u16::try_from(self.keep_alive.as_secs()).map_err(|e| {
                 ConnectionSettingsAdapterError {
                     msg: "cannot convert keep_alive to NonZeroU16".to_string(),
-                    field: ConnectionSettingsField::UseTls(self.use_tls),
-                    source: None,
+                    field: ConnectionSettingsField::KeepAlive(self.keep_alive),
+                    source: Some(Box::new(e)),
                 }
-            })?,
-        );
+            })?)
+            .ok_or(ConnectionSettingsAdapterError {
+                msg: "keep_alive must be greater than zero".to_string(),
+                field: ConnectionSettingsField::KeepAlive(self.keep_alive),
+                source: None,
+            })?;
+
+        let keep_alive = azure_mqtt::client::KeepAliveConfig::Duration {
+            ping_after,
+            response_timeout: Duration::from_secs(2),   // TODO: Make configurable?
+        };
 
         let password = if let Some(password_file) = self.password_file {
             match fs::read_to_string(&password_file) {
@@ -299,6 +323,7 @@ impl MqttConnectionSettings {
             self.use_tls,
             self.hostname.clone(),
             self.tcp_port,
+            self.connection_timeout,
         )?;
 
         Ok((

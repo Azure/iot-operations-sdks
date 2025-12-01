@@ -28,12 +28,12 @@ namespace SqlQualityAnalyzerConnectorApp
         {
             try
             {
-                AssetDatasetDataPointSchemaElement sqlServerCountryDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Country"))!.First();
+                AssetDatasetDataPoint sqlServerCountryDataPoint = dataset.DataPointsDictionary!["Country"];
                 string sqlServerCountryTable = sqlServerCountryDataPoint.DataSource!;
-                AssetDatasetDataPointSchemaElement sqlServerViscosityDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Viscosity"))!.First();
-                AssetDatasetDataPointSchemaElement sqlServerSweetnessDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Sweetness"))!.First();
-                AssetDatasetDataPointSchemaElement sqlServerParticleSizeDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("ParticleSize"))!.First();
-                AssetDatasetDataPointSchemaElement sqlServerOverallDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Overall"))!.First();
+                AssetDatasetDataPoint sqlServerViscosityDataPoint = dataset.DataPointsDictionary["Viscosity"];
+                AssetDatasetDataPoint sqlServerSweetnessDataPoint = dataset.DataPointsDictionary!["Sweetness"];
+                AssetDatasetDataPoint sqlServerParticleSizeDataPoint = dataset.DataPointsDictionary!["ParticleSize"];
+                AssetDatasetDataPoint sqlServerOverallDataPoint = dataset.DataPointsDictionary!["Overall"];
 
                 string query = $"SELECT {sqlServerCountryDataPoint.Name}, {sqlServerViscosityDataPoint.Name}, {sqlServerSweetnessDataPoint.Name}, {sqlServerParticleSizeDataPoint.Name}, {sqlServerOverallDataPoint.Name} from CountryMeasurements";
 

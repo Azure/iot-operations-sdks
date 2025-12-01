@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Concurrent;
 using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
@@ -10,9 +9,9 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class AdrClientWrapper : IAdrClientWrapper // TODO naming
+    public class AzureDeviceRegistryClientWrapper : IAzureDeviceRegistryClientWrapper
     {
-        private readonly IAdrServiceClient _client;
+        private readonly IAzureDeviceRegistryClient _client;
         private readonly IAssetFileMonitor _monitor;
 
         private const byte _dummyByte = 1;
@@ -23,9 +22,9 @@ namespace Azure.Iot.Operations.Connector
 
         public event EventHandler<DeviceChangedEventArgs>? DeviceChanged;
 
-        public AdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
+        public AzureDeviceRegistryClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
         {
-            _client = new AdrServiceClient(applicationContext, mqttPubSubClient);
+            _client = new AzureDeviceRegistryClient(applicationContext, mqttPubSubClient);
             _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived;
             _client.OnReceiveDeviceUpdateEventTelemetry += DeviceUpdateReceived;
             _monitor = new AssetFileMonitor();
@@ -33,7 +32,7 @@ namespace Azure.Iot.Operations.Connector
             _monitor.AssetFileChanged += AssetFileChanged;
         }
 
-        public AdrClientWrapper(IAdrServiceClient adrServiceClient, IAssetFileMonitor? assetFileMonitor = null)
+        public AzureDeviceRegistryClientWrapper(IAzureDeviceRegistryClient adrServiceClient, IAssetFileMonitor? assetFileMonitor = null)
         {
             _client = adrServiceClient;
             _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived;
@@ -169,6 +168,18 @@ namespace Azure.Iot.Operations.Connector
         public Task<CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(CreateOrUpdateDiscoveredDeviceRequestSchema request, string inboundEndpointType, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             return _client.CreateOrUpdateDiscoveredDeviceAsync(request, inboundEndpointType, commandTimeout, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public Task<DeviceStatus> GetDeviceStatusAsync(string deviceName, string inboundEndpointName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return _client.GetDeviceStatusAsync(deviceName, inboundEndpointName, commandTimeout, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public Task<AssetStatus> GetAssetStatusAsync(string deviceName, string inboundEndpointName, string assetName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return _client.GetAssetStatusAsync(deviceName, inboundEndpointName, assetName, commandTimeout, cancellationToken);
         }
 
         /// <inheritdoc/>

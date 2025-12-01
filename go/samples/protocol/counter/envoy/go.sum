@@ -1,7 +1,7 @@
 github.com/Azure/iot-operations-sdks/go/internal v0.3.0 h1:M1qlK+GDeM81ahYJWstFq36TsDugFTOqo6jTG3J7Qf4=
 github.com/Azure/iot-operations-sdks/go/internal v0.3.0/go.mod h1:3ipayuX2rpgBMqbDINzIMC3Jf13Kp8fjHR7SoevLg8o=
-github.com/Azure/iot-operations-sdks/go/protocol v0.4.0 h1:RSENxlzqhY9RpSc21EorCybFMA3FuEEoIMN9sdxzh9M=
-github.com/Azure/iot-operations-sdks/go/protocol v0.4.0/go.mod h1:P+cswjHkkFvZQ2/hfQqVaYRqPmKNz98n7mKIymp3qBQ=
+github.com/Azure/iot-operations-sdks/go/protocol v0.4.1 h1:1h4J+llz8k4+L8j6EusS8wRxTKNuH/xcj1VD55bUpAk=
+github.com/Azure/iot-operations-sdks/go/protocol v0.4.1/go.mod h1:P+cswjHkkFvZQ2/hfQqVaYRqPmKNz98n7mKIymp3qBQ=
 github.com/VividCortex/ewma v1.1.1/go.mod h1:2Tkkvm3sRDVXaiyucHiACn4cqf7DpdyLvmxzcbUokwA=
 github.com/VividCortex/ewma v1.2.0 h1:f58SaIzcDXrSy3kWaHNvuJgJ3Nmz59Zji6XoJR/q1ow=
 github.com/VividCortex/ewma v1.2.0/go.mod h1:nz4BbCtbLyFDeC9SUHbtcT5644juEuWfUAUnGx7j5l4=

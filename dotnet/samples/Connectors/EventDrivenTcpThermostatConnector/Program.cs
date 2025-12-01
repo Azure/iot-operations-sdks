@@ -12,7 +12,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(MqttSessionClientProvider.Factory);
         services.AddSingleton(MessageSchemaProvider.Factory);
         services.AddSingleton(LeaderElectionConfigurationProvider.Factory);
-        services.AddSingleton<IAdrClientWrapperProvider>(CustomAdrClientWrapperProvider.Factory);
+        services.AddSingleton<IAzureDeviceRegistryClientWrapperProvider>(CustomAzureDeviceRegistryClientWrapperProvider.Factory);
         services.AddHostedService<EventDrivenTcpThermostatConnectorWorker>();
     })
     .Build();

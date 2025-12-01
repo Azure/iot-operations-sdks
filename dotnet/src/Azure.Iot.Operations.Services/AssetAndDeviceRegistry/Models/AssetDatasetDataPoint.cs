@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record AssetDatasetDataPointSchemaElement
+public record AssetDatasetDataPoint
 {
     public string? DataPointConfiguration { get; set; }
 
