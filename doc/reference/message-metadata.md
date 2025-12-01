@@ -26,7 +26,7 @@ We will use the next properties
 |Name|Required|Sample Value|Notes|
 |---|--|--|--|
 |`specversion`|yes|1.0| fixed |
-|`type`|yes|ms.aio.telemetry| Defaults to ms.aio.telemetry, overridable by the user |
+|`type`|yes|ms.aio.telemetry| Defaults to ms.aio.telemetry (when sent by telemetry sender) or ms.aio.rpc.request (when sent by command invoker) or ms.aio.rpc.response (when sent by command executor), overridable by the user |
 |`source`|yes|aio://mycluster/myoven| The origin of the event|
 |`id`|yes|A234-1234-1234| Unique identifier of the message, produced by the TelemetrySender as a Guid|
 |`subject`|no|aio/myoven/telemetry/temperature| The MQTT topic where the message was sent. Provided by the TelemetrySender.|
