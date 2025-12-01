@@ -48,9 +48,13 @@ impl std::fmt::Display for TopicPatternError {
 }
 
 impl From<azure_iot_operations_mqtt::error::TopicError> for TopicPatternError {
-    fn from(_value: azure_iot_operations_mqtt::error::TopicError) -> Self {
-        // TODO: implement this error conversion or switch to a different error handling method
-        todo!()
+    fn from(value: azure_iot_operations_mqtt::error::TopicError) -> Self {
+        // `TopicError` wraps `DecodeError` which may contain non-topic-related errors,
+        // so we cannot match specifically for topic validation failures.
+        TopicPatternError {
+            msg: Some(value.to_string()),
+            kind: TopicPatternErrorKind::Pattern(value.to_string()),
+        }
     }
 }
 
@@ -115,6 +119,8 @@ pub struct TopicPattern {
     pattern_regex: Regex,
     /// The share name for the topic pattern
     share_name: Option<String>,
+    /// The namespace prefix length (including trailing slash) for parsing
+    namespace_prefix_len: usize,
 }
 
 impl TopicPattern {
@@ -161,16 +167,15 @@ impl TopicPattern {
             });
         }
 
-        if let Some(share_name) = &share_name {
-            if share_name.trim().is_empty()
+        if let Some(share_name) = &share_name
+            && (share_name.trim().is_empty()
                 || contains_invalid_char(share_name)
-                || share_name.contains('/')
-            {
-                return Err(TopicPatternError {
-                    msg: None,
-                    kind: TopicPatternErrorKind::ShareName(share_name.to_string()),
-                });
-            }
+                || share_name.contains('/'))
+        {
+            return Err(TopicPatternError {
+                msg: None,
+                kind: TopicPatternErrorKind::ShareName(share_name.clone()),
+            });
         }
 
         // Matches empty levels at the start, middle, or end of the pattern
@@ -186,6 +191,7 @@ impl TopicPattern {
 
         // Used to accumulate the pattern as checks and replacements are made
         let mut acc_pattern = String::new();
+        let mut namespace_prefix_len = 0;
 
         if let Some(topic_namespace) = topic_namespace {
             if !is_valid_replacement(topic_namespace) {
@@ -196,6 +202,7 @@ impl TopicPattern {
             }
             acc_pattern.push_str(topic_namespace);
             acc_pattern.push('/');
+            namespace_prefix_len = topic_namespace.len() + 1; // +1 for the '/' separator
         }
 
         // Matches any tokens in the pattern, i.e foo/{bar} would match {bar}
@@ -260,7 +267,7 @@ impl TopicPattern {
                         msg: None,
                         kind: TopicPatternErrorKind::TokenReplacement(
                             token_without_braces.to_string(),
-                            val.to_string(),
+                            val.clone(),
                         ),
                     });
                 }
@@ -288,6 +295,7 @@ impl TopicPattern {
             dynamic_pattern: acc_pattern,
             pattern_regex,
             share_name,
+            namespace_prefix_len,
         })
     }
 
@@ -313,7 +321,7 @@ impl TopicPattern {
     ///
     /// # Arguments
     /// * `tokens` - A map of token replacements for the topic pattern, can be empty if there are
-    ///     no replacements to be made
+    ///   no replacements to be made
     ///
     /// # Errors
     /// The error kind will be [`TopicPatternErrorKind::TokenReplacement`] if the topic
@@ -347,10 +355,7 @@ impl TopicPattern {
                 if !is_valid_replacement(val) {
                     return Err(TopicPatternError {
                         msg: None,
-                        kind: TopicPatternErrorKind::TokenReplacement(
-                            key.to_string(),
-                            val.to_string(),
-                        ),
+                        kind: TopicPatternErrorKind::TokenReplacement(key.to_string(), val.clone()),
                     });
                 }
                 publish_topic.push_str(val);
@@ -375,13 +380,19 @@ impl TopicPattern {
     pub fn parse_tokens(&self, topic: &str) -> HashMap<String, String> {
         let mut tokens = HashMap::new();
 
-        // Create a mutable reference to the topic string
-        let mut topic_ref = topic;
+        // Skip the namespace prefix to align with the static pattern
+        let topic_ref = if topic.len() >= self.namespace_prefix_len {
+            &topic[self.namespace_prefix_len..]
+        } else {
+            // Topic is shorter than namespace, no tokens can be extracted
+            return tokens;
+        };
 
-        // Marks the index of the last match in the topic
+        // Use the original efficient approach but on the namespace-adjusted topic
+        let mut topic_ref = topic_ref;
         let mut last_token_end = 0;
 
-        // Find all the tokens in the pattern
+        // Find all the tokens in the static pattern
         for find in self.pattern_regex.find_iter(&self.static_pattern) {
             // Get the start and end indices of the current match
             let token_start = find.start();
@@ -638,5 +649,21 @@ mod tests {
         let pattern = TopicPattern::new(pattern, None, None, &HashMap::new()).unwrap();
 
         assert_eq!(pattern.parse_tokens(topic), *result);
+    }
+
+    #[test]
+    fn test_topic_pattern_parse_tokens_with_topic_namespace() {
+        let topic = "testNamespace/testTopic/testTokenValue";
+        let pattern = "testTopic/{testToken}";
+        let namespace = "testNamespace";
+        let token_replacements =
+            HashMap::from([("testToken".to_string(), "testReplacement".to_string())]);
+
+        let topic_pattern =
+            TopicPattern::new(pattern, None, Some(namespace), &token_replacements).unwrap();
+
+        let parsed_tokens = topic_pattern.parse_tokens(topic);
+
+        assert_eq!(parsed_tokens.get("testToken").unwrap(), "testTokenValue");
     }
 }

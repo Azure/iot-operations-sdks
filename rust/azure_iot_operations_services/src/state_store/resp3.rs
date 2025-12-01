@@ -257,10 +257,10 @@ impl Response {
     const DELETE_RESPONSE_PREFIX: &'static [u8] = b":";
 
     fn parse_error(payload: &[u8]) -> Result<Vec<u8>, String> {
-        if let Some(err) = payload.strip_prefix(Self::RESPONSE_ERROR_PREFIX) {
-            if let Some(err_msg) = err.strip_suffix(Self::RESPONSE_SUFFIX) {
-                return Ok(err_msg.to_vec());
-            }
+        if let Some(err) = payload.strip_prefix(Self::RESPONSE_ERROR_PREFIX)
+            && let Some(err_msg) = err.strip_suffix(Self::RESPONSE_SUFFIX)
+        {
+            return Ok(err_msg.to_vec());
         }
         Err(format!("Invalid error response: {payload:?}"))
     }
@@ -278,12 +278,12 @@ impl PayloadSerialize for Response {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/octet-stream" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/octet-stream"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
+            )));
         }
 
         match payload {
@@ -340,12 +340,12 @@ impl PayloadSerialize for Operation {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/octet-stream" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/octet-stream"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
+            )));
         }
         match payload {
             Operation::OPERATION_DELETE => Ok(Operation::Del),
