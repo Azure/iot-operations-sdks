@@ -13,7 +13,7 @@ Currently, our protocol package does allow users to pass in cloud event headers 
 
 In each of our language protocol libraries, we will expose two new functions:
 
- 1. One for parsing a "cloud event" type from a given set of MQTT user properties
+ 1. One for parsing a "cloud event" type from a given set of MQTT user properties and the content type of the MQTT message
  2. One for populating a list of MQTT user properties from a given "cloud event" type.
    - This user flow should include the SDK providing default values for ```type``` and ```specversion``` of "ms.aio.telemetry" and "1.0" respectively, but should not provide any other default values.
 
@@ -38,7 +38,7 @@ public class CloudEvent
 
     // The two new APIs for converting to and from Mqtt user properties
     public List<MqttUserProperty> CreateMqttUserProperties();
-    public static CreateFromMqttUserProperties(List<MqttUserProperty> mqttUserProperties);
+    public static CloudEvent CreateFromMqttUserProperties(List<MqttUserProperty> mqttUserProperties, string contentType);
 }
 ```
 
