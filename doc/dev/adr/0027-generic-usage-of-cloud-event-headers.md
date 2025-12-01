@@ -22,7 +22,7 @@ In each of our language protocol libraries, we will expose two new functions:
 
 However, this new addition will __not__ replace the existing APIs for interacting with cloud event headers in the protocol's senders/receivers. See the [alternatives considered](#alternatives-considered) section for why those need to remain.
 
-Additionally, each language protocol library should provide the same APIs for publishing and receiving RPC requests/responses with cloud event headers as the telemetry sender/receiver currently have.
+Additionally, each language protocol library should provide the same APIs for publishing and receiving RPC requests/responses with cloud event headers as the telemetry sender/receiver currently have. The only difference will be that the default value for the ```type``` field will be either "ms.aio.rpc.request" or "ms.aio.rpc.response" depending on if the cloud event was emitted by a command invoker or a command executor.
 
 ### Proposed API addition
 
