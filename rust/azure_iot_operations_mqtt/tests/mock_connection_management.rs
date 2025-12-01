@@ -15,41 +15,69 @@ use azure_iot_operations_mqtt::{
     error::{SessionErrorKind, SessionExitErrorKind},
     session::{Session, SessionOptionsBuilder},
     test_utils::{
-        IncomingPacketsTx, InjectedPacketChannels, MockReconnectPolicy, MockSatFile, MockServer,
-        OutgoingPacketsRx,
+        IncomingPacketsTx, InjectedPacketChannels, MockReconnectPolicy,
+        MockReconnectPolicyController, MockSatFile, MockServer, OutgoingPacketsRx,
     },
 };
 use azure_mqtt::mqtt_proto;
 
-fn quick_setup_standard_auth(client_id: &str) -> (MqttConnectionSettings, Session, MockServer) {
+fn quick_setup_standard_auth(
+    client_id: &str,
+) -> (
+    MqttConnectionSettings,
+    Session,
+    MockServer,
+    MockReconnectPolicyController,
+) {
     let (mock_server, injected_packet_channels) = setup_mock_server();
     let connection_settings = connection_settings_builder_preset(client_id, None)
         .build()
         .unwrap();
+    let (mock_reconnect_policy, mock_reconnect_policy_controller) = MockReconnectPolicy::new();
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings.clone())
+        .reconnect_policy(Box::new(mock_reconnect_policy))
         .injected_packet_channels(Some(injected_packet_channels))
         .build()
         .unwrap();
     let session = Session::new(session_options).unwrap();
-    (connection_settings, session, mock_server)
+    (
+        connection_settings,
+        session,
+        mock_server,
+        mock_reconnect_policy_controller,
+    )
 }
 
 fn quick_setup_enhanced_sat_auth(
     client_id: &str,
-) -> (MqttConnectionSettings, Session, MockServer, MockSatFile) {
+) -> (
+    MqttConnectionSettings,
+    Session,
+    MockServer,
+    MockReconnectPolicyController,
+    MockSatFile,
+) {
     let (mock_server, injected_packet_channels) = setup_mock_server();
     let mock_sat_file = MockSatFile::new();
+    let (mock_reconnect_policy, mock_reconnect_policy_controller) = MockReconnectPolicy::new();
     let connection_settings = connection_settings_builder_preset(client_id, Some(&mock_sat_file))
         .build()
         .unwrap();
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings.clone())
+        .reconnect_policy(Box::new(mock_reconnect_policy))
         .injected_packet_channels(Some(injected_packet_channels))
         .build()
         .unwrap();
     let session = Session::new(session_options).unwrap();
-    (connection_settings, session, mock_server, mock_sat_file)
+    (
+        connection_settings,
+        session,
+        mock_server,
+        mock_reconnect_policy_controller,
+        mock_sat_file,
+    )
 }
 
 fn setup_mock_server() -> (MockServer, InjectedPacketChannels) {
@@ -167,7 +195,7 @@ fn expected_reauth_from_sat_file(mock_sat_file: &MockSatFile) -> mqtt_proto::Aut
 
 #[tokio::test]
 async fn connect_and_exit_standard_auth() {
-    let (connection_settings, session, mock_server) =
+    let (connection_settings, session, mock_server, _) =
         quick_setup_standard_auth("test-connect-and-exit-standard-auth-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
@@ -199,12 +227,7 @@ async fn connect_and_exit_standard_auth() {
 
 #[tokio::test] // NOTE: This test WILL take > 10 seconds.
 async fn connect_reauth_and_exit_enhanced_sat_auth() {
-    env_logger::builder()
-        .is_test(true)
-        .filter_level(log::LevelFilter::Trace)
-        .init();
-
-    let (connection_settings, session, mock_server, mock_sat_file) =
+    let (connection_settings, session, mock_server, _, mock_sat_file) =
         quick_setup_enhanced_sat_auth("test-connect-reauth-and-exit-enhanced-sat-auth-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
@@ -243,20 +266,9 @@ async fn connect_reauth_and_exit_enhanced_sat_auth() {
 
 #[tokio::test]
 async fn connect_failure_rejected_reconnect() {
-    let (mock_server, injected_packet_channels) = setup_mock_server();
-    let (reconnect_policy, reconnect_policy_controller) = MockReconnectPolicy::new();
-    let connection_settings =
-        connection_settings_builder_preset("test-connect-failure-rejected-reconnect-client", None)
-            .build()
-            .unwrap();
-    let session_options = SessionOptionsBuilder::default()
-        .connection_settings(connection_settings.clone())
-        .reconnect_policy(Box::new(reconnect_policy))
-        .injected_packet_channels(Some(injected_packet_channels))
-        .build()
-        .unwrap();
-    let session = Session::new(session_options).unwrap();
-    reconnect_policy_controller.manual_mode(true);
+    let (connection_settings, session, mock_server, mock_rp_controller) =
+        quick_setup_standard_auth("test-connection-loss-server-disconnect-reconnect-client");
+    mock_rp_controller.manual_mode(true);
 
     // Start the session run loop
     let run_f = tokio::task::spawn(session.run());
@@ -275,8 +287,8 @@ async fn connect_failure_rejected_reconnect() {
     );
 
     // Set up the reconnect policy mock to respond to the failure with a reconnect
-    reconnect_policy_controller.set_next_delay(Some(Duration::from_secs(3)));
-    let connect_failure_f = reconnect_policy_controller.connect_failure_notified();
+    mock_rp_controller.set_next_delay(Some(Duration::from_secs(3)));
+    let connect_failure_f = mock_rp_controller.connect_failure_notified();
     mock_server.send_connack(connack.clone());
 
     // The reconnect policy is invoked indicating connection failure
@@ -294,8 +306,8 @@ async fn connect_failure_rejected_reconnect() {
     assert!(elapsed >= Duration::from_secs(3));
 
     // Set up the reconnect policy mock to respond to the failure by ending the Session
-    reconnect_policy_controller.set_next_delay(None);
-    let connect_failure_f = reconnect_policy_controller.connect_failure_notified();
+    mock_rp_controller.set_next_delay(None);
+    let connect_failure_f = mock_rp_controller.connect_failure_notified();
     mock_server.send_connack(connack.clone());
 
     // The reconnect policy is invoked indicating connection failure
@@ -310,23 +322,10 @@ async fn connect_failure_rejected_reconnect() {
 
 #[tokio::test]
 async fn connection_loss_server_disconnect_reconnect() {
-    let (mock_server, injected_packet_channels) = setup_mock_server();
-    let (reconnect_policy, reconnect_policy_controller) = MockReconnectPolicy::new();
-    let connection_settings = connection_settings_builder_preset(
-        "test-connection-loss-server-disconnect-reconnect-client",
-        None,
-    )
-    .build()
-    .unwrap();
-    let session_options = SessionOptionsBuilder::default()
-        .connection_settings(connection_settings.clone())
-        .reconnect_policy(Box::new(reconnect_policy))
-        .injected_packet_channels(Some(injected_packet_channels))
-        .build()
-        .unwrap();
-    let session = Session::new(session_options).unwrap();
+    let (connection_settings, session, mock_server, mock_rp_controller) =
+        quick_setup_standard_auth("test-connection-loss-server-disconnect-reconnect-client");
     let monitor = session.create_session_monitor();
-    reconnect_policy_controller.manual_mode(true);
+    mock_rp_controller.manual_mode(true);
 
     // Start the session run loop
     let run_f = tokio::task::spawn(session.run());
@@ -342,12 +341,12 @@ async fn connection_loss_server_disconnect_reconnect() {
     monitor.connected().await;
 
     // Set up the reconnect policy mock to respond to the connection loss with a reconnect
-    reconnect_policy_controller.set_next_delay(Some(Duration::from_secs(3)));
+    mock_rp_controller.set_next_delay(Some(Duration::from_secs(3)));
     let disconnect = mqtt_proto::Disconnect {
         reason_code: mqtt_proto::DisconnectReasonCode::UnspecifiedError,
         other_properties: mqtt_proto::DisconnectOtherProperties::default(),
     };
-    let connection_loss_f = reconnect_policy_controller.connection_loss_notified();
+    let connection_loss_f = mock_rp_controller.connection_loss_notified();
     mock_server.send_disconnect(disconnect.clone());
 
     // The reconnect policy is invoked indicating connection loss
@@ -378,8 +377,8 @@ async fn connection_loss_server_disconnect_reconnect() {
     monitor.connected().await;
 
     // Set up the reconnect policy mock to respond to the next connection loss by ending the Session
-    reconnect_policy_controller.set_next_delay(None);
-    let connection_loss_f = reconnect_policy_controller.connection_loss_notified();
+    mock_rp_controller.set_next_delay(None);
+    let connection_loss_f = mock_rp_controller.connection_loss_notified();
     mock_server.send_disconnect(disconnect);
 
     // The reconnect policy is invoked indicating connection loss
@@ -396,7 +395,7 @@ async fn connection_loss_server_disconnect_reconnect() {
 
 #[tokio::test]
 async fn try_exit_never_run() {
-    let (_, session, _) = quick_setup_standard_auth("test-try-exit-never-run-client");
+    let (_, session, _, _) = quick_setup_standard_auth("test-try-exit-never-run-client");
     let exit_handle = session.create_exit_handle();
 
     // Try exiting before connecting
@@ -406,7 +405,7 @@ async fn try_exit_never_run() {
 
 #[tokio::test]
 async fn try_exit_while_connected() {
-    let (connection_settings, session, mock_server) =
+    let (connection_settings, session, mock_server, _) =
         quick_setup_standard_auth("test-try-exit-while-connected-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
@@ -438,7 +437,7 @@ async fn try_exit_while_connected() {
 
 #[tokio::test]
 async fn try_exit_while_disconnected() {
-    let (connection_settings, session, mock_server) =
+    let (connection_settings, session, mock_server, _) =
         quick_setup_standard_auth("test-try-exit-while-disconnected-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
@@ -476,7 +475,8 @@ async fn try_exit_while_disconnected() {
 
 #[tokio::test]
 async fn force_exit_never_run() {
-    let (_, session, _) = quick_setup_standard_auth("test-force-exit-never-run-client");
+    let (_, session, mock_server, _) =
+        quick_setup_standard_auth("test-force-exit-never-run-client");
     let exit_handle = session.create_exit_handle();
 
     // Force exit before connecting
@@ -484,12 +484,13 @@ async fn force_exit_never_run() {
 
     // Not a graceful exit because we were never connected.
     assert!(!graceful);
+    mock_server.expect_no_packet();
     // NOTE: Because the Session never ran, there's no exit condition to check.
 }
 
 #[tokio::test]
 async fn force_exit_while_connected() {
-    let (connection_settings, session, mock_server) =
+    let (connection_settings, session, mock_server, _) =
         quick_setup_standard_auth("test-force-exit-while-connected-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
@@ -522,7 +523,7 @@ async fn force_exit_while_connected() {
 
 #[tokio::test]
 async fn force_exit_while_disconnected() {
-    let (connection_settings, session, mock_server) =
+    let (connection_settings, session, mock_server, _) =
         quick_setup_standard_auth("test-force-exit-while-disconnected-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
