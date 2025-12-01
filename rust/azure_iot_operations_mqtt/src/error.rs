@@ -16,8 +16,6 @@ pub type TopicError = azure_mqtt::topic::TopicError;
 
 pub use crate::session::{SessionError, SessionErrorKind, SessionExitError, SessionExitErrorKind};
 
-// TODO: expose SessionExitError here
-
 // /// Error executing an MQTT publish
 // #[derive(Debug, Error)]
 // #[error("{kind}")]

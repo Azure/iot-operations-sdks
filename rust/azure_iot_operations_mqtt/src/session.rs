@@ -75,7 +75,6 @@ mod state;
 /// Error describing why a [`Session`] ended prematurely
 #[derive(Debug, Error)]
 #[error("{kind}")]
-// pub struct SessionError(#[from] SessionErrorKind);
 pub struct SessionError {
     kind: SessionErrorKind,
 }
@@ -336,7 +335,7 @@ impl Session {
         // NOTE: This task does not need to be cleaned up. It exits gracefully on its own,
         // without the need for explicit cancellation after Session is dropped at the end
         // of this method.
-        let jh = tokio::task::spawn(Session::receive(
+        let receive_jh = tokio::task::spawn(Session::receive(
             self.receiver
                 .take()
                 .expect("Receiver should always be present at start of run"),
@@ -353,8 +352,8 @@ impl Session {
             res = self.connection_runner() => {
                 res
             }
-            _ = jh => {
-                unreachable!()
+            _ = receive_jh => {
+                unreachable!("Receive task is not able to exit")
             }
             () = notify_force_exit.notified() => {
                 log::info!("Exiting Session non-gracefully due to application-issued force exit command");
