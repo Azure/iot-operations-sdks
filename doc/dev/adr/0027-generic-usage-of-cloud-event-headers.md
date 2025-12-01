@@ -15,7 +15,7 @@ In each of our language protocol libraries, we will expose two new functions:
 
  1. One for parsing a "cloud event" type from a given set of MQTT user properties and the content type of the MQTT message
  2. One for populating a list of MQTT user properties from a given "cloud event" type.
-   - This user flow should include the SDK providing default values for ```type``` and ```specversion``` of "ms.aio.telemetry" and "1.0" respectively, but should not provide any other default values.
+   - This user flow should include the SDK providing default values for ```specversion``` of "1.0", but should not provide any other default values.
 
 However, this new addition will __not__ replace the existing APIs for interacting with cloud event headers in the protocol's senders/receivers. See the [alternatives considered](#alternatives-considered) section for why those need to remain.
 
