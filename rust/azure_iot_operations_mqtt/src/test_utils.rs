@@ -4,7 +4,7 @@
 #![allow(clippy::missing_panics_doc)]
 
 //! Utilities for testing MQTT operations by injecting and capturing packets.
-//! Note that these test utilites are provided AS IS without any guarantee of stability
+//! Note that these test utilities are provided AS IS without any guarantee of stability
 
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
@@ -248,7 +248,7 @@ impl MockServer {
     }
 
     /// Panic if the next packet received is not an AUTH packet.
-    /// Return the received AUTH packet for further inspection.s
+    /// Return the received AUTH packet for further inspection.
     pub async fn expect_auth_and_accept(&self) -> mqtt_proto::Auth<Bytes> {
         match self.from_client_rx.recv().await {
             Some(mqtt_proto::Packet::Auth(auth)) => {
@@ -454,7 +454,6 @@ impl MockReconnectPolicyController {
 
     /// Set the next reconnect delay to return from the mock reconnect policy
     pub fn set_next_delay(&self, delay: Option<Duration>) {
-        //self.next_delay_tx.send(delay).unwrap();
         *self.next_delay.lock().unwrap() = delay;
     }
 }

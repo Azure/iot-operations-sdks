@@ -98,7 +98,6 @@ pub enum SessionErrorKind {
     ReconnectHalted,
     /// The [`Session`] was ended by a user-initiated force exit. The broker may still retain the MQTT session.
     #[error("session ended by force exit")]
-    #[allow(dead_code)] // TODO: remove when force exit is implemented
     ForceExit,
 }
 
@@ -421,7 +420,6 @@ impl Session {
             self.state.transition_disconnected();
             let connection_loss = match disconnected_event {
                 // User-initiated disconnect with exit handle
-                // TODO: Is this truly the only way this happens? I think so, but double-check
                 DisconnectedEvent::ApplicationDisconnect => {
                     log::info!("Exiting Session gracefully due to application-issued exit command");
                     return Ok(());
@@ -433,7 +431,7 @@ impl Session {
                 DisconnectedEvent::IoError(io_err) => ConnectionLossReason::IoError(io_err),
                 DisconnectedEvent::ProtocolError(proto_err) => {
                     ConnectionLossReason::ProtocolError(proto_err)
-                } // TODO: how to handle force exit from exit handle?
+                }
             };
             if let Some(delay) = self
                 .reconnect_policy
@@ -536,7 +534,6 @@ impl Session {
         dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     ) {
         while let Some((publish, manual_ack)) = receiver.recv().await {
-            log::debug!("Incoming PUBLISH: {publish:?}"); // TODO: Remove, redundant with MQTT layer
             // Dispatch the message to receivers
             if dispatcher
                 .lock()
@@ -642,8 +639,7 @@ pub struct SessionExitHandle {
     /// The disconnector used to issue disconnect requests
     disconnect_handle: Weak<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
     /// Notifier for force exit
-    #[allow(dead_code)] // TODO: remove once implemented
-    force_exit: Arc<Notify>, // TODO: can this be a oneshot?
+    force_exit: Arc<Notify>,
 }
 
 impl SessionExitHandle {
@@ -687,9 +683,6 @@ impl SessionExitHandle {
                 attempted: false,
                 kind: SessionExitErrorKind::Detached,
             }))
-
-        // TODO: does the idea of an "attempted" exit even make sense anymore?
-        // Should MQTT client wait for server to close connection?
     }
 
     /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
@@ -702,8 +695,6 @@ impl SessionExitHandle {
     /// Returns true if the exit was graceful, and false if the exit was forced.
     #[allow(clippy::must_use_candidate)]
     pub fn force_exit(&self) -> bool {
-        // TODO: once this is implemented, change METL tests back to using this instead of try_exit().unwrap()
-
         if self.try_exit().is_ok() {
             true
         } else {

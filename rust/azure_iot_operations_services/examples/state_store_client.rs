@@ -40,7 +40,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let results = tokio::join! {
         async {
             state_store_operations(state_store_client).await;
-            exit(exit_handle);
+            exit(&exit_handle);
         },
         session.run(),
     };
@@ -108,7 +108,7 @@ async fn state_store_operations(client: state_store::Client) {
 }
 
 // Exit the Session
-fn exit(exit_handle: SessionExitHandle) {
+fn exit(exit_handle: &SessionExitHandle) {
     log::info!("Exiting session");
     match exit_handle.try_exit() {
         Ok(()) => log::info!("Session exited gracefully"),

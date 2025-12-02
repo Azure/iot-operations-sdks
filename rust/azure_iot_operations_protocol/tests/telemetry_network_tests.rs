@@ -205,7 +205,7 @@ async fn telemetry_basic_send_receive_network_tests() {
             // wait for the receive_telemetry_task to finish to ensure any failed asserts are captured.
             assert!(receive_telemetry_task.await.is_ok());
 
-            exit_handle.try_exit().unwrap();
+            exit_handle.force_exit();
         }
     });
 
@@ -441,7 +441,7 @@ async fn telemetry_complex_send_receive_network_tests() {
             // wait for the receive_telemetry_task to finish to ensure any failed asserts are captured.
             assert!(receive_telemetry_task.await.is_ok());
 
-            exit_handle.try_exit().unwrap();
+            exit_handle.force_exit();
         }
     });
 
@@ -554,7 +554,7 @@ async fn telemetry_retained_message_test() {
         // Give the broker time to store the retained message
         tokio::time::sleep(Duration::from_secs(2)).await;
 
-        pub_session_exit_handle.try_exit().unwrap();
+        pub_session_exit_handle.force_exit();
     });
 
     // Run publisher test and session
@@ -611,7 +611,7 @@ async fn telemetry_retained_message_test() {
 
         assert!(receive_telemetry_task.await.is_ok());
 
-        sub_session_exit_handle.try_exit().unwrap();
+        sub_session_exit_handle.force_exit();
     });
 
     assert!(
@@ -694,7 +694,7 @@ async fn telemetry_no_message_properties_receive_network_tests() {
             // wait for the receive_telemetry_task to finish to ensure any failed asserts are captured.
             assert!(receive_telemetry_task.await.is_ok());
 
-            exit_handle.try_exit().unwrap();
+            exit_handle.force_exit();
         }
     });
 
