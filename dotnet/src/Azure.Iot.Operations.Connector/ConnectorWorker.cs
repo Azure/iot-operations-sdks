@@ -288,7 +288,9 @@ namespace Azure.Iot.Operations.Connector
         }
 
         // Called by AssetClient instances
-        internal async Task ForwardSampledDatasetAsync(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        internal async Task ForwardSampledDatasetAsync(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset,
+            AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, string? protocolSpecificIdentifier = null,
+            CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
@@ -335,7 +337,8 @@ namespace Azure.Iot.Operations.Connector
                     asset,
                     assetName,
                     dataset,
-                    registeredDatasetMessageSchema);
+                    registeredDatasetMessageSchema,
+                    protocolSpecificIdentifier);
             }
 
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
@@ -425,7 +428,9 @@ namespace Azure.Iot.Operations.Connector
         }
 
         // Called by AssetClient instances
-        internal async Task ForwardReceivedEventAsync(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, string eventGroupName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        internal async Task ForwardReceivedEventAsync(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset,
+            string eventGroupName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null,
+            string? protocolSpecificIdentifier = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
@@ -481,7 +486,8 @@ namespace Azure.Iot.Operations.Connector
                     assetName,
                     eventGroupName,
                     assetEvent,
-                    registeredEventMessageSchema);
+                    registeredEventMessageSchema,
+                    protocolSpecificIdentifier);
             }
 
             foreach (var destination in assetEvent.Destinations)
@@ -771,23 +777,22 @@ namespace Azure.Iot.Operations.Connector
             return compoundDeviceName + "_" + assetName;
         }
 
-        private AioCloudEvent? ConstructCloudEventHeadersForDataset(
-            Device device,
+        private AioCloudEvent? ConstructCloudEventHeadersForDataset(Device device,
             string deviceName,
             string inboundEndpointName,
             Asset asset,
             string assetName,
             AssetDataset dataset,
-            Schema registeredSchema)
+            Schema registeredSchema,
+            string? protocolSpecificIdentifier = null)
         {
             try
             {
-                // Find the endpoint from the device to get the protocol address
-                string? endpointAddress = null;
-                if (device.Endpoints?.Inbound != null &&
+                // Use the endpoint address as the protocol specific identifier if one was not provided
+                if (protocolSpecificIdentifier == null && device.Endpoints?.Inbound != null &&
                     device.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var endpoint))
                 {
-                    endpointAddress = endpoint.Address;
+                    protocolSpecificIdentifier = endpoint.Address;
                 }
 
                 // Create MessageSchemaReference from registered schema
@@ -803,10 +808,10 @@ namespace Azure.Iot.Operations.Connector
                     device,
                     deviceName,
                     inboundEndpointName,
-                    endpointAddress,
                     asset,
                     dataset,
                     assetName,
+                    protocolSpecificIdentifier,
                     schemaRef);
             }
             catch (Exception ex)
@@ -816,24 +821,23 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private AioCloudEvent? ConstructCloudEventHeadersForEvent(
-            Device device,
+        private AioCloudEvent? ConstructCloudEventHeadersForEvent(Device device,
             string deviceName,
             string inboundEndpointName,
             Asset asset,
             string assetName,
             string eventGroupName,
             AssetEvent assetEvent,
-            Schema registeredSchema)
+            Schema registeredSchema,
+            string? protocolSpecificIdentifier = null)
         {
             try
             {
-                // Find the endpoint from the device to get the protocol address
-                string? endpointAddress = null;
-                if (device.Endpoints?.Inbound != null &&
+                // Use the endpoint address as the protocol specific identifier if one was not provided
+                if (protocolSpecificIdentifier == null && device.Endpoints?.Inbound != null &&
                     device.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var endpoint))
                 {
-                    endpointAddress = endpoint.Address;
+                    protocolSpecificIdentifier = endpoint.Address;
                 }
 
                 var schemaRef = new MessageSchemaReference
@@ -847,11 +851,11 @@ namespace Azure.Iot.Operations.Connector
                     device,
                     deviceName,
                     inboundEndpointName,
-                    endpointAddress,
                     asset,
                     assetEvent,
                     assetName,
                     eventGroupName,
+                    protocolSpecificIdentifier,
                     schemaRef);
             }
             catch (Exception ex)

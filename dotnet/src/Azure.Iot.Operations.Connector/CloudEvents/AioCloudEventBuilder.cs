@@ -16,20 +16,20 @@ public static class AioCloudEventBuilder
     /// <param name="device">ADR Device model.</param>
     /// <param name="deviceName">Device name for fallback in source/subject generation.</param>
     /// <param name="endpointName">Endpoint name from the asset's deviceRef.</param>
-    /// <param name="endpointAddress">Endpoint address/protocol identifier.</param>
     /// <param name="asset">ADR Asset model.</param>
     /// <param name="dataset">ADR AssetDataset model.</param>
     /// <param name="assetName">Asset name.</param>
+    /// <param name="protocolSpecificIdentifier">Optional protocol specific identifier.</param>
     /// <param name="messageSchemaReference">Optional message schema reference reported to ADR. Used to construct the aio-sr:// DataSchema URI.</param>
     /// <returns>Generated AIO CloudEvent.</returns>
     public static AioCloudEvent Build(
         Device device,
         string deviceName,
         string endpointName,
-        string? endpointAddress,
         Asset asset,
         AssetDataset dataset,
         string assetName,
+        string? protocolSpecificIdentifier = null,
         MessageSchemaReference? messageSchemaReference = null)
     {
         ArgumentNullException.ThrowIfNull(device);
@@ -39,7 +39,7 @@ public static class AioCloudEventBuilder
         ArgumentNullException.ThrowIfNull(dataset);
         ArgumentException.ThrowIfNullOrEmpty(assetName);
 
-        var source = BuildSource(device, endpointAddress, deviceName, dataset.DataSource);
+        var source = BuildSource(device, protocolSpecificIdentifier, deviceName, dataset.DataSource);
         var type = BuildType("DataSet", dataset.TypeRef);
         var subject = BuildSubject(asset, assetName, dataset.Name);
         var aioDeviceRef = BuildAioDeviceRef(device, endpointName);
@@ -63,22 +63,22 @@ public static class AioCloudEventBuilder
     /// <param name="device">ADR Device model.</param>
     /// <param name="deviceName">Device name for fallback in source/subject generation.</param>
     /// <param name="endpointName">Endpoint name from the asset's deviceRef.</param>
-    /// <param name="endpointAddress">Endpoint address/protocol identifier.</param>
     /// <param name="asset">ADR Asset model.</param>
     /// <param name="assetEvent">ADR AssetEvent model.</param>
     /// <param name="assetName">Asset name for fallback in subject generation.</param>
     /// <param name="eventGroupName">Event group name.</param>
+    /// <param name="protocolSpecificIdentifier">Optional protocol specific identifier.</param>
     /// <param name="messageSchemaReference">Optional message schema reference reported to ADR. Used to construct the aio-sr:// DataSchema URI.</param>
     /// <returns>Generated AIO CloudEvent.</returns>
     public static AioCloudEvent Build(
         Device device,
         string deviceName,
         string endpointName,
-        string? endpointAddress,
         Asset asset,
         AssetEvent assetEvent,
         string assetName,
         string eventGroupName,
+        string? protocolSpecificIdentifier = null,
         MessageSchemaReference? messageSchemaReference = null)
     {
         ArgumentNullException.ThrowIfNull(device);
@@ -90,7 +90,7 @@ public static class AioCloudEventBuilder
         ArgumentNullException.ThrowIfNull(assetEvent);
 
         var dataSource = assetEvent.DataSource;
-        var source = BuildSource(device, endpointAddress, deviceName, dataSource);
+        var source = BuildSource(device, protocolSpecificIdentifier, deviceName, dataSource);
 
         // Use assetEvent.TypeRef
         var type = BuildType("Event", assetEvent.TypeRef);
