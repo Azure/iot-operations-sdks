@@ -248,7 +248,7 @@ impl MockServer {
     }
 
     /// Panic if the next packet received is not an AUTH packet.
-    /// Return the received AUTH packet for further inspection.s
+    /// Return the received AUTH packet for further inspection.
     pub async fn expect_auth_and_accept(&self) -> mqtt_proto::Auth<Bytes> {
         match self.from_client_rx.recv().await {
             Some(mqtt_proto::Packet::Auth(auth)) => {
