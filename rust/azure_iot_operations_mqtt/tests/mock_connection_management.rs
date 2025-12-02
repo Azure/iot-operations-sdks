@@ -199,6 +199,7 @@ async fn connect_and_exit_standard_auth() {
         quick_setup_standard_auth("test-connect-and-exit-standard-auth-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
 
     // Start the session run loop
     let run_f = tokio::task::spawn(session.run());
@@ -231,6 +232,7 @@ async fn connect_reauth_and_exit_enhanced_sat_auth() {
         quick_setup_enhanced_sat_auth("test-connect-reauth-and-exit-enhanced-sat-auth-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
 
     // Start the session run loop
     let run_f = tokio::task::spawn(session.run());
@@ -269,6 +271,8 @@ async fn connect_failure_rejected_reconnect() {
     let (connection_settings, session, mock_server, mock_rp_controller) =
         quick_setup_standard_auth("test-connection-loss-server-disconnect-reconnect-client");
     mock_rp_controller.manual_mode(true);
+    let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
 
     // Start the session run loop
     let run_f = tokio::task::spawn(session.run());
@@ -293,6 +297,7 @@ async fn connect_failure_rejected_reconnect() {
 
     // The reconnect policy is invoked indicating connection failure
     connect_failure_f.await;
+    assert!(!monitor.is_connected());
 
     // Expect a reconnect attempt after the expected delay
     let start = std::time::Instant::now();
@@ -312,6 +317,7 @@ async fn connect_failure_rejected_reconnect() {
 
     // The reconnect policy is invoked indicating connection failure
     connect_failure_f.await;
+    assert!(!monitor.is_connected());
 
     // Session exits due to reconnect policy indicating no more reconnects
     let e = run_f.await.unwrap().unwrap_err();
@@ -324,8 +330,9 @@ async fn connect_failure_rejected_reconnect() {
 async fn connection_loss_server_disconnect_reconnect() {
     let (connection_settings, session, mock_server, mock_rp_controller) =
         quick_setup_standard_auth("test-connection-loss-server-disconnect-reconnect-client");
-    let monitor = session.create_session_monitor();
     mock_rp_controller.manual_mode(true);
+    let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
 
     // Start the session run loop
     let run_f = tokio::task::spawn(session.run());
@@ -409,6 +416,7 @@ async fn try_exit_while_connected() {
         quick_setup_standard_auth("test-try-exit-while-connected-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
 
     // Start the session run loop
     let run_f = tokio::task::spawn(session.run());
@@ -441,6 +449,7 @@ async fn try_exit_while_disconnected() {
         quick_setup_standard_auth("test-try-exit-while-disconnected-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
 
     // Start the session run loop
     let run_f = tokio::task::spawn(session.run());
@@ -494,6 +503,7 @@ async fn force_exit_while_connected() {
         quick_setup_standard_auth("test-force-exit-while-connected-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
 
     // Start the session run loop
     let run_f = tokio::task::spawn(session.run());
@@ -527,6 +537,7 @@ async fn force_exit_while_disconnected() {
         quick_setup_standard_auth("test-force-exit-while-disconnected-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
 
     // Start the session run loop
     let run_f = tokio::task::spawn(session.run());
