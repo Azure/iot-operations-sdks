@@ -12,7 +12,7 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::asset_dataset_schema_element_schema::AssetDatasetSchemaElementSchema;
 use super::asset_device_ref::AssetDeviceRef;
-use super::asset_event_schema_element_schema::AssetEventSchemaElementSchema;
+use super::asset_event_group_schema_element_schema::AssetEventGroupSchemaElementSchema;
 use super::asset_management_group_schema_element_schema::AssetManagementGroupSchemaElementSchema;
 use super::asset_stream_schema_element_schema::AssetStreamSchemaElementSchema;
 use super::dataset_destination::DatasetDestination;
@@ -111,9 +111,10 @@ pub struct Asset {
     pub enabled: Option<bool>,
 
     /// Array of events that are part of the asset. Each event can have per-event configuration.
+    #[serde(rename = "eventGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub events: Option<Vec<AssetEventSchemaElementSchema>>,
+    pub event_groups: Option<Vec<AssetEventGroupSchemaElementSchema>>,
 
     /// Asset ID provided by the customer.
     #[serde(rename = "externalAssetId")]

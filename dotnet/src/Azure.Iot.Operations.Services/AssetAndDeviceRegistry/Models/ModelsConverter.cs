@@ -86,7 +86,7 @@ internal static class ModelsConverter
         {
             Config = source.Config?.ToModel(),
             Datasets = source.Datasets?.Select(x => x.ToModel()).ToList(),
-            Events = source.Events?.Select(x => x.ToModel()).ToList(),
+            EventGroups = source.EventGroups?.Select(x => x.ToModel()).ToList(),
             ManagementGroups = source.ManagementGroups?.Select(x => x.ToModel()).ToList(),
             Streams = source.Streams?.Select(x => x.ToModel()).ToList()
         };
@@ -112,7 +112,7 @@ internal static class ModelsConverter
             DisplayName = source.DisplayName,
             DocumentationUri = source.DocumentationUri,
             Enabled = source.Enabled,
-            Events = source.Events?.Select(x => x.ToModel()).ToList(),
+            EventGroups = source.EventGroups?.Select(x => x.ToModel()).ToList(),
             ExternalAssetId = source.ExternalAssetId,
             HardwareRevision = source.HardwareRevision,
             LastTransitionTime = source.LastTransitionTime,
@@ -126,6 +126,28 @@ internal static class ModelsConverter
             Streams = source.Streams?.Select(x => x.ToModel()).ToList(),
             Uuid = source.Uuid,
             Version = source.Version,
+        };
+    }
+
+    internal static Models.AssetEventGroup ToModel(this AdrBaseService.AssetEventGroupSchemaElementSchema source)
+    {
+        return new AssetEventGroup()
+        {
+            DataSource = source.DataSource,
+            DefaultEventsDestinations = source.DefaultEventsDestinations?.Select(x => x.ToModel()).ToList(),
+            EventGroupConfiguration = source.EventGroupConfiguration,
+            Events = source.Events?.Select(x => x.ToModel()).ToList(),
+            Name = source.Name,
+            TypeRef = source.TypeRef,
+        };
+    }
+
+    internal static Models.AssetEventGroupStatus ToModel(this AdrBaseService.AssetEventGroupStatusSchemaElementSchema source)
+    {
+        return new AssetEventGroupStatus()
+        {
+            Events = source.Events?.Select(x => x.ToModel()).ToList(),
+            Name = source.Name,
         };
     }
 
@@ -212,6 +234,7 @@ internal static class ModelsConverter
             Name = source.Name,
             Actions = source.Actions?.Select(x => x.ToModel()).ToList(),
             DefaultTimeoutInSeconds = source.DefaultTimeoutInSeconds,
+            DataSource = source.DataSource,
             DefaultTopic = source.DefaultTopic,
             ManagementGroupConfiguration = source.ManagementGroupConfiguration,
             TypeRef = source.TypeRef
@@ -287,9 +310,9 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetDatasetDataPointSchemaElement ToModel(this AssetDatasetDataPointSchemaElementSchema source)
+    internal static AssetDatasetDataPoint ToModel(this AssetDatasetDataPointSchemaElementSchema source)
     {
-        return new AssetDatasetDataPointSchemaElement
+        return new AssetDatasetDataPoint
         {
             Name = source.Name,
             DataSource = source.DataSource,
@@ -305,8 +328,7 @@ internal static class ModelsConverter
             Name = source.Name,
             Destinations = source.Destinations?.Select(x => x.ToModel()).ToList(),
             EventConfiguration = source.EventConfiguration,
-            EventNotifier = source.EventNotifier,
-            DataPoints = source.DataPoints?.Select(x => x.ToModel()).ToList(),
+            DataSource = source.DataSource,
             TypeRef = source.TypeRef
         };
     }
@@ -323,16 +345,6 @@ internal static class ModelsConverter
     internal static EventStreamTarget ToModel(this AdrBaseService.EventStreamTarget source)
     {
         return (EventStreamTarget)(int)source;
-    }
-
-    internal static AssetEventDataPointSchemaElement ToModel(this AssetEventDataPointSchemaElementSchema source)
-    {
-        return new AssetEventDataPointSchemaElement
-        {
-            DataSource = source.DataSource,
-            DataPointConfiguration = source.DataPointConfiguration,
-            Name = source.Name
-        };
     }
 
     internal static Authentication ToModel(this AuthenticationSchema source)
@@ -354,7 +366,9 @@ internal static class ModelsConverter
     {
         return new X509Credentials
         {
-            CertificateSecretName = source.CertificateSecretName
+            CertificateSecretName = source.CertificateSecretName,
+            IntermediateCertificatesSecretName = source.IntermediateCertificatesSecretName,
+            KeySecretName = source.KeySecretName,
         };
     }
 
@@ -426,9 +440,9 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DetailsSchemaElement ToModel(this DetailsSchemaElementSchema source)
+    internal static ConfigErrorDetails ToModel(this DetailsSchemaElementSchema source)
     {
-        return new DetailsSchemaElement
+        return new ConfigErrorDetails
         {
             Code = source.Code,
             Message = source.Message,
@@ -447,18 +461,18 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetManagementGroupStatusSchemaElement ToModel(this AssetManagementGroupStatusSchemaElementSchema source)
+    internal static AssetManagementGroupStatus ToModel(this AssetManagementGroupStatusSchemaElementSchema source)
     {
-        return new AssetManagementGroupStatusSchemaElement
+        return new AssetManagementGroupStatus
         {
             Name = source.Name,
             Actions = source.Actions?.Select(x => x.ToModel()).ToList(),
         };
     }
 
-    internal static AssetManagementGroupActionStatusSchemaElement ToModel(this AssetManagementGroupActionStatusSchemaElementSchema source)
+    internal static AssetManagementGroupActionStatus ToModel(this AssetManagementGroupActionStatusSchemaElementSchema source)
     {
-        return new AssetManagementGroupActionStatusSchemaElement
+        return new AssetManagementGroupActionStatus
         {
             Error = source.Error?.ToModel(),
             Name = source.Name,

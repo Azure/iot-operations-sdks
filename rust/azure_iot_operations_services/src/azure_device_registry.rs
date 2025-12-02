@@ -190,6 +190,9 @@ impl From<discovery_client_gen::CodeSchema> for base_client_gen::CodeSchema {
             discovery_client_gen::CodeSchema::SerializationError => {
                 base_client_gen::CodeSchema::SerializationError
             }
+            discovery_client_gen::CodeSchema::Unauthorized => {
+                base_client_gen::CodeSchema::Unauthorized
+            }
         }
     }
 }

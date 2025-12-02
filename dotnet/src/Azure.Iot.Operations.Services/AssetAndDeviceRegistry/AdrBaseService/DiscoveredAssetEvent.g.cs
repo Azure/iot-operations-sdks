@@ -13,11 +13,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DiscoveredAssetEvent : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
+        /// Reference to a data source for a given event.
         /// </summary>
-        [JsonPropertyName("dataPoints")]
+        [JsonPropertyName("dataSource")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DiscoveredAssetEventDataPoint>? DataPoints { get; set; } = default;
+        public string? DataSource { get; set; } = default;
 
         /// <summary>
         /// Destinations for an event.
@@ -32,14 +32,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonPropertyName("eventConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? EventConfiguration { get; set; } = default;
-
-        /// <summary>
-        /// The address of the notifier of the event in the discovered asset (e.g. URL) so that a client can access the notifier on the asset.
-        /// </summary>
-        [JsonPropertyName("eventNotifier")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string EventNotifier { get; set; } = default!;
 
         /// <summary>
         /// UTC timestamp indicating when the event was added or modified.
@@ -65,10 +57,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
         void IJsonOnDeserialized.OnDeserialized()
         {
-            if (EventNotifier is null)
-            {
-                throw new ArgumentNullException("eventNotifier field cannot be null");
-            }
             if (Name is null)
             {
                 throw new ArgumentNullException("name field cannot be null");
@@ -77,10 +65,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
         void IJsonOnSerializing.OnSerializing()
         {
-            if (EventNotifier is null)
-            {
-                throw new ArgumentNullException("eventNotifier field cannot be null");
-            }
             if (Name is null)
             {
                 throw new ArgumentNullException("name field cannot be null");

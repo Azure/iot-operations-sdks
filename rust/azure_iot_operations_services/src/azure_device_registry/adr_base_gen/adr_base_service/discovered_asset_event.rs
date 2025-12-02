@@ -10,16 +10,15 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::discovered_asset_event_data_point::DiscoveredAssetEventDataPoint;
 use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredAssetEvent {
-    /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
-    #[serde(rename = "dataPoints")]
+    /// Reference to a data source for a given event.
+    #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub data_points: Option<Vec<DiscoveredAssetEventDataPoint>>,
+    pub data_source: Option<String>,
 
     /// Destinations for an event.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -31,10 +30,6 @@ pub struct DiscoveredAssetEvent {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub event_configuration: Option<String>,
-
-    /// The address of the notifier of the event in the discovered asset (e.g. URL) so that a client can access the notifier on the asset.
-    #[serde(rename = "eventNotifier")]
-    pub event_notifier: String,
 
     /// UTC timestamp indicating when the event was added or modified.
     #[serde(rename = "lastUpdatedOn")]

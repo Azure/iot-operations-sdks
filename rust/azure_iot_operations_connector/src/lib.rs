@@ -5,6 +5,8 @@
 
 #![warn(missing_docs)]
 
+use std::fmt::Display;
+
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 use azure_iot_operations_services::{
     azure_device_registry,
@@ -57,13 +59,46 @@ pub enum DataOperationKind {
     Stream,
 }
 
+/// Represents the kind of a `DataOperation`
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub enum DataOperationName {
+    /// Dataset
+    Dataset {
+        /// The name of the dataset
+        name: String,
+    },
+    /// Event
+    Event {
+        /// The name of the event
+        name: String,
+        /// The name of the event's parent event group
+        event_group_name: String,
+    },
+    /// Stream
+    Stream {
+        /// The name of the stream
+        name: String,
+    },
+}
+
+impl Display for DataOperationName {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            DataOperationName::Dataset { name } => write!(f, "Dataset: {name}"),
+            DataOperationName::Event {
+                name,
+                event_group_name,
+            } => write!(f, "Event: {event_group_name}::{name}"),
+            DataOperationName::Stream { name } => write!(f, "Stream: {name}"),
+        }
+    }
+}
+
 /// Represents a `DataOperation` (Dataset, Event, or Stream) associated with a specific device, endpoint, and asset.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct DataOperationRef {
     /// The name of the `DataOperation`
-    pub data_operation_name: String,
-    /// The kind of the `DataOperation`
-    pub data_operation_kind: DataOperationKind,
+    pub data_operation_name: DataOperationName,
     /// The name of the asset
     pub asset_name: String,
     /// The name of the device

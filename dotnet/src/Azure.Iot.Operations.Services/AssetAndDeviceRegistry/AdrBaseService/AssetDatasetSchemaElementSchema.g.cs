@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string? DatasetConfiguration { get; set; } = default;
 
         /// <summary>
-        /// Name of the data source within a dataset.
+        /// Reference to a data source for a given dataset.
         /// </summary>
         [JsonPropertyName("dataSource")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
