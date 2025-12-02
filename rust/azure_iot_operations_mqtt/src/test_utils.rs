@@ -4,7 +4,7 @@
 #![allow(clippy::missing_panics_doc)]
 
 //! Utilities for testing MQTT operations by injecting and capturing packets.
-//! Note that these test utilites are provided AS IS without any guarantee of stability
+//! Note that these test utilities are provided AS IS without any guarantee of stability
 
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};

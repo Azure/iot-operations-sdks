@@ -35,8 +35,6 @@ const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandInvokerWithZeroTimeout_ThrowsException",
     "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess", // this might be able to be tested once acks have the epoch
     "TelemetrySenderSendWithCloudEventSpecVersionNonNumeric_Success",
-    "CommandExecutorValidTopicNamespaceWithTopicTokens_Success",
-    "TelemetryReceiverWithTopicNamespaceAndTopicTokens_Success",
 ];
 
 /*
