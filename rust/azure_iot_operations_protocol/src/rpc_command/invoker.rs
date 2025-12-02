@@ -883,8 +883,7 @@ where
                 QoS::AtLeastOnce,
                 // TODO: validate these are the right settings
                 false,
-                true,
-                azure_iot_operations_mqtt::control_packet::RetainHandling::Send,
+                azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
                 azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),
             )
             .await;
