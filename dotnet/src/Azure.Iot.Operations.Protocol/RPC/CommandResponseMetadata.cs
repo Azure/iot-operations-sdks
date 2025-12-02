@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
 
@@ -47,6 +48,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public Dictionary<string, string> UserData { get; set; } = new();
 
         /// <summary>
+        /// CloudEvent metadata for the command response.
+        /// When set, CloudEvent headers will be included in the command response with default type "ms.aio.rpc.response".
+        /// The subject will default to the response topic if not specified.
+        /// </summary>
+        public CloudEvent? CloudEvent { get; set; }
+
+        /// <summary>
         /// Construct CommandResponseMetadata in user code, presumably within an execution function that will include the metadata in its return value.
         /// </summary>
         /// <remarks>
@@ -74,6 +82,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Timestamp = null;
             UserData = [];
 
+            // Try to parse CloudEvent from user properties
+            try
+            {
+                var cloudEventContext = new CloudEventMqttContext
+                {
+                    MqttUserProperties = message.UserProperties ?? new List<MqttUserProperty>(),
+                    MqttMessageContentType = message.ContentType
+                };
+                CloudEvent = Telemetry.CloudEvent.CreateFromMqttUserProperties(cloudEventContext);
+            }
+            catch (ArgumentException)
+            {
+                // CloudEvent fields not present or invalid - this is okay, CloudEvent is optional
+                CloudEvent = null;
+            }
+
             if (message.UserProperties != null)
             {
                 foreach (MqttUserProperty property in message.UserProperties)
@@ -99,6 +123,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (Timestamp != default)
             {
                 message.AddUserProperty(AkriSystemProperties.Timestamp, Timestamp.EncodeToString());
+            }
+
+            // Add CloudEvent headers if present
+            if (CloudEvent != null)
+            {
+                message.AddCloudEvents(CloudEvent);
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)

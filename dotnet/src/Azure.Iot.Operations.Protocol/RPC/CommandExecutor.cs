@@ -477,6 +477,40 @@ namespace Azure.Iot.Operations.Protocol.RPC
             string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
+            // Populate CloudEvent defaults if CloudEvent is present
+            if (metadata?.CloudEvent != null)
+            {
+                // Set default type for RPC response if not specified
+                if (metadata.CloudEvent.Type == "ms.aio.telemetry")
+                {
+                    // User didn't override the default telemetry type, so use RPC response type
+                    metadata.CloudEvent = new Telemetry.CloudEvent(
+                        metadata.CloudEvent.Source,
+                        "ms.aio.rpc.response",
+                        metadata.CloudEvent.SpecVersion)
+                    {
+                        Id = metadata.CloudEvent.Id,
+                        Time = metadata.CloudEvent.Time,
+                        Subject = metadata.CloudEvent.Subject,
+                        DataSchema = metadata.CloudEvent.DataSchema,
+                        DataContentType = metadata.CloudEvent.DataContentType
+                    };
+                }
+
+                // Set default values for id and time if not provided
+                metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
+                metadata.CloudEvent.Time ??= DateTime.UtcNow;
+                
+                // Set subject to response topic if not provided
+                metadata.CloudEvent.Subject ??= topic;
+                
+                // Set DataContentType to match the message content type
+                if (payloadContext != null)
+                {
+                    metadata.CloudEvent.DataContentType = payloadContext.ContentType;
+                }
+            }
+
             metadata?.MarshalTo(message);
 
             if (isAppError != null)
