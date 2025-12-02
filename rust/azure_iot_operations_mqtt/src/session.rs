@@ -362,6 +362,7 @@ impl Session {
         }
     }
 
+    /// Keeps the connection alive until exit by session loss or reconnect policy halt.
     async fn connection_runner(&mut self) -> Result<(), SessionError> {
         let mut clean_start = self.connect_parameters.initial_clean_start;
         let mut prev_connected = false;
@@ -529,6 +530,7 @@ impl Session {
         }
     }
 
+    /// Receive incoming PUBLISH packets and dispatch them to receivers.
     async fn receive(
         mut receiver: azure_mqtt::client::Receiver,
         dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
@@ -710,7 +712,7 @@ impl SessionExitHandle {
 /// This is largely for informational purposes.
 #[derive(Clone)]
 pub struct SessionMonitor {
-    state: Arc<SessionState>, // TODO: should this be a weakref?
+    state: Arc<SessionState>,
 }
 
 impl SessionMonitor {
