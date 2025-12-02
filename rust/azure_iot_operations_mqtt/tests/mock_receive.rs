@@ -489,13 +489,22 @@ async fn qos0_multiple_unfiltered_receivers() {
 /// - Receive PUBLISHes via recv_manual_ack() and send PUBACKs only after all receivers have acked it via dropped AckToken in order
 /// - Receive PUBLISHes via recv_manual_ack() and send PUBACKs only after all receivers have acked it via dropped AckToken out of order
 /// - Receive PUBLISHES via recv_manual_ack() and ??? (out or order delayed messages)
-async fn qos1_multiple_receiver_same_filter_test_logic(mock_server: MockServer, mut receiver1: SessionPubReceiver, mut receiver2: SessionPubReceiver, mut receiver3: SessionPubReceiver, topic_name: &str) {
+async fn qos1_multiple_receiver_same_filter_test_logic(
+    mock_server: MockServer,
+    mut receiver1: SessionPubReceiver,
+    mut receiver2: SessionPubReceiver,
+    mut receiver3: SessionPubReceiver,
+    topic_name: &str,
+) {
     ///////////// Using recv() /////////////
-    
+
     // Send publish from mock server
     let proto_publish1 = mqtt_proto::Publish {
         topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(mqtt_proto::PacketIdentifier::new(1).unwrap(), false),
+        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
+            mqtt_proto::PacketIdentifier::new(1).unwrap(),
+            false,
+        ),
         retain: false,
         payload: bytes::Bytes::from("Publish 1"),
         other_properties: mqtt_proto::PublishOtherProperties::default(),
@@ -519,7 +528,10 @@ async fn qos1_multiple_receiver_same_filter_test_logic(mock_server: MockServer, 
     // Send multiple publishes from the mock server
     let proto_publish2 = mqtt_proto::Publish {
         topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(mqtt_proto::PacketIdentifier::new(2).unwrap(), false),
+        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
+            mqtt_proto::PacketIdentifier::new(2).unwrap(),
+            false,
+        ),
         retain: false,
         payload: bytes::Bytes::from("Publish 2"),
         other_properties: mqtt_proto::PublishOtherProperties::default(),
@@ -527,7 +539,10 @@ async fn qos1_multiple_receiver_same_filter_test_logic(mock_server: MockServer, 
     let expected_publish2 = proto_publish2.clone().into();
     let proto_publish3 = mqtt_proto::Publish {
         topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(mqtt_proto::PacketIdentifier::new(3).unwrap(), false),
+        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
+            mqtt_proto::PacketIdentifier::new(3).unwrap(),
+            false,
+        ),
         retain: false,
         payload: bytes::Bytes::from("Publish 3"),
         other_properties: mqtt_proto::PublishOtherProperties::default(),
@@ -535,7 +550,10 @@ async fn qos1_multiple_receiver_same_filter_test_logic(mock_server: MockServer, 
     let expected_publish3 = proto_publish3.clone().into();
     let proto_publish4 = mqtt_proto::Publish {
         topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(mqtt_proto::PacketIdentifier::new(4).unwrap(), false),
+        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
+            mqtt_proto::PacketIdentifier::new(4).unwrap(),
+            false,
+        ),
         retain: false,
         payload: bytes::Bytes::from("Publish 4"),
         other_properties: mqtt_proto::PublishOtherProperties::default(),
@@ -583,7 +601,10 @@ async fn qos1_multiple_receiver_same_filter_test_logic(mock_server: MockServer, 
     // Send publish from mock server
     let proto_publish5 = mqtt_proto::Publish {
         topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(mqtt_proto::PacketIdentifier::new(5).unwrap(), false),
+        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
+            mqtt_proto::PacketIdentifier::new(5).unwrap(),
+            false,
+        ),
         retain: false,
         payload: bytes::Bytes::from("Publish 5"),
         other_properties: mqtt_proto::PublishOtherProperties::default(),
@@ -605,7 +626,7 @@ async fn qos1_multiple_receiver_same_filter_test_logic(mock_server: MockServer, 
     let r3_acktoken5 = r3_response5.1.expect("Expected ack token for QoS 1");
     mock_server.expect_no_packet();
     // Begin acknowledging
-    
+
     let mut r1_ack5 = tokio_test::task::spawn(r1_acktoken5.ack()); // ACK from Receiver 1
     assert_pending!(r1_ack5.poll()); // Receiver 1 ACK not yet complete
     mock_server.expect_no_packet(); // No PUBACK yet
@@ -619,7 +640,7 @@ async fn qos1_multiple_receiver_same_filter_test_logic(mock_server: MockServer, 
     let r3_ct5 = assert_ready!(r3_ack5.poll()); // Receiver 3 ACK should be complete now
 
     //let r = r3_ack5.await.unwrap();
-    
+
     // tokio::time::sleep(std::time::Duration::from_secs(1)).await; // Give some time for the ACKs to process
     // let r3_ct5 = assert_ready!(r3_ack5.poll()); // Receiver 3 ACK should be complete now
     // let r2_ct5 = assert_ready!(r2_ack5.poll()); // Receiver 2 ACK should be complete now
@@ -628,8 +649,6 @@ async fn qos1_multiple_receiver_same_filter_test_logic(mock_server: MockServer, 
     // let r3_ct5 = assert_ready!(r3_ack5.poll()).unwrap(); // Receiver 3 ACK should be complete now
     // let r2_ct5 = assert_ready!(r2_ack5.poll()).unwrap(); // Receiver 2 ACK should be complete now
     // let r1_ct5 = assert_ready!(r1_ack5.poll()).unwrap(); // Receiver 1 ACK should be complete now
-
-
 
     // assert_ready!(tokio_test::task::spawn(r3_ct5).poll()).unwrap(); // Receiver 3 ACK completion token should be complete
     // assert_ready!(tokio_test::task::spawn(r2_ct5).poll()).unwrap(); // Receiver 2 ACK completion token should be complete
@@ -640,7 +659,6 @@ async fn qos1_multiple_receiver_same_filter_test_logic(mock_server: MockServer, 
     assert_eq!(puback5.reason_code, mqtt_proto::PubAckReasonCode::Success);
 
     // let mut r3_ack = tokio_test::task::spawn(r3_acktoken5.ack()); // ACK from Receiver 3
-
 
     //let mut r1_ct5 = tokio_test::task::spawn(r1_acktoken5.ack().await.unwrap()); // ACK from Receiver 1
     //mock_server.expect_no_packet(); // No PUBACK yet
@@ -658,13 +676,7 @@ async fn qos1_multiple_receiver_same_filter_test_logic(mock_server: MockServer, 
     // r3_ct5.await.unwrap(); // Wait for Receiver 3 completion token
 
     // It's gotta be something about a mutex right?
-
- 
-
-
 }
-
-
 
 #[tokio::test]
 async fn qos1_multiple_identical_filtered_receivers() {
@@ -683,12 +695,19 @@ async fn qos1_multiple_identical_filtered_receivers() {
     let receiver2 = managed_client.create_filtered_pub_receiver(filter.clone());
     let receiver3 = managed_client.create_filtered_pub_receiver(filter);
 
-    qos1_multiple_receiver_same_filter_test_logic(mock_server, receiver1, receiver2, receiver3, "test/subscribe/topic").await;
+    qos1_multiple_receiver_same_filter_test_logic(
+        mock_server,
+        receiver1,
+        receiver2,
+        receiver3,
+        "test/subscribe/topic",
+    )
+    .await;
 }
 
 #[tokio::test]
 async fn qos1_multiple_unfiltered_receivers() {
-        let (session, mock_server) =
+    let (session, mock_server) =
         setup_client_and_mock_server("qos1_multiple_unfiltered_receivers_test_client");
     let managed_client = session.create_managed_client();
 
@@ -702,28 +721,20 @@ async fn qos1_multiple_unfiltered_receivers() {
     let receiver2 = managed_client.create_unfiltered_pub_receiver();
     let receiver3 = managed_client.create_unfiltered_pub_receiver();
 
-    qos1_multiple_receiver_same_filter_test_logic(mock_server, receiver1, receiver2, receiver3, "test/subscribe/topic").await;
+    qos1_multiple_receiver_same_filter_test_logic(
+        mock_server,
+        receiver1,
+        receiver2,
+        receiver3,
+        "test/subscribe/topic",
+    )
+    .await;
 }
 
-
-
 // #[tokio::test]
-
-
-
-
-
-
-
-
-
-
-
 
 // - Validate dispatching (including advanced stuff like dynamic changing as receivers drop/get added)
 // - QoS 0 messages aren't acked until received by all
 // - QoS 1 messages aren't acked until received and acked by all
 // - mixed qos?
 // - drops / transport disconnects + ack tokens + completion tokens
-
-

@@ -160,9 +160,7 @@ impl InnerState {
 
     async fn trigger_if_ready(self: &Arc<Self>) {
         // Check if sealed
-        let sealed = {
-            self.sealed.lock().unwrap().clone()
-        };
+        let sealed = { self.sealed.lock().unwrap().clone() };
         if let Some(total) = sealed {
             // Check if all members have acked
             if self.counter.load(Ordering::SeqCst) == total {
@@ -183,8 +181,7 @@ impl InnerState {
                     };
 
                     // Map the token result to a PlenaryAckCompletionToken
-                    let result =
-                        result.map(|ct| PlenaryAckCompletionToken { inner: ct.shared() });
+                    let result = result.map(|ct| PlenaryAckCompletionToken { inner: ct.shared() });
 
                     // TODO: what is the return type?
                     // TODO: clean up
