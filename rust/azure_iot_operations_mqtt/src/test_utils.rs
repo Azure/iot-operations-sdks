@@ -454,7 +454,6 @@ impl MockReconnectPolicyController {
 
     /// Set the next reconnect delay to return from the mock reconnect policy
     pub fn set_next_delay(&self, delay: Option<Duration>) {
-        //self.next_delay_tx.send(delay).unwrap();
         *self.next_delay.lock().unwrap() = delay;
     }
 }
