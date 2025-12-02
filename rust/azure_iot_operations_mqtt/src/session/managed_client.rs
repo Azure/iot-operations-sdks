@@ -7,7 +7,7 @@ use std::sync::{Arc, Mutex};
 use bytes::Bytes;
 
 use crate::control_packet::{
-    Publish, PublishProperties, QoS, RetainHandling, SubscribeProperties, TopicFilter, TopicName,
+    Publish, PublishProperties, QoS, RetainOptions, SubscribeProperties, TopicFilter, TopicName,
     UnsubscribeProperties,
 };
 use crate::error::DetachedError;
@@ -130,19 +130,11 @@ impl SessionManagedClient {
         topic_filter: TopicFilter,
         max_qos: QoS,
         no_local: bool,
-        retain_as_published: bool,
-        retain_handling: RetainHandling,
+        retain_options: RetainOptions,
         properties: SubscribeProperties,
     ) -> Result<SubscribeCompletionToken, DetachedError> {
         self.client
-            .subscribe(
-                topic_filter,
-                max_qos,
-                no_local,
-                retain_as_published,
-                retain_handling,
-                properties,
-            )
+            .subscribe(topic_filter, max_qos, no_local, retain_options, properties)
             .await
     }
 

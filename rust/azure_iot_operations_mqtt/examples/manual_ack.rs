@@ -9,7 +9,7 @@ use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::{
-    Publish, QoS, RetainHandling, SubscribeProperties, TopicFilter, TopicName,
+    Publish, QoS, RetainOptions, SubscribeProperties, TopicFilter, TopicName,
 };
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
@@ -83,8 +83,7 @@ async fn receive_messages(
             topic_filter,
             QoS::AtLeastOnce,
             false,
-            false,
-            RetainHandling::DoNotSend,
+            RetainOptions::default(),
             SubscribeProperties::default(),
         )
         .await?

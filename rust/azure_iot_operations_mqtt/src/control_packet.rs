@@ -49,6 +49,8 @@ pub type AuthReasonCode = azure_mqtt::packet::AuthReason;
 
 /// Authentication Info
 pub type AuthenticationInfo = azure_mqtt::packet::AuthenticationInfo;
+/// Retain Options
+pub type RetainOptions = azure_mqtt::packet::RetainOptions;
 /// Retain Handling
 pub type RetainHandling = azure_mqtt::packet::RetainHandling;
 /// Session Expiry Interval

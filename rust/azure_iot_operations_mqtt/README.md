@@ -17,7 +17,7 @@ The Azure IoT Operations MQTT crate is intended for use with the Azure IoT Opera
 use std::str;
 use std::time::Duration;
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS, RetainHandling, SubscribeProperties, TopicFilter, TopicName};
+use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS, RetainOptions, SubscribeProperties, TopicFilter, TopicName};
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder, SessionExitHandle};
 
 const CLIENT_ID: &str = "aio_example_client";
@@ -63,8 +63,7 @@ async fn receive_messages(client: SessionManagedClient) {
             topic_filter,
             QoS::AtLeastOnce,
             false,
-            false,
-            RetainHandling::DoNotSend,
+            RetainOptions::default(),
             SubscribeProperties::default(),
         )
         .await
