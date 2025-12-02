@@ -124,7 +124,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     }
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                await Task.Delay(TimeSpan.FromSeconds(10));
             }
         }
 
@@ -211,7 +211,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     }
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                await Task.Delay(TimeSpan.FromSeconds(10));
             }
         }
 
