@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
-    public class AdrClientWrapperTests
+    public class AzureDeviceRegistryClientWrapperTests
     {
         [Fact]
         public async Task UnobserveAllUsesCorrectDeviceAndInboundEndpointNames()
@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             string inboundEndpointName = "someInboundEndpointName";
             var mockAdrServiceClient = new MockAdrServiceClient();
             var mockAssetFileMonitor = new MockAssetFileMonitor();
-            AdrClientWrapper adrClientWrapper = new(mockAdrServiceClient, mockAssetFileMonitor);
+            AzureDeviceRegistryClientWrapper adrClientWrapper = new(mockAdrServiceClient, mockAssetFileMonitor);
             adrClientWrapper.ObserveDevices();
 
             TaskCompletionSource onDeviceChangedTcs = new();

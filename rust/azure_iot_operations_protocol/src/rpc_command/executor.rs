@@ -159,7 +159,7 @@ where
     serialized_payload: SerializedPayload,
     /// Strongly link `Response` with type `TResp`
     #[builder(private)]
-    response_payload_type: PhantomData<TResp>,
+    payload_type: PhantomData<TResp>,
     /// Custom user data set as custom MQTT User Properties on the response message.
     /// Used to pass additional metadata to the invoker.
     /// Default is an empty vector.
@@ -198,7 +198,7 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
                     ));
                 }
                 self.serialized_payload = Some(serialized_payload);
-                self.response_payload_type = Some(PhantomData);
+                self.payload_type = Some(PhantomData);
                 Ok(self)
             }
         }
@@ -452,9 +452,9 @@ where
     response_payload_type: PhantomData<TResp>,
     cache: Cache,
     // Describes state
-    executor_state: State,
+    state: State,
     // Information to manage state
-    executor_cancellation_token: CancellationToken,
+    cancellation_token: CancellationToken,
 }
 
 /// Describes state of executor
@@ -484,8 +484,8 @@ where
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if:
     /// - [`command_name`](OptionsBuilder::command_name) is empty, whitespace or invalid
     /// - [`request_topic_pattern`](OptionsBuilder::request_topic_pattern),
-    ///     [`topic_namespace`](OptionsBuilder::topic_namespace)
-    ///     are Some and invalid or contain a token with no valid replacement
+    ///   [`topic_namespace`](OptionsBuilder::topic_namespace)
+    ///   are Some and invalid or contain a token with no valid replacement
     /// - [`topic_token_map`](OptionsBuilder::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     pub fn new(
         application_context: ApplicationContext,
@@ -542,8 +542,8 @@ where
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
             cache: Cache(Arc::new(Mutex::new(HashMap::new()))),
-            executor_state: State::New,
-            executor_cancellation_token: CancellationToken::new(),
+            state: State::New,
+            cancellation_token: CancellationToken::new(),
         })
     }
 
@@ -560,10 +560,10 @@ where
         // Close the receiver, no longer receive messages
         self.mqtt_receiver.close();
 
-        match self.executor_state {
+        match self.state {
             State::New | State::ShutdownSuccessful => {
                 // If subscribe has not been called or shutdown was successful, do not unsubscribe
-                self.executor_state = State::ShutdownSuccessful;
+                self.state = State::ShutdownSuccessful;
             }
             State::Subscribed => {
                 let unsubscribe_result = self
@@ -578,7 +578,7 @@ where
                     Ok(unsub_ct) => match unsub_ct.await {
                         Ok(unsuback) => match unsuback.as_result() {
                             Ok(()) => {
-                                self.executor_state = State::ShutdownSuccessful;
+                                self.state = State::ShutdownSuccessful;
                             }
                             Err(e) => {
                                 log::error!("[{}] Unsuback error: {unsuback:?}", self.command_name);
@@ -690,11 +690,11 @@ where
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if the command expiration time cannot be calculated.
     pub async fn recv(&mut self) -> Option<Result<Request<TReq, TResp>, AIOProtocolError>> {
         // Subscribe to the request topic if not already subscribed
-        if State::New == self.executor_state {
+        if State::New == self.state {
             if let Err(e) = self.try_subscribe().await {
                 return Some(Err(e));
             }
-            self.executor_state = State::Subscribed;
+            self.state = State::Subscribed;
         }
 
         loop {
@@ -742,7 +742,7 @@ where
                             );
                             tokio::task::spawn({
                                 let executor_cancellation_token_clone =
-                                    self.executor_cancellation_token.clone();
+                                    self.cancellation_token.clone();
                                 async move {
                                     handle_ack(ack_token, executor_cancellation_token_clone, pkid)
                                         .await;
@@ -758,8 +758,7 @@ where
                             pkid
                         );
                         tokio::task::spawn({
-                            let executor_cancellation_token_clone =
-                                self.executor_cancellation_token.clone();
+                            let executor_cancellation_token_clone = self.cancellation_token.clone();
                             async move {
                                 handle_ack(ack_token, executor_cancellation_token_clone, pkid)
                                     .await;
@@ -1039,7 +1038,7 @@ where
                                 let client_clone = self.mqtt_client.clone();
                                 let cache_clone = self.cache.clone();
                                 let executor_cancellation_token_clone =
-                                    self.executor_cancellation_token.clone();
+                                    self.cancellation_token.clone();
                                 async move {
                                     tokio::select! {
                                         () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
@@ -1078,7 +1077,7 @@ where
                             tokio::task::spawn({
                                 let client_clone = self.mqtt_client.clone();
                                 let executor_cancellation_token_clone =
-                                    self.executor_cancellation_token.clone();
+                                    self.cancellation_token.clone();
                                 async move {
                                     tokio::select! {
                                         () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
@@ -1105,7 +1104,7 @@ where
                             tokio::task::spawn(handle_in_progress_duplicate_ack(
                                 ack_token,
                                 cancellation_token.clone(),
-                                self.executor_cancellation_token.clone(),
+                                self.cancellation_token.clone(),
                                 pkid,
                             ));
                         }
@@ -1119,7 +1118,7 @@ where
                                     let client_clone = self.mqtt_client.clone();
                                     let cache_clone = self.cache.clone();
                                     let executor_cancellation_token_clone =
-                                        self.executor_cancellation_token.clone();
+                                        self.cancellation_token.clone();
                                     async move {
                                         tokio::select! {
                                             () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
@@ -1509,12 +1508,12 @@ where
 {
     fn drop(&mut self) {
         // Cancel all tasks awaiting responses
-        self.executor_cancellation_token.cancel();
+        self.cancellation_token.cancel();
         // Close the receiver, once dropped all remaining messages are automatically ack'd
         self.mqtt_receiver.close();
 
         // If the executor has not been unsubscribed, attempt to unsubscribe
-        if State::Subscribed == self.executor_state {
+        if State::Subscribed == self.state {
             tokio::spawn({
                 let request_topic = self.request_topic_filter.clone();
                 let mqtt_client = self.mqtt_client.clone();

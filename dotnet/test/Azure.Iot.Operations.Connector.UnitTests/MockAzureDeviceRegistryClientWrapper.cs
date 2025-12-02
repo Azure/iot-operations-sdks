@@ -7,9 +7,9 @@ using Moq;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
-    public class MockAdrClientWrapper : IAdrClientWrapper
+    public class MockAzureDeviceRegistryClientWrapper : IAzureDeviceRegistryClientWrapper
     {
-        public Mock<IAdrClientWrapper> mockClientWrapper { get; set; } = new Mock<IAdrClientWrapper>();
+        public Mock<IAzureDeviceRegistryClientWrapper> mockClientWrapper { get; set; } = new Mock<IAzureDeviceRegistryClientWrapper>();
 
         public event EventHandler<AssetChangedEventArgs>? AssetChanged;
         public event EventHandler<DeviceChangedEventArgs>? DeviceChanged;
@@ -67,6 +67,16 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public Task UnobserveDevicesAsync(CancellationToken cancellationToken = default)
         {
             return mockClientWrapper.Object.UnobserveDevicesAsync(cancellationToken);
+        }
+
+        public Task<DeviceStatus> GetDeviceStatusAsync(string deviceName, string inboundEndpointName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return mockClientWrapper.Object.GetDeviceStatusAsync(deviceName, inboundEndpointName, commandTimeout, cancellationToken);
+        }
+
+        public Task<AssetStatus> GetAssetStatusAsync(string deviceName, string inboundEndpointName, string assetName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return mockClientWrapper.Object.GetAssetStatusAsync(deviceName, inboundEndpointName, assetName, commandTimeout, cancellationToken);
         }
 
         public Task<AssetStatus> UpdateAssetStatusAsync(string deviceName, string inboundEndpointName, UpdateAssetStatusRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)

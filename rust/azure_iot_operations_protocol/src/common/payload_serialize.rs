@@ -185,12 +185,12 @@ impl PayloadSerialize for Vec<u8> {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/octet-stream" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/octet-stream"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
+            )));
         }
         Ok(payload.to_vec())
     }

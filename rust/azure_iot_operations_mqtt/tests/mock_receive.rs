@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use azure_mqtt::mqtt_proto;
 use tokio_test::{assert_pending, assert_ready};
 
 use azure_iot_operations_mqtt::{
@@ -9,7 +10,6 @@ use azure_iot_operations_mqtt::{
     session::{Session, SessionOptionsBuilder, SessionPubReceiver},
     test_utils::{IncomingPacketsTx, InjectedPacketChannels, MockServer, OutgoingPacketsRx},
 };
-use azure_mqtt::mqtt_proto;
 
 fn setup_client_and_mock_server(client_id: &str) -> (Session, MockServer) {
     let connection_settings = MqttConnectionSettingsBuilder::default()
@@ -23,8 +23,8 @@ fn setup_client_and_mock_server(client_id: &str) -> (Session, MockServer) {
     let options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .injected_packet_channels(Some(InjectedPacketChannels {
-            incoming_packets_tx: incoming_packets_tx,
-            outgoing_packets_rx: outgoing_packets_rx,
+            incoming_packets_tx,
+            outgoing_packets_rx,
         }))
         .build()
         .unwrap();
