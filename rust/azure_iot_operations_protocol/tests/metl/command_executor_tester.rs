@@ -30,7 +30,7 @@ use crate::metl::test_case_published_message::TestCasePublishedMessage;
 use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
 
-const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
+const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(30);
 
 // TODO: this struct could probably be removed
 pub struct CommandExecutorTester {}
@@ -195,81 +195,102 @@ impl CommandExecutorTester {
         for req in test_case_executor.request_responses_map.keys() {
             sequencers.insert(req.clone(), 0);
         }
+        let arc_sequencers = Arc::new(Mutex::new(sequencers));
 
         loop {
             if let Some(Ok(request)) = executor.recv().await {
                 *execution_count.lock().unwrap() += 1;
 
-                for test_case_sync in &test_case_executor.sync {
-                    if let Some(wait_event) = &test_case_sync.wait_event {
-                        countdown_events
-                            .wait_timeout(wait_event.as_str(), TEST_TIMEOUT)
-                            .await
-                            .expect("test timeout in countdown_event.wait");
-                    }
-
-                    if let Some(signal_event) = &test_case_sync.signal_event {
-                        countdown_events.signal(signal_event.as_str());
-                    }
-                }
-
                 if test_case_executor.raise_error {
                     drop(request);
                     continue;
                 }
+                tokio::task::spawn({
+                    let test_case_executor = test_case_executor.clone();
+                    let countdown_events = countdown_events.clone();
+                    let arc_sequencers = arc_sequencers.clone();
+                    async move {
+                        for test_case_sync in &test_case_executor.sync {
+                            if let Some(signal_event) = &test_case_sync.signal_event {
+                                countdown_events.signal(signal_event.as_str());
+                            }
 
-                let response_value = match request.payload.payload.as_ref() {
-                    Some(request_value) => {
-                        if let Some(response_sequence) =
-                            test_case_executor.request_responses_map.get(request_value)
-                        {
-                            let sequencer = sequencers.get_mut(request_value).unwrap();
-                            let index = *sequencer % response_sequence.len();
-                            *sequencer += 1;
-                            Some(response_sequence[index].clone())
-                        } else {
-                            None
+                            if let Some(wait_event) = &test_case_sync.wait_event {
+                                log::info!("waiting for event {}", wait_event.as_str());
+                                countdown_events
+                                    .wait_timeout(wait_event.as_str(), TEST_TIMEOUT)
+                                    .await
+                                    .expect("test timeout in countdown_event.wait");
+                                log::info!("done waiting for event {}", wait_event.as_str());
+                            }
                         }
+
+                        let response_value = match request.payload.payload.as_ref() {
+                            Some(request_value) => {
+                                if let Some(response_sequence) =
+                                    test_case_executor.request_responses_map.get(request_value)
+                                {
+                                    let mut guard = arc_sequencers.lock().unwrap();
+                                    let sequencer = guard.get_mut(request_value).unwrap();
+                                    let index = *sequencer % response_sequence.len();
+                                    *sequencer += 1;
+                                    Some(response_sequence[index].clone())
+                                } else {
+                                    None
+                                }
+                            }
+                            _ => None,
+                        };
+
+                        let response_payload = TestPayload {
+                            payload: response_value,
+                            out_content_type: test_case_executor
+                                .serializer
+                                .out_content_type
+                                .clone(),
+                            accept_content_types: test_case_executor
+                                .serializer
+                                .accept_content_types
+                                .clone(),
+                            indicate_character_data: test_case_executor
+                                .serializer
+                                .indicate_character_data,
+                            allow_character_data: test_case_executor
+                                .serializer
+                                .allow_character_data,
+                            fail_deserialization: test_case_executor
+                                .serializer
+                                .fail_deserialization,
+                        };
+
+                        let mut metadata =
+                            Vec::with_capacity(test_case_executor.response_metadata.len());
+                        for (key, value) in &test_case_executor.response_metadata {
+                            if let Some(val) = value {
+                                metadata.push((key.clone(), val.clone()));
+                            } else if let Some(kvp) =
+                                request.custom_user_data.iter().find(|&m| m.0 == *key)
+                            {
+                                metadata.push((key.clone(), kvp.1.clone()));
+                            }
+                        }
+
+                        if let Some(token_prefix) = &test_case_executor.token_metadata_prefix {
+                            for (key, value) in &request.topic_tokens {
+                                metadata.push((format!("{token_prefix}{key}"), value.clone()));
+                            }
+                        }
+
+                        let response = rpc_command::executor::ResponseBuilder::default()
+                            .payload(response_payload)
+                            .unwrap()
+                            .custom_user_data(metadata)
+                            .build()
+                            .unwrap();
+
+                        _ = request.complete(response).await;
                     }
-                    _ => None,
-                };
-
-                let response_payload = TestPayload {
-                    payload: response_value,
-                    out_content_type: test_case_executor.serializer.out_content_type.clone(),
-                    accept_content_types: test_case_executor
-                        .serializer
-                        .accept_content_types
-                        .clone(),
-                    indicate_character_data: test_case_executor.serializer.indicate_character_data,
-                    allow_character_data: test_case_executor.serializer.allow_character_data,
-                    fail_deserialization: test_case_executor.serializer.fail_deserialization,
-                };
-
-                let mut metadata = Vec::with_capacity(test_case_executor.response_metadata.len());
-                for (key, value) in &test_case_executor.response_metadata {
-                    if let Some(val) = value {
-                        metadata.push((key.clone(), val.clone()));
-                    } else if let Some(kvp) = request.custom_user_data.iter().find(|&m| m.0 == *key)
-                    {
-                        metadata.push((key.clone(), kvp.1.clone()));
-                    }
-                }
-
-                if let Some(token_prefix) = &test_case_executor.token_metadata_prefix {
-                    for (key, value) in &request.topic_tokens {
-                        metadata.push((format!("{token_prefix}{key}"), value.clone()));
-                    }
-                }
-
-                let response = rpc_command::executor::ResponseBuilder::default()
-                    .payload(response_payload)
-                    .unwrap()
-                    .custom_user_data(metadata)
-                    .build()
-                    .unwrap();
-
-                _ = request.complete(response).await;
+                });
             }
         }
     }
