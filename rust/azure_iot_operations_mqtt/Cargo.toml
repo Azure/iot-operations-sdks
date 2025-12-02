@@ -24,6 +24,7 @@ notify.workspace = true
 notify-debouncer-full.workspace = true
 openssl = "0.10.66"                                                                 # only used with rumqttc to set up TLS settings
 rand = "0.8.5"
+tempfile = { version = "3", optional = true }
 thiserror.workspace = true
 tokio.workspace = true
 
@@ -31,13 +32,12 @@ tokio.workspace = true
 azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
 env_logger.workspace = true
 temp-env.workspace = true
-tempfile.workspace = true
 test-case.workspace = true
 tokio-test.workspace = true
 
 [features]
 default = [ ]
-test-utils = ["azure_mqtt/__integration"]
+test-utils = ["azure_mqtt/__integration", "tempfile"]
 
 [lints]
 workspace = true

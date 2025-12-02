@@ -275,7 +275,7 @@ impl MqttConnectionSettings {
         let ping_after =
             NonZeroU16::new(u16::try_from(self.keep_alive.as_secs()).map_err(|e| {
                 ConnectionSettingsAdapterError {
-                    msg: "cannot convert keep_alive to NonZeroU16".to_string(),
+                    msg: "cannot convert keep_alive to u16".to_string(),
                     field: ConnectionSettingsField::KeepAlive(self.keep_alive),
                     source: Some(Box::new(e)),
                 }
