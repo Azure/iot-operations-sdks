@@ -207,34 +207,16 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public void AddCloudEvents(CloudEvent md)
         {
-            AddUserProperty(nameof(md.SpecVersion).ToLowerInvariant(), md.SpecVersion);
-            if (md.Id != null)
+            // Use the new generic API to convert CloudEvent to MQTT context
+            var mqttContext = md.CreateMqttMessageContext();
+            
+            // Add all user properties from the CloudEvent
+            foreach (var userProperty in mqttContext.MqttUserProperties)
             {
-                AddUserProperty(nameof(md.Id).ToLowerInvariant(), md.Id.ToString());
+                AddUserProperty(userProperty.Name, userProperty.Value);
             }
-
-            AddUserProperty(nameof(md.Type).ToLowerInvariant(), md.Type);
-            AddUserProperty(nameof(md.Source).ToLowerInvariant(), md.Source.ToString());
-
-            if (md.Time is not null)
-            {
-                AddUserProperty(nameof(md.Time).ToLowerInvariant(), md.Time!.Value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture));
-            }
-
-            if (md.Subject is not null)
-            {
-                AddUserProperty(nameof(md.Subject).ToLowerInvariant(), md.Subject);
-            }
-
-            if (md.DataContentType is not null)
-            {
-                AddUserProperty(nameof(md.DataContentType).ToLowerInvariant(), md.DataContentType);
-            }
-
-            if (md.DataSchema is not null)
-            {
-                AddUserProperty(nameof(md.DataSchema).ToLowerInvariant(), md.DataSchema);
-            }
+            
+            // Note: DataContentType is handled separately via ContentType property, not user properties
         }
     }
 }

@@ -4,7 +4,6 @@
 using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace Azure.Iot.Operations.Protocol.Telemetry
@@ -112,57 +111,24 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         public CloudEvent GetCloudEvent()
         {
-            string safeGetUserProperty(string name)
+            // Convert UserData dictionary to list of MqttUserProperty
+            var mqttUserProperties = UserData.Select(kvp => new MqttUserProperty(kvp.Key, kvp.Value)).ToList();
+            
+            var mqttContext = new CloudEventMqttContext
             {
-                return UserData.FirstOrDefault(
-                                p => p.Key.Equals(name.ToLowerInvariant(),
-                                StringComparison.OrdinalIgnoreCase)).Value ?? string.Empty;
-            }
-
-            string specVersion = safeGetUserProperty(nameof(CloudEvent.SpecVersion).ToLowerInvariant());
-
-
-            if (!specVersion.Equals("1.0", StringComparison.Ordinal))
-            {
-                throw new ArgumentException($"Could not parse cloud event from telemetry: Only version 1.0 supported. Version provided: {specVersion}");
-            }
-
-            string id = safeGetUserProperty(nameof(CloudEvent.Id));
-            if (string.IsNullOrEmpty(id))
-            {
-                throw new ArgumentException("Could not parse cloud event from telemetry: Cloud events must have an Id");
-            }
-
-            string sourceValue = safeGetUserProperty(nameof(CloudEvent.Source));
-            if (!Uri.TryCreate(sourceValue, UriKind.RelativeOrAbsolute, out Uri? source))
-            {
-                throw new ArgumentException("Could not parse cloud event from telemetry: Source must be a URI-Reference");
-            }
-
-            string type = safeGetUserProperty(nameof(CloudEvent.Type));
-            if (string.IsNullOrEmpty(type))
-            {
-                throw new ArgumentException("Could not parse cloud event from telemetry: Cloud events must specify a Type");
-            }
-
-            string subject = safeGetUserProperty(nameof(CloudEvent.Subject));
-            string dataSchema = safeGetUserProperty(nameof(CloudEvent.DataSchema));
-
-            string time = safeGetUserProperty(nameof(CloudEvent.Time));
-            DateTime _dateTime = DateTime.UtcNow;
-            if (!string.IsNullOrEmpty(time) && !DateTime.TryParse(time, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out _dateTime))
-            {
-                throw new ArgumentException("Could not parse cloud event from telemetry: Cloud events time must be a valid RFC3339 date-time");
-            }
-
-            return new CloudEvent(source, type)
-            {
-                Id = id,
-                Time = _dateTime,
-                DataContentType = ContentType,
-                DataSchema = dataSchema,
-                Subject = subject,
+                MqttUserProperties = mqttUserProperties,
+                MqttMessageContentType = ContentType
             };
+
+            try
+            {
+                return CloudEvent.CreateFromMqttUserProperties(mqttContext);
+            }
+            catch (ArgumentException ex)
+            {
+                // Re-throw with telemetry-specific context for backward compatibility
+                throw new ArgumentException($"Could not parse cloud event from telemetry: {ex.Message}", ex);
+            }
         }
     }
 }

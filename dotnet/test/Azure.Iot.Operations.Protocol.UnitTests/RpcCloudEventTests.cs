@@ -208,8 +208,10 @@ public class RpcCloudEventTests
         Assert.Contains(message.UserProperties, p => p.Name == "specversion" && p.Value == "1.0");
         Assert.Contains(message.UserProperties, p => p.Name == "type" && p.Value == "custom-type");
         Assert.Contains(message.UserProperties, p => p.Name == "source" && p.Value == "aio://test/");
-        // Only required fields should be present
-        Assert.Equal(3, message.UserProperties.Count);
+        // The generic API always generates id and time defaults, so 5 properties total
+        Assert.Contains(message.UserProperties, p => p.Name == "id");
+        Assert.Contains(message.UserProperties, p => p.Name == "time");
+        Assert.Equal(5, message.UserProperties.Count);
     }
 
     [Fact]
@@ -228,7 +230,9 @@ public class RpcCloudEventTests
         Assert.Contains(message.UserProperties, p => p.Name == "specversion" && p.Value == "1.0");
         Assert.Contains(message.UserProperties, p => p.Name == "type" && p.Value == "custom-response-type");
         Assert.Contains(message.UserProperties, p => p.Name == "source" && p.Value == "aio://test/");
-        // Only required fields should be present
-        Assert.Equal(3, message.UserProperties.Count);
+        // The generic API always generates id and time defaults, so 5 properties total
+        Assert.Contains(message.UserProperties, p => p.Name == "id");
+        Assert.Contains(message.UserProperties, p => p.Name == "time");
+        Assert.Equal(5, message.UserProperties.Count);
     }
 }
