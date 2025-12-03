@@ -84,6 +84,9 @@ impl SatAuthFileMonitor {
                                 Ok(data) => Bytes::from(data),
                                 Err(e) => {
                                     log::warn!("Error reading updated SAT file: {e}");
+                                    log::warn!(
+                                        "SAT file reading will be retried on next change/connection attempt."
+                                    );
                                     return;
                                 }
                             };
@@ -100,6 +103,9 @@ impl SatAuthFileMonitor {
                     }
                     Err(e) => {
                         log::warn!("Error(s) on SAT file directory debounce event: {e:?}");
+                        log::warn!(
+                            "SAT file reading will be retried on next change/connection attempt."
+                        );
                     }
                 }
             },
