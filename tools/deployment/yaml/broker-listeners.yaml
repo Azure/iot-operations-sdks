@@ -57,7 +57,7 @@ spec:
   ports:
     - port: 1883
     - port: 1884
-      authenticationRef: default-x509
+      authenticationRef: default-x509 # x509 auth without TLS
     - port: 8883
       authenticationRef: default-x509
       tls:
