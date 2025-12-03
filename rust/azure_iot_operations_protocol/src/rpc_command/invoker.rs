@@ -1419,8 +1419,7 @@ async fn flatten<T>(
         Ok(Err(e)) => Err(e),
         Err(e) => {
             // tasks can't panic
-            log::error!("Invoker Join Error: {e}");
-            unreachable!()
+            unreachable!("Invoker Join Error: {e}. Tasks should not be able to panic")
         }
     }
 }

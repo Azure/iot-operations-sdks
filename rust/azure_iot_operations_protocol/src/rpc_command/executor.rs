@@ -1204,13 +1204,13 @@ where
                     Ok(puback) => {
                         if !puback.is_success() {
                             log::warn!(
-                                "[{command_name}][pkid: {pkid}] Puback error on cached command response: {puback:?}"
+                                "[{command_name}][pkid: {pkid}] Puback reported failure for cached command response: {puback:?}"
                             );
                         }
                     }
                     Err(e) => {
                         log::warn!(
-                            "[{command_name}][pkid: {pkid}] Publish completion error on cached command response: {e}"
+                            "[{command_name}][pkid: {pkid}] Publish completion error for cached command response: {e}"
                         );
                     }
                 }
@@ -1610,7 +1610,7 @@ async fn handle_ack(
                                 azure_iot_operations_mqtt::error::CompletionError::Cancelled => {
                                     // This means the executor will receive a future ack from the
                                     // session once the dupe comes in.
-                                    log::warn!("[pkid: {pkid}] Disconnected, Command Request ack cancelled");
+                                    log::warn!("[pkid: {pkid}] Command Request ack cancelled due to disconnect, request will be redelivered");
                                 },
                             }
                          }
