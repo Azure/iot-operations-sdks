@@ -83,7 +83,7 @@ impl SatAuthFileMonitor {
                             let new_data = match std::fs::read_to_string(&file_path) {
                                 Ok(data) => Bytes::from(data),
                                 Err(e) => {
-                                    log::error!("Error reading updated SAT file: {e}");
+                                    log::warn!("Error reading updated SAT file: {e}");
                                     return;
                                 }
                             };
@@ -99,7 +99,7 @@ impl SatAuthFileMonitor {
                         }
                     }
                     Err(e) => {
-                        log::error!("Error(s) on SAT file directory debounce event: {e:?}");
+                        log::warn!("Error(s) on SAT file directory debounce event: {e:?}");
                     }
                 }
             },
