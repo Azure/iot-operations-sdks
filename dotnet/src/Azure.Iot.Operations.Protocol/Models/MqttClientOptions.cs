@@ -57,7 +57,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             try
             {
-                if (cs.UseTls)
+                if (cs.UseTls && (cs.TrustChain != null|| cs.CaFile != null))
                 {
                     ChannelOptions.TlsOptions.SslProtocol = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13;
                     X509Certificate2Collection caCerts = [];
