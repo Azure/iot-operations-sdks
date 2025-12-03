@@ -1,16 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Utilities for testing MQTT operations by injecting and capturing packets.
-//! Note that these test utilites are provided AS IS without any guarantee of stability
+#![allow(clippy::missing_panics_doc)]
 
+//! Utilities for testing MQTT operations by injecting and capturing packets.
+//! Note that these test utilities are provided AS IS without any guarantee of stability
+
+use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use azure_mqtt::mqtt_proto;
 use bytes::Bytes;
 use futures::FutureExt;
-use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender};
+use rand::Rng;
+use tempfile::TempDir;
+use tokio::sync::{
+    Notify,
+    mpsc::{UnboundedReceiver, UnboundedSender},
+};
+
+use crate::error::ConnectError;
+use crate::session::reconnect_policy::{ConnectionLossReason, ReconnectPolicy};
 
 /// Struct containing channels for injecting incoming packets and capturing outgoing packets
 /// for testing purposes.
@@ -42,7 +53,6 @@ impl Default for IncomingPacketsTx {
 impl IncomingPacketsTx {
     /// Send a test packet as an incoming packet
     /// If the connection is currently disconnected, this will log an error and the message won't be sent
-    #[allow(clippy::missing_panics_doc)]
     pub fn send(&self, packet: azure_mqtt::mqtt_proto::Packet<Bytes>) {
         // NOTE: this will fail to send if the connection is currently disconnected and the rx has been dropped
         // Not handling this for now, because that would cause this fn to have to be async or return an error
@@ -83,7 +93,6 @@ impl Default for OutgoingPacketsRx {
 impl OutgoingPacketsRx {
     /// Receive next outgoing packet for testing
     /// If the connection is currently disconnected, this will wait until reconnected and the next packet is available
-    #[allow(clippy::missing_panics_doc)]
     pub async fn recv(&self) -> Option<azure_mqtt::mqtt_proto::Packet<Bytes>> {
         // recv() will return an Err() if we're currently disconnected or there's nothing in the channel.
         // Wait for next packet or reconnection with a delay to allow the mutex to be released, so that
@@ -127,23 +136,30 @@ impl MockServer {
     }
 
     /// Panic if the next packet received is not a CONNECT packet.
+    /// Return the received CONNECT packet for further inspection.
     /// Send a CONNACK packet with Success reason code in response, with the provided
     /// `session_present` flag.
-    pub async fn expect_connect_and_accept(&self, session_present: bool) {
-        self.expect_connect_and_respond_custom(mqtt_proto::ConnAck {
+    pub async fn expect_connect_and_accept(
+        &self,
+        session_present: bool,
+    ) -> mqtt_proto::Connect<Bytes> {
+        self.expect_connect_and_respond(mqtt_proto::ConnAck {
             reason_code: mqtt_proto::ConnectReasonCode::Success { session_present },
             other_properties: mqtt_proto::ConnAckOtherProperties::default(),
         })
-        .await;
+        .await
     }
 
     /// Panic if the next packet received is not a CONNECT packet.
     /// Send the provided CONNACK packet in response.
-    #[allow(clippy::missing_panics_doc)]
-    pub async fn expect_connect_and_respond_custom(&self, connack: mqtt_proto::ConnAck<Bytes>) {
+    pub async fn expect_connect_and_respond(
+        &self,
+        connack: mqtt_proto::ConnAck<Bytes>,
+    ) -> mqtt_proto::Connect<Bytes> {
         match self.from_client_rx.recv().await {
-            Some(mqtt_proto::Packet::Connect(_)) => {
+            Some(mqtt_proto::Packet::Connect(connect)) => {
                 self.to_client_tx.send(mqtt_proto::Packet::ConnAck(connack));
+                connect
             }
             Some(other) => {
                 panic!("Expected CONNECT packet, but received different packet: {other:?}",);
@@ -154,9 +170,35 @@ impl MockServer {
         }
     }
 
+    /// Panic if the next packet received is not a CONNECT packet.
+    pub async fn expect_connect(&self) -> mqtt_proto::Connect<Bytes> {
+        match self.from_client_rx.recv().await {
+            Some(mqtt_proto::Packet::Connect(connect)) => connect,
+            Some(other) => {
+                panic!("Expected CONNECT packet, but received different packet: {other:?}",);
+            }
+            None => {
+                panic!("Expected CONNECT packet, but connection was closed");
+            }
+        }
+    }
+
+    /// Panic if the next packet received is not a DISCONNECT packet.
+    /// Return the received DISCONNECT packet for further inspection.
+    pub async fn expect_disconnect(&self) -> mqtt_proto::Disconnect<Bytes> {
+        match self.from_client_rx.recv().await {
+            Some(mqtt_proto::Packet::Disconnect(disconnect)) => disconnect,
+            Some(other) => {
+                panic!("Expected DISCONNECT packet, but received different packet: {other:?}",);
+            }
+            None => {
+                panic!("Expected DISCONNECT packet, but connection was closed");
+            }
+        }
+    }
+
     /// Panic if the next packet received is not a SUBSCRIBE packet.
     /// Send a SUBACK packet granting the requested QoS in response.
-    #[allow(clippy::missing_panics_doc)]
     pub async fn expect_subscribe_and_accept(&self) {
         match self.from_client_rx.recv().await {
             Some(mqtt_proto::Packet::Subscribe(subscribe)) => {
@@ -193,8 +235,7 @@ impl MockServer {
 
     /// Panic if the next packet received is not a PUBACK packet.
     /// Return the received PUBACK packet for further inspection.
-    #[allow(clippy::missing_panics_doc)]
-    pub async fn expect_puback_and_return(&self) -> mqtt_proto::PubAck<Bytes> {
+    pub async fn expect_puback(&self) -> mqtt_proto::PubAck<Bytes> {
         match self.from_client_rx.recv().await {
             Some(mqtt_proto::Packet::PubAck(puback)) => puback,
             Some(other) => {
@@ -206,8 +247,30 @@ impl MockServer {
         }
     }
 
+    /// Panic if the next packet received is not an AUTH packet.
+    /// Return the received AUTH packet for further inspection.
+    pub async fn expect_auth_and_accept(&self) -> mqtt_proto::Auth<Bytes> {
+        match self.from_client_rx.recv().await {
+            Some(mqtt_proto::Packet::Auth(auth)) => {
+                self.to_client_tx
+                    .send(mqtt_proto::Packet::Auth(mqtt_proto::Auth {
+                        reason_code: mqtt_proto::AuthenticateReasonCode::Success,
+                        authentication: None, // TODO: is this right?
+                        reason_string: None,
+                        user_properties: vec![],
+                    }));
+                auth
+            }
+            Some(other) => {
+                panic!("Expected AUTH packet, but received different packet: {other:?}",);
+            }
+            None => {
+                panic!("Expected AUTH packet, but connection was closed");
+            }
+        }
+    }
+
     /// Panic if any packet is ready to be received
-    #[allow(clippy::missing_panics_doc)]
     #[allow(clippy::manual_assert)]
     pub fn expect_no_packet(&self) {
         if self.from_client_rx.recv().now_or_never().is_some() {
@@ -215,8 +278,182 @@ impl MockServer {
         }
     }
 
+    /// Send a CONNACK packet to the client
+    pub fn send_connack(&self, connack: mqtt_proto::ConnAck<Bytes>) {
+        self.to_client_tx.send(mqtt_proto::Packet::ConnAck(connack));
+    }
+
     /// Send a PUBLISH packet to the client
     pub fn send_publish(&self, publish: mqtt_proto::Publish<Bytes>) {
         self.to_client_tx.send(mqtt_proto::Packet::Publish(publish));
+    }
+
+    /// Send a DISCONNECT packet to the client
+    pub fn send_disconnect(&self, disconnect: mqtt_proto::Disconnect<Bytes>) {
+        self.to_client_tx
+            .send(mqtt_proto::Packet::Disconnect(disconnect));
+    }
+}
+
+/// Mock SAT file for testing purposes
+pub struct MockSatFile {
+    /// Parent directory for the SAT file
+    /// Keep this here even though it's unused to ensure the temp dir isn't deleted
+    _parent_dir: TempDir,
+    /// Path to the SAT file
+    file_path: PathBuf,
+}
+
+impl MockSatFile {
+    /// Create a new mock SAT file for testing purposes
+    #[must_use]
+    pub fn new() -> Self {
+        // Create parent directory as SAT files have their own dir
+        let dir = TempDir::new().unwrap();
+        // Create mock SAT file inside the dir
+        let fp = dir.path().join("sat_file.sat");
+        // Write arbitrary mock contents to the SAT file
+        let mut buf = Vec::new();
+        fill_utf8(&mut buf, 16);
+        std::fs::write(&fp, buf).unwrap();
+
+        MockSatFile {
+            _parent_dir: dir,
+            file_path: fp,
+        }
+    }
+
+    /// Get the path to the mock SAT file
+    #[must_use]
+    pub fn path(&self) -> &Path {
+        self.file_path.as_path()
+    }
+
+    /// Get the string representation of the path to the mock SAT file
+    #[must_use]
+    pub fn path_as_str(&self) -> &str {
+        self.file_path.to_str().unwrap()
+    }
+
+    /// Update the contents of the mock SAT file with arbitrary bytes
+    /// This can be used to trigger reauthentication in tests.
+    pub fn update_contents(&self) {
+        let mut buf = Vec::new();
+        fill_utf8(&mut buf, 16);
+        std::fs::write(&self.file_path, buf).unwrap();
+    }
+}
+
+impl Default for MockSatFile {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+/// Fill the provided buffer with random UTF-8 characters up to the specified length
+fn fill_utf8(buf: &mut Vec<u8>, len: usize) {
+    let mut rng = rand::thread_rng();
+    buf.clear();
+    for _ in 0..len {
+        let c: char = rng.gen_range(0x20u32..0x10_FFFF).try_into().unwrap_or('�');
+        buf.extend(c.to_string().as_bytes());
+    }
+}
+
+/// Mock reconnect policy for testing purposes
+pub struct MockReconnectPolicy {
+    connect_failure_notify: Arc<Notify>,
+    connection_loss_notify: Arc<Notify>,
+    default_delay: Option<Duration>,
+    next_delay: Arc<Mutex<Option<Duration>>>,
+    manual_mode: Arc<Mutex<bool>>,
+}
+
+impl MockReconnectPolicy {
+    /// Create a new `MockReconnectPolicy` and its controller
+    #[must_use]
+    pub fn new() -> (Self, MockReconnectPolicyController) {
+        let connect_failure_notify = Arc::new(Notify::new());
+        let connection_loss_notify = Arc::new(Notify::new());
+        let manual_mode = Arc::new(Mutex::new(false));
+        let next_delay = Arc::new(Mutex::new(None));
+
+        let rp_controller = MockReconnectPolicyController {
+            connect_failure_notify: connect_failure_notify.clone(),
+            connection_loss_notify: connection_loss_notify.clone(),
+            manual_mode: manual_mode.clone(),
+            next_delay: next_delay.clone(),
+        };
+
+        let rp = Self {
+            connect_failure_notify,
+            connection_loss_notify,
+            default_delay: Some(Duration::from_secs(1)),
+            next_delay,
+            manual_mode,
+        };
+
+        (rp, rp_controller)
+    }
+}
+
+impl ReconnectPolicy for MockReconnectPolicy {
+    fn connect_failure_reconnect_delay(
+        &self,
+        _prev_attempts: u32,
+        _error: &ConnectError,
+    ) -> Option<Duration> {
+        // NOTE: only notifies those already waiting, so make sure to wait before triggering this
+        self.connect_failure_notify.notify_waiters();
+
+        if *self.manual_mode.lock().unwrap() {
+            *self.next_delay.lock().unwrap()
+        } else {
+            self.default_delay
+        }
+    }
+
+    fn connection_loss_reconnect_delay(&self, _reason: &ConnectionLossReason) -> Option<Duration> {
+        // NOTE: only notifies those already waiting, so make sure to wait before triggering this
+        self.connection_loss_notify.notify_waiters();
+
+        if *self.manual_mode.lock().unwrap() {
+            *self.next_delay.lock().unwrap()
+        } else {
+            self.default_delay
+        }
+    }
+}
+
+/// Controller for the mock reconnect policy to allow tests to control its behavior
+#[derive(Clone)]
+pub struct MockReconnectPolicyController {
+    connect_failure_notify: Arc<Notify>,
+    connection_loss_notify: Arc<Notify>,
+    manual_mode: Arc<Mutex<bool>>,
+    next_delay: Arc<Mutex<Option<Duration>>>,
+}
+
+impl MockReconnectPolicyController {
+    /// Enable or disable manual mode for the mock reconnect policy
+    pub fn manual_mode(&self, active: bool) {
+        *self.manual_mode.lock().unwrap() = active;
+    }
+
+    /// Wait until a connect failure reconnect delay is requested
+    /// Note that you must already be waiting on this future before triggering the reconnect delay
+    pub async fn connect_failure_notified(&self) {
+        self.connect_failure_notify.notified().await;
+    }
+
+    /// Wait until a connection loss reconnect delay is requested
+    /// Note that you must already be waiting on this future before triggering the reconnect delay
+    pub async fn connection_loss_notified(&self) {
+        self.connection_loss_notify.notified().await;
+    }
+
+    /// Set the next reconnect delay to return from the mock reconnect policy
+    pub fn set_next_delay(&self, delay: Option<Duration>) {
+        *self.next_delay.lock().unwrap() = delay;
     }
 }

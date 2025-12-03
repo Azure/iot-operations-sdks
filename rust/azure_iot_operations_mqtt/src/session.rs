@@ -74,12 +74,22 @@ mod state;
 
 /// Error describing why a [`Session`] ended prematurely
 #[derive(Debug, Error)]
-#[error(transparent)]
-pub struct SessionError(#[from] SessionErrorRepr);
+#[error("{kind}")]
+pub struct SessionError {
+    kind: SessionErrorKind,
+}
 
-/// Internal error for [`Session`] runs.
-#[derive(Error, Debug)]
-enum SessionErrorRepr {
+impl SessionError {
+    /// Return the corresponding [`SessionErrorKind`] for this error
+    #[must_use]
+    pub fn kind(&self) -> SessionErrorKind {
+        self.kind
+    }
+}
+
+/// An enumeration of categories of [`SessionError`]
+#[derive(Error, Debug, Eq, PartialEq, Clone, Copy)]
+pub enum SessionErrorKind {
     /// MQTT session was lost due to a connection error.
     #[error("session state not present on broker after reconnect")]
     SessionLost,
@@ -88,8 +98,13 @@ enum SessionErrorRepr {
     ReconnectHalted,
     /// The [`Session`] was ended by a user-initiated force exit. The broker may still retain the MQTT session.
     #[error("session ended by force exit")]
-    #[allow(dead_code)] // TODO: remove when force exit is implemented
     ForceExit,
+}
+
+impl From<SessionErrorKind> for SessionError {
+    fn from(kind: SessionErrorKind) -> Self {
+        Self { kind }
+    }
 }
 
 /// Error configuring a [`Session`].
@@ -98,7 +113,7 @@ enum SessionErrorRepr {
 pub struct SessionConfigError(#[from] adapter::ConnectionSettingsAdapterError);
 
 /// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
-#[derive(Error, Debug)]
+#[derive(Error, Debug, Eq, PartialEq)]
 #[error("{kind} (network attempt = {attempted})")]
 pub struct SessionExitError {
     attempted: bool,
@@ -319,13 +334,36 @@ impl Session {
         // NOTE: This task does not need to be cleaned up. It exits gracefully on its own,
         // without the need for explicit cancellation after Session is dropped at the end
         // of this method.
-        tokio::task::spawn(Session::receive(
+        let receive_jh = tokio::task::spawn(Session::receive(
             self.receiver
                 .take()
                 .expect("Receiver should always be present at start of run"),
             self.incoming_pub_dispatcher.clone(),
         ));
 
+        // NOTE: We have to clone this to access it after we send the rest of `self` into
+        // the connection runner task.
+        // Consider factoring out connection-related components into their own substruct
+        // to avoid this pattern, and some others (e.g. semantically odd Option fields, etc.)
+        let notify_force_exit = self.notify_force_exit.clone();
+
+        tokio::select! {
+            res = self.connection_runner() => {
+                res
+            }
+            _ = receive_jh => {
+                unreachable!("Receive task is not able to exit")
+            }
+            () = notify_force_exit.notified() => {
+                log::info!("Exiting Session non-gracefully due to application-issued force exit command");
+                log::info!("Note that the MQTT server may still retain the MQTT session");
+                Err(SessionErrorKind::ForceExit.into())
+            }
+        }
+    }
+
+    /// Keeps the connection alive until exit by session loss or reconnect policy halt.
+    async fn connection_runner(&mut self) -> Result<(), SessionError> {
         let mut clean_start = self.connect_parameters.initial_clean_start;
         let mut prev_connected = false;
         let mut prev_reconnection_attempts = 0;
@@ -347,7 +385,7 @@ impl Session {
                     }
                     log::info!("Reconnect policy has halted reconnection attempts");
                     log::info!("Exiting Session due to reconnection halt");
-                    return Err(SessionErrorRepr::ReconnectHalted.into());
+                    return Err(SessionErrorKind::ReconnectHalted.into());
                 }
             };
 
@@ -356,7 +394,7 @@ impl Session {
                 // TODO: try and disconnect here?
                 log::info!("MQTT session not present on connection");
                 log::info!("Exiting Session due to MQTT session loss");
-                return Err(SessionErrorRepr::SessionLost.into());
+                return Err(SessionErrorKind::SessionLost.into());
             }
 
             self.state.transition_connected();
@@ -383,9 +421,8 @@ impl Session {
             self.state.transition_disconnected();
             let connection_loss = match disconnected_event {
                 // User-initiated disconnect with exit handle
-                // TODO: Is this truly the only way this happens? I think so, but double-check
                 DisconnectedEvent::ApplicationDisconnect => {
-                    log::info!("Exiting Session due to application-issued end session");
+                    log::info!("Exiting Session gracefully due to application-issued exit command");
                     return Ok(());
                 }
                 DisconnectedEvent::ServerDisconnect(disconnect) => {
@@ -395,14 +432,18 @@ impl Session {
                 DisconnectedEvent::IoError(io_err) => ConnectionLossReason::IoError(io_err),
                 DisconnectedEvent::ProtocolError(proto_err) => {
                     ConnectionLossReason::ProtocolError(proto_err)
-                } // TODO: how to handle force exit from exit handle?
+                }
             };
-            match self
+            if let Some(delay) = self
                 .reconnect_policy
                 .connection_loss_reconnect_delay(&connection_loss)
             {
-                Some(delay) => tokio::time::sleep(delay).await,
-                None => return Err(SessionErrorRepr::ReconnectHalted.into()),
+                log::debug!("Reconnecting in {delay:?}...");
+                tokio::time::sleep(delay).await;
+            } else {
+                log::info!("Reconnect policy has halted reconnection attempts");
+                log::info!("Exiting Session due to reconnection halt");
+                return Err(SessionErrorKind::ReconnectHalted.into());
             }
         }
     }
@@ -489,12 +530,12 @@ impl Session {
         }
     }
 
+    /// Receive incoming PUBLISH packets and dispatch them to receivers.
     async fn receive(
         mut receiver: azure_mqtt::client::Receiver,
         dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     ) {
         while let Some((publish, manual_ack)) = receiver.recv().await {
-            log::trace!("Incoming PUBLISH: {publish:?}"); // TODO: Remove, redundant with MQTT layer
             // Dispatch the message to receivers
             if dispatcher
                 .lock()
@@ -600,8 +641,7 @@ pub struct SessionExitHandle {
     /// The disconnector used to issue disconnect requests
     disconnect_handle: Weak<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
     /// Notifier for force exit
-    #[allow(dead_code)] // TODO: remove once implemented
-    force_exit: Arc<Notify>, // TODO: can this be a oneshot?
+    force_exit: Arc<Notify>,
 }
 
 impl SessionExitHandle {
@@ -645,9 +685,6 @@ impl SessionExitHandle {
                 attempted: false,
                 kind: SessionExitErrorKind::Detached,
             }))
-
-        // TODO: does the idea of an "attempted" exit even make sense anymore?
-        // Should MQTT client wait for server to close connection?
     }
 
     /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
@@ -658,10 +695,15 @@ impl SessionExitHandle {
     /// has ended.
     ///
     /// Returns true if the exit was graceful, and false if the exit was forced.
-    #[allow(clippy::unused_async)] // TODO: remove once implemented
-    pub async fn exit_force(&self) -> bool {
-        // TODO: once this is implemented, change METL tests back to using this instead of try_exit().unwrap()
-        unimplemented!()
+    #[allow(clippy::must_use_candidate)]
+    pub fn force_exit(&self) -> bool {
+        if self.try_exit().is_ok() {
+            true
+        } else {
+            log::debug!("Session not connected, forcing exit immediately");
+            self.force_exit.notify_one();
+            false
+        }
     }
 }
 
@@ -670,7 +712,7 @@ impl SessionExitHandle {
 /// This is largely for informational purposes.
 #[derive(Clone)]
 pub struct SessionMonitor {
-    state: Arc<SessionState>, // TODO: should this be a weakref?
+    state: Arc<SessionState>,
 }
 
 impl SessionMonitor {

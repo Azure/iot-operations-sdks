@@ -10,29 +10,29 @@ A `prologue` region is always required, but `actions` and `epilogue` are optiona
 For example, following is a small but complete test case, which verifies only successful initialization:
 
 ```yaml
-test-name: CommandExecutorRequestTopicCommandNameWithoutReplacement_StartsSuccessfully
+test-name: TelemetryReceiverValidTopicNamespace_StartsSuccessfully
 description:
   condition: >-
-    CommandExecutor request topic contains a '{commandName}' token no command name replacement is specified.
+    TelemetryReceiver initialized with a topic namespace that is valid.
   expect: >-
-    CommandExecutor starts successfully.
+    TelemetryReceiver starts successfully.
 prologue:
-  executors:
-  - request-topic: "mock/{commandName}/test"
+  receivers:
+  - topic-namespace: "valid/namespace"
 ```
 
 A common use for `prologue`-only cases is to test initialization error-checking:
 
 ```yaml
-test-name: CommandInvokerInvalidResponseTopicSuffix_ThrowsException_Attenuated
+test-name: CommandInvokerInvalidResponseTopicPrefix_ThrowsException_Attenuated
 description:
   condition: >-
-    CommandInvoker initialized with a response topic suffix that is invalid.
+    CommandInvoker initialized with a response topic prefix that is invalid.
   expect: >-
     CommandInvoker throws 'invalid configuration' exception; error details unchecked.
 prologue:
   invokers:
-  - response-topic-suffix: "suffix/{in/valid}"
+  - response-topic-prefix: "prefix/{in/valid}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
@@ -42,24 +42,24 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetryReceiverReceivesWrongContentType_NotRelayed
+test-name: TelemetrySenderSend_TimeoutPropagated
 description:
   condition: >-
-    TelemetryReceiver receives telemetry with mismatched ContentType metadata.
+    TelemetrySender sends a Telemetry.
   expect: >-
-    TelemetryReceiver does not relay telemetry to user code.
+    TelemetrySender copies Telemetry timout value into message expiry interval.
 prologue:
-  receivers:
+  senders:
   - { }
 actions:
-- action: receive telemetry
-  content-type: "raw/0"
-  packet-index: 0
-- action: await acknowledgement
-  packet-index: 0
+- action: send telemetry
+  timeout: { seconds: 3 }
+- action: await publish
+- action: await send
 epilogue:
-  acknowledgement-count: 1
-  telemetry-count: 0
+  published-messages:
+  - topic: "mock/test"
+    expiry: 3
 ```
 
 ### Key/value kinds
@@ -424,7 +424,7 @@ An `await publish` action causes the test system to wait for the CommandExecutor
 
 ```yaml
 - action: await publish
-  correlation-index: 1
+  correlation-index: 0
 ```
 
 When the value of the `action` key is `await publish`, the following sibling keys are also available:
@@ -488,14 +488,14 @@ Following is an example CommandInvoker prologue:
 ```yaml
 prologue:
   invokers:
-  - request-topic: "mock/{in/valid}/test"
+  - response-topic-suffix: "suffix/{in/valid}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'requesttopicpattern'
-      property-value: "mock/{in/valid}/test"
+      property-name: 'responsetopicsuffix'
+      property-value: "suffix/{in/valid}"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -793,14 +793,14 @@ Following is an example TelemetryReceiver prologue:
 ```yaml
 prologue:
   receivers:
-  - telemetry-topic: ""
+  - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'topicpattern'
-      property-value: ""
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -838,7 +838,7 @@ The 'serializer' key provides configuration settings for the test serializer ass
 ```yaml
   receivers:
   - serializer:
-      accept-content-types: [ "", "non.conforming" ]
+      fail-deserialization: true
 ```
 
 A TelemetryReceiver serializer can have the following child keys:
@@ -861,7 +861,7 @@ Following is an example TelemetryReceiver epilogue:
 epilogue:
   telemetry-count: 1
   subscribed-topics:
-  - "mock/dtmi:test:MyModel;1/test/+"
+  - "this/is/a/namespace/mock/dtmi:test:MyModel;1/test/+"
   acknowledgement-count: 1
   received-telemetries:
   - telemetry-value: "Test_Telemetry"
@@ -957,7 +957,7 @@ A `receive telemetry` action causes the TelemetryReceiver to receive a telemetry
   metadata:
     "id": "dtmi:test:someAssignedId;1"
     "source": "dtmi:test:myEventSource;1"
-    "type": ""
+    "type": "test-type"
     "specversion": "1.0"
     "time": "1955-11-12T22:04:00Z"
     "subject": "mock/test"
@@ -1315,7 +1315,7 @@ The value of `mqtt-config` provides MQTT client configuration settings, as in th
 
 ```yaml
   mqtt-config:
-    client-id: "ThisInvokerId"
+    client-id: "MySenderClientId"
 ```
 
 The MQTT configuration can have the following child keys:
@@ -1391,7 +1391,7 @@ See the [error model document](../../reference/error-model.md) for further detai
 A Duration defines a span of time, as in the following example:
 
 ```yaml
-  message-expiry: { seconds: 10 }
+  message-expiry: # null omits header
 ```
 
 By convention, this object is written in YAML flow style.

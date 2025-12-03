@@ -147,7 +147,7 @@ async fn qos1_single_receiver_test_logic(
     assert_eq!(receiver.recv().await.unwrap(), expected_publish1);
 
     // Expect PUBACK for QoS 1 (auto-acked by recv())
-    let puback = mock_server.expect_puback_and_return().await;
+    let puback = mock_server.expect_puback().await;
     assert_eq!(puback.packet_identifier, 1);
     assert_eq!(puback.reason_code, mqtt_proto::PubAckReasonCode::Success);
 
@@ -173,7 +173,7 @@ async fn qos1_single_receiver_test_logic(
     // PUBACK has not yet been sent until manually acknowledged via AckToken
     mock_server.expect_no_packet();
     acktoken.ack().await.unwrap().await.unwrap();
-    let puback = mock_server.expect_puback_and_return().await;
+    let puback = mock_server.expect_puback().await;
     assert_eq!(puback.packet_identifier, 2);
     assert_eq!(puback.reason_code, mqtt_proto::PubAckReasonCode::Success);
 
@@ -198,7 +198,7 @@ async fn qos1_single_receiver_test_logic(
     // PUBACK has not yet been sent until the AckToken is dropped
     mock_server.expect_no_packet();
     drop(acktoken);
-    let puback = mock_server.expect_puback_and_return().await;
+    let puback = mock_server.expect_puback().await;
     assert_eq!(puback.packet_identifier, 3);
     assert_eq!(puback.reason_code, mqtt_proto::PubAckReasonCode::Success);
 
@@ -260,15 +260,15 @@ async fn qos1_single_receiver_test_logic(
     assert_pending!(ct6.poll()); // Completion token for PUBACK 6 not ready yet
     let ct4 = acktoken4.ack().await.unwrap(); // ACK Publish 4
     ct4.await.unwrap(); // Wait for PUBACK 4 to complete
-    let puback4 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 4
+    let puback4 = mock_server.expect_puback().await; // PUBACK for Publish 4
     assert_eq!(puback4.packet_identifier, 4);
     assert_pending!(ct6.poll()); // Completion token for PUBACK 6 not ready yet
     let ct5 = acktoken5.ack().await.unwrap(); // ACK Publish 5
     ct5.await.unwrap(); // Wait for PUBACK 5 to complete
-    let puback5 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 5
+    let puback5 = mock_server.expect_puback().await; // PUBACK for Publish 5
     assert_eq!(puback5.packet_identifier, 5);
     ct6.await.unwrap(); // Wait for PUBACK 6 to complete
-    let puback6 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 6
+    let puback6 = mock_server.expect_puback().await; // PUBACK for Publish 6
     assert_eq!(puback6.packet_identifier, 6);
 
     ///////////// Multiple messages (unordered acks) using recv_manual_ack() with dropped AckTokens /////////////
@@ -326,12 +326,12 @@ async fn qos1_single_receiver_test_logic(
     drop(acktoken9);
     mock_server.expect_no_packet(); // No PUBACK yet for Publish 9
     drop(acktoken7);
-    let puback7 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 7
+    let puback7 = mock_server.expect_puback().await; // PUBACK for Publish 7
     assert_eq!(puback7.packet_identifier, 7);
     drop(acktoken8);
-    let puback8 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 8
+    let puback8 = mock_server.expect_puback().await; // PUBACK for Publish 8
     assert_eq!(puback8.packet_identifier, 8);
-    let puback9 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 9
+    let puback9 = mock_server.expect_puback().await; // PUBACK for Publish 9
     assert_eq!(puback9.packet_identifier, 9);
 
     // Validate that there are no other lingering packets

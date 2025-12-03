@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public interface IAdrClientWrapper : IAsyncDisposable
+    public interface IAzureDeviceRegistryClientWrapper : IAsyncDisposable
     {
         /// <summary>
         /// Executes whenever a asset is created, updated, or deleted.
@@ -94,15 +94,52 @@ namespace Azure.Iot.Operations.Connector
         /// <returns>The names of all available devices</returns>
         IEnumerable<string> GetDeviceNames();
 
+
         /// <summary>
-        /// Updates the status of a specific asset.
+        /// Retrieves the status of a specific device.
         /// </summary>
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
-        /// <param name="request">The request containing asset status update parameters.</param>
         /// <param name="commandTimeout">Optional timeout for the command.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
-        /// <returns>A task that represents the asynchronous operation, containing the updated asset details.</returns>
+        /// <returns>The status returned by the Azure Device Registry service.</returns>
+        Task<DeviceStatus> GetDeviceStatusAsync(
+            string deviceName,
+            string inboundEndpointName,
+            TimeSpan? commandTimeout = null,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves the status of a specific asset.
+        /// </summary>
+        /// <param name="deviceName">The name of the device.</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+        /// <param name="assetName">The name of the asset.</param>
+        /// <param name="commandTimeout">Optional timeout for the command.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>The status returned by the Azure Device Registry service.</returns>
+        Task<AssetStatus> GetAssetStatusAsync(
+            string deviceName,
+            string inboundEndpointName,
+            string assetName,
+            TimeSpan? commandTimeout = null,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Updates the status of a specific asset.
+        /// </summary>
+        /// <param name="deviceName">The name of the device the asset belongs to.</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint the asset belongs to.</param>
+        /// <param name="request">The new status of this asset and its datasets/event groups/streams/management groups.</param>
+        /// <param name="commandTimeout">The timeout for this RPC command invocation.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The status returned by the Azure Device Registry service.</returns>
+        /// <remarks>
+        /// This update behaves like a 'put' in that it will replace all current state for this asset in the Azure
+        /// Device Registry service with what is provided. It is generally recommended to use <see cref="GetAssetStatusAsync(string, string, string, TimeSpan?, CancellationToken)"/>
+        /// to fetch the current status, patch that status, and then provide it in <paramref name="request"/> to ensure
+        /// that no current asset status is lost.
+        /// </remarks>
         Task<AssetStatus> UpdateAssetStatusAsync(
             string deviceName,
             string inboundEndpointName,
@@ -111,14 +148,19 @@ namespace Azure.Iot.Operations.Connector
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Updates the status of a specific device.
+        /// Update the status of a specific device in the Azure Device Registry service.
         /// </summary>
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
         /// <param name="status">The new status of the device.</param>
         /// <param name="commandTimeout">Optional timeout for the command.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
-        /// <returns>A task that represents the asynchronous operation, containing the updated device details.</returns>
+        /// <returns>The status returned by the Azure Device Registry service</returns>
+        /// <remarks>
+        /// This update call will act as a patch for all endpoint level statuses, but will act as a put for the device-level status.
+        /// That means that, for devices with multiple endpoints, you can safely call this method when each endpoint has a status to
+        /// report without needing to include the existing status of previously reported endpoints.
+        /// </remarks>
         Task<DeviceStatus> UpdateDeviceStatusAsync(
             string deviceName,
             string inboundEndpointName,

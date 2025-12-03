@@ -487,7 +487,6 @@ where
         };
 
         // Send publish
-        // TODO: use actual QoS value once API is nailed down
         match message.qos {
             azure_iot_operations_mqtt::control_packet::QoS::AtMostOnce => {
                 let publish_result = self

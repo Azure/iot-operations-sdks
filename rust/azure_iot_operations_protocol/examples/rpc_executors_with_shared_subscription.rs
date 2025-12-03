@@ -64,14 +64,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             // Run Executor loop
             let result = increment_executor_loop(executor1, CLIENT_ID_1, counter_clone).await;
             // Exit Session if done
-            exit(exit_handle1, CLIENT_ID_1).await;
+            exit(&exit_handle1, CLIENT_ID_1);
             result
         },
         async {
             // Run Executor loop
             let result = increment_executor_loop(executor2, CLIENT_ID_2, counter).await;
             // Exit Session if done
-            exit(exit_handle2, CLIENT_ID_2).await;
+            exit(&exit_handle2, CLIENT_ID_2);
             result
         },
         session1.run(),
@@ -170,14 +170,14 @@ async fn increment_executor_loop(
 }
 
 // Exit the Session
-async fn exit(exit_handle: SessionExitHandle, client_id: &str) {
+fn exit(exit_handle: &SessionExitHandle, client_id: &str) {
     log::info!("{client_id}: Exiting session");
     match exit_handle.try_exit() {
         Ok(()) => log::info!("{client_id}: Session exited gracefully"),
         Err(e) => {
             log::error!("{client_id}: Graceful session exit failed: {e}");
             log::warn!("{client_id}: Forcing session exit");
-            exit_handle.exit_force().await;
+            exit_handle.force_exit();
         }
     }
 }
