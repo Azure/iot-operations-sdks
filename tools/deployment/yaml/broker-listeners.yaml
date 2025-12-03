@@ -56,7 +56,7 @@ spec:
   serviceType: loadBalancer
   ports:
     - port: 1883
-    - port: 1884
+    - port: 1887
       authenticationRef: default-x509 # x509 auth without TLS
     - port: 8883
       authenticationRef: default-x509
