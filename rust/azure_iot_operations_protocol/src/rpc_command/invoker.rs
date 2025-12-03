@@ -881,7 +881,6 @@ where
             .subscribe(
                 self.response_topic_filter.clone(),
                 QoS::AtLeastOnce,
-                // TODO: validate these are the right settings
                 false,
                 azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
                 azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),

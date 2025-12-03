@@ -23,8 +23,6 @@ use crate::test_utils::InjectedPacketChannels;
 
 type ClientCert = (X509, PKey<Private>, Vec<X509>);
 
-// TODO: This error story needs improvement once we find out how much of this
-// adapter code will stay after TLS dependency changes.
 #[derive(Error, Debug)]
 #[error("{msg}: {field}")]
 pub struct ConnectionSettingsAdapterError {
@@ -34,7 +32,6 @@ pub struct ConnectionSettingsAdapterError {
     source: Option<Box<dyn std::error::Error>>,
 }
 
-// TODO: As above, this will potentially be updated once final TLS implementation takes shape
 #[derive(Debug)]
 pub enum ConnectionSettingsField {
     SessionExpiry(Duration),
@@ -695,6 +692,4 @@ mod tests {
             u32::MAX
         );
     }
-
-    // TODO: Add a test for SAT reading the SAT token
 }
