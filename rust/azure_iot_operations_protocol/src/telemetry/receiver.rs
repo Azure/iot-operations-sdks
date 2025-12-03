@@ -545,7 +545,6 @@ where
             .subscribe(
                 self.telemetry_topic.clone(),
                 QoS::AtLeastOnce,
-                // TODO: validate these are the right settings
                 false,
                 azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
                 azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),
@@ -626,7 +625,8 @@ where
                     // Get pkid for logging
                     let pkid = match m.qos {
                         azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtMostOnce => {
-                            // TODO: maybe we should log with something else, but this matches old behavior
+                            // CONSIDER: maybe we should log with something else, but this matches old behavior
+                            // QoS0 doesn't have a packet id, but 0 isn't a valid packet id, and rumqttc used to use 0
                             0
                         }
                         azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtLeastOnce(

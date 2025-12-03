@@ -59,7 +59,6 @@ pub type PublishRx = UnboundedReceiver<(Publish, Option<AckToken>)>;
 
 #[derive(Default)]
 pub struct IncomingPublishDispatcher {
-    // TODO: name?
     filtered_txs: HashMap<TopicFilter, Vec<PublishTx>>,
     unfiltered_txs: Vec<PublishTx>,
 }

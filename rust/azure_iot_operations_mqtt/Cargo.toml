@@ -12,7 +12,7 @@ readme = "README.md"
 publish = true
 
 [dependencies]
-anyhow = "1.0.86"                                                                   # TODO: reconsider inclusion once TLS library is finalized
+anyhow = "1.0.86"
 async-trait = "0.1.81"
 azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "67a474df878ce97f5558a08da2023d036bff5de7" }
 bytes.workspace = true

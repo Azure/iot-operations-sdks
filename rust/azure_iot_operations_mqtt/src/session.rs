@@ -239,7 +239,7 @@ impl Session {
         let client_id = options.connection_settings.client_id.clone();
 
         // Add AIO metric and features to user properties when using AIO MQTT broker features
-        // TODO: consider user properties from being supported on SessionOptions or ConnectionSettings
+        // CONSIDER: user properties from being supported on SessionOptions or ConnectionSettings
         let user_properties = if let Some(features) = options.aio_broker_features {
             let mut user_properties =
                 vec![("metriccategory".to_string(), "aiosdk-rust".to_string())];
@@ -252,7 +252,7 @@ impl Session {
         };
 
         // Create AuthPolicy if SAT file is provided
-        // TODO: This would ideally come directly from the SessionOptions instead of MQTT connection settings
+        // CONSIDER: This would ideally come directly from the SessionOptions instead of MQTT connection settings
         let auth_policy = options
             .connection_settings
             .sat_file
@@ -280,7 +280,7 @@ impl Session {
 
         Ok(Self {
             client,
-            // TODO: Ideally, receiver would not be Option, but it's done this way to keep the borrow checker happy.
+            // CONSIDER: Ideally, receiver would not be Option, but it's done this way to keep the borrow checker happy.
             // The more correct solution is to add internal substructs to Session that allow mutability to be scoped better.
             receiver: Some(receiver),
             connect_handle: Some(connect_handle),

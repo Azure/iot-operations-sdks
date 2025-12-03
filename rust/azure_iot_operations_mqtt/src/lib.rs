@@ -18,7 +18,7 @@ pub mod error;
 pub mod session;
 pub mod token;
 
-mod azure_mqtt_adapter; // TODO: Maybe not needed in new client integration
+mod azure_mqtt_adapter;
 
 #[cfg(feature = "test-utils")]
 pub mod test_utils;
