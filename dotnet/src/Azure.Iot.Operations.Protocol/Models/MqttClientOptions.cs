@@ -47,36 +47,37 @@ namespace Azure.Iot.Operations.Protocol.Models
                 AddUserProperty("tokenFilePath", cs.SatAuthFile);
             }
 
-            ChannelOptions = new MqttClientTcpOptions(cs.HostName, cs.TcpPort)
+            if (!cs.UseTls)
             {
-                TlsOptions = new MqttClientTlsOptions()
+                ChannelOptions = new MqttClientTcpOptions(cs.HostName, cs.TcpPort)
                 {
-                    UseTls = cs.UseTls,
-                }
-            };
+                    TlsOptions = new MqttClientTlsOptions()
+                    {
+                        UseTls = false
+                    }
+                };
+            }
+            else
+            {
+                try
+                {
+                    MqttClientTlsOptions tlsParams = new()
+                    {
+                        SslProtocol = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13
+                    };
 
-            try
-            {
-                if (cs.UseTls && (cs.TrustChain != null|| cs.CaFile != null))
-                {
-                    ChannelOptions.TlsOptions.SslProtocol = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13;
                     X509Certificate2Collection caCerts = [];
                     if (cs.TrustChain != null)
                     {
-                        ChannelOptions.TlsOptions.TrustChain = cs.TrustChain;
+                        tlsParams.TrustChain = cs.TrustChain;
                     }
                     else if (!string.IsNullOrEmpty(cs.CaFile))
                     {
                         caCerts.ImportFromPemFile(cs.CaFile);
-                        ChannelOptions.TlsOptions.TrustChain = caCerts;
-                        ChannelOptions.TlsOptions.RevocationMode = X509RevocationMode.NoCheck;
+                        tlsParams.TrustChain = caCerts;
+                        tlsParams.RevocationMode = X509RevocationMode.NoCheck;
                     }
-                }
 
-                if (!string.IsNullOrEmpty(cs.CertFile)
-                    || !string.IsNullOrEmpty(cs.KeyFile)
-                    || cs.ClientCertificate is not null)
-                {
                     List<X509Certificate2> certs = [];
                     if (!string.IsNullOrEmpty(cs.CertFile) && !string.IsNullOrEmpty(cs.KeyFile))
                     {
@@ -93,23 +94,29 @@ namespace Azure.Iot.Operations.Protocol.Models
                         certs.Add(cs.ClientCertificate);
                     }
 
-                    ChannelOptions.TlsOptions.ClientCertificatesProvider = new DefaultMqttCertificatesProvider(certs);
+                    tlsParams.ClientCertificatesProvider = new DefaultMqttCertificatesProvider(certs);
+                    tlsParams.UseTls = true;
+
+                    ChannelOptions = new MqttClientTcpOptions(cs.HostName, cs.TcpPort)
+                    {
+                        TlsOptions = tlsParams,
+                    };
                 }
-            }
-            catch (SecurityException ex) // cert is missing private key
-            {
-                throw AkriMqttException.GetConfigurationInvalidException(nameof(MqttConnectionSettings), cs, ex.Message, ex);
-            }
-            catch (ArgumentException ex) // cert expired
-            {
-                throw new AkriMqttException(ex.Message, ex)
+                catch (SecurityException ex) // cert is missing private key
                 {
-                    Kind = AkriMqttErrorKind.StateInvalid,
-                    IsShallow = true,
-                    IsRemote = false,
-                    PropertyName = nameof(MqttConnectionSettings),
-                    PropertyValue = cs,
-                };
+                    throw AkriMqttException.GetConfigurationInvalidException(nameof(MqttConnectionSettings), cs, ex.Message, ex);
+                }
+                catch (ArgumentException ex) // cert expired
+                {
+                    throw new AkriMqttException(ex.Message, ex)
+                    {
+                        Kind = AkriMqttErrorKind.StateInvalid,
+                        IsShallow = true,
+                        IsRemote = false,
+                        PropertyName = nameof(MqttConnectionSettings),
+                        PropertyValue = cs,
+                    };
+                }
             }
         }
 
