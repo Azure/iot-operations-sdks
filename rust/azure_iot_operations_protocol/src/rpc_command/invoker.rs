@@ -904,7 +904,7 @@ where
                     }
                     Err(e) => {
                         log::error!(
-                            "[{}] IInvoker subscribe completion error: {e}",
+                            "[{}] Invoker subscribe completion error: {e}",
                             self.command_name
                         );
                         return Err(AIOProtocolError::new_mqtt_error(
@@ -917,7 +917,7 @@ where
             }
             Err(e) => {
                 log::error!(
-                    "[{}] Invoker client error while subscribing: {e}",
+                    "[{}] Client error while subscribing in Invoker: {e}",
                     self.command_name
                 );
                 return Err(AIOProtocolError::new_mqtt_error(
@@ -1078,7 +1078,7 @@ where
                                         })
                                     },
                                     Err(e) => {
-                                        log::error!("[{command_name}] Invoker publish completion error: {e}");
+                                        log::error!("[{command_name}] Command Request publish completion error: {e}");
                                         Err(AIOProtocolError::new_mqtt_error(
                                             Some("MQTT Error on command invoke publish".to_string()),
                                             Box::new(e),
@@ -1090,7 +1090,9 @@ where
                         }
                     }
                     Err(e) => {
-                        log::error!("[{command_name}] Invoker client error while publishing: {e}");
+                        log::error!(
+                            "[{command_name}] Client error while publishing Invoker Command Request: {e}"
+                        );
                         Err(AIOProtocolError::new_mqtt_error(
                             Some("Client error on command invoker request publish".to_string()),
                             Box::new(e),
@@ -1156,7 +1158,7 @@ where
                                 }
                                 Err(RecvError::Closed) => {
                                     log::error!(
-                                        "[{command_name}] MQTT Receiver has been cleaned up and will no longer send a response"
+                                        "[{command_name}] Invoker MQTT Receiver has been cleaned up and will no longer send a response"
                                     );
                                     return Err(AIOProtocolError::new_cancellation_error(
                                         false,
@@ -1233,7 +1235,7 @@ where
                   // The loop will continue to receive any more publishes that are already in the queue
                   () = shutdown_notifier.notified() => {
                     mqtt_receiver.close();
-                    log::info!("[{command_name}] MQTT Receiver closed");
+                    log::info!("[{command_name}] Invoker MQTT Receiver closed");
                   },
                   recv_result = mqtt_receiver.recv_manual_ack() => {
                     if let Some((m, ack_token)) = recv_result {
@@ -1241,7 +1243,7 @@ where
                         match response_tx.send(Some(m)) {
                             Ok(_) => { },
                             Err(e) => {
-                                log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
+                                log::debug!("[{command_name}] Command Response ignored, no pending commands: {e}");
                             }
                         }
                         // Manually ack
@@ -1254,11 +1256,11 @@ where
                                         Ok(ack_ct) => {
                                             match ack_ct.await {
                                                 Ok(()) => { },
-                                                Err(e) => log::error!("[{command_name_clone}] Error acking message: {e}"),
+                                                Err(e) => log::warn!("[{command_name_clone}] Error acking command response: {e}"),
                                             }
                                         },
                                         Err(e) => {
-                                            log::error!("[{command_name_clone}] Error acking message: {e}");
+                                            log::warn!("[{command_name_clone}] Error acking command response: {e}");
                                         }
                                     }
                                 }
@@ -1308,7 +1310,10 @@ where
                     Ok(unsub_completion_token) => match unsub_completion_token.await {
                         Ok(unsuback) => {
                             unsuback.as_result().map_err(|e| {
-                                log::error!("[{}] Unsuback error: {unsuback:?}", self.command_name);
+                                log::error!(
+                                    "[{}] Invoker Unsuback error: {unsuback:?}",
+                                    self.command_name
+                                );
                                 AIOProtocolError::new_mqtt_error(
                                     Some("MQTT error on command invoker unsuback".to_string()),
                                     Box::new(e),
@@ -1318,7 +1323,7 @@ where
                         }
                         Err(e) => {
                             log::error!(
-                                "[{}] Unsubscribe completion error: {e}",
+                                "[{}] Invoker Unsubscribe completion error: {e}",
                                 self.command_name
                             );
                             return Err(AIOProtocolError::new_mqtt_error(
@@ -1330,7 +1335,7 @@ where
                     },
                     Err(e) => {
                         log::error!(
-                            "[{}] Client error while unsubscribing: {e}",
+                            "[{}] Client error while unsubscribing in Invoker: {e}",
                             self.command_name
                         );
                         return Err(AIOProtocolError::new_mqtt_error(
@@ -1343,7 +1348,7 @@ where
             }
         }
 
-        log::info!("[{}] Shutdown", self.command_name);
+        log::info!("[{}] Command Invoker Shutdown", self.command_name);
         // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
         *invoker_state_mutex_guard = State::ShutdownSuccessful;
         Ok(())
@@ -1366,7 +1371,7 @@ where
 
         // Notify the receiver loop to close the MQTT receiver
         self.shutdown_notifier.notify_one();
-        log::info!("[{}] Invoker has been dropped", self.command_name);
+        log::info!("[{}] Command Invoker has been dropped", self.command_name);
     }
 }
 
@@ -1392,11 +1397,11 @@ async fn drop_unsubscribe(
             {
                 Ok(_) => {
                     log::debug!(
-                        "Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending."
+                        "Invoker Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending."
                     );
                 }
                 Err(e) => {
-                    log::error!("Unsubscribe error on topic {unsubscribe_filter}: {e}");
+                    log::warn!("Invoker Unsubscribe error on topic {unsubscribe_filter}: {e}");
                 }
             }
         }
@@ -1415,7 +1420,7 @@ async fn flatten<T>(
         Ok(Err(e)) => Err(e),
         Err(e) => {
             // tasks can't panic
-            log::error!("Join Error: {e}");
+            log::error!("Invoker Join Error: {e}");
             unreachable!()
         }
     }

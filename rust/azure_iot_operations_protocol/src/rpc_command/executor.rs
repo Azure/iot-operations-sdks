@@ -581,7 +581,10 @@ where
                                 self.state = State::ShutdownSuccessful;
                             }
                             Err(e) => {
-                                log::error!("[{}] Unsuback error: {unsuback:?}", self.command_name);
+                                log::error!(
+                                    "[{}] Executor nsuback error: {unsuback:?}",
+                                    self.command_name
+                                );
                                 return Err(AIOProtocolError::new_mqtt_error(
                                     Some("MQTT error on command executor unsuback".to_string()),
                                     Box::new(e),
@@ -591,7 +594,7 @@ where
                         },
                         Err(e) => {
                             log::error!(
-                                "[{}] Unsubscribe completion error: {e}",
+                                "[{}] Executor unsubscribe completion error: {e}",
                                 self.command_name
                             );
                             return Err(AIOProtocolError::new_mqtt_error(
@@ -603,7 +606,7 @@ where
                     },
                     Err(e) => {
                         log::error!(
-                            "[{}] Client error while unsubscribing: {e}",
+                            "[{}] Client error while unsubscribing in Executor: {e}",
                             self.command_name
                         );
                         return Err(AIOProtocolError::new_mqtt_error(
@@ -615,7 +618,7 @@ where
                 }
             }
         }
-        log::info!("[{}] Shutdown", self.command_name);
+        log::info!("[{}] Executor Shutdown", self.command_name);
         Ok(())
     }
 
@@ -664,7 +667,7 @@ where
             },
             Err(e) => {
                 log::error!(
-                    "[{}] Executor client error while subscribing: {e}",
+                    "[{}] Client error while subscribing in Executor: {e}",
                     self.command_name
                 );
                 return Err(AIOProtocolError::new_mqtt_error(
@@ -706,14 +709,20 @@ where
                     let Some(ack_token) = ack_token else {
                         // No ack token, ignore the message. This should never happen as the executor
                         // should always receive QoS 1 messages that have an ack token.
-                        log::warn!("[{}] Received message without ack token", self.command_name);
+                        log::warn!(
+                            "[{}] Received command request without ack token",
+                            self.command_name
+                        );
                         continue;
                     };
                     let pkid = match m.qos {
                         azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtMostOnce
                         | azure_iot_operations_mqtt::control_packet::DeliveryQoS::ExactlyOnce(_) => {
                             // This should never happen as the executor should always receive QoS 1 messages
-                            log::warn!("[{}] Received non QoS 1 message", self.command_name);
+                            log::warn!(
+                                "[{}] Received non QoS 1 command request",
+                                self.command_name
+                            );
                             continue;
                         }
                         azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtLeastOnce(
@@ -977,7 +986,7 @@ where
                                     /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
                                     // Don't return error, although above properties shouldn't be in the request
                                     log::warn!(
-                                        "[{}] Request should not contain MQTT user property {key}. Value is {value}",
+                                        "[{}] Command request should not contain MQTT user property {key}. Value is {value}",
                                         self.command_name
                                     );
                                     user_data.push((key, value));
@@ -1195,21 +1204,21 @@ where
                 match publish_completion_token.await {
                     Ok(puback) => {
                         if !puback.is_success() {
-                            log::error!(
-                                "[{command_name}][pkid: {pkid}] Puback error on cached response: {puback:?}"
+                            log::warn!(
+                                "[{command_name}][pkid: {pkid}] Puback error on cached command response: {puback:?}"
                             );
                         }
                     }
                     Err(e) => {
-                        log::error!(
-                            "[{command_name}][pkid: {pkid}] Publish completion error on cached response: {e}"
+                        log::warn!(
+                            "[{command_name}][pkid: {pkid}] Publish completion error on cached command response: {e}"
                         );
                     }
                 }
             }
             Err(e) => {
-                log::error!(
-                    "[{command_name}][pkid: {pkid}] Client error on cached response publish: {e}"
+                log::warn!(
+                    "[{command_name}][pkid: {pkid}] Client error on cached command response publish: {e}"
                 );
             }
         }
@@ -1257,9 +1266,8 @@ where
                         break 'process_response;
                     }
                 } else {
-                    // TODO: does this return to the application (should be err) or not (should be warn)?
-                    log::error!(
-                        "[{}][pkid: {}] Request timed out",
+                    log::warn!(
+                        "[{}][pkid: {}] Command request timed out",
                         response_arguments.command_name,
                         pkid
                     );
@@ -1378,9 +1386,8 @@ where
                     publish_properties.message_expiry_interval =
                         Some(response_message_expiry_interval);
                 } else {
-                    // TODO: does this return to the application (should be err) or not (should be warn)?
-                    log::error!(
-                        "[{}][pkid: {}] Request timed out",
+                    log::warn!(
+                        "[{}][pkid: {}] Command request timed out",
                         response_arguments.command_name,
                         pkid
                     );
@@ -1451,7 +1458,7 @@ where
                             }
                             Err(e) => {
                                 log::error!(
-                                    "[{}][pkid: {}] Puback error: {puback:?}",
+                                    "[{}][pkid: {}] Command response Puback error: {puback:?}",
                                     response_arguments.command_name,
                                     pkid
                                 );
@@ -1472,7 +1479,7 @@ where
                     }
                     Err(e) => {
                         log::error!(
-                            "[{}][pkid: {}] Publish completion error: {e}",
+                            "[{}][pkid: {}] Command response Publish completion error: {e}",
                             response_arguments.command_name,
                             pkid
                         );
@@ -1533,18 +1540,18 @@ where
                     {
                         Ok(_) => {
                             log::debug!(
-                                "Unsubscribe sent on topic {request_topic}. Unsuback may still be pending."
+                                "Executor Unsubscribe sent on topic {request_topic}. Unsuback may still be pending."
                             );
                         }
                         Err(e) => {
-                            log::error!("Unsubscribe error on topic {request_topic}: {e}");
+                            log::warn!("Executor Unsubscribe error on topic {request_topic}: {e}");
                         }
                     }
                 }
             });
         }
 
-        log::info!("[{}] Executor has been dropped", self.command_name);
+        log::info!("[{}] Command Executor has been dropped", self.command_name);
     }
 }
 
@@ -1595,23 +1602,23 @@ async fn handle_ack(
             match ack_res {
                 Ok(ack_ct) => {
                     match ack_ct.await {
-                        Ok(()) => log::debug!("[pkid: {pkid}] Acknowledged"),
+                        Ok(()) => log::debug!("[pkid: {pkid}] Command Request Acknowledged"),
                         Err(e) => {
                             match e {
                                 azure_iot_operations_mqtt::error::CompletionError::Detatched => {
-                                    log::error!("[pkid: {pkid}] Ack error: {e}");
+                                    log::warn!("[pkid: {pkid}] Command Request Ack error: {e}");
                                 },
                                 azure_iot_operations_mqtt::error::CompletionError::Cancelled => {
                                     // This means the executor will receive a future ack from the
                                     // session once the dupe comes in.
-                                    log::warn!("[pkid: {pkid}] Disconnected, ack cancelled");
+                                    log::warn!("[pkid: {pkid}] Disconnected, Command Request ack cancelled");
                                 },
                             }
                          }
                     }
                 },
                 Err(e) => {
-                    log::error!("[pkid: {pkid}] Ack error: {e}");
+                    log::warn!("[pkid: {pkid}] Command Request Ack error: {e}");
                 }
             }
         }
