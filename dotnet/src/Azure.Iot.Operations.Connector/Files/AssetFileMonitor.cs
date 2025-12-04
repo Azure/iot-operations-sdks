@@ -5,6 +5,7 @@ using Azure.Iot.Operations.Connector.Files.FilesMonitor;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using System.Collections.Concurrent;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Connector.Files
 {
@@ -171,10 +172,12 @@ namespace Azure.Iot.Operations.Connector.Files
                     }
                 };
 
+                Task.Delay(TimeSpan.FromMinutes(1)).Wait();
+
                 _deviceDirectoryMonitor.Start(_adrResourcesNameMountPath, null);
 
                 // Treat any devices created before this call as newly created
-                IEnumerable<string>? currentCompositeDeviceNames = GetCompositeDeviceNames();
+                /*IEnumerable<string>? currentCompositeDeviceNames = GetCompositeDeviceNames();
                 if (currentCompositeDeviceNames != null)
                 {
                     foreach (string compositeDeviceName in currentCompositeDeviceNames)
@@ -183,7 +186,7 @@ namespace Azure.Iot.Operations.Connector.Files
 
                         DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Created));
                     }
-                }
+                }*/
             }
         }
 
