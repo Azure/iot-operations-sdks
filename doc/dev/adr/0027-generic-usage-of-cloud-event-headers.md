@@ -43,6 +43,8 @@ public class MqttApplicationMessage
 {
   //...
 
+  // Note that this will override any content type already set on this message. The header docs
+  // per language must make this behavior explicit
   public void SetCloudEvent(CloudEvent cloudEvent);
 
   public CloudEvent? GetCloudEvent()
