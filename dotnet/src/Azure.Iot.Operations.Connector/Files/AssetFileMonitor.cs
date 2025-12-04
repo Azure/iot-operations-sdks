@@ -175,21 +175,6 @@ namespace Azure.Iot.Operations.Connector.Files
                 Task.Delay(TimeSpan.FromMinutes(1)).Wait();
 
                 _deviceDirectoryMonitor.Start(_adrResourcesNameMountPath, null);
-
-                if (_filesMonitorFactory is FsnotifyFilesMonitorFactory)
-                {
-                    // Treat any devices created before this call as newly created
-                    /*IEnumerable<string>? currentCompositeDeviceNames = GetCompositeDeviceNames();
-                    if (currentCompositeDeviceNames != null)
-                    {
-                        foreach (string compositeDeviceName in currentCompositeDeviceNames)
-                        {
-                            splitCompositeName(compositeDeviceName, out string deviceName, out string inboundEndpointName);
-
-                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Created));
-                        }
-                    }*/
-                }
             }
         }
 
@@ -257,26 +242,6 @@ namespace Azure.Iot.Operations.Connector.Files
             }
 
             return deviceNames;
-        }
-
-        private IEnumerable<string> GetCompositeDeviceNames()
-        {
-            HashSet<string> compositeDeviceNames = new(); // A device name can appear more than once when searching files, so don't use a list here.
-
-            if (Directory.Exists(_adrResourcesNameMountPath))
-            {
-                string[] files = Directory.GetFiles(_adrResourcesNameMountPath);
-                foreach (string fileNameWithPath in files)
-                {
-                    string fileName = Path.GetFileName(fileNameWithPath);
-                    if (isDeviceFile(fileName))
-                    {
-                        compositeDeviceNames.Add(fileName);
-                    }
-                }
-            }
-
-            return compositeDeviceNames;
         }
 
         /// <inheritdoc/>
