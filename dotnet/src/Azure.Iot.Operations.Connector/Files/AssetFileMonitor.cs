@@ -172,8 +172,6 @@ namespace Azure.Iot.Operations.Connector.Files
                     }
                 };
 
-                Task.Delay(TimeSpan.FromMinutes(1)).Wait();
-
                 _deviceDirectoryMonitor.Start(_adrResourcesNameMountPath, null);
             }
         }
