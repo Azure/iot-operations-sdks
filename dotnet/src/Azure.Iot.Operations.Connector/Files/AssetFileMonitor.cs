@@ -176,17 +176,20 @@ namespace Azure.Iot.Operations.Connector.Files
 
                 _deviceDirectoryMonitor.Start(_adrResourcesNameMountPath, null);
 
-                // Treat any devices created before this call as newly created
-                /*IEnumerable<string>? currentCompositeDeviceNames = GetCompositeDeviceNames();
-                if (currentCompositeDeviceNames != null)
+                if (_filesMonitorFactory is FsnotifyFilesMonitorFactory)
                 {
-                    foreach (string compositeDeviceName in currentCompositeDeviceNames)
+                    // Treat any devices created before this call as newly created
+                    /*IEnumerable<string>? currentCompositeDeviceNames = GetCompositeDeviceNames();
+                    if (currentCompositeDeviceNames != null)
                     {
-                        splitCompositeName(compositeDeviceName, out string deviceName, out string inboundEndpointName);
+                        foreach (string compositeDeviceName in currentCompositeDeviceNames)
+                        {
+                            splitCompositeName(compositeDeviceName, out string deviceName, out string inboundEndpointName);
 
-                        DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Created));
-                    }
-                }*/
+                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Created));
+                        }
+                    }*/
+                }
             }
         }
 
