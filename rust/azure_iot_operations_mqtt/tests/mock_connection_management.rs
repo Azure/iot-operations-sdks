@@ -527,7 +527,7 @@ async fn force_exit_while_connected() {
     assert_eq!(disconnect, session_end_disconnect());
     monitor.disconnected().await;
 
-    // Session was disconnected, and exited cleanly
+    // Session was ended, and exited cleanly
     assert!(run_f.await.unwrap().is_ok());
 }
 
@@ -572,4 +572,170 @@ async fn force_exit_while_disconnected() {
     // Session was exited forcibly
     let e = run_f.await.unwrap().unwrap_err();
     assert!(matches!(e.kind(), SessionErrorKind::ForceExit));
+}
+
+/// This test validates that a force exit can be done while a reauthentication is pending.
+#[tokio::test] // NOTE: This test WILL take > 20 seconds.
+async fn force_exit_during_reauth() {
+    let (connection_settings, session, mock_server, _, mock_sat_file) =
+        quick_setup_enhanced_sat_auth("test-force-exit-during-reauth-client");
+    let exit_handle = session.create_exit_handle();
+    let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
+
+    // Start the session run loop
+    let run_f = tokio::task::spawn(session.run());
+
+    // Validate that the CONNECT packet contains the expected values
+    let connect = mock_server.expect_connect_and_accept(true).await;
+    assert_eq!(
+        connect,
+        expected_connect_from_connection_settings(&connection_settings, false)
+    );
+
+    // Wait for connection to be established by Session in response to CONNACK
+    monitor.connected().await;
+
+    // Trigger reauthentication by updating the SAT file contents.
+    mock_sat_file.update_contents();
+
+    // Receive the AUTH packet on the server, but do not respond.
+    let auth = mock_server.expect_auth().await;
+    assert_eq!(auth, expected_reauth_from_sat_file(&mock_sat_file));
+
+    // Force exit while reauth is pending (i.e. have not responded with the server)
+    let graceful = exit_handle.force_exit();
+    assert!(graceful);
+
+    // Session was ended gracefully with DISCONNECT, and exited cleanly
+    let disconnect = mock_server.expect_disconnect().await;
+    assert_eq!(disconnect, session_end_disconnect());
+    monitor.disconnected().await;
+    assert!(run_f.await.unwrap().is_ok());
+
+    // Updating the SAT file after exit does not cause any AUTH packets to be sent
+    mock_sat_file.update_contents();
+    tokio::time::sleep(Duration::from_secs(11)).await;
+    mock_server.expect_no_packet();
+}
+
+/// Thist test validates that multiple SAT file updates does not cause multiple AUTH packets
+/// to be sent if done in rapid succession.
+/// TODO: If auth policy becomes more configurable, this could be tested at greater granularity,
+/// i.e. the exact threshold at which multiple AUTH packets would be sent.
+#[tokio::test] // NOTE: This test WILL take > 10 seconds.
+async fn multiple_reauths_single_connection() {
+    let (connection_settings, session, mock_server, _, mock_sat_file) =
+        quick_setup_enhanced_sat_auth("test-multiple-reauths-single-connection-client");
+    let exit_handle = session.create_exit_handle();
+    let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
+
+    // Start the session run loop
+    let run_f = tokio::task::spawn(session.run());
+
+    // Validate that the CONNECT packet contains the expected values
+    let connect = mock_server.expect_connect_and_accept(true).await;
+    assert_eq!(
+        connect,
+        expected_connect_from_connection_settings(&connection_settings, false)
+    );
+
+    // Wait for connection to be established by Session in response to CONNACK
+    monitor.connected().await;
+
+    // Trigger reauthentication by updating the SAT file contents multiple times
+    mock_sat_file.update_contents();
+    mock_sat_file.update_contents();
+    mock_sat_file.update_contents();
+
+    // Validate that a single AUTH packet is sent with the expected values
+    let auth = mock_server.expect_auth_and_accept().await;
+    assert_eq!(auth, expected_reauth_from_sat_file(&mock_sat_file));
+    tokio::time::sleep(Duration::from_secs(1)).await;
+    mock_server.expect_no_packet();
+
+    // End the session
+    assert_eq!(exit_handle.try_exit(), Ok(()));
+
+    // Validate that the DISCONNECT packet is sent and contains the expected values
+    let disconnect = mock_server.expect_disconnect().await;
+    assert_eq!(disconnect, session_end_disconnect());
+
+    // Session was disconnected, and exited cleanly
+    monitor.disconnected().await;
+    assert!(run_f.await.unwrap().is_ok());
+}
+
+/// This test exists to verify that the reauthentication task is properly cancelled on disconnect,
+/// and does not persist across connections.
+#[tokio::test] // NOTE: This test WILL take > 30 seconds.
+async fn reauth_on_successive_connections() {
+    let (connection_settings, session, mock_server, _, mock_sat_file) =
+        quick_setup_enhanced_sat_auth("test-reauth-on-successive-connections-client");
+    let exit_handle = session.create_exit_handle();
+    let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
+
+    // Start the session run loop
+    let run_f = tokio::task::spawn(session.run());
+
+    // Validate that the CONNECT packet contains the expected values
+    let connect = mock_server.expect_connect_and_accept(true).await;
+    assert_eq!(
+        connect,
+        expected_connect_from_connection_settings(&connection_settings, false)
+    );
+
+    // Wait for connection to be established by Session in response to CONNACK
+    monitor.connected().await;
+
+    // Trigger reauthentication by updating the SAT file contents
+    mock_sat_file.update_contents();
+
+    // Validate that a single AUTH packet is sent with the expected values
+    let auth = mock_server.expect_auth_and_accept().await;
+    assert_eq!(auth, expected_reauth_from_sat_file(&mock_sat_file));
+    tokio::time::sleep(Duration::from_secs(1)).await;
+    mock_server.expect_no_packet();
+
+    // Disconnect the session and wait for disconnect
+    mock_server.send_disconnect(mqtt_proto::Disconnect {
+        reason_code: mqtt_proto::DisconnectReasonCode::UnspecifiedError,
+        other_properties: mqtt_proto::DisconnectOtherProperties::default(),
+    });
+    monitor.disconnected().await;
+
+    // Reconnect
+    let connect = mock_server.expect_connect_and_accept(true).await;
+    assert_eq!(
+        connect,
+        expected_connect_from_connection_settings(&connection_settings, true)
+    );
+    monitor.connected().await;
+
+    // Trigger reauthentication by updating the SAT file contents
+    mock_sat_file.update_contents();
+
+    // Validate that a single AUTH packet is sent with the expected values
+    let auth = mock_server.expect_auth_and_accept().await;
+    assert_eq!(auth, expected_reauth_from_sat_file(&mock_sat_file));
+    tokio::time::sleep(Duration::from_secs(1)).await;
+    mock_server.expect_no_packet();
+
+    // End the session
+    assert_eq!(exit_handle.try_exit(), Ok(()));
+
+    // Session was disconnected, and exited cleanly
+    monitor.disconnected().await;
+    assert!(run_f.await.unwrap().is_ok());
+
+    // Validate that the DISCONNECT packet is sent and contains the expected values
+    let disconnect = mock_server.expect_disconnect().await;
+    assert_eq!(disconnect, session_end_disconnect());
+
+    // Updating the SAT file after exit does not cause any AUTH packets to be sent
+    mock_sat_file.update_contents();
+    tokio::time::sleep(Duration::from_secs(11)).await;
+    mock_server.expect_no_packet();
 }

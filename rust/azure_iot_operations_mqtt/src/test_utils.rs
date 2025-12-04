@@ -270,11 +270,24 @@ impl MockServer {
         }
     }
 
+    /// Panic if the next packet received is not an AUTH packet.
+    pub async fn expect_auth(&self) -> mqtt_proto::Auth<Bytes> {
+        match self.from_client_rx.recv().await {
+            Some(mqtt_proto::Packet::Auth(auth)) => auth,
+            Some(other) => {
+                panic!("Expected AUTH packet, but received different packet: {other:?}",);
+            }
+            None => {
+                panic!("Expected AUTH packet, but connection was closed");
+            }
+        }
+    }
+
     /// Panic if any packet is ready to be received
     #[allow(clippy::manual_assert)]
     pub fn expect_no_packet(&self) {
-        if self.from_client_rx.recv().now_or_never().is_some() {
-            panic!("Expected no packet, but received a packet");
+        if let Some(Some(packet)) = self.from_client_rx.recv().now_or_never() {
+            panic!("Expected no packet, but received a packet: {packet:?}");
         }
     }
 
@@ -292,6 +305,11 @@ impl MockServer {
     pub fn send_disconnect(&self, disconnect: mqtt_proto::Disconnect<Bytes>) {
         self.to_client_tx
             .send(mqtt_proto::Packet::Disconnect(disconnect));
+    }
+
+    /// Send an AUTH packet to the client
+    pub fn send_auth(&self, auth: mqtt_proto::Auth<Bytes>) {
+        self.to_client_tx.send(mqtt_proto::Packet::Auth(auth));
     }
 }
 
