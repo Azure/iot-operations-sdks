@@ -405,20 +405,25 @@ impl Session {
             prev_connected = true;
             prev_reconnection_attempts = 0;
 
-            if let Some(auth_policy) = &self.auth_policy {
-                tokio::task::spawn(Session::reauth_monitor(
+            let reauth_jh = if let Some(auth_policy) = &self.auth_policy {
+                Some(tokio::task::spawn(Session::reauth_monitor(
                     auth_policy.clone(),
                     self.reauth_handle.take().expect(
                         "ReauthHandle should always be present after connect with AuthPolicy",
                     ),
-                ));
-            }
+                )))
+            } else {
+                None
+            };
 
             let (connect_handle, disconnected_event) = connection.run_until_disconnect().await;
             self.connect_handle = Some(connect_handle);
             *self.disconnect_handle.lock().unwrap() = None;
             self.reauth_handle = None;
             self.state.transition_disconnected();
+            if let Some(reauth_jh) = reauth_jh {
+                reauth_jh.abort();
+            }
             let connection_loss = match disconnected_event {
                 // User-initiated disconnect with exit handle
                 DisconnectedEvent::ApplicationDisconnect => {
