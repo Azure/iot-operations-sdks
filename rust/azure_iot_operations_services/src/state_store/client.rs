@@ -174,7 +174,7 @@ impl Client {
 
         self.invoker.shutdown().await.map_err(ErrorKind::from)?;
 
-        log::info!("Shutdown");
+        log::info!("State Store Client shutdown");
         Ok(())
     }
 
@@ -583,10 +583,10 @@ impl Client {
                   () = shutdown_notifier.notified() => {
                     match receiver.shutdown().await {
                         Ok(()) => {
-                            log::info!("Telemetry Receiver shutdown");
+                            log::info!("State Store key notification Telemetry Receiver shutdown");
                         }
                         Err(e) => {
-                            log::error!("Error shutting down Telemetry Receiver: {e}");
+                            log::warn!("Error shutting down State Store key notification Telemetry Receiver: {e}");
                             // try shutdown again, but not indefinitely
                             if shutdown_attempt_count < 3 {
                                 shutdown_attempt_count += 1;
@@ -596,7 +596,7 @@ impl Client {
                     }
                   },
                   () = Self::notify_on_disconnection(&session_monitor) => {
-                    log::warn!("Session disconnected. Dropping key observations as they won't receive any more notifications and must be recreated");
+                    log::warn!("Session disconnected. Dropping State Store key observations as they won't receive any more notifications and must be recreated");
                     // This closes all associated notification channels
                     notification_dispatcher.unregister_all();
                   },
@@ -605,12 +605,12 @@ impl Client {
                         match m {
                             Ok((notification, ack_token)) => {
                                 let Some(key_name) = notification.topic_tokens.get("encodedKeyName") else {
-                                    log::error!("Key Notification missing encodedKeyName topic token.");
+                                    log::warn!("Key Notification missing encodedKeyName topic token.");
                                     continue;
                                 };
                                 let decoded_key_name = HEXUPPER.decode(key_name.as_bytes()).unwrap();
                                 let Some(notification_timestamp) = notification.timestamp else {
-                                    log::error!("Received key notification with no version. Ignoring.");
+                                    log::warn!("Received key notification with no version. Ignoring.");
                                     continue;
                                 };
                                 let key_notification = state_store::KeyNotification {
@@ -622,21 +622,25 @@ impl Client {
                                 // Try to send the notification to the associated receiver
                                 match notification_dispatcher.dispatch(key_name, (key_notification.clone(), ack_token)) {
                                     Ok(()) => {
-                                        log::debug!("Key Notification dispatched: {key_notification:?}");
+                                        log::debug!("Key Notification dispatched: {key_notification}");
                                     }
 
                                     Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::SendError }) => {
-                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {payload:?}");
+                                        // NOTE: the Display impl for KeyNotification only prints the key name, operation type, and version.
+                                        // it does not print the new key value contents on SET operations
+                                        log::warn!("Key Notification Receiver for `{key_name}` has been dropped. Received Notification: {payload}");
 
                                     }
                                     Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
-                                        log::warn!("Key is not being observed. Received Notification: {payload:?} for {receiver_id}");
+                                        // NOTE: the Display impl for KeyNotification only prints the key name, operation type, and version.
+                                        // it does not print the new key value contents on SET operations
+                                        log::warn!("Key is not being observed. Received Notification: {payload} for {receiver_id}");
                                     }
                                 }
                             }
                             Err(e) => {
                                 // This should only happen on errors subscribing, but it's likely not recoverable
-                                log::error!("Error receiving key notifications: {e}. Shutting down Telemetry Receiver.");
+                                log::error!("Error receiving key notifications: {e}. Shutting down State Store key notification Telemetry Receiver.");
                                 // try to shutdown telemetry receiver, but not indefinitely
                                 if shutdown_attempt_count < 3 {
                                     shutdown_notifier.notify_one();
@@ -644,7 +648,7 @@ impl Client {
                             }
                         }
                     } else {
-                        log::info!("Telemetry Receiver closed, no more Key Notifications will be received");
+                        log::info!("State Store key notification Telemetry Receiver closed, no more Key Notifications will be received");
                         // Unregister all receivers, closing the associated channels
                         notification_dispatcher.unregister_all();
                         break;
