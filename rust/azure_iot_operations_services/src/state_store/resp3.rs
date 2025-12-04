@@ -3,7 +3,7 @@
 
 //! Types and serialization/deserialization implementations for RESP3 protocol.
 
-use std::time::Duration;
+use std::{fmt::Display, time::Duration};
 
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
@@ -318,6 +318,19 @@ pub enum Operation {
     Set(Vec<u8>),
     /// Operation was a `DELETE`
     Del,
+}
+
+impl Display for Operation {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Operation::Set(_) => {
+                write!(f, "SET")
+            }
+            Operation::Del => {
+                write!(f, "DELETE")
+            }
+        }
+    }
 }
 
 impl Operation {

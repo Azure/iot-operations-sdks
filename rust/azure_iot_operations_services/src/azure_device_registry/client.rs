@@ -282,7 +282,7 @@ impl Client {
         }
 
         if errors.is_empty() {
-            log::info!("Shutdown done gracefully");
+            log::info!("Azure Device Registry Client shutdown done gracefully");
             Ok(())
         } else {
             Err(Error(ErrorKind::ShutdownError(errors)))
@@ -419,11 +419,11 @@ impl Client {
                     match device_update_message {
                         Some(Ok((device_update_telemetry, ack_token))) => {
                             let Some(device_name) = device_update_telemetry.topic_tokens.get(DEVICE_NAME_RECEIVED_TOPIC_TOKEN) else {
-                                log::error!("Device Update Notification missing {DEVICE_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                log::warn!("Device Update Notification missing {DEVICE_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
                                 continue;
                             };
                             let Some(inbound_endpoint_name) = device_update_telemetry.topic_tokens.get(INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN) else {
-                                log::error!("Device Update Notification missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                log::warn!("Device Update Notification missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
                                 continue;
                             };
 
@@ -436,11 +436,11 @@ impl Client {
                                 Ok(()) => {
                                     log::debug!("Device Update Notification dispatched for {receiver_id:?}");
                                 }
-                                Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::SendError }) => {
-                                    log::warn!("Device Update Observation has been dropped. Received Device Update Notification: {payload:?}");
+                                Err(DispatchError { data: (_, _), kind: DispatchErrorKind::SendError }) => {
+                                    log::warn!("Device Update Observation has been dropped. Received Device Update Notification for {receiver_id:?}");
                                 }
-                                Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
-                                    log::warn!("Device Endpoint is not being observed. Received Device Update Notification: {payload:?} for {receiver_id:?}");
+                                Err(DispatchError { data: (_, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
+                                    log::warn!("Device Endpoint is not being observed. Received Device Update Notification for {receiver_id:?}");
                                 }
                             }
                         },
@@ -468,11 +468,11 @@ impl Client {
                     match asset_update_message {
                         Some(Ok((asset_update_telemetry, ack_token))) => {
                             let Some(device_name) = asset_update_telemetry.topic_tokens.get(DEVICE_NAME_RECEIVED_TOPIC_TOKEN) else {
-                                log::error!("Asset Update Notification missing {DEVICE_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                log::warn!("Asset Update Notification missing {DEVICE_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
                                 continue;
                             };
                             let Some(inbound_endpoint_name) = asset_update_telemetry.topic_tokens.get(INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN) else {
-                                log::error!("Asset Update Notification missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                log::warn!("Asset Update Notification missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
                                 continue;
                             };
 
@@ -486,11 +486,11 @@ impl Client {
                                 Ok(()) => {
                                     log::debug!("Asset Update Notification dispatched for {receiver_id:?}");
                                 }
-                                Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::SendError }) => {
-                                    log::warn!("Asset Update Observation has been dropped. Received Asset Update Notification: {payload:?}");
+                                Err(DispatchError { data: (_, _), kind: DispatchErrorKind::SendError }) => {
+                                    log::warn!("Asset Update Observation has been dropped. Received Asset Update Notification for {receiver_id:?}");
                                 }
-                                Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
-                                    log::warn!("Asset Endpoint is not being observed. Received Asset Update Notification: {payload:?} for {receiver_id}");
+                                Err(DispatchError { data: (_, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
+                                    log::warn!("Asset is not being observed. Received Asset Update Notification for {receiver_id:?}");
                                 }
                             }
                         },
