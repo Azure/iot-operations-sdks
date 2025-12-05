@@ -4,6 +4,7 @@ metadata:
   name: simple-telemetry-deployment
   labels:
     app: simple-telemetry-deployment
+  namespace: azure-iot-operations
 spec:
   replicas: 1
   selector:
