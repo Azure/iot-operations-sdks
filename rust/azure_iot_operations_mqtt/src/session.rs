@@ -568,7 +568,7 @@ impl Session {
                 match publish.qos {
                     azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
                         log::warn!(
-                            "No matching receivers for PUBLISH recieved at QoS 0. Discarding."
+                            "No matching receivers for PUBLISH received at QoS 0. Discarding."
                         );
                     }
                     azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info)
