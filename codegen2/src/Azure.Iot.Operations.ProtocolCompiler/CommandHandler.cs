@@ -49,6 +49,7 @@
                 if (errorLog.HasErrors)
                 {
                     DisplayErrors("Parsing", errorLog);
+                    DisplayWarnings(errorLog);
                     return 1;
                 }
 
@@ -58,6 +59,7 @@
                 if (errorLog.HasErrors)
                 {
                     DisplayErrors("Schema generation", errorLog);
+                    DisplayWarnings(errorLog);
                     return 1;
                 }
 
@@ -93,6 +95,7 @@
                 if (errorLog.HasErrors)
                 {
                     DisplayErrors("Type generation", errorLog);
+                    DisplayWarnings(errorLog);
                     return 1;
                 }
 
@@ -143,21 +146,25 @@
                     string thingText = thingReader.ReadToEnd();
                     byte[] thingBytes = Encoding.UTF8.GetBytes(thingText);
                     ErrorReporter errorReporter = new ErrorReporter(errorLog, thingFile.FullName, thingBytes);
+                    ThingValidator thingValidator = new ThingValidator(errorReporter);
 
                     if (TryGetThings(errorReporter, thingBytes, out List<TDThing>? things))
                     {
                         int thingCount = 0;
                         foreach (TDThing thing in things)
                         {
-                            ValueTracker<StringHolder>? schemaNamesFilename = thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationSchemaNaming)?.Value.Href;
-                            if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, out SchemaNamer? schemaNamer))
+                            if (thingValidator.TryValidateThng(thing))
                             {
-                                thingCount++;
-                                parsedThings.Add(new ParsedThing(thing, thingFile.Name, thingFile.DirectoryName!, schemaNamer, errorReporter));
+                                ValueTracker<StringHolder>? schemaNamesFilename = thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationSchemaNaming)?.Value.Href;
+                                if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, out SchemaNamer? schemaNamer))
+                                {
+                                    thingCount++;
+                                    parsedThings.Add(new ParsedThing(thing, thingFile.Name, thingFile.DirectoryName!, schemaNamer, errorReporter));
+                                }
                             }
                         }
 
-                        Console.WriteLine($" {thingCount} {(thingCount == 1 ? "TD" : "TDs")} parsed");
+                        Console.WriteLine($" {thingCount} {(thingCount == 1 ? "TD" : "TDs")} validly parsed");
                     }
                 }
             }
@@ -199,6 +206,8 @@
 
         private static bool TryGetThings(ErrorReporter errorReporter, byte[] thingBytes, [NotNullWhen(true)] out List<TDThing>? things)
         {
+            bool hasError = false;
+
             try
             {
                 things = TDParser.Parse(thingBytes);
@@ -217,6 +226,7 @@
                     if (item is ISourceTracker tracker && tracker.DeserializingFailed)
                     {
                         errorReporter.ReportError($"TD deserialization error: {tracker.DeserializationError ?? string.Empty}.", tracker.TokenIndex);
+                        hasError = true;
                     }
 
                     if (item is ValueTracker<TDDataSchema> dataSchema && dataSchema.Value.Ref != null)
@@ -226,7 +236,7 @@
                 }
             }
 
-            return true;
+            return !hasError;
         }
 
         private static void WriteItems(List<GeneratedItem> generatedItems, DirectoryInfo destDir)
@@ -380,8 +390,7 @@
         {
             string cfLineInfo = error.CfLineNumber > 0 ? $", cf. Line: {error.CfLineNumber}" : string.Empty;
             string lineInfo = error.LineNumber > 0 ? $", Line: {error.LineNumber}" : string.Empty;
-            string sourceInfo = error.LineNumber >= 0 ? $" (File: {error.Filename}{lineInfo}{cfLineInfo})" : string.Empty;
-            return $"{error.Message}{sourceInfo}";
+            return $"{error.Message} (File: {error.Filename}{lineInfo}{cfLineInfo})";
         }
     }
 }

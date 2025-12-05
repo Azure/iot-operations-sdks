@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
     {
         private const string Iso8601DurationExample = "P3Y6M4DT12H30M5S";
         private const string DecimalExample = "1234567890.0987654321";
-        private const string AnArbitraryString = "HelloWorld";
+        private const string AnArbitraryString = "Pretty12345Tricky67890";
         private const string DecimalPattern = @"^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$";
 
         private readonly SchemaNamer schemaNamer;
@@ -30,8 +30,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
 
         internal string GetReferencePath(string reference, string refBase)
         {
-            return Path.GetDirectoryName(reference) == string.Empty ? $"./{reference}" :
-                Path.GetRelativePath(this.workingDir.FullName, Path.Combine(refBase, reference)).Replace('\\', '/');
+            return reference.Contains('/') ? Path.GetRelativePath(this.workingDir.FullName, Path.Combine(refBase, reference)).Replace('\\', '/') : $"./{reference}";
         }
 
         internal string GetTypeAndAddenda(ValueTracker<TDDataSchema> tdSchema, string backupSchemaName, string refBase)

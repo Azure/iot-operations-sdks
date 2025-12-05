@@ -37,7 +37,7 @@
                     throw new System.InvalidOperationException($"Thing defined in file '{parsedThing.FileName}' is missing a root-level 'title' property.");
                 }
 
-                CodeName serviceName = new CodeName(parsedThing.Thing.Title?.Value.Value ?? genNamespace);
+                CodeName serviceName = new CodeName(parsedThing.Thing.Title.Value.Value);
 
                 List<ActionSpec> actionSpecs = ActionEnvoyGenerator.GenerateActionEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, typesToSerialize);
                 List<EventSpec> eventSpecs = EventEnvoyGenerator.GenerateEventEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, typesToSerialize);

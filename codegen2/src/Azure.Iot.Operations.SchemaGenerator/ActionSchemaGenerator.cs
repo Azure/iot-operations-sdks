@@ -40,7 +40,7 @@
             Dictionary<string, SchemaSpec> schemaSpecs,
             Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
-            FormInfo? actionForm = FormInfo.CreateFromForm(errorReporter, tdAction.Forms?.Elements?.FirstOrDefault(f => (f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpInvokeAction) ?? false) || (f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpQueryAction) ?? false))?.Value, schemaDefinitions);
+            FormInfo? actionForm = FormInfo.CreateFromForm(errorReporter, tdAction.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpInvokeAction) ?? false)?.Value, schemaDefinitions);
             actionForm ??= FormInfo.CreateFromForm(errorReporter, tdAction.Forms?.Elements?.FirstOrDefault(f => f.Value.Op == null)?.Value, schemaDefinitions);
 
             if (actionForm?.TopicPattern != null)

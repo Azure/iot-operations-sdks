@@ -640,13 +640,13 @@
           "oneOf": [
             {
               "type": "string",
-              "enum": [ "invokeaction", "queryaction" ]
+              "enum": [ "invokeaction" ]
             },
             {
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [ "invokeaction", "queryaction" ]
+                "enum": [ "invokeaction" ]
               },
               "minItems": 1
             }

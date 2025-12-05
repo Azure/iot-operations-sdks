@@ -20,7 +20,7 @@
                     continue;
                 }
 
-                FormInfo? actionForm = FormInfo.CreateFromForm(errorReporter, action.Forms?.Elements?.FirstOrDefault(f => (f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpInvokeAction) ?? false) || (f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpQueryAction) ?? false))?.Value, tdThing.SchemaDefinitions?.Entries);
+                FormInfo? actionForm = FormInfo.CreateFromForm(errorReporter, action.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpInvokeAction) ?? false)?.Value, tdThing.SchemaDefinitions?.Entries);
                 actionForm ??= FormInfo.CreateFromForm(errorReporter, action.Forms?.Elements?.FirstOrDefault(f => f.Value.Op == null)?.Value, tdThing.SchemaDefinitions?.Entries);
 
                 if (actionForm?.TopicPattern != null && actionForm.Format != SerializationFormat.None)

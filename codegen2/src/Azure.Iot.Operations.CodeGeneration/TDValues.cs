@@ -9,7 +9,6 @@
         public const string ContentTypeJson = "application/json";
 
         public const string OpInvokeAction = "invokeaction";
-        public const string OpQueryAction = "queryaction";
         public const string OpReadProp = "readproperty";
         public const string OpWriteProp = "writeproperty";
         public const string OpSubEvent = "subscribeevent";

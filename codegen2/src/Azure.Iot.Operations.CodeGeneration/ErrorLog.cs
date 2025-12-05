@@ -60,11 +60,11 @@
 
         public void RegisterReferenceFromThing(string refPath, string filename, int lineNumber, string refValue)
         {
-            string fullPath = Path.GetFullPath(Path.Combine(this.defaultFolder, refValue)).Replace('\\', '/');
-            if (!referencesFromThings.TryGetValue(refPath, out List<ExternalReference>? references))
+            string fullPath = Path.GetFullPath(Path.Combine(this.defaultFolder, refPath)).Replace('\\', '/');
+            if (!referencesFromThings.TryGetValue(fullPath, out List<ExternalReference>? references))
             {
                 references = new();
-                referencesFromThings[refPath] = references;
+                referencesFromThings[fullPath] = references;
             }
 
             references.Add(new ExternalReference(filename, lineNumber, refValue));

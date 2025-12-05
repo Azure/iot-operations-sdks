@@ -6,11 +6,17 @@
 
     public class TDLink : IEquatable<TDLink>, IDeserializable<TDLink>
     {
+        public const string HrefName = "href";
+        public const string TypeName = "type";
+        public const string RelName = "rel";
+
         public ValueTracker<StringHolder>? Href { get; set; }
 
-        public ValueTracker<StringHolder>? ContentType { get; set; }
+        public ValueTracker<StringHolder>? Type { get; set; }
 
         public ValueTracker<StringHolder>? Rel { get; set; }
+
+        public Dictionary<string, long> PropertyNames { get; set; } = new();
 
         public virtual bool Equals(TDLink? other)
         {
@@ -20,13 +26,13 @@
             }
             else
             {
-                return Href == other.Href && ContentType == other.ContentType && Rel == other.Rel;
+                return Href == other.Href && Type == other.Type && Rel == other.Rel;
             }
         }
 
         public override int GetHashCode()
         {
-            return (Href, ContentType, Rel).GetHashCode();
+            return (Href, Type, Rel).GetHashCode();
         }
 
         public static bool operator ==(TDLink? left, TDLink? right)
@@ -75,9 +81,9 @@
                     yield return item;
                 }
             }
-            if (ContentType != null)
+            if (Type != null)
             {
-                foreach (ITraversable item in ContentType.Traverse())
+                foreach (ITraversable item in Type.Traverse())
                 {
                     yield return item;
                 }
@@ -104,17 +110,19 @@
             while (reader.TokenType == JsonTokenType.PropertyName)
             {
                 string propertyName = reader.GetString()!;
+                ParsingSupport.CheckForDuplicatePropertyName(ref reader, propertyName, link.PropertyNames, "link");
+                link.PropertyNames[propertyName] = reader.TokenStartIndex;
                 reader.Read();
 
                 switch (propertyName)
                 {
-                    case "href":
+                    case HrefName:
                         link.Href = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "contentType":
-                        link.ContentType = ValueTracker<StringHolder>.Deserialize(ref reader);
+                    case TypeName:
+                        link.Type = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "rel":
+                    case RelName:
                         link.Rel = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
                     default:

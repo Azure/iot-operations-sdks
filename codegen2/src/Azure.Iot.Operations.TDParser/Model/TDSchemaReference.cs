@@ -6,11 +6,17 @@
 
     public class TDSchemaReference : IEquatable<TDSchemaReference>, IDeserializable<TDSchemaReference>
     {
+        public const string SuccessName = "success";
+        public const string ContentTypeName = "contentType";
+        public const string SchemaName = "schema";
+
         public ValueTracker<BoolHolder>? Success { get; set; }
 
         public ValueTracker<StringHolder>? ContentType { get; set; }
 
         public ValueTracker<StringHolder>? Schema { get; set; }
+
+        public Dictionary<string, long> PropertyNames { get; set; } = new();
 
         public virtual bool Equals(TDSchemaReference? other)
         {
@@ -104,17 +110,19 @@
             while (reader.TokenType == JsonTokenType.PropertyName)
             {
                 string propertyName = reader.GetString()!;
+                ParsingSupport.CheckForDuplicatePropertyName(ref reader, propertyName, schemaRef.PropertyNames, "schema reference");
+                schemaRef.PropertyNames[propertyName] = reader.TokenStartIndex;
                 reader.Read();
 
                 switch (propertyName)
                 {
-                    case "success":
+                    case SuccessName:
                         schemaRef.Success = ValueTracker<BoolHolder>.Deserialize(ref reader);
                         break;
-                    case "contentType":
+                    case ContentTypeName:
                         schemaRef.ContentType = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "schema":
+                    case SchemaName:
                         schemaRef.Schema = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
                     default:

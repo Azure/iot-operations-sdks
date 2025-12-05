@@ -123,9 +123,7 @@
     },
     "proximity": {
       "data": {
-        "descriptions": {
-          "en": "An enumerated value for expressing qualitative distance."
-        },
+        "description": "An enumerated value for expressing qualitative distance.",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647

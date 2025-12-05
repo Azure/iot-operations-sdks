@@ -6,6 +6,13 @@
 
     public class TDAction : IEquatable<TDAction>, IDeserializable<TDAction>
     {
+        public const string DescriptionName = "description";
+        public const string InputName = "input";
+        public const string OutputName = "output";
+        public const string IdempotentName = "idempotent";
+        public const string SafeName = "safe";
+        public const string FormsName = "forms";
+
         public ValueTracker<StringHolder>? Description { get; set; }
 
         public ValueTracker<TDDataSchema>? Input { get; set; }
@@ -17,6 +24,8 @@
         public ValueTracker<BoolHolder>? Safe { get; set; }
 
         public ArrayTracker<TDForm>? Forms { get; set; }
+
+        public Dictionary<string, long> PropertyNames { get; set; } = new();
 
         public virtual bool Equals(TDAction? other)
         {
@@ -136,26 +145,28 @@
             while (reader.TokenType == JsonTokenType.PropertyName)
             {
                 string propertyName = reader.GetString()!;
+                ParsingSupport.CheckForDuplicatePropertyName(ref reader, propertyName, action.PropertyNames, "action");
+                action.PropertyNames[propertyName] = reader.TokenStartIndex;
                 reader.Read();
 
                 switch (propertyName)
                 {
-                    case "description":
+                    case DescriptionName:
                         action.Description = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "input":
+                    case InputName:
                         action.Input = ValueTracker<TDDataSchema>.Deserialize(ref reader);
                         break;
-                    case "output":
+                    case OutputName:
                         action.Output = ValueTracker<TDDataSchema>.Deserialize(ref reader);
                         break;
-                    case "idempotent":
+                    case IdempotentName:
                         action.Idempotent = ValueTracker<BoolHolder>.Deserialize(ref reader);
                         break;
-                    case "safe":
+                    case SafeName:
                         action.Safe = ValueTracker<BoolHolder>.Deserialize(ref reader);
                         break;
-                    case "forms":
+                    case FormsName:
                         action.Forms = ArrayTracker<TDForm>.Deserialize(ref reader);
                         break;
                     default:

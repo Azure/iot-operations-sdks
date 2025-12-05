@@ -86,7 +86,7 @@
             {
                 foreach (ValueTracker<TDLink> link in links)
                 {
-                    AddFormatFromContentType(errorReporter, link.Value.ContentType, formats);
+                    AddFormatFromContentType(errorReporter, link.Value.Type, formats);
                 }
             }
         }

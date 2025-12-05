@@ -7,6 +7,23 @@
 
     public class TDDataSchema : IEquatable<TDDataSchema>, IDeserializable<TDDataSchema>
     {
+        public const string RefName = "dtv:ref";
+        public const string TitleName = "title";
+        public const string DescriptionName = "description";
+        public const string TypeName = "type";
+        public const string ConstName = "const";
+        public const string MinimumName = "minimum";
+        public const string MaximumName = "maximum";
+        public const string FormatName = "format";
+        public const string PatternName = "pattern";
+        public const string ContentEncodingName = "contentEncoding";
+        public const string AdditionalPropertiesName = "dtv:additionalProperties";
+        public const string EnumName = "enum";
+        public const string RequiredName = "required";
+        public const string ErrorMessageName = "dtv:errorMessage";
+        public const string PropertiesName = "properties";
+        public const string ItemsName = "items";
+
         public ValueTracker<StringHolder>? Ref { get; set; }
 
         public ValueTracker<StringHolder>? Title { get; set; }
@@ -38,6 +55,8 @@
         public MapTracker<TDDataSchema>? Properties { get; set; }
 
         public ValueTracker<TDDataSchema>? Items { get; set; }
+
+        public Dictionary<string, long> PropertyNames { get; set; } = new();
 
         public override int GetHashCode()
         {
@@ -121,6 +140,8 @@
             while (reader.TokenType == JsonTokenType.PropertyName)
             {
                 string propertyName = reader.GetString()!;
+                ParsingSupport.CheckForDuplicatePropertyName(ref reader, propertyName, dataSchema.PropertyNames, "data schema");
+                dataSchema.PropertyNames[propertyName] = reader.TokenStartIndex;
                 reader.Read();
 
                 if (!TryLoadPropertyValues(dataSchema, propertyName, ref reader))
@@ -254,52 +275,52 @@
         {
             switch (propertyName)
             {
-                case "dtv:ref":
+                case RefName:
                     dataSchema.Ref = ValueTracker<StringHolder>.Deserialize(ref reader);
                     return true;
-                case "title":
+                case TitleName:
                     dataSchema.Title = ValueTracker<StringHolder>.Deserialize(ref reader);
                     return true;
-                case "description":
+                case DescriptionName:
                     dataSchema.Description = ValueTracker<StringHolder>.Deserialize(ref reader);
                     return true;
-                case "type":
+                case TypeName:
                     dataSchema.Type = ValueTracker<StringHolder>.Deserialize(ref reader);
                     return true;
-                case "const":
+                case ConstName:
                     dataSchema.Const = ValueTracker<ObjectHolder>.Deserialize(ref reader);
                     return true;
-                case "minimum":
+                case MinimumName:
                     dataSchema.Minimum = ValueTracker<NumberHolder>.Deserialize(ref reader);
                     return true;
-                case "maximum":
+                case MaximumName:
                     dataSchema.Maximum = ValueTracker<NumberHolder>.Deserialize(ref reader);
                     return true;
-                case "format":
+                case FormatName:
                     dataSchema.Format = ValueTracker<StringHolder>.Deserialize(ref reader);
                     return true;
-                case "pattern":
+                case PatternName:
                     dataSchema.Pattern = ValueTracker<StringHolder>.Deserialize(ref reader);
                     return true;
-                case "contentEncoding":
+                case ContentEncodingName:
                     dataSchema.ContentEncoding = ValueTracker<StringHolder>.Deserialize(ref reader);
                     return true;
-                case "dtv:additionalProperties":
+                case AdditionalPropertiesName:
                     dataSchema.AdditionalProperties = ValueTracker<TDDataSchema>.Deserialize(ref reader);
                     return true;
-                case "enum":
+                case EnumName:
                     dataSchema.Enum = ArrayTracker<StringHolder>.Deserialize(ref reader);
                     return true;
-                case "required":
+                case RequiredName:
                     dataSchema.Required = ArrayTracker<StringHolder>.Deserialize(ref reader);
                     return true;
-                case "dtv:errorMessage":
+                case ErrorMessageName:
                     dataSchema.ErrorMessage = ValueTracker<StringHolder>.Deserialize(ref reader);
                     return true;
-                case "properties":
+                case PropertiesName:
                     dataSchema.Properties = MapTracker<TDDataSchema>.Deserialize(ref reader);
                     return true;
-                case "items":
+                case ItemsName:
                     dataSchema.Items = ValueTracker<TDDataSchema>.Deserialize(ref reader);
                     return true;
                 default:

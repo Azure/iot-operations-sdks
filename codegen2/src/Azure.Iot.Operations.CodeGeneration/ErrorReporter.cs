@@ -11,9 +11,9 @@
         private ErrorLog errorLog;
         private string filename;
         private string basePath;
-        private byte[]? byteStream;
+        private byte[] byteStream;
 
-        public ErrorReporter(ErrorLog errorLog, string filePath, byte[]? byteStream = null)
+        public ErrorReporter(ErrorLog errorLog, string filePath, byte[] byteStream)
         {
             this.errorLog = errorLog;
             this.filename = Path.GetFileName(filePath);
@@ -23,7 +23,7 @@
 
         public void RegisterReferenceFromThing(long byteIndex, string refValue)
         {
-            string refPath = Path.GetDirectoryName(refValue) == string.Empty ? refValue : Path.GetFullPath(Path.Combine(this.basePath, refValue)).Replace('\\', '/');
+            string refPath = refValue.Contains('/') ? Path.GetFullPath(Path.Combine(this.basePath, refValue)).Replace('\\', '/') : refValue;
             this.errorLog.RegisterReferenceFromThing(refPath, this.filename, GetLineNumber(byteIndex), refValue);
         }
 
@@ -76,14 +76,9 @@
 
         private int GetLineNumber(long byteIndex)
         {
-            if (this.byteStream == null)
-            {
-                return byteIndex < 0 ? -1 : 0;
-            }
-
             if (byteIndex < 0 || byteIndex >= this.byteStream.Length)
             {
-                return -1;
+                return 0;
             }
 
             int lineNum = 1;

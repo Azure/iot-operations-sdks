@@ -6,6 +6,10 @@
 
     public class TDProperty : TDDataSchema, IEquatable<TDProperty>, IDeserializable<TDProperty>
     {
+        public const string ReadOnlyName = "readOnly";
+        public const string PlaceholderName = "dtv:placeholder";
+        public const string FormsName = "forms";
+
         public ValueTracker<BoolHolder>? ReadOnly { get; set; }
 
         public ValueTracker<BoolHolder>? Placeholder { get; set; }
@@ -112,19 +116,21 @@
             while (reader.TokenType == JsonTokenType.PropertyName)
             {
                 string propertyName = reader.GetString()!;
+                ParsingSupport.CheckForDuplicatePropertyName(ref reader, propertyName, prop.PropertyNames, "property");
+                prop.PropertyNames[propertyName] = reader.TokenStartIndex;
                 reader.Read();
 
                 if (!TryLoadPropertyValues(prop, propertyName, ref reader))
                 {
                     switch (propertyName)
                     {
-                        case "readOnly":
+                        case ReadOnlyName:
                             prop.ReadOnly = ValueTracker<BoolHolder>.Deserialize(ref reader);
                             break;
-                        case "dtv:placeholder":
+                        case PlaceholderName:
                             prop.Placeholder = ValueTracker<BoolHolder>.Deserialize(ref reader);
                             break;
-                        case "forms":
+                        case FormsName:
                             prop.Forms = ArrayTracker<TDForm>.Deserialize(ref reader);
                             break;
                         default:

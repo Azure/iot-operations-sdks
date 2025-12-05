@@ -625,7 +625,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 }
             }
 <# } #>
-<# if (propSpec.WriteErrorName != null) { #>
+<# if (propSpec.WriteReqSchema != null && propSpec.WriteErrorName != null) { #>
 
             private async Task<ExtendedResponse<<#=propSpec.WriteSerializerEmptyType.GetTypeName(TargetLanguage.CSharp)#>>> <#=propSpec.Name.GetMethodName(TargetLanguage.CSharp, "int", prefix: "write")#>(<#=propSpec.WriteReqSchema.GetTypeName(TargetLanguage.CSharp)#> request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
             {

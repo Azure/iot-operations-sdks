@@ -6,6 +6,11 @@
 
     public class TDEvent : IEquatable<TDEvent>, IDeserializable<TDEvent>
     {
+        public const string DescriptionName = "description";
+        public const string DataName = "data";
+        public const string PlaceholderName = "dtv:placeholder";
+        public const string FormsName = "forms";
+
         public ValueTracker<StringHolder>? Description { get; set; }
 
         public ValueTracker<TDDataSchema>? Data { get; set; }
@@ -13,6 +18,8 @@
         public ValueTracker<BoolHolder>? Placeholder { get; set; }
 
         public ArrayTracker<TDForm>? Forms { get; set; }
+
+        public Dictionary<string, long> PropertyNames { get; set; } = new();
 
         public virtual bool Equals(TDEvent? other)
         {
@@ -116,20 +123,22 @@
             while (reader.TokenType == JsonTokenType.PropertyName)
             {
                 string propertyName = reader.GetString()!;
+                ParsingSupport.CheckForDuplicatePropertyName(ref reader, propertyName, evt.PropertyNames, "event");
+                evt.PropertyNames[propertyName] = reader.TokenStartIndex;
                 reader.Read();
 
                 switch (propertyName)
                 {
-                    case "description":
+                    case DescriptionName:
                         evt.Description = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "data":
+                    case DataName:
                         evt.Data = ValueTracker<TDDataSchema>.Deserialize(ref reader);
                         break;
-                    case "dtv:placeholder":
+                    case PlaceholderName:
                         evt.Placeholder = ValueTracker<BoolHolder>.Deserialize(ref reader);
                         break;
-                    case "forms":
+                    case FormsName:
                         evt.Forms = ArrayTracker<TDForm>.Deserialize(ref reader);
                         break;
                     default:

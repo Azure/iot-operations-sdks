@@ -37,12 +37,24 @@
       "Alpha": {
         "data": {
           "type": "string"
-        }
+        },
+        "forms": [
+          {
+            "href": "dtmi:jsonTest:ThingOne;1",
+            "op": "subscribeevent"
+          }
+        ]
       },
       "Beta": {
         "data": {
           "type": "string"
-        }
+        },
+        "forms": [
+          {
+            "href": "dtmi:jsonTest:ThingOne;1",
+            "op": "subscribeevent"
+          }
+        ]
       }
     }
   },
@@ -84,12 +96,24 @@
       "Gamma": {
         "data": {
           "type": "string"
-        }
+        },
+        "forms": [
+          {
+            "href": "dtmi:jsonTest:ThingTwo;1",
+            "op": "subscribeevent"
+          }
+        ]
       },
       "Beta": {
         "data": {
           "type": "string"
-        }
+        },
+        "forms": [
+          {
+            "href": "dtmi:jsonTest:ThingTwo;1",
+            "op": "subscribeevent"
+          }
+        ]
       }
     }
   }

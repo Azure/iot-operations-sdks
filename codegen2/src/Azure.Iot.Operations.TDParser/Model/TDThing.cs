@@ -6,6 +6,16 @@
 
     public class TDThing : IEquatable<TDThing>, IDeserializable<TDThing>
     {
+        public const string ContextName = "@context";
+        public const string IdName = "id";
+        public const string TitleName = "title";
+        public const string LinksName = "links";
+        public const string SchemaDefinitionsName = "schemaDefinitions";
+        public const string FormsName = "forms";
+        public const string ActionsName = "actions";
+        public const string PropertiesName = "properties";
+        public const string EventsName = "events";
+
         public ArrayTracker<TDContextSpecifier>? Context { get; set; }
 
         public ValueTracker<StringHolder>? Id { get; set; }
@@ -23,6 +33,8 @@
         public MapTracker<TDProperty>? Properties { get; set; }
 
         public MapTracker<TDEvent>? Events { get; set; }
+
+        public Dictionary<string, long> PropertyNames { get; set; } = new();
 
         public virtual bool Equals(TDThing? other)
         {
@@ -166,35 +178,37 @@
             while (reader.TokenType == JsonTokenType.PropertyName)
             {
                 string propertyName = reader.GetString()!;
+                ParsingSupport.CheckForDuplicatePropertyName(ref reader, propertyName, thing.PropertyNames, "thing");
+                thing.PropertyNames[propertyName] = reader.TokenStartIndex;
                 reader.Read();
 
                 switch (propertyName)
                 {
-                    case "@context":
+                    case ContextName:
                         thing.Context = ArrayTracker<TDContextSpecifier>.Deserialize(ref reader);
                         break;
-                    case "id":
+                    case IdName:
                         thing.Id = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "title":
+                    case TitleName:
                         thing.Title = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "links":
+                    case LinksName:
                         thing.Links = ArrayTracker<TDLink>.Deserialize(ref reader);
                         break;
-                    case "schemaDefinitions":
+                    case SchemaDefinitionsName:
                         thing.SchemaDefinitions = MapTracker<TDDataSchema>.Deserialize(ref reader);
                         break;
-                    case "forms":
+                    case FormsName:
                         thing.Forms = ArrayTracker<TDForm>.Deserialize(ref reader);
                         break;
-                    case "actions":
+                    case ActionsName:
                         thing.Actions = MapTracker<TDAction>.Deserialize(ref reader);
                         break;
-                    case "properties":
+                    case PropertiesName:
                         thing.Properties = MapTracker<TDProperty>.Deserialize(ref reader);
                         break;
-                    case "events":
+                    case EventsName:
                         thing.Events = MapTracker<TDEvent>.Deserialize(ref reader);
                         break;
                     default:

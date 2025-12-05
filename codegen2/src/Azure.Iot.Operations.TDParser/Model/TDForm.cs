@@ -6,6 +6,15 @@
 
     public class TDForm : IEquatable<TDForm>, IDeserializable<TDForm>
     {
+        public const string HrefName = "href";
+        public const string ContentTypeName = "contentType";
+        public const string AdditionalResponsesName = "additionalResponses";
+        public const string HeaderInfoName = "dtv:headerInfo";
+        public const string HeaderCodeName = "dtv:headerCode";
+        public const string ServiceGroupIdName = "dtv:serviceGroupId";
+        public const string TopicName = "dtv:topic";
+        public const string OpName = "op";
+
         public ValueTracker<StringHolder>? Href { get; set; }
 
         public ValueTracker<StringHolder>? ContentType { get; set; }
@@ -21,6 +30,8 @@
         public ValueTracker<StringHolder>? Topic { get; set; }
 
         public ArrayTracker<StringHolder>? Op { get; set; }
+
+        public Dictionary<string, long> PropertyNames { get; set; } = new();
 
         public virtual bool Equals(TDForm? other)
         {
@@ -156,32 +167,34 @@
             while (reader.TokenType == JsonTokenType.PropertyName)
             {
                 string propertyName = reader.GetString()!;
+                ParsingSupport.CheckForDuplicatePropertyName(ref reader, propertyName, form.PropertyNames, "form");
+                form.PropertyNames[propertyName] = reader.TokenStartIndex;
                 reader.Read();
 
                 switch (propertyName)
                 {
-                    case "href":
+                    case HrefName:
                         form.Href = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "contentType":
+                    case ContentTypeName:
                         form.ContentType = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "additionalResponses":
+                    case AdditionalResponsesName:
                         form.AdditionalResponses = ArrayTracker<TDSchemaReference>.Deserialize(ref reader);
                         break;
-                    case "dtv:headerInfo":
+                    case HeaderInfoName:
                         form.HeaderInfo = ArrayTracker<TDSchemaReference>.Deserialize(ref reader);
                         break;
-                    case "dtv:headerCode":
+                    case HeaderCodeName:
                         form.HeaderCode = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "dtv:serviceGroupId":
+                    case ServiceGroupIdName:
                         form.ServiceGroupId = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "dtv:topic":
+                    case TopicName:
                         form.Topic = ValueTracker<StringHolder>.Deserialize(ref reader);
                         break;
-                    case "op":
+                    case OpName:
                         form.Op = ArrayTracker<StringHolder>.Deserialize(ref reader);
                         break;
                     default:
