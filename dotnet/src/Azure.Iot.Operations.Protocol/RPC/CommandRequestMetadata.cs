@@ -84,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Timestamp = null;
         }
 
-        internal CommandRequestMetadata(MqttApplicationMessage message, string topicPattern)
+        internal CommandRequestMetadata(MqttApplicationMessage message, string topicPattern, string? topicNamespace)
         {
             CorrelationId = message.CorrelationData != null && GuidExtensions.TryParseBytes(message.CorrelationData, out Guid? correlationId)
                 ? correlationId!.Value
@@ -119,8 +119,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                 }
             }
+            string fullTopicPattern = topicPattern;
+            if (topicNamespace != null)
+            {
+                fullTopicPattern = topicNamespace + "/" + topicPattern;
+            }
 
-            TopicTokens = topicPattern != null ? MqttTopicProcessor.GetReplacementMap(topicPattern, message.Topic) : new Dictionary<string, string>();
+            TopicTokens = MqttTopicProcessor.GetReplacementMap(fullTopicPattern, message.Topic);
         }
 
         internal void MarshalTo(MqttApplicationMessage message)

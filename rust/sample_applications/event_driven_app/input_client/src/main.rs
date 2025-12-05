@@ -8,7 +8,7 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
-    session::{Session, SessionConnectionMonitor, SessionManagedClient, SessionOptionsBuilder},
+    session::{Session, SessionManagedClient, SessionMonitor, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
     application::{ApplicationContext, ApplicationContextBuilder},
@@ -64,7 +64,7 @@ async fn main() {
     let process_sensor_data_handle = tokio::task::spawn(process_sensor_data(
         application_context.clone(),
         session.create_managed_client(),
-        session.create_connection_monitor(),
+        session.create_session_monitor(),
         sensor_data_processing_rx,
     ));
 
@@ -86,7 +86,7 @@ async fn receive_telemetry(
         .build()
         .expect("Telemetry receiver options should not fail");
 
-    let mut telemetry_receiver: telemetry::Receiver<SensorData, _> =
+    let mut telemetry_receiver: telemetry::Receiver<SensorData> =
         telemetry::Receiver::new(application_context, client, receiver_options)
             .expect("Telemetry receiver creation should not fail");
 
@@ -109,13 +109,13 @@ async fn receive_telemetry(
 async fn process_sensor_data(
     application_context: ApplicationContext,
     client: SessionManagedClient,
-    connection_monitor: SessionConnectionMonitor,
+    session_monitor: SessionMonitor,
     mut sensor_data_processing_rx: mpsc::UnboundedReceiver<SensorData>,
 ) {
     let state_store_client = state_store::Client::new(
         application_context,
         client,
-        connection_monitor,
+        session_monitor,
         state_store::ClientOptionsBuilder::default()
             .build()
             .expect("default state store options should not fail"),
@@ -200,7 +200,7 @@ async fn process_sensor_data(
             Err(e) => {
                 log::error!("Failed to fetch state store data: {e:?}");
             }
-        };
+        }
     }
 }
 
@@ -227,12 +227,12 @@ impl PayloadSerialize for SensorData {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/json" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/json"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+            )));
         }
 
         let payload = serde_json::from_slice(payload).map_err(|e| {

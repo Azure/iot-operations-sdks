@@ -30,13 +30,13 @@ impl ProtocolVersion {
     /// Returns [`None`] if the string is not in the correct format.
     pub(crate) fn parse_protocol_version(version: &str) -> Option<ProtocolVersion> {
         let mut protocol_version = ProtocolVersion { major: 0, minor: 0 };
-        if let Some((major, minor)) = version.split_once('.') {
-            if let Ok(major) = major.parse::<u16>() {
-                protocol_version.major = major;
-                if let Ok(minor) = minor.parse::<u16>() {
-                    protocol_version.minor = minor;
-                    return Some(protocol_version);
-                }
+        if let Some((major, minor)) = version.split_once('.')
+            && let Ok(major) = major.parse::<u16>()
+        {
+            protocol_version.major = major;
+            if let Ok(minor) = minor.parse::<u16>() {
+                protocol_version.minor = minor;
+                return Some(protocol_version);
             }
         }
         None
@@ -64,7 +64,7 @@ pub(crate) fn supported_protocol_major_versions_to_string(supported_versions: &[
 pub(crate) fn parse_supported_protocol_major_versions(
     supported_versions: &str,
 ) -> std::vec::Vec<u16> {
-    let versions = supported_versions
+    supported_versions
         .split_whitespace()
         .filter_map(|s| {
             if let Ok(v) = s.parse::<u16>() {
@@ -74,8 +74,7 @@ pub(crate) fn parse_supported_protocol_major_versions(
                 None
             }
         })
-        .collect();
-    versions
+        .collect()
 }
 
 #[macro_use]

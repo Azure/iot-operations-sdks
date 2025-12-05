@@ -12,8 +12,9 @@ readme = "README.md"
 publish = true
 
 [dependencies]
-anyhow = "1.0.86"                                                                   # TODO: reconsider inclusion once TLS library is finalized
+anyhow = "1.0.86"
 async-trait = "0.1.81"
+azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "67a474df878ce97f5558a08da2023d036bff5de7" }
 bytes.workspace = true
 derive_builder.workspace = true
 derive-getters.workspace = true
@@ -23,21 +24,20 @@ notify.workspace = true
 notify-debouncer-full.workspace = true
 openssl = "0.10.66"                                                                 # only used with rumqttc to set up TLS settings
 rand = "0.8.5"
-rumqttc = { version = "0.24.0-fork.4", registry = 'aio-sdks', default-features = false, features = ["use-native-tls"]}
+tempfile = { version = "3", optional = true }
 thiserror.workspace = true
 tokio.workspace = true
-tokio-util.workspace = true
 
 [dev-dependencies]
 azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
 env_logger.workspace = true
 temp-env.workspace = true
-tempfile.workspace = true
 test-case.workspace = true
 tokio-test.workspace = true
 
 [features]
-test-utils = []
+default = [ ]
+test-utils = ["azure_mqtt/__integration", "tempfile"]
 
 [lints]
 workspace = true

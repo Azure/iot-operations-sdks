@@ -8,8 +8,8 @@
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::{
-    interface::{AckToken, ManagedClient},
-    session::SessionConnectionMonitor,
+    session::{SessionManagedClient, SessionMonitor},
+    token::AckToken,
 };
 use azure_iot_operations_protocol::{
     application::ApplicationContext, common::hybrid_logical_clock::HybridLogicalClock, rpc_command,
@@ -68,27 +68,19 @@ pub struct ClientOptions {
 }
 
 /// State store client implementation
-pub struct Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync,
-{
-    invoker: rpc_command::Invoker<state_store::resp3::Request, state_store::resp3::Response, C>,
+pub struct Client {
+    invoker: rpc_command::Invoker<state_store::resp3::Request, state_store::resp3::Response>,
     notification_dispatcher:
         Arc<Dispatcher<(state_store::KeyNotification, Option<AckToken>), String>>,
     shutdown_notifier: Arc<Notify>,
 }
 
-impl<C> Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync,
-    C::PubReceiver: Send + Sync,
-{
+impl Client {
     /// Create a new State Store Client
     ///
     /// <div class="warning">
     ///
-    /// Note: `connection_monitor` must be from the same session as `client`.
+    /// Note: `session_monitor` must be from the same session as `client`.
     ///
     /// </div>
     ///
@@ -102,8 +94,8 @@ where
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
-        connection_monitor: SessionConnectionMonitor,
+        client: SessionManagedClient,
+        session_monitor: SessionMonitor,
         options: ClientOptions,
     ) -> Result<Self, Error> {
         // create invoker for commands
@@ -119,7 +111,6 @@ where
         let invoker: rpc_command::Invoker<
             state_store::resp3::Request,
             state_store::resp3::Response,
-            C,
         > = rpc_command::Invoker::new(application_context.clone(), client.clone(), invoker_options)
             .map_err(ErrorKind::from)?;
 
@@ -145,7 +136,7 @@ where
 
         // Start the receive key notification loop
         task::spawn({
-            let notification_receiver: telemetry::Receiver<state_store::resp3::Operation, C> =
+            let notification_receiver: telemetry::Receiver<state_store::resp3::Operation> =
                 telemetry::Receiver::new(application_context, client, receiver_options)
                     .map_err(ErrorKind::from)?;
             let shutdown_notifier_clone = shutdown_notifier.clone();
@@ -155,7 +146,7 @@ where
                     shutdown_notifier_clone,
                     notification_receiver,
                     notification_dispatcher_clone,
-                    connection_monitor,
+                    session_monitor,
                 )
                 .await;
             }
@@ -183,7 +174,7 @@ where
 
         self.invoker.shutdown().await.map_err(ErrorKind::from)?;
 
-        log::info!("Shutdown");
+        log::info!("State Store Client shutdown");
         Ok(())
     }
 
@@ -571,18 +562,18 @@ where
     }
 
     /// only return when the session goes from connected to disconnected
-    async fn notify_on_disconnection(connection_monitor: &SessionConnectionMonitor) {
-        connection_monitor.connected().await;
-        connection_monitor.disconnected().await;
+    async fn notify_on_disconnection(session_monitor: &SessionMonitor) {
+        session_monitor.connected().await;
+        session_monitor.disconnected().await;
     }
 
     async fn receive_key_notification_loop(
         shutdown_notifier: Arc<Notify>,
-        mut receiver: telemetry::Receiver<state_store::resp3::Operation, C>,
+        mut receiver: telemetry::Receiver<state_store::resp3::Operation>,
         notification_dispatcher: Arc<
             Dispatcher<(state_store::KeyNotification, Option<AckToken>), String>,
         >,
-        connection_monitor: SessionConnectionMonitor,
+        session_monitor: SessionMonitor,
     ) {
         let mut shutdown_attempt_count = 0;
         loop {
@@ -592,10 +583,10 @@ where
                   () = shutdown_notifier.notified() => {
                     match receiver.shutdown().await {
                         Ok(()) => {
-                            log::info!("Telemetry Receiver shutdown");
+                            log::info!("State Store key notification Telemetry Receiver shutdown");
                         }
                         Err(e) => {
-                            log::error!("Error shutting down Telemetry Receiver: {e}");
+                            log::warn!("Error shutting down State Store key notification Telemetry Receiver: {e}");
                             // try shutdown again, but not indefinitely
                             if shutdown_attempt_count < 3 {
                                 shutdown_attempt_count += 1;
@@ -604,8 +595,8 @@ where
                         }
                     }
                   },
-                  () = Self::notify_on_disconnection(&connection_monitor) => {
-                    log::warn!("Session disconnected. Dropping key observations as they won't receive any more notifications and must be recreated");
+                  () = Self::notify_on_disconnection(&session_monitor) => {
+                    log::warn!("Session disconnected. Dropping State Store key observations as they won't receive any more notifications and must be recreated");
                     // This closes all associated notification channels
                     notification_dispatcher.unregister_all();
                   },
@@ -614,12 +605,12 @@ where
                         match m {
                             Ok((notification, ack_token)) => {
                                 let Some(key_name) = notification.topic_tokens.get("encodedKeyName") else {
-                                    log::error!("Key Notification missing encodedKeyName topic token.");
+                                    log::warn!("Key Notification missing encodedKeyName topic token.");
                                     continue;
                                 };
                                 let decoded_key_name = HEXUPPER.decode(key_name.as_bytes()).unwrap();
                                 let Some(notification_timestamp) = notification.timestamp else {
-                                    log::error!("Received key notification with no version. Ignoring.");
+                                    log::warn!("Received key notification with no version. Ignoring.");
                                     continue;
                                 };
                                 let key_notification = state_store::KeyNotification {
@@ -631,21 +622,25 @@ where
                                 // Try to send the notification to the associated receiver
                                 match notification_dispatcher.dispatch(key_name, (key_notification.clone(), ack_token)) {
                                     Ok(()) => {
-                                        log::debug!("Key Notification dispatched: {key_notification:?}");
+                                        log::debug!("Key Notification dispatched: {key_notification}");
                                     }
 
                                     Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::SendError }) => {
-                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {payload:?}");
+                                        // NOTE: the Display impl for KeyNotification only prints the key name, operation type, and version.
+                                        // it does not print the new key value contents on SET operations
+                                        log::warn!("Key Notification Receiver for `{key_name}` has been dropped. Received Notification: {payload}");
 
                                     }
                                     Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
-                                        log::warn!("Key is not being observed. Received Notification: {payload:?} for {receiver_id}");
+                                        // NOTE: the Display impl for KeyNotification only prints the key name, operation type, and version.
+                                        // it does not print the new key value contents on SET operations
+                                        log::warn!("Key is not being observed. Received Notification: {payload} for {receiver_id}");
                                     }
                                 }
                             }
                             Err(e) => {
                                 // This should only happen on errors subscribing, but it's likely not recoverable
-                                log::error!("Error receiving key notifications: {e}. Shutting down Telemetry Receiver.");
+                                log::error!("Error receiving key notifications: {e}. Shutting down State Store key notification Telemetry Receiver.");
                                 // try to shutdown telemetry receiver, but not indefinitely
                                 if shutdown_attempt_count < 3 {
                                     shutdown_notifier.notify_one();
@@ -653,7 +648,7 @@ where
                             }
                         }
                     } else {
-                        log::info!("Telemetry Receiver closed, no more Key Notifications will be received");
+                        log::info!("State Store key notification Telemetry Receiver closed, no more Key Notifications will be received");
                         // Unregister all receivers, closing the associated channels
                         notification_dispatcher.unregister_all();
                         break;
@@ -664,11 +659,7 @@ where
     }
 }
 
-impl<C> Drop for Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync,
-    C::PubReceiver: Send + Sync,
-{
+impl Drop for Client {
     fn drop(&mut self) {
         self.shutdown_notifier.notify_one();
         log::info!("State Store Client has been dropped.");
@@ -706,12 +697,12 @@ mod tests {
     #[tokio::test]
     async fn test_set_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -733,12 +724,12 @@ mod tests {
     #[tokio::test]
     async fn test_get_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -752,12 +743,12 @@ mod tests {
     #[tokio::test]
     async fn test_del_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -773,12 +764,12 @@ mod tests {
     #[tokio::test]
     async fn test_vdel_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -794,12 +785,12 @@ mod tests {
     #[tokio::test]
     async fn test_observe_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -815,12 +806,12 @@ mod tests {
     #[tokio::test]
     async fn test_unobserve_empty_key() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -836,12 +827,12 @@ mod tests {
     #[tokio::test]
     async fn test_set_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -863,12 +854,12 @@ mod tests {
     #[tokio::test]
     async fn test_get_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -884,12 +875,12 @@ mod tests {
     #[tokio::test]
     async fn test_del_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -905,12 +896,12 @@ mod tests {
     #[tokio::test]
     async fn test_vdel_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -931,12 +922,12 @@ mod tests {
     #[tokio::test]
     async fn test_observe_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -952,12 +943,12 @@ mod tests {
     #[tokio::test]
     async fn test_unobserve_invalid_timeout() {
         let session = create_session();
-        let connection_monitor = session.create_connection_monitor();
+        let session_monitor = session.create_session_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
-            connection_monitor,
+            session_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();

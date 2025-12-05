@@ -3,7 +3,7 @@
 use std::collections::HashMap;
 use std::time::Duration;
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
@@ -89,25 +89,18 @@ impl IncrementRequestBuilder {
 }
 
 /// Command Invoker for `increment`
-pub struct IncrementCommandInvoker<C>(
-    rpc_command::Invoker<IncrementRequestPayload, IncrementResponsePayload, C>,
-)
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static;
+pub struct IncrementCommandInvoker(
+    rpc_command::Invoker<IncrementRequestPayload, IncrementResponsePayload>,
+);
 
-impl<C> IncrementCommandInvoker<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl IncrementCommandInvoker {
     /// Creates a new [`IncrementCommandInvoker`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         options: &CommandInvokerOptions,
     ) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();

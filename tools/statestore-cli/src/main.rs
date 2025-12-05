@@ -17,7 +17,7 @@ use azure_iot_operations_protocol::application::{ApplicationContext, Application
 use azure_iot_operations_services::state_store::{self, SetOptions};
 
 const TOOL_NAME: &str = "statestore-cli";
-const TOOL_VERSION: &str = "0.0.1";
+const TOOL_VERSION: &str = "0.0.2";
 const TOOL_ABOUT_SHORT: &str = "Azure Device State Store CLI";
 const TOOL_ABOUT_LONG: &str = "Allows managing key/value pairs in the Azure State Store.";
 

@@ -25,7 +25,7 @@ spec:
       dataSource: /thermostat
       destinations:
         - configuration:
-            topic: /mqtt/machine/asset1/status
+            topic: mqtt/machine/asset1/status
           target: Mqtt
   deviceRef:
     deviceName: my-rest-thermostat-device-name

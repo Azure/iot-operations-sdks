@@ -12,19 +12,16 @@ pub use crate::connection_settings::{
     MqttConnectionSettings, MqttConnectionSettingsBuilder, MqttConnectionSettingsBuilderError,
 };
 
-mod auth;
 mod connection_settings;
 pub mod control_packet;
 pub mod error;
-pub mod interface;
 pub mod session;
-pub mod topic;
+pub mod token;
 
-// TODO: put behind `use-rumqttc` feature flag
-mod rumqttc_adapter;
+mod azure_mqtt_adapter;
 
 #[cfg(feature = "test-utils")]
-pub mod interface_mocks;
+pub mod test_utils;
 
 #[macro_use]
 extern crate derive_builder;

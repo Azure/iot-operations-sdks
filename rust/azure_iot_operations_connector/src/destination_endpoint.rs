@@ -5,7 +5,7 @@
 
 use std::{sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::{control_packet::QoS, session::SessionManagedClient};
+use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_protocol::{
     common::{
         aio_protocol_error::AIOProtocolError,
@@ -361,6 +361,7 @@ impl Forwarder {
 }
 
 #[derive(Debug)]
+#[allow(clippy::large_enum_variant)]
 pub(crate) enum ForwarderDestination {
     DefaultDestination(Arc<Destination>),
     DataOperationDestination(Destination),
@@ -412,7 +413,7 @@ pub(crate) enum Destination {
         retain: Option<bool>,
         ttl: Option<u64>,
         inbound_endpoint_name: String,
-        telemetry_sender: telemetry::Sender<BypassPayload, SessionManagedClient>,
+        telemetry_sender: telemetry::Sender<BypassPayload>,
     },
     Storage {
         path: String,

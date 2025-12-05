@@ -7,7 +7,7 @@ use std::time::SystemTime;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use bytes::Bytes;
 use chrono::{DateTime, SecondsFormat, Utc};
 use uuid::Uuid;
@@ -92,7 +92,7 @@ impl CloudEventBuilder {
 
         if let Some(sv) = &self.spec_version {
             CloudEventFields::SpecVersion.validate(sv, &spec_version)?;
-            spec_version = sv.to_string();
+            spec_version.clone_from(sv);
         }
 
         if let Some(source) = &self.source {
@@ -166,7 +166,7 @@ pub struct Message<T: PayloadSerialize> {
     serialized_payload: SerializedPayload,
     /// Strongly link `TelemetryMessage` with type `T`
     #[builder(private)]
-    message_payload_type: PhantomData<T>,
+    payload_type: PhantomData<T>,
     /// Quality of Service of the telemetry message. Can only be `AtMostOnce` or `AtLeastOnce`.
     #[builder(default = "QoS::AtLeastOnce")]
     qos: QoS,
@@ -182,6 +182,7 @@ pub struct Message<T: PayloadSerialize> {
     /// properties. Default is 10 seconds.
     #[builder(default = "Duration::from_secs(10)")]
     #[builder(setter(custom))]
+    #[allow(clippy::struct_field_names)]
     message_expiry: Duration,
     /// Cloud event of the telemetry message.
     #[builder(default = "None")]
@@ -218,7 +219,7 @@ impl<T: PayloadSerialize> MessageBuilder<T> {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
                         "content_type",
-                        Value::String(serialized_payload.content_type.to_string()),
+                        Value::String(serialized_payload.content_type.clone()),
                         Some(format!(
                             "Content type '{}' of telemetry message type is not valid UTF-8",
                             serialized_payload.content_type
@@ -227,7 +228,7 @@ impl<T: PayloadSerialize> MessageBuilder<T> {
                     ));
                 }
                 self.serialized_payload = Some(serialized_payload);
-                self.message_payload_type = Some(PhantomData);
+                self.payload_type = Some(PhantomData);
                 Ok(self)
             }
         }
@@ -274,17 +275,18 @@ impl<T: PayloadSerialize> MessageBuilder<T> {
                 }
             }
         }
-        if let Some(qos) = &self.qos {
-            if *qos != QoS::AtMostOnce && *qos != QoS::AtLeastOnce {
-                return Err("QoS must be AtMostOnce or AtLeastOnce".to_string());
-            }
+        if let Some(qos) = &self.qos
+            && *qos != QoS::AtMostOnce
+            && *qos != QoS::AtLeastOnce
+        {
+            return Err("QoS must be AtMostOnce or AtLeastOnce".to_string());
         }
         // If there's a cloud event, make sure the content type is valid for the cloud event spec version
-        if let Some(Some(cloud_event)) = &self.cloud_event {
-            if let Some(serialized_payload) = &self.serialized_payload {
-                CloudEventFields::DataContentType
-                    .validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
-            }
+        if let Some(Some(cloud_event)) = &self.cloud_event
+            && let Some(serialized_payload) = &self.serialized_payload
+        {
+            CloudEventFields::DataContentType
+                .validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
         }
         if self.persist == Some(true) && self.retain == Some(false) {
             return Err("Persist cannot be used without retain".to_string());
@@ -296,6 +298,7 @@ impl<T: PayloadSerialize> MessageBuilder<T> {
 /// Telemetry Sender Options struct
 #[derive(Builder, Clone)]
 #[builder(setter(into, strip_option))]
+#[allow(clippy::struct_field_names)]
 pub struct Options {
     /// Topic pattern for the telemetry message.
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
@@ -333,7 +336,7 @@ pub struct Options {
 ///   .topic_namespace("test_namespace")
 ///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
-/// let sender: telemetry::Sender<Vec<u8>, _> = telemetry::Sender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
+/// let sender: telemetry::Sender<Vec<u8>> = telemetry::Sender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = telemetry::sender::MessageBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .qos(QoS::AtLeastOnce)
@@ -343,22 +346,20 @@ pub struct Options {
 /// # })
 /// ```
 ///
-pub struct Sender<T, C>
+pub struct Sender<T>
 where
     T: PayloadSerialize,
-    C: ManagedClient + Send + Sync + 'static,
 {
     application_hlc: Arc<ApplicationHybridLogicalClock>,
-    mqtt_client: C,
+    mqtt_client: SessionManagedClient,
     message_payload_type: PhantomData<T>,
     topic_pattern: TopicPattern,
 }
 
 /// Implementation of Telemetry Sender
-impl<T, C> Sender<T, C>
+impl<T> Sender<T>
 where
     T: PayloadSerialize,
-    C: ManagedClient + Send + Sync + 'static,
 {
     /// Creates a new [`Sender`].
     ///
@@ -372,13 +373,13 @@ where
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if
     /// - [`topic_pattern`](OptionsBuilder::topic_pattern) is empty or whitespace
     /// - [`topic_pattern`](OptionsBuilder::topic_pattern),
-    ///     [`topic_namespace`](OptionsBuilder::topic_namespace),
-    ///     are Some and invalid or contain a token with no valid replacement
+    ///   [`topic_namespace`](OptionsBuilder::topic_namespace),
+    ///   are Some and invalid or contain a token with no valid replacement
     /// - [`topic_token_map`](OptionsBuilder::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         sender_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validate parameters
@@ -445,7 +446,7 @@ where
 
         // Cloud Events headers
         if let Some(cloud_event) = message.cloud_event {
-            let cloud_event_headers = cloud_event.into_headers(&message_topic);
+            let cloud_event_headers = cloud_event.into_headers(message_topic.as_str());
             for (key, value) in cloud_event_headers {
                 message.custom_user_data.push((key, value));
             }
@@ -477,8 +478,8 @@ where
         let publish_properties = PublishProperties {
             correlation_data: Some(correlation_data),
             response_topic: None,
-            payload_format_indicator: Some(message.serialized_payload.format_indicator as u8),
-            content_type: Some(message.serialized_payload.content_type.to_string()),
+            payload_format_indicator: message.serialized_payload.format_indicator.into(),
+            content_type: Some(message.serialized_payload.content_type.clone()),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: message.custom_user_data,
             topic_alias: None,
@@ -486,40 +487,81 @@ where
         };
 
         // Send publish
-        let publish_result = self
-            .mqtt_client
-            .publish_with_properties(
-                message_topic,
-                message.qos,
-                message.retain,
-                message.serialized_payload.payload,
-                publish_properties,
-            )
-            .await;
-
-        match publish_result {
-            Ok(publish_completion_token) => {
-                // Wait for and handle the puback
-                match publish_completion_token.await {
-                    Ok(()) => Ok(()),
+        match message.qos {
+            azure_iot_operations_mqtt::control_packet::QoS::AtMostOnce => {
+                let publish_result = self
+                    .mqtt_client
+                    .publish_qos0(
+                        message_topic,
+                        message.retain,
+                        message.serialized_payload.payload,
+                        publish_properties,
+                    )
+                    .await;
+                match publish_result {
+                    Ok(publish_completion_token) => publish_completion_token.await.map_err(|e| {
+                        log::error!("Telemetry Publish completion error: {e}");
+                        AIOProtocolError::new_mqtt_error(
+                            Some("MQTT Error on telemetry send publish".to_string()),
+                            Box::new(e),
+                            None,
+                        )
+                    }),
                     Err(e) => {
-                        log::error!("Puback error: {e}");
+                        log::error!("Telemetry Publish error: {e}");
                         Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT Error on telemetry send puback".to_string()),
+                            Some("MQTT Error on telemetry send publish".to_string()),
                             Box::new(e),
                             None,
                         ))
                     }
                 }
             }
-            Err(e) => {
-                log::error!("Publish error: {e}");
-                Err(AIOProtocolError::new_mqtt_error(
-                    Some("MQTT Error on telemetry send publish".to_string()),
-                    Box::new(e),
-                    None,
-                ))
+            azure_iot_operations_mqtt::control_packet::QoS::AtLeastOnce => {
+                let publish_result = self
+                    .mqtt_client
+                    .publish_qos1(
+                        message_topic,
+                        message.retain,
+                        message.serialized_payload.payload,
+                        publish_properties,
+                    )
+                    .await;
+
+                match publish_result {
+                    Ok(publish_completion_token) => {
+                        // Wait for and handle the puback
+                        match publish_completion_token.await {
+                            Ok(puback) => puback.as_result().map_err(|e| {
+                                AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT Puback indicated failure".to_string()),
+                                    Box::new(e),
+                                    None,
+                                )
+                            }),
+                            Err(e) => {
+                                log::error!("Telemetry Publish completion error: {e}");
+                                Err(AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT Error on telemetry send publish".to_string()),
+                                    Box::new(e),
+                                    None,
+                                ))
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("Telemetry Publish error: {e}");
+                        Err(AIOProtocolError::new_mqtt_error(
+                            Some("MQTT Error on telemetry send publish".to_string()),
+                            Box::new(e),
+                            None,
+                        ))
+                    }
+                }
             }
+            azure_iot_operations_mqtt::control_packet::QoS::ExactlyOnce => unreachable!(
+                "QoS::ExactlyOnce is not supported for telemetry sending and isn't possible to set on Message"
+            ),
         }
     }
 }
@@ -568,7 +610,7 @@ mod tests {
             .build()
             .unwrap();
 
-        Sender::<MockPayload, _>::new(
+        Sender::<MockPayload>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
@@ -589,7 +631,7 @@ mod tests {
             .build()
             .unwrap();
 
-        Sender::<MockPayload, _>::new(
+        Sender::<MockPayload>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
@@ -607,7 +649,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let sender: Result<Sender<MockPayload, _>, _> = Sender::new(
+        let sender: Result<Sender<MockPayload>, _> = Sender::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
@@ -679,7 +721,7 @@ mod tests {
         }
     }
 
-    /// Tests failure: Timeout specified as > u32::max (invalid value) on send and an `ArgumentInvalid` error is returned
+    /// Tests failure: Timeout specified as > `u32::max` (invalid value) on send and an `ArgumentInvalid` error is returned
     #[test_case(Duration::from_secs(u64::from(u32::MAX) + 1); "send_timeout_u32_max")]
     fn test_send_timeout_invalid_value(timeout: Duration) {
         let mut mock_telemetry_payload = MockPayload::new();

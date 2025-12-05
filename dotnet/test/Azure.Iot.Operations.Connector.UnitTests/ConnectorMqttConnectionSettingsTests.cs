@@ -24,24 +24,38 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public void TestConstructorWithAuthAndTls()
         {
             string expectedClientId = Guid.NewGuid().ToString();
-            string expectedSatPath = Guid.NewGuid().ToString();
+            
+            // Create a temporary SAT file for the test
+            string tempSatFile = Path.Combine(Path.GetTempPath(), $"sat_{Guid.NewGuid()}.token");
+            File.WriteAllText(tempSatFile, "mock-sat-token-content");
+            
+            try
+            {
+                Environment.SetEnvironmentVariable(ConnectorFileMountSettings.ConnectorConfigMountPathEnvVar, "./connector-config");
+                Environment.SetEnvironmentVariable(ConnectorFileMountSettings.BrokerTrustBundleMountPathEnvVar, "./trust-bundle");
+                Environment.SetEnvironmentVariable(ConnectorFileMountSettings.BrokerSatMountPathEnvVar, tempSatFile);
+                Environment.SetEnvironmentVariable(ConnectorFileMountSettings.ConnectorClientIdEnvVar, expectedClientId);
 
-            Environment.SetEnvironmentVariable(ConnectorFileMountSettings.ConnectorConfigMountPathEnvVar, "./connector-config");
-            Environment.SetEnvironmentVariable(ConnectorFileMountSettings.BrokerTrustBundleMountPathEnvVar, "./trust-bundle");
-            Environment.SetEnvironmentVariable(ConnectorFileMountSettings.BrokerSatMountPathEnvVar, expectedSatPath);
-            Environment.SetEnvironmentVariable(ConnectorFileMountSettings.ConnectorClientIdEnvVar, expectedClientId);
+                MqttConnectionSettings settings = ConnectorFileMountSettings.FromFileMount();
 
-            MqttConnectionSettings settings = ConnectorFileMountSettings.FromFileMount();
-
-            Assert.Equal(expectedClientId, settings.ClientId);
-            Assert.Equal(expectedSatPath, settings.SatAuthFile);
-            Assert.Equal(TimeSpan.FromSeconds(20), settings.SessionExpiry);
-            Assert.Equal(TimeSpan.FromSeconds(10), settings.KeepAlive);
-            Assert.Equal("someHostName", settings.HostName);
-            Assert.Equal(1234, settings.TcpPort);
-            Assert.True(settings.UseTls);
-            Assert.NotNull(settings.TrustChain);
-            Assert.NotEmpty(settings.TrustChain);
+                Assert.Equal(expectedClientId, settings.ClientId);
+                Assert.Equal(tempSatFile, settings.SatAuthFile);
+                Assert.Equal(TimeSpan.FromSeconds(20), settings.SessionExpiry);
+                Assert.Equal(TimeSpan.FromSeconds(10), settings.KeepAlive);
+                Assert.Equal("someHostName", settings.HostName);
+                Assert.Equal(1234, settings.TcpPort);
+                Assert.True(settings.UseTls);
+                Assert.NotNull(settings.TrustChain);
+                Assert.NotEmpty(settings.TrustChain);
+            }
+            finally
+            {
+                // Clean up the temporary file
+                if (File.Exists(tempSatFile))
+                {
+                    File.Delete(tempSatFile);
+                }
+            }
         }
 
         [Fact]

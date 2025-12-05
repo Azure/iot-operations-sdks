@@ -6,9 +6,7 @@ use std::{env, time::Duration};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::{
     common::payload_serialize::{
@@ -41,8 +39,8 @@ fn setup_test<
 ) -> Result<
     (
         Session,
-        rpc_command::Invoker<TReq, TResp, SessionManagedClient>,
-        rpc_command::Executor<TReq, TResp, SessionManagedClient>,
+        rpc_command::Invoker<TReq, TResp>,
+        rpc_command::Executor<TReq, TResp>,
         SessionExitHandle,
     ),
     (),
@@ -50,7 +48,7 @@ fn setup_test<
     let _ = Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations", log::LevelFilter::Warn)
         .try_init();
     if env::var("ENABLE_NETWORK_TESTS").is_err() {
@@ -81,7 +79,7 @@ fn setup_test<
         .command_name(client_id)
         .build()
         .unwrap();
-    let invoker: rpc_command::Invoker<TReq, TResp, _> = rpc_command::Invoker::new(
+    let invoker: rpc_command::Invoker<TReq, TResp> = rpc_command::Invoker::new(
         application_context.clone(),
         session.create_managed_client(),
         invoker_options,
@@ -93,7 +91,7 @@ fn setup_test<
         .command_name(client_id)
         .build()
         .unwrap();
-    let executor: rpc_command::Executor<TReq, TResp, _> = rpc_command::Executor::new(
+    let executor: rpc_command::Executor<TReq, TResp> = rpc_command::Executor::new(
         application_context,
         session.create_managed_client(),
         executor_options,
@@ -136,7 +134,7 @@ async fn command_basic_invoke_response_network_tests() {
         // Network tests disabled, skipping tests
         return;
     };
-    let monitor = session.create_connection_monitor();
+    let monitor = session.create_session_monitor();
 
     let test_task = tokio::task::spawn({
         async move {
@@ -194,7 +192,7 @@ async fn command_basic_invoke_response_network_tests() {
             // cleanup should be successful
             assert!(invoker.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.force_exit();
         }
     });
 
@@ -219,7 +217,7 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
         // Network tests disabled, skipping tests
         return;
     };
-    let monitor = session.create_connection_monitor();
+    let monitor = session.create_session_monitor();
 
     let test_task = tokio::task::spawn({
         async move {
@@ -305,7 +303,7 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
             // cleanup should be successful
             assert!(invoker.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.force_exit();
         }
     });
 
@@ -343,12 +341,12 @@ impl PayloadSerialize for DataRequestPayload {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<DataRequestPayload, DeserializationError<String>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/json" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/json"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+            )));
         }
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
@@ -407,12 +405,12 @@ impl PayloadSerialize for DataResponsePayload {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<DataResponsePayload, DeserializationError<String>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/something" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/something'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/something"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/something'"
+            )));
         }
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
@@ -472,7 +470,7 @@ async fn command_complex_invoke_response_network_tests() {
         // Network tests disabled, skipping tests
         return;
     };
-    let monitor = session.create_connection_monitor();
+    let monitor = session.create_session_monitor();
 
     let test_request_payload = DataRequestPayload {
         requested_temperature: 78.0,
@@ -558,7 +556,7 @@ async fn command_complex_invoke_response_network_tests() {
             // cleanup should be successful
             assert!(invoker.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.force_exit();
         }
     });
 

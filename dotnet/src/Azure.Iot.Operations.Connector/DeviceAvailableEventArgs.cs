@@ -1,15 +1,27 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Threading;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.LeaderElection;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class DeviceAvailableEventArgs : EventArgs
+    public class DeviceAvailableEventArgs : EventArgs, IDisposable
     {
+        /// <summary>
+        /// The name of this device.
+        /// </summary>
+        public string DeviceName { get; }
+
+        /// <summary>
+        /// This device.
+        /// </summary>
         public Device Device { get; }
 
+        /// <summary>
+        /// The name of the endpoint that became available on this device.
+        /// </summary>
         public string InboundEndpointName { get; }
 
         /// <summary>
@@ -26,11 +38,30 @@ namespace Azure.Iot.Operations.Connector
         /// </remarks>
         public ILeaderElectionClient? LeaderElectionClient { get; }
 
-        internal DeviceAvailableEventArgs(Device device, string inboundEndpointName, ILeaderElectionClient? leaderElectionClient)
+        /// <summary>
+        /// The client to use to send status updates for this device with.
+        /// </summary>
+        public DeviceEndpointClient DeviceEndpointClient { get; }
+
+        internal DeviceAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, ILeaderElectionClient? leaderElectionClient, IAzureDeviceRegistryClientWrapper adrclient)
         {
+            DeviceName = deviceName;
             Device = device;
             InboundEndpointName = inboundEndpointName;
             LeaderElectionClient = leaderElectionClient;
+            DeviceEndpointClient = new(adrclient, deviceName, inboundEndpointName);
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                DeviceEndpointClient.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this client is already disposed.
+            }
         }
     }
 }

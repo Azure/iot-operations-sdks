@@ -15,10 +15,61 @@ public record ConfigError
     /// <summary>
     /// Array of error details that describe the status of each error.
     /// </summary>
-    public List<DetailsSchemaElement>? Details { get; set; } = default;
+    public List<ConfigErrorDetails>? Details { get; set; } = default;
 
     /// <summary>
     /// Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).
     /// </summary>
     public string? Message { get; set; } = default;
+
+    internal bool EqualTo(ConfigError other)
+    {
+        if (!string.Equals(Code, other.Code))
+        {
+            return false;
+        }
+
+        if (!string.Equals(Message, other.Message))
+        {
+            return false;
+        }
+
+        if (Details == null && other.Details != null)
+        {
+            return false;
+        }
+        else if (Details != null && other.Details == null)
+        {
+            return false;
+        }
+        else if (Details != null && other.Details != null)
+        {
+            if (Details.Count != other.Details.Count)
+            {
+                return false;
+            }
+
+            // All detail entries in this are present exactly once in other
+            foreach (ConfigErrorDetails detail in Details)
+            {
+                var matches = other.Details.Select((a) => a.EqualTo(detail));
+                if (matches == null || matches.Count() != 1)
+                {
+                    return false;
+                }
+            }
+
+            // All detail entries in other are present exactly once in this
+            foreach (ConfigErrorDetails detail in other.Details)
+            {
+                var matches = Details.Select((a) => a.EqualTo(detail));
+                if (matches == null || matches.Count() != 1)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }

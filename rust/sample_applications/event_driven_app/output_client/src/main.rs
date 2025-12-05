@@ -8,7 +8,7 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
-    session::{Session, SessionConnectionMonitor, SessionManagedClient, SessionOptionsBuilder},
+    session::{Session, SessionManagedClient, SessionMonitor, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
     application::{ApplicationContext, ApplicationContextBuilder},
@@ -54,7 +54,7 @@ async fn main() {
     let process_window_task = tokio::task::spawn(process_window(
         application_context.clone(),
         session.create_managed_client(),
-        session.create_connection_monitor(),
+        session.create_session_monitor(),
     ));
 
     tokio::try_join!(
@@ -67,7 +67,7 @@ async fn main() {
 async fn process_window(
     application_context: ApplicationContext,
     client: SessionManagedClient,
-    connection_monitor: SessionConnectionMonitor,
+    session_monitor: SessionMonitor,
 ) {
     // Create sender
     let sender_options = telemetry::sender::OptionsBuilder::default()
@@ -82,7 +82,7 @@ async fn process_window(
     let state_store_client = state_store::Client::new(
         application_context,
         client,
-        connection_monitor,
+        session_monitor,
         state_store::ClientOptionsBuilder::default()
             .build()
             .expect("default state store options should not fail"),
@@ -152,20 +152,17 @@ async fn process_window(
                                 Err(e) => {
                                     // Error while sending telemetry
                                     log::error!("{e:?}");
-                                    continue;
                                 }
                             }
                         }
                         Err(e) => {
                             // Deserialization error
                             log::error!("{e:?}");
-                            continue;
                         }
                     }
                 } else {
                     log::info!("Sensor data not found in state store");
-                    continue;
-                };
+                }
             }
             // Error while fetching data from state store
             Err(e) => log::error!("{e:?}"),
@@ -196,12 +193,12 @@ impl PayloadSerialize for SensorData {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/json" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/json"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+            )));
         }
 
         let payload = serde_json::from_slice(payload).map_err(|e| {
@@ -251,7 +248,10 @@ impl From<Vec<f64>> for WindowSensorData {
         let mean = sensor_data.iter().sum::<f64>()
             / f64::from(u32::try_from(sensor_data.len()).expect("element count should fit in u32"));
         let median = if count % 2 == 0 {
-            (sensor_data[sensor_data.len() / 2] + sensor_data[sensor_data.len() / 2 - 1]) / 2.0
+            f64::midpoint(
+                sensor_data[sensor_data.len() / 2],
+                sensor_data[sensor_data.len() / 2 - 1],
+            )
         } else {
             sensor_data[sensor_data.len() / 2]
         };
