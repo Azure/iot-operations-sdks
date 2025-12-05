@@ -59,7 +59,7 @@ pub struct K8sSatFileMonitor {
 }
 
 impl K8sSatFileMonitor {
-    /// Create a new [`SatFileMonitor`] that monitors the specified SAT file path.
+    /// Create a new [`K8sSatFileMonitor`] that monitors the specified SAT file path.
     /// `aggregation_window` specifies the aggregation window for file change events.
     ///
     /// # Errors
