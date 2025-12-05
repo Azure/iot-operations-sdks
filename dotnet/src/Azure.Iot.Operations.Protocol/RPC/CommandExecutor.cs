@@ -180,11 +180,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 CommandRequestMetadata requestMetadata;
                 try
                 {
-                    requestMetadata = new CommandRequestMetadata(args.ApplicationMessage, RequestTopicPattern, TopicNamespace)
-                    {
-                        ContentType = args.ApplicationMessage.ContentType,
-                        PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
-                    };
+                    requestMetadata = new CommandRequestMetadata(args.ApplicationMessage, RequestTopicPattern, TopicNamespace);
                     request = _serializer.FromBytes<TReq>(args.ApplicationMessage.Payload, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
                     // Update application HLC against received timestamp
                     if (requestMetadata.Timestamp != null)
@@ -476,6 +472,20 @@ namespace Azure.Iot.Operations.Protocol.RPC
             // Update HLC and use as the timestamp.
             string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+
+            // Set default CloudEvent type for RPC responses if not already set
+            if (metadata?.CloudEvent != null && metadata.CloudEvent.Type == "ms.aio.telemetry")
+            {
+                // User created a CloudEvent with default telemetry type, update to RPC response type
+                metadata.CloudEvent = new Telemetry.CloudEvent(metadata.CloudEvent.Source, "ms.aio.rpc.response", metadata.CloudEvent.SpecVersion)
+                {
+                    Id = metadata.CloudEvent.Id,
+                    Time = metadata.CloudEvent.Time,
+                    DataContentType = metadata.CloudEvent.DataContentType,
+                    DataSchema = metadata.CloudEvent.DataSchema,
+                    Subject = metadata.CloudEvent.Subject
+                };
+            }
 
             metadata?.MarshalTo(message);
 

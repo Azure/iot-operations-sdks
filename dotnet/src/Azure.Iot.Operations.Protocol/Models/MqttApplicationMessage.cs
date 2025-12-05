@@ -6,6 +6,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace Azure.Iot.Operations.Protocol.Models
@@ -235,6 +236,107 @@ namespace Azure.Iot.Operations.Protocol.Models
             {
                 AddUserProperty(nameof(md.DataSchema).ToLowerInvariant(), md.DataSchema);
             }
+        }
+
+        /// <summary>
+        /// Sets the CloudEvent properties on this MQTT message by adding the appropriate user properties.
+        /// This method will provide default values for Id (new GUID), Time (current UTC time), and SpecVersion (1.0) if they are not set.
+        /// </summary>
+        /// <param name="cloudEvent">The CloudEvent to set on this message.</param>
+        /// <remarks>
+        /// This method will override the ContentType property of this message with the DataContentType from the CloudEvent if it is set.
+        /// </remarks>
+        public void SetCloudEvent(CloudEvent cloudEvent)
+        {
+            ArgumentNullException.ThrowIfNull(cloudEvent);
+
+            // Provide default values as per ADR27
+            if (string.IsNullOrEmpty(cloudEvent.Id))
+            {
+                cloudEvent.Id = Guid.NewGuid().ToString();
+            }
+
+            if (!cloudEvent.Time.HasValue)
+            {
+                cloudEvent.Time = DateTime.UtcNow;
+            }
+
+            // Add cloud event properties as user properties
+            AddCloudEvents(cloudEvent);
+
+            // Override ContentType if DataContentType is set
+            if (cloudEvent.DataContentType is not null)
+            {
+                ContentType = cloudEvent.DataContentType;
+            }
+        }
+
+        /// <summary>
+        /// Attempts to parse a CloudEvent from the user properties of this MQTT message.
+        /// </summary>
+        /// <returns>
+        /// A CloudEvent object if the required properties (specversion, source, type) are present; otherwise, null.
+        /// </returns>
+        public CloudEvent? GetCloudEvent()
+        {
+            if (UserProperties == null || UserProperties.Count == 0)
+            {
+                return null;
+            }
+
+            string? SafeGetUserProperty(string name)
+            {
+                return UserProperties
+                    .FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    ?.Value;
+            }
+
+            // Get required properties
+            string? specVersion = SafeGetUserProperty("specversion");
+            if (string.IsNullOrEmpty(specVersion))
+            {
+                return null;
+            }
+
+            if (!specVersion.Equals("1.0", StringComparison.Ordinal))
+            {
+                // Only version 1.0 is supported
+                return null;
+            }
+
+            string? sourceValue = SafeGetUserProperty("source");
+            if (string.IsNullOrEmpty(sourceValue) || !Uri.TryCreate(sourceValue, UriKind.RelativeOrAbsolute, out Uri? source))
+            {
+                return null;
+            }
+
+            string? type = SafeGetUserProperty("type");
+            if (string.IsNullOrEmpty(type))
+            {
+                return null;
+            }
+
+            // Get optional properties
+            string? id = SafeGetUserProperty("id");
+            string? subject = SafeGetUserProperty("subject");
+            string? dataSchema = SafeGetUserProperty("dataschema");
+            string? timeValue = SafeGetUserProperty("time");
+
+            DateTime? time = null;
+            if (!string.IsNullOrEmpty(timeValue) && 
+                DateTime.TryParse(timeValue, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime parsedTime))
+            {
+                time = parsedTime;
+            }
+
+            return new CloudEvent(source, type, specVersion)
+            {
+                Id = id,
+                Time = time,
+                DataContentType = ContentType,
+                DataSchema = dataSchema,
+                Subject = subject
+            };
         }
     }
 }

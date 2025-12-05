@@ -56,7 +56,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         ///  Content type of data value. This attribute enables data to carry any type of content, 
         ///  whereby format and encoding might differ from that of the chosen event format.
         /// </summary>
-        public string? DataContentType { get; internal set; }
+        public string? DataContentType { get; set; }
 
         /// <summary>
         /// Identifies the subject of the event in the context of the event producer (identified by source). 
