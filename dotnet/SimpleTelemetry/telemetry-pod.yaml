@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-telemetry-deployment
+  labels:
+    app: simple-telemetry-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-telemetry-deployment
+  template:
+    metadata:
+      labels:
+        app: simple-telemetry-deployment
+    spec:
+      containers:
+      - name: simple-telemetry-deployment
+        image: simple-telemetry-tester:latest
+        imagePullPolicy: Never # This forces docker to use the locally built image
