@@ -44,6 +44,7 @@ spec:
             kind: ClusterIssuer
             group: cert-manager.io
             name: azure-iot-operations-aio-certificate-issuer
+    - port: 18884
 ---
 apiVersion: mqttbroker.iotoperations.azure.com/v1
 kind: BrokerListener
