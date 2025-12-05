@@ -1,2 +1,3 @@
-az acr login -n akripreview.azurecr.io
-dotnet publish --os linux --arch x64 /t:PublishContainer -p ContainerRegistry=akripreview.azurecr.io
+dotnet publish ../SimpleTelemetry /t:PublishContainer
+k3d image import simple-telemetry-tester:latest -c k3s-default
+kubectl apply -f ./telemetry-pod.yaml
