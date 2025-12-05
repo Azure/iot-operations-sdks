@@ -169,29 +169,29 @@ impl fmt::Display for SessionExitErrorKind {
 #[builder(pattern = "owned")]
 pub struct SessionOptions {
     /// MQTT Connection Settings for configuring the [`Session`]
-    pub connection_settings: MqttConnectionSettings,
+    connection_settings: MqttConnectionSettings,
     /// Reconnect Policy to by used by the `Session`
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
-    pub reconnect_policy: Box<dyn ReconnectPolicy>,
+    reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Authentication Policy to be used by the `Session`
     #[builder(default = "None")]
-    pub enhanced_auth_policy: Option<Box<dyn EnhancedAuthPolicy>>,
+    enhanced_auth_policy: Option<Box<dyn EnhancedAuthPolicy>>,
     /// Maximum packet identifier
     #[builder(default = "azure_mqtt::packet::PacketIdentifier::MAX")]
-    pub max_packet_identifier: azure_mqtt::packet::PacketIdentifier,
+    max_packet_identifier: azure_mqtt::packet::PacketIdentifier,
     /// Maximum number of queued outgoing QoS 0 PUBLISH packets not yet accepted by the MQTT Session
     #[builder(default = "100")]
-    pub publish_qos0_queue_size: usize,
+    publish_qos0_queue_size: usize,
     /// Maximum number of queued outgoing QoS 1 and 2 PUBLISH packets not yet accepted by the MQTT Session
     #[builder(default = "100")]
-    pub publish_qos1_qos2_queue_size: usize,
+    publish_qos1_qos2_queue_size: usize,
     /// Indicates if the Session should use features specific for use with the AIO MQTT Broker
     #[builder(default = "Some(AIOBrokerFeaturesBuilder::default().build().unwrap())")]
-    pub aio_broker_features: Option<AIOBrokerFeatures>,
+    aio_broker_features: Option<AIOBrokerFeatures>,
     /// Injected packet channels for testing purposes
     #[cfg(feature = "test-utils")]
     #[builder(default)]
-    pub injected_packet_channels: Option<InjectedPacketChannels>,
+    injected_packet_channels: Option<InjectedPacketChannels>,
 }
 
 /// Options for configuring features on a [`Session`] that are specific to the AIO broker
