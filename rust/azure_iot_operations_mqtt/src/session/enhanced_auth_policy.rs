@@ -64,7 +64,7 @@ impl K8sSatFileMonitor {
     ///
     /// # Errors
     /// Returns `K8sSatConfigError` if the file monitor cannot be configured
-    #[allow(clippy::missing_panics_doc)] // Cannot actually panic on invoke
+    #[allow(clippy::missing_panics_doc)] // Cannot actually panic on new
     pub fn new(
         file_path: PathBuf,
         aggregation_window: Duration,
