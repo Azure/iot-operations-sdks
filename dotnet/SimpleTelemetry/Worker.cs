@@ -32,21 +32,24 @@ namespace SimpleTelemetry
             connectionSettings.ClientId = Guid.NewGuid().ToString();
             await receivingClient.ConnectAsync(connectionSettings, stoppingToken);
 
+            TaskCompletionSource<DateTime> onMessageReceived = new TaskCompletionSource<DateTime>();
+            receivingClient.ApplicationMessageReceivedAsync += (args) =>
+            {
+                onMessageReceived.TrySetResult(DateTime.UtcNow);
+                args.AutoAcknowledge = true;
+                return Task.CompletedTask;
+            };
+
+            MqttApplicationMessage sentMessage = new MqttApplicationMessage("some/topic", MqttQualityOfServiceLevel.AtLeastOnce)
+            {
+                Payload = new(new byte[100]) //TODO message size, TODO construct message fresh each time to mimic customer use?
+            };
+
+            Console.WriteLine("Starting telemetry sending loop...");
             while (!stoppingToken.IsCancellationRequested)
             {
-                TaskCompletionSource<DateTime> onMessageReceived = new TaskCompletionSource<DateTime>();
-                Func<Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs, Task> callback = (args) =>
-                {
-                    onMessageReceived.TrySetResult(DateTime.UtcNow);
-                    args.AutoAcknowledge = true;
-                    return Task.CompletedTask;
-                };
-                receivingClient.ApplicationMessageReceivedAsync += callback;
+                onMessageReceived = new TaskCompletionSource<DateTime>();
 
-                MqttApplicationMessage sentMessage = new MqttApplicationMessage("some/topic", MqttQualityOfServiceLevel.AtLeastOnce)
-                {
-                    Payload = new(new byte[100]) //TODO message size
-                };
                 DateTime timeBeforePublishing = DateTime.UtcNow;
                 await publishingClient.PublishAsync(sentMessage);
                 DateTime timeAfterPuback = DateTime.UtcNow;
@@ -58,8 +61,6 @@ namespace SimpleTelemetry
                 Console.WriteLine("Latency between broker sending puback to sender and receiver receiving publish: " + timeAfterPuback.Subtract(timeWhenPublishIsReceived).TotalMilliseconds + " milliseconds");
                 Console.WriteLine();
                 Console.WriteLine();
-
-                receivingClient.ApplicationMessageReceivedAsync -= callback;
             }
         }
     }
