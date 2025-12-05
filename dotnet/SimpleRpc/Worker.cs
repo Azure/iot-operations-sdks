@@ -20,7 +20,7 @@ namespace SimpleRpc
             await using MqttSessionClient invokerMqttClient = new MqttSessionClient();
             await using MqttSessionClient executorMqttClient = new MqttSessionClient();
 
-            var connectionSettings = new MqttConnectionSettings("TODO localhost?", Guid.NewGuid().ToString())
+            var connectionSettings = new MqttConnectionSettings("127.0.0.1", Guid.NewGuid().ToString())
             {
                 TcpPort = 1883, //todo
                 UseTls = false,
