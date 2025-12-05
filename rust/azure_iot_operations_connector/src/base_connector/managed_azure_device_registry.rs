@@ -1339,7 +1339,9 @@ impl AssetClient {
             DataOperationKind::Dataset => {
                 destination_endpoint::Destination::new_dataset_destinations(
                     &updated_asset.default_datasets_destinations,
-                    &self.asset_ref.inbound_endpoint_name,
+                    &self.asset_ref,
+                    updated_asset.uuid.as_ref(),
+                    updated_asset.external_asset_id.as_ref(),
                     &self.connector_context,
                 )
             }
@@ -1350,14 +1352,18 @@ impl AssetClient {
                 // use that bad configuration
                 destination_endpoint::Destination::new_event_stream_destinations(
                     &updated_asset.default_events_destinations,
-                    &self.asset_ref.inbound_endpoint_name,
+                    &self.asset_ref,
+                    updated_asset.uuid.as_ref(),
+                    updated_asset.external_asset_id.as_ref(),
                     &self.connector_context,
                 )
             }
             DataOperationKind::Stream => {
                 destination_endpoint::Destination::new_event_stream_destinations(
                     &updated_asset.default_streams_destinations,
-                    &self.asset_ref.inbound_endpoint_name,
+                    &self.asset_ref,
+                    updated_asset.uuid.as_ref(),
+                    updated_asset.external_asset_id.as_ref(),
                     &self.connector_context,
                 )
             }
@@ -2149,14 +2155,32 @@ impl DataOperationClient {
             device_name: asset_ref.device_name.clone(),
             inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
         };
+        let (device_uuid, device_endpoint_address, device_external_device_id) = {
+            let device_spec = device_specification.read().unwrap();
+            (
+                device_spec.uuid.clone(),
+                device_spec.endpoints.inbound.address.clone(),
+                device_spec.external_device_id.clone(),
+            )
+        };
+        let (asset_uuid, asset_external_asset_id) = {
+            let asset_spec = asset_specification.read().unwrap();
+            (
+                asset_spec.uuid.clone(),
+                asset_spec.external_asset_id.clone(),
+            )
+        };
         let forwarder = match definition {
             DataOperationDefinition::Dataset(ref dataset) => {
                 destination_endpoint::Forwarder::new_dataset_forwarder(
                     dataset,
                     default_destinations,
-                    &asset_ref.inbound_endpoint_name,
-                    device_specification.read().unwrap().uuid.clone(),
-                    asset_specification.read().unwrap().uuid.clone(),
+                    &asset_ref,
+                    device_uuid,
+                    device_endpoint_address,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     connector_context.clone(),
                 )
             }
@@ -2167,8 +2191,11 @@ impl DataOperationClient {
                     &data_operation_ref,
                     event.data_source.clone(),
                     event.type_ref.clone(),
-                    device_specification.read().unwrap().uuid.clone(),
-                    asset_specification.read().unwrap().uuid.clone(),
+                    device_uuid,
+                    device_endpoint_address,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     connector_context.clone(),
                 )
             }
@@ -2179,8 +2206,11 @@ impl DataOperationClient {
                     &data_operation_ref,
                     None,
                     stream.type_ref.clone(),
-                    device_specification.read().unwrap().uuid.clone(),
-                    asset_specification.read().unwrap().uuid.clone(),
+                    device_uuid,
+                    device_endpoint_address,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     connector_context.clone(),
                 )
             }
@@ -2657,8 +2687,14 @@ impl DataOperationClient {
     ///
     /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
     /// if the destination is `Mqtt` and there are any errors sending the message to the broker
-    pub async fn forward_data(&self, data: Data) -> Result<(), destination_endpoint::Error> {
-        self.forwarder.send_data(data).await
+    pub async fn forward_data(
+        &self,
+        data: Data,
+        protocol_specific_identifier: Option<String>,
+    ) -> Result<(), destination_endpoint::Error> {
+        self.forwarder
+            .send_data(data, protocol_specific_identifier)
+            .await
     }
 
     /// Used to receive notifications about the Data Operation from the Azure Device Registry Service.
@@ -2700,14 +2736,32 @@ impl DataOperationClient {
             return DataOperationNotification::Deleted;
         }
         // create new forwarder, in case destination has changed
+        let (device_uuid, device_endpoint_address, device_external_device_id) = {
+            let device_spec = self.device_specification.read().unwrap();
+            (
+                device_spec.uuid.clone(),
+                device_spec.endpoints.inbound.address.clone(),
+                device_spec.external_device_id.clone(),
+            )
+        };
+        let (asset_uuid, asset_external_asset_id) = {
+            let asset_spec = self.asset_specification.read().unwrap();
+            (
+                asset_spec.uuid.clone(),
+                asset_spec.external_asset_id.clone(),
+            )
+        };
         let forwarder_result = match updated_data_operation {
             DataOperationDefinition::Dataset(ref updated_dataset) => {
                 destination_endpoint::Forwarder::new_dataset_forwarder(
                     updated_dataset,
                     &default_destinations,
-                    &self.asset_ref.inbound_endpoint_name,
-                    self.device_specification.read().unwrap().uuid.clone(),
-                    self.asset_specification.read().unwrap().uuid.clone(),
+                    &self.asset_ref,
+                    device_uuid,
+                    device_endpoint_address,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     self.connector_context.clone(),
                 )
             }
@@ -2718,8 +2772,11 @@ impl DataOperationClient {
                     &self.data_operation_ref,
                     updated_event.data_source.clone(),
                     updated_event.type_ref.clone(),
-                    self.device_specification.read().unwrap().uuid.clone(),
-                    self.asset_specification.read().unwrap().uuid.clone(),
+                    device_uuid,
+                    device_endpoint_address,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     self.connector_context.clone(),
                 )
             }
@@ -2730,8 +2787,11 @@ impl DataOperationClient {
                     &self.data_operation_ref,
                     None,
                     updated_stream.type_ref.clone(),
-                    self.device_specification.read().unwrap().uuid.clone(),
-                    self.asset_specification.read().unwrap().uuid.clone(),
+                    device_uuid,
+                    device_endpoint_address,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     self.connector_context.clone(),
                 )
             }
