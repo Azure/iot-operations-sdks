@@ -188,13 +188,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         internal async Task SubscribeAsNeededAsync(string responseTopicFilter, CancellationToken cancellationToken = default)
         {
-            lock (_subscribedTopicsSetLock)
-            {
+            //TODO maybe this?
+            //lock (_subscribedTopicsSetLock)
+            //{
                 if (_subscribedTopics.Contains(responseTopicFilter))
                 {
                     return;
                 }
-            }
+            //}
 
             if (_mqttClient.ProtocolVersion != MqttProtocolVersion.V500)
             {
@@ -211,10 +212,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
             MqttClientSubscribeResult subAck = await _mqttClient.SubscribeAsync(mqttSubscribeOptions, cancellationToken).ConfigureAwait(false);
             subAck.ThrowIfNotSuccessSubAck(qos, _commandName);
 
-            lock (_subscribedTopicsSetLock)
-            {
+            //lock (_subscribedTopicsSetLock)
+            //{
                 _subscribedTopics.Add(responseTopicFilter);
-            }
+            //}
             Trace.TraceInformation($"Subscribed to topic filter '{responseTopicFilter}' for command invoker '{_commandName}'");
         }
 
@@ -224,13 +225,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 string requestGuidString = requestGuid!.Value.ToString();
                 ResponsePromise? responsePromise;
-                lock (_requestIdMapLock)
-                {
+                //lock (_requestIdMapLock)
+                //{
                     if (!_requestIdMap.TryGetValue(requestGuidString, out responsePromise))
                     {
                         return;
                     }
-                }
+                //}
 
                 args.AutoAcknowledge = true;
                 if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, responsePromise.ResponseTopic))
@@ -535,10 +536,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 ResponsePromise responsePromise = new(responseTopic);
 
-                lock (_requestIdMapLock)
-                {
+                //TODO try removing this?
+                //lock (_requestIdMapLock)
+                //{
                     _requestIdMap[requestGuid.ToString()] = responsePromise;
-                }
+                //}
 
                 MqttApplicationMessage requestMessage = new(requestTopic, MqttQualityOfServiceLevel.AtLeastOnce)
                 {
@@ -560,6 +562,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // TODO remove this once akri service is code gen'd to expect srcId instead of invId
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
+                //TODO try removing this
                 string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
                 requestMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
                 await using var hlcClone = new HybridLogicalClock(_applicationContext.ApplicationHlc);
@@ -679,10 +682,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 // TODO #208
                 //    completionSource.Task.Dispose();
-                lock (_requestIdMapLock)
-                {
+                //lock (_requestIdMapLock)
+                //{
                     _requestIdMap.Remove(requestGuid.ToString());
-                }
+                //}
             }
         }
 
@@ -720,8 +723,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             _mqttClient.ApplicationMessageReceivedAsync -= MessageReceivedCallbackAsync;
 
-            lock (_requestIdMapLock)
-            {
+            //lock (_requestIdMapLock)
+            //{
                 foreach (KeyValuePair<string, ResponsePromise> responsePromise in _requestIdMap)
                 {
                     if (responsePromise.Value != null && responsePromise.Value.CompletionSource != null)
@@ -730,20 +733,20 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                 }
                 _requestIdMap.Clear();
-            }
+            //}
 
             try
             {
                 if (_subscribedTopics.Count > 0)
                 {
                     MqttClientUnsubscribeOptions unsubscribeOptions = new();
-                    lock (_subscribedTopicsSetLock)
-                    {
+                    //lock (_subscribedTopicsSetLock)
+                    //{
                         foreach (string subscribedTopic in _subscribedTopics)
                         {
                             unsubscribeOptions.TopicFilters.Add(subscribedTopic);
                         }
-                    }
+                    //}
 
                     MqttClientUnsubscribeResult unsubAck = await _mqttClient.UnsubscribeAsync(unsubscribeOptions, CancellationToken.None).ConfigureAwait(false);
                     if (!unsubAck.IsUnsubAckSuccessful())
@@ -757,10 +760,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 Trace.TraceWarning("Encountered an error while unsubscribing during disposal {0}", e);
             }
 
-            lock (_subscribedTopicsSetLock)
-            {
+            //lock (_subscribedTopicsSetLock)
+            //{
                 _subscribedTopics.Clear();
-            }
+            //}
 
             if (disposing)
             {
