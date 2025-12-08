@@ -502,7 +502,7 @@ where
                                 self.state = State::ShutdownSuccessful;
                             }
                             Err(e) => {
-                                log::error!("Unsuback error: {unsuback:?}");
+                                log::error!("Telemetry Receiver Unsuback error: {unsuback:?}");
                                 return Err(AIOProtocolError::new_mqtt_error(
                                     Some("MQTT error on telemetry receiver unsuback".to_string()),
                                     Box::new(e),
@@ -511,7 +511,7 @@ where
                             }
                         },
                         Err(e) => {
-                            log::error!("Unsubscribe completion error: {e}");
+                            log::error!("Telemetry Receiver Unsubscribe completion error: {e}");
                             return Err(AIOProtocolError::new_mqtt_error(
                                 Some("MQTT error on telemetry receiver unsubscribe".to_string()),
                                 Box::new(e),
@@ -520,7 +520,7 @@ where
                         }
                     },
                     Err(e) => {
-                        log::error!("Client error while unsubscribing: {e}");
+                        log::error!("Client error while unsubscribing in Telemetry Receiver: {e}");
                         return Err(AIOProtocolError::new_mqtt_error(
                             Some("Client error on telemetry receiver unsubscribe".to_string()),
                             Box::new(e),
@@ -545,10 +545,8 @@ where
             .subscribe(
                 self.telemetry_topic.clone(),
                 QoS::AtLeastOnce,
-                // TODO: validate these are the right settings
                 false,
-                true,
-                azure_iot_operations_mqtt::control_packet::RetainHandling::Send,
+                azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
                 azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),
             )
             .await;
@@ -557,7 +555,7 @@ where
             Ok(sub_ct) => match sub_ct.await {
                 Ok(suback) => {
                     suback.as_result().map_err(|e| {
-                        log::error!("Suback error: {suback:?}");
+                        log::error!("Telemetry Receiver Suback error: {suback:?}");
                         AIOProtocolError::new_mqtt_error(
                             Some("MQTT error on telemetry receiver suback".to_string()),
                             Box::new(e),
@@ -566,7 +564,7 @@ where
                     })?;
                 }
                 Err(e) => {
-                    log::error!("Subscribe completion error: {e}");
+                    log::error!("Telemetry Receiver Subscribe completion error: {e}");
                     return Err(AIOProtocolError::new_mqtt_error(
                         Some("MQTT error on telemetry receiver subscribe".to_string()),
                         Box::new(e),
@@ -575,7 +573,7 @@ where
                 }
             },
             Err(e) => {
-                log::error!("Client error while subscribing: {e}");
+                log::error!("Client error while subscribing in Telemetry Receiver: {e}");
                 return Err(AIOProtocolError::new_mqtt_error(
                     Some("Client error on telemetry receiver subscribe".to_string()),
                     Box::new(e),
@@ -627,7 +625,8 @@ where
                     // Get pkid for logging
                     let pkid = match m.qos {
                         azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtMostOnce => {
-                            // TODO: maybe we should log with something else, but this matches old behavior
+                            // CONSIDER: maybe we should log with something else, but this matches old behavior
+                            // QoS0 doesn't have a packet id, but 0 isn't a valid packet id, and rumqttc used to use 0
                             0
                         }
                         azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtLeastOnce(
@@ -641,7 +640,7 @@ where
                     };
 
                     // Process the received message
-                    log::info!("[pkid: {pkid}] Received message");
+                    log::debug!("[pkid: {pkid}] Received message");
 
                     match TryInto::<Message<T>>::try_into(m) {
                         Ok(mut message) => {
@@ -656,14 +655,14 @@ where
                             if let Some(hlc) = &message.timestamp
                                 && let Err(e) = self.application_hlc.update(hlc)
                             {
-                                log::error!(
-                                    "[pkid: {pkid}]: Failure updating application HLC against {hlc}: {e}"
+                                log::warn!(
+                                    "[pkid: {pkid}]: Failure updating application HLC against received telemetry HLC {hlc}: {e}"
                                 );
                             }
                             return Some(Ok((message, ack_token)));
                         }
                         Err(e_string) => {
-                            log::error!("[pkid: {pkid}] {e_string}");
+                            log::warn!("[pkid: {pkid}] {e_string}");
 
                             // Ack on error to prevent redelivery
                             if let Some(ack_token) = ack_token {
@@ -677,7 +676,7 @@ where
                                                 match ack_res {
                                                     Ok(_) => { /* Success */ }
                                                     Err(e) => {
-                                                        log::error!("[pkid: {pkid}] Ack error {e}");
+                                                        log::warn!("[pkid: {pkid}] Telemetry Receiver Ack error {e}");
                                                     }
                                                 }
                                             }
@@ -722,11 +721,11 @@ where
                     {
                         Ok(_) => {
                             log::debug!(
-                                "Unsubscribe sent on topic {telemetry_topic}. Unsuback may still be pending."
+                                "Telemetry Receiver Unsubscribe sent on topic {telemetry_topic}. Unsuback may still be pending."
                             );
                         }
                         Err(e) => {
-                            log::error!("Unsubscribe error on topic {telemetry_topic}: {e}");
+                            log::warn!("Telemetry Receiver Unsubscribe error on topic {telemetry_topic}: {e}");
                         }
                     }
                 }

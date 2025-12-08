@@ -114,9 +114,9 @@ struct InnerState {
     /// None => not sealed yet, Some(n) => sealed with n members
     sealed: Mutex<Option<usize>>,
     /// Will be used to trigger acknowledgement when all members have acked
-    manual_ack: Mutex<Option<ManualAcknowledgement>>, // TODO: can this be combined with Result? they're related.
+    manual_ack: Mutex<Option<ManualAcknowledgement>>,
     /// Holds the result of the `ManualAcknowledgement`
-    result: OnceCell<Result<PlenaryAckCompletionToken, DetachedError>>, // TODO: Can this be made generic to support QoS2?
+    result: OnceCell<Result<PlenaryAckCompletionToken, DetachedError>>,
     /// Notify waiters when result has been set
     notify: Notify,
 }

@@ -23,8 +23,6 @@ use crate::test_utils::InjectedPacketChannels;
 
 type ClientCert = (X509, PKey<Private>, Vec<X509>);
 
-// TODO: This error story needs improvement once we find out how much of this
-// adapter code will stay after TLS dependency changes.
 #[derive(Error, Debug)]
 #[error("{msg}: {field}")]
 pub struct ConnectionSettingsAdapterError {
@@ -34,7 +32,6 @@ pub struct ConnectionSettingsAdapterError {
     source: Option<Box<dyn std::error::Error>>,
 }
 
-// TODO: As above, this will potentially be updated once final TLS implementation takes shape
 #[derive(Debug)]
 pub enum ConnectionSettingsField {
     SessionExpiry(Duration),
@@ -275,7 +272,7 @@ impl MqttConnectionSettings {
         let ping_after =
             NonZeroU16::new(u16::try_from(self.keep_alive.as_secs()).map_err(|e| {
                 ConnectionSettingsAdapterError {
-                    msg: "cannot convert keep_alive to NonZeroU16".to_string(),
+                    msg: "cannot convert keep_alive to u16".to_string(),
                     field: ConnectionSettingsField::KeepAlive(self.keep_alive),
                     source: Some(Box::new(e)),
                 }
@@ -695,6 +692,4 @@ mod tests {
             u32::MAX
         );
     }
-
-    // TODO: Add a test for SAT reading the SAT token
 }

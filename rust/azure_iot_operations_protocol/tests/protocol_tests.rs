@@ -28,13 +28,13 @@ use metl::test_feature_kind::TestFeatureKind;
 static TEST_CASE_INDEX: atomic::AtomicI32 = atomic::AtomicI32::new(0);
 
 const PROBLEMATIC_TEST_CASES: &[&str] = &[
-    "CommandExecutorRequestExpiresWhileDisconnected_RequestNotAcknowledged",
-    "CommandExecutorResponsePubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandInvokerInvalidResponseTopicPrefix_ThrowsException",
     "CommandInvokerInvalidResponseTopicSuffix_ThrowsException",
     "CommandInvokerWithZeroTimeout_ThrowsException",
-    "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess", // this might be able to be tested once acks have the epoch
     "TelemetrySenderSendWithCloudEventSpecVersionNonNumeric_Success",
+    "CommandExecutorDispatchConcurrencyBelowNeed_TimeoutErrors", // skipped because rust doesn't have execution timeout
+    "CommandExecutorZeroTimeout_ThrowsException", // skipped because rust doesn't have execution timeout
+    "CommandExecutorTimesOutStalledRequest_RpcErrorTimeout", // skipped because rust doesn't have execution timeout
 ];
 
 /*
@@ -159,7 +159,7 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
                     mqtt_hub,
                 )
                 .await;
-                exit_handle.try_exit().unwrap();
+                exit_handle.force_exit();
             });
         });
     }
@@ -220,7 +220,7 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
                     mqtt_hub,
                 )
                 .await;
-                exit_handle.try_exit().unwrap();
+                exit_handle.force_exit();
             });
         });
     }
@@ -281,7 +281,7 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
                     mqtt_hub,
                 )
                 .await;
-                exit_handle.try_exit().unwrap();
+                exit_handle.force_exit();
             });
         });
     }
@@ -341,7 +341,7 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
                     mqtt_hub,
                 )
                 .await;
-                exit_handle.try_exit().unwrap();
+                exit_handle.force_exit();
             });
         });
     }
@@ -362,7 +362,6 @@ fn does_standalone_support(requirements: &[TestFeatureKind]) -> bool {
 
 fn does_session_support(requirements: &[TestFeatureKind]) -> bool {
     !requirements.contains(&TestFeatureKind::Unobtanium)
-        && !requirements.contains(&TestFeatureKind::Dispatch)
         && !requirements.contains(&TestFeatureKind::MultipleSerializers)
 }
 

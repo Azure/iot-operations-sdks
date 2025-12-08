@@ -10,7 +10,7 @@ use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
     control_packet::{
-        PublishProperties, RetainHandling, SubscribeProperties, TopicFilter, TopicName,
+        PublishProperties, RetainOptions, SubscribeProperties, TopicFilter, TopicName,
     },
 };
 
@@ -100,8 +100,7 @@ async fn test_simple_recv() {
                     topic_filter,
                     QoS::AtLeastOnce,
                     false,
-                    false,
-                    RetainHandling::DoNotSend,
+                    RetainOptions::default(),
                     SubscribeProperties::default(),
                 )
                 .await
@@ -204,8 +203,7 @@ async fn test_simple_recv_manual_ack() {
                     topic_filter,
                     QoS::AtLeastOnce,
                     false,
-                    false,
-                    RetainHandling::DoNotSend,
+                    RetainOptions::default(),
                     SubscribeProperties::default(),
                 )
                 .await

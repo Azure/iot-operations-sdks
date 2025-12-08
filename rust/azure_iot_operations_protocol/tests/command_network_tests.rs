@@ -192,7 +192,7 @@ async fn command_basic_invoke_response_network_tests() {
             // cleanup should be successful
             assert!(invoker.shutdown().await.is_ok());
 
-            exit_handle.try_exit().unwrap();
+            exit_handle.force_exit();
         }
     });
 
@@ -303,7 +303,7 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
             // cleanup should be successful
             assert!(invoker.shutdown().await.is_ok());
 
-            exit_handle.try_exit().unwrap();
+            exit_handle.force_exit();
         }
     });
 
@@ -556,7 +556,7 @@ async fn command_complex_invoke_response_network_tests() {
             // cleanup should be successful
             assert!(invoker.shutdown().await.is_ok());
 
-            exit_handle.try_exit().unwrap();
+            exit_handle.force_exit();
         }
     });
 

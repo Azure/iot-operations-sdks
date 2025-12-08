@@ -487,7 +487,6 @@ where
         };
 
         // Send publish
-        // TODO: use actual QoS value once API is nailed down
         match message.qos {
             azure_iot_operations_mqtt::control_packet::QoS::AtMostOnce => {
                 let publish_result = self
@@ -501,7 +500,7 @@ where
                     .await;
                 match publish_result {
                     Ok(publish_completion_token) => publish_completion_token.await.map_err(|e| {
-                        log::error!("Publish completion error: {e}");
+                        log::error!("Telemetry Publish completion error: {e}");
                         AIOProtocolError::new_mqtt_error(
                             Some("MQTT Error on telemetry send publish".to_string()),
                             Box::new(e),
@@ -509,7 +508,7 @@ where
                         )
                     }),
                     Err(e) => {
-                        log::error!("Publish error: {e}");
+                        log::error!("Telemetry Publish error: {e}");
                         Err(AIOProtocolError::new_mqtt_error(
                             Some("MQTT Error on telemetry send publish".to_string()),
                             Box::new(e),
@@ -541,7 +540,7 @@ where
                                 )
                             }),
                             Err(e) => {
-                                log::error!("Publish completion error: {e}");
+                                log::error!("Telemetry Publish completion error: {e}");
                                 Err(AIOProtocolError::new_mqtt_error(
                                     Some("MQTT Error on telemetry send publish".to_string()),
                                     Box::new(e),
@@ -551,7 +550,7 @@ where
                         }
                     }
                     Err(e) => {
-                        log::error!("Publish error: {e}");
+                        log::error!("Telemetry Publish error: {e}");
                         Err(AIOProtocolError::new_mqtt_error(
                             Some("MQTT Error on telemetry send publish".to_string()),
                             Box::new(e),
