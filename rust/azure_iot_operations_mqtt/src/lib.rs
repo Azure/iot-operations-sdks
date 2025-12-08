@@ -32,17 +32,9 @@ pub mod test_utils;
 // - Treat this module as if it were an external dependency in terms of import structure
 // (i.e. do not put it with the other `crate::` imports)
 #[cfg(feature = "test-utils")]
-#[allow(unused_imports)]
-#[allow(dead_code)]
-#[allow(missing_docs)]
-#[allow(clippy::all)]
 #[rustfmt::skip]
 pub mod azure_mqtt;
 #[cfg(not(feature = "test-utils"))]
-#[allow(unused_imports)]
-#[allow(dead_code)]
-#[allow(missing_docs)]
-#[allow(clippy::all)]
 #[rustfmt::skip]
 mod azure_mqtt;
 

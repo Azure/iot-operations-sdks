@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+#![allow(unused_imports)]
+#![allow(dead_code)]
+#![allow(missing_docs)]
+#![allow(clippy::all)]
+#![allow(clippy::pedantic)]
+
 //! MQTT client library
 
 // Low-level modules
