@@ -580,18 +580,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 try
                 {
                     // Set default CloudEvent type for RPC requests if not already set
-                    if (metadata?.CloudEvent != null && metadata.CloudEvent.Type != _msAioRpcRequest)
-                    {
-                        // User created a CloudEvent with default telemetry type, update to RPC request type
-                        metadata.CloudEvent = new CloudEvent(metadata.CloudEvent.Source, _msAioRpcRequest, metadata.CloudEvent.SpecVersion)
-                        {
-                            Id = metadata.CloudEvent.Id,
-                            Time = metadata.CloudEvent.Time,
-                            DataContentType = metadata.CloudEvent.DataContentType,
-                            DataSchema = metadata.CloudEvent.DataSchema,
-                            Subject = metadata.CloudEvent.Subject
-                        };
-                    }
+                    EnsureCloudEventType(metadata, _msAioRpcRequest);
 
                     metadata?.MarshalTo(requestMessage);
                 }
@@ -800,6 +789,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (!tcs.TrySetCanceled())
             {
                 Trace.TraceWarning($"Failed to cancel the response promise. This may be because the promise was already completed.");
+            }
+        }
+
+        private static void EnsureCloudEventType(CommandRequestMetadata? metadata, string expectedType)
+        {
+            if (metadata?.CloudEvent != null && metadata.CloudEvent.Type != expectedType)
+            {
+                // User created a CloudEvent with a different type, update to the expected RPC type
+                metadata.CloudEvent = new CloudEvent(metadata.CloudEvent.Source, expectedType, metadata.CloudEvent.SpecVersion)
+                {
+                    Id = metadata.CloudEvent.Id,
+                    Time = metadata.CloudEvent.Time,
+                    DataContentType = metadata.CloudEvent.DataContentType,
+                    DataSchema = metadata.CloudEvent.DataSchema,
+                    Subject = metadata.CloudEvent.Subject
+                };
             }
         }
 

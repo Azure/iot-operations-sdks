@@ -475,18 +475,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
             // Set default CloudEvent type for RPC responses if not already set
-            if (metadata?.CloudEvent != null && metadata.CloudEvent.Type != _msAioRpcResponse)
-            {
-                // User created a CloudEvent with default telemetry type, update to RPC response type
-                metadata.CloudEvent = new Telemetry.CloudEvent(metadata.CloudEvent.Source, _msAioRpcResponse, metadata.CloudEvent.SpecVersion)
-                {
-                    Id = metadata.CloudEvent.Id,
-                    Time = metadata.CloudEvent.Time,
-                    DataContentType = metadata.CloudEvent.DataContentType,
-                    DataSchema = metadata.CloudEvent.DataSchema,
-                    Subject = metadata.CloudEvent.Subject
-                };
-            }
+            EnsureCloudEventType(metadata, _msAioRpcResponse);
 
             metadata?.MarshalTo(message);
 
@@ -678,6 +667,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 AkriMqttErrorKind.UnknownError => CommandStatusCode.InternalServerError,
                 _ => CommandStatusCode.InternalServerError,
             };
+        }
+
+        private static void EnsureCloudEventType(CommandResponseMetadata? metadata, string expectedType)
+        {
+            if (metadata?.CloudEvent != null && metadata.CloudEvent.Type != expectedType)
+            {
+                // User created a CloudEvent with a different type, update to the expected RPC type
+                metadata.CloudEvent = new Telemetry.CloudEvent(metadata.CloudEvent.Source, expectedType, metadata.CloudEvent.SpecVersion)
+                {
+                    Id = metadata.CloudEvent.Id,
+                    Time = metadata.CloudEvent.Time,
+                    DataContentType = metadata.CloudEvent.DataContentType,
+                    DataSchema = metadata.CloudEvent.DataSchema,
+                    Subject = metadata.CloudEvent.Subject
+                };
+            }
         }
 
         public virtual async ValueTask DisposeAsync()
