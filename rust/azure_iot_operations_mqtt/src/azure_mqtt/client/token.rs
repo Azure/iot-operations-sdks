@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License
+// Licensed under the MIT License.
 
 //! Token types for awaiting completion of MQTT operations and issuing acknowledgements.
 

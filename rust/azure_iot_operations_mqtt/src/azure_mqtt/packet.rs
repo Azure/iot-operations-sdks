@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License
+// Licensed under the MIT License.
 
 //! MQTT packet types and associated properties and reason codes.
 
