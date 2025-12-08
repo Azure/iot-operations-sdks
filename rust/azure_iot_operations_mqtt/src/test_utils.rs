@@ -20,8 +20,22 @@ use tokio::sync::{
     mpsc::{UnboundedReceiver, UnboundedSender},
 };
 
+use crate::control_packet::AuthenticationInfo;
 use crate::error::ConnectError;
-use crate::session::reconnect_policy::{ConnectionLossReason, ReconnectPolicy};
+use crate::session::{
+    enhanced_auth_policy::EnhancedAuthPolicy,
+    reconnect_policy::{ConnectionLossReason, ReconnectPolicy},
+};
+
+/// Generate random bytes of length between 1 and 256 for testing purposes
+#[must_use]
+pub fn random_bytes() -> Bytes {
+    let mut rng = rand::thread_rng();
+    let len: usize = rng.gen_range(1..=256);
+    let mut buf = vec![0u8; len];
+    rng.fill(&mut buf[..]);
+    Bytes::from(buf)
+}
 
 /// Struct containing channels for injecting incoming packets and capturing outgoing packets
 /// for testing purposes.
@@ -473,5 +487,112 @@ impl MockReconnectPolicyController {
     /// Set the next reconnect delay to return from the mock reconnect policy
     pub fn set_next_delay(&self, delay: Option<Duration>) {
         *self.next_delay.lock().unwrap() = delay;
+    }
+}
+
+/// Mock enhanced auth policy for testing purposes
+pub struct MockEnhancedAuthPolicy {
+    method: String,
+    auth_info_data: Arc<Mutex<Option<Bytes>>>,
+    auth_challenge_data: Arc<Mutex<Option<Bytes>>>,
+    reauth_data: Arc<Mutex<Option<Bytes>>>,
+    reauth_notify: Arc<Notify>,
+}
+
+impl MockEnhancedAuthPolicy {
+    /// Create a new `MockEnhancedAuthPolicy` and its controller
+    #[must_use]
+    pub fn new() -> (Self, MockEnhancedAuthPolicyController) {
+        let ap_controller = MockEnhancedAuthPolicyController {
+            auth_info_data: Arc::new(Mutex::new(Some(random_bytes()))),
+            auth_challenge_data: Arc::new(Mutex::new(Some(random_bytes()))),
+            reauth_data: Arc::new(Mutex::new(Some(random_bytes()))),
+            reauth_notify: Arc::new(Notify::new()),
+        };
+
+        let ap = MockEnhancedAuthPolicy {
+            method: "mock_method".to_string(),
+            auth_info_data: ap_controller.auth_info_data.clone(),
+            auth_challenge_data: ap_controller.auth_challenge_data.clone(),
+            reauth_data: ap_controller.reauth_data.clone(),
+            reauth_notify: ap_controller.reauth_notify.clone(),
+        };
+
+        (ap, ap_controller)
+    }
+}
+
+#[async_trait::async_trait]
+impl EnhancedAuthPolicy for MockEnhancedAuthPolicy {
+    fn authentication_info(&self) -> AuthenticationInfo {
+        AuthenticationInfo {
+            method: self.method.clone(),
+            data: self.auth_info_data.lock().unwrap().clone(),
+        }
+    }
+
+    fn auth_challenge(&self, _auth: &crate::control_packet::Auth) -> Option<Bytes> {
+        self.auth_challenge_data.lock().unwrap().clone()
+    }
+
+    async fn reauth_notified(&self) -> Option<Bytes> {
+        self.reauth_notify.notified().await;
+        self.reauth_data.lock().unwrap().clone()
+    }
+}
+
+/// Controller for the mock enhanced auth policy to allow tests to control its behavior
+pub struct MockEnhancedAuthPolicyController {
+    auth_info_data: Arc<Mutex<Option<Bytes>>>,
+    auth_challenge_data: Arc<Mutex<Option<Bytes>>>,
+    reauth_data: Arc<Mutex<Option<Bytes>>>,
+    reauth_notify: Arc<Notify>,
+}
+
+impl MockEnhancedAuthPolicyController {
+    /// Get the method to be returned in the `method` field of the `AuthenticationInfo` struct
+    #[must_use]
+    pub fn method(&self) -> &'static str {
+        "mock_method"
+    }
+
+    /// Get the data to be returned in the `data` field of the `AuthenticationInfo` struct
+    #[must_use]
+    pub fn auth_info_data(&self) -> Option<Bytes> {
+        self.auth_info_data.lock().unwrap().clone()
+    }
+
+    /// Set the data to be returned in the `data` field of the `AuthenticationInfo` struct
+    /// returned by the `authentication_info()` method of the `MockEnhancedAuthPolicy`
+    pub fn set_auth_info_data(&self, data: Option<Bytes>) {
+        *self.auth_info_data.lock().unwrap() = data;
+    }
+
+    /// Get the data to be returned by the `auth_challenge()` method of the `MockEnhancedAuthPolicy`
+    #[must_use]
+    pub fn auth_challenge_data(&self) -> Option<Bytes> {
+        self.auth_challenge_data.lock().unwrap().clone()
+    }
+
+    /// Set the data to be returned by the `auth_challenge()` method of the `MockEnhancedAuthPolicy`
+    pub fn set_auth_challenge_data(&self, data: Option<Bytes>) {
+        *self.auth_challenge_data.lock().unwrap() = data;
+    }
+
+    /// Get the data to be returned by the `reauth_notified()` method of the `MockEnhancedAuthPolicy`
+    #[must_use]
+    pub fn reauth_data(&self) -> Option<Bytes> {
+        self.reauth_data.lock().unwrap().clone()
+    }
+
+    /// Set the data to be returned by the `reauth_notified()` method of the `MockEnhancedAuthPolicy`
+    pub fn set_reauth_data(&self, data: Option<Bytes>) {
+        *self.reauth_data.lock().unwrap() = data;
+    }
+
+    /// Trigger the reauthentication notification indicating the `reauth_notified()` method of the
+    /// `MockEnhancedAuthPolicy` should return data.
+    pub fn reauth_notify(&self) {
+        self.reauth_notify.notify_waiters();
     }
 }
