@@ -521,7 +521,7 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     assert_eq!(receiver2.recv().await.unwrap(), expected_publish1);
     mock_server.expect_no_packet();
     assert_eq!(receiver3.recv().await.unwrap(), expected_publish1);
-    let puback1 = mock_server.expect_puback_and_return().await;
+    let puback1 = mock_server.expect_puback().await;
     assert_eq!(puback1.packet_identifier, 1);
     assert_eq!(puback1.reason_code, mqtt_proto::PubAckReasonCode::Success);
 
@@ -573,7 +573,7 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     assert_eq!(receiver1.recv().await.unwrap(), expected_publish3); // Receiver 1 gets Publish 3
     mock_server.expect_no_packet(); // No PUBACK yet
     assert_eq!(receiver3.recv().await.unwrap(), expected_publish2); // Receiver 3 gets Publish 2
-    let puback2 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 2 now that all received
+    let puback2 = mock_server.expect_puback().await; // PUBACK for Publish 2 now that all received
     assert_eq!(puback2.packet_identifier, 2);
     assert_eq!(puback2.reason_code, mqtt_proto::PubAckReasonCode::Success);
     mock_server.expect_no_packet(); // No more PUBACKs yet
@@ -584,12 +584,12 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     assert_eq!(receiver2.recv().await.unwrap(), expected_publish4); // Receiver 2 gets Publish 4
     mock_server.expect_no_packet(); // No PUBACK yet
     assert_eq!(receiver3.recv().await.unwrap(), expected_publish3); // Receiver 3 gets Publish 3
-    let puback3 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 3 now that all received
+    let puback3 = mock_server.expect_puback().await; // PUBACK for Publish 3 now that all received
     assert_eq!(puback3.packet_identifier, 3);
     assert_eq!(puback3.reason_code, mqtt_proto::PubAckReasonCode::Success);
     mock_server.expect_no_packet(); // No more PUBACKs yet
     assert_eq!(receiver3.recv().await.unwrap(), expected_publish4); // Receiver 3 gets Publish 4
-    let puback4 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 4 now that all received
+    let puback4 = mock_server.expect_puback().await; // PUBACK for Publish 4 now that all received
     assert_eq!(puback4.packet_identifier, 4);
     assert_eq!(puback4.reason_code, mqtt_proto::PubAckReasonCode::Success);
 
@@ -654,7 +654,7 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     // assert_ready!(tokio_test::task::spawn(r2_ct5).poll()).unwrap(); // Receiver 2 ACK completion token should be complete
     // assert_ready!(tokio_test::task::spawn(r1_ct5).poll()).unwrap(); // Receiver 1 ACK completion token should be complete
 
-    let puback5 = mock_server.expect_puback_and_return().await; // PUBACK for Publish 5 now that all have ACKed
+    let puback5 = mock_server.expect_puback().await; // PUBACK for Publish 5 now that all have ACKed
     assert_eq!(puback5.packet_identifier, 5);
     assert_eq!(puback5.reason_code, mqtt_proto::PubAckReasonCode::Success);
 
