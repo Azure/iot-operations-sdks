@@ -54,18 +54,20 @@ use tokio::sync::Notify;
 
 use crate::azure_mqtt_adapter as adapter;
 use crate::error::DetachedError;
+use crate::control_packet::ConnectProperties;
 pub use crate::session::managed_client::{SessionManagedClient, SessionPubReceiver};
-use crate::session::state::SessionState;
 use crate::session::{
+    state::SessionState,
     auth_policy::{AuthPolicy, SatAuthFileMonitor},
     dispatcher::IncomingPublishDispatcher,
     reconnect_policy::{ConnectionLossReason, ExponentialBackoffWithJitter, ReconnectPolicy},
 };
 #[cfg(feature = "test-utils")]
 use crate::test_utils::InjectedPacketChannels;
-use crate::{MqttConnectionSettings, azure_mqtt_adapter::AzureMqttConnectParameters};
+use crate::{azure_mqtt_adapter::AzureMqttConnectParameters};
 
 mod auth_policy;
+mod connect_parameters;
 pub(crate) mod dispatcher;
 mod managed_client;
 pub(crate) mod plenary_ack;
@@ -168,7 +170,13 @@ impl fmt::Display for SessionExitErrorKind {
 #[builder(pattern = "owned")]
 pub struct SessionOptions {
     /// MQTT Connection Settings for configuring the [`Session`]
-    connection_settings: MqttConnectionSettings,
+    //connection_settings: MqttConnectionSettings,
+
+    /// MQTT client ID
+    client_id: String,
+    /// CONNECT packet properties that will be used on each connection attempt
+    connect_properties: ConnectProperties,
+
     /// Reconnect Policy to by used by the `Session`
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     reconnect_policy: Box<dyn ReconnectPolicy>,
@@ -236,7 +244,7 @@ impl Session {
     /// Returns a [`SessionConfigError`] if there are errors using the session options.
     #[allow(clippy::missing_panics_doc)] // TODO: Remove once a better way to handle auth policy failure
     pub fn new(options: SessionOptions) -> Result<Self, SessionConfigError> {
-        let client_id = options.connection_settings.client_id.clone();
+        let client_id = options.client_id.clone();
 
         // Add AIO metric and features to user properties when using AIO MQTT broker features
         // CONSIDER: user properties from being supported on SessionOptions or ConnectionSettings
@@ -251,18 +259,20 @@ impl Session {
             vec![]
         };
 
-        // Create AuthPolicy if SAT file is provided
-        // CONSIDER: This would ideally come directly from the SessionOptions instead of MQTT connection settings
-        let auth_policy = options
-            .connection_settings
-            .sat_file
-            .as_ref()
-            .map(|sat_file| {
-                // TODO: This error should propagate, however currently `SessionConfigError` is tightly coupled to the
-                // `azure_mqtt_adapter`, so it cannot.
-                Arc::new(SatAuthFileMonitor::new(std::path::PathBuf::from(sat_file)).unwrap())
-                    as Arc<dyn AuthPolicy>
-            });
+        let auth_policy = None;
+
+        // // Create AuthPolicy if SAT file is provided
+        // // CONSIDER: This would ideally come directly from the SessionOptions instead of MQTT connection settings
+        // let auth_policy = options
+        //     .connection_settings
+        //     .sat_file
+        //     .as_ref()
+        //     .map(|sat_file| {
+        //         // TODO: This error should propagate, however currently `SessionConfigError` is tightly coupled to the
+        //         // `azure_mqtt_adapter`, so it cannot.
+        //         Arc::new(SatAuthFileMonitor::new(std::path::PathBuf::from(sat_file)).unwrap())
+        //             as Arc<dyn AuthPolicy>
+        //     });
 
         let (client_options, connect_parameters) = options
             .connection_settings
