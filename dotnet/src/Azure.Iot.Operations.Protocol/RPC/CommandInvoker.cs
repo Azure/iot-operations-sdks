@@ -20,6 +20,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
+        private const string _msAioRpcRequest = "ms.aio.rpc.request";
         private readonly int[] _supportedMajorProtocolVersions = [CommandVersion.MajorProtocolVersion];
 
         private static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(10);
@@ -58,7 +59,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <remarks>
         /// If no prefix or suffix is specified, and no value is provided in <see cref="ResponseTopicPattern"/>, then this
         /// value will default to "clients/{invokerClientId}" for security purposes.
-        /// 
+        ///
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -69,7 +70,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         /// <remarks>
         /// If no suffix is specified, then the command response topic won't include a suffix.
-        /// 
+        ///
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -579,10 +580,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 try
                 {
                     // Set default CloudEvent type for RPC requests if not already set
-                    if (metadata?.CloudEvent != null && metadata.CloudEvent.Type == "ms.aio.telemetry")
+                    if (metadata?.CloudEvent != null && metadata.CloudEvent.Type != _msAioRpcRequest)
                     {
                         // User created a CloudEvent with default telemetry type, update to RPC request type
-                        metadata.CloudEvent = new CloudEvent(metadata.CloudEvent.Source, "ms.aio.rpc.request", metadata.CloudEvent.SpecVersion)
+                        metadata.CloudEvent = new CloudEvent(metadata.CloudEvent.Source, _msAioRpcRequest, metadata.CloudEvent.SpecVersion)
                         {
                             Id = metadata.CloudEvent.Id,
                             Time = metadata.CloudEvent.Time,
@@ -715,7 +716,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// Dispose this object and choose whether to dispose the underlying mqtt client as well.
         /// </summary>
         /// <param name="disposing">
-        /// If true, this call will dispose the underlying mqtt client. If false, this call will 
+        /// If true, this call will dispose the underlying mqtt client. If false, this call will
         /// not dispose the underlying mqtt client.
         /// </param>
         public async ValueTask DisposeAsync(bool disposing)

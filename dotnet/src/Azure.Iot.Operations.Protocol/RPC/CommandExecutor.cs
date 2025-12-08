@@ -20,6 +20,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
+        private const string _msAioRpcResponse = "ms.aio.rpc.response";
         private readonly int[] _supportedMajorProtocolVersions = [CommandVersion.MajorProtocolVersion];
 
         private static readonly TimeSpan DefaultExecutorTimeout = TimeSpan.FromSeconds(10);
@@ -323,7 +324,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (!_hasSubscribed)
                 {
-                    
+
                     await SubscribeAsync(TopicTokenMap, cancellationToken).ConfigureAwait(false);
                 }
 
@@ -474,10 +475,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
             // Set default CloudEvent type for RPC responses if not already set
-            if (metadata?.CloudEvent != null && metadata.CloudEvent.Type == "ms.aio.telemetry")
+            if (metadata?.CloudEvent != null && metadata.CloudEvent.Type != _msAioRpcResponse)
             {
                 // User created a CloudEvent with default telemetry type, update to RPC response type
-                metadata.CloudEvent = new Telemetry.CloudEvent(metadata.CloudEvent.Source, "ms.aio.rpc.response", metadata.CloudEvent.SpecVersion)
+                metadata.CloudEvent = new Telemetry.CloudEvent(metadata.CloudEvent.Source, _msAioRpcResponse, metadata.CloudEvent.SpecVersion)
                 {
                     Id = metadata.CloudEvent.Id,
                     Time = metadata.CloudEvent.Time,
