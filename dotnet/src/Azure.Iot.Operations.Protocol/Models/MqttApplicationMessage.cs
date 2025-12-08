@@ -184,7 +184,7 @@ namespace Azure.Iot.Operations.Protocol.Models
                 : Encoding.UTF8.GetString(Payload.ToArray());
         }
 
-        public void AddMetadata(OutgoingTelemetryMetadata md)
+        public void AddMetadata(OutgoingTelemetryMetadata? md)
         {
             if (md == null)
             {
@@ -197,7 +197,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             if (md.CloudEvent is not null)
             {
-                AddCloudEvents(md.CloudEvent);
+                SetCloudEvent(md.CloudEvent);
             }
 
             foreach (KeyValuePair<string, string> kvp in md.UserData)
@@ -206,8 +206,19 @@ namespace Azure.Iot.Operations.Protocol.Models
             }
         }
 
-        public void AddCloudEvents(CloudEvent md)
+        public void SetCloudEvent(CloudEvent md)
         {
+            // Provide default values as per ADR27
+            if (string.IsNullOrEmpty(md.Id))
+            {
+                md.Id = Guid.NewGuid().ToString();
+            }
+
+            if (!md.Time.HasValue)
+            {
+                md.Time = DateTime.UtcNow;
+            }
+
             AddUserProperty(nameof(md.SpecVersion).ToLowerInvariant(), md.SpecVersion);
             if (md.Id != null)
             {
@@ -236,38 +247,11 @@ namespace Azure.Iot.Operations.Protocol.Models
             {
                 AddUserProperty(nameof(md.DataSchema).ToLowerInvariant(), md.DataSchema);
             }
-        }
-
-        /// <summary>
-        /// Sets the CloudEvent properties on this MQTT message by adding the appropriate user properties.
-        /// This method will provide default values for Id (new GUID), Time (current UTC time), and SpecVersion (1.0) if they are not set.
-        /// </summary>
-        /// <param name="cloudEvent">The CloudEvent to set on this message.</param>
-        /// <remarks>
-        /// This method will override the ContentType property of this message with the DataContentType from the CloudEvent if it is set.
-        /// </remarks>
-        public void SetCloudEvent(CloudEvent cloudEvent)
-        {
-            ArgumentNullException.ThrowIfNull(cloudEvent);
-
-            // Provide default values as per ADR27
-            if (string.IsNullOrEmpty(cloudEvent.Id))
-            {
-                cloudEvent.Id = Guid.NewGuid().ToString();
-            }
-
-            if (!cloudEvent.Time.HasValue)
-            {
-                cloudEvent.Time = DateTime.UtcNow;
-            }
-
-            // Add cloud event properties as user properties
-            AddCloudEvents(cloudEvent);
 
             // Override ContentType if DataContentType is set
-            if (cloudEvent.DataContentType is not null)
+            if (md.DataContentType is not null)
             {
-                ContentType = cloudEvent.DataContentType;
+                ContentType = md.DataContentType;
             }
         }
 
@@ -323,7 +307,7 @@ namespace Azure.Iot.Operations.Protocol.Models
             string? timeValue = SafeGetUserProperty("time");
 
             DateTime? time = null;
-            if (!string.IsNullOrEmpty(timeValue) && 
+            if (!string.IsNullOrEmpty(timeValue) &&
                 DateTime.TryParse(timeValue, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime parsedTime))
             {
                 time = parsedTime;

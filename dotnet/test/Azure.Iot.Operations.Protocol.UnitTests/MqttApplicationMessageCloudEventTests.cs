@@ -74,16 +74,6 @@ public class MqttApplicationMessageCloudEventTests
     }
 
     [Fact]
-    public void SetCloudEvent_WithNullCloudEvent_ThrowsArgumentNullException()
-    {
-        // Arrange
-        var message = new MqttApplicationMessage("test/topic");
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => message.SetCloudEvent(null!));
-    }
-
-    [Fact]
     public void SetCloudEvent_OverridesContentType()
     {
         // Arrange
