@@ -8,6 +8,8 @@
 
     internal static class ActionSchemaGenerator
     {
+        private const string InputOutputType = "object";
+
         internal static void GenerateActionSchemas(ErrorReporter errorReporter, TDThing tdThing, string dirName, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
             foreach (KeyValuePair<string, ValueTracker<TDAction>> actionKvp in tdThing.Actions?.Entries ?? new())
@@ -45,10 +47,12 @@
 
             if (actionForm?.TopicPattern != null)
             {
-                if (tdAction.Input?.Value?.Ref?.Value != null)
+                ValueTracker<StringHolder>? inputRef = tdAction.Input?.Value?.Ref;
+                if (inputRef != null)
                 {
                     string inputSchemaName = schemaNamer.GetActionInSchema(null, actionName);
-                    schemaSpecs[inputSchemaName] = new AliasSpec(null, tdAction.Input.Value.Ref.Value.Value, actionForm.Format, inputSchemaName, dirName, TokenIndex: -1);
+                    schemaSpecs[inputSchemaName] = new AliasSpec(null, InputOutputType, inputRef.Value.Value, actionForm.Format, inputSchemaName, dirName, TokenIndex: -1);
+                    errorReporter.RegisterTypedReferenceFromThing(inputRef.TokenIndex, InputOutputType, inputRef.Value.Value);
                 }
                 else if (tdAction.Input?.Value != null)
                 {
@@ -58,10 +62,12 @@
                 }
 
                 Dictionary<string, FieldSpec> responseFields = new();
-                if (tdAction.Output?.Value?.Ref?.Value != null)
+                ValueTracker<StringHolder>? outputRef = tdAction.Output?.Value?.Ref;
+                if (outputRef != null)
                 {
                     string outputSchemaName = schemaNamer.GetActionOutSchema(null, actionName);
-                    schemaSpecs[outputSchemaName] = new AliasSpec(null, tdAction.Output.Value.Ref.Value.Value, actionForm.Format, outputSchemaName, dirName, TokenIndex: -1);
+                    schemaSpecs[outputSchemaName] = new AliasSpec(null, InputOutputType, outputRef.Value.Value, actionForm.Format, outputSchemaName, dirName, TokenIndex: -1);
+                    errorReporter.RegisterTypedReferenceFromThing(outputRef.TokenIndex, InputOutputType, outputRef.Value.Value);
                 }
                 else if (tdAction.Output?.Value != null)
                 {

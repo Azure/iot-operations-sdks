@@ -101,7 +101,7 @@
             }
         }
 
-        public static MapTracker<T> Deserialize(ref Utf8JsonReader reader)
+        public static MapTracker<T> Deserialize(ref Utf8JsonReader reader, string propertyName)
         {
             long tokenIndex = reader.TokenStartIndex;
             string? deserializationError = null;
@@ -121,15 +121,15 @@
             reader.Read();
             while (reader.TokenType == JsonTokenType.PropertyName)
             {
-                string propertyName = reader.GetString()!;
+                string keyName = reader.GetString()!;
                 reader.Read();
 
-                if (entries.ContainsKey(propertyName))
+                if (entries.ContainsKey(keyName))
                 {
-                    deserializationError = $"duplicate property name '{propertyName}' found in map";
+                    deserializationError = $"duplicate property name '{keyName}' found in map";
                 }
 
-                entries[propertyName] = ValueTracker<T>.Deserialize(ref reader);
+                entries[keyName] = ValueTracker<T>.Deserialize(ref reader, propertyName);
                 reader.Read();
             }
 

@@ -152,22 +152,22 @@
                 switch (propertyName)
                 {
                     case DescriptionName:
-                        action.Description = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        action.Description = ValueTracker<StringHolder>.Deserialize(ref reader, DescriptionName);
                         break;
                     case InputName:
-                        action.Input = ValueTracker<TDDataSchema>.Deserialize(ref reader);
+                        action.Input = ValueTracker<TDDataSchema>.Deserialize(ref reader, InputName);
                         break;
                     case OutputName:
-                        action.Output = ValueTracker<TDDataSchema>.Deserialize(ref reader);
+                        action.Output = ValueTracker<TDDataSchema>.Deserialize(ref reader, OutputName);
                         break;
                     case IdempotentName:
-                        action.Idempotent = ValueTracker<BoolHolder>.Deserialize(ref reader);
+                        action.Idempotent = ValueTracker<BoolHolder>.Deserialize(ref reader, IdempotentName);
                         break;
                     case SafeName:
-                        action.Safe = ValueTracker<BoolHolder>.Deserialize(ref reader);
+                        action.Safe = ValueTracker<BoolHolder>.Deserialize(ref reader, SafeName);
                         break;
                     case FormsName:
-                        action.Forms = ArrayTracker<TDForm>.Deserialize(ref reader);
+                        action.Forms = ArrayTracker<TDForm>.Deserialize(ref reader, FormsName);
                         break;
                     default:
                         reader.Skip();

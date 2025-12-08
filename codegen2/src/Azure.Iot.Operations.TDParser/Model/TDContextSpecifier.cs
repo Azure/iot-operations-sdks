@@ -94,12 +94,12 @@
                 case JsonTokenType.StartObject:
                     return new TDContextSpecifier
                     {
-                        Local = MapTracker<StringHolder>.Deserialize(ref reader),
+                        Local = MapTracker<StringHolder>.Deserialize(ref reader, string.Empty),
                     };
                 case JsonTokenType.String:
                     return new TDContextSpecifier
                     {
-                        Remote = ValueTracker<StringHolder>.Deserialize(ref reader),
+                        Remote = ValueTracker<StringHolder>.Deserialize(ref reader, string.Empty),
                     };
                 default:
                     throw new InvalidOperationException($"expected string or JSON object but found {reader.TokenType}");

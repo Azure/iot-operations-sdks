@@ -27,6 +27,12 @@
             this.errorLog.RegisterReferenceFromThing(refPath, this.filename, GetLineNumber(byteIndex), refValue);
         }
 
+        public void RegisterTypedReferenceFromThing(long byteIndex, string type, string refValue)
+        {
+            string refPath = refValue.Contains('/') ? Path.GetFullPath(Path.Combine(this.basePath, refValue)).Replace('\\', '/') : refValue;
+            this.errorLog.RegisterTypedReferenceFromThing(refPath, this.filename, GetLineNumber(byteIndex), type, refValue);
+        }
+
         public void RegisterNameInThing(string name, long byteIndex)
         {
             this.errorLog.RegisterNameInThing(name, this.filename, GetLineNumber(byteIndex));
@@ -55,7 +61,13 @@
         public void ReportReferenceError(string description, string reason, string refValue, long byteIndex)
         {
             string refPath = Path.GetFullPath(Path.Combine(this.basePath, refValue)).Replace('\\', '/');
-            this.errorLog.AddReferenceError(refPath, description, reason, this.filename, GetLineNumber(byteIndex), refValue);
+            this.errorLog.AddReferenceError(refPath, description, reason, this.filename, this.basePath, GetLineNumber(byteIndex), refValue);
+        }
+
+        public void ReportReferenceTypeError(string description, string refValue, long byteIndex, string refType, string actualType)
+        {
+            string refPath = Path.GetFullPath(Path.Combine(this.basePath, refValue)).Replace('\\', '/');
+            this.errorLog.AddReferenceTypeError(refPath, description, this.filename, this.basePath, GetLineNumber(byteIndex), refValue, refType, actualType);
         }
 
         public void ReportJsonException(Exception ex)

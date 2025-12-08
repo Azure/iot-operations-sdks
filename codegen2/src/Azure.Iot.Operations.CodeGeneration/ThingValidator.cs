@@ -162,7 +162,7 @@
 
             foreach (string unreferencedSchemaKey in unreferencedSchemaKeys)
             {
-                errorReporter.ReportWarning($"Schema definition '{unreferencedSchemaKey}' is defined in '{TDThing.SchemaDefinitionsName}' but is neither a constant declaration nor a type that is referenced by any action or property.", schemaDefinitions.Entries[unreferencedSchemaKey].TokenIndex);
+                errorReporter.ReportWarning($"'{TDThing.SchemaDefinitionsName}' key '{unreferencedSchemaKey}' has a value that is neither a constant declaration nor a type that is referenced by any action or property; definition will be ignored.", schemaDefinitions.Entries[unreferencedSchemaKey].TokenIndex);
             }
         }
 

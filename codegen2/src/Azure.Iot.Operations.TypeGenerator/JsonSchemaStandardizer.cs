@@ -33,7 +33,7 @@
 
             foreach (KeyValuePair<string, SchemaRoot> namedSchemaRoot in schemaRootsByName)
             {
-                if (!TryGetSchemaType(namedSchemaRoot.Key, null, namedSchemaRoot.Value.JsonTracker, false, schemaTypeDict, schemaRootsByName, namedSchemaRoot.Value.ErrorReporter, out _, true))
+                if (!TryGetSchemaType(namedSchemaRoot.Key, null, namedSchemaRoot.Value.JsonTracker, false, schemaTypeDict, schemaRootsByName, namedSchemaRoot.Value.ErrorReporter, out _, out _, true))
                 {
                     hasError = true;
                 }
@@ -44,7 +44,7 @@
                     {
                         foreach (KeyValuePair<string, JsonTracker> defProp in defsTracker.EnumerateObject())
                         {
-                            if (!TryGetSchemaType(namedSchemaRoot.Key, defProp.Key, defProp.Value, false, schemaTypeDict, schemaRootsByName, namedSchemaRoot.Value.ErrorReporter, out _, false))
+                            if (!TryGetSchemaType(namedSchemaRoot.Key, defProp.Key, defProp.Value, false, schemaTypeDict, schemaRootsByName, namedSchemaRoot.Value.ErrorReporter, out _, out _, false))
                             {
                                 hasError = true;
                             }
@@ -84,9 +84,11 @@
             Dictionary<string, SchemaRoot> schemaRootsByName,
             ErrorReporter? errorReporter,
             [NotNullWhen(true)] out SchemaType? schemaType,
+            [NotNullWhen(true)] out string? jsonSchemaType,
             bool isTopLevel = false)
         {
             schemaType = null;
+            jsonSchemaType = null;
             bool hasError = false;
 
             if (schemaTracker.ValueKind != JsonValueKind.Object)
@@ -131,7 +133,7 @@
 
             if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyRef, out _))
             {
-                return TryGetReferenceSchemaType(docName, defKey, schemaTracker, orNull, schemaTypes, schemaRootsByName, errorReporter, out schemaType) && !hasError;
+                return TryGetReferenceSchemaType(docName, defKey, schemaTracker, orNull, schemaTypes, schemaRootsByName, errorReporter, out schemaType, out jsonSchemaType) && !hasError;
             }
 
             if (!schemaTracker.TryGetProperty(JsonSchemaValues.PropertyType, out JsonTracker typeTracker))
@@ -151,7 +153,8 @@
                 return false;
             }
 
-            switch (typeTracker.GetString()!)
+            jsonSchemaType = typeTracker.GetString();
+            switch (jsonSchemaType)
             {
                 case JsonSchemaValues.TypeObject:
                     return TryGetObjectSchemaType(docName, defKey, schemaTracker, orNull, schemaTypes, schemaRootsByName, errorReporter, out schemaType, isTopLevel);
@@ -248,9 +251,11 @@
             Dictionary<CodeName, SchemaType>? schemaTypes,
             Dictionary<string, SchemaRoot> schemaRootsByName,
             ErrorReporter? errorReporter,
-            [NotNullWhen(true)] out SchemaType? schemaType)
+            [NotNullWhen(true)] out SchemaType? schemaType,
+            [NotNullWhen(true)] out string? jsonSchemaType)
         {
             schemaType = null;
+            jsonSchemaType = null;
             bool hasError = false;
 
             JsonTracker referencingTracker = schemaTracker.GetProperty(JsonSchemaValues.PropertyRef);
@@ -264,6 +269,7 @@
             {
                 if (prop.Key != JsonSchemaValues.PropertySchema && 
                     prop.Key != JsonSchemaValues.PropertyRef &&
+                    prop.Key != JsonSchemaValues.PropertyType &&
                     prop.Key != JsonSchemaValues.PropertyTitle &&
                     prop.Key != JsonSchemaValues.PropertyDescription)
                 {
@@ -271,9 +277,26 @@
                 }
             }
 
-            if (hasError || !TryGetSchemaType(refName, refKey, refTracker, orNull, null, schemaRootsByName, null, out schemaType))
+            if (hasError || !TryGetSchemaType(refName, refKey, refTracker, orNull, null, schemaRootsByName, null, out schemaType, out jsonSchemaType))
             {
                 return false;
+            }
+
+            if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyType, out JsonTracker refTypeTracker))
+            {
+                if (refTypeTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(refTypeTracker.GetString()))
+                {
+                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyType}' property has non-string or empty value", refTypeTracker.TokenIndex);
+                    return false;
+                }
+
+                string referencedType = refTypeTracker.GetString();
+                if (jsonSchemaType != referencedType)
+                {
+                    string refString = referencingTracker.GetString();
+                    errorReporter?.ReportReferenceTypeError($"JSON Schema '{JsonSchemaValues.PropertyRef}' value", refString, referencingTracker.TokenIndex, referencedType, jsonSchemaType);
+                    return false;
+                }
             }
 
             if (schemaTypes != null && schemaTracker.TryGetProperty(JsonSchemaValues.PropertyTitle, out JsonTracker titleTracker) && schemaType is ReferenceType refType)
@@ -333,7 +356,8 @@
                         schemaTypes,
                         schemaRootsByName,
                         errorReporter,
-                        out SchemaType? valueSchemaType))
+                        out SchemaType? valueSchemaType,
+                        out _))
                     {
                         return false;
                     }
@@ -403,7 +427,8 @@
                             schemaTypes,
                             schemaRootsByName,
                             errorReporter,
-                            out SchemaType? fieldSchemaType))
+                            out SchemaType? fieldSchemaType,
+                            out _))
                         {
                             string? fieldDesc = objProp.Value.TryGetProperty(JsonSchemaValues.PropertyDescription, out JsonTracker fieldDescTracker) ? fieldDescTracker.GetString() : null;
                             objectFields[new CodeName(objProp.Key)] = new ObjectType.FieldInfo(fieldSchemaType, isRequired, fieldDesc);
@@ -512,7 +537,8 @@
                 schemaTypes,
                 schemaRootsByName,
                 errorReporter,
-                out SchemaType? itemSchemaType))
+                out SchemaType? itemSchemaType,
+                out _))
             {
                 return false;
             }
@@ -884,7 +910,7 @@
                 return false;
             }
 
-            string refString = referencingTracker.GetString()!;
+            string refString = referencingTracker.GetString();
             string unescapedString = Uri.UnescapeDataString(refString);
             int fragIx = unescapedString.IndexOf('#');
 

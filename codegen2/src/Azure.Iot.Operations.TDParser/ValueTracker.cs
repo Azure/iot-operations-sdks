@@ -7,6 +7,8 @@
     public class ValueTracker<T> : IEquatable<ValueTracker<T>>, ISourceTracker
         where T : IDeserializable<T>
     {
+        public required string PropertyName { get; set; }
+
         public required T Value { get; set; }
 
         public bool DeserializingFailed { get; set; }
@@ -86,7 +88,7 @@
             }
         }
 
-        public static ValueTracker<T> Deserialize(ref Utf8JsonReader reader)
+        public static ValueTracker<T> Deserialize(ref Utf8JsonReader reader, string propertyName)
         {
             long tokenIndex = reader.TokenStartIndex;
 
@@ -95,6 +97,7 @@
                 T value = T.Deserialize(ref reader);
                 return new ValueTracker<T>
                 {
+                    PropertyName = propertyName,
                     Value = value,
                     TokenIndex = tokenIndex,
                 };
@@ -105,6 +108,7 @@
 
                 return new ValueTracker<T>
                 {
+                    PropertyName = propertyName,
                     Value = default!,
                     DeserializingFailed = true,
                     DeserializationError = ex.Message,

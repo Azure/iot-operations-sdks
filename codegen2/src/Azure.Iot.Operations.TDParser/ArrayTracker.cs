@@ -101,13 +101,13 @@
             }
         }
 
-        public static ArrayTracker<T> Deserialize(ref Utf8JsonReader reader)
+        public static ArrayTracker<T> Deserialize(ref Utf8JsonReader reader, string propertyName)
         {
             long tokenIndex = reader.TokenStartIndex;
 
             if (reader.TokenType != JsonTokenType.StartArray)
             {
-                ValueTracker<T> valueTracker = ValueTracker<T>.Deserialize(ref reader);
+                ValueTracker<T> valueTracker = ValueTracker<T>.Deserialize(ref reader, propertyName);
 
                 return new ArrayTracker<T>
                 {
@@ -121,7 +121,7 @@
             reader.Read();
             while (reader.TokenType != JsonTokenType.EndArray)
             {
-                elements.Add(ValueTracker<T>.Deserialize(ref reader));
+                elements.Add(ValueTracker<T>.Deserialize(ref reader, propertyName));
                 reader.Read();
             }
 

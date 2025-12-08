@@ -276,52 +276,52 @@
             switch (propertyName)
             {
                 case RefName:
-                    dataSchema.Ref = ValueTracker<StringHolder>.Deserialize(ref reader);
+                    dataSchema.Ref = ValueTracker<StringHolder>.Deserialize(ref reader, RefName);
                     return true;
                 case TitleName:
-                    dataSchema.Title = ValueTracker<StringHolder>.Deserialize(ref reader);
+                    dataSchema.Title = ValueTracker<StringHolder>.Deserialize(ref reader, TitleName);
                     return true;
                 case DescriptionName:
-                    dataSchema.Description = ValueTracker<StringHolder>.Deserialize(ref reader);
+                    dataSchema.Description = ValueTracker<StringHolder>.Deserialize(ref reader, DescriptionName);
                     return true;
                 case TypeName:
-                    dataSchema.Type = ValueTracker<StringHolder>.Deserialize(ref reader);
+                    dataSchema.Type = ValueTracker<StringHolder>.Deserialize(ref reader, TypeName);
                     return true;
                 case ConstName:
-                    dataSchema.Const = ValueTracker<ObjectHolder>.Deserialize(ref reader);
+                    dataSchema.Const = ValueTracker<ObjectHolder>.Deserialize(ref reader, ConstName);
                     return true;
                 case MinimumName:
-                    dataSchema.Minimum = ValueTracker<NumberHolder>.Deserialize(ref reader);
+                    dataSchema.Minimum = ValueTracker<NumberHolder>.Deserialize(ref reader, MinimumName);
                     return true;
                 case MaximumName:
-                    dataSchema.Maximum = ValueTracker<NumberHolder>.Deserialize(ref reader);
+                    dataSchema.Maximum = ValueTracker<NumberHolder>.Deserialize(ref reader, MaximumName);
                     return true;
                 case FormatName:
-                    dataSchema.Format = ValueTracker<StringHolder>.Deserialize(ref reader);
+                    dataSchema.Format = ValueTracker<StringHolder>.Deserialize(ref reader, FormatName);
                     return true;
                 case PatternName:
-                    dataSchema.Pattern = ValueTracker<StringHolder>.Deserialize(ref reader);
+                    dataSchema.Pattern = ValueTracker<StringHolder>.Deserialize(ref reader, PatternName);
                     return true;
                 case ContentEncodingName:
-                    dataSchema.ContentEncoding = ValueTracker<StringHolder>.Deserialize(ref reader);
+                    dataSchema.ContentEncoding = ValueTracker<StringHolder>.Deserialize(ref reader, ContentEncodingName);
                     return true;
                 case AdditionalPropertiesName:
-                    dataSchema.AdditionalProperties = ValueTracker<TDDataSchema>.Deserialize(ref reader);
+                    dataSchema.AdditionalProperties = ValueTracker<TDDataSchema>.Deserialize(ref reader, AdditionalPropertiesName);
                     return true;
                 case EnumName:
-                    dataSchema.Enum = ArrayTracker<StringHolder>.Deserialize(ref reader);
+                    dataSchema.Enum = ArrayTracker<StringHolder>.Deserialize(ref reader, EnumName);
                     return true;
                 case RequiredName:
-                    dataSchema.Required = ArrayTracker<StringHolder>.Deserialize(ref reader);
+                    dataSchema.Required = ArrayTracker<StringHolder>.Deserialize(ref reader, RequiredName);
                     return true;
                 case ErrorMessageName:
-                    dataSchema.ErrorMessage = ValueTracker<StringHolder>.Deserialize(ref reader);
+                    dataSchema.ErrorMessage = ValueTracker<StringHolder>.Deserialize(ref reader, ErrorMessageName);
                     return true;
                 case PropertiesName:
-                    dataSchema.Properties = MapTracker<TDDataSchema>.Deserialize(ref reader);
+                    dataSchema.Properties = MapTracker<TDDataSchema>.Deserialize(ref reader, PropertiesName);
                     return true;
                 case ItemsName:
-                    dataSchema.Items = ValueTracker<TDDataSchema>.Deserialize(ref reader);
+                    dataSchema.Items = ValueTracker<TDDataSchema>.Deserialize(ref reader, ItemsName);
                     return true;
                 default:
                     return false;

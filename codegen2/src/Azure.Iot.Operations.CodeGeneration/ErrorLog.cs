@@ -6,6 +6,7 @@
     public class ErrorLog
     {
         private readonly Dictionary<string, List<ExternalReference>> referencesFromThings;
+        private readonly Dictionary<(string, string), List<ExternalReference>> typedReferencesFromThings;
         private readonly Dictionary<string, Dictionary<string, int>> namesInThings;
         private readonly Dictionary<string, List<KeyValuePair<string, int>>> schemaNames;
         private readonly string defaultFolder;
@@ -21,6 +22,7 @@
         public ErrorLog(string defaultFolder)
         {
             this.referencesFromThings = new Dictionary<string, List<ExternalReference>>();
+            this.typedReferencesFromThings = new Dictionary<(string, string), List<ExternalReference>>();
             this.namesInThings = new Dictionary<string, Dictionary<string, int>>();
             this.schemaNames = new Dictionary<string, List<KeyValuePair<string, int>>>();
             this.defaultFolder = defaultFolder;
@@ -61,13 +63,26 @@
         public void RegisterReferenceFromThing(string refPath, string filename, int lineNumber, string refValue)
         {
             string fullPath = Path.GetFullPath(Path.Combine(this.defaultFolder, refPath)).Replace('\\', '/');
+
             if (!referencesFromThings.TryGetValue(fullPath, out List<ExternalReference>? references))
             {
                 references = new();
                 referencesFromThings[fullPath] = references;
             }
-
             references.Add(new ExternalReference(filename, lineNumber, refValue));
+        }
+
+        public void RegisterTypedReferenceFromThing(string refPath, string filename, int lineNumber, string type, string refValue)
+        {
+            string fullPath = Path.GetFullPath(Path.Combine(this.defaultFolder, refPath)).Replace('\\', '/');
+            var key = (fullPath, type);
+
+            if (!typedReferencesFromThings.TryGetValue(key, out List<ExternalReference>? typedReferences))
+            {
+                typedReferences = new();
+                typedReferencesFromThings[key] = typedReferences;
+            }
+            typedReferences.Add(new ExternalReference(filename, lineNumber, refValue));
         }
 
         public void RegisterNameInThing(string name, string filename, int lineNumber)
@@ -122,9 +137,9 @@
             }
         }
 
-        public void AddReferenceError(string refPath, string description, string reason, string filename, int lineNumber, string refValue)
+        public void AddReferenceError(string refPath, string description, string reason, string filename, string dirpath, int lineNumber, string refValue)
         {
-            if (referencesFromThings.TryGetValue(refPath, out List<ExternalReference>? references))
+            if (dirpath.Equals(this.defaultFolder) && referencesFromThings.TryGetValue(refPath, out List<ExternalReference>? references))
             {
                 foreach (ExternalReference reference in references)
                 {
@@ -134,6 +149,22 @@
             else
             {
                 AddError(ErrorLevel.Error, $"{description} \"{refValue}\" not resolvable; {reason}", filename, lineNumber);
+            }
+        }
+
+        public void AddReferenceTypeError(string refPath, string description, string filename, string dirpath, int lineNumber, string refValue, string refType, string actualType)
+        {
+            var key = (refPath, refType);
+            if (dirpath.Equals(this.defaultFolder) && typedReferencesFromThings.TryGetValue(key, out List<ExternalReference>? typedReferences))
+            {
+                foreach (ExternalReference reference in typedReferences)
+                {
+                    AddError(ErrorLevel.Error, $"External schema reference \"{reference.RefValue}\" is expected to define a schema of type \"{refType}\", but it defines a schema of type \"{actualType}\"", reference.Filename, reference.LineNumber);
+                }
+            }
+            else
+            {
+                AddError(ErrorLevel.Error, $"{description} \"{refValue}\" is expected to define a schema of type \"{refType}\", but it defines a schema of type \"{actualType}\"", filename, lineNumber);
             }
         }
     }

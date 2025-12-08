@@ -130,16 +130,16 @@
                 switch (propertyName)
                 {
                     case DescriptionName:
-                        evt.Description = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        evt.Description = ValueTracker<StringHolder>.Deserialize(ref reader, DescriptionName);
                         break;
                     case DataName:
-                        evt.Data = ValueTracker<TDDataSchema>.Deserialize(ref reader);
+                        evt.Data = ValueTracker<TDDataSchema>.Deserialize(ref reader, DataName);
                         break;
                     case PlaceholderName:
-                        evt.Placeholder = ValueTracker<BoolHolder>.Deserialize(ref reader);
+                        evt.Placeholder = ValueTracker<BoolHolder>.Deserialize(ref reader, PlaceholderName);
                         break;
                     case FormsName:
-                        evt.Forms = ArrayTracker<TDForm>.Deserialize(ref reader);
+                        evt.Forms = ArrayTracker<TDForm>.Deserialize(ref reader, FormsName);
                         break;
                     default:
                         reader.Skip();

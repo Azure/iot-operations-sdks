@@ -117,13 +117,13 @@
                 switch (propertyName)
                 {
                     case SuccessName:
-                        schemaRef.Success = ValueTracker<BoolHolder>.Deserialize(ref reader);
+                        schemaRef.Success = ValueTracker<BoolHolder>.Deserialize(ref reader, SuccessName);
                         break;
                     case ContentTypeName:
-                        schemaRef.ContentType = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        schemaRef.ContentType = ValueTracker<StringHolder>.Deserialize(ref reader, ContentTypeName);
                         break;
                     case SchemaName:
-                        schemaRef.Schema = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        schemaRef.Schema = ValueTracker<StringHolder>.Deserialize(ref reader, SchemaName);
                         break;
                     default:
                         reader.Skip();

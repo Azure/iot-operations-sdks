@@ -12,10 +12,11 @@
                 description,
                 new ValueTracker<TDDataSchema>
                 {
+                    PropertyName = string.Empty,
                     Value = new TDDataSchema
                     {
-                        Title = new ValueTracker<StringHolder> { Value = new StringHolder { Value = title } },
-                        Type = new ValueTracker<StringHolder> { Value = new StringHolder { Value = TDValues.TypeObject } },
+                        Title = new ValueTracker<StringHolder> { PropertyName = string.Empty, Value = new StringHolder { Value = title } },
+                        Type = new ValueTracker<StringHolder> { PropertyName = string.Empty, Value = new StringHolder { Value = TDValues.TypeObject } },
                     },
                 },
                 Require: false,

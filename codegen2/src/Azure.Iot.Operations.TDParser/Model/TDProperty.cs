@@ -125,13 +125,13 @@
                     switch (propertyName)
                     {
                         case ReadOnlyName:
-                            prop.ReadOnly = ValueTracker<BoolHolder>.Deserialize(ref reader);
+                            prop.ReadOnly = ValueTracker<BoolHolder>.Deserialize(ref reader, ReadOnlyName);
                             break;
                         case PlaceholderName:
-                            prop.Placeholder = ValueTracker<BoolHolder>.Deserialize(ref reader);
+                            prop.Placeholder = ValueTracker<BoolHolder>.Deserialize(ref reader, PlaceholderName);
                             break;
                         case FormsName:
-                            prop.Forms = ArrayTracker<TDForm>.Deserialize(ref reader);
+                            prop.Forms = ArrayTracker<TDForm>.Deserialize(ref reader, FormsName);
                             break;
                         default:
                             reader.Skip();

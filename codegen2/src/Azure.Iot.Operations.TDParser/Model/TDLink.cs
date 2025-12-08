@@ -117,13 +117,13 @@
                 switch (propertyName)
                 {
                     case HrefName:
-                        link.Href = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        link.Href = ValueTracker<StringHolder>.Deserialize(ref reader, HrefName);
                         break;
                     case TypeName:
-                        link.Type = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        link.Type = ValueTracker<StringHolder>.Deserialize(ref reader, TypeName);
                         break;
                     case RelName:
-                        link.Rel = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        link.Rel = ValueTracker<StringHolder>.Deserialize(ref reader, RelName);
                         break;
                     default:
                         reader.Skip();

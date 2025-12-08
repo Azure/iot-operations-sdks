@@ -174,28 +174,28 @@
                 switch (propertyName)
                 {
                     case HrefName:
-                        form.Href = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        form.Href = ValueTracker<StringHolder>.Deserialize(ref reader, HrefName);
                         break;
                     case ContentTypeName:
-                        form.ContentType = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        form.ContentType = ValueTracker<StringHolder>.Deserialize(ref reader, ContentTypeName);
                         break;
                     case AdditionalResponsesName:
-                        form.AdditionalResponses = ArrayTracker<TDSchemaReference>.Deserialize(ref reader);
+                        form.AdditionalResponses = ArrayTracker<TDSchemaReference>.Deserialize(ref reader, AdditionalResponsesName);
                         break;
                     case HeaderInfoName:
-                        form.HeaderInfo = ArrayTracker<TDSchemaReference>.Deserialize(ref reader);
+                        form.HeaderInfo = ArrayTracker<TDSchemaReference>.Deserialize(ref reader, HeaderInfoName);
                         break;
                     case HeaderCodeName:
-                        form.HeaderCode = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        form.HeaderCode = ValueTracker<StringHolder>.Deserialize(ref reader, HeaderCodeName);
                         break;
                     case ServiceGroupIdName:
-                        form.ServiceGroupId = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        form.ServiceGroupId = ValueTracker<StringHolder>.Deserialize(ref reader, ServiceGroupIdName);
                         break;
                     case TopicName:
-                        form.Topic = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        form.Topic = ValueTracker<StringHolder>.Deserialize(ref reader, TopicName);
                         break;
                     case OpName:
-                        form.Op = ArrayTracker<StringHolder>.Deserialize(ref reader);
+                        form.Op = ArrayTracker<StringHolder>.Deserialize(ref reader, OpName);
                         break;
                     default:
                         reader.Skip();

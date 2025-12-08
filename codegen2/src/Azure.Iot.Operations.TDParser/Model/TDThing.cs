@@ -185,31 +185,31 @@
                 switch (propertyName)
                 {
                     case ContextName:
-                        thing.Context = ArrayTracker<TDContextSpecifier>.Deserialize(ref reader);
+                        thing.Context = ArrayTracker<TDContextSpecifier>.Deserialize(ref reader, ContextName);
                         break;
                     case IdName:
-                        thing.Id = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        thing.Id = ValueTracker<StringHolder>.Deserialize(ref reader, IdName);
                         break;
                     case TitleName:
-                        thing.Title = ValueTracker<StringHolder>.Deserialize(ref reader);
+                        thing.Title = ValueTracker<StringHolder>.Deserialize(ref reader, TitleName);
                         break;
                     case LinksName:
-                        thing.Links = ArrayTracker<TDLink>.Deserialize(ref reader);
+                        thing.Links = ArrayTracker<TDLink>.Deserialize(ref reader, LinksName);
                         break;
                     case SchemaDefinitionsName:
-                        thing.SchemaDefinitions = MapTracker<TDDataSchema>.Deserialize(ref reader);
+                        thing.SchemaDefinitions = MapTracker<TDDataSchema>.Deserialize(ref reader, SchemaDefinitionsName);
                         break;
                     case FormsName:
-                        thing.Forms = ArrayTracker<TDForm>.Deserialize(ref reader);
+                        thing.Forms = ArrayTracker<TDForm>.Deserialize(ref reader, FormsName);
                         break;
                     case ActionsName:
-                        thing.Actions = MapTracker<TDAction>.Deserialize(ref reader);
+                        thing.Actions = MapTracker<TDAction>.Deserialize(ref reader, ActionsName);
                         break;
                     case PropertiesName:
-                        thing.Properties = MapTracker<TDProperty>.Deserialize(ref reader);
+                        thing.Properties = MapTracker<TDProperty>.Deserialize(ref reader, PropertiesName);
                         break;
                     case EventsName:
-                        thing.Events = MapTracker<TDEvent>.Deserialize(ref reader);
+                        thing.Events = MapTracker<TDEvent>.Deserialize(ref reader, EventsName);
                         break;
                     default:
                         reader.Skip();

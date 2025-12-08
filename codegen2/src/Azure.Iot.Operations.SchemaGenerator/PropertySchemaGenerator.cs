@@ -115,7 +115,7 @@
 
             FieldSpec propFieldSpec = new(
                 tdProperty.Description?.Value.Value ?? (isRead ? $"The '{propName}' Property value." : $"Value for the '{propName}' Property."),
-                new ValueTracker<TDDataSchema> { Value = tdProperty as TDDataSchema },
+                new ValueTracker<TDDataSchema> { PropertyName = string.Empty, Value = tdProperty as TDDataSchema },
                 BackupSchemaName: schemaNamer.GetPropValueSchema(propName),
                 Require: isRead,
                 Base: dirName,

@@ -2,6 +2,9 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "title": "<#=this.schemaName#>",
+<# if (this.aliasSpec.Type != null) { #>
+  "type": "<#=this.aliasSpec.Type#>",
+<# } #>
 <# if (this.aliasSpec.Description != null) { #>
   "description": "<#=this.aliasSpec.Description#>",
 <# } #>
