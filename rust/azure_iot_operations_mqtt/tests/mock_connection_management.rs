@@ -20,7 +20,7 @@ use azure_iot_operations_mqtt::{
         MockServer, OutgoingPacketsRx,
     },
 };
-use azure_mqtt::mqtt_proto;
+use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
 
 fn quick_setup_standard_auth(
     client_id: &str,

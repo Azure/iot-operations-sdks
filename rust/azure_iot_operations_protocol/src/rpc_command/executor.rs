@@ -1603,10 +1603,10 @@ async fn handle_ack(
                         Ok(()) => log::debug!("[pkid: {pkid}] Command Request Acknowledged"),
                         Err(e) => {
                             match e {
-                                azure_iot_operations_mqtt::error::CompletionError::Detatched => {
+                                azure_iot_operations_mqtt::error::CompletionError::Detached => {
                                     log::warn!("[pkid: {pkid}] Command Request Ack error: {e}");
                                 },
-                                azure_iot_operations_mqtt::error::CompletionError::Cancelled => {
+                                azure_iot_operations_mqtt::error::CompletionError::Canceled(_) => {
                                     // This means the executor will receive a future ack from the
                                     // session once the dupe comes in.
                                     log::warn!("[pkid: {pkid}] Command Request ack cancelled due to disconnect, request will be redelivered");

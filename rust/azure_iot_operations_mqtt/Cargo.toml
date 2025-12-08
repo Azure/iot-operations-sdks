@@ -14,7 +14,6 @@ publish = true
 [dependencies]
 anyhow = "1.0.86"
 async-trait = "0.1.81"
-azure_mqtt = { git = "https://github.com/Azure/mqtt-client.git", rev = "67a474df878ce97f5558a08da2023d036bff5de7" }
 bytes.workspace = true
 derive_builder.workspace = true
 derive-getters.workspace = true
@@ -22,11 +21,43 @@ futures = "0.3.31"
 log.workspace = true
 notify.workspace = true
 notify-debouncer-full.workspace = true
-openssl = "0.10.66"                                                                 # only used with rumqttc to set up TLS settings
+openssl = "0.10"
 rand = "0.8.5"
 tempfile = { version = "3", optional = true }
 thiserror.workspace = true
-tokio.workspace = true
+tokio = { version = "1.41", default-features = false, features = ["io-util", "macros", "net", "rt", "sync", "time"] }
+
+# for internal mqtt client
+async-tungstenite = { version = "0.29", default-features = false, features = [
+    "futures-03-sink",
+    "tokio-runtime",
+] }
+bstr = { version = "1", default-features = false }
+derive-where = { version = "1", default-features = false }
+either = { version = "1.6", default-features = false }
+enum-iterator = { version = "2", default-features = false }
+futures-executor = { version = "0.3", default-features = false, features = [
+    "std", # for futures_executor::block_on
+] }
+futures-sink = { version = "0.3", default-features = false }
+futures-util = { version = "0.3", default-features = false, features = [
+    "std", # for futures_util::future::Shared
+] }
+hkdf = { version = "0.12", default-features = false }
+hmac = { version = "0.12", default-features = false, features = [
+    "reset", # for `hmac::Hmac::finalize_reset`
+] }
+indexmap = { version = "2.12", default-features = false, features = ["std"] }
+# for kTLS support
+libc = { version = "0.2.151", default-features = false }
+nix = { version = "0.30", default-features = false, features = ["net", "process", "socket", "zerocopy"] }
+parking_lot = { version = "0.12", default-features = false }
+sha2 = { version = "0.10", default-features = false }
+test-case = { version = "3", default-features = false }
+tokio-openssl = { version = "0.6", default-features = false }
+unicode-properties = { version = "0.1", default-features = false, features = [
+    "general-category",
+] }
 
 [dev-dependencies]
 azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
@@ -34,10 +65,20 @@ env_logger.workspace = true
 temp-env.workspace = true
 test-case.workspace = true
 tokio-test.workspace = true
+tokio = { version = "1.41", default-features = false, features = [
+    "macros",
+    "rt",
+    "rt-multi-thread",
+    "test-util",
+] }
+
+# for internal mqtt client
+matches = { version = "0.1", default-features = false }
+paste = { version = "1.0", default-features = false }
 
 [features]
 default = [ ]
-test-utils = ["azure_mqtt/__integration", "tempfile"]
+test-utils = ["tempfile"]
 
 [lints]
 workspace = true

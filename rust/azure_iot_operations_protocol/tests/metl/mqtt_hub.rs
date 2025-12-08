@@ -4,6 +4,7 @@
 use std::collections::{VecDeque, hash_map::HashMap, hash_set::HashSet};
 
 use azure_iot_operations_mqtt::test_utils::{IncomingPacketsTx, OutgoingPacketsRx};
+use azure_iot_operations_mqtt::azure_mqtt;
 use bytes::Bytes;
 use tokio::sync::broadcast;
 
