@@ -8,7 +8,7 @@ use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::{
-    Publish, QoS, RetainOptions, SubscribeProperties, PublishProperties, TopicFilter, TopicName,
+    Publish, PublishProperties, QoS, RetainOptions, SubscribeProperties, TopicFilter, TopicName,
 };
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,

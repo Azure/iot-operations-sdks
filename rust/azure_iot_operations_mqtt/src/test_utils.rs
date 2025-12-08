@@ -78,10 +78,7 @@ impl IncomingPacketsTx {
     }
 
     /// Used to swap out the underlying channel on new connects
-    pub(crate) fn set_new_tx(
-        &self,
-        new_tx: UnboundedSender<mqtt_proto::Packet<Bytes>>,
-    ) {
+    pub(crate) fn set_new_tx(&self, new_tx: UnboundedSender<mqtt_proto::Packet<Bytes>>) {
         let mut curr_tx = self.incoming_packets_tx.lock().unwrap();
         *curr_tx = new_tx;
     }
@@ -124,10 +121,7 @@ impl OutgoingPacketsRx {
     /// NOTE: We could keep a clone of the tx and return it instead of swapping the underlying rx.
     /// This would remove the possibility of the tx ever being closed. However, we still need the
     /// rx to be under an Arc<Mutex> to allow cloning the [`OutgoingPacketsRx`] struct, so this seems simpler for now.
-    pub(crate) fn set_new_rx(
-        &self,
-        new_rx: UnboundedReceiver<mqtt_proto::Packet<Bytes>>,
-    ) {
+    pub(crate) fn set_new_rx(&self, new_rx: UnboundedReceiver<mqtt_proto::Packet<Bytes>>) {
         let mut curr_rx = self.outgoing_packets_rx.lock().unwrap();
         *curr_rx = new_rx;
     }

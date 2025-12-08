@@ -423,9 +423,9 @@ fn tls_config(
 
 #[cfg(test)]
 mod tests {
+    use crate::azure_mqtt;
     use std::path::PathBuf;
     use std::time::Duration;
-    use crate::azure_mqtt;
 
     use crate::MqttConnectionSettingsBuilder;
 

@@ -23,7 +23,7 @@ mod azure_mqtt_adapter;
 #[cfg(feature = "test-utils")]
 pub mod test_utils;
 
-// NOTE on `azure_mqtt` module inclusion: 
+// NOTE on `azure_mqtt` module inclusion:
 // - Do NOT format or change anything in `azure_mqtt` module without also updating the
 // repo where its maintained first.
 // - Suppress all warnings so that this code can be kept in sync with source of truth
