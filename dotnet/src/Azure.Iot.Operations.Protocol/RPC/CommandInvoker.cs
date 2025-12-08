@@ -579,7 +579,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 try
                 {
-                    // Set default CloudEvent type for RPC requests if not already set
                     EnsureCloudEventType(metadata, _msAioRpcRequest);
 
                     metadata?.MarshalTo(requestMessage);
@@ -796,7 +795,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             if (metadata?.CloudEvent != null && metadata.CloudEvent.Type != expectedType)
             {
-                // User created a CloudEvent with a different type, update to the expected RPC type
                 metadata.CloudEvent = new CloudEvent(metadata.CloudEvent.Source, expectedType, metadata.CloudEvent.SpecVersion)
                 {
                     Id = metadata.CloudEvent.Id,

@@ -101,7 +101,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 }
             }
 
-            // Try to parse CloudEvent from the message
             CloudEvent = message.GetCloudEvent();
 
             ContentType = message.ContentType;
