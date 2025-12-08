@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto::{PacketIdentifierDupQoS, PacketIdentifier, QoS};
+use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto::{
+    PacketIdentifier, PacketIdentifierDupQoS, QoS,
+};
 
 pub fn to_enum(qos: Option<i32>) -> QoS {
     match qos {
@@ -19,13 +21,11 @@ pub fn new_packet_identifier_dup_qos(
 ) -> PacketIdentifierDupQoS {
     match qos {
         QoS::AtMostOnce => PacketIdentifierDupQoS::AtMostOnce,
-        QoS::AtLeastOnce => PacketIdentifierDupQoS::AtLeastOnce(
-            PacketIdentifier::new(packet_id).unwrap(),
-            dup,
-        ),
-        QoS::ExactlyOnce => PacketIdentifierDupQoS::ExactlyOnce(
-            PacketIdentifier::new(packet_id).unwrap(),
-            dup,
-        ),
+        QoS::AtLeastOnce => {
+            PacketIdentifierDupQoS::AtLeastOnce(PacketIdentifier::new(packet_id).unwrap(), dup)
+        }
+        QoS::ExactlyOnce => {
+            PacketIdentifierDupQoS::ExactlyOnce(PacketIdentifier::new(packet_id).unwrap(), dup)
+        }
     }
 }
