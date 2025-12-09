@@ -209,13 +209,13 @@ namespace Azure.Iot.Operations.Connector
         {
             if (e.ChangeType == FileChangeType.Deleted)
             {
-                await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.Off);
+                // Do not set notification preference for asset updates to "off" for this asset because the ADR service no longer knows this asset. Notifications will cease automatically.
+                AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Deleted, null));
                 if (_observedAssets.TryGetValue(e.DeviceName, out HashSet<string>? observedAssetNames))
                 {
                     // This notes down that this asset on this device is no longer being observed
                     observedAssetNames.Remove(e.AssetName);
                 }
-                AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Deleted, null));
             }
             else if (e.ChangeType == FileChangeType.Created)
             {
@@ -254,11 +254,10 @@ namespace Azure.Iot.Operations.Connector
         {
             if (e.ChangeType == FileChangeType.Deleted)
             {
-                await _client.SetNotificationPreferenceForDeviceUpdatesAsync(e.DeviceName, e.InboundEndpointName, NotificationPreference.Off);
-
                 // This notes down that this device is no longer being observed
                 _observedDevices.TryRemove(e.DeviceName + "_" + e.InboundEndpointName, out _);
 
+                // Do not set notification preference for device updates to "off" for this device because the ADR service no longer knows this device. Notifications will cease automatically.
                 DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Deleted, null));
             }
             else if (e.ChangeType == FileChangeType.Created)
