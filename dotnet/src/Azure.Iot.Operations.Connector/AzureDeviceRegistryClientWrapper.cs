@@ -204,7 +204,7 @@ namespace Azure.Iot.Operations.Connector
         {
             if (e.ChangeType == FileChangeType.Deleted)
             {
-                // Do not set notification preference for asset updates to "off" for this asset because the ADR service no longers knows this asset. Notifications will cease automatically.
+                // Do not set notification preference for asset updates to "off" for this asset because the ADR service no longer knows this asset. Notifications will cease automatically.
                 AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Deleted, null));
             }
             else if (e.ChangeType == FileChangeType.Created)
@@ -236,7 +236,7 @@ namespace Azure.Iot.Operations.Connector
         {
             if (e.ChangeType == FileChangeType.Deleted)
             {
-                // Do not set notification preference for device updates to "off" for this device because the ADR service no longers knows this device. Notifications will cease automatically.
+                // Do not set notification preference for device updates to "off" for this device because the ADR service no longer knows this device. Notifications will cease automatically.
                 DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Deleted, null));
             }
             else if (e.ChangeType == FileChangeType.Created)
