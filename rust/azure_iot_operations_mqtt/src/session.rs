@@ -41,9 +41,11 @@
 use std::{
     fmt,
     sync::{Arc, Mutex, Weak},
+    time::Duration,
 };
 
-use azure_mqtt::{
+use crate::azure_mqtt::{
+    self,
     client::{
         ConnectEnhancedAuthResult, ConnectResult, Connection, DisconnectedEvent, ReauthResult,
     },
@@ -53,22 +55,23 @@ use thiserror::Error;
 use tokio::sync::Notify;
 
 use crate::azure_mqtt_adapter as adapter;
+use crate::control_packet::PacketIdentifier;
 use crate::error::DetachedError;
 use crate::control_packet::ConnectProperties;
 pub use crate::session::managed_client::{SessionManagedClient, SessionPubReceiver};
 use crate::session::{
     state::SessionState,
-    auth_policy::{AuthPolicy, SatAuthFileMonitor},
     dispatcher::IncomingPublishDispatcher,
+    enhanced_auth_policy::{EnhancedAuthPolicy, K8sSatFileMonitor},
     reconnect_policy::{ConnectionLossReason, ExponentialBackoffWithJitter, ReconnectPolicy},
 };
 #[cfg(feature = "test-utils")]
 use crate::test_utils::InjectedPacketChannels;
 use crate::{azure_mqtt_adapter::AzureMqttConnectParameters};
 
-mod auth_policy;
 mod connect_parameters;
 pub(crate) mod dispatcher;
+pub mod enhanced_auth_policy;
 mod managed_client;
 pub(crate) mod plenary_ack;
 pub mod reconnect_policy;
@@ -180,9 +183,12 @@ pub struct SessionOptions {
     /// Reconnect Policy to by used by the `Session`
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     reconnect_policy: Box<dyn ReconnectPolicy>,
+    /// Authentication Policy to be used by the `Session`
+    #[builder(default = "None")]
+    enhanced_auth_policy: Option<Box<dyn EnhancedAuthPolicy>>,
     /// Maximum packet identifier
-    #[builder(default = "azure_mqtt::packet::PacketIdentifier::MAX")]
-    max_packet_identifier: azure_mqtt::packet::PacketIdentifier,
+    #[builder(default = "PacketIdentifier::MAX")]
+    max_packet_identifier: PacketIdentifier,
     /// Maximum number of queued outgoing QoS 0 PUBLISH packets not yet accepted by the MQTT Session
     #[builder(default = "100")]
     publish_qos0_queue_size: usize,
@@ -230,7 +236,7 @@ pub struct Session {
     /// Reconnect policy
     reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Enhanced authentication policy
-    auth_policy: Option<Arc<dyn AuthPolicy>>,
+    enhanced_auth_policy: Option<Arc<dyn EnhancedAuthPolicy>>,
     /// Current state
     state: Arc<SessionState>,
     /// Notifier for a force exit signal
@@ -259,20 +265,30 @@ impl Session {
             vec![]
         };
 
-        let auth_policy = None;
+        let enhanced_auth_policy = None;
 
-        // // Create AuthPolicy if SAT file is provided
-        // // CONSIDER: This would ideally come directly from the SessionOptions instead of MQTT connection settings
-        // let auth_policy = options
-        //     .connection_settings
-        //     .sat_file
-        //     .as_ref()
-        //     .map(|sat_file| {
-        //         // TODO: This error should propagate, however currently `SessionConfigError` is tightly coupled to the
-        //         // `azure_mqtt_adapter`, so it cannot.
-        //         Arc::new(SatAuthFileMonitor::new(std::path::PathBuf::from(sat_file)).unwrap())
-        //             as Arc<dyn AuthPolicy>
-        //     });
+        // // Create EnhancedAuthPolicy if provided in options or SAT file is provided via ConnectionSettings
+        // // NOTE: prioritize the one in SessionOptions over the one in the connection settings
+        // let enhanced_auth_policy = options.enhanced_auth_policy.map_or_else(
+        //     || {
+        //         options
+        //             .connection_settings
+        //             .sat_file
+        //             .as_ref()
+        //             .map(|sat_file| {
+        //                 // TODO: This error should propagate, however currently `SessionConfigError` is tightly coupled to the
+        //                 // `azure_mqtt_adapter`, so it cannot.
+        //                 Arc::new(
+        //                     K8sSatFileMonitor::new(
+        //                         std::path::PathBuf::from(sat_file),
+        //                         Duration::from_secs(10),
+        //                     )
+        //                     .unwrap(),
+        //                 ) as Arc<dyn EnhancedAuthPolicy>
+        //             })
+        //     },
+        //     |ap| Some(Arc::from(ap)),
+        // );
 
         let (client_options, connect_parameters) = options
             .connection_settings
@@ -300,7 +316,7 @@ impl Session {
             client_id,
             incoming_pub_dispatcher,
             reconnect_policy: options.reconnect_policy,
-            auth_policy,
+            enhanced_auth_policy,
             state: Arc::new(SessionState::default()),
             notify_force_exit: Arc::new(Notify::new()),
         })
@@ -415,11 +431,11 @@ impl Session {
             prev_connected = true;
             prev_reconnection_attempts = 0;
 
-            let reauth_jh = if let Some(auth_policy) = &self.auth_policy {
+            let reauth_jh = if let Some(enhanced_auth_policy) = &self.enhanced_auth_policy {
                 Some(tokio::task::spawn(Session::reauth_monitor(
-                    auth_policy.clone(),
+                    enhanced_auth_policy.clone(),
                     self.reauth_handle.take().expect(
-                        "ReauthHandle should always be present after connect with AuthPolicy",
+                        "ReauthHandle should always be present after connect with EnhancedAuthPolicy",
                     ),
                 )))
             } else {
@@ -473,8 +489,10 @@ impl Session {
             .take()
             .expect("ConnectHandle should always be present for connect attempt");
 
-        if let Some(authentication_info) =
-            self.auth_policy.as_ref().map(|ap| ap.authentication_info())
+        if let Some(authentication_info) = self
+            .enhanced_auth_policy
+            .as_ref()
+            .map(|ap| ap.authentication_info())
         {
             log::debug!("Using enhanced authentication for MQTT connect");
             match ch.connect_enhanced_auth(
@@ -562,7 +580,7 @@ impl Session {
                 match publish.qos {
                     azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
                         log::warn!(
-                            "No matching receivers for PUBLISH recieved at QoS 0. Discarding."
+                            "No matching receivers for PUBLISH received at QoS 0. Discarding."
                         );
                     }
                     azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info)
@@ -577,16 +595,16 @@ impl Session {
         }
     }
 
-    /// Perform MQTT enhanced auth reauthentication as dictated by the `AuthPolicy`.
+    /// Perform MQTT enhanced auth reauthentication as dictated by the `EnhancedAuthPolicy`.
     /// This function runs indefinitely and must be cancelled upon MQTT client disconnect.
     async fn reauth_monitor(
-        auth_policy: Arc<dyn AuthPolicy>,
+        enhanced_auth_policy: Arc<dyn EnhancedAuthPolicy>,
         reauth_handle: azure_mqtt::client::ReauthHandle,
     ) {
         loop {
-            log::debug!("Waiting for reauthentication notification from AuthPolicy...");
-            let auth_data = auth_policy.reauth_notified().await;
-            log::debug!("AuthPolicy indicates reauthentication is required. Attempting...");
+            log::debug!("Waiting for reauthentication notification from EnhancedAuthPolicy...");
+            let auth_data = enhanced_auth_policy.reauth_notified().await;
+            log::debug!("EnhancedAuthPolicy indicates reauthentication is required. Attempting...");
 
             let mut result = if let Ok(ct) = reauth_handle
                 .reauth(auth_data, AuthProperties::default())
@@ -611,7 +629,7 @@ impl Session {
                 match result {
                     ReauthResult::Continue(auth, reauth_token) => {
                         log::debug!("Reauth requires additional steps");
-                        let auth_data = auth_policy.auth_challenge(&auth);
+                        let auth_data = enhanced_auth_policy.auth_challenge(&auth);
 
                         result = if let Ok(ct) = reauth_token
                             .continue_reauth(auth_data, AuthProperties::default())
