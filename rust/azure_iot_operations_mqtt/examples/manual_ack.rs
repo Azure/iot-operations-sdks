@@ -4,12 +4,11 @@ use std::io::Write;
 use std::str;
 use std::time::Duration;
 
-use azure_mqtt::packet::PublishProperties;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::{
-    Publish, QoS, RetainOptions, SubscribeProperties, TopicFilter, TopicName,
+    Publish, PublishProperties, QoS, RetainOptions, SubscribeProperties, TopicFilter, TopicName,
 };
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,

@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             TaskCompletionSource<MqttApplicationMessage> asset1TelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
-                if (isValidPayload(args.ApplicationMessage.Payload))
+                if (IsValidPayload(args.ApplicationMessage.Payload))
                 {
                     if (args.ApplicationMessage.Topic.Equals(asset1TelemetryTopic))
                     {
@@ -46,7 +46,8 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 var applicationMessage = await asset1TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
                 Assert.False(string.IsNullOrEmpty(GetCloudEventTimeFromMqttMessage(applicationMessage)));
-                Assert.Equal("my-rest-thermostat-endpoint-name", GetCloudEventSourceFromMqttMessage(applicationMessage));
+                // CloudEvent source is built from endpoint address with ms-aio: prefix (Priority 2 in BuildSource)
+                Assert.Equal("ms-aio:http://rest-server-service.azure-iot-operations.svc.cluster.local:80/thermostat", GetCloudEventSourceFromMqttMessage(applicationMessage));
                 string dataSchema = GetCloudEventDataSchemaFromMqttMessage(applicationMessage);
                 Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", dataSchema);
             }
@@ -123,7 +124,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     }
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                await Task.Delay(TimeSpan.FromSeconds(10));
             }
         }
 
@@ -136,7 +137,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             TaskCompletionSource<MqttApplicationMessage> assetTelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
-                if (isValidPayload(args.ApplicationMessage.Payload))
+                if (IsValidPayload(args.ApplicationMessage.Payload))
                 {
                     if (args.ApplicationMessage.Topic.Equals(assetTelemetryTopic))
                     {
@@ -160,7 +161,8 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 var applicationMessage = await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
                 Assert.False(string.IsNullOrEmpty(GetCloudEventTimeFromMqttMessage(applicationMessage)));
-                Assert.Equal("my_tcp_endpoint", GetCloudEventSourceFromMqttMessage(applicationMessage));
+                // CloudEvent source is built from endpoint address with ms-aio: prefix (Priority 2 in BuildSource)
+                Assert.Equal("ms-aio:tcp-service.azure-iot-operations.svc.cluster.local:80/80", GetCloudEventSourceFromMqttMessage(applicationMessage));
                 string dataSchema = GetCloudEventDataSchemaFromMqttMessage(applicationMessage);
                 Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", dataSchema);
             }
@@ -209,7 +211,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     }
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                await Task.Delay(TimeSpan.FromSeconds(10));
             }
         }
 
@@ -243,7 +245,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             }
         }
 
-        private static string safeGetUserProperty(MqttApplicationMessage mqttMessage, string name)
+        private static string SafeGetUserProperty(MqttApplicationMessage mqttMessage, string name)
         {
             if (mqttMessage.UserProperties == null)
             {
@@ -263,20 +265,20 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
         private static string GetCloudEventSourceFromMqttMessage(MqttApplicationMessage mqttMessage)
         {
-            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.Source));
+            return SafeGetUserProperty(mqttMessage, nameof(CloudEvent.Source));
         }
 
         private static string GetCloudEventTimeFromMqttMessage(MqttApplicationMessage mqttMessage)
         {
-            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.Time));
+            return SafeGetUserProperty(mqttMessage, nameof(CloudEvent.Time));
         }
 
         private static string GetCloudEventDataSchemaFromMqttMessage(MqttApplicationMessage mqttMessage)
         {
-            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.DataSchema));
+            return SafeGetUserProperty(mqttMessage, nameof(CloudEvent.DataSchema));
         }
 
-        private bool isValidPayload(ReadOnlySequence<byte> payload)
+        private bool IsValidPayload(ReadOnlySequence<byte> payload)
         {
             try
             {

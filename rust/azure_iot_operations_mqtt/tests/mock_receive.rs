@@ -5,13 +5,13 @@
 
 use tokio_test::assert_pending;
 
+use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
 use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
     control_packet::TopicFilter,
     session::{Session, SessionOptionsBuilder, SessionPubReceiver},
     test_utils::{IncomingPacketsTx, InjectedPacketChannels, MockServer, OutgoingPacketsRx},
 };
-use azure_mqtt::mqtt_proto;
 
 fn setup_client_and_mock_server(client_id: &str) -> (Session, MockServer) {
     let connection_settings = MqttConnectionSettingsBuilder::default()

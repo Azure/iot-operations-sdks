@@ -24,7 +24,7 @@ pub struct SessionManagedClient {
     // Client ID of the `Session` that manages this client
     pub(crate) client_id: String,
     // PubSub for sending outgoing MQTT messages
-    pub(crate) client: azure_mqtt::client::Client,
+    pub(crate) client: crate::azure_mqtt::client::Client,
     /// Manager for receivers
     pub(crate) dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
 }

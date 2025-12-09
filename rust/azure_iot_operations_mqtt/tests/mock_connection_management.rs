@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 use std::{
-    fs,
     num::{NonZeroU16, NonZeroU32},
     time::Duration,
 };
@@ -10,16 +9,18 @@ use std::{
 use bytes::Bytes;
 use futures::FutureExt;
 
+use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
 use azure_iot_operations_mqtt::{
     MqttConnectionSettings, MqttConnectionSettingsBuilder,
+    control_packet::AuthenticationInfo,
     error::{SessionErrorKind, SessionExitErrorKind},
     session::{Session, SessionOptionsBuilder},
     test_utils::{
-        IncomingPacketsTx, InjectedPacketChannels, MockReconnectPolicy,
-        MockReconnectPolicyController, MockSatFile, MockServer, OutgoingPacketsRx,
+        IncomingPacketsTx, InjectedPacketChannels, MockEnhancedAuthPolicy,
+        MockEnhancedAuthPolicyController, MockReconnectPolicy, MockReconnectPolicyController,
+        MockServer, OutgoingPacketsRx,
     },
 };
-use azure_mqtt::mqtt_proto;
 
 fn quick_setup_standard_auth(
     client_id: &str,
@@ -30,7 +31,7 @@ fn quick_setup_standard_auth(
     MockReconnectPolicyController,
 ) {
     let (mock_server, injected_packet_channels) = setup_mock_server();
-    let connection_settings = connection_settings_builder_preset(client_id, None)
+    let connection_settings = connection_settings_builder_preset(client_id)
         .build()
         .unwrap();
     let (mock_reconnect_policy, mock_reconnect_policy_controller) = MockReconnectPolicy::new();
@@ -49,23 +50,25 @@ fn quick_setup_standard_auth(
     )
 }
 
-fn quick_setup_enhanced_sat_auth(
+fn quick_setup_enhanced_auth(
     client_id: &str,
 ) -> (
     MqttConnectionSettings,
     Session,
     MockServer,
     MockReconnectPolicyController,
-    MockSatFile,
+    MockEnhancedAuthPolicyController,
 ) {
     let (mock_server, injected_packet_channels) = setup_mock_server();
-    let mock_sat_file = MockSatFile::new();
     let (mock_reconnect_policy, mock_reconnect_policy_controller) = MockReconnectPolicy::new();
-    let connection_settings = connection_settings_builder_preset(client_id, Some(&mock_sat_file))
+    let (mock_enhanced_auth_policy, mock_enhanced_auth_policy_controller) =
+        MockEnhancedAuthPolicy::new();
+    let connection_settings = connection_settings_builder_preset(client_id)
         .build()
         .unwrap();
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings.clone())
+        .enhanced_auth_policy(Some(Box::new(mock_enhanced_auth_policy)))
         .reconnect_policy(Box::new(mock_reconnect_policy))
         .injected_packet_channels(Some(injected_packet_channels))
         .build()
@@ -76,7 +79,7 @@ fn quick_setup_enhanced_sat_auth(
         session,
         mock_server,
         mock_reconnect_policy_controller,
-        mock_sat_file,
+        mock_enhanced_auth_policy_controller,
     )
 }
 
@@ -91,10 +94,7 @@ fn setup_mock_server() -> (MockServer, InjectedPacketChannels) {
     (mock_server, injected_packet_channels)
 }
 
-fn connection_settings_builder_preset(
-    client_id: &str,
-    sat_file: Option<&MockSatFile>,
-) -> MqttConnectionSettingsBuilder {
+fn connection_settings_builder_preset(client_id: &str) -> MqttConnectionSettingsBuilder {
     // NOTE: Make sure to use non-default values for the fields specified when possible to validate
     // that the user-specified fields are actually being used.
     MqttConnectionSettingsBuilder::default()
@@ -108,13 +108,13 @@ fn connection_settings_builder_preset(
         .connection_timeout(Duration::from_secs(15))
         .clean_start(true)
         .username("test-username".to_string())
-        .password(sat_file.map_or(Some("test-password".to_string()), |_| None))
-        .sat_file(sat_file.map(|s| s.path_as_str().to_string()))
+        .password("test-password".to_string())
     // The rest of the fields of connection settings are transport related and not relevant
 }
 
-fn expected_connect_from_connection_settings(
-    connection_settings: &azure_iot_operations_mqtt::MqttConnectionSettings,
+fn expected_connect(
+    connection_settings: &MqttConnectionSettings,
+    enhanced_auth_policy_controller: Option<&MockEnhancedAuthPolicyController>,
     prev_connected: bool,
 ) -> mqtt_proto::Connect<Bytes> {
     let expected_clean_start = if prev_connected {
@@ -154,16 +154,13 @@ fn expected_connect_from_connection_settings(
                 ("metriccategory".into(), "aiosdk-rust".into()), // Set by Session
                                                                  // No other properties are settable
             ],
-            authentication: connection_settings
-                .sat_file()
-                .as_ref()
-                .map(|sat_file_path| {
-                    let contents: &[u8] = &fs::read(sat_file_path).unwrap();
-                    mqtt_proto::Authentication {
-                        method: "K8S-SAT".into(),
-                        data: Some(contents.into()),
-                    }
-                }),
+            authentication: enhanced_auth_policy_controller.map(|controller| {
+                AuthenticationInfo {
+                    method: controller.method().to_string(),
+                    data: controller.auth_info_data(),
+                }
+                .into()
+            }),
         },
     }
 }
@@ -180,14 +177,18 @@ fn session_end_disconnect() -> mqtt_proto::Disconnect<Bytes> {
     }
 }
 
-fn expected_reauth_from_sat_file(mock_sat_file: &MockSatFile) -> mqtt_proto::Auth<Bytes> {
-    let contents: &[u8] = &fs::read(mock_sat_file.path_as_str()).unwrap();
+fn expected_reauth(
+    mock_eap_controller: &MockEnhancedAuthPolicyController,
+) -> mqtt_proto::Auth<Bytes> {
     mqtt_proto::Auth {
         reason_code: mqtt_proto::AuthenticateReasonCode::ReAuthenticate,
-        authentication: Some(mqtt_proto::Authentication {
-            method: "K8S-SAT".into(),
-            data: Some(contents.into()),
-        }),
+        authentication: Some(
+            AuthenticationInfo {
+                method: mock_eap_controller.method().to_string(),
+                data: mock_eap_controller.reauth_data(),
+            }
+            .into(),
+        ), // Easier to do whole struct conversion than using mqtt_proto directly
         reason_string: None,
         user_properties: vec![],
     }
@@ -206,10 +207,7 @@ async fn connect_and_exit_standard_auth() {
 
     // Validate that the CONNECT packet contains the expected values
     let connect = mock_server.expect_connect_and_accept(true).await;
-    assert_eq!(
-        connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
-    );
+    assert_eq!(connect, expected_connect(&connection_settings, None, false));
 
     // Wait for connection to be established by Session in response to CONNACK
     monitor.connected().await;
@@ -226,10 +224,10 @@ async fn connect_and_exit_standard_auth() {
     assert!(run_f.await.unwrap().is_ok());
 }
 
-#[tokio::test] // NOTE: This test WILL take > 10 seconds.
-async fn connect_reauth_and_exit_enhanced_sat_auth() {
-    let (connection_settings, session, mock_server, _, mock_sat_file) =
-        quick_setup_enhanced_sat_auth("test-connect-reauth-and-exit-enhanced-sat-auth-client");
+#[tokio::test]
+async fn connect_reauth_and_exit_enhanced_auth() {
+    let (connection_settings, session, mock_server, _, mock_eap_controller) =
+        quick_setup_enhanced_auth("test-connect-reauth-and-exit-enhanced-auth-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
     assert!(!monitor.is_connected());
@@ -241,18 +239,18 @@ async fn connect_reauth_and_exit_enhanced_sat_auth() {
     let connect = mock_server.expect_connect_and_accept(true).await;
     assert_eq!(
         connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
+        expected_connect(&connection_settings, Some(&mock_eap_controller), false)
     );
 
     // Wait for connection to be established by Session in response to CONNACK
     monitor.connected().await;
 
-    // Trigger reauthentication by updating the SAT file contents
-    mock_sat_file.update_contents();
+    // Trigger reauth
+    mock_eap_controller.reauth_notify();
 
     // Validate that the AUTH packet is sent with the expected values
     let auth = mock_server.expect_auth_and_accept().await;
-    assert_eq!(auth, expected_reauth_from_sat_file(&mock_sat_file));
+    assert_eq!(auth, expected_reauth(&mock_eap_controller));
 
     // End the session
     assert_eq!(exit_handle.try_exit(), Ok(()));
@@ -285,10 +283,7 @@ async fn connect_failure_rejected_reconnect() {
         other_properties: mqtt_proto::ConnAckOtherProperties::default(),
     };
     let connect = mock_server.expect_connect().await;
-    assert_eq!(
-        connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
-    );
+    assert_eq!(connect, expected_connect(&connection_settings, None, false));
 
     // Set up the reconnect policy mock to respond to the failure with a reconnect
     mock_rp_controller.set_next_delay(Some(Duration::from_secs(3)));
@@ -303,10 +298,7 @@ async fn connect_failure_rejected_reconnect() {
     let start = std::time::Instant::now();
     let connect = mock_server.expect_connect().await;
     let elapsed = start.elapsed();
-    assert_eq!(
-        connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
-    );
+    assert_eq!(connect, expected_connect(&connection_settings, None, false));
     assert!(elapsed < Duration::from_secs(4));
     assert!(elapsed >= Duration::from_secs(3));
 
@@ -339,10 +331,7 @@ async fn connection_loss_server_disconnect_reconnect() {
 
     // Validate that the CONNECT packet contains the expected values
     let connect = mock_server.expect_connect_and_accept(true).await;
-    assert_eq!(
-        connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
-    );
+    assert_eq!(connect, expected_connect(&connection_settings, None, false));
 
     // Wait for connection to be established by Session in response to CONNACK
     monitor.connected().await;
@@ -365,10 +354,7 @@ async fn connection_loss_server_disconnect_reconnect() {
     let start = std::time::Instant::now();
     let connect = mock_server.expect_connect().await;
     let elapsed = start.elapsed();
-    assert_eq!(
-        connect,
-        expected_connect_from_connection_settings(&connection_settings, true)
-    );
+    assert_eq!(connect, expected_connect(&connection_settings, None, true));
     assert!(elapsed < Duration::from_secs(4));
     assert!(elapsed >= Duration::from_secs(3));
 
@@ -423,10 +409,7 @@ async fn try_exit_while_connected() {
 
     // Validate that the CONNECT packet contains the expected values
     let connect = mock_server.expect_connect_and_accept(true).await;
-    assert_eq!(
-        connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
-    );
+    assert_eq!(connect, expected_connect(&connection_settings, None, false));
 
     // Wait for connection to be established by Session in response to CONNACK
     monitor.connected().await;
@@ -456,10 +439,7 @@ async fn try_exit_while_disconnected() {
 
     // Validate that the CONNECT packet contains the expected values
     let connect = mock_server.expect_connect_and_accept(true).await;
-    assert_eq!(
-        connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
-    );
+    assert_eq!(connect, expected_connect(&connection_settings, None, false));
 
     // Wait for connection to be established by Session in response to CONNACK
     monitor.connected().await;
@@ -510,10 +490,7 @@ async fn force_exit_while_connected() {
 
     // Validate that the CONNECT packet contains the expected values
     let connect = mock_server.expect_connect_and_accept(true).await;
-    assert_eq!(
-        connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
-    );
+    assert_eq!(connect, expected_connect(&connection_settings, None, false));
 
     // Wait for connection to be established by Session in response to CONNACK
     monitor.connected().await;
@@ -544,10 +521,7 @@ async fn force_exit_while_disconnected() {
 
     // Validate that the CONNECT packet contains the expected values
     let connect = mock_server.expect_connect_and_accept(true).await;
-    assert_eq!(
-        connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
-    );
+    assert_eq!(connect, expected_connect(&connection_settings, None, false));
 
     // Wait for connection to be established by Session in response to CONNACK
     monitor.connected().await;
@@ -575,10 +549,10 @@ async fn force_exit_while_disconnected() {
 }
 
 /// This test validates that a force exit can be done while a reauthentication is pending.
-#[tokio::test] // NOTE: This test WILL take > 20 seconds.
+#[tokio::test]
 async fn force_exit_during_reauth() {
-    let (connection_settings, session, mock_server, _, mock_sat_file) =
-        quick_setup_enhanced_sat_auth("test-force-exit-during-reauth-client");
+    let (connection_settings, session, mock_server, _, mock_eap_controller) =
+        quick_setup_enhanced_auth("test-force-exit-during-reauth-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
     assert!(!monitor.is_connected());
@@ -590,18 +564,18 @@ async fn force_exit_during_reauth() {
     let connect = mock_server.expect_connect_and_accept(true).await;
     assert_eq!(
         connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
+        expected_connect(&connection_settings, Some(&mock_eap_controller), false)
     );
 
     // Wait for connection to be established by Session in response to CONNACK
     monitor.connected().await;
 
-    // Trigger reauthentication by updating the SAT file contents.
-    mock_sat_file.update_contents();
+    // Trigger reauthentication
+    mock_eap_controller.reauth_notify();
 
     // Receive the AUTH packet on the server, but do not respond.
     let auth = mock_server.expect_auth().await;
-    assert_eq!(auth, expected_reauth_from_sat_file(&mock_sat_file));
+    assert_eq!(auth, expected_reauth(&mock_eap_controller));
 
     // Force exit while reauth is pending (i.e. have not responded with the server)
     let graceful = exit_handle.force_exit();
@@ -613,66 +587,18 @@ async fn force_exit_during_reauth() {
     monitor.disconnected().await;
     assert!(run_f.await.unwrap().is_ok());
 
-    // Updating the SAT file after exit does not cause any AUTH packets to be sent
-    mock_sat_file.update_contents();
-    tokio::time::sleep(Duration::from_secs(11)).await;
-    mock_server.expect_no_packet();
-}
-
-/// Thist test validates that multiple SAT file updates does not cause multiple AUTH packets
-/// to be sent if done in rapid succession.
-/// TODO: If auth policy becomes more configurable, this could be tested at greater granularity,
-/// i.e. the exact threshold at which multiple AUTH packets would be sent.
-#[tokio::test] // NOTE: This test WILL take > 10 seconds.
-async fn multiple_reauths_single_connection() {
-    let (connection_settings, session, mock_server, _, mock_sat_file) =
-        quick_setup_enhanced_sat_auth("test-multiple-reauths-single-connection-client");
-    let exit_handle = session.create_exit_handle();
-    let monitor = session.create_session_monitor();
-    assert!(!monitor.is_connected());
-
-    // Start the session run loop
-    let run_f = tokio::task::spawn(session.run());
-
-    // Validate that the CONNECT packet contains the expected values
-    let connect = mock_server.expect_connect_and_accept(true).await;
-    assert_eq!(
-        connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
-    );
-
-    // Wait for connection to be established by Session in response to CONNACK
-    monitor.connected().await;
-
-    // Trigger reauthentication by updating the SAT file contents multiple times
-    mock_sat_file.update_contents();
-    mock_sat_file.update_contents();
-    mock_sat_file.update_contents();
-
-    // Validate that a single AUTH packet is sent with the expected values
-    let auth = mock_server.expect_auth_and_accept().await;
-    assert_eq!(auth, expected_reauth_from_sat_file(&mock_sat_file));
+    // Triggering reauth after exit does not cause any AUTH packets to be sent
+    mock_eap_controller.reauth_notify();
     tokio::time::sleep(Duration::from_secs(1)).await;
     mock_server.expect_no_packet();
-
-    // End the session
-    assert_eq!(exit_handle.try_exit(), Ok(()));
-
-    // Validate that the DISCONNECT packet is sent and contains the expected values
-    let disconnect = mock_server.expect_disconnect().await;
-    assert_eq!(disconnect, session_end_disconnect());
-
-    // Session was disconnected, and exited cleanly
-    monitor.disconnected().await;
-    assert!(run_f.await.unwrap().is_ok());
 }
 
 /// This test exists to verify that the reauthentication task is properly cancelled on disconnect,
 /// and does not persist across connections.
 #[tokio::test] // NOTE: This test WILL take > 30 seconds.
 async fn reauth_on_successive_connections() {
-    let (connection_settings, session, mock_server, _, mock_sat_file) =
-        quick_setup_enhanced_sat_auth("test-reauth-on-successive-connections-client");
+    let (connection_settings, session, mock_server, _, mock_eap_controller) =
+        quick_setup_enhanced_auth("test-reauth-on-successive-connections-client");
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
     assert!(!monitor.is_connected());
@@ -684,18 +610,18 @@ async fn reauth_on_successive_connections() {
     let connect = mock_server.expect_connect_and_accept(true).await;
     assert_eq!(
         connect,
-        expected_connect_from_connection_settings(&connection_settings, false)
+        expected_connect(&connection_settings, Some(&mock_eap_controller), false)
     );
 
     // Wait for connection to be established by Session in response to CONNACK
     monitor.connected().await;
 
-    // Trigger reauthentication by updating the SAT file contents
-    mock_sat_file.update_contents();
+    // Trigger reauthentication
+    mock_eap_controller.reauth_notify();
 
     // Validate that a single AUTH packet is sent with the expected values
     let auth = mock_server.expect_auth_and_accept().await;
-    assert_eq!(auth, expected_reauth_from_sat_file(&mock_sat_file));
+    assert_eq!(auth, expected_reauth(&mock_eap_controller));
     tokio::time::sleep(Duration::from_secs(1)).await;
     mock_server.expect_no_packet();
 
@@ -710,16 +636,16 @@ async fn reauth_on_successive_connections() {
     let connect = mock_server.expect_connect_and_accept(true).await;
     assert_eq!(
         connect,
-        expected_connect_from_connection_settings(&connection_settings, true)
+        expected_connect(&connection_settings, Some(&mock_eap_controller), true)
     );
     monitor.connected().await;
 
-    // Trigger reauthentication by updating the SAT file contents
-    mock_sat_file.update_contents();
+    // Trigger reauthentication
+    mock_eap_controller.reauth_notify();
 
     // Validate that a single AUTH packet is sent with the expected values
     let auth = mock_server.expect_auth_and_accept().await;
-    assert_eq!(auth, expected_reauth_from_sat_file(&mock_sat_file));
+    assert_eq!(auth, expected_reauth(&mock_eap_controller));
     tokio::time::sleep(Duration::from_secs(1)).await;
     mock_server.expect_no_packet();
 
@@ -734,8 +660,8 @@ async fn reauth_on_successive_connections() {
     let disconnect = mock_server.expect_disconnect().await;
     assert_eq!(disconnect, session_end_disconnect());
 
-    // Updating the SAT file after exit does not cause any AUTH packets to be sent
-    mock_sat_file.update_contents();
-    tokio::time::sleep(Duration::from_secs(11)).await;
+    // Triggering reauth after exit does not cause any AUTH packets to be sent
+    mock_eap_controller.reauth_notify();
+    tokio::time::sleep(Duration::from_secs(1)).await;
     mock_server.expect_no_packet();
 }

@@ -10,7 +10,7 @@ use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
-use azure_mqtt::mqtt_proto;
+use crate::azure_mqtt::mqtt_proto;
 use bytes::Bytes;
 use futures::FutureExt;
 use rand::Rng;
@@ -20,8 +20,22 @@ use tokio::sync::{
     mpsc::{UnboundedReceiver, UnboundedSender},
 };
 
+use crate::control_packet::AuthenticationInfo;
 use crate::error::ConnectError;
-use crate::session::reconnect_policy::{ConnectionLossReason, ReconnectPolicy};
+use crate::session::{
+    enhanced_auth_policy::EnhancedAuthPolicy,
+    reconnect_policy::{ConnectionLossReason, ReconnectPolicy},
+};
+
+/// Generate random bytes of length between 1 and 256 for testing purposes
+#[must_use]
+pub fn random_bytes() -> Bytes {
+    let mut rng = rand::thread_rng();
+    let len: usize = rng.gen_range(1..=256);
+    let mut buf = vec![0u8; len];
+    rng.fill(&mut buf[..]);
+    Bytes::from(buf)
+}
 
 /// Struct containing channels for injecting incoming packets and capturing outgoing packets
 /// for testing purposes.
@@ -37,7 +51,7 @@ pub struct InjectedPacketChannels {
 /// tests to not need to coordinate new channels on each connect attempt
 #[derive(Clone)]
 pub struct IncomingPacketsTx {
-    incoming_packets_tx: Arc<Mutex<UnboundedSender<azure_mqtt::mqtt_proto::Packet<Bytes>>>>,
+    incoming_packets_tx: Arc<Mutex<UnboundedSender<mqtt_proto::Packet<Bytes>>>>,
 }
 
 impl Default for IncomingPacketsTx {
@@ -53,7 +67,7 @@ impl Default for IncomingPacketsTx {
 impl IncomingPacketsTx {
     /// Send a test packet as an incoming packet
     /// If the connection is currently disconnected, this will log an error and the message won't be sent
-    pub fn send(&self, packet: azure_mqtt::mqtt_proto::Packet<Bytes>) {
+    pub fn send(&self, packet: mqtt_proto::Packet<Bytes>) {
         // NOTE: this will fail to send if the connection is currently disconnected and the rx has been dropped
         // Not handling this for now, because that would cause this fn to have to be async or return an error
         // METL tests currently don't try to send incoming packets while disconnected
@@ -64,10 +78,7 @@ impl IncomingPacketsTx {
     }
 
     /// Used to swap out the underlying channel on new connects
-    pub(crate) fn set_new_tx(
-        &self,
-        new_tx: UnboundedSender<azure_mqtt::mqtt_proto::Packet<Bytes>>,
-    ) {
+    pub(crate) fn set_new_tx(&self, new_tx: UnboundedSender<mqtt_proto::Packet<Bytes>>) {
         let mut curr_tx = self.incoming_packets_tx.lock().unwrap();
         *curr_tx = new_tx;
     }
@@ -77,7 +88,7 @@ impl IncomingPacketsTx {
 /// tests to not need to coordinate new channels on each connect attempt
 #[derive(Clone)]
 pub struct OutgoingPacketsRx {
-    outgoing_packets_rx: Arc<Mutex<UnboundedReceiver<azure_mqtt::mqtt_proto::Packet<Bytes>>>>,
+    outgoing_packets_rx: Arc<Mutex<UnboundedReceiver<mqtt_proto::Packet<Bytes>>>>,
 }
 
 impl Default for OutgoingPacketsRx {
@@ -93,7 +104,7 @@ impl Default for OutgoingPacketsRx {
 impl OutgoingPacketsRx {
     /// Receive next outgoing packet for testing
     /// If the connection is currently disconnected, this will wait until reconnected and the next packet is available
-    pub async fn recv(&self) -> Option<azure_mqtt::mqtt_proto::Packet<Bytes>> {
+    pub async fn recv(&self) -> Option<mqtt_proto::Packet<Bytes>> {
         // recv() will return an Err() if we're currently disconnected or there's nothing in the channel.
         // Wait for next packet or reconnection with a delay to allow the mutex to be released, so that
         // connection changes can take the mutex while we wait for the next packet (either a
@@ -110,10 +121,7 @@ impl OutgoingPacketsRx {
     /// NOTE: We could keep a clone of the tx and return it instead of swapping the underlying rx.
     /// This would remove the possibility of the tx ever being closed. However, we still need the
     /// rx to be under an Arc<Mutex> to allow cloning the [`OutgoingPacketsRx`] struct, so this seems simpler for now.
-    pub(crate) fn set_new_rx(
-        &self,
-        new_rx: UnboundedReceiver<azure_mqtt::mqtt_proto::Packet<Bytes>>,
-    ) {
+    pub(crate) fn set_new_rx(&self, new_rx: UnboundedReceiver<mqtt_proto::Packet<Bytes>>) {
         let mut curr_rx = self.outgoing_packets_rx.lock().unwrap();
         *curr_rx = new_rx;
     }
@@ -473,5 +481,112 @@ impl MockReconnectPolicyController {
     /// Set the next reconnect delay to return from the mock reconnect policy
     pub fn set_next_delay(&self, delay: Option<Duration>) {
         *self.next_delay.lock().unwrap() = delay;
+    }
+}
+
+/// Mock enhanced auth policy for testing purposes
+pub struct MockEnhancedAuthPolicy {
+    method: String,
+    auth_info_data: Arc<Mutex<Option<Bytes>>>,
+    auth_challenge_data: Arc<Mutex<Option<Bytes>>>,
+    reauth_data: Arc<Mutex<Option<Bytes>>>,
+    reauth_notify: Arc<Notify>,
+}
+
+impl MockEnhancedAuthPolicy {
+    /// Create a new `MockEnhancedAuthPolicy` and its controller
+    #[must_use]
+    pub fn new() -> (Self, MockEnhancedAuthPolicyController) {
+        let ap_controller = MockEnhancedAuthPolicyController {
+            auth_info_data: Arc::new(Mutex::new(Some(random_bytes()))),
+            auth_challenge_data: Arc::new(Mutex::new(Some(random_bytes()))),
+            reauth_data: Arc::new(Mutex::new(Some(random_bytes()))),
+            reauth_notify: Arc::new(Notify::new()),
+        };
+
+        let ap = MockEnhancedAuthPolicy {
+            method: "mock_method".to_string(),
+            auth_info_data: ap_controller.auth_info_data.clone(),
+            auth_challenge_data: ap_controller.auth_challenge_data.clone(),
+            reauth_data: ap_controller.reauth_data.clone(),
+            reauth_notify: ap_controller.reauth_notify.clone(),
+        };
+
+        (ap, ap_controller)
+    }
+}
+
+#[async_trait::async_trait]
+impl EnhancedAuthPolicy for MockEnhancedAuthPolicy {
+    fn authentication_info(&self) -> AuthenticationInfo {
+        AuthenticationInfo {
+            method: self.method.clone(),
+            data: self.auth_info_data.lock().unwrap().clone(),
+        }
+    }
+
+    fn auth_challenge(&self, _auth: &crate::control_packet::Auth) -> Option<Bytes> {
+        self.auth_challenge_data.lock().unwrap().clone()
+    }
+
+    async fn reauth_notified(&self) -> Option<Bytes> {
+        self.reauth_notify.notified().await;
+        self.reauth_data.lock().unwrap().clone()
+    }
+}
+
+/// Controller for the mock enhanced auth policy to allow tests to control its behavior
+pub struct MockEnhancedAuthPolicyController {
+    auth_info_data: Arc<Mutex<Option<Bytes>>>,
+    auth_challenge_data: Arc<Mutex<Option<Bytes>>>,
+    reauth_data: Arc<Mutex<Option<Bytes>>>,
+    reauth_notify: Arc<Notify>,
+}
+
+impl MockEnhancedAuthPolicyController {
+    /// Get the method to be returned in the `method` field of the `AuthenticationInfo` struct
+    #[must_use]
+    pub fn method(&self) -> &'static str {
+        "mock_method"
+    }
+
+    /// Get the data to be returned in the `data` field of the `AuthenticationInfo` struct
+    #[must_use]
+    pub fn auth_info_data(&self) -> Option<Bytes> {
+        self.auth_info_data.lock().unwrap().clone()
+    }
+
+    /// Set the data to be returned in the `data` field of the `AuthenticationInfo` struct
+    /// returned by the `authentication_info()` method of the `MockEnhancedAuthPolicy`
+    pub fn set_auth_info_data(&self, data: Option<Bytes>) {
+        *self.auth_info_data.lock().unwrap() = data;
+    }
+
+    /// Get the data to be returned by the `auth_challenge()` method of the `MockEnhancedAuthPolicy`
+    #[must_use]
+    pub fn auth_challenge_data(&self) -> Option<Bytes> {
+        self.auth_challenge_data.lock().unwrap().clone()
+    }
+
+    /// Set the data to be returned by the `auth_challenge()` method of the `MockEnhancedAuthPolicy`
+    pub fn set_auth_challenge_data(&self, data: Option<Bytes>) {
+        *self.auth_challenge_data.lock().unwrap() = data;
+    }
+
+    /// Get the data to be returned by the `reauth_notified()` method of the `MockEnhancedAuthPolicy`
+    #[must_use]
+    pub fn reauth_data(&self) -> Option<Bytes> {
+        self.reauth_data.lock().unwrap().clone()
+    }
+
+    /// Set the data to be returned by the `reauth_notified()` method of the `MockEnhancedAuthPolicy`
+    pub fn set_reauth_data(&self, data: Option<Bytes>) {
+        *self.reauth_data.lock().unwrap() = data;
+    }
+
+    /// Trigger the reauthentication notification indicating the `reauth_notified()` method of the
+    /// `MockEnhancedAuthPolicy` should return data.
+    pub fn reauth_notify(&self) {
+        self.reauth_notify.notify_waiters();
     }
 }
