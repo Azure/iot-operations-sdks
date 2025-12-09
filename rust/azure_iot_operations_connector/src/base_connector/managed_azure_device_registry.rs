@@ -2695,7 +2695,7 @@ impl DataOperationClient {
 
     /// Used to send transformed data to the destination
     /// Returns once the message has been sent successfully.
-    /// `protocol_specific_identifier` can be specified for use on the Cloud Event
+    /// `protocol_specific_identifier` will be used on the Cloud Event
     /// `source` header used if the destination is `MQTT`. If `forward_data` is used instead of this fn,
     /// the Cloud Event Header will default to using either the device external device id or the device name.
     /// The inbound endpoint address is a recommended value for this field.
