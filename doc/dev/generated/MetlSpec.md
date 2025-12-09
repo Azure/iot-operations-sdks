@@ -24,15 +24,15 @@ prologue:
 A common use for `prologue`-only cases is to test initialization error-checking:
 
 ```yaml
-test-name: CommandInvokerInvalidResponseTopicSuffix_ThrowsException_Attenuated
+test-name: CommandInvokerInvalidResponseTopicPrefix_ThrowsException_Attenuated
 description:
   condition: >-
-    CommandInvoker initialized with a response topic suffix that is invalid.
+    CommandInvoker initialized with a response topic prefix that is invalid.
   expect: >-
     CommandInvoker throws 'invalid configuration' exception; error details unchecked.
 prologue:
   invokers:
-  - response-topic-suffix: "suffix/{in/valid}"
+  - response-topic-prefix: "prefix/{in/valid}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
@@ -42,24 +42,24 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetryReceiverReceivesWrongContentType_NotRelayed
+test-name: TelemetrySenderSend_TimeoutPropagated
 description:
   condition: >-
-    TelemetryReceiver receives telemetry with mismatched ContentType metadata.
+    TelemetrySender sends a Telemetry.
   expect: >-
-    TelemetryReceiver does not relay telemetry to user code.
+    TelemetrySender copies Telemetry timout value into message expiry interval.
 prologue:
-  receivers:
+  senders:
   - { }
 actions:
-- action: receive telemetry
-  content-type: "raw/0"
-  packet-index: 0
-- action: await acknowledgement
-  packet-index: 0
+- action: send telemetry
+  timeout: { seconds: 3 }
+- action: await publish
+- action: await send
 epilogue:
-  acknowledgement-count: 1
-  telemetry-count: 0
+  published-messages:
+  - topic: "mock/test"
+    expiry: 3
 ```
 
 ### Key/value kinds
@@ -100,14 +100,14 @@ For example:
 ```yaml
 prologue:
   executors:
-  - request-topic: ""
+  - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'requesttopicpattern'
-      property-value: ""
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
 ```
 
 In the above test case, the value of `property-value` is double quoted, indicating that the value must be used verbatim in the test.
@@ -179,14 +179,14 @@ Following is an example CommandExecutor prologue:
 ```yaml
 prologue:
   executors:
-  - request-topic: ""
+  - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'requesttopicpattern'
-      property-value: ""
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -488,14 +488,14 @@ Following is an example CommandInvoker prologue:
 ```yaml
 prologue:
   invokers:
-  - request-topic: ""
+  - response-topic-suffix: "suffix/{in/valid}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'requesttopicpattern'
-      property-value: ""
+      property-name: 'responsetopicsuffix'
+      property-value: "suffix/{in/valid}"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -560,15 +560,15 @@ Following is an example CommandInvoker epilogue:
 ```yaml
 epilogue:
   subscribed-topics:
-  - "response/mock/+/test"
+  - "response/mock/test"
   acknowledgement-count: 2
   published-messages:
   - correlation-index: 0
-    topic: "mock/someExecutor/test"
-    payload: "Test_Request0"
+    topic: "mock/test"
+    payload: "Test_Request"
   - correlation-index: 1
-    topic: "mock/someExecutor/test"
-    payload: "Test_Request1"
+    topic: "mock/test"
+    payload: "Test_Request"
 ```
 
 #### InvokerEpilogue
@@ -955,7 +955,7 @@ A `receive telemetry` action causes the TelemetryReceiver to receive a telemetry
 ```yaml
 - action: receive telemetry
   metadata:
-    "id": ""
+    "id": "dtmi:test:someAssignedId;1"
     "source": "dtmi:test:myEventSource;1"
     "type": "test-type"
     "specversion": "1.0"
@@ -1085,11 +1085,11 @@ epilogue:
   - topic: "mock/test"
     payload: "Test_Telemetry"
     metadata:
-      "source": # not present
-      "type": # not present
-      "specversion": # not present
-      "subject": # not present
-      "dataschema": # not present
+      "source": "dtmi:test:myEventSource;1"
+      "type": "ms.aio.telemetry"
+      "specversion": "1.0"
+      "id": "::::"
+      "subject": "mock/test"
 ```
 
 #### SenderEpilogue
@@ -1330,7 +1330,7 @@ The value of `push-acks` is a collection of queues of ACKs that are used sequent
 
 ```yaml
   push-acks:
-    subscribe: [ fail ]
+    publish: [ fail ]
 ```
 
 By convention, these arrays are written in YAML flow style.
@@ -1391,7 +1391,7 @@ See the [error model document](../../reference/error-model.md) for further detai
 A Duration defines a span of time, as in the following example:
 
 ```yaml
-  message-expiry: { seconds: 20 }
+  message-expiry: # null omits header
 ```
 
 By convention, this object is written in YAML flow style.
