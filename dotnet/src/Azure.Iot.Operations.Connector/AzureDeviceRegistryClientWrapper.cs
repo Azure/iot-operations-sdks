@@ -15,7 +15,12 @@ namespace Azure.Iot.Operations.Connector
         private readonly IAssetFileMonitor _monitor;
 
         private const byte _dummyByte = 1;
+
+        // The keys are the composite device names of devices that are currently being observed
         private readonly ConcurrentDictionary<string, byte> _observedDevices = new();
+
+        // The keys are the composite device names of devices that may or may not be observing some assets.
+        // The values are set of asset names that are being observed.
         private readonly ConcurrentDictionary<string, HashSet<string>> _observedAssets = new();
 
         public event EventHandler<AssetChangedEventArgs>? AssetChanged;
@@ -205,10 +210,23 @@ namespace Azure.Iot.Operations.Connector
             if (e.ChangeType == FileChangeType.Deleted)
             {
                 await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.Off);
+                if (_observedAssets.TryGetValue(e.DeviceName, out HashSet<string>? observedAssetNames))
+                {
+                    // This notes down that this asset on this device is no longer being observed
+                    observedAssetNames.Remove(e.AssetName);
+                }
                 AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Deleted, null));
             }
             else if (e.ChangeType == FileChangeType.Created)
             {
+                if (_observedAssets.TryGetValue(e.DeviceName + "_" + e.InboundEndpointName, out HashSet<string>? observedAssetNames)
+                    && observedAssetNames.Contains(e.AssetName))
+                {
+                    // The asset is already being observed, so this was likely a duplicate "on asset file created" notification
+                    // and should be ignored.
+                    return;
+                }
+
                 var notificationResponse = await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.On);
 
                 if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
@@ -237,10 +255,21 @@ namespace Azure.Iot.Operations.Connector
             if (e.ChangeType == FileChangeType.Deleted)
             {
                 await _client.SetNotificationPreferenceForDeviceUpdatesAsync(e.DeviceName, e.InboundEndpointName, NotificationPreference.Off);
+
+                // This notes down that this device is no longer being observed
+                _observedDevices.TryRemove(e.DeviceName + "_" + e.InboundEndpointName, out _);
+
                 DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Deleted, null));
             }
             else if (e.ChangeType == FileChangeType.Created)
             {
+                if (_observedDevices.ContainsKey(e.DeviceName + "_" + e.InboundEndpointName))
+                {
+                    // The device is already being observed, so this was likely a duplicate "on device file created" notification
+                    // and should be ignored.
+                    return;
+                }
+
                 var notificationResponse = await _client.SetNotificationPreferenceForDeviceUpdatesAsync(e.DeviceName, e.InboundEndpointName, NotificationPreference.On);
 
                 if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
