@@ -57,12 +57,12 @@ let payload = <# foreach (string serializeLine in this.serializeCode) { #>
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
-        if let Some(content_type) = content_type
-            && !<#=this.schemaClassName.GetTypeName(TargetLanguage.Rust)#>::is_content_type(content_type)
-        {
-            return Err(DeserializationError::UnsupportedContentType(format!(
-                "Invalid content type: '{content_type}'. Must be '<#=this.contentType#>'"
-            )));
+        if let Some(content_type) = content_type {
+            if !<#=this.schemaClassName.GetTypeName(TargetLanguage.Rust)#>::is_content_type(content_type) {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type}'. Must be '<#=this.contentType#>'"
+                )));
+            }
         }
 <# foreach (string deserializeLine in this.deserializeCode) { #>
         <#=deserializeLine#>

@@ -6,14 +6,13 @@ use std::time::Duration;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::control_packet::{
-    PublishProperties, QoS, RetainOptions, SubscribeProperties, TopicFilter, TopicName,
-};
+use azure_iot_operations_mqtt::control_packet::QoS;
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubSub, PubReceiver};
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 
-const CLIENT_ID: &str = "aio_send_receive_client";
+const CLIENT_ID: &str = "aio_example_client";
 const HOSTNAME: &str = "localhost";
 
 const PORT: u16 = 1883;
@@ -24,7 +23,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
-        .filter_module("azure_mqtt", log::LevelFilter::Warn)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Build the options and settings for the session.
@@ -61,7 +60,7 @@ async fn run_program(client: SessionManagedClient, exit_handle: SessionExitHandl
         }
         Err(e) => {
             println!("Program failed: {e}");
-            exit(&exit_handle);
+            exit(exit_handle).await;
         }
     }
 }
@@ -71,20 +70,10 @@ async fn receive_messages(
     client: SessionManagedClient,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     // Create a receiver from the SessionManagedClient and subscribe to the topic
-    let topic_filter = TopicFilter::new(TOPIC)?;
-    let mut receiver = client.create_filtered_pub_receiver(topic_filter.clone());
+    let mut receiver = client.create_filtered_pub_receiver(TOPIC)?;
 
     // Subscribe to the topic and wait for the subscription to be acknowledged
-    client
-        .subscribe(
-            topic_filter,
-            QoS::AtLeastOnce,
-            false,
-            RetainOptions::default(),
-            SubscribeProperties::default(),
-        )
-        .await?
-        .await?;
+    client.subscribe(TOPIC, QoS::AtLeastOnce).await?.await?;
     println!("Subscribed to topic");
 
     // Receive until there are no more messages
@@ -101,22 +90,16 @@ async fn send_messages(
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let mut i = 0;
 
-    let topic_name = TopicName::new(TOPIC).unwrap();
     loop {
         i += 1;
         let payload = format!("Hello #{i}");
         // Send message and receive a CompletionToken which will notify when the message is acknowledged
         let completion_token = client
-            .publish_qos1(
-                topic_name.clone(),
-                false,
-                payload,
-                PublishProperties::default(),
-            )
+            .publish(TOPIC, QoS::AtLeastOnce, false, payload)
             .await?;
         println!("Sent message #{i}");
         match completion_token.await {
-            Ok(_) => println!("Message #{i} acknowledgement received"),
+            Ok(()) => println!("Message #{i} acknowledgement received"),
             Err(e) => {
                 println!("Message #{i} delivery failure: {e}");
             }
@@ -126,13 +109,13 @@ async fn send_messages(
 }
 
 // Exit the Session
-fn exit(exit_handle: &SessionExitHandle) {
-    match exit_handle.try_exit() {
+async fn exit(exit_handle: SessionExitHandle) {
+    match exit_handle.try_exit().await {
         Ok(()) => println!("Session exited gracefully"),
         Err(e) => {
             println!("Graceful session exit failed: {e}");
             println!("Forcing session exit");
-            exit_handle.force_exit();
+            exit_handle.exit_force().await;
         }
     }
 }

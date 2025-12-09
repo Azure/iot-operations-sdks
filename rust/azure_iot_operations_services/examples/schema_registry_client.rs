@@ -4,7 +4,9 @@
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::{
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
+};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::schema_registry::{
     self, Format, GetSchemaRequestBuilder, PutSchemaRequestBuilder, SchemaType,
@@ -33,7 +35,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("azure_mqtt", log::LevelFilter::Warn)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a Session
@@ -65,7 +67,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 async fn run_program(
-    schema_registry_client: schema_registry::Client,
+    schema_registry_client: schema_registry::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     // Create a channel to send the schema ID from the put task to the get task
@@ -77,18 +79,18 @@ async fn run_program(
     );
 
     log::info!("Exiting session");
-    match exit_handle.try_exit() {
+    match exit_handle.try_exit().await {
         Ok(()) => log::info!("Session exited gracefully"),
         Err(e) => {
             log::error!("Graceful session exit failed: {e}");
             log::warn!("Forcing session exit");
-            exit_handle.force_exit();
+            exit_handle.exit_force().await;
         }
-    }
+    };
 }
 
 async fn schema_registry_put(
-    client: schema_registry::Client,
+    client: schema_registry::Client<SessionManagedClient>,
     schema_id_tx: oneshot::Sender<String>,
 ) {
     match client
@@ -117,7 +119,7 @@ async fn schema_registry_put(
 }
 
 async fn schema_registry_get(
-    client: schema_registry::Client,
+    client: schema_registry::Client<SessionManagedClient>,
     schema_id_rx: oneshot::Receiver<String>,
 ) {
     // Wait for the schema ID

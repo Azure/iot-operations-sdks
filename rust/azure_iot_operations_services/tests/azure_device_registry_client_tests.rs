@@ -8,7 +8,9 @@ use std::sync::Arc;
 use std::{env, time::Duration};
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::{
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
+};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use env_logger::Builder;
 use tokio::sync::Notify;
@@ -40,7 +42,7 @@ fn setup_test(test_name: &str) -> bool {
     let _ = Builder::new()
         .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
-        .filter_module("azure_mqtt", log::LevelFilter::Warn)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations", log::LevelFilter::Debug)
         .try_init();
 
@@ -54,7 +56,11 @@ fn setup_test(test_name: &str) -> bool {
 
 fn initialize_client(
     client_id: &str,
-) -> (Session, azure_device_registry::Client, SessionExitHandle) {
+) -> (
+    Session,
+    azure_device_registry::Client<SessionManagedClient>,
+    SessionExitHandle,
+) {
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
         .hostname("localhost")
@@ -107,7 +113,7 @@ async fn get_device() {
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().unwrap();
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -174,7 +180,7 @@ async fn update_device_plus_endpoint_status() {
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().unwrap();
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -214,7 +220,7 @@ async fn get_asset() {
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
-            exit_handle.try_exit().unwrap();
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -283,7 +289,7 @@ async fn update_asset_status() {
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
-            exit_handle.try_exit().unwrap();
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -424,11 +430,11 @@ async fn observe_asset_update_notifications() {
                         "Notification receiver task failed due to unexpected counts or mismatch notification: {e}"
                     );
                 }
-            }
+            };
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
-            exit_handle.try_exit().unwrap();
+            exit_handle.try_exit().await.unwrap();
         }
     });
     assert!(
@@ -564,11 +570,11 @@ async fn observe_device_update_notifications() {
                         "Notification receiver task failed due to unexpected counts or mismatch notification: {e}"
                     );
                 }
-            }
+            };
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
-            exit_handle.try_exit().unwrap();
+            exit_handle.try_exit().await.unwrap();
         }
     });
     assert!(

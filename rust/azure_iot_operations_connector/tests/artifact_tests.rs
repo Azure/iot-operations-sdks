@@ -5,6 +5,7 @@ use azure_iot_operations_connector::deployment_artifacts::connector::{
     ConnectorArtifacts, Protocol, TlsMode,
 };
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
+use azure_iot_operations_otel::Otel;
 use std::path::PathBuf;
 use std::time::Duration;
 
@@ -103,6 +104,41 @@ fn local_connector_artifacts_tls() {
                 .build()
                 .unwrap();
             assert!(Session::new(session_options).is_ok());
+
+            // --- Create a Otel Config from the ConnectorArtifacts ---
+            let otel_config = artifacts.to_otel_config("my_otel_tag", "debug");
+            assert_eq!(otel_config.service_name, "my_otel_tag");
+            assert!(!otel_config.emit_metrics_to_stdout);
+            assert!(otel_config.emit_logs_to_stderr);
+            assert!(
+                otel_config
+                    .metrics_export_targets
+                    .as_ref()
+                    .is_some_and(Vec::is_empty)
+            );
+            assert!(
+                otel_config
+                    .log_export_targets
+                    .as_ref()
+                    .is_some_and(Vec::is_empty)
+            );
+            assert!(
+                otel_config
+                    .resource_attributes
+                    .as_ref()
+                    .is_some_and(|attrs| {
+                        attrs.len() == 1
+                            && attrs[0].key == "microsoft.resourceId"
+                            && attrs[0].value == "/subscriptions/extension/resource/id"
+                    })
+            );
+            assert_eq!(otel_config.level, "trace");
+            assert!(otel_config.prometheus_config.is_none());
+            assert_eq!(otel_config.enterprise_number, Some("311".to_string()));
+
+            // --- Create an Otel from the Otel Config ---
+            // NOTE: nothing to test here - the constructor can't fail. If that changes, expand.
+            let _ = Otel::new(otel_config);
         },
     );
 }
@@ -172,6 +208,41 @@ fn local_connector_artifacts_no_tls() {
                 .build()
                 .unwrap();
             assert!(Session::new(session_options).is_ok());
+
+            // --- Create a Otel Config from the ConnectorArtifacts ---
+            let otel_config = artifacts.to_otel_config("my_otel_tag", "debug");
+            assert_eq!(otel_config.service_name, "my_otel_tag");
+            assert!(!otel_config.emit_metrics_to_stdout);
+            assert!(otel_config.emit_logs_to_stderr);
+            assert!(
+                otel_config
+                    .metrics_export_targets
+                    .as_ref()
+                    .is_some_and(Vec::is_empty)
+            );
+            assert!(
+                otel_config
+                    .log_export_targets
+                    .as_ref()
+                    .is_some_and(Vec::is_empty)
+            );
+            assert!(
+                otel_config
+                    .resource_attributes
+                    .as_ref()
+                    .is_some_and(|attrs| {
+                        attrs.len() == 1
+                            && attrs[0].key == "microsoft.resourceId"
+                            && attrs[0].value == "/subscriptions/extension/resource/id"
+                    })
+            );
+            assert_eq!(otel_config.level, "trace");
+            assert!(otel_config.prometheus_config.is_none());
+            assert_eq!(otel_config.enterprise_number, Some("311".to_string()));
+
+            // --- Create an Otel from the Otel Config ---
+            // NOTE: nothing to test here - the constructor can't fail. If that changes, expand.
+            let _ = Otel::new(otel_config);
         },
     );
 }

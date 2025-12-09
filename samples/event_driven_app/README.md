@@ -178,7 +178,7 @@ Create test data by deploying a simulator. It emulates a sensor by sending sampl
 1. Deploy the simulator to the cluster:
 
     ```bash
-    kubectl apply -f ./samples/event_driven_app/simulator.yaml
+    kubectl apply -f samples/EventDrivenApp/simulator.yaml
     ```
 
 1. Confirm the simulator is running correctly by observing the published messages:

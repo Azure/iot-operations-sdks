@@ -4,7 +4,6 @@
 //! Types for State Store operations.
 
 use core::fmt::Debug;
-use std::fmt::Display;
 
 use azure_iot_operations_protocol::{
     common::{aio_protocol_error::AIOProtocolError, hybrid_logical_clock::HybridLogicalClock},
@@ -183,14 +182,4 @@ pub struct KeyNotification {
     pub operation: Operation,
     /// The version of the key as a [`HybridLogicalClock`].
     pub version: HybridLogicalClock,
-}
-
-impl Display for KeyNotification {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "KeyNotification {{ key: {:?}, operation: {}, version: {} }}",
-            self.key, self.operation, self.version
-        )
-    }
 }

@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::session::SessionManagedClient;
+use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
@@ -55,18 +55,25 @@ impl IncrementResponseBuilder {
 }
 
 /// Command Executor for `increment`
-pub struct IncrementCommandExecutor(
-    rpc_command::Executor<IncrementRequestPayload, IncrementResponsePayload>,
-);
+pub struct IncrementCommandExecutor<C>(
+    rpc_command::Executor<IncrementRequestPayload, IncrementResponsePayload, C>,
+)
+where
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static;
 
-impl IncrementCommandExecutor {
+impl<C> IncrementCommandExecutor<C>
+where
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
+{
     /// Creates a new [`IncrementCommandExecutor`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
         application_context: ApplicationContext,
-        client: SessionManagedClient,
+        client: C,
         options: &CommandExecutorOptions,
     ) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();

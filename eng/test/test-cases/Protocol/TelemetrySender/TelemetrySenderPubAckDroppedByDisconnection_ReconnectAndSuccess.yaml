@@ -19,8 +19,8 @@ actions:
 - action: send telemetry
 - action: await publish
 - action: disconnect
-- action: await publish
 - action: await send
+- action: await publish
 
 epilogue:
   publication-count: 2

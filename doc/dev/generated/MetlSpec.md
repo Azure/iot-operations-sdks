@@ -343,6 +343,7 @@ Each element of the `published-messages` array can have the following child keys
 | format-indicator | check | no | integer | The value of the PayloadFormatIndicator header in the message. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
 | command-status | check | no | integer or null | HTTP status code in the message, or null if no status code present. |
+| is-application-error | check | no | boolean | In an error response, whether the error is in the application rather than in the platform. |
 | expiry | check | no | integer | The message expiry in seconds. |
 
 The value for `correlation-index` is an arbitrary number that will be given a replacement values by the test engine.
@@ -751,6 +752,7 @@ When the value of the `action` key is `receive response`, the following sibling 
 | message-expiry | drive | no | [Duration](#duration) or null |  | { "seconds": 10 } | Maximum duration for which a response remains desired by the requester. |
 | status | drive | no | string or null |  | "200" | HTTP status code. |
 | status-message | drive | no | string or null |  | null | Human-readable status message. |
+| is-application-error | drive | no | string or null |  | null | Nominally boolean value indicating whether a non-200 status is an application-level error. |
 | invalid-property-name | drive | no | string or null |  | null | The name of an MQTT property in a request header that is missing or has an invalid value. |
 | invalid-property-value | drive | no | string or null |  | null | The value of an MQTT property in a request header that is invalid. |
 | packet-index | match | no | integer |  |  | An arbitrary numeric value used to identify the packet ID in the message. |

@@ -15,10 +15,11 @@ use std::time::Duration;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::control_packet::{PublishProperties, TopicName};
+use azure_iot_operations_mqtt::control_packet::QoS;
+use azure_iot_operations_mqtt::interface::MqttPubSub;
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 
-const CLIENT_ID: &str = "aio_sat_auth_client";
+const CLIENT_ID: &str = "aio_example_client";
 const HOSTNAME: &str = "localhost";
 const TOPIC: &str = "hello/mqtt";
 
@@ -31,7 +32,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
-        .filter_module("azure_mqtt", log::LevelFilter::Warn)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Build the options and settings for the session.
@@ -63,12 +64,7 @@ async fn send_messages(client: SessionManagedClient) {
         i += 1;
         let payload = format!("Hello #{i}");
         match client
-            .publish_qos1(
-                TopicName::new(TOPIC).unwrap(),
-                false,
-                payload,
-                PublishProperties::default(),
-            )
+            .publish(TOPIC, QoS::AtLeastOnce, false, payload)
             .await
         {
             Ok(_) => println!("Sent message #{i}"),

@@ -9,12 +9,17 @@ use tokio::{select, sync::Notify};
 
 use crate::leased_lock::{Error, ErrorKind, LeaseObservation, SetCondition, SetOptions};
 use crate::state_store;
+use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 
 /// Lease client struct.
 #[derive(Clone)]
-pub struct Client {
-    state_store: Arc<state_store::Client>,
+pub struct Client<C>
+where
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync,
+{
+    state_store: Arc<state_store::Client<C>>,
     lease_name: Vec<u8>,
     lease_holder_name: Vec<u8>,
     current_fencing_token: Arc<Mutex<Option<HybridLogicalClock>>>,
@@ -26,7 +31,11 @@ pub struct Client {
 /// Notes:
 /// Do not call any of the methods of this client after the `state_store` parameter is shutdown.
 /// Calling any of the methods in this implementation after the `state_store` is shutdown results in undefined behavior.
-impl Client {
+impl<C> Client<C>
+where
+    C: ManagedClient + Clone + Send + Sync,
+    C::PubReceiver: Send + Sync,
+{
     /// Create a new Lease Client.
     ///
     /// Notes:
@@ -36,7 +45,7 @@ impl Client {
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the either `lease_name` or `lease_holder_name` is empty.
     pub fn new(
-        state_store: Arc<state_store::Client>,
+        state_store: Arc<state_store::Client<C>>,
         lease_name: Vec<u8>,
         lease_holder_name: Vec<u8>,
     ) -> Result<Self, Error> {
@@ -158,32 +167,32 @@ impl Client {
             .internal_acquire(lease_expiration, request_timeout)
             .await;
 
-        if let Some(renewal_period) = renewal_period
-            && renewal_period > Duration::ZERO
-        {
-            let self_clone = self.clone();
+        if let Some(renewal_period) = renewal_period {
+            if renewal_period > Duration::ZERO {
+                let self_clone = self.clone();
 
-            tokio::task::spawn({
-                async move {
-                    loop {
-                        select! {
-                            () = self_clone.auto_renewal_notify.notified() => {
-                                break; // Auto-renewal is cancelled.
-                            }
-                            () = tokio::time::sleep(renewal_period) => {
-                                if self_clone
-                                    .internal_acquire(lease_expiration, request_timeout)
-                                    .await
-                                    .is_err()
-                                {
-                                    // Acquire failed. Stopping Auto-renewal.
-                                    break;
+                tokio::task::spawn({
+                    async move {
+                        loop {
+                            select! {
+                                () = self_clone.auto_renewal_notify.notified() => {
+                                    break; // Auto-renewal is cancelled.
+                                }
+                                () = tokio::time::sleep(renewal_period) => {
+                                    if self_clone
+                                        .internal_acquire(lease_expiration, request_timeout)
+                                        .await
+                                        .is_err()
+                                    {
+                                        // Acquire failed. Stopping Auto-renewal.
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
         }
 
         acquire_result

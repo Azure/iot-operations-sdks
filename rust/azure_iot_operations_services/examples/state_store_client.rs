@@ -4,7 +4,9 @@
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::{
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
+};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::state_store::{self, SetOptions};
 use env_logger::Builder;
@@ -14,7 +16,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("azure_mqtt", log::LevelFilter::Warn)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a Session and exit handle
@@ -40,7 +42,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let results = tokio::join! {
         async {
             state_store_operations(state_store_client).await;
-            exit(&exit_handle);
+            exit(exit_handle).await;
         },
         session.run(),
     };
@@ -48,7 +50,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-async fn state_store_operations(client: state_store::Client) {
+async fn state_store_operations(client: state_store::Client<SessionManagedClient>) {
     let state_store_key = b"someKey";
     let state_store_value = b"someValue";
     let timeout = Duration::from_secs(10);
@@ -108,14 +110,14 @@ async fn state_store_operations(client: state_store::Client) {
 }
 
 // Exit the Session
-fn exit(exit_handle: &SessionExitHandle) {
+async fn exit(exit_handle: SessionExitHandle) {
     log::info!("Exiting session");
-    match exit_handle.try_exit() {
+    match exit_handle.try_exit().await {
         Ok(()) => log::info!("Session exited gracefully"),
         Err(e) => {
             log::error!("Graceful session exit failed: {e}");
             log::warn!("Forcing session exit");
-            exit_handle.force_exit();
+            exit_handle.exit_force().await;
         }
     }
 }

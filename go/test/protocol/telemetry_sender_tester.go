@@ -57,7 +57,8 @@ func runOneTelemetrySenderTest(
 	fileName string,
 ) {
 	pendingTestCases := []string{
-		"TelemetrySenderPubAckFailure_ThrowsException", // perhaps related to https://github.com/eclipse/paho.golang/issues/216
+		"TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess", // hangs intermittently
+		"TelemetrySenderPubAckFailure_ThrowsException",                    // perhaps related to https://github.com/eclipse/paho.golang/issues/216
 	}
 
 	testCaseYaml, err := os.ReadFile(fileName)

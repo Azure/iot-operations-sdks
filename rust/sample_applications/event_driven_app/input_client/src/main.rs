@@ -86,7 +86,7 @@ async fn receive_telemetry(
         .build()
         .expect("Telemetry receiver options should not fail");
 
-    let mut telemetry_receiver: telemetry::Receiver<SensorData> =
+    let mut telemetry_receiver: telemetry::Receiver<SensorData, _> =
         telemetry::Receiver::new(application_context, client, receiver_options)
             .expect("Telemetry receiver creation should not fail");
 
@@ -200,7 +200,7 @@ async fn process_sensor_data(
             Err(e) => {
                 log::error!("Failed to fetch state store data: {e:?}");
             }
-        }
+        };
     }
 }
 
@@ -227,12 +227,12 @@ impl PayloadSerialize for SensorData {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
-        if let Some(content_type) = content_type
-            && content_type != "application/json"
-        {
-            return Err(DeserializationError::UnsupportedContentType(format!(
-                "Invalid content type: '{content_type:?}'. Must be 'application/json'"
-            )));
+        if let Some(content_type) = content_type {
+            if content_type != "application/json" {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+                )));
+            }
         }
 
         let payload = serde_json::from_slice(payload).map_err(|e| {

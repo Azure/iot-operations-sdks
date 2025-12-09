@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::{session::SessionManagedClient, token::AckToken};
+use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry;
@@ -15,16 +15,23 @@ use super::telemetry_collection::TelemetryCollection;
 pub type TelemetryMessage = telemetry::receiver::Message<TelemetryCollection>;
 
 /// Telemetry Receiver for `TelemetryCollection`
-pub struct TelemetryReceiver(telemetry::Receiver<TelemetryCollection>);
+pub struct TelemetryReceiver<C>(telemetry::Receiver<TelemetryCollection, C>)
+where
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static;
 
-impl TelemetryReceiver {
+impl<C> TelemetryReceiver<C>
+where
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
+{
     /// Creates a new [`TelemetryReceiver`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
         application_context: ApplicationContext,
-        client: SessionManagedClient,
+        client: C,
         options: &TelemetryReceiverOptions,
     ) -> Self {
         let mut receiver_options_builder = telemetry::receiver::OptionsBuilder::default();

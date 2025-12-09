@@ -8,8 +8,8 @@
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::{
-    session::{SessionManagedClient, SessionMonitor},
-    token::AckToken,
+    interface::{AckToken, ManagedClient},
+    session::SessionMonitor,
 };
 use azure_iot_operations_protocol::{
     application::ApplicationContext, common::hybrid_logical_clock::HybridLogicalClock, rpc_command,
@@ -68,14 +68,22 @@ pub struct ClientOptions {
 }
 
 /// State store client implementation
-pub struct Client {
-    invoker: rpc_command::Invoker<state_store::resp3::Request, state_store::resp3::Response>,
+pub struct Client<C>
+where
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync,
+{
+    invoker: rpc_command::Invoker<state_store::resp3::Request, state_store::resp3::Response, C>,
     notification_dispatcher:
         Arc<Dispatcher<(state_store::KeyNotification, Option<AckToken>), String>>,
     shutdown_notifier: Arc<Notify>,
 }
 
-impl Client {
+impl<C> Client<C>
+where
+    C: ManagedClient + Clone + Send + Sync,
+    C::PubReceiver: Send + Sync,
+{
     /// Create a new State Store Client
     ///
     /// <div class="warning">
@@ -94,7 +102,7 @@ impl Client {
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
-        client: SessionManagedClient,
+        client: C,
         session_monitor: SessionMonitor,
         options: ClientOptions,
     ) -> Result<Self, Error> {
@@ -111,6 +119,7 @@ impl Client {
         let invoker: rpc_command::Invoker<
             state_store::resp3::Request,
             state_store::resp3::Response,
+            C,
         > = rpc_command::Invoker::new(application_context.clone(), client.clone(), invoker_options)
             .map_err(ErrorKind::from)?;
 
@@ -136,7 +145,7 @@ impl Client {
 
         // Start the receive key notification loop
         task::spawn({
-            let notification_receiver: telemetry::Receiver<state_store::resp3::Operation> =
+            let notification_receiver: telemetry::Receiver<state_store::resp3::Operation, C> =
                 telemetry::Receiver::new(application_context, client, receiver_options)
                     .map_err(ErrorKind::from)?;
             let shutdown_notifier_clone = shutdown_notifier.clone();
@@ -174,7 +183,7 @@ impl Client {
 
         self.invoker.shutdown().await.map_err(ErrorKind::from)?;
 
-        log::info!("State Store Client shutdown");
+        log::info!("Shutdown");
         Ok(())
     }
 
@@ -569,7 +578,7 @@ impl Client {
 
     async fn receive_key_notification_loop(
         shutdown_notifier: Arc<Notify>,
-        mut receiver: telemetry::Receiver<state_store::resp3::Operation>,
+        mut receiver: telemetry::Receiver<state_store::resp3::Operation, C>,
         notification_dispatcher: Arc<
             Dispatcher<(state_store::KeyNotification, Option<AckToken>), String>,
         >,
@@ -583,10 +592,10 @@ impl Client {
                   () = shutdown_notifier.notified() => {
                     match receiver.shutdown().await {
                         Ok(()) => {
-                            log::info!("State Store key notification Telemetry Receiver shutdown");
+                            log::info!("Telemetry Receiver shutdown");
                         }
                         Err(e) => {
-                            log::warn!("Error shutting down State Store key notification Telemetry Receiver: {e}");
+                            log::error!("Error shutting down Telemetry Receiver: {e}");
                             // try shutdown again, but not indefinitely
                             if shutdown_attempt_count < 3 {
                                 shutdown_attempt_count += 1;
@@ -596,7 +605,7 @@ impl Client {
                     }
                   },
                   () = Self::notify_on_disconnection(&session_monitor) => {
-                    log::warn!("Session disconnected. Dropping State Store key observations as they won't receive any more notifications and must be recreated");
+                    log::warn!("Session disconnected. Dropping key observations as they won't receive any more notifications and must be recreated");
                     // This closes all associated notification channels
                     notification_dispatcher.unregister_all();
                   },
@@ -605,12 +614,12 @@ impl Client {
                         match m {
                             Ok((notification, ack_token)) => {
                                 let Some(key_name) = notification.topic_tokens.get("encodedKeyName") else {
-                                    log::warn!("Key Notification missing encodedKeyName topic token.");
+                                    log::error!("Key Notification missing encodedKeyName topic token.");
                                     continue;
                                 };
                                 let decoded_key_name = HEXUPPER.decode(key_name.as_bytes()).unwrap();
                                 let Some(notification_timestamp) = notification.timestamp else {
-                                    log::warn!("Received key notification with no version. Ignoring.");
+                                    log::error!("Received key notification with no version. Ignoring.");
                                     continue;
                                 };
                                 let key_notification = state_store::KeyNotification {
@@ -622,25 +631,21 @@ impl Client {
                                 // Try to send the notification to the associated receiver
                                 match notification_dispatcher.dispatch(key_name, (key_notification.clone(), ack_token)) {
                                     Ok(()) => {
-                                        log::debug!("Key Notification dispatched: {key_notification}");
+                                        log::debug!("Key Notification dispatched: {key_notification:?}");
                                     }
 
                                     Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::SendError }) => {
-                                        // NOTE: the Display impl for KeyNotification only prints the key name, operation type, and version.
-                                        // it does not print the new key value contents on SET operations
-                                        log::warn!("Key Notification Receiver for `{key_name}` has been dropped. Received Notification: {payload}");
+                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {payload:?}");
 
                                     }
                                     Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
-                                        // NOTE: the Display impl for KeyNotification only prints the key name, operation type, and version.
-                                        // it does not print the new key value contents on SET operations
-                                        log::warn!("Key is not being observed. Received Notification: {payload} for {receiver_id}");
+                                        log::warn!("Key is not being observed. Received Notification: {payload:?} for {receiver_id}");
                                     }
                                 }
                             }
                             Err(e) => {
                                 // This should only happen on errors subscribing, but it's likely not recoverable
-                                log::error!("Error receiving key notifications: {e}. Shutting down State Store key notification Telemetry Receiver.");
+                                log::error!("Error receiving key notifications: {e}. Shutting down Telemetry Receiver.");
                                 // try to shutdown telemetry receiver, but not indefinitely
                                 if shutdown_attempt_count < 3 {
                                     shutdown_notifier.notify_one();
@@ -648,7 +653,7 @@ impl Client {
                             }
                         }
                     } else {
-                        log::info!("State Store key notification Telemetry Receiver closed, no more Key Notifications will be received");
+                        log::info!("Telemetry Receiver closed, no more Key Notifications will be received");
                         // Unregister all receivers, closing the associated channels
                         notification_dispatcher.unregister_all();
                         break;
@@ -659,7 +664,11 @@ impl Client {
     }
 }
 
-impl Drop for Client {
+impl<C> Drop for Client<C>
+where
+    C: ManagedClient + Clone + Send + Sync,
+    C::PubReceiver: Send + Sync,
+{
     fn drop(&mut self) {
         self.shutdown_notifier.notify_one();
         log::info!("State Store Client has been dropped.");
