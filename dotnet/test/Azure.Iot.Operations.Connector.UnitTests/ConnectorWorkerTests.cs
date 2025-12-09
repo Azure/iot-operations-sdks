@@ -262,14 +262,5 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             };
         }
 
-        private static MessageSchemaReference CreateTestMessageSchemaReference()
-        {
-            return new MessageSchemaReference
-            {
-                SchemaRegistryNamespace = "test-namespace",
-                SchemaName = "test-schema",
-                SchemaVersion = "1.0.0"
-            };
-        }
     }
 }
