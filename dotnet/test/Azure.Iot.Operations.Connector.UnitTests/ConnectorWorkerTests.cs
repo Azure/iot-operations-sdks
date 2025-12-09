@@ -258,7 +258,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             return new AssetEvent()
             {
-                Name =  "test-event"
+                Name = "test-event"
             };
         }
 
