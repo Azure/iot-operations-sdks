@@ -204,7 +204,6 @@ namespace Azure.Iot.Operations.Connector
         {
             if (e.ChangeType == FileChangeType.Deleted)
             {
-                await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.Off);
                 AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Deleted, null));
             }
             else if (e.ChangeType == FileChangeType.Created)
