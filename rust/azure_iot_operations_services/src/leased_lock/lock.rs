@@ -7,12 +7,17 @@ use std::{sync::Arc, time::Duration};
 
 use crate::leased_lock::{Error, ErrorKind, lease};
 use crate::state_store;
+use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 
 /// Lock client struct.
 #[derive(Clone)]
-pub struct Client {
-    lease_client: lease::Client,
+pub struct Client<C>
+where
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync,
+{
+    lease_client: lease::Client<C>,
 }
 
 /// Lock client implementation
@@ -21,7 +26,11 @@ pub struct Client {
 /// Do not call any of the methods of this client after the `state_store` parameter is shutdown.
 /// Calling any of the methods in this implementation after the `state_store` is shutdown results in undefined behavior.
 /// There must be only one instance of `lock::Client` per lock.
-impl Client {
+impl<C> Client<C>
+where
+    C: ManagedClient + Clone + Send + Sync,
+    C::PubReceiver: Send + Sync,
+{
     /// Create a new Lock Client.
     ///
     /// Notes:
@@ -31,7 +40,7 @@ impl Client {
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the either `lock_name` or `lock_holder_name` is empty.
     pub fn new(
-        state_store: Arc<state_store::Client>,
+        state_store: Arc<state_store::Client<C>>,
         lock_name: Vec<u8>,
         lock_holder_name: Vec<u8>,
     ) -> Result<Self, Error> {
@@ -111,7 +120,7 @@ impl Client {
                         break;
                     }
                 },
-            }
+            };
 
             // Lease being held by another client. Wait for delete notification.
             loop {
@@ -124,7 +133,7 @@ impl Client {
 
                 if notification.operation == state_store::Operation::Del {
                     break;
-                }
+                };
             }
         }
 

@@ -273,22 +273,22 @@ impl PutSchemaRequestBuilder {
     /// # Errors
     /// Returns a `String` describing the error if `display_name`, `schema_content`, or `version` is empty.
     fn validate(&self) -> Result<(), String> {
-        if let Some(Some(display_name)) = &self.display_name
-            && display_name.is_empty()
-        {
-            return Err("display_name cannot be empty".to_string());
+        if let Some(Some(display_name)) = &self.display_name {
+            if display_name.is_empty() {
+                return Err("display_name cannot be empty".to_string());
+            }
         }
 
-        if let Some(version) = &self.version
-            && version.is_empty()
-        {
-            return Err("version cannot be empty".to_string());
+        if let Some(version) = &self.version {
+            if version.is_empty() {
+                return Err("version cannot be empty".to_string());
+            }
         }
 
-        if let Some(schema_content) = &self.schema_content
-            && schema_content.is_empty()
-        {
-            return Err("schema_content cannot be empty".to_string());
+        if let Some(schema_content) = &self.schema_content {
+            if schema_content.is_empty() {
+                return Err("schema_content cannot be empty".to_string());
+            }
         }
 
         Ok(())
@@ -312,16 +312,16 @@ impl GetSchemaRequestBuilder {
     /// # Errors
     /// Returns a `String` describing the error if `name` or `version` is empty.
     fn validate(&self) -> Result<(), String> {
-        if let Some(name) = &self.name
-            && name.is_empty()
-        {
-            return Err("name cannot be empty".to_string());
+        if let Some(name) = &self.name {
+            if name.is_empty() {
+                return Err("name cannot be empty".to_string());
+            }
         }
 
-        if let Some(version) = &self.version
-            && version.is_empty()
-        {
-            return Err("version cannot be empty".to_string());
+        if let Some(version) = &self.version {
+            if version.is_empty() {
+                return Err("version cannot be empty".to_string());
+            }
         }
 
         Ok(())

@@ -677,7 +677,7 @@ impl DeviceEndpointClient {
                 create_notification = self.asset_create_observation.recv_notification(), if !self.pending_asset_creation => {
                     let Some((asset_ref, asset_deletion_token)) = create_notification else {
                         // if the create notification is None, then the device endpoint has been deleted
-                        log::info!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
+                        log::debug!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
                         // unobserve as cleanup
                         // Spawn a new task to prevent a possible cancellation and ensure the deleted
                         // notification reaches the application.
@@ -712,6 +712,7 @@ impl DeviceEndpointClient {
                         // Always send the result (Some or None) to unblock the receiver
                         let _ = asset_completion_tx.send(asset_client);
                     });
+                    continue; // Continue the loop to wait for task completion
                 }
             }
         }
@@ -1491,7 +1492,7 @@ impl AssetClient {
                         }
                         updates.status_updated = true;
                     }
-                }
+                };
             }
         }
     }
@@ -1646,7 +1647,7 @@ impl AssetClient {
         tokio::select! {
             biased;
             () = self.asset_deletion_token.cancelled() => {
-                log::info!("Asset deletion token received, stopping asset update observation for {:?}", self.asset_ref);
+                log::debug!("Asset deletion token received, stopping asset update observation for {:?}", self.asset_ref);
                 // unobserve as cleanup
                 // Spawn a new task to prevent a possible cancellation and ensure the deleted
                 // notification reaches the application.
@@ -2496,7 +2497,7 @@ impl DataOperationClient {
                     // If the dataset doesn't exist in the current status, then add it
                     new_status.datasets.get_or_insert_with(Vec::new).push(
                         adr_models::DatasetEventStreamStatus {
-                            name: dataset_name.clone(),
+                            name: dataset_name.to_string(),
                             message_schema_reference: Some(message_schema_reference.clone()),
                             error: None,
                         },
@@ -2526,7 +2527,7 @@ impl DataOperationClient {
                         // If the event doesn't exist in the current status, then add it
                         event_group_status.events.get_or_insert_with(Vec::new).push(
                             adr_models::DatasetEventStreamStatus {
-                                name: event_name.clone(),
+                                name: event_name.to_string(),
                                 message_schema_reference: Some(message_schema_reference.clone()),
                                 error: None,
                             },
@@ -2536,9 +2537,9 @@ impl DataOperationClient {
                     // If the event group doesn't exist in the current status, then add it
                     new_status.event_groups.get_or_insert_with(Vec::new).push(
                         adr_models::EventGroupStatus {
-                            name: event_group_name.clone(),
+                            name: event_group_name.to_string(),
                             events: Some(vec![adr_models::DatasetEventStreamStatus {
-                                name: event_name.clone(),
+                                name: event_name.to_string(),
                                 message_schema_reference: Some(message_schema_reference.clone()),
                                 error: None,
                             }]),
@@ -2560,7 +2561,7 @@ impl DataOperationClient {
                     // If the stream doesn't exist in the current status, then add it
                     new_status.streams.get_or_insert_with(Vec::new).push(
                         adr_models::DatasetEventStreamStatus {
-                            name: stream_name.clone(),
+                            name: stream_name.to_string(),
                             message_schema_reference: Some(message_schema_reference.clone()),
                             error: None,
                         },

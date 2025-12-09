@@ -3,11 +3,13 @@
 
 use std::collections::HashMap;
 use std::convert::TryFrom;
+use std::marker::PhantomData;
+use std::str::from_utf8;
 use std::sync::{Arc, Mutex};
 
 use async_std::future;
-use azure_iot_operations_mqtt::azure_mqtt;
-use azure_iot_operations_mqtt::session::{SessionManagedClient, SessionMonitor};
+use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
+use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -21,8 +23,8 @@ use uuid::Uuid;
 use crate::metl::aio_protocol_error_checker;
 use crate::metl::countdown_event_map::CountdownEventMap;
 use crate::metl::defaults::ExecutorDefaults;
-use crate::metl::mqtt_hub::{MqttHub, to_is_utf8};
-use crate::metl::qos::{self, new_packet_identifier_dup_qos};
+use crate::metl::mqtt_hub::MqttHub;
+use crate::metl::qos;
 use crate::metl::test_case::TestCase;
 use crate::metl::test_case_action::TestCaseAction;
 use crate::metl::test_case_catch::TestCaseCatch;
@@ -31,16 +33,24 @@ use crate::metl::test_case_published_message::TestCasePublishedMessage;
 use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
 
-const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(30);
+const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
-// TODO: this struct could probably be removed
-pub struct CommandExecutorTester {}
+pub struct CommandExecutorTester<C>
+where
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
+{
+    managed_client: PhantomData<C>,
+}
 
-impl CommandExecutorTester {
+impl<C> CommandExecutorTester<C>
+where
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
+{
     pub async fn test_command_executor(
         test_case: TestCase<ExecutorDefaults>,
-        managed_client: SessionManagedClient,
-        session_monitor: SessionMonitor,
+        managed_client: C,
         mut mqtt_hub: MqttHub,
     ) {
         if let Some(push_acks) = test_case.prologue.push_acks.as_ref() {
@@ -56,10 +66,6 @@ impl CommandExecutorTester {
                 mqtt_hub.enqueue_unsuback(ack_kind.clone());
             }
         }
-
-        // force connack to happen before other events are injected
-        mqtt_hub.await_operation().await;
-        session_monitor.connected().await;
 
         let mut countdown_events = CountdownEventMap::new();
         for (event_name, &init_count) in &test_case.prologue.countdown_events {
@@ -101,8 +107,7 @@ impl CommandExecutorTester {
         let test_case_serializer = &test_case.prologue.executors[0].serializer;
 
         let mut source_ids: HashMap<i32, Uuid> = HashMap::new();
-        let mut correlation_ids: HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>> =
-            HashMap::new();
+        let mut correlation_ids: HashMap<i32, Option<Bytes>> = HashMap::new();
         let mut packet_ids: HashMap<i32, u16> = HashMap::new();
 
         for test_case_action in &test_case.actions {
@@ -187,7 +192,7 @@ impl CommandExecutorTester {
     }
 
     async fn executor_loop(
-        mut executor: rpc_command::Executor<TestPayload, TestPayload>,
+        mut executor: rpc_command::Executor<TestPayload, TestPayload, C>,
         test_case_executor: TestCaseExecutor<ExecutorDefaults>,
         countdown_events: CountdownEventMap,
         execution_count: Arc<Mutex<i32>>,
@@ -196,112 +201,91 @@ impl CommandExecutorTester {
         for req in test_case_executor.request_responses_map.keys() {
             sequencers.insert(req.clone(), 0);
         }
-        let arc_sequencers = Arc::new(Mutex::new(sequencers));
 
         loop {
             if let Some(Ok(request)) = executor.recv().await {
                 *execution_count.lock().unwrap() += 1;
 
+                for test_case_sync in &test_case_executor.sync {
+                    if let Some(wait_event) = &test_case_sync.wait_event {
+                        countdown_events
+                            .wait_timeout(wait_event.as_str(), TEST_TIMEOUT)
+                            .await
+                            .expect("test timeout in countdown_event.wait");
+                    }
+
+                    if let Some(signal_event) = &test_case_sync.signal_event {
+                        countdown_events.signal(signal_event.as_str());
+                    }
+                }
+
                 if test_case_executor.raise_error {
                     drop(request);
                     continue;
                 }
-                tokio::task::spawn({
-                    let test_case_executor = test_case_executor.clone();
-                    let countdown_events = countdown_events.clone();
-                    let arc_sequencers = arc_sequencers.clone();
-                    async move {
-                        for test_case_sync in &test_case_executor.sync {
-                            if let Some(signal_event) = &test_case_sync.signal_event {
-                                countdown_events.signal(signal_event.as_str());
-                            }
 
-                            if let Some(wait_event) = &test_case_sync.wait_event {
-                                log::info!("waiting for event {}", wait_event.as_str());
-                                countdown_events
-                                    .wait_timeout(wait_event.as_str(), TEST_TIMEOUT)
-                                    .await
-                                    .expect("test timeout in countdown_event.wait");
-                                log::info!("done waiting for event {}", wait_event.as_str());
-                            }
+                let response_value = match request.payload.payload.as_ref() {
+                    Some(request_value) => {
+                        if let Some(response_sequence) =
+                            test_case_executor.request_responses_map.get(request_value)
+                        {
+                            let sequencer = sequencers.get_mut(request_value).unwrap();
+                            let index = *sequencer % response_sequence.len();
+                            *sequencer += 1;
+                            Some(response_sequence[index].clone())
+                        } else {
+                            None
                         }
-
-                        let response_value = match request.payload.payload.as_ref() {
-                            Some(request_value) => {
-                                if let Some(response_sequence) =
-                                    test_case_executor.request_responses_map.get(request_value)
-                                {
-                                    let mut guard = arc_sequencers.lock().unwrap();
-                                    let sequencer = guard.get_mut(request_value).unwrap();
-                                    let index = *sequencer % response_sequence.len();
-                                    *sequencer += 1;
-                                    Some(response_sequence[index].clone())
-                                } else {
-                                    None
-                                }
-                            }
-                            _ => None,
-                        };
-
-                        let response_payload = TestPayload {
-                            payload: response_value,
-                            out_content_type: test_case_executor
-                                .serializer
-                                .out_content_type
-                                .clone(),
-                            accept_content_types: test_case_executor
-                                .serializer
-                                .accept_content_types
-                                .clone(),
-                            indicate_character_data: test_case_executor
-                                .serializer
-                                .indicate_character_data,
-                            allow_character_data: test_case_executor
-                                .serializer
-                                .allow_character_data,
-                            fail_deserialization: test_case_executor
-                                .serializer
-                                .fail_deserialization,
-                        };
-
-                        let mut metadata =
-                            Vec::with_capacity(test_case_executor.response_metadata.len());
-                        for (key, value) in &test_case_executor.response_metadata {
-                            if let Some(val) = value {
-                                metadata.push((key.clone(), val.clone()));
-                            } else if let Some(kvp) =
-                                request.custom_user_data.iter().find(|&m| m.0 == *key)
-                            {
-                                metadata.push((key.clone(), kvp.1.clone()));
-                            }
-                        }
-
-                        if let Some(token_prefix) = &test_case_executor.token_metadata_prefix {
-                            for (key, value) in &request.topic_tokens {
-                                metadata.push((format!("{token_prefix}{key}"), value.clone()));
-                            }
-                        }
-
-                        let response = rpc_command::executor::ResponseBuilder::default()
-                            .payload(response_payload)
-                            .unwrap()
-                            .custom_user_data(metadata)
-                            .build()
-                            .unwrap();
-
-                        _ = request.complete(response).await;
                     }
-                });
+                    _ => None,
+                };
+
+                let response_payload = TestPayload {
+                    payload: response_value,
+                    out_content_type: test_case_executor.serializer.out_content_type.clone(),
+                    accept_content_types: test_case_executor
+                        .serializer
+                        .accept_content_types
+                        .clone(),
+                    indicate_character_data: test_case_executor.serializer.indicate_character_data,
+                    allow_character_data: test_case_executor.serializer.allow_character_data,
+                    fail_deserialization: test_case_executor.serializer.fail_deserialization,
+                };
+
+                let mut metadata = Vec::with_capacity(test_case_executor.response_metadata.len());
+                for (key, value) in &test_case_executor.response_metadata {
+                    if let Some(val) = value {
+                        metadata.push((key.clone(), val.clone()));
+                    } else if let Some(kvp) = request.custom_user_data.iter().find(|&m| m.0 == *key)
+                    {
+                        metadata.push((key.clone(), kvp.1.to_string()));
+                    }
+                }
+
+                if let Some(token_prefix) = &test_case_executor.token_metadata_prefix {
+                    for (key, value) in &request.topic_tokens {
+                        metadata.push((format!("{token_prefix}{key}"), value.clone()));
+                    }
+                }
+
+                let response = rpc_command::executor::ResponseBuilder::default()
+                    .payload(response_payload)
+                    .unwrap()
+                    .custom_user_data(metadata)
+                    .build()
+                    .unwrap();
+
+                _ = request.complete(response).await;
             }
         }
     }
 
     async fn get_command_executor(
-        managed_client: SessionManagedClient,
+        managed_client: C,
         tce: &TestCaseExecutor<ExecutorDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<rpc_command::Executor<TestPayload, TestPayload>> {
+    ) -> Option<rpc_command::Executor<TestPayload, TestPayload, C>> {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
 
         if let Some(request_topic) = tce.request_topic.as_ref() {
@@ -366,7 +350,7 @@ impl CommandExecutorTester {
                                 catch.error_kind
                             );
                         }
-                    }
+                    };
                     None
                 } else {
                     Some(executor)
@@ -387,7 +371,7 @@ impl CommandExecutorTester {
         action: &TestCaseAction<ExecutorDefaults>,
         mqtt_hub: &mut MqttHub,
         source_ids: &mut HashMap<i32, Uuid>,
-        correlation_ids: &mut HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
+        correlation_ids: &mut HashMap<i32, Option<Bytes>>,
         packet_ids: &mut HashMap<i32, u16>,
         tcs: &TestCaseSerializer<ExecutorDefaults>,
     ) {
@@ -407,26 +391,19 @@ impl CommandExecutorTester {
             packet_index,
         } = action
         {
-            let mut user_properties: Vec<(
-                azure_mqtt::packet::ByteStr<Bytes>,
-                azure_mqtt::packet::ByteStr<Bytes>,
-            )> = metadata
+            let mut user_properties: Vec<(String, String)> = metadata
                 .iter()
-                .map(|(k, v)| (k.as_str().into(), v.as_str().into()))
+                .map(|(k, v)| (k.clone(), v.clone()))
                 .collect();
 
             if let Some(source_index) = source_index {
                 if let Some(source_id) = source_ids.get(source_index) {
-                    user_properties.push((
-                        "__srcId".into(),
-                        source_id.hyphenated().to_string().as_str().into(),
-                    ));
+                    user_properties
+                        .push(("__srcId".to_string(), source_id.hyphenated().to_string()));
                 } else {
                     let source_id = Uuid::new_v4();
-                    user_properties.push((
-                        "__srcId".into(),
-                        source_id.hyphenated().to_string().as_str().into(),
-                    ));
+                    user_properties
+                        .push(("__srcId".to_string(), source_id.hyphenated().to_string()));
                     source_ids.insert(*source_index, source_id);
                 }
             }
@@ -436,17 +413,16 @@ impl CommandExecutorTester {
                     correlation_data.clone()
                 } else {
                     let correlation_data = if let Some(correlation_id) = correlation_id {
-                        Some(correlation_id.as_bytes().into())
+                        Some(Bytes::from(correlation_id.clone()))
                     } else {
-                        Some(Uuid::new_v4().as_bytes().into())
+                        Some(Bytes::copy_from_slice(Uuid::new_v4().as_bytes()))
                     };
                     correlation_ids.insert(*correlation_index, correlation_data.clone());
                     correlation_data
                 }
             } else {
                 None
-            }
-            .map(|cd| cd.as_ref().into());
+            };
 
             let message_expiry_interval = message_expiry.as_ref().map(|message_expiry| {
                 u32::try_from(message_expiry.to_duration().as_secs()).unwrap()
@@ -467,9 +443,9 @@ impl CommandExecutorTester {
             }
 
             let topic = if let Some(topic) = topic {
-                topic.clone()
+                Bytes::copy_from_slice(topic.as_bytes())
             } else {
-                String::new()
+                Bytes::new()
             };
 
             let payload = serde_json::to_vec(&TestPayload {
@@ -482,28 +458,23 @@ impl CommandExecutorTester {
             })
             .unwrap();
 
-            let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
-                payload_is_utf8: to_is_utf8(format_indicator.as_ref()),
+            let properties = PublishProperties {
+                payload_format_indicator: *format_indicator,
                 message_expiry_interval,
-                response_topic: response_topic
-                    .clone()
-                    .map(|rt| azure_mqtt::mqtt_proto::Topic::new(rt).unwrap().into()),
+                response_topic: response_topic.clone(),
                 correlation_data,
                 user_properties,
-                content_type: content_type.as_ref().map(|ct| ct.as_str().into()),
+                content_type: content_type.clone(),
                 ..Default::default()
             };
 
-            let publish = azure_mqtt::mqtt_proto::Publish {
-                packet_identifier_dup_qos: new_packet_identifier_dup_qos(
-                    qos::to_enum(*qos),
-                    false,
-                    packet_id,
-                ),
-                topic_name: azure_mqtt::mqtt_proto::Topic::new(topic).unwrap().into(),
+            let publish = Publish {
+                qos: qos::to_enum(*qos),
+                topic,
+                pkid: packet_id,
                 payload: payload.into(),
-                other_properties: properties,
-                retain: false,
+                properties: Some(properties),
+                ..Default::default()
             };
 
             mqtt_hub.receive_message(publish);
@@ -542,7 +513,7 @@ impl CommandExecutorTester {
     async fn await_publish(
         action: &TestCaseAction<ExecutorDefaults>,
         mqtt_hub: &mut MqttHub,
-        correlation_ids: &HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
+        correlation_ids: &HashMap<i32, Option<Bytes>>,
     ) {
         if let TestCaseAction::AwaitPublish {
             defaults_type: _,
@@ -611,7 +582,7 @@ impl CommandExecutorTester {
     fn check_published_message(
         expected_message: &TestCasePublishedMessage,
         mqtt_hub: &MqttHub,
-        correlation_ids: &HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
+        correlation_ids: &HashMap<i32, Option<Bytes>>,
     ) {
         let published_message =
             if let Some(correlation_index) = expected_message.correlation_index {
@@ -635,95 +606,139 @@ impl CommandExecutorTester {
             }.unwrap();
 
         if let Some(topic) = expected_message.topic.as_ref() {
-            assert_eq!(topic, published_message.topic_name.as_str(), "topic");
+            assert_eq!(
+                topic,
+                from_utf8(published_message.topic.to_vec().as_slice())
+                    .expect("could not process published message topic as UTF8"),
+                "topic"
+            );
         }
 
         if let Some(payload) = expected_message.payload.as_ref() {
             if let Some(payload) = payload {
-                assert_eq!(published_message.payload, *payload.as_bytes(), "payload");
+                assert_eq!(
+                    payload,
+                    from_utf8(published_message.payload.to_vec().as_slice())
+                        .expect("could not process published payload topic as UTF8"),
+                    "payload"
+                );
             } else {
-                assert!(&published_message.payload.is_empty());
+                assert!(published_message.payload.is_empty());
             }
         }
 
         if expected_message.content_type.is_some() {
-            assert_eq!(
-                published_message
-                    .other_properties
-                    .content_type
-                    .as_ref()
-                    .map(std::convert::AsRef::as_ref),
-                expected_message.content_type.as_deref()
-            );
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    assert_eq!(expected_message.content_type, properties.content_type);
+                }
+                _ => {
+                    panic!("expected content type but found no properties in published message");
+                }
+            }
         }
 
         if expected_message.format_indicator.is_some() {
-            assert_eq!(
-                to_is_utf8(expected_message.format_indicator.as_ref()),
-                published_message.other_properties.payload_is_utf8
-            );
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    assert_eq!(
+                        expected_message.format_indicator,
+                        properties.payload_format_indicator
+                    );
+                }
+                _ => {
+                    panic!(
+                        "expected format indicator but found no properties in published message"
+                    );
+                }
+            }
         }
 
         if !expected_message.metadata.is_empty() {
-            for (key, value) in &expected_message.metadata {
-                let found = published_message
-                    .other_properties
-                    .user_properties
-                    .iter()
-                    .find(|&k| k.0 == **key);
-                if let Some(value) = value {
-                    assert_eq!(
-                        found.unwrap().1,
-                        **value,
-                        "metadata key {key} expected {value}"
-                    );
-                } else {
-                    assert_eq!(None, found, "metadata key {key} not expected");
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    for (key, value) in &expected_message.metadata {
+                        let found = properties.user_properties.iter().find(|&k| &k.0 == key);
+                        if let Some(value) = value {
+                            assert!(found.is_some(), "metadata key {key} not found");
+                            assert_eq!(
+                                value,
+                                &found.unwrap().1,
+                                "metadata key {key} expected {value}"
+                            );
+                        } else {
+                            assert_eq!(None, found, "metadata key {key} not expected");
+                        }
+                    }
+                }
+                _ => {
+                    panic!("expected metadata but found no properties in published message");
                 }
             }
         }
 
         if let Some(command_status) = expected_message.command_status {
-            let found = published_message
-                .other_properties
-                .user_properties
-                .iter()
-                .find(|&k| k.0 == "__stat");
-            if let Some(command_status) = command_status {
-                assert_eq!(
-                    found.unwrap().1,
-                    *command_status.to_string(),
-                    "status property expected {command_status}"
-                );
-            } else {
-                assert_eq!(None, found, "status property not expected");
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    let found = properties
+                        .user_properties
+                        .iter()
+                        .find(|&k| &k.0 == "__stat");
+                    if let Some(command_status) = command_status {
+                        assert_eq!(
+                            command_status.to_string(),
+                            found.unwrap().1,
+                            "status property expected {command_status}"
+                        );
+                    } else {
+                        assert_eq!(None, found, "status property not expected");
+                    }
+                }
+                _ => {
+                    panic!("expected status property but found no properties in published message");
+                }
             }
         }
 
         if let Some(is_application_error) = expected_message.is_application_error {
-            let found: Option<_> = published_message
-                .other_properties
-                .user_properties
-                .iter()
-                .find(|&k| &k.0 == "__apErr");
-            if is_application_error {
-                assert!(
-                    found.unwrap().1.as_ref().to_lowercase() == "true",
-                    "is application error"
-                );
-            } else {
-                assert!(
-                    found.is_none() || found.unwrap().1.as_ref().to_lowercase() == "false",
-                    "is application error"
-                );
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    let found = properties
+                        .user_properties
+                        .iter()
+                        .find(|&k| &k.0 == "__apErr");
+                    if is_application_error {
+                        assert!(
+                            found.unwrap().1.to_lowercase() == "true",
+                            "is application error"
+                        );
+                    } else {
+                        assert!(
+                            found.is_none() || found.unwrap().1.to_lowercase() == "false",
+                            "is application error"
+                        );
+                    }
+                }
+                _ => {
+                    assert!(
+                        !is_application_error,
+                        "expected is application error property but found no properties in published message"
+                    );
+                }
             }
         }
 
         if expected_message.expiry.is_some() {
-            assert_eq!(
-                expected_message.expiry,
-                published_message.other_properties.message_expiry_interval
-            );
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    assert_eq!(expected_message.expiry, properties.message_expiry_interval);
+                }
+                _ => {
+                    panic!(
+                        "expected message expiry interval but found no properties in published message"
+                    );
+                }
+            }
         }
     }
 

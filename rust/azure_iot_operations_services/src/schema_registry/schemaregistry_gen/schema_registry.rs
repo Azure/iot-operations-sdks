@@ -2,6 +2,8 @@
 
 mod format;
 mod get_command_invoker;
+mod get_request_payload;
+mod get_request_payload_serialization;
 mod get_request_schema;
 mod get_request_schema_serialization;
 mod get_response_payload;
@@ -9,6 +11,8 @@ mod get_response_payload_serialization;
 mod get_response_schema;
 mod get_response_schema_serialization;
 mod put_command_invoker;
+mod put_request_payload;
+mod put_request_payload_serialization;
 mod put_request_schema;
 mod put_request_schema_serialization;
 mod put_response_payload;
@@ -35,10 +39,12 @@ pub const COMMAND_SERVICE_GROUP_ID: &str = "schema-registry-edge";
 pub mod client {
     pub use super::format::*;
     pub use super::get_command_invoker::*;
+    pub use super::get_request_payload::*;
     pub use super::get_request_schema::*;
     pub use super::get_response_payload::*;
     pub use super::get_response_schema::*;
     pub use super::put_command_invoker::*;
+    pub use super::put_request_payload::*;
     pub use super::put_request_schema::*;
     pub use super::put_response_payload::*;
     pub use super::put_response_schema::*;

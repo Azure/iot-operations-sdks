@@ -19,25 +19,31 @@ use std::{collections::HashMap, time::Duration};
 use azure_iot_operations_connector::deployment_artifacts::{
     azure_device_registry::DeviceEndpointCreateObservation, connector::ConnectorArtifacts,
 };
-use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
+use azure_iot_operations_otel::Otel;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
 
 // This example uses a 5-second debounce duration for the file mount observation.
 const DEBOUNCE_DURATION: Duration = Duration::from_secs(5);
 
+const OTEL_TAG: &str = "get_adr_definitions_sample_logs";
+const DEFAULT_LOG_LEVEL: &str =
+    "warn,connector_get_adr_definitions=info,azure_iot_operations_connector=info";
+
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    env_logger::Builder::new()
-        .filter_level(log::LevelFilter::Warn)
-        .format_timestamp(None)
-        .filter_module("azure_iot_operations_connector", log::LevelFilter::Info)
-        .filter_module("connector_get_adr_definitions", log::LevelFilter::Info)
-        .init();
-
     // Create the connector artifacts from the deployment
     let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;
-    let mqtt_connection_settings = connector_artifacts.to_mqtt_connection_settings("0")?;
+
+    // Initialize the OTEL logger / exporter
+    let otel_config = connector_artifacts.to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
+    let mut otel_exporter = Otel::new(otel_config);
+    let otel_task = otel_exporter.run();
+
+    // Get Connector Configuration
+    let connector_config = ConnectorArtifacts::new_from_deployment()?;
+    let mqtt_connection_settings = connector_config.to_mqtt_connection_settings("0")?;
 
     // Create Session
     let session_options = SessionOptionsBuilder::default()
@@ -77,6 +83,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 }
             }
         },
+        r = otel_task => {
+            match r {
+                Ok(()) => {
+                    log::info!("OTEL task finished successfully");
+                    Ok(())
+                }
+                Err(e) => {
+                    log::error!("OTEL task failed: {e}");
+                    Err(Box::new(e))?
+                }
+            }
+        }
     };
 
     res
@@ -85,7 +103,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 // This function runs in a loop, waiting for device creation notifications.
 async fn run_program(
     mut device_creation_observation: DeviceEndpointCreateObservation,
-    azure_device_registry_client: azure_device_registry::Client,
+    azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
 ) {
     let timeout = Duration::from_secs(10);
 
@@ -120,7 +138,7 @@ async fn run_program(
                     Err(e) => {
                         log::error!("Observing for device updates failed: {e}");
                     }
-                }
+                };
 
                 // Get device + endpoint details from ADR Service and send status update
                 match azure_device_registry_client
@@ -186,7 +204,7 @@ async fn run_program(
                             Err(e) => {
                                 log::error!("Update device status request failed: {e}");
                             }
-                        }
+                        };
                         // if we didn't accept the inbound endpoint, then no reason to manage the assets
                         if !any_errors {
                             // Spawn a new task to handle asset creation notifications
@@ -234,7 +252,7 @@ async fn run_program(
                                                     "Observing for asset updates failed: {e}"
                                                 );
                                             }
-                                        }
+                                        };
 
                                         // Get asset details from ADR Service and send status update
                                         match azure_device_registry_client_clone
@@ -320,7 +338,7 @@ async fn run_program(
                                                         "Unobserving for Asset updates failed: {e}"
                                                     );
                                                 }
-                                            }
+                                            };
                                         });
                                     } else {
                                         // The asset creation observation has been dropped
@@ -342,14 +360,14 @@ async fn run_program(
                                                     "Unobserving for device updates failed: {e}"
                                                 );
                                             }
-                                        }
+                                        };
                                         break;
                                     }
                                 }
                             });
                         }
                     }
-                }
+                };
             }
             None => panic!("device_creation_observer has been dropped"),
         }

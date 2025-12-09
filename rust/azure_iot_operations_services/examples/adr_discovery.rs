@@ -5,7 +5,7 @@ use std::{collections::HashMap, time::Duration};
 
 use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
-    session::{Session, SessionExitHandle, SessionOptionsBuilder},
+    session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{self, models};
@@ -20,7 +20,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
-        .filter_module("azure_mqtt", log::LevelFilter::Warn)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a Session
@@ -56,11 +56,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 async fn run_program(
-    client: azure_device_registry::Client,
+    client: azure_device_registry::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let r = do_discovery(client).await;
-    match exit_handle.try_exit() {
+    match exit_handle.try_exit().await {
         Ok(()) => {
             println!("Session exit requested successfully.");
         }
@@ -73,7 +73,7 @@ async fn run_program(
 
 /// Perform ADR discovery operations.
 async fn do_discovery(
-    client: azure_device_registry::Client,
+    client: azure_device_registry::Client<SessionManagedClient>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let device_name = "my-device-name".to_string();
 

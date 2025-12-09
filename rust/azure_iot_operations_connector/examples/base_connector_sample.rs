@@ -24,6 +24,7 @@ use azure_iot_operations_connector::{
     data_processor::derived_json,
     deployment_artifacts::connector::ConnectorArtifacts,
 };
+use azure_iot_operations_otel::Otel;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
 
@@ -56,17 +57,19 @@ macro_rules! report_status_if_changed {
     };
 }
 
+const OTEL_TAG: &str = "base_connector_sample_logs";
+const DEFAULT_LOG_LEVEL: &str =
+    "warn,base_connector_sample=info,azure_iot_operations_connector=info";
+
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    env_logger::Builder::new()
-        .filter_level(log::LevelFilter::Warn)
-        .format_timestamp(None)
-        .filter_module("azure_iot_operations_connector", log::LevelFilter::Info)
-        .filter_module("base_connector_sample", log::LevelFilter::Info)
-        .init();
-
     // Create the connector artifacts from the deployment
     let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;
+
+    // Initialize the OTEL logger / exporter
+    let otel_config = connector_artifacts.to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
+    let mut otel_exporter = Otel::new(otel_config);
+    let otel_task = otel_exporter.run();
 
     // Create an ApplicationContext
     let application_context = ApplicationContextBuilder::default().build()?;
@@ -118,7 +121,21 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 }
             }
         },
+        r = otel_task => {
+            match r {
+                Ok(()) => {
+                    log::info!("OTEL task finished successfully");
+                    Ok(())
+                }
+                Err(e) => {
+                    log::error!("OTEL task failed: {e}");
+                    Err(Box::new(e))?
+                }
+            }
+        },
     };
+
+    otel_exporter.shutdown().await;
 
     res
 }
@@ -221,7 +238,7 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
         .await
     {
         log::error!("{asset_log_identifier} Error reporting asset status: {e}");
-    }
+    };
 
     loop {
         match asset_client.recv_notification().await {
