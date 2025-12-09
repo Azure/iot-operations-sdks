@@ -3,7 +3,6 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

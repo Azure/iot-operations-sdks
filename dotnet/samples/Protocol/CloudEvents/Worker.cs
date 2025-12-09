@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
@@ -41,7 +42,7 @@ public class Worker(MqttSessionClient mqttClient, OvenService ovenService, Schem
                 ExternalTemperature = 100 - counter,
                 InternalTemperature = 200 + counter,
             }, metadata, null, MqttQualityOfServiceLevel.AtMostOnce);
-            
+
             if (counter % 2 == 0)
             {
                 await ovenService.SendTelemetryAsync(new TelemetryCollection()

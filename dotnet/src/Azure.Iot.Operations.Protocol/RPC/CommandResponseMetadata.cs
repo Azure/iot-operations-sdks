@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
 

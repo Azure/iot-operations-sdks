@@ -672,7 +672,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             if (metadata?.CloudEvent != null && metadata.CloudEvent.Type != expectedType)
             {
-                metadata.CloudEvent = new Telemetry.CloudEvent(metadata.CloudEvent.Source, expectedType, metadata.CloudEvent.SpecVersion)
+                metadata.CloudEvent = new CloudEvent(metadata.CloudEvent.Source, expectedType, metadata.CloudEvent.SpecVersion)
                 {
                     Id = metadata.CloudEvent.Id,
                     Time = metadata.CloudEvent.Time,

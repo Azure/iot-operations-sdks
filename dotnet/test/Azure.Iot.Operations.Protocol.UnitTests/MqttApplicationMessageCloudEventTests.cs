@@ -2,11 +2,8 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Protocol.Telemetry;
-using System;
-using System.Globalization;
 
-namespace Azure.Iot.Operations.Protocol.Tests.Models;
+namespace Azure.Iot.Operations.Protocol.UnitTests;
 
 public class MqttApplicationMessageCloudEventTests
 {
