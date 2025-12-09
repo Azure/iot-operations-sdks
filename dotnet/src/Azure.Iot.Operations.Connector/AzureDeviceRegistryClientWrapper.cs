@@ -17,6 +17,7 @@ namespace Azure.Iot.Operations.Connector
         private const byte _dummyByte = 1;
 
         // The keys are the composite device names of devices that are currently being observed
+        // The values are irrelevant bytes so that this concurrent dictionary can be used as a concurrent set
         private readonly ConcurrentDictionary<string, byte> _observedDevices = new();
 
         // The keys are the composite device names of devices that may or may not be observing some assets.
