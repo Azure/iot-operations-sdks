@@ -186,7 +186,7 @@ impl AIOProtocolError {
         let err_msg = format!("{error}");
         match error.kind() {
             TopicPatternErrorKind::Pattern(pattern) => {
-                let pattern = pattern.to_string();
+                let pattern = pattern.clone();
                 AIOProtocolError::new_configuration_invalid_error(
                     Some(Box::new(error)),
                     pattern_var_name,
@@ -196,7 +196,7 @@ impl AIOProtocolError {
                 )
             }
             TopicPatternErrorKind::ShareName(share_name) => {
-                let share_name = share_name.to_string();
+                let share_name = share_name.clone();
                 AIOProtocolError::new_configuration_invalid_error(
                     Some(Box::new(error)),
                     "share_name",
@@ -206,7 +206,7 @@ impl AIOProtocolError {
                 )
             }
             TopicPatternErrorKind::Namespace(namespace) => {
-                let namespace = namespace.to_string();
+                let namespace = namespace.clone();
                 AIOProtocolError::new_configuration_invalid_error(
                     Some(Box::new(error)),
                     "topic_namespace",
@@ -217,7 +217,7 @@ impl AIOProtocolError {
             }
             TopicPatternErrorKind::TokenReplacement(token, replacement) => {
                 let token = token.clone();
-                let replacement = replacement.to_string();
+                let replacement = replacement.clone();
                 AIOProtocolError::new_configuration_invalid_error(
                     Some(Box::new(error)),
                     &token,
