@@ -20,6 +20,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
+        private const string _msAioRpcResponse = "ms.aio.rpc.response";
         private readonly int[] _supportedMajorProtocolVersions = [CommandVersion.MajorProtocolVersion];
 
         private static readonly TimeSpan DefaultExecutorTimeout = TimeSpan.FromSeconds(10);
@@ -180,11 +181,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 CommandRequestMetadata requestMetadata;
                 try
                 {
-                    requestMetadata = new CommandRequestMetadata(args.ApplicationMessage, RequestTopicPattern, TopicNamespace)
-                    {
-                        ContentType = args.ApplicationMessage.ContentType,
-                        PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
-                    };
+                    requestMetadata = new CommandRequestMetadata(args.ApplicationMessage, RequestTopicPattern, TopicNamespace);
                     request = _serializer.FromBytes<TReq>(args.ApplicationMessage.Payload, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
                     // Update application HLC against received timestamp
                     if (requestMetadata.Timestamp != null)
@@ -327,7 +324,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (!_hasSubscribed)
                 {
-                    
+
                     await SubscribeAsync(TopicTokenMap, cancellationToken).ConfigureAwait(false);
                 }
 
@@ -476,6 +473,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
             // Update HLC and use as the timestamp.
             string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+
+            EnsureCloudEventType(metadata, _msAioRpcResponse);
 
             metadata?.MarshalTo(message);
 
@@ -667,6 +666,21 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 AkriMqttErrorKind.UnknownError => CommandStatusCode.InternalServerError,
                 _ => CommandStatusCode.InternalServerError,
             };
+        }
+
+        private static void EnsureCloudEventType(CommandResponseMetadata? metadata, string expectedType)
+        {
+            if (metadata?.CloudEvent != null && metadata.CloudEvent.Type != expectedType)
+            {
+                metadata.CloudEvent = new Telemetry.CloudEvent(metadata.CloudEvent.Source, expectedType, metadata.CloudEvent.SpecVersion)
+                {
+                    Id = metadata.CloudEvent.Id,
+                    Time = metadata.CloudEvent.Time,
+                    DataContentType = metadata.CloudEvent.DataContentType,
+                    DataSchema = metadata.CloudEvent.DataSchema,
+                    Subject = metadata.CloudEvent.Subject
+                };
+            }
         }
 
         public virtual async ValueTask DisposeAsync()

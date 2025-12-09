@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,6 +20,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
+        private const string _msAioRpcRequest = "ms.aio.rpc.request";
         private readonly int[] _supportedMajorProtocolVersions = [CommandVersion.MajorProtocolVersion];
 
         private static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(10);
@@ -57,7 +59,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <remarks>
         /// If no prefix or suffix is specified, and no value is provided in <see cref="ResponseTopicPattern"/>, then this
         /// value will default to "clients/{invokerClientId}" for security purposes.
-        /// 
+        ///
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -68,7 +70,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         /// <remarks>
         /// If no suffix is specified, then the command response topic won't include a suffix.
-        /// 
+        ///
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -577,6 +579,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 try
                 {
+                    EnsureCloudEventType(metadata, _msAioRpcRequest);
+
                     metadata?.MarshalTo(requestMessage);
                 }
                 catch (AkriMqttException ex)
@@ -700,7 +704,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// Dispose this object and choose whether to dispose the underlying mqtt client as well.
         /// </summary>
         /// <param name="disposing">
-        /// If true, this call will dispose the underlying mqtt client. If false, this call will 
+        /// If true, this call will dispose the underlying mqtt client. If false, this call will
         /// not dispose the underlying mqtt client.
         /// </param>
         public async ValueTask DisposeAsync(bool disposing)
@@ -784,6 +788,21 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (!tcs.TrySetCanceled())
             {
                 Trace.TraceWarning($"Failed to cancel the response promise. This may be because the promise was already completed.");
+            }
+        }
+
+        private static void EnsureCloudEventType(CommandRequestMetadata? metadata, string expectedType)
+        {
+            if (metadata?.CloudEvent != null && metadata.CloudEvent.Type != expectedType)
+            {
+                metadata.CloudEvent = new CloudEvent(metadata.CloudEvent.Source, expectedType, metadata.CloudEvent.SpecVersion)
+                {
+                    Id = metadata.CloudEvent.Id,
+                    Time = metadata.CloudEvent.Time,
+                    DataContentType = metadata.CloudEvent.DataContentType,
+                    DataSchema = metadata.CloudEvent.DataSchema,
+                    Subject = metadata.CloudEvent.Subject
+                };
             }
         }
 

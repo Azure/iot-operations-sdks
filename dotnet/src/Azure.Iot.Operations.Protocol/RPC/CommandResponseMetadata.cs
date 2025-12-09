@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
 
@@ -45,6 +46,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// When CommandResponseMetadata is returned by command invocation on the CommandInvoker, the UserData is set from the response message.
         /// </summary>
         public Dictionary<string, string> UserData { get; set; } = new();
+
+        /// <summary>
+        /// The CloudEvent metadata attached to the response.
+        /// When CommandResponseMetadata is constructed within a user-code execution function on the CommandExecutor, the CloudEvent is initialized to null, and it can be set by user code.
+        /// When CommandResponseMetadata is returned by command invocation on the CommandInvoker, the CloudEvent is parsed from the response message; this will be null if the message does not contain cloud event headers.
+        /// </summary>
+        public CloudEvent? CloudEvent { get; set; }
 
         /// <summary>
         /// Construct CommandResponseMetadata in user code, presumably within an execution function that will include the metadata in its return value.
@@ -92,6 +100,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                 }
             }
+
+            CloudEvent = message.GetCloudEvent();
+
+            ContentType = message.ContentType;
+            PayloadFormatIndicator = message.PayloadFormatIndicator;
         }
 
         public void MarshalTo(MqttApplicationMessage message)
@@ -99,6 +112,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (Timestamp != default)
             {
                 message.AddUserProperty(AkriSystemProperties.Timestamp, Timestamp.EncodeToString());
+            }
+
+            if (CloudEvent != null)
+            {
+                message.SetCloudEvent(CloudEvent);
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)
