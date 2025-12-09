@@ -393,7 +393,7 @@ async fn try_exit_never_run() {
 
     // Try exiting before connecting
     let e = exit_handle.try_exit().unwrap_err();
-    assert!(matches!(e.kind(), SessionExitErrorKind::BrokerUnavailable));
+    assert!(matches!(e.kind(), SessionExitErrorKind::ServerUnavailable));
 }
 
 #[tokio::test]
@@ -455,7 +455,7 @@ async fn try_exit_while_disconnected() {
 
     // Try exiting while disconnected
     let e = exit_handle.try_exit().unwrap_err();
-    assert!(matches!(e.kind(), SessionExitErrorKind::BrokerUnavailable));
+    assert!(matches!(e.kind(), SessionExitErrorKind::ServerUnavailable));
 
     // Session is still running, did not exit
     assert!(run_f.now_or_never().is_none());
