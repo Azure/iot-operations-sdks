@@ -235,10 +235,7 @@ namespace Azure.Iot.Operations.Connector
                 if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
                 {
                     string compositeDeviceName = e.DeviceName + "_" + e.InboundEndpointName;
-                    if (!_observedAssets.ContainsKey(e.DeviceName))
-                    {
-                        _observedAssets.TryAdd(compositeDeviceName, new());
-                    }
+                    _observedAssets.TryAdd(compositeDeviceName, new()); // if it fails to add, then the _observedAssets is already in the correct state
 
                     if (_observedAssets.TryGetValue(compositeDeviceName, out var assets))
                     {
