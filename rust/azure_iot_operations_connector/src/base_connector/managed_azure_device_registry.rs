@@ -2155,11 +2155,12 @@ impl DataOperationClient {
             device_name: asset_ref.device_name.clone(),
             inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
         };
-        let (device_uuid, device_endpoint_address, device_external_device_id) = {
+        // technically because these fields are under the lock, if they change, we won't update them unless there's a data operation update
+        // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
+        let (device_uuid, device_external_device_id) = {
             let device_spec = device_specification.read().unwrap();
             (
                 device_spec.uuid.clone(),
-                device_spec.endpoints.inbound.address.clone(),
                 device_spec.external_device_id.clone(),
             )
         };
@@ -2177,7 +2178,6 @@ impl DataOperationClient {
                     default_destinations,
                     &asset_ref,
                     device_uuid,
-                    device_endpoint_address,
                     device_external_device_id,
                     asset_uuid.as_ref(),
                     asset_external_asset_id.as_ref(),
@@ -2192,7 +2192,6 @@ impl DataOperationClient {
                     event.data_source.clone(),
                     event.type_ref.clone(),
                     device_uuid,
-                    device_endpoint_address,
                     device_external_device_id,
                     asset_uuid.as_ref(),
                     asset_external_asset_id.as_ref(),
@@ -2207,7 +2206,6 @@ impl DataOperationClient {
                     None,
                     stream.type_ref.clone(),
                     device_uuid,
-                    device_endpoint_address,
                     device_external_device_id,
                     asset_uuid.as_ref(),
                     asset_external_asset_id.as_ref(),
@@ -2674,6 +2672,10 @@ impl DataOperationClient {
 
     /// Used to send transformed data to the destination
     /// Returns once the message has been sent successfully
+    /// Use `forward_data_provide_protocol_specific_identifier` if it is desired to
+    /// provide a Protocol Specific Identifier to be used on the Cloud Event `source`
+    /// header used if the destination is `MQTT`. If this fn is used, the Cloud Event Header
+    /// will default to using either the device external device id or the device name.
     ///
     /// # Errors
     /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
@@ -2687,13 +2689,36 @@ impl DataOperationClient {
     ///
     /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
     /// if the destination is `Mqtt` and there are any errors sending the message to the broker
-    pub async fn forward_data(
+    pub async fn forward_data(&self, data: Data) -> Result<(), destination_endpoint::Error> {
+        self.forwarder.send_data(data, None).await
+    }
+
+    /// Used to send transformed data to the destination
+    /// Returns once the message has been sent successfully.
+    /// `protocol_specific_identifier` can be specified for use on the Cloud Event
+    /// `source` header used if the destination is `MQTT`. If `forward_data` is used instead of this fn,
+    /// the Cloud Event Header will default to using either the device external device id or the device name.
+    /// The inbound endpoint address is a recommended value for this field.
+    ///
+    /// # Errors
+    /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
+    /// if the [`MessageSchema`] has not been reported yet. This is required before forwarding any data
+    ///
+    /// [`destination_endpoint::Error`] of kind [`DataValidationError`](destination_endpoint::ErrorKind::MqttTelemetryError)
+    /// if the [`Data`] isn't valid.
+    ///
+    /// [`destination_endpoint::Error`] of kind [`BrokerStateStoreError`](destination_endpoint::ErrorKind::BrokerStateStoreError)
+    /// if the destination is `BrokerStateStore` and there are any errors setting the data with the service
+    ///
+    /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
+    /// if the destination is `Mqtt` and there are any errors sending the message to the broker
+    pub async fn forward_data_provide_protocol_specific_identifier(
         &self,
         data: Data,
-        protocol_specific_identifier: Option<String>,
+        protocol_specific_identifier: String,
     ) -> Result<(), destination_endpoint::Error> {
         self.forwarder
-            .send_data(data, protocol_specific_identifier)
+            .send_data(data, Some(protocol_specific_identifier))
             .await
     }
 
@@ -2736,11 +2761,12 @@ impl DataOperationClient {
             return DataOperationNotification::Deleted;
         }
         // create new forwarder, in case destination has changed
-        let (device_uuid, device_endpoint_address, device_external_device_id) = {
+        // technically because these fields are under the lock, if they change, we won't update them unless there's a data operation update
+        // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
+        let (device_uuid, device_external_device_id) = {
             let device_spec = self.device_specification.read().unwrap();
             (
                 device_spec.uuid.clone(),
-                device_spec.endpoints.inbound.address.clone(),
                 device_spec.external_device_id.clone(),
             )
         };
@@ -2758,7 +2784,6 @@ impl DataOperationClient {
                     &default_destinations,
                     &self.asset_ref,
                     device_uuid,
-                    device_endpoint_address,
                     device_external_device_id,
                     asset_uuid.as_ref(),
                     asset_external_asset_id.as_ref(),
@@ -2773,7 +2798,6 @@ impl DataOperationClient {
                     updated_event.data_source.clone(),
                     updated_event.type_ref.clone(),
                     device_uuid,
-                    device_endpoint_address,
                     device_external_device_id,
                     asset_uuid.as_ref(),
                     asset_external_asset_id.as_ref(),
@@ -2788,7 +2812,6 @@ impl DataOperationClient {
                     None,
                     updated_stream.type_ref.clone(),
                     device_uuid,
-                    device_endpoint_address,
                     device_external_device_id,
                     asset_uuid.as_ref(),
                     asset_external_asset_id.as_ref(),
