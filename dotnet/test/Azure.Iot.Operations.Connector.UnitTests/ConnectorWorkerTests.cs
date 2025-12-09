@@ -181,7 +181,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             // Arrange
             Device device = CreateTestDevice();
             Asset asset = CreateTestAsset();
-            AssetDataset dataset = new AssetDataset { Name = TestDatasetName };
             Schema schema = new Schema
             {
                 Name = "test-schema",
