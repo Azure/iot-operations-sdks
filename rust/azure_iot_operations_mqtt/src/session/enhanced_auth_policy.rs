@@ -112,7 +112,7 @@ impl K8sSatFileMonitor {
                             // Notify that reauthentication should occur
                             // NOTE: We use `notify_waiters` here because we only want to wake up
                             // a waiter that is currently waiting. Reauth can only happen when
-                            // connected to the MQTT broker, so if the SAT file updates while the
+                            // connected to the MQTT server, so if the SAT file updates while the
                             // client is disconnected, nobody is listening, and the information
                             // will be irrelevant by the time someone is listening, because the
                             // next connection would already be made with this updated value.
@@ -148,7 +148,7 @@ impl EnhancedAuthPolicy for K8sSatFileMonitor {
     }
 
     fn auth_challenge(&self, _auth: &Auth) -> Option<Bytes> {
-        log::warn!("Received unexpected AUTH challenge from broker during K8S-SAT authentication.");
+        log::warn!("Received unexpected AUTH challenge from server during K8S-SAT authentication.");
         log::warn!("Responding to unexpected AUTH challenge with the same SAT token.");
         Some(self.latest_data.lock().unwrap().clone())
     }

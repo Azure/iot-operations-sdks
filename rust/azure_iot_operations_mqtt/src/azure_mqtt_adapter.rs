@@ -29,7 +29,7 @@ pub struct ConnectionSettingsAdapterError {
     pub(crate) msg: String,
     pub(crate) field: ConnectionSettingsField,
     #[source]
-    pub(crate) source: Option<Box<dyn std::error::Error>>,
+    pub(crate) source: Option<Box<dyn std::error::Error + Send + 'static>>,
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]

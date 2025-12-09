@@ -5,8 +5,8 @@
 //!
 //! This module provides several key components for using an MQTT session:
 //! * [`Session`] - Manages the lifetime of the MQTT session
-//! * [`SessionManagedClient`] - Sends MQTT messages to the broker
-//! * [`SessionPubReceiver`] - Receives MQTT messages from the broker
+//! * [`SessionManagedClient`] - Sends MQTT messages to the server
+//! * [`SessionPubReceiver`] - Receives MQTT messages from the server
 //! * [`SessionMonitor`] - Provides information about the MQTT session's state
 //! * [`SessionExitHandle`] - Allows the user to exit the session gracefully
 //!
@@ -14,8 +14,8 @@
 //! Each instance of [`Session`] is single use - after configuring a [`Session`], and creating any
 //! other necessary components from it, calling the [`run`](crate::session::Session::run) method
 //! will consume the [`Session`] and block (asynchronously) until the MQTT session shared between
-//! client and broker ends. Note that a MQTT session can span multiple connects and disconnects to
-//! the broker.
+//! client and server ends. Note that a MQTT session can span multiple connects and disconnects to
+//! the server.
 //!
 //! The MQTT session can be ended one of two ways:
 //! 1. The [`ReconnectPolicy`](crate::session::reconnect_policy::ReconnectPolicy) configured on the
@@ -34,7 +34,7 @@
 //! Note that in order to receive incoming data, you must both subscribe to the topic filter of
 //! interest using the [`SessionManagedClient`] and create a [`SessionPubReceiver`] (filtered or
 //! unfiltered). If an incoming message is received that
-//! does not match any [`SessionPubReceiver`]s, it will be acknowledged to the MQTT broker and
+//! does not match any [`SessionPubReceiver`]s, it will be acknowledged to the MQTT server and
 //! discarded. Thus, in order to guarantee that messages will not be lost, you should create the
 //! [`SessionPubReceiver`] *before* subscribing to the topic filter.
 
@@ -81,6 +81,8 @@ mod state;
 #[error("{kind}")]
 pub struct SessionError {
     kind: SessionErrorKind,
+    #[source]
+    source: Option<Box<dyn std::error::Error + Send + 'static>>,
 }
 
 impl SessionError {
@@ -92,26 +94,39 @@ impl SessionError {
 }
 
 /// An enumeration of categories of [`SessionError`]
-#[derive(Error, Debug, Eq, PartialEq, Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Clone, Copy)]
 #[non_exhaustive]
 pub enum SessionErrorKind {
-    /// MQTT session was lost due to a connection error.
-    #[error("session state not present on broker after reconnect")]
+    /// MQTT session was discarded by the server
     SessionLost,
     /// Reconnect attempts were halted by the reconnect policy, ending the MQTT session
-    #[error("reconnection halted by reconnect policy")]
     ReconnectHalted,
-    /// The [`Session`] was ended by a user-initiated force exit. The broker may still retain the MQTT session.
-    #[error("session ended by force exit")]
+    /// The [`Session`] was ended by a user-initiated force exit. The server may still retain the MQTT session.
     ForceExit,
     /// Something went wrong with configured values
-    #[error("configuration became invalid during session operation")]
     Config,
+}
+
+impl fmt::Display for SessionErrorKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            SessionErrorKind::SessionLost => {
+                write!(f, "session state not present on server after reconnect")
+            }
+            SessionErrorKind::ReconnectHalted => {
+                write!(f, "reconnection halted by reconnect policy")
+            }
+            SessionErrorKind::ForceExit => write!(f, "session ended by force exit"),
+            SessionErrorKind::Config => {
+                write!(f, "configuration became invalid during session operation")
+            }
+        }
+    }
 }
 
 impl From<SessionErrorKind> for SessionError {
     fn from(kind: SessionErrorKind) -> Self {
-        Self { kind }
+        Self { kind, source: None }
     }
 }
 
@@ -120,8 +135,9 @@ impl From<SessionErrorKind> for SessionError {
 #[error(transparent)]
 pub struct SessionConfigError(#[from] adapter::ConnectionSettingsAdapterError);
 
+// NOTE: Retain a struct/kind pattern for `SessionExitError` for future-proofing
 /// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
-#[derive(Error, Debug, Eq, PartialEq)]
+#[derive(Error, Debug)]
 #[error("{kind}")]
 pub struct SessionExitError {
     kind: SessionExitErrorKind,
@@ -145,6 +161,7 @@ impl From<DetachedError> for SessionExitError {
 
 /// An enumeration of categories of [`SessionExitError`]
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
+#[non_exhaustive]
 pub enum SessionExitErrorKind {
     /// The exit handle was detached from the session
     Detached,
@@ -158,7 +175,7 @@ impl fmt::Display for SessionExitErrorKind {
             SessionExitErrorKind::Detached => {
                 write!(f, "Detached from Session")
             }
-            SessionExitErrorKind::ServerUnavailable => write!(f, "Could not contact broker"),
+            SessionExitErrorKind::ServerUnavailable => write!(f, "Could not contact server"),
         }
     }
 }
@@ -389,7 +406,10 @@ impl Session {
             let connection_transport_config = self
                 .connect_parameters
                 .connection_transport_config()
-                .map_err(|_| SessionErrorKind::Config)?;
+                .map_err(|e| SessionError {
+                    kind: SessionErrorKind::Config,
+                    source: Some(Box::new(e)),
+                })?;
 
             let (connection, connack) =
                 match self.connect(connection_transport_config, clean_start).await {
@@ -677,11 +697,11 @@ impl SessionExitHandle {
     /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
     /// This will cause the [`Session::run()`] method to return.
     ///
-    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
+    /// Note that a graceful exit requires the [`Session`] to be connected to the server.
     ///
     /// # Errors
     /// * [`SessionExitError`] of kind [`SessionExitErrorKind::Detached`] if the Session no longer exists.
-    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::ServerUnavailable`] if the Session is not connected to the broker.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::ServerUnavailable`] if the Session is not connected to the server.
     ///
     /// # Panics
     /// Panics if internal state is invalid (this should not be possible).
@@ -715,7 +735,7 @@ impl SessionExitHandle {
     /// This will cause the [`Session::run()`] method to return.
     ///
     /// The [`Session`] will attempt a graceful exit before forcing the exit.
-    /// If the exit is forced, the broker will not be aware the MQTT session has ended.
+    /// If the exit is forced, the server will not be aware the MQTT session has ended.
     ///
     /// Returns true if the exit was graceful, and false if the exit was forced.
     #[allow(clippy::must_use_candidate)]
