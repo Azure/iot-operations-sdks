@@ -6,7 +6,7 @@
 use std::{sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::{
-    aio::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
+    aio::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
     control_packet::QoS,
 };
 use azure_iot_operations_protocol::{

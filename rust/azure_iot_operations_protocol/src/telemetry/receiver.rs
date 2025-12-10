@@ -3,7 +3,7 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc};
 
 use azure_iot_operations_mqtt::{
-    aio::{CloudEvent, CloudEventBuilderError},
+    aio::cloud_event::{CloudEvent, CloudEventBuilderError},
     control_packet::{Publish, QoS, TopicFilter},
     session::{SessionManagedClient, SessionPubReceiver},
     token::AckToken,

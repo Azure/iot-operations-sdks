@@ -6,7 +6,7 @@ use std::sync::{Arc, Mutex};
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::{
-    aio::CloudEventFields,
+    aio::cloud_event::CloudEventFields,
     session::{SessionManagedClient, SessionPubReceiver},
 };
 use azure_iot_operations_mqtt::{
@@ -159,20 +159,20 @@ where
         self.response_tx.is_closed()
     }
 
-    /// Parse a [`azure_iot_operations_mqtt::aio::CloudEvent`] from a [`Request`].
-    /// Note that this will return an error if the [`Request`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::CloudEvent`].
+    /// Parse a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`] from a [`Request`].
+    /// Note that this will return an error if the [`Request`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
     ///
     /// # Errors
-    /// [`azure_iot_operations_mqtt::aio::CloudEventBuilderError::UninitializedField`] if the [`Request`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::CloudEvent`].
+    /// [`azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError::UninitializedField`] if the [`Request`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
     ///
-    /// [`azure_iot_operations_mqtt::aio::CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`azure_iot_operations_mqtt::aio::CloudEvent`].
+    /// [`azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
     pub fn get_cloud_event(
         &self,
     ) -> Result<
-        azure_iot_operations_mqtt::aio::CloudEvent,
-        azure_iot_operations_mqtt::aio::CloudEventBuilderError,
+        azure_iot_operations_mqtt::aio::cloud_event::CloudEvent,
+        azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError,
     > {
-        azure_iot_operations_mqtt::aio::CloudEvent::from_user_properties_and_content_type(
+        azure_iot_operations_mqtt::aio::cloud_event::CloudEvent::from_user_properties_and_content_type(
             &self.custom_user_data,
             self.content_type.as_ref(),
         )

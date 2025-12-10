@@ -3,7 +3,9 @@
 
 use std::{marker::PhantomData, time::SystemTime};
 
-use azure_iot_operations_mqtt::aio::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION};
+use azure_iot_operations_mqtt::aio::cloud_event::{
+    CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+};
 use chrono::{DateTime, SecondsFormat, Utc};
 use uuid::Uuid;
 

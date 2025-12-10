@@ -5,7 +5,7 @@ use std::str::FromStr;
 use std::sync::Arc;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
-use azure_iot_operations_mqtt::aio::CloudEventFields;
+use azure_iot_operations_mqtt::aio::cloud_event::CloudEventFields;
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
 use azure_iot_operations_mqtt::session::SessionManagedClient;
 use bytes::Bytes;
