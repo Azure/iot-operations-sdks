@@ -5,8 +5,8 @@
 //!
 //! This module provides several key components for using an MQTT session:
 //! * [`Session`] - Manages the lifetime of the MQTT session
-//! * [`SessionManagedClient`] - Sends MQTT messages to the broker
-//! * [`SessionPubReceiver`] - Receives MQTT messages from the broker
+//! * [`SessionManagedClient`] - Sends MQTT messages to the server
+//! * [`SessionPubReceiver`] - Receives MQTT messages from the server
 //! * [`SessionMonitor`] - Provides information about the MQTT session's state
 //! * [`SessionExitHandle`] - Allows the user to exit the session gracefully
 //!
@@ -14,8 +14,8 @@
 //! Each instance of [`Session`] is single use - after configuring a [`Session`], and creating any
 //! other necessary components from it, calling the [`run`](crate::session::Session::run) method
 //! will consume the [`Session`] and block (asynchronously) until the MQTT session shared between
-//! client and broker ends. Note that a MQTT session can span multiple connects and disconnects to
-//! the broker.
+//! client and server ends. Note that a MQTT session can span multiple connects and disconnects to
+//! the server.
 //!
 //! The MQTT session can be ended one of two ways:
 //! 1. The [`ReconnectPolicy`](crate::session::reconnect_policy::ReconnectPolicy) configured on the
@@ -34,7 +34,7 @@
 //! Note that in order to receive incoming data, you must both subscribe to the topic filter of
 //! interest using the [`SessionManagedClient`] and create a [`SessionPubReceiver`] (filtered or
 //! unfiltered). If an incoming message is received that
-//! does not match any [`SessionPubReceiver`]s, it will be acknowledged to the MQTT broker and
+//! does not match any [`SessionPubReceiver`]s, it will be acknowledged to the MQTT server and
 //! discarded. Thus, in order to guarantee that messages will not be lost, you should create the
 //! [`SessionPubReceiver`] *before* subscribing to the topic filter.
 
@@ -47,7 +47,8 @@ use std::{
 use crate::azure_mqtt::{
     self,
     client::{
-        ConnectEnhancedAuthResult, ConnectResult, Connection, DisconnectedEvent, ReauthResult,
+        ConnectEnhancedAuthResult, ConnectResult, Connection, ConnectionTransportConfig,
+        DisconnectedEvent, ReauthResult,
     },
     packet::{AuthProperties, ConnAck, DisconnectProperties, SessionExpiryInterval},
 };
@@ -82,6 +83,8 @@ mod state;
 #[error("{kind}")]
 pub struct SessionError {
     kind: SessionErrorKind,
+    #[source]
+    source: Option<Box<dyn std::error::Error + Send + 'static>>,
 }
 
 impl SessionError {
@@ -93,22 +96,39 @@ impl SessionError {
 }
 
 /// An enumeration of categories of [`SessionError`]
-#[derive(Error, Debug, Eq, PartialEq, Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Clone, Copy)]
+#[non_exhaustive]
 pub enum SessionErrorKind {
-    /// MQTT session was lost due to a connection error.
-    #[error("session state not present on broker after reconnect")]
+    /// MQTT session was discarded by the server
     SessionLost,
     /// Reconnect attempts were halted by the reconnect policy, ending the MQTT session
-    #[error("reconnection halted by reconnect policy")]
     ReconnectHalted,
-    /// The [`Session`] was ended by a user-initiated force exit. The broker may still retain the MQTT session.
-    #[error("session ended by force exit")]
+    /// The [`Session`] was ended by a user-initiated force exit. The server may still retain the MQTT session.
     ForceExit,
+    /// Something went wrong with configured values
+    Config,
+}
+
+impl fmt::Display for SessionErrorKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            SessionErrorKind::SessionLost => {
+                write!(f, "session state not present on server after reconnect")
+            }
+            SessionErrorKind::ReconnectHalted => {
+                write!(f, "reconnection halted by reconnect policy")
+            }
+            SessionErrorKind::ForceExit => write!(f, "session ended by force exit"),
+            SessionErrorKind::Config => {
+                write!(f, "configuration became invalid during session operation")
+            }
+        }
+    }
 }
 
 impl From<SessionErrorKind> for SessionError {
     fn from(kind: SessionErrorKind) -> Self {
-        Self { kind }
+        Self { kind, source: None }
     }
 }
 
@@ -117,11 +137,11 @@ impl From<SessionErrorKind> for SessionError {
 #[error(transparent)]
 pub struct SessionConfigError(#[from] adapter::ConnectionSettingsAdapterError);
 
+// NOTE: Retain a struct/kind pattern for `SessionExitError` for future-proofing
 /// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
-#[derive(Error, Debug, Eq, PartialEq)]
-#[error("{kind} (network attempt = {attempted})")]
+#[derive(Error, Debug)]
+#[error("{kind}")]
 pub struct SessionExitError {
-    attempted: bool,
     kind: SessionExitErrorKind,
 }
 
@@ -131,18 +151,11 @@ impl SessionExitError {
     pub fn kind(&self) -> SessionExitErrorKind {
         self.kind
     }
-
-    /// Return whether a network attempt was made before the error occurred
-    #[must_use]
-    pub fn attempted(&self) -> bool {
-        self.attempted
-    }
 }
 
 impl From<DetachedError> for SessionExitError {
     fn from(_err: DetachedError) -> Self {
         SessionExitError {
-            attempted: false,
             kind: SessionExitErrorKind::Detached,
         }
     }
@@ -150,11 +163,12 @@ impl From<DetachedError> for SessionExitError {
 
 /// An enumeration of categories of [`SessionExitError`]
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
+#[non_exhaustive]
 pub enum SessionExitErrorKind {
     /// The exit handle was detached from the session
     Detached,
-    /// The broker could not be reached
-    BrokerUnavailable,
+    /// The server could not be reached
+    ServerUnavailable,
 }
 
 impl fmt::Display for SessionExitErrorKind {
@@ -163,7 +177,7 @@ impl fmt::Display for SessionExitErrorKind {
             SessionExitErrorKind::Detached => {
                 write!(f, "Detached from Session")
             }
-            SessionExitErrorKind::BrokerUnavailable => write!(f, "Could not contact broker"),
+            SessionExitErrorKind::ServerUnavailable => write!(f, "Could not contact server"),
         }
     }
 }
@@ -269,26 +283,30 @@ impl Session {
 
         // // Create EnhancedAuthPolicy if provided in options or SAT file is provided via ConnectionSettings
         // // NOTE: prioritize the one in SessionOptions over the one in the connection settings
-        // let enhanced_auth_policy = options.enhanced_auth_policy.map_or_else(
-        //     || {
-        //         options
-        //             .connection_settings
-        //             .sat_file
-        //             .as_ref()
-        //             .map(|sat_file| {
-        //                 // TODO: This error should propagate, however currently `SessionConfigError` is tightly coupled to the
-        //                 // `azure_mqtt_adapter`, so it cannot.
-        //                 Arc::new(
-        //                     K8sSatFileMonitor::new(
-        //                         std::path::PathBuf::from(sat_file),
-        //                         Duration::from_secs(10),
-        //                     )
-        //                     .unwrap(),
-        //                 ) as Arc<dyn EnhancedAuthPolicy>
+        // let enhanced_auth_policy = if let Some(enhanced_auth_policy) = options.enhanced_auth_policy
+        // {
+        //     Some(Arc::from(enhanced_auth_policy))
+        // } else {
+        //     options
+        //         .connection_settings
+        //         .sat_file
+        //         .as_ref()
+        //         .map(|sat_file| {
+        //             K8sSatFileMonitor::new(
+        //                 std::path::PathBuf::from(sat_file),
+        //                 Duration::from_secs(10),
+        //                 // NOTE: It's not really ideal to use ConnectionSettingsAdapterError, but it's
+        //                 // the best that can be done without a config rework
+        //             )
+        //             .map_err(|e| adapter::ConnectionSettingsAdapterError {
+        //                 msg: "Failed to create K8sSatFileMonitor for SAT file".to_string(),
+        //                 field: adapter::ConnectionSettingsField::SatFile(sat_file.clone()),
+        //                 source: Some(Box::new(e)),
         //             })
-        //     },
-        //     |ap| Some(Arc::from(ap)),
-        // );
+        //         })
+        //         .transpose()?
+        //         .map(|eap| Arc::from(eap) as Arc<dyn EnhancedAuthPolicy>)
+        // };
 
         let (client_options, connect_parameters) = options
             .connection_settings
@@ -395,25 +413,34 @@ impl Session {
         let mut prev_reconnection_attempts = 0;
         loop {
             log::debug!("Attempting to connect MQTT session (clean_start={clean_start})");
-            let (connection, connack) = match self.connect(clean_start).await {
-                Ok((connection, connack)) => (connection, connack),
-                Err(e) => {
-                    log::warn!("Failed to connect MQTT session: {e:?}");
-                    prev_reconnection_attempts += 1;
+            let connection_transport_config = self
+                .connect_parameters
+                .connection_transport_config()
+                .map_err(|e| SessionError {
+                    kind: SessionErrorKind::Config,
+                    source: Some(Box::new(e)),
+                })?;
 
-                    if let Some(delay) = self
-                        .reconnect_policy
-                        .connect_failure_reconnect_delay(prev_reconnection_attempts, &e)
-                    {
-                        log::debug!("Retrying connect in {delay:?}...");
-                        tokio::time::sleep(delay).await;
-                        continue;
+            let (connection, connack) =
+                match self.connect(connection_transport_config, clean_start).await {
+                    Ok((connection, connack)) => (connection, connack),
+                    Err(e) => {
+                        log::warn!("Failed to connect MQTT session: {e:?}");
+                        prev_reconnection_attempts += 1;
+
+                        if let Some(delay) = self
+                            .reconnect_policy
+                            .connect_failure_reconnect_delay(prev_reconnection_attempts, &e)
+                        {
+                            log::debug!("Retrying connect in {delay:?}...");
+                            tokio::time::sleep(delay).await;
+                            continue;
+                        }
+                        log::info!("Reconnect policy has halted reconnection attempts");
+                        log::info!("Exiting Session due to reconnection halt");
+                        return Err(SessionErrorKind::ReconnectHalted.into());
                     }
-                    log::info!("Reconnect policy has halted reconnection attempts");
-                    log::info!("Exiting Session due to reconnection halt");
-                    return Err(SessionErrorKind::ReconnectHalted.into());
-                }
-            };
+                };
 
             // Check to see if the MQTT session has been lost
             if !connack.session_present && prev_connected {
@@ -482,6 +509,7 @@ impl Session {
     /// Helper for connecting
     async fn connect(
         &mut self,
+        connection_transport: ConnectionTransportConfig,
         clean_start: bool,
     ) -> Result<(Connection, ConnAck), azure_mqtt::error::ConnectError> {
         let ch = self
@@ -495,19 +523,20 @@ impl Session {
             .map(|ap| ap.authentication_info())
         {
             log::debug!("Using enhanced authentication for MQTT connect");
-            match ch.connect_enhanced_auth(
-                    // TODO: maybe add something about certs expiring can fail this and why it's ok to panic? Or change this to not panic if it fails and instead end the session
-                self.connect_parameters.connection_transport_config().expect("connection transport config has already been validated and inputs can't change"),
-                clean_start,
-                self.connect_parameters.keep_alive,
-                self.connect_parameters.will.clone(),
-                self.connect_parameters.username.clone(),
-                self.connect_parameters.password.clone(),
-                self.connect_parameters.connect_properties.clone(),
-                authentication_info,
-                Some(self.connect_parameters.connection_timeout),
-            )
-            .await {
+            match ch
+                .connect_enhanced_auth(
+                    connection_transport,
+                    clean_start,
+                    self.connect_parameters.keep_alive,
+                    self.connect_parameters.will.clone(),
+                    self.connect_parameters.username.clone(),
+                    self.connect_parameters.password.clone(),
+                    self.connect_parameters.connect_properties.clone(),
+                    authentication_info,
+                    Some(self.connect_parameters.connection_timeout),
+                )
+                .await
+            {
                 ConnectEnhancedAuthResult::Continue(..) => {
                     // TODO: Implement this anyway
                     unimplemented!("This should not occur in AIO MQTT scenarios")
@@ -516,7 +545,7 @@ impl Session {
                     connection,
                     connack,
                     disconnect_handle,
-                    reauth_handle
+                    reauth_handle,
                 ) => {
                     self.disconnect_handle
                         .lock()
@@ -524,7 +553,7 @@ impl Session {
                         .replace(disconnect_handle);
                     self.reauth_handle.replace(reauth_handle);
                     Ok((connection, connack))
-                },
+                }
                 ConnectEnhancedAuthResult::Failure(connect_handle, connect_error) => {
                     self.connect_handle.replace(connect_handle);
                     Err(connect_error)
@@ -532,29 +561,26 @@ impl Session {
             }
         } else {
             log::debug!("Using standard authentication for MQTT connect");
-            match ch.connect(
-                // TODO: maybe add something about certs expiring can fail this and why it's ok to panic? Or change this to not panic if it fails and instead end the session
-                self.connect_parameters.connection_transport_config().expect("connection transport config has already been validated and inputs can't change"),
-                clean_start,
-                self.connect_parameters.keep_alive,
-                self.connect_parameters.will.clone(),
-                self.connect_parameters.username.clone(),
-                self.connect_parameters.password.clone(),
-                self.connect_parameters.connect_properties.clone(),
-                Some(self.connect_parameters.connection_timeout),
-            )
-            .await {
-                ConnectResult::Success(
-                    connection,
-                    connack,
-                    disconnect_handle,
-                ) => {
+            match ch
+                .connect(
+                    connection_transport,
+                    clean_start,
+                    self.connect_parameters.keep_alive,
+                    self.connect_parameters.will.clone(),
+                    self.connect_parameters.username.clone(),
+                    self.connect_parameters.password.clone(),
+                    self.connect_parameters.connect_properties.clone(),
+                    Some(self.connect_parameters.connection_timeout),
+                )
+                .await
+            {
+                ConnectResult::Success(connection, connack, disconnect_handle) => {
                     self.disconnect_handle
                         .lock()
                         .unwrap()
                         .replace(disconnect_handle);
                     Ok((connection, connack))
-                },
+                }
                 ConnectResult::Failure(connect_handle, connect_error) => {
                     self.connect_handle = Some(connect_handle);
                     Err(connect_error)
@@ -681,22 +707,19 @@ impl SessionExitHandle {
     /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
     /// This will cause the [`Session::run()`] method to return.
     ///
-    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
+    /// Note that a graceful exit requires the [`Session`] to be connected to the server.
     ///
     /// # Errors
     /// * [`SessionExitError`] of kind [`SessionExitErrorKind::Detached`] if the Session no longer exists.
-    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::BrokerUnavailable`] if the Session is not connected to the broker.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::ServerUnavailable`] if the Session is not connected to the server.
     ///
     /// # Panics
     /// Panics if internal state is invalid (this should not be possible).
     pub fn try_exit(&self) -> Result<(), SessionExitError> {
-        log::debug!("Attempting to exit session gracefully");
-
         self.disconnect_handle
             .upgrade()
             // Unable to upgrade weak reference -> Session has been detached
             .ok_or(SessionExitError {
-                attempted: false,
                 kind: SessionExitErrorKind::Detached,
             })?
             .lock()
@@ -704,8 +727,7 @@ impl SessionExitHandle {
             .take()
             // No disconnect handle -> Already disconnected
             .ok_or(SessionExitError {
-                attempted: false,
-                kind: SessionExitErrorKind::BrokerUnavailable,
+                kind: SessionExitErrorKind::ServerUnavailable,
             })?
             .disconnect(&DisconnectProperties {
                 session_expiry_interval: Some(SessionExpiryInterval::Duration(0)),
@@ -715,7 +737,6 @@ impl SessionExitHandle {
             // disconnect handle from the weak reference, meaning the Session (and the client
             // inside it has not dropped
             .or(Err(SessionExitError {
-                attempted: false,
                 kind: SessionExitErrorKind::Detached,
             }))
     }
@@ -723,19 +744,27 @@ impl SessionExitHandle {
     /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
     /// This will cause the [`Session::run()`] method to return.
     ///
-    /// The [`Session`] will be granted a period of 1 second to attempt a graceful exit before
-    /// forcing the exit. If the exit is forced, the broker will not be aware the MQTT session
-    /// has ended.
+    /// The [`Session`] will attempt a graceful exit before forcing the exit.
+    /// If the exit is forced, the server will not be aware the MQTT session has ended.
     ///
     /// Returns true if the exit was graceful, and false if the exit was forced.
     #[allow(clippy::must_use_candidate)]
     pub fn force_exit(&self) -> bool {
-        if self.try_exit().is_ok() {
-            true
-        } else {
-            log::debug!("Session not connected, forcing exit immediately");
-            self.force_exit.notify_one();
-            false
+        log::debug!("Attempting to exit session gracefully");
+        match self.try_exit() {
+            Ok(()) => {
+                log::debug!("Session exited gracefully");
+                true
+            }
+            Err(e) => {
+                if e.kind() == SessionExitErrorKind::Detached {
+                    log::debug!("Session already detached, no action needed");
+                } else {
+                    log::debug!("Session not connected, forcing exit immediately");
+                    self.force_exit.notify_one();
+                }
+                false
+            }
         }
     }
 }

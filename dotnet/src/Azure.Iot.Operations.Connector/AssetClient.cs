@@ -79,10 +79,11 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="dataset">The dataset that was sampled.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
         /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
+        /// <param name="protocolSpecificIdentifier">Optional protocol specific identifier.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ForwardSampledDatasetAsync(AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        public async Task ForwardSampledDatasetAsync(AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, string? protocolSpecificIdentifier = null, CancellationToken cancellationToken = default)
         {
-            await _connector.ForwardSampledDatasetAsync(_deviceName, _device, _inboundEndpointName, _assetName, _asset, dataset, serializedPayload, userData, cancellationToken);
+            await _connector.ForwardSampledDatasetAsync(_deviceName, _device, _inboundEndpointName, _assetName, _asset, dataset, serializedPayload, userData, protocolSpecificIdentifier, cancellationToken);
         }
 
         /// <summary>
@@ -92,10 +93,11 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="assetEvent">The event.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
         /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
+        /// <param name="protocolSpecificIdentifier">Optional protocol specific identifier.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ForwardReceivedEventAsync(string eventGroupName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        public async Task ForwardReceivedEventAsync(string eventGroupName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, string? protocolSpecificIdentifier = null, CancellationToken cancellationToken = default)
         {
-            await _connector.ForwardReceivedEventAsync(_deviceName, _device, _inboundEndpointName, _assetName, _asset, eventGroupName, assetEvent, serializedPayload, userData, cancellationToken);
+            await _connector.ForwardReceivedEventAsync(_deviceName, _device, _inboundEndpointName, _assetName, _asset, eventGroupName, assetEvent, serializedPayload, userData, protocolSpecificIdentifier, cancellationToken);
         }
 
         public MessageSchemaReference? GetRegisteredDatasetMessageSchema(string datasetName)

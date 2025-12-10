@@ -4,6 +4,7 @@ metadata:
   name: my-rest-thermostat-asset2
   namespace: azure-iot-operations
 spec:
+  uuid: 223e4567-e89b-12d3-a456-426614174222
   attributes:
     assetId: my-rest-thermostat-asset2
     assetType: rest-thermostat-asset
