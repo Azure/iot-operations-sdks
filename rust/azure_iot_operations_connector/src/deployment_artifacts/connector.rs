@@ -209,7 +209,7 @@ impl ConnectorArtifacts {
     pub fn to_mqtt_connection_settings(
         &self,
         client_id_suffix: &str,
-    ) -> Result<aio_mqtt::MqttConnectionSettings, String> {
+    ) -> Result<aio_mqtt::aio::connection_settings::MqttConnectionSettings, String> {
         let client_id = self.connector_id.clone() + client_id_suffix;
         let host_c = self
             .connector_configuration
@@ -291,7 +291,7 @@ impl ConnectorArtifacts {
             }
         };
 
-        let c = aio_mqtt::MqttConnectionSettingsBuilder::default()
+        let c = aio_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder::default()
             .client_id(client_id)
             .hostname(hostname)
             .tcp_port(tcp_port)

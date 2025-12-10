@@ -8,7 +8,7 @@ use tokio::sync::Notify;
 use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::{
-    MqttConnectionSettingsBuilder,
+    aio::connection_settings::MqttConnectionSettingsBuilder,
     control_packet::{
         PublishProperties, RetainOptions, SubscribeProperties, TopicFilter, TopicName,
     },

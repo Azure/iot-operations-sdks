@@ -11,7 +11,7 @@ use futures::FutureExt;
 
 use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
 use azure_iot_operations_mqtt::{
-    MqttConnectionSettings, MqttConnectionSettingsBuilder,
+    aio::connection_settings::{MqttConnectionSettings, MqttConnectionSettingsBuilder},
     control_packet::AuthenticationInfo,
     error::{SessionErrorKind, SessionExitErrorKind},
     session::{Session, SessionOptionsBuilder},
