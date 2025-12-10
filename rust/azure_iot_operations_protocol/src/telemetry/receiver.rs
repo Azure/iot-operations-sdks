@@ -355,7 +355,7 @@ pub struct Options {
 /// # Example
 /// ```
 /// # use tokio_test::block_on;
-/// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+/// # use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry;
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
