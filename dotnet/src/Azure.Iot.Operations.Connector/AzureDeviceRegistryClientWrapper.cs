@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Connector
 
         // The keys are the composite device names of devices that may or may not be observing some assets.
         // The values are set of asset names that are being observed.
-        private readonly ConcurrentDictionary<string, HashSet<string>> _observedAssets = new();
+        private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, byte>> _observedAssetsOnDevices = new();
 
         public event EventHandler<AssetChangedEventArgs>? AssetChanged;
 
@@ -82,11 +82,11 @@ namespace Azure.Iot.Operations.Connector
             _monitor.UnobserveAssets(deviceName, inboundEndpointName);
 
             string compositeDeviceName = $"{deviceName}_{inboundEndpointName}";
-            _observedAssets.Remove(compositeDeviceName, out HashSet<string>? assetNames);
+            _observedAssetsOnDevices.TryRemove(compositeDeviceName, out ConcurrentDictionary<string, byte>? assetNames);
 
             if (assetNames != null)
             {
-                foreach (string assetNameToUnobserve in assetNames)
+                foreach (string assetNameToUnobserve in assetNames.Keys)
                 {
                     await _client.SetNotificationPreferenceForAssetUpdatesAsync(deviceName, inboundEndpointName, assetNameToUnobserve, NotificationPreference.Off, null, cancellationToken);
                 }
@@ -98,16 +98,16 @@ namespace Azure.Iot.Operations.Connector
         {
             _monitor.UnobserveAll();
 
-            foreach (string compositeDeviceName in _observedAssets.Keys)
+            foreach (string compositeDeviceName in _observedAssetsOnDevices.Keys)
             {
-                foreach (string observedAssetName in _observedAssets[compositeDeviceName])
+                foreach (string observedAssetName in _observedAssetsOnDevices[compositeDeviceName].Keys)
                 {
                     splitCompositeName(compositeDeviceName, out string deviceName, out string inboundEndpointName);
                     await _client.SetNotificationPreferenceForAssetUpdatesAsync(deviceName, inboundEndpointName, observedAssetName, NotificationPreference.Off, null, cancellationToken);
                 }
             }
 
-            _observedAssets.Clear();
+            _observedAssetsOnDevices.Clear();
 
             foreach (string compositeDeviceName in _observedDevices.Keys)
             {
@@ -210,23 +210,20 @@ namespace Azure.Iot.Operations.Connector
         {
             if (e.ChangeType == FileChangeType.Deleted)
             {
-                if (_observedAssets.TryGetValue(e.DeviceName + "_" + e.InboundEndpointName, out HashSet<string>? observedAssetNames))
+                if (_observedAssetsOnDevices.TryGetValue(e.DeviceName + "_" + e.InboundEndpointName, out ConcurrentDictionary<string, byte>? observedAssetNames)
+                    && observedAssetNames!.TryRemove(e.AssetName, out _))
                 {
-                    // This notes down that this asset on this device is no longer being observed
-                    if (observedAssetNames.Remove(e.AssetName))
-                    {
-                        // Do not set notification preference for asset updates to "off" for this asset because the ADR service no longer knows this asset. Notifications will cease automatically.
-                        AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Deleted, null));
-                    }
+                    // Do not set notification preference for asset updates to "off" for this asset because the ADR service no longer knows this asset. Notifications will cease automatically.
+                    AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Deleted, null));
                 }
             }
             else if (e.ChangeType == FileChangeType.Created)
             {
-                if (_observedAssets.TryGetValue(e.DeviceName + "_" + e.InboundEndpointName, out HashSet<string>? observedAssetNames)
-                    && observedAssetNames.Contains(e.AssetName))
+                if (_observedAssetsOnDevices.TryGetValue(e.DeviceName + "_" + e.InboundEndpointName, out var observedAssetNames)
+                    && observedAssetNames.ContainsKey(e.AssetName))
                 {
-                    // The asset is already being observed, so this was likely a duplicate "on asset file created" notification
-                    // and should be ignored.
+                    // asset was already created and observed. No need to set a notification preference or notify the user
+                    // about a new asset
                     return;
                 }
 
@@ -235,15 +232,16 @@ namespace Azure.Iot.Operations.Connector
                 if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
                 {
                     string compositeDeviceName = e.DeviceName + "_" + e.InboundEndpointName;
-                    _observedAssets.TryAdd(compositeDeviceName, new()); // if it fails to add, then the _observedAssets is already in the correct state
+                    _observedAssetsOnDevices.TryAdd(compositeDeviceName, new()); // if it fails to add, then the _observedAssets is already in the correct state
 
-                    if (_observedAssets.TryGetValue(compositeDeviceName, out var assets))
+                    if (_observedAssetsOnDevices.TryGetValue(compositeDeviceName, out var assetNames))
                     {
-                        assets.Add(e.AssetName);
+                        if (assetNames.TryAdd(e.AssetName, _dummyByte))
+                        {
+                            var asset = await _client.GetAssetAsync(e.DeviceName, e.InboundEndpointName, e.AssetName);
+                            AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, asset));
+                        }
                     }
-
-                    var asset = await _client.GetAssetAsync(e.DeviceName, e.InboundEndpointName, e.AssetName);
-                    AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, asset));
                 }
 
                 //TODO what if response is negative?
@@ -263,10 +261,10 @@ namespace Azure.Iot.Operations.Connector
             }
             else if (e.ChangeType == FileChangeType.Created)
             {
-                if (_observedDevices.ContainsKey(e.DeviceName + "_" + e.InboundEndpointName))
+                if (_observedDevices.TryGetValue(e.DeviceName + "_" + e.InboundEndpointName, out _))
                 {
-                    // The device is already being observed, so this was likely a duplicate "on device file created" notification
-                    // and should be ignored.
+                    // asset was already created and observed. No need to set a notification preference or notify the user
+                    // about a new asset
                     return;
                 }
 
@@ -274,9 +272,11 @@ namespace Azure.Iot.Operations.Connector
 
                 if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    _observedDevices.TryAdd(e.DeviceName + "_" + e.InboundEndpointName, _dummyByte);
-                    var device = await _client.GetDeviceAsync(e.DeviceName, e.InboundEndpointName);
-                    DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device));
+                    if (_observedDevices.TryAdd(e.DeviceName + "_" + e.InboundEndpointName, _dummyByte))
+                    {
+                        var device = await _client.GetDeviceAsync(e.DeviceName, e.InboundEndpointName);
+                        DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device));
+                    }
                 }
 
                 //TODO what if response is negative?
