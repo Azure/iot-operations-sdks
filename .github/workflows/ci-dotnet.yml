@@ -136,15 +136,52 @@ jobs:
         cd dotnet/samples/Connectors/PollingRestThermostatConnector
         ./deploy-connector-and-device.sh
 
+    - name: Wait for Polling Rest Connector to be ready
+      run: |
+        echo "Waiting for rest-server-deployment to be ready..."
+        kubectl rollout status deployment/rest-server-deployment -n azure-iot-operations --timeout=120s
+        echo "Waiting for connector pod to be ready..."
+        kubectl wait --for=condition=ready pod -l akri.iotoperations.azure.com/deviceinboundendpointtype=rest-thermostat-endpoint-type -n azure-iot-operations --timeout=120s || true
+        kubectl get pods -n azure-iot-operations -l akri.iotoperations.azure.com/deviceinboundendpointtype=rest-thermostat-endpoint-type
+
     - name: Deploy Event Driven TCP Thermostat Connector
       run: |
         cd dotnet/samples/Connectors/EventDrivenTcpThermostatConnector
         ./deploy-connector-and-device.sh
 
+    - name: Wait for Event Driven TCP Connector to be ready
+      run: |
+        echo "Waiting for tcp-service-deployment to be ready..."
+        kubectl rollout status deployment/tcp-service-deployment -n azure-iot-operations --timeout=120s
+        echo "Waiting for connector pod to be ready..."
+        kubectl wait --for=condition=ready pod -l 'akri.iotoperations.azure.com/deviceinboundendpointtype=Microsoft.Tcp' -n azure-iot-operations --timeout=120s || true
+        kubectl get pods -n azure-iot-operations -l 'akri.iotoperations.azure.com/deviceinboundendpointtype=Microsoft.Tcp'
+
     - name: Deploy SQL Connector
       run: |
         cd dotnet/samples/Connectors/SqlConnector
         ./deploy-connector-and-device.sh
+
+    - name: Wait for SQL Connector to be ready
+      run: |
+        echo "Waiting for mssql-deployment to be ready..."
+        kubectl rollout status deployment/mssql-deployment -n azure-iot-operations --timeout=180s
+        echo "Waiting for SQL pod to be fully initialized..."
+        kubectl wait --for=condition=ready pod -l app=mssql -n azure-iot-operations --timeout=120s
+        echo "Waiting for connector pod to be ready..."
+        kubectl wait --for=condition=ready pod -l akri.iotoperations.azure.com/deviceinboundendpointtype=qualityanalyzer-profile-sql-server -n azure-iot-operations --timeout=120s || true
+        kubectl get pods -n azure-iot-operations -l akri.iotoperations.azure.com/deviceinboundendpointtype=qualityanalyzer-profile-sql-server
+
+    - name: Verify all connector pods are running
+      run: |
+        echo "=== All Pods in azure-iot-operations namespace ==="
+        kubectl get pods -n azure-iot-operations
+        echo ""
+        echo "=== Connector Pods Status ==="
+        kubectl get pods -n azure-iot-operations -l akri.iotoperations.azure.com/connector-name
+        echo ""
+        echo "Giving connectors additional time to stabilize..."
+        sleep 10
 
     - name: Test SDK (TLS + SAT)
       run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false;ClientId=TestClient" --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true

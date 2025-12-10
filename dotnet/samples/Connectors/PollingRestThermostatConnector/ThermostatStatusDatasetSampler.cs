@@ -36,59 +36,51 @@ namespace RestThermostatConnector
         /// <returns>The serialized payload containing the sampled dataset.</returns>
         public async Task<byte[]> SampleDatasetAsync(AssetDataset dataset, CancellationToken cancellationToken = default)
         {
-            int retryCount = 0;
-            while (true)
+            try
             {
-                try
+                AssetDatasetDataPoint httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desiredTemperature"];
+                HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(JsonSerializer.Deserialize<DataPointConfiguration>(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!, _jsonSerializerOptions)!.HttpRequestMethod);
+                string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
+
+                AssetDatasetDataPoint httpServerCurrentTemperatureDataPoint = dataset.DataPointsDictionary!["currentTemperature"];
+                HttpMethod httpServerCurrentTemperatureHttpMethod = HttpMethod.Parse(JsonSerializer.Deserialize<DataPointConfiguration>(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!, _jsonSerializerOptions)!.HttpRequestMethod);
+                string httpServerCurrentTemperatureRequestPath = httpServerCurrentTemperatureDataPoint.DataSource!;
+
+                if (_credentials != null && _credentials.Username != null && _credentials.Password != null)
                 {
-                    AssetDatasetDataPoint httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desiredTemperature"];
-                    HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(JsonSerializer.Deserialize<DataPointConfiguration>(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!, _jsonSerializerOptions)!.HttpRequestMethod);
-                    string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
-
-                    AssetDatasetDataPoint httpServerCurrentTemperatureDataPoint = dataset.DataPointsDictionary!["currentTemperature"];
-                    HttpMethod httpServerCurrentTemperatureHttpMethod = HttpMethod.Parse(JsonSerializer.Deserialize<DataPointConfiguration>(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!, _jsonSerializerOptions)!.HttpRequestMethod);
-                    string httpServerCurrentTemperatureRequestPath = httpServerCurrentTemperatureDataPoint.DataSource!;
-
-                    if (_credentials != null && _credentials.Username != null && _credentials.Password != null)
-                    {
-                        // Note that this sample uses username + password for authenticating the connection to the asset. In general,
-                        // x509 authentication should be used instead (if available) as it is more secure.
-                        string httpServerUsername = _credentials.Username;
-                        string httpServerPassword = _credentials.Password;
-                        var byteArray = Encoding.ASCII.GetBytes($"{httpServerUsername}:{httpServerPassword}");
-                        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-                    }
-
-                    // In this sample, both the datapoints have the same datasource, so only one HTTP request is needed.
-                    var currentTemperatureHttpResponse = await _httpClient.GetAsync(httpServerCurrentTemperatureRequestPath, cancellationToken);
-                    var desiredTemperatureHttpResponse = await _httpClient.GetAsync(httpServerDesiredTemperatureRequestPath, cancellationToken);
-
-                    if (currentTemperatureHttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized
-                        || desiredTemperatureHttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                    {
-                        throw new Exception("Failed to authorize request to HTTP server. Check credentials configured in rest-server-device-definition.yaml.");
-                    }
-
-                    currentTemperatureHttpResponse.EnsureSuccessStatusCode();
-                    desiredTemperatureHttpResponse.EnsureSuccessStatusCode();
-
-                    ThermostatStatus thermostatStatus = new()
-                    {
-                        CurrentTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await currentTemperatureHttpResponse.Content.ReadAsStreamAsync(cancellationToken), _jsonSerializerOptions)!).CurrentTemperature,
-                        DesiredTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await desiredTemperatureHttpResponse.Content.ReadAsStreamAsync(cancellationToken), _jsonSerializerOptions)!).DesiredTemperature
-                    };
-
-                    // The HTTP response payload matches the expected message schema, so return it as-is
-                    return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(thermostatStatus));
+                    // Note that this sample uses username + password for authenticating the connection to the asset. In general,
+                    // x509 authentication should be used instead (if available) as it is more secure.
+                    string httpServerUsername = _credentials.Username;
+                    string httpServerPassword = _credentials.Password;
+                    var byteArray = Encoding.ASCII.GetBytes($"{httpServerUsername}:{httpServerPassword}");
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                 }
-                catch (Exception ex)
+
+                // In this sample, both the datapoints have the same datasource, so only one HTTP request is needed.
+                var currentTemperatureHttpResponse = await _httpClient.GetAsync(httpServerCurrentTemperatureRequestPath);
+                var desiredTemperatureHttpResponse = await _httpClient.GetAsync(httpServerDesiredTemperatureRequestPath);
+
+                if (currentTemperatureHttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized
+                    || desiredTemperatureHttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    if (++retryCount >= 3)
-                    {
-                        throw new InvalidOperationException($"Failed to sample dataset with name {dataset.Name} in asset with name {_assetName}. Error: {ex.Message}", ex);
-                    }
-                    await Task.Delay(1000, cancellationToken);
+                    throw new Exception("Failed to authorize request to HTTP server. Check credentials configured in rest-server-device-definition.yaml.");
                 }
+
+                currentTemperatureHttpResponse.EnsureSuccessStatusCode();
+                desiredTemperatureHttpResponse.EnsureSuccessStatusCode();
+
+                ThermostatStatus thermostatStatus = new()
+                {
+                    CurrentTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await currentTemperatureHttpResponse.Content.ReadAsStreamAsync(), _jsonSerializerOptions)!).CurrentTemperature,
+                    DesiredTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await desiredTemperatureHttpResponse.Content.ReadAsStreamAsync(), _jsonSerializerOptions)!).DesiredTemperature
+                };
+
+                // The HTTP response payload matches the expected message schema, so return it as-is
+                return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(thermostatStatus));
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Failed to sample dataset with name {dataset.Name} in asset with name {_assetName}", ex);
             }
         }
 
