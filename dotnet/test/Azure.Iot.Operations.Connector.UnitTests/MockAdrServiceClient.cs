@@ -17,6 +17,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public event Func<string, string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
         public event Func<string, Asset, Task>? OnReceiveAssetUpdateEventTelemetry;
 
+        public int NotificationPreferencesSetForAsset { get; private set; } = 0;
+        public int NotificationPreferencesSetForDevice { get; private set; } = 0;
 
         public List<SetNotificationPreferenceRecord> DeviceNotificationChangesSent = new();
 
@@ -75,6 +77,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
         public Task<SetNotificationPreferenceForAssetUpdatesResponsePayload> SetNotificationPreferenceForAssetUpdatesAsync(string deviceName, string inboundEndpointName, string assetName, NotificationPreference notificationPreference, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
+            NotificationPreferencesSetForAsset++;
             return Task.FromResult(new SetNotificationPreferenceForAssetUpdatesResponsePayload()
             {
                 ResponsePayload = "Accepted"
@@ -83,6 +86,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
         public Task<SetNotificationPreferenceForDeviceUpdatesResponsePayload> SetNotificationPreferenceForDeviceUpdatesAsync(string deviceName, string inboundEndpointName, NotificationPreference notificationPreference, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
+            NotificationPreferencesSetForDevice++;
             DeviceNotificationChangesSent.Add(new(deviceName, inboundEndpointName, notificationPreference == NotificationPreference.On));
             return Task.FromResult(new SetNotificationPreferenceForDeviceUpdatesResponsePayload()
             {
