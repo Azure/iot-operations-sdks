@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly ConcurrentDictionary<string, byte> _observedDevices = new();
 
         // The keys are the composite device names of devices that may or may not be observing some assets.
-        // The values are set of asset names that are being observed.
+        // The values are dictionaries with keys of the asset names that are being observed and values of dummy bytes.
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, byte>> _observedAssetsOnDevices = new();
 
         public event EventHandler<AssetChangedEventArgs>? AssetChanged;
