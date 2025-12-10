@@ -4,6 +4,7 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::{
+    aio::CloudEventFields,
     control_packet::{Publish, PublishProperties, QoS, TopicFilter},
     session::{SessionManagedClient, SessionPubReceiver},
 };
@@ -20,7 +21,10 @@ use tokio::{
 use tokio_util::sync::CancellationToken;
 use uuid::Uuid;
 
-use crate::common::user_properties::{PARTITION_KEY, validate_invoker_user_properties};
+use crate::common::{
+    cloud_event::EnvoyCloudEventBuilder,
+    user_properties::{PARTITION_KEY, validate_invoker_user_properties},
+};
 use crate::{
     ProtocolVersion,
     application::{ApplicationContext, ApplicationHybridLogicalClock},
@@ -42,6 +46,16 @@ use crate::{
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
+
+/// Invoker generic type for Cloud Events
+#[derive(Clone, Debug)]
+pub struct InvokerCloudEvent;
+impl EnvoyCloudEventBuilder for InvokerCloudEvent {
+    /// Default event type for this envoy's cloud events
+    fn default_event_type() -> String {
+        "ms.aio.rpc.request".to_string()
+    }
+}
 
 /// Command Request struct.
 /// Used by the [`Invoker`]
@@ -69,6 +83,9 @@ where
     /// to give the executor information on when the invoke request might expire.
     #[builder(setter(custom))]
     timeout: Duration,
+    /// Cloud event of the request.
+    #[builder(default = "None")]
+    cloud_event: Option<crate::common::cloud_event::CloudEvent<InvokerCloudEvent>>,
 }
 
 impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
@@ -129,6 +146,13 @@ impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
     ///     - timeout is zero or > `u32::max`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
+            for (key, _) in custom_user_data {
+                if CloudEventFields::from_str(key).is_ok() {
+                    return Err(format!(
+                        "Invalid user data property '{key}' is a reserved Cloud Event key"
+                    ));
+                }
+            }
             validate_invoker_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.timeout {
@@ -141,6 +165,13 @@ impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
                     return Err("Timeout in seconds must be less than or equal to u32::max to be used as message_expiry_interval".to_string());
                 }
             }
+        }
+        // If there's a cloud event, make sure the content type is valid for the cloud event spec version
+        if let Some(Some(cloud_event)) = &self.cloud_event
+            && let Some(serialized_payload) = &self.serialized_payload
+        {
+            CloudEventFields::DataContentType
+                .validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
         }
         Ok(())
     }
@@ -165,6 +196,25 @@ where
     pub timestamp: Option<HybridLogicalClock>,
     /// If present, contains the client ID of the executor of the command.
     pub executor_id: Option<String>,
+}
+
+/// Parse a [`azure_iot_operations_mqtt::aio::CloudEvent`] from a [`Response`].
+/// Note that this will return an error if the [`Response`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::CloudEvent`].
+///
+/// # Errors
+/// [`azure_iot_operations_mqtt::aio::CloudEventBuilderError::UninitializedField`] if the [`Response`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::CloudEvent`].
+///
+/// [`azure_iot_operations_mqtt::aio::CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`azure_iot_operations_mqtt::aio::CloudEvent`].
+pub fn cloud_event_from_response<TResp: PayloadSerialize>(
+    response: &Response<TResp>,
+) -> Result<
+    azure_iot_operations_mqtt::aio::CloudEvent,
+    azure_iot_operations_mqtt::aio::CloudEventBuilderError,
+> {
+    azure_iot_operations_mqtt::aio::CloudEvent::from_user_properties_and_content_type(
+        &response.custom_user_data,
+        response.content_type.as_ref(),
+    )
 }
 
 /// Helper function to return the application error code and payload, if present in `custom_user_data`.
@@ -989,6 +1039,14 @@ where
             PARTITION_KEY.to_string(),
             self.mqtt_client.client_id().to_string(),
         ));
+
+        // Cloud Events headers
+        if let Some(cloud_event) = request.cloud_event {
+            let cloud_event_headers = cloud_event.into_headers(request_topic.as_str());
+            for (key, value) in cloud_event_headers {
+                request.custom_user_data.push((key, value));
+            }
+        }
 
         // Create MQTT Properties
         let publish_properties = PublishProperties {
@@ -2203,6 +2261,8 @@ mod tests {
         assert_eq!(application_error_code, Some(error_code_content.into()));
         assert!(application_error_payload.is_none());
     }
+
+    // TODO: telemetry sender/receiver equivalent tests
 }
 
 // Command Request tests

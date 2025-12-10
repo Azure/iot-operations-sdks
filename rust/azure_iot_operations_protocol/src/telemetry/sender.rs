@@ -24,11 +24,11 @@ use crate::{
     telemetry::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, TELEMETRY_PROTOCOL_VERSION},
 };
 
+/// Telemetry Sender generic type for Cloud Events
 #[derive(Clone, Debug)]
 pub struct SenderCloudEvent;
 impl EnvoyCloudEventBuilder for SenderCloudEvent {
     /// Default event type for this envoy's cloud events
-    #[must_use]
     fn default_event_type() -> String {
         DEFAULT_CLOUD_EVENT_EVENT_TYPE.to_string()
     }

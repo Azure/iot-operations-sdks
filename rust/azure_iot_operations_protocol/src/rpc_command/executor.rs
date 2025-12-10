@@ -5,7 +5,10 @@ use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
-use azure_iot_operations_mqtt::session::{SessionManagedClient, SessionPubReceiver};
+use azure_iot_operations_mqtt::{
+    aio::CloudEventFields,
+    session::{SessionManagedClient, SessionPubReceiver},
+};
 use azure_iot_operations_mqtt::{
     control_packet::{PublishProperties, QoS, TopicFilter, TopicName},
     token::AckToken,
@@ -20,6 +23,7 @@ use crate::{
     application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
+        cloud_event::EnvoyCloudEventBuilder,
         hybrid_logical_clock::{HLCErrorKind, HybridLogicalClock},
         is_invalid_utf8,
         payload_serialize::{
@@ -40,6 +44,16 @@ const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
     "Internal logic error, unable to calculate command expiration time";
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
+
+/// Executor generic type for Cloud Events
+#[derive(Clone, Debug)]
+pub struct ExecutorCloudEvent;
+impl EnvoyCloudEventBuilder for ExecutorCloudEvent {
+    /// Default event type for this envoy's cloud events
+    fn default_event_type() -> String {
+        "ms.aio.rpc.response".to_string()
+    }
+}
 
 /// Struct to hold response arguments
 struct ResponseArguments {
@@ -144,6 +158,25 @@ where
     pub fn is_cancelled(&self) -> bool {
         self.response_tx.is_closed()
     }
+
+    /// Parse a [`azure_iot_operations_mqtt::aio::CloudEvent`] from a [`Request`].
+    /// Note that this will return an error if the [`Request`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::CloudEvent`].
+    ///
+    /// # Errors
+    /// [`azure_iot_operations_mqtt::aio::CloudEventBuilderError::UninitializedField`] if the [`Request`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::CloudEvent`].
+    ///
+    /// [`azure_iot_operations_mqtt::aio::CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`azure_iot_operations_mqtt::aio::CloudEvent`].
+    pub fn get_cloud_event(
+        &self,
+    ) -> Result<
+        azure_iot_operations_mqtt::aio::CloudEvent,
+        azure_iot_operations_mqtt::aio::CloudEventBuilderError,
+    > {
+        azure_iot_operations_mqtt::aio::CloudEvent::from_user_properties_and_content_type(
+            &self.custom_user_data,
+            self.content_type.as_ref(),
+        )
+    }
 }
 
 /// Command Executor Response struct.
@@ -165,6 +198,9 @@ where
     /// Default is an empty vector.
     #[builder(default)]
     custom_user_data: Vec<(String, String)>,
+    /// Cloud event of the response.
+    #[builder(default = "None")]
+    cloud_event: Option<crate::common::cloud_event::CloudEvent<ExecutorCloudEvent>>,
 }
 
 impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
@@ -211,7 +247,21 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
     /// or the reserved [`PARTITION_KEY`] key is used.
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
+            for (key, _) in custom_user_data {
+                if CloudEventFields::from_str(key).is_ok() {
+                    return Err(format!(
+                        "Invalid user data property '{key}' is a reserved Cloud Event key"
+                    ));
+                }
+            }
             validate_user_properties(custom_user_data)?;
+        }
+        // If there's a cloud event, make sure the content type is valid for the cloud event spec version
+        if let Some(Some(cloud_event)) = &self.cloud_event
+            && let Some(serialized_payload) = &self.serialized_payload
+        {
+            CloudEventFields::DataContentType
+                .validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
         }
         Ok(())
     }
@@ -1290,6 +1340,15 @@ where
 
                 user_properties = response.custom_user_data;
 
+                // Cloud Events headers
+                if let Some(cloud_event) = response.cloud_event {
+                    let cloud_event_headers =
+                        cloud_event.into_headers(response_arguments.response_topic.as_str());
+                    for (key, value) in cloud_event_headers {
+                        user_properties.push((key, value));
+                    }
+                }
+
                 // Serialize payload
                 serialized_payload = response.serialized_payload;
 
@@ -2271,6 +2330,7 @@ mod tests {
         let range = 1..=u32::MAX; // note, range is memory efficient
         assert!(range.contains(&response_message_expiry_interval.unwrap()));
     }
+    // TODO: telemetry sender/receiver equivalent tests
 }
 
 // Test cases for subscribe
