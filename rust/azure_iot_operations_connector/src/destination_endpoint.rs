@@ -390,7 +390,7 @@ impl Forwarder {
     }
 
     /// Creates the source field for a cloud event header. Format:
-    /// ms-aio:<Device-CompoundKey>|<ProtocolSpecificIdentifier>|<Device-externaldeviceId*>|<Device-Name>|[/Sub-Source] (Sub-Source is the dataSource on the event or dataset)
+    /// ms-aio:<Device-CompoundKey>|<ProtocolSpecificIdentifier>|<Device-externalDeviceId*>|<Device-Name>|[/Sub-Source] (Sub-Source is the dataSource on the event or dataset)
     ///     * Device-externalDeviceId should only be used if different from `DeviceUUID`
     ///     `Device-CompoundKey` currently doesn't exist, but may in the future
     ///     `Sub-Source` is the dataSource on the event or dataset
@@ -454,7 +454,7 @@ impl Forwarder {
     }
 
     /// Creates both the (event type, subject) fields for a cloud event header.
-    /// Event type Format: [“DataSet”|”Event”]/<typeref-property-value>
+    /// Event type Format: [“DataSet”|”Event”|“Stream”]/<typeref-property-value>
     /// Subject Format:
     ///     <Asset-CompoundKey>|<Asset-ExternalAssetId*>|<AssetName>/<DataSet-Name>|<EventGroup-Name>[/Sub-Subject]
     ///     *Asset-externalAssetId should only be used if different from `AssetUUID`

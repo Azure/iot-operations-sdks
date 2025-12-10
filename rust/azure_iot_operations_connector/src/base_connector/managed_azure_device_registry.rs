@@ -2681,7 +2681,7 @@ impl DataOperationClient {
     /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
     /// if the [`MessageSchema`] has not been reported yet. This is required before forwarding any data
     ///
-    /// [`destination_endpoint::Error`] of kind [`DataValidationError`](destination_endpoint::ErrorKind::MqttTelemetryError)
+    /// [`destination_endpoint::Error`] of kind [`ValidationError`](destination_endpoint::ErrorKind::ValidationError)
     /// if the [`Data`] isn't valid.
     ///
     /// [`destination_endpoint::Error`] of kind [`BrokerStateStoreError`](destination_endpoint::ErrorKind::BrokerStateStoreError)
@@ -2704,7 +2704,7 @@ impl DataOperationClient {
     /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
     /// if the [`MessageSchema`] has not been reported yet. This is required before forwarding any data
     ///
-    /// [`destination_endpoint::Error`] of kind [`DataValidationError`](destination_endpoint::ErrorKind::MqttTelemetryError)
+    /// [`destination_endpoint::Error`] of kind [`ValidationError`](destination_endpoint::ErrorKind::ValidationError)
     /// if the [`Data`] isn't valid.
     ///
     /// [`destination_endpoint::Error`] of kind [`BrokerStateStoreError`](destination_endpoint::ErrorKind::BrokerStateStoreError)
