@@ -15,6 +15,8 @@ use thiserror::Error;
 use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use tokio_util::sync::{CancellationToken, DropGuard};
 
+use crate::DataOperationRef;
+
 /// Environment variable name for the mount path of the Azure Device Registry resources.
 const ADR_RESOURCES_NAME_MOUNT_PATH: &str = "ADR_RESOURCES_NAME_MOUNT_PATH";
 
@@ -479,6 +481,17 @@ pub struct AssetRef {
     /// The name of the endpoint
     pub inbound_endpoint_name: String,
 }
+
+impl From<&DataOperationRef> for AssetRef {
+    fn from(data_operation_ref: &DataOperationRef) -> Self {
+        AssetRef {
+            name: data_operation_ref.asset_name.clone(),
+            device_name: data_operation_ref.device_name.clone(),
+            inbound_endpoint_name: data_operation_ref.inbound_endpoint_name.clone(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -14,4 +14,6 @@ pub type ProtocolError = crate::azure_mqtt::error::ProtocolError;
 /// Error related to MQTT topic names or filters.
 pub type TopicError = crate::azure_mqtt::topic::TopicError;
 
-pub use crate::session::{SessionError, SessionErrorKind, SessionExitError, SessionExitErrorKind};
+pub use crate::session::{
+    SessionConfigError, SessionError, SessionErrorKind, SessionExitError, SessionExitErrorKind,
+};
