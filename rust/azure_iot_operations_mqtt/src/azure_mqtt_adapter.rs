@@ -26,13 +26,13 @@ type ClientCert = (X509, PKey<Private>, Vec<X509>);
 #[derive(Error, Debug)]
 #[error("{msg}: {field}")]
 pub struct ConnectionSettingsAdapterError {
-    msg: String,
-    field: ConnectionSettingsField,
+    pub(crate) msg: String,
+    pub(crate) field: ConnectionSettingsField,
     #[source]
-    source: Option<Box<dyn std::error::Error>>,
+    pub(crate) source: Option<Box<dyn std::error::Error + Send + 'static>>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Eq, PartialEq)]
 pub enum ConnectionSettingsField {
     SessionExpiry(Duration),
     PasswordFile(String),
@@ -40,6 +40,7 @@ pub enum ConnectionSettingsField {
     KeepAlive(Duration),
     ReceivePacketSizeMax(u32),
     ReceiveMax(u16),
+    SatFile(String),
 }
 
 impl fmt::Display for ConnectionSettingsField {
@@ -53,6 +54,7 @@ impl fmt::Display for ConnectionSettingsField {
                 write!(f, "Receive Packet Size Max: {v}")
             }
             ConnectionSettingsField::ReceiveMax(v) => write!(f, "Receive Max: {v}"),
+            ConnectionSettingsField::SatFile(v) => write!(f, "SAT File: {v:?}"),
         }
     }
 }

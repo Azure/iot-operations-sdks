@@ -213,7 +213,7 @@ async fn connect_and_exit_standard_auth() {
     monitor.connected().await;
 
     // End the session
-    assert_eq!(exit_handle.try_exit(), Ok(()));
+    assert!(matches!(exit_handle.try_exit(), Ok(())));
 
     // Validate that the DISCONNECT packet is sent and contains the expected values
     let disconnect = mock_server.expect_disconnect().await;
@@ -253,7 +253,7 @@ async fn connect_reauth_and_exit_enhanced_auth() {
     assert_eq!(auth, expected_reauth(&mock_eap_controller));
 
     // End the session
-    assert_eq!(exit_handle.try_exit(), Ok(()));
+    assert!(matches!(exit_handle.try_exit(), Ok(())));
 
     // Validate that the DISCONNECT packet is sent and contains the expected values
     let disconnect = mock_server.expect_disconnect().await;
@@ -393,7 +393,7 @@ async fn try_exit_never_run() {
 
     // Try exiting before connecting
     let e = exit_handle.try_exit().unwrap_err();
-    assert!(matches!(e.kind(), SessionExitErrorKind::BrokerUnavailable));
+    assert!(matches!(e.kind(), SessionExitErrorKind::ServerUnavailable));
 }
 
 #[tokio::test]
@@ -415,7 +415,7 @@ async fn try_exit_while_connected() {
     monitor.connected().await;
 
     // Try exiting while connected
-    assert_eq!(exit_handle.try_exit(), Ok(()));
+    assert!(matches!(exit_handle.try_exit(), Ok(())));
 
     // Validate that the DISCONNECT packet is sent and contains the expected values
     let disconnect = mock_server.expect_disconnect().await;
@@ -455,7 +455,7 @@ async fn try_exit_while_disconnected() {
 
     // Try exiting while disconnected
     let e = exit_handle.try_exit().unwrap_err();
-    assert!(matches!(e.kind(), SessionExitErrorKind::BrokerUnavailable));
+    assert!(matches!(e.kind(), SessionExitErrorKind::ServerUnavailable));
 
     // Session is still running, did not exit
     assert!(run_f.now_or_never().is_none());
@@ -650,7 +650,7 @@ async fn reauth_on_successive_connections() {
     mock_server.expect_no_packet();
 
     // End the session
-    assert_eq!(exit_handle.try_exit(), Ok(()));
+    assert!(matches!(exit_handle.try_exit(), Ok(())));
 
     // Session was disconnected, and exited cleanly
     monitor.disconnected().await;
