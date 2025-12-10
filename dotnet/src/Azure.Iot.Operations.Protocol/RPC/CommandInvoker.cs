@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
@@ -790,11 +791,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        private static void EnsureCloudEventType(CommandRequestMetadata? metadata, string expectedType)
+        private static void EnsureCloudEventType(CommandRequestMetadata? metadata, string defaultType)
         {
-            if (metadata?.CloudEvent != null && metadata.CloudEvent.Type != expectedType)
+            if (metadata?.CloudEvent != null && metadata.CloudEvent.Type.IsNullOrEmpty())
             {
-                metadata.CloudEvent = new CloudEvent(metadata.CloudEvent.Source, expectedType, metadata.CloudEvent.SpecVersion)
+                metadata.CloudEvent = new CloudEvent(metadata.CloudEvent.Source, defaultType, metadata.CloudEvent.SpecVersion)
                 {
                     Id = metadata.CloudEvent.Id,
                     Time = metadata.CloudEvent.Time,

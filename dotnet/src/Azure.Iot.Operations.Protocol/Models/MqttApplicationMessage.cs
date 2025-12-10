@@ -171,12 +171,27 @@ namespace Azure.Iot.Operations.Protocol.Models
             }
         }
 
+        /// <summary>
+        /// Adds a user property to the message. User properties are key-value pairs that provide
+        /// additional metadata for the MQTT message.
+        /// </summary>
+        /// <param name="key">The property key.</param>
+        /// <param name="value">The property value.</param>
+        /// <remarks>
+        /// Hint: MQTT 5 feature only.
+        /// </remarks>
         public void AddUserProperty(string key, string value)
         {
             UserProperties ??= [];
             UserProperties.Add(new MqttUserProperty(key, value));
         }
 
+        /// <summary>
+        /// Converts the message payload to a UTF-8 encoded string.
+        /// </summary>
+        /// <returns>
+        /// The payload as a UTF-8 string, or null if the payload is empty.
+        /// </returns>
         public string? ConvertPayloadToString()
         {
             return Payload.IsEmpty
@@ -184,6 +199,10 @@ namespace Azure.Iot.Operations.Protocol.Models
                 : Encoding.UTF8.GetString(Payload.ToArray());
         }
 
+        /// <summary>
+        /// Adds telemetry metadata to the message, including timestamp, CloudEvent properties, and custom user data.
+        /// </summary>
+        /// <param name="md">The outgoing telemetry metadata to add. If null, no action is taken.</param>
         public void AddMetadata(OutgoingTelemetryMetadata? md)
         {
             if (md == null)
@@ -206,6 +225,16 @@ namespace Azure.Iot.Operations.Protocol.Models
             }
         }
 
+        /// <summary>
+        /// Sets CloudEvent properties on the message by adding them as user properties.
+        /// Provides default values for Id and Time if not specified (as per ADR27).
+        /// </summary>
+        /// <param name="md">The CloudEvent metadata to set on the message.</param>
+        /// <remarks>
+        /// If the CloudEvent Id is not set, a new GUID will be generated.
+        /// If the CloudEvent Time is not set, the current UTC time will be used.
+        /// The ContentType property will be overridden if DataContentType is specified in the CloudEvent.
+        /// </remarks>
         public void SetCloudEvent(CloudEvent md)
         {
             // Provide default values as per ADR27
@@ -222,7 +251,7 @@ namespace Azure.Iot.Operations.Protocol.Models
             AddUserProperty(nameof(md.SpecVersion).ToLowerInvariant(), md.SpecVersion);
             if (md.Id != null)
             {
-                AddUserProperty(nameof(md.Id).ToLowerInvariant(), md.Id.ToString());
+                AddUserProperty(nameof(md.Id).ToLowerInvariant(), md.Id);
             }
 
             AddUserProperty(nameof(md.Type).ToLowerInvariant(), md.Type);
