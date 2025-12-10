@@ -149,5 +149,5 @@ async fn increment_counter_and_publish(
 /// Exit the session after a delay.
 async fn exit_timer(exit_handle: SessionExitHandle, exit_after: Duration) {
     tokio::time::sleep(exit_after).await;
-    exit_handle.try_exit().await.unwrap();
+    exit_handle.try_exit().unwrap();
 }
