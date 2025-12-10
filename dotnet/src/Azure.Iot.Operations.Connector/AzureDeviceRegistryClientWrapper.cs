@@ -232,7 +232,7 @@ namespace Azure.Iot.Operations.Connector
                 if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
                 {
                     string compositeDeviceName = e.DeviceName + "_" + e.InboundEndpointName;
-                    _observedAssetsOnDevices.TryAdd(compositeDeviceName, new()); // if it fails to add, then the _observedAssets is already in the correct state
+                    _observedAssetsOnDevices.TryAdd(compositeDeviceName, new()); // if it fails to add, then _observedAssetsOnDevices is already in the correct state
 
                     if (_observedAssetsOnDevices.TryGetValue(compositeDeviceName, out var assetNames))
                     {
