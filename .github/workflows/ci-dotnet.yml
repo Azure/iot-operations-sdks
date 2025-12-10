@@ -136,6 +136,16 @@ jobs:
         cd dotnet/samples/Connectors/PollingRestThermostatConnector
         ./deploy-connector-and-device.sh
 
+    - name: Deploy Event Driven TCP Thermostat Connector
+      run: |
+        cd dotnet/samples/Connectors/EventDrivenTcpThermostatConnector
+        ./deploy-connector-and-device.sh
+
+    - name: Deploy SQL Connector
+      run: |
+        cd dotnet/samples/Connectors/SqlConnector
+        ./deploy-connector-and-device.sh
+
     - name: Wait for Polling Rest Connector to be ready
       run: |
         echo "Waiting for rest-server-deployment to be ready..."
@@ -144,11 +154,6 @@ jobs:
         kubectl wait --for=condition=ready pod -l akri.iotoperations.azure.com/deviceinboundendpointtype=rest-thermostat-endpoint-type -n azure-iot-operations --timeout=120s || true
         kubectl get pods -n azure-iot-operations -l akri.iotoperations.azure.com/deviceinboundendpointtype=rest-thermostat-endpoint-type
 
-    - name: Deploy Event Driven TCP Thermostat Connector
-      run: |
-        cd dotnet/samples/Connectors/EventDrivenTcpThermostatConnector
-        ./deploy-connector-and-device.sh
-
     - name: Wait for Event Driven TCP Connector to be ready
       run: |
         echo "Waiting for tcp-service-deployment to be ready..."
@@ -156,11 +161,6 @@ jobs:
         echo "Waiting for connector pod to be ready..."
         kubectl wait --for=condition=ready pod -l 'akri.iotoperations.azure.com/deviceinboundendpointtype=Microsoft.Tcp' -n azure-iot-operations --timeout=120s || true
         kubectl get pods -n azure-iot-operations -l 'akri.iotoperations.azure.com/deviceinboundendpointtype=Microsoft.Tcp'
-
-    - name: Deploy SQL Connector
-      run: |
-        cd dotnet/samples/Connectors/SqlConnector
-        ./deploy-connector-and-device.sh
 
     - name: Wait for SQL Connector to be ready
       run: |
