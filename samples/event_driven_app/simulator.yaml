@@ -35,7 +35,6 @@ spec:
             name: azure-iot-operations-aio-ca-trust-bundle
       containers:
         - name: event-driven-app-simulator
-          image: alpine
           volumeMounts:
             - name: mqtt-client-token
               mountPath: /var/run/secrets/tokens/

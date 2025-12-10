@@ -25,7 +25,6 @@ spec:
     spec:
       containers:
         - name: rest-server-deployment
-          image: rest-server:latest
           imagePullPolicy: Never # This forces docker to use the locally built image
           env:
             - name: SERVICE_USERNAME
