@@ -249,7 +249,7 @@ namespace Azure.Iot.Operations.Protocol.Models
             }
 
             // Override ContentType if DataContentType is set
-            if (string.IsNullOrWhiteSpace(md.DataContentType))
+            if (!string.IsNullOrWhiteSpace(md.DataContentType))
             {
                 ContentType = md.DataContentType;
             }
