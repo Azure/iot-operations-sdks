@@ -9,8 +9,9 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
+use azure_iot_operations_protocol::common::cloud_event::CloudEvent;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
-use azure_iot_operations_protocol::rpc_command;
+use azure_iot_operations_protocol::rpc_command::{self, invoker::InvokerCloudEvent};
 
 use super::super::common_types::options::CommandInvokerOptions;
 use super::MODEL_ID;
@@ -36,6 +37,12 @@ impl GetAssetRequestBuilder {
     /// Custom user data to set on the request
     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
         self.inner_builder.custom_user_data(custom_user_data);
+        self
+    }
+
+    /// Cloud event for the request
+    pub fn cloud_event(&mut self, cloud_event: CloudEvent<InvokerCloudEvent>) -> &mut Self {
+        self.inner_builder.cloud_event(cloud_event);
         self
     }
 

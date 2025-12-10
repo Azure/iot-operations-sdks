@@ -5,7 +5,8 @@ use std::collections::HashMap;
 use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::rpc_command;
+use azure_iot_operations_protocol::common::cloud_event::CloudEvent;
+use azure_iot_operations_protocol::rpc_command::{self, executor::ExecutorCloudEvent};
 
 use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandExecutorOptions;
@@ -26,6 +27,12 @@ impl ResetResponseBuilder {
     /// Custom user data to set on the response
     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
         self.inner_builder.custom_user_data(custom_user_data);
+        self
+    }
+
+    /// Cloud event for the response
+    pub fn cloud_event(&mut self, cloud_event: CloudEvent<ExecutorCloudEvent>) -> &mut Self {
+        self.inner_builder.cloud_event(cloud_event);
         self
     }
 
