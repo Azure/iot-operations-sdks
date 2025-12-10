@@ -5,7 +5,7 @@ use std::fmt::Debug;
 
 /// Format indicator for serialization and deserialization.
 #[repr(u8)]
-#[derive(Clone, PartialEq, Debug, Default)]
+#[derive(Clone, PartialEq, Debug, Default, Copy)]
 pub enum FormatIndicator {
     /// Unspecified Bytes
     #[default]
@@ -24,6 +24,32 @@ impl TryFrom<Option<u8>> for FormatIndicator {
             Some(_) => Err(format!(
                 "Invalid format indicator value: {value:?}. Must be 0 or 1"
             )),
+        }
+    }
+}
+
+impl From<FormatIndicator> for azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator {
+    fn from(value: FormatIndicator) -> Self {
+        match value {
+            FormatIndicator::UnspecifiedBytes => {
+                azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator::Unspecified
+            }
+            FormatIndicator::Utf8EncodedCharacterData => {
+                azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator::UTF8
+            }
+        }
+    }
+}
+
+impl From<azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator> for FormatIndicator {
+    fn from(value: azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator) -> Self {
+        match value {
+            azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator::Unspecified => {
+                FormatIndicator::UnspecifiedBytes
+            }
+            azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator::UTF8 => {
+                FormatIndicator::Utf8EncodedCharacterData
+            }
         }
     }
 }
@@ -137,7 +163,7 @@ impl PayloadSerialize for BypassPayload {
         };
         Ok(BypassPayload {
             content_type: ct,
-            format_indicator: format_indicator.clone(),
+            format_indicator: *format_indicator,
             payload: payload.to_vec(),
         })
     }
@@ -159,12 +185,12 @@ impl PayloadSerialize for Vec<u8> {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/octet-stream" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/octet-stream"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
+            )));
         }
         Ok(payload.to_vec())
     }
@@ -200,27 +226,35 @@ mod tests {
 
     use crate::common::payload_serialize::FormatIndicator;
 
-    #[test_case(&FormatIndicator::UnspecifiedBytes; "UnspecifiedBytes")]
-    #[test_case(&FormatIndicator::Utf8EncodedCharacterData; "Utf8EncodedCharacterData")]
-    fn test_to_from_u8(prop: &FormatIndicator) {
-        assert_eq!(
-            prop,
-            &FormatIndicator::try_from(Some(prop.clone() as u8)).unwrap()
-        );
+    #[test_case(FormatIndicator::UnspecifiedBytes; "UnspecifiedBytes")]
+    #[test_case(FormatIndicator::Utf8EncodedCharacterData; "Utf8EncodedCharacterData")]
+    fn test_to_from_u8(prop: FormatIndicator) {
+        assert_eq!(prop, FormatIndicator::try_from(Some(prop as u8)).unwrap());
     }
 
-    #[test_case(Some(0), &FormatIndicator::UnspecifiedBytes; "0_to_UnspecifiedBytes")]
-    #[test_case(Some(1), &FormatIndicator::Utf8EncodedCharacterData; "1_to_Utf8EncodedCharacterData")]
-    #[test_case(None, &FormatIndicator::UnspecifiedBytes; "None_to_UnspecifiedBytes")]
-    fn test_from_option_u8_success(value: Option<u8>, expected: &FormatIndicator) {
+    #[test_case(Some(0), FormatIndicator::UnspecifiedBytes; "0_to_UnspecifiedBytes")]
+    #[test_case(Some(1), FormatIndicator::Utf8EncodedCharacterData; "1_to_Utf8EncodedCharacterData")]
+    #[test_case(None, FormatIndicator::UnspecifiedBytes; "None_to_UnspecifiedBytes")]
+    fn test_from_option_u8_success(value: Option<u8>, expected: FormatIndicator) {
         let res = FormatIndicator::try_from(value);
         assert!(res.is_ok());
-        assert_eq!(expected, &res.unwrap());
+        assert_eq!(expected, res.unwrap());
     }
 
     #[test_case(Some(2); "2")]
     #[test_case(Some(255); "255")]
     fn test_from_option_u8_failure(value: Option<u8>) {
         assert!(&FormatIndicator::try_from(value).is_err());
+    }
+
+    #[test_case(FormatIndicator::UnspecifiedBytes; "UnspecifiedBytes")]
+    #[test_case(FormatIndicator::Utf8EncodedCharacterData; "Utf8EncodedCharacterData")]
+    fn test_to_from_mqtt_format_indicator(prop: FormatIndicator) {
+        assert_eq!(
+            prop,
+            FormatIndicator::from(
+                azure_iot_operations_mqtt::control_packet::PayloadFormatIndicator::from(prop)
+            )
+        );
     }
 }

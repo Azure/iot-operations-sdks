@@ -14,10 +14,8 @@ use std::time::Duration;
 use env_logger::Builder;
 use thiserror::Error;
 
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::{MqttConnectionSettingsBuilder, session::SessionManagedClient};
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
@@ -36,7 +34,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .init();
 
     // Create two Sessions and their exit handles
@@ -66,14 +64,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             // Run Executor loop
             let result = increment_executor_loop(executor1, CLIENT_ID_1, counter_clone).await;
             // Exit Session if done
-            exit(exit_handle1, CLIENT_ID_1).await;
+            exit(&exit_handle1, CLIENT_ID_1);
             result
         },
         async {
             // Run Executor loop
             let result = increment_executor_loop(executor2, CLIENT_ID_2, counter).await;
             // Exit Session if done
-            exit(exit_handle2, CLIENT_ID_2).await;
+            exit(&exit_handle2, CLIENT_ID_2);
             result
         },
         session1.run(),
@@ -108,7 +106,7 @@ fn create_increment_executor(
     application_context: ApplicationContext,
     managed_client: SessionManagedClient,
 ) -> Result<
-    rpc_command::Executor<IncrRequestPayload, IncrResponsePayload, SessionManagedClient>,
+    rpc_command::Executor<IncrRequestPayload, IncrResponsePayload>,
     Box<dyn std::error::Error>,
 > {
     let incr_executor_options = rpc_command::executor::OptionsBuilder::default()
@@ -124,11 +122,7 @@ fn create_increment_executor(
 }
 
 async fn increment_executor_loop(
-    mut executor: rpc_command::Executor<
-        IncrRequestPayload,
-        IncrResponsePayload,
-        SessionManagedClient,
-    >,
+    mut executor: rpc_command::Executor<IncrRequestPayload, IncrResponsePayload>,
     executor_client_id: &str,
     counter: Arc<Mutex<i32>>,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
@@ -176,14 +170,14 @@ async fn increment_executor_loop(
 }
 
 // Exit the Session
-async fn exit(exit_handle: SessionExitHandle, client_id: &str) {
+fn exit(exit_handle: &SessionExitHandle, client_id: &str) {
     log::info!("{client_id}: Exiting session");
-    match exit_handle.try_exit().await {
+    match exit_handle.try_exit() {
         Ok(()) => log::info!("{client_id}: Session exited gracefully"),
         Err(e) => {
             log::error!("{client_id}: Graceful session exit failed: {e}");
             log::warn!("{client_id}: Forcing session exit");
-            exit_handle.exit_force().await;
+            exit_handle.force_exit();
         }
     }
 }
