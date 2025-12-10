@@ -6,7 +6,7 @@
 
 pub mod connection_settings;
 
-/// Options for configuring features on a [`Session`] that are specific to the AIO broker
+/// Options for configuring features on a [`Session`](crate::session::Session) that are specific to the AIO broker
 #[derive(Builder)]
 pub struct AIOBrokerFeatures {
     /// Indicates if the Session should use AIO persistence
