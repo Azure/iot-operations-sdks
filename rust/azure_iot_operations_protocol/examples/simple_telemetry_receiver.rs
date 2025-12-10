@@ -84,7 +84,7 @@ async fn telemetry_loop(
         );
 
         // Parse cloud event
-        match telemetry::receiver::CloudEvent::from_telemetry(&message) {
+        match telemetry::receiver::cloud_event_from_telemetry(&message) {
             Ok(cloud_event) => {
                 log::info!("{cloud_event}");
             }

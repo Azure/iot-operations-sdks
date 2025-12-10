@@ -6,6 +6,7 @@ use std::sync::Arc;
 use std::time::SystemTime;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
+use azure_iot_operations_mqtt::aio::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION};
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
 use azure_iot_operations_mqtt::session::SessionManagedClient;
 use bytes::Bytes;
@@ -21,12 +22,7 @@ use crate::{
         topic_processor::TopicPattern,
         user_properties::{PERSIST_KEY, UserProperty, validate_user_properties},
     },
-    telemetry::{
-        TELEMETRY_PROTOCOL_VERSION,
-        cloud_event::{
-            CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
-        },
-    },
+    telemetry::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, TELEMETRY_PROTOCOL_VERSION},
 };
 
 /// Cloud Event struct used by the [`Sender`].
@@ -445,6 +441,7 @@ where
         let correlation_data = Bytes::from(correlation_id.as_bytes().to_vec());
 
         // Cloud Events headers
+        // TODO: could set subject here and then convert to mqtt::aio cloud event and then use that into_headers fn
         if let Some(cloud_event) = message.cloud_event {
             let cloud_event_headers = cloud_event.into_headers(message_topic.as_str());
             for (key, value) in cloud_event_headers {

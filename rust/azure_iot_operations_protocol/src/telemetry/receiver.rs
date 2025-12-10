@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr, sync::Arc};
+use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc};
 
 use azure_iot_operations_mqtt::{
+    aio::{CloudEvent, CloudEventBuilderError},
     control_packet::{Publish, QoS, TopicFilter},
     session::{SessionManagedClient, SessionPubReceiver},
     token::AckToken,
 };
-use chrono::{DateTime, Utc};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
@@ -20,185 +20,22 @@ use crate::{
         topic_processor::TopicPattern,
         user_properties::UserProperty,
     },
-    telemetry::{
-        DEFAULT_TELEMETRY_PROTOCOL_VERSION,
-        cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-    },
+    telemetry::DEFAULT_TELEMETRY_PROTOCOL_VERSION,
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
-/// Cloud Event struct used by the [`Receiver`].
+/// Parse a [`CloudEvent`] from a [`Message`].
+/// Note that this will return an error if the [`Message`] does not contain the required fields for a [`CloudEvent`].
 ///
-/// Implements the cloud event spec 1.0 for the telemetry receiver.
-/// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
-#[derive(Builder, Clone)]
-#[builder(setter(into), build_fn(validate = "Self::validate"))]
-pub struct CloudEvent {
-    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
-    /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
-    /// id. Consumers MAY assume that Events with identical source and id are duplicates.
-    pub id: String,
-    /// Identifies the context in which an event happened. Often this will include information such
-    /// as the type of the event source, the organization publishing the event or the process that
-    /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
-    /// defined by the event producer.
-    pub source: String,
-    /// The version of the cloud events specification which the event uses. This enables the
-    /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
-    /// referring to this version of the specification.
-    pub spec_version: String,
-    /// Contains a value describing the type of event related to the originating occurrence. Often
-    /// this attribute is used for routing, observability, policy enforcement, etc. The format of
-    /// this is producer defined and might include information such as the version of the type.
-    pub event_type: String,
-    /// Identifies the subject of the event in the context of the event producer (identified by
-    /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
-    /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
-    /// for any specific event if the source context has internal sub-structure.
-    #[builder(default = "None")]
-    pub subject: Option<String>,
-    /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
-    /// reflected by a different URI.
-    #[builder(default = "None")]
-    pub data_schema: Option<String>,
-    /// Content type of data value. This attribute enables data to carry any type of content,
-    /// whereby format and encoding might differ from that of the chosen event format.
-    #[builder(default = "None")]
-    pub data_content_type: Option<String>,
-    /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
-    /// determined then this attribute MAY be set to some other time (such as the current time) by
-    /// the cloud event producer, however all producers for the same source MUST be consistent in
-    /// this respect. In other words, either they all use the actual time of the occurrence or they
-    /// all use the same algorithm to determine the value used.
-    #[builder(setter(skip))]
-    pub time: Option<DateTime<Utc>>,
-    /// time as a string so that it can be validated during build
-    #[builder(default = "None")]
-    builder_time: Option<String>,
-}
-
-impl CloudEventBuilder {
-    // now that spec version is known, all fields can be validated against that spec version
-    fn validate(&self) -> Result<(), String> {
-        let mut spec_version = DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string();
-
-        if let Some(sv) = &self.spec_version {
-            CloudEventFields::SpecVersion.validate(sv, &spec_version)?;
-            spec_version.clone_from(sv);
-        }
-
-        if let Some(id) = &self.id {
-            CloudEventFields::Id.validate(id, &spec_version)?;
-        }
-
-        if let Some(source) = &self.source {
-            CloudEventFields::Source.validate(source, &spec_version)?;
-        }
-
-        if let Some(event_type) = &self.event_type {
-            CloudEventFields::EventType.validate(event_type, &spec_version)?;
-        }
-
-        if let Some(Some(subject)) = &self.subject {
-            CloudEventFields::Subject.validate(subject, &spec_version)?;
-        }
-
-        if let Some(Some(data_schema)) = &self.data_schema {
-            CloudEventFields::DataSchema.validate(data_schema, &spec_version)?;
-        }
-
-        if let Some(Some(data_content_type)) = &self.data_content_type {
-            CloudEventFields::DataContentType.validate(data_content_type, &spec_version)?;
-        }
-
-        if let Some(Some(builder_time)) = &self.builder_time {
-            CloudEventFields::Time.validate(builder_time, &spec_version)?;
-        }
-
-        Ok(())
-    }
-}
-
-// implementing display because debug prints private fields
-impl Display for CloudEvent {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "CloudEvent {{ id: {id}, source: {source}, spec_version: {spec_version}, event_type: {event_type}, subject: {subject}, data_schema: {data_schema}, data_content_type: {data_content_type}, time: {time:?} }}",
-            id = self.id,
-            source = self.source,
-            spec_version = self.spec_version,
-            event_type = self.event_type,
-            subject = self.subject.as_deref().unwrap_or("None"),
-            data_schema = self.data_schema.as_deref().unwrap_or("None"),
-            data_content_type = self.data_content_type.as_deref().unwrap_or("None"),
-            time = self.time,
-        )
-    }
-}
-
-impl CloudEvent {
-    /// Parse a [`CloudEvent`] from a [`Message`].
-    /// Note that this will return an error if the [`Message`] does not contain the required fields for a [`CloudEvent`].
-    ///
-    /// # Errors
-    /// [`CloudEventBuilderError::UninitializedField`] if the [`Message`] does not contain the required fields for a [`CloudEvent`].
-    ///
-    /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
-    pub fn from_telemetry<T: PayloadSerialize>(
-        telemetry: &Message<T>,
-    ) -> Result<Self, CloudEventBuilderError> {
-        // use builder so that all fields can be validated together
-        let mut cloud_event_builder = CloudEventBuilder::default();
-        if let Some(content_type) = &telemetry.content_type {
-            cloud_event_builder.data_content_type(content_type.clone());
-        }
-
-        for (key, value) in &telemetry.custom_user_data {
-            match CloudEventFields::from_str(key) {
-                Ok(CloudEventFields::Id) => {
-                    cloud_event_builder.id(value);
-                }
-                Ok(CloudEventFields::Source) => {
-                    cloud_event_builder.source(value);
-                }
-                Ok(CloudEventFields::SpecVersion) => {
-                    cloud_event_builder.spec_version(value);
-                }
-                Ok(CloudEventFields::EventType) => {
-                    cloud_event_builder.event_type(value);
-                }
-                Ok(CloudEventFields::Subject) => {
-                    cloud_event_builder.subject(Some(value.into()));
-                }
-                Ok(CloudEventFields::DataSchema) => {
-                    cloud_event_builder.data_schema(Some(value.into()));
-                }
-                Ok(CloudEventFields::Time) => {
-                    cloud_event_builder.builder_time(Some(value.into()));
-                }
-                _ => {}
-            }
-        }
-        let mut cloud_event = cloud_event_builder.build()?;
-        // now that everything is validated, update the time field to its correct typing
-        // NOTE: If the spec_version changes in the future, that may need to be taken into account here.
-        // For now, the builder validates spec version 1.0
-        if let Some(ref time_str) = cloud_event.builder_time {
-            match DateTime::parse_from_rfc3339(time_str) {
-                Ok(parsed_time) => {
-                    let time = parsed_time.with_timezone(&Utc);
-                    cloud_event.time = Some(time);
-                }
-                Err(_) => {
-                    // Builder should have already caught this error
-                    unreachable!()
-                }
-            }
-        }
-        Ok(cloud_event)
-    }
+/// # Errors
+/// [`CloudEventBuilderError::UninitializedField`] if the [`Message`] does not contain the required fields for a [`CloudEvent`].
+///
+/// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
+pub fn cloud_event_from_telemetry<T: PayloadSerialize>(
+    telemetry: &Message<T>,
+) -> Result<CloudEvent, CloudEventBuilderError> {
+    CloudEvent::from_user_properties_and_content_type(&telemetry.custom_user_data, telemetry.content_type.as_ref())
 }
 
 /// Telemetry message struct.

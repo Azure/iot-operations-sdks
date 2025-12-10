@@ -6,8 +6,7 @@ use std::{env, time::Duration};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::{
-    MqttConnectionSettingsBuilder,
-    control_packet::{PublishProperties, TopicName},
+    MqttConnectionSettingsBuilder, aio::DEFAULT_CLOUD_EVENT_SPEC_VERSION, control_packet::{PublishProperties, TopicName}
 };
 use azure_iot_operations_mqtt::{
     control_packet::QoS,
@@ -162,7 +161,7 @@ async fn telemetry_basic_send_receive_network_tests() {
                         assert!(ack_token.is_none());
 
                         // Validate contents of message match expected based on what was sent
-                        assert!(telemetry::receiver::CloudEvent::from_telemetry(&message).is_err());
+                        assert!(telemetry::receiver::cloud_event_from_telemetry(&message).is_err());
                         assert_eq!(message.payload, EmptyPayload::default());
                         assert!(message.custom_user_data.is_empty());
                         assert_eq!(message.sender_id.unwrap(), sender_id);
@@ -340,7 +339,7 @@ async fn telemetry_complex_send_receive_network_tests() {
 
                         // Validate contents of message match expected based on what was sent
                         let cloud_event =
-                            telemetry::receiver::CloudEvent::from_telemetry(&message).unwrap();
+                            telemetry::receiver::cloud_event_from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload1);
                         assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
                             message
@@ -355,11 +354,11 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.source, test_cloud_event_source);
                         assert_eq!(
                             cloud_event.spec_version,
-                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION
+                            DEFAULT_CLOUD_EVENT_SPEC_VERSION
                         );
                         assert_eq!(
                             cloud_event.event_type,
-                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_EVENT_TYPE
+                            telemetry::DEFAULT_CLOUD_EVENT_EVENT_TYPE
                         );
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
@@ -375,7 +374,7 @@ async fn telemetry_complex_send_receive_network_tests() {
 
                         // Validate contents of message match expected based on what was sent
                         let cloud_event =
-                            telemetry::receiver::CloudEvent::from_telemetry(&message).unwrap();
+                            telemetry::receiver::cloud_event_from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload2);
                         assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
                             message
@@ -390,11 +389,11 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.source, test_cloud_event_source);
                         assert_eq!(
                             cloud_event.spec_version,
-                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION
+                            DEFAULT_CLOUD_EVENT_SPEC_VERSION
                         );
                         assert_eq!(
                             cloud_event.event_type,
-                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_EVENT_TYPE
+                            telemetry::DEFAULT_CLOUD_EVENT_EVENT_TYPE
                         );
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
@@ -662,7 +661,7 @@ async fn telemetry_no_message_properties_receive_network_tests() {
                     assert!(ack_token.is_none());
 
                     // Validate contents of message match expected based on what was sent
-                    assert!(telemetry::receiver::CloudEvent::from_telemetry(&message).is_err());
+                    assert!(telemetry::receiver::cloud_event_from_telemetry(&message).is_err());
                     assert_eq!(message.payload, EmptyPayload::default());
                     assert!(message.custom_user_data.is_empty());
                     assert!(message.sender_id.is_none());

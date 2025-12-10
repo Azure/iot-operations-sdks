@@ -12,6 +12,7 @@ pub use crate::connection_settings::{
     MqttConnectionSettings, MqttConnectionSettingsBuilder, MqttConnectionSettingsBuilderError,
 };
 
+pub mod aio;
 mod connection_settings;
 pub mod control_packet;
 pub mod error;

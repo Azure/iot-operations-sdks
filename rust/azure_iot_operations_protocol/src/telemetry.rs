@@ -23,3 +23,6 @@ pub(crate) const TELEMETRY_PROTOCOL_VERSION: ProtocolVersion =
 /// Assumed version if no version is provided.
 pub(crate) const DEFAULT_TELEMETRY_PROTOCOL_VERSION: ProtocolVersion =
     ProtocolVersion { major: 1, minor: 0 };
+
+/// Default `CloudEvent` event type for AIO telemetry.
+pub const DEFAULT_CLOUD_EVENT_EVENT_TYPE: &str = "ms.aio.telemetry";
