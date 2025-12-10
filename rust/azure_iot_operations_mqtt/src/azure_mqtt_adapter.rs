@@ -17,9 +17,13 @@ use openssl::{
 };
 use thiserror::Error;
 
-use crate::connection_settings::MqttConnectionSettings;
+use crate::aio::connection_settings::MqttConnectionSettings;
 #[cfg(feature = "test-utils")]
 use crate::test_utils::InjectedPacketChannels;
+
+// NOTE: This module combines two concepts - translating the MqttConnectionSettings into azure_mqtt constructs,
+// and the configuration OF those constructs. This should ideally be separated, and doing so will be necessary
+// in order to support a more generic `crate::session::SessionOptions`.
 
 type ClientCert = (X509, PKey<Private>, Vec<X509>);
 
@@ -429,7 +433,7 @@ mod tests {
     use std::path::PathBuf;
     use std::time::Duration;
 
-    use crate::MqttConnectionSettingsBuilder;
+    use crate::aio::connection_settings::MqttConnectionSettingsBuilder;
 
     #[test]
     fn test_azure_mqtt_config_no_tls() {

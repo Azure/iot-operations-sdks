@@ -1427,7 +1427,7 @@ async fn flatten<T>(
 mod tests {
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
-    use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+    use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 
     use super::*;

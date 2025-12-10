@@ -750,7 +750,7 @@ mod tests {
         telemetry::receiver::{OptionsBuilder, Receiver},
     };
     use azure_iot_operations_mqtt::{
-        MqttConnectionSettingsBuilder,
+        aio::connection_settings::MqttConnectionSettingsBuilder,
         session::{Session, SessionOptionsBuilder},
     };
 

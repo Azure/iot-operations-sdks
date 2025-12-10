@@ -7,7 +7,7 @@ use std::path::Path;
 use std::sync::atomic;
 
 use azure_iot_operations_mqtt::{
-    MqttConnectionSettingsBuilder,
+    aio::connection_settings::MqttConnectionSettingsBuilder,
     session::{Session, SessionOptionsBuilder},
     test_utils::{IncomingPacketsTx, InjectedPacketChannels, OutgoingPacketsRx},
 };
