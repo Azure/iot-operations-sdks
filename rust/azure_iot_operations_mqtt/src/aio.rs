@@ -5,8 +5,8 @@
 
 use std::{
     fmt::{self, Display, Formatter},
-    time::SystemTime,
     str::FromStr,
+    time::SystemTime,
 };
 
 use chrono::{DateTime, SecondsFormat, Utc};
@@ -308,16 +308,15 @@ impl CloudEvent {
                 _ => {}
             }
         }
-        let mut received_cloud_event = received_cloud_event_builder.build().map_err(|e| {
-            match e {
+        let mut received_cloud_event =
+            received_cloud_event_builder.build().map_err(|e| match e {
                 ReceivedCloudEventBuilderError::UninitializedField(field_name) => {
                     CloudEventBuilderError::UninitializedField(field_name)
                 }
                 ReceivedCloudEventBuilderError::ValidationError(message) => {
-                    CloudEventBuilderError::ValidationError(message) 
+                    CloudEventBuilderError::ValidationError(message)
                 }
-            }
-        })?;
+            })?;
         // now that everything is validated, update the time field to its correct typing
         // NOTE: If the spec_version changes in the future, that may need to be taken into account here.
         // For now, the builder validates spec version 1.0
@@ -335,7 +334,7 @@ impl CloudEvent {
         }
         Ok(received_cloud_event.into())
     }
-    
+
     /// Get [`CloudEvent`] as headers for an MQTT message
     /// This fn ignores `data_content_type` so that it can be set separately if needed
     #[must_use]
@@ -347,7 +346,7 @@ impl CloudEvent {
             (CloudEventFields::EventType.to_string(), self.event_type),
         ];
         if let Some(subject) = self.subject {
-          headers.push((CloudEventFields::Subject.to_string(), subject));
+            headers.push((CloudEventFields::Subject.to_string(), subject));
         }
         if let Some(time) = self.time {
             headers.push((
@@ -365,7 +364,10 @@ impl CloudEvent {
     /// Note that if `data_content_type` is `Some` on the [`CloudEvent`], the value will override
     /// any `content_type` already set in the `PublishProperties`
     #[must_use]
-    pub fn set_on_publish_properties(self, mut publish_properties: PublishProperties) -> PublishProperties {
+    pub fn set_on_publish_properties(
+        self,
+        mut publish_properties: PublishProperties,
+    ) -> PublishProperties {
         if let Some(ref data_content_type) = self.data_content_type {
             publish_properties.content_type = Some(data_content_type.clone());
         }

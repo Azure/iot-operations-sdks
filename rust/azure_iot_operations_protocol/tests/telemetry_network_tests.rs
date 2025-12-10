@@ -6,7 +6,9 @@ use std::{env, time::Duration};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::{
-    MqttConnectionSettingsBuilder, aio::DEFAULT_CLOUD_EVENT_SPEC_VERSION, control_packet::{PublishProperties, TopicName}
+    MqttConnectionSettingsBuilder,
+    aio::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+    control_packet::{PublishProperties, TopicName},
 };
 use azure_iot_operations_mqtt::{
     control_packet::QoS,
@@ -14,8 +16,11 @@ use azure_iot_operations_mqtt::{
 };
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder,
-    common::payload_serialize::{
-        DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+    common::{
+        cloud_event::CloudEventBuilder,
+        payload_serialize::{
+            DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+        },
     },
     telemetry,
 };
@@ -319,7 +324,7 @@ async fn telemetry_complex_send_receive_network_tests() {
         ("test2".to_string(), "value2".to_string()),
     ];
     let test_cloud_event_source = "aio://test/telemetry";
-    let test_cloud_event = telemetry::sender::CloudEventBuilder::default()
+    let test_cloud_event = CloudEventBuilder::<telemetry::sender::SenderCloudEvent>::default()
         .source(test_cloud_event_source)
         .build()
         .unwrap();
@@ -352,10 +357,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
                         assert_eq!(cloud_event.source, test_cloud_event_source);
-                        assert_eq!(
-                            cloud_event.spec_version,
-                            DEFAULT_CLOUD_EVENT_SPEC_VERSION
-                        );
+                        assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(
                             cloud_event.event_type,
                             telemetry::DEFAULT_CLOUD_EVENT_EVENT_TYPE
@@ -387,10 +389,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
                         assert_eq!(cloud_event.source, test_cloud_event_source);
-                        assert_eq!(
-                            cloud_event.spec_version,
-                            DEFAULT_CLOUD_EVENT_SPEC_VERSION
-                        );
+                        assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(
                             cloud_event.event_type,
                             telemetry::DEFAULT_CLOUD_EVENT_EVENT_TYPE

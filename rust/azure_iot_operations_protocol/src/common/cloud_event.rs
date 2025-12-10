@@ -1,11 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::time::SystemTime;
+use std::{marker::PhantomData, time::SystemTime};
 
 use azure_iot_operations_mqtt::aio::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION};
-use uuid::Uuid;
 use chrono::{DateTime, SecondsFormat, Utc};
+use uuid::Uuid;
+
+pub(crate) trait EnvoyCloudEventBuilder: Clone + std::fmt::Debug {
+    /// Default event type for this envoy's cloud events
+    #[must_use]
+    fn default_event_type() -> String;
+}
 
 /// Cloud Event struct used by the [`Sender`].
 ///
@@ -13,7 +19,7 @@ use chrono::{DateTime, SecondsFormat, Utc};
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
-pub struct CloudEvent {
+pub struct CloudEvent<T: EnvoyCloudEventBuilder> {
     /// Identifies the context in which an event happened. Often this will include information such
     /// as the type of the event source, the organization publishing the event or the process that
     /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
@@ -23,11 +29,11 @@ pub struct CloudEvent {
     /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
     /// referring to this version of the specification.
     #[builder(default = "DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string()")]
-    spec_version: String,
+    pub(crate) spec_version: String,
     /// Contains a value describing the type of event related to the originating occurrence. Often
     /// this attribute is used for routing, observability, policy enforcement, etc. The format of
     /// this is producer defined and might include information such as the version of the type.
-    #[builder(default = "DEFAULT_CLOUD_EVENT_EVENT_TYPE.to_string()")]
+    #[builder(default = "T::default_event_type()")]
     event_type: String,
     /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
     /// reflected by a different URI.
@@ -51,6 +57,8 @@ pub struct CloudEvent {
     /// for any specific event if the source context has internal sub-structure.
     #[builder(default = "CloudEventSubject::PublishTopic")]
     subject: CloudEventSubject,
+    #[builder(default = "PhantomData")]
+    default_event_type: PhantomData<T>,
 }
 
 /// Enum representing the different values that the [`subject`](CloudEventBuilder::subject) field of a [`CloudEvent`] can take.
@@ -64,7 +72,7 @@ pub enum CloudEventSubject {
     None,
 }
 
-impl CloudEventBuilder {
+impl<T: EnvoyCloudEventBuilder> CloudEventBuilder<T> {
     fn validate(&self) -> Result<(), String> {
         let mut spec_version = DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string();
 
@@ -99,10 +107,10 @@ impl CloudEventBuilder {
     }
 }
 
-impl CloudEvent {
+impl<T: EnvoyCloudEventBuilder> CloudEvent<T> {
     /// Get [`CloudEvent`] as headers for an MQTT message
     #[must_use]
-    fn into_headers(self, publish_topic: &str) -> Vec<(String, String)> {
+    pub(crate) fn into_headers(self, publish_topic: &str) -> Vec<(String, String)> {
         let mut headers = vec![
             (CloudEventFields::Id.to_string(), self.id),
             (CloudEventFields::Source.to_string(), self.source),

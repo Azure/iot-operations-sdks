@@ -6,11 +6,14 @@ use std::sync::Arc;
 
 use async_std::future;
 use azure_iot_operations_mqtt::session::{SessionManagedClient, SessionMonitor};
-use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
 use azure_iot_operations_protocol::telemetry;
+use azure_iot_operations_protocol::{
+    application::ApplicationContextBuilder,
+    common::cloud_event::{CloudEventBuilder, CloudEventBuilderError, CloudEventSubject},
+};
 
 use chrono::{DateTime, Utc};
 use tokio::sync::oneshot;
@@ -319,7 +322,8 @@ impl TelemetrySenderTester {
             }
 
             if let Some(cloud_event) = cloud_event {
-                let mut cloud_event_builder = telemetry::sender::CloudEventBuilder::default();
+                let mut cloud_event_builder =
+                    CloudEventBuilder::<telemetry::sender::SenderCloudEvent>::default();
 
                 if let Some(source) = &cloud_event.source {
                     cloud_event_builder.source(source);
@@ -347,9 +351,7 @@ impl TelemetrySenderTester {
                             send_chans.push_back(response_rx);
                             response_tx
                                 .send(Err(Self::from_cloud_event_builder_error(
-                                    telemetry::sender::CloudEventBuilderError::ValidationError(
-                                        error.to_string(),
-                                    ),
+                                    CloudEventBuilderError::ValidationError(error.to_string()),
                                 )))
                                 .unwrap();
                             return;
@@ -362,9 +364,7 @@ impl TelemetrySenderTester {
                 }
 
                 if let Some(Some(subject)) = &cloud_event.subject {
-                    cloud_event_builder.subject(telemetry::sender::CloudEventSubject::Custom(
-                        subject.clone(),
-                    ));
+                    cloud_event_builder.subject(CloudEventSubject::Custom(subject.clone()));
                 }
 
                 match cloud_event_builder.build() {
@@ -593,13 +593,9 @@ impl TelemetrySenderTester {
         protocol_error
     }
 
-    fn from_cloud_event_builder_error(
-        builder_error: telemetry::sender::CloudEventBuilderError,
-    ) -> AIOProtocolError {
+    fn from_cloud_event_builder_error(builder_error: CloudEventBuilderError) -> AIOProtocolError {
         let property_name = match builder_error {
-            telemetry::sender::CloudEventBuilderError::UninitializedField(field_name) => {
-                Some(field_name.to_string())
-            }
+            CloudEventBuilderError::UninitializedField(field_name) => Some(field_name.to_string()),
             _ => Some("cloud_event".to_string()),
         };
 

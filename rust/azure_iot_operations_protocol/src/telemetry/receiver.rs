@@ -35,7 +35,10 @@ const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 pub fn cloud_event_from_telemetry<T: PayloadSerialize>(
     telemetry: &Message<T>,
 ) -> Result<CloudEvent, CloudEventBuilderError> {
-    CloudEvent::from_user_properties_and_content_type(&telemetry.custom_user_data, telemetry.content_type.as_ref())
+    CloudEvent::from_user_properties_and_content_type(
+        &telemetry.custom_user_data,
+        telemetry.content_type.as_ref(),
+    )
 }
 
 /// Telemetry message struct.
