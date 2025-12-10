@@ -44,7 +44,8 @@ use std::{
     time::Duration,
 };
 
-use azure_mqtt::{
+use crate::azure_mqtt::{
+    self,
     client::{
         ConnectEnhancedAuthResult, ConnectResult, Connection, DisconnectedEvent, ReauthResult,
     },
@@ -54,6 +55,7 @@ use thiserror::Error;
 use tokio::sync::Notify;
 
 use crate::azure_mqtt_adapter as adapter;
+use crate::control_packet::PacketIdentifier;
 use crate::error::DetachedError;
 pub use crate::session::managed_client::{SessionManagedClient, SessionPubReceiver};
 use crate::session::state::SessionState;
@@ -177,8 +179,8 @@ pub struct SessionOptions {
     #[builder(default = "None")]
     enhanced_auth_policy: Option<Box<dyn EnhancedAuthPolicy>>,
     /// Maximum packet identifier
-    #[builder(default = "azure_mqtt::packet::PacketIdentifier::MAX")]
-    max_packet_identifier: azure_mqtt::packet::PacketIdentifier,
+    #[builder(default = "PacketIdentifier::MAX")]
+    max_packet_identifier: PacketIdentifier,
     /// Maximum number of queued outgoing QoS 0 PUBLISH packets not yet accepted by the MQTT Session
     #[builder(default = "100")]
     publish_qos0_queue_size: usize,

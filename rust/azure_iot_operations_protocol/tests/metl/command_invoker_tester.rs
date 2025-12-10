@@ -6,6 +6,7 @@ use std::convert::TryFrom;
 use std::sync::Arc;
 
 use async_std::future;
+use azure_iot_operations_mqtt::azure_mqtt;
 use azure_iot_operations_mqtt::session::{SessionManagedClient, SessionMonitor};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{

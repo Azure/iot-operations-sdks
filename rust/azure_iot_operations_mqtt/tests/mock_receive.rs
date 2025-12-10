@@ -4,6 +4,7 @@
 use azure_mqtt::mqtt_proto;
 use tokio_test::{assert_pending, assert_ready};
 
+use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
 use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
     control_packet::TopicFilter,
