@@ -2715,7 +2715,7 @@ impl DataOperationClient {
     pub async fn forward_data_provide_protocol_specific_identifier(
         &self,
         data: Data,
-        protocol_specific_identifier: String,
+        protocol_specific_identifier: &str,
     ) -> Result<(), destination_endpoint::Error> {
         self.forwarder
             .send_data(data, Some(protocol_specific_identifier))

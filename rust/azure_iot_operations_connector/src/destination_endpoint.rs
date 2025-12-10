@@ -213,7 +213,7 @@ impl Forwarder {
     pub(crate) async fn send_data(
         &self,
         data: Data,
-        protocol_specific_identifier: Option<String>,
+        protocol_specific_identifier: Option<&str>,
     ) -> Result<(), Error> {
         // Forward the data to the destination
         let destination = match &self.destination {
@@ -255,13 +255,15 @@ impl Forwarder {
                 telemetry_sender,
             } => {
                 // create MQTT message, setting schema id to response from SR (message_schema_uri)
-                let cloud_event = self.build_cloud_event_headers(
-                    asset_ref,
-                    asset_uuid.as_ref(),
-                    asset_external_asset_id.as_ref(),
-                    data.timestamp,
-                    protocol_specific_identifier,
-                )?;
+                let cloud_event = self
+                    .build_cloud_event_headers(
+                        asset_ref,
+                        asset_uuid.as_deref(),
+                        asset_external_asset_id.as_deref(),
+                        data.timestamp,
+                        protocol_specific_identifier,
+                    )
+                    .map_err(|e| Error(ErrorKind::ValidationError(e)))?;
                 let mut message_builder = telemetry::sender::MessageBuilder::default();
                 if let Some(qos) = qos {
                     message_builder.qos(*qos);
@@ -284,9 +286,9 @@ impl Forwarder {
                 // passes through user headers and adds custom aio cloud event headers
                 message_builder.custom_user_data(Self::add_aio_ref_headers(
                     data.custom_user_data,
-                    self.device_uuid.as_ref(),
+                    self.device_uuid.as_deref(),
                     &asset_ref.inbound_endpoint_name,
-                    asset_uuid.clone(),
+                    asset_uuid.as_deref(),
                 ));
                 // This validates the content type and custom user data
                 let message = message_builder
@@ -316,15 +318,14 @@ impl Forwarder {
         self.message_schema_reference = message_schema_reference;
     }
 
-    #[allow(clippy::result_large_err)]
     fn build_cloud_event_headers(
         &self,
         asset_ref: &AssetRef,
-        asset_uuid: Option<&String>,
-        asset_external_asset_id: Option<&String>,
+        asset_uuid: Option<&str>,
+        asset_external_asset_id: Option<&str>,
         data_timestamp: Option<HybridLogicalClock>,
-        protocol_specific_identifier: Option<String>,
-    ) -> Result<telemetry::sender::CloudEvent, Error> {
+        protocol_specific_identifier: Option<&str>,
+    ) -> Result<telemetry::sender::CloudEvent, String> {
         // TODO: remove once message schema validation is turned back on
         #[allow(clippy::manual_map)]
         let message_schema_uri =
@@ -347,9 +348,9 @@ impl Forwarder {
         let source = Self::cloud_event_header_source(
             asset_ref,
             protocol_specific_identifier,
-            self.device_uuid.as_ref(),
-            self.device_external_device_id.as_ref(),
-            self.data_source.as_ref(),
+            self.device_uuid.as_deref(),
+            self.device_external_device_id.as_deref(),
+            self.data_source.as_deref(),
         );
         cloud_event_builder.source(source);
 
@@ -357,7 +358,7 @@ impl Forwarder {
         let (event_type, subject) = Self::cloud_event_header_event_and_subject(
             asset_ref,
             &self.data_operation_name,
-            self.data_operation_type_ref.as_ref(),
+            self.data_operation_type_ref.as_deref(),
             asset_uuid,
             asset_external_asset_id,
         );
@@ -382,10 +383,8 @@ impl Forwarder {
                 // This can be caused by a
                 // source that isn't a uri reference
                 // data_schema that isn't a valid uri - don't think this is possible since we create it
-                telemetry::sender::CloudEventBuilderError::ValidationError(e) => {
-                    Error(ErrorKind::ValidationError(e))
-                }
-                e => Error(ErrorKind::ValidationError(e.to_string())),
+                telemetry::sender::CloudEventBuilderError::ValidationError(e) => e,
+                e => e.to_string(),
             }
         })
     }
@@ -397,15 +396,15 @@ impl Forwarder {
     ///     `Sub-Source` is the dataSource on the event or dataset
     fn cloud_event_header_source(
         asset_ref: &AssetRef,
-        protocol_specific_identifier: Option<String>,
-        device_uuid: Option<&String>,
-        device_external_device_id: Option<&String>,
-        data_source: Option<&String>,
+        protocol_specific_identifier: Option<&str>,
+        device_uuid: Option<&str>,
+        device_external_device_id: Option<&str>,
+        data_source: Option<&str>,
     ) -> String {
         let mut source = "ms-aio".to_string();
         let mut device_identifier = None;
         if let Some(protocol_id) = protocol_specific_identifier {
-            let trimmed_protocol_id = protocol_id.trim().to_string();
+            let trimmed_protocol_id = protocol_id.trim();
             if !trimmed_protocol_id.is_empty()
                 && CloudEventFields::Source
                     .validate(
@@ -421,7 +420,7 @@ impl Forwarder {
             && device_external_device_id != device_uuid
             && let Some(external_id) = &device_external_device_id
         {
-            let trimmed_external_id = external_id.trim().to_string();
+            let trimmed_external_id = external_id.trim();
             if !trimmed_external_id.is_empty()
                 && CloudEventFields::Source
                     .validate(
@@ -435,11 +434,11 @@ impl Forwarder {
         }
         source = format!(
             "{source}:{}",
-            device_identifier.unwrap_or(asset_ref.device_name.clone())
+            device_identifier.unwrap_or(asset_ref.device_name.as_str())
         );
         if let Some(data_source) = &data_source {
             // remove any leading slash since we'll add one in
-            let trimmed_data_source = data_source.trim().trim_start_matches('/').to_string();
+            let trimmed_data_source = data_source.trim().trim_start_matches('/');
             if !trimmed_data_source.is_empty()
                 && CloudEventFields::Source
                     .validate(
@@ -464,9 +463,9 @@ impl Forwarder {
     fn cloud_event_header_event_and_subject(
         asset_ref: &AssetRef,
         data_operation_name: &DataOperationName,
-        data_operation_type_ref: Option<&String>,
-        asset_uuid: Option<&String>,
-        asset_external_asset_id: Option<&String>,
+        data_operation_type_ref: Option<&str>,
+        asset_uuid: Option<&str>,
+        asset_external_asset_id: Option<&str>,
     ) -> (String, String) {
         let (mut event_type, data_operation_name) = match data_operation_name {
             DataOperationName::Dataset { name } => ("DataSet".to_string(), name.clone()),
@@ -497,9 +496,9 @@ impl Forwarder {
 
     fn add_aio_ref_headers(
         mut curr_user_data: Vec<(String, String)>,
-        device_uuid: Option<&String>,
+        device_uuid: Option<&str>,
         inbound_endpoint_name: &str,
-        asset_uuid: Option<String>,
+        asset_uuid: Option<&str>,
     ) -> Vec<(String, String)> {
         let aio_device_ref = if let Some(device_uuid) = device_uuid {
             format!("ms-aio:{device_uuid}/{inbound_endpoint_name}")
@@ -776,35 +775,36 @@ mod tests {
         }
     }
 
-    #[test_matrix([Some(&"device-uuid".to_string()), None],
-                  [Some(&"external-device-id".to_string()), Some(&"device-uuid".to_string()), None])]
+    #[test_matrix([Some("device-uuid"), None],
+                  [Some("external-device-id"), Some("device-uuid"), None])]
     fn cloud_event_header_source_with_protocol_specific_identifier_and_data_source(
-        device_uuid: Option<&String>,
-        device_external_device_id: Option<&String>,
+        device_uuid: Option<&str>,
+        device_external_device_id: Option<&str>,
     ) {
         let asset_ref = asset_ref();
         let source = Forwarder::cloud_event_header_source(
             &asset_ref,
-            Some("protocol123".to_string()),
+            Some("protocol123"),
             device_uuid,
             device_external_device_id,
-            Some(&"data_source".to_string()),
+            Some("data_source"),
         );
         assert_eq!(source, "ms-aio:protocol123/data_source");
     }
 
-    #[test_matrix([Some(&"device-uuid".to_string()), None],
-                  [Some(&"external-device-id".to_string()), Some(&"device-uuid".to_string()), None],
-                [None, Some(&String::new()), Some(&" ".to_string()), Some(&"not valid uri".to_string())])]
+    #[allow(clippy::unnecessary_owned_empty_strings)] // needed because of test_matrix macro that treats " " and "" the same
+    #[test_matrix([Some("device-uuid"), None],
+                  [Some("external-device-id"), Some("device-uuid"), None],
+                [None, Some(&String::new()), Some(" "), Some("not valid uri")])]
     fn cloud_event_header_source_no_valid_data_source(
-        device_uuid: Option<&String>,
-        device_external_device_id: Option<&String>,
-        data_source: Option<&String>,
+        device_uuid: Option<&str>,
+        device_external_device_id: Option<&str>,
+        data_source: Option<&str>,
     ) {
         let asset_ref = asset_ref();
         let source = Forwarder::cloud_event_header_source(
             &asset_ref,
-            Some("protocol123".to_string()),
+            Some("protocol123"),
             device_uuid,
             device_external_device_id,
             data_source,
@@ -812,35 +812,37 @@ mod tests {
         assert_eq!(source, "ms-aio:protocol123");
     }
 
-    #[test_matrix([None, Some(String::new()), Some(" ".to_string()), Some("not valid ?!#$# url".to_string())], [Some(&"device-uuid".to_string()), Some(&" ".to_string()), None])]
+    #[allow(clippy::unnecessary_owned_empty_strings)] // needed because of test_matrix macro that treats " " and "" the same
+    #[test_matrix([None, Some(&String::new()), Some(" "), Some("not valid ?!#$# url")], [Some("device-uuid"), Some(" "), None])]
     fn cloud_event_header_source_uses_external_device_id(
-        protocol_specific_identifier: Option<String>,
-        device_uuid: Option<&String>,
+        protocol_specific_identifier: Option<&str>,
+        device_uuid: Option<&str>,
     ) {
         let asset_ref = asset_ref();
         let source = Forwarder::cloud_event_header_source(
             &asset_ref,
             protocol_specific_identifier,
             device_uuid,
-            Some(&"external_device_id".to_string()),
-            Some(&"data_source".to_string()),
+            Some("external_device_id"),
+            Some("data_source"),
         );
         assert_eq!(source, "ms-aio:external_device_id/data_source");
     }
 
-    #[test_matrix([None, Some(String::new()), Some(" ".to_string()), Some("not valid ?!#$# url".to_string())],
-    [Some(&"device-uuid".to_string()), None, Some(&" ".to_string()), Some(&String::new())])]
+    #[allow(clippy::unnecessary_owned_empty_strings)] // needed because of test_matrix macro that treats " " and "" the same
+    #[test_matrix([None, Some(&String::new()), Some(" "), Some("not valid ?!#$# url")],
+    [Some("device-uuid"), None, Some(" "), Some(&String::new())])]
     fn cloud_event_header_source_uses_device_name(
-        protocol_specific_identifier: Option<String>,
-        external_device_id: Option<&String>,
+        protocol_specific_identifier: Option<&str>,
+        external_device_id: Option<&str>,
     ) {
         let asset_ref = asset_ref();
         let source = Forwarder::cloud_event_header_source(
             &asset_ref,
             protocol_specific_identifier,
-            Some(&"device-uuid".to_string()),
+            Some("device-uuid"),
             external_device_id,
-            Some(&"data_source".to_string()),
+            Some("data_source"),
         );
         assert_eq!(source, "ms-aio:device_name/data_source");
     }
@@ -866,7 +868,7 @@ mod tests {
         let (event, _) = Forwarder::cloud_event_header_event_and_subject(
             &asset_ref,
             data_operation_name,
-            Some(&"type-ref-value".to_string()),
+            Some("type-ref-value"),
             None,
             None,
         );
@@ -894,7 +896,7 @@ mod tests {
         let (event, _) = Forwarder::cloud_event_header_event_and_subject(
             &asset_ref,
             data_operation_name,
-            Some(&"type-ref-value".to_string()),
+            Some("type-ref-value"),
             None,
             None,
         );
@@ -922,7 +924,7 @@ mod tests {
         let (event, _) = Forwarder::cloud_event_header_event_and_subject(
             &asset_ref,
             data_operation_name,
-            Some(&"type-ref-value".to_string()),
+            Some("type-ref-value"),
             None,
             None,
         );
@@ -945,11 +947,11 @@ mod tests {
         assert_eq!(subject, result_subject);
     }
 
-    #[test_case(Some(&"asset-uuid".to_string()); "uuid and asset id don't match")]
-    #[test_case(Some(&" ".to_string()); "uuid is whitespace")]
-    #[test_case(Some(&String::new()); "uuid is empty")]
+    #[test_case(Some("asset-uuid"); "uuid and asset id don't match")]
+    #[test_case(Some(" "); "uuid is whitespace")]
+    #[test_case(Some(""); "uuid is empty")]
     #[test_case(None; "uuid doesn't exist")]
-    fn cloud_event_header_subject_uses_external_asset_id(asset_uuid: Option<&String>) {
+    fn cloud_event_header_subject_uses_external_asset_id(asset_uuid: Option<&str>) {
         let asset_ref = asset_ref();
         let (_, subject) = Forwarder::cloud_event_header_event_and_subject(
             &asset_ref,
@@ -958,16 +960,16 @@ mod tests {
             },
             None,
             asset_uuid,
-            Some(&"external_asset_id".to_string()),
+            Some("external_asset_id"),
         );
         assert_eq!(subject, "external_asset_id/dataset_name");
     }
 
-    #[test_case(Some(&"asset-uuid".to_string()); "uuid and asset id match")]
-    #[test_case(Some(&" ".to_string()); "asset id is whitespace")]
-    #[test_case(Some(&String::new()); "asset id is empty")]
+    #[test_case(Some("asset-uuid"); "uuid and asset id match")]
+    #[test_case(Some(" "); "asset id is whitespace")]
+    #[test_case(Some(""); "asset id is empty")]
     #[test_case(None; "asset id doesn't exist")]
-    fn cloud_event_header_subject_uses_asset_name(external_asset_id: Option<&String>) {
+    fn cloud_event_header_subject_uses_asset_name(external_asset_id: Option<&str>) {
         let asset_ref = asset_ref();
         let (_, subject) = Forwarder::cloud_event_header_event_and_subject(
             &asset_ref,
@@ -975,7 +977,7 @@ mod tests {
                 name: "dataset_name".to_string(),
             },
             None,
-            Some(&"asset-uuid".to_string()),
+            Some("asset-uuid"),
             external_asset_id,
         );
         assert_eq!(subject, "asset_name/dataset_name");
