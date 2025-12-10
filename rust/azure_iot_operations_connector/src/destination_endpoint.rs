@@ -5,18 +5,18 @@
 
 use std::{sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::control_packet::QoS;
+use azure_iot_operations_mqtt::{
+    aio::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
+    control_packet::QoS,
+};
 use azure_iot_operations_protocol::{
     common::{
         aio_protocol_error::AIOProtocolError,
+        cloud_event::{CloudEvent, CloudEventBuilderError, CloudEventSubject},
         hybrid_logical_clock::HybridLogicalClock,
         payload_serialize::{BypassPayload, FormatIndicator},
     },
-    telemetry::{
-        self,
-        cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-        sender::CloudEventSubject,
-    },
+    telemetry::{self, sender::SenderCloudEvent},
 };
 use azure_iot_operations_services::{azure_device_registry::models as adr_models, state_store};
 use chrono::{DateTime, Utc};
@@ -325,7 +325,7 @@ impl Forwarder {
         asset_external_asset_id: Option<&str>,
         data_timestamp: Option<HybridLogicalClock>,
         protocol_specific_identifier: Option<&str>,
-    ) -> Result<telemetry::sender::CloudEvent, String> {
+    ) -> Result<CloudEvent<SenderCloudEvent>, String> {
         // TODO: remove once message schema validation is turned back on
         #[allow(clippy::manual_map)]
         let message_schema_uri =
@@ -342,7 +342,7 @@ impl Forwarder {
                 // return Err(Error(ErrorKind::MissingMessageSchema));
                 None
             };
-        let mut cloud_event_builder = telemetry::sender::CloudEventBuilder::default();
+        let mut cloud_event_builder = azure_iot_operations_protocol::common::cloud_event::CloudEventBuilder::<SenderCloudEvent>::default();
 
         // source
         let source = Self::cloud_event_header_source(
@@ -377,13 +377,13 @@ impl Forwarder {
         cloud_event_builder.build().map_err(|e| {
             match e {
                 // since we specify `source`, all required fields will always be present
-                telemetry::sender::CloudEventBuilderError::UninitializedField(_) => {
+                CloudEventBuilderError::UninitializedField(_) => {
                     unreachable!()
                 }
                 // This can be caused by a
                 // source that isn't a uri reference
                 // data_schema that isn't a valid uri - don't think this is possible since we create it
-                telemetry::sender::CloudEventBuilderError::ValidationError(e) => e,
+                CloudEventBuilderError::ValidationError(e) => e,
                 e => e.to_string(),
             }
         })
