@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
+using System.Text;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Retry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
@@ -255,6 +256,11 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
             try
             {
+                var asdf = (new Utf8JsonSerializer()).ToBytes(request);
+                
+                string payloadd = Encoding.UTF8.GetString(asdf.SerializedPayload);
+                Console.WriteLine(payloadd);
+
                 UpdateDeviceStatusResponsePayload result = await _adrBaseServiceClient.UpdateDeviceStatusAsync(
                     request,
                     null,
