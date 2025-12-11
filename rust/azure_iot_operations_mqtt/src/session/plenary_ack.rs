@@ -170,7 +170,6 @@ impl InnerState {
 
     async fn trigger_if_ready(self: &Arc<Self>) {
         // Check if sealed
-        //let sealed = { self.sealed.lock().unwrap().clone() };
         let sealed = *self.sealed.lock().unwrap();
         if let Some(total) = sealed {
             // Check if all members have acked
