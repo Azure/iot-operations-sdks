@@ -119,7 +119,7 @@ namespace Azure.Iot.Operations.Connector
                                     });
                                     return currentAssetStatus;
                                 },
-                                false,
+                                true,
                                 null,
                                 cancellationToken);
                         }
