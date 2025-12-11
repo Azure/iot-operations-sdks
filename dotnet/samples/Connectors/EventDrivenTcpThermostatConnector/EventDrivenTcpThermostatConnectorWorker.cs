@@ -177,8 +177,6 @@ namespace EventDrivenTcpThermostatConnector
                     await client.ConnectAsync(host, port, cancellationToken);
                     await using NetworkStream stream = client.GetStream();
 
-                    bool alreadyReportedAssetStatus = false;
-
                     try
                     {
                         while (!cancellationToken.IsCancellationRequested)
@@ -190,35 +188,51 @@ namespace EventDrivenTcpThermostatConnector
                             _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
                             await args.AssetClient.ForwardReceivedEventAsync(eventGroupName, assetEvent, buffer, null, null, cancellationToken);
 
-                            if (!alreadyReportedAssetStatus)
+                            try
                             {
-                                try
-                                {
-                                    // Report status of the asset once the first event has been received and forwarded
-                                    _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
+                                // Report status of the asset once the first event has been received and forwarded
+                                _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
 
-                                    await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
-                                        currentAssetStatus.Config ??= new();
-                                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                                        currentAssetStatus.Config.Error = null;
-                                        currentAssetStatus.UpdateEventStatus(eventGroupName, new()
-                                        {
-                                            Name = assetEvent.Name,
-                                            Error = null,
-                                            MessageSchemaReference = args.AssetClient.GetRegisteredEventMessageSchema(eventGroupName, assetEvent.Name)
-                                        });
+                                await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
+                                    currentAssetStatus.Config ??= new();
+                                    currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                    currentAssetStatus.Config.Error = null;
+                                    currentAssetStatus.UpdateEventStatus(eventGroupName, new()
+                                    {
+                                        Name = assetEvent.Name,
+                                        Error = null,
+                                        MessageSchemaReference = args.AssetClient.GetRegisteredEventMessageSchema(eventGroupName, assetEvent.Name)
+                                    });
 
-                                        _logger.LogInformation("Event group count: {}", currentAssetStatus.EventGroups?.Count);
+                                    _logger.LogInformation("Event group count: {}", currentAssetStatus.EventGroups?.Count);
 
-                                        return currentAssetStatus;
-                                    }, true, null, cancellationToken);
+                                    return currentAssetStatus;
+                                }, true, null, cancellationToken);
+                            }
+                            catch (Exception e2)
+                            {
+                                _logger.LogError(e2, "Failed to report asset status to Azure Device Registry service");
+                            }
 
-                                    alreadyReportedAssetStatus = true;
-                                }
-                                catch (Exception e2)
-                                {
-                                    _logger.LogError(e2, "Failed to report asset status to Azure Device Registry service");
-                                }
+                            try
+                            {
+                                _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
+                                await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
+                                    currentDeviceStatus.Config ??= new();
+                                    currentDeviceStatus.Config.Error = null;
+                                    currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                    currentDeviceStatus.Endpoints ??= new();
+                                    currentDeviceStatus.Endpoints.Inbound ??= new();
+                                    if (!currentDeviceStatus.Endpoints.Inbound.ContainsKey(args.InboundEndpointName))
+                                    {
+                                        currentDeviceStatus.Endpoints.Inbound.Add(args.InboundEndpointName, new());
+                                    }
+                                    return currentDeviceStatus;
+                                }, true, null, cancellationToken);
+                            }
+                            catch (Exception e)
+                            {
+                                _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
                             }
                         }
                     }
