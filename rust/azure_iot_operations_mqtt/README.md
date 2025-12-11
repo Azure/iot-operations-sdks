@@ -16,7 +16,7 @@ The Azure IoT Operations MQTT crate is intended for use with the Azure IoT Opera
 ```rust, no_run
 use std::str;
 use std::time::Duration;
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS, RetainOptions, SubscribeProperties, TopicFilter, TopicName};
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder, SessionExitHandle};
 

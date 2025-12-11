@@ -55,7 +55,11 @@ use crate::azure_mqtt::{
 use thiserror::Error;
 use tokio::sync::Notify;
 
+use crate::aio::{
+    AIOBrokerFeatures, AIOBrokerFeaturesBuilder, connection_settings::MqttConnectionSettings,
+};
 use crate::azure_mqtt_adapter as adapter;
+use crate::azure_mqtt_adapter::AzureMqttConnectParameters;
 use crate::control_packet::PacketIdentifier;
 use crate::error::DetachedError;
 pub use crate::session::managed_client::{SessionManagedClient, SessionPubReceiver};
@@ -67,7 +71,6 @@ use crate::session::{
 };
 #[cfg(feature = "test-utils")]
 use crate::test_utils::InjectedPacketChannels;
-use crate::{MqttConnectionSettings, azure_mqtt_adapter::AzureMqttConnectParameters};
 
 pub(crate) mod dispatcher;
 pub mod enhanced_auth_policy;
@@ -208,14 +211,6 @@ pub struct SessionOptions {
     #[cfg(feature = "test-utils")]
     #[builder(default)]
     injected_packet_channels: Option<InjectedPacketChannels>,
-}
-
-/// Options for configuring features on a [`Session`] that are specific to the AIO broker
-#[derive(Builder)]
-pub struct AIOBrokerFeatures {
-    /// Indicates if the Session should use AIO persistence
-    #[builder(default = "false")]
-    persistence: bool,
 }
 
 /// Client that manages connections over a single MQTT session.
