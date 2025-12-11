@@ -13,7 +13,6 @@ use azure_iot_operations_protocol::{
     },
     rpc_command,
 };
-use env_logger::Builder;
 
 // These tests test these happy path scenarios
 // - request with payload
@@ -47,7 +46,7 @@ fn setup_test<
     ),
     (),
 > {
-    let _ = Builder::new()
+    let _ = env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
         .filter_module("azure_mqtt", log::LevelFilter::Warn)

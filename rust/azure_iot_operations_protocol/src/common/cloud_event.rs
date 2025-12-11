@@ -113,7 +113,7 @@ impl CloudEventBuilder {
 }
 
 impl CloudEvent {
-    /// Get [`CloudEvent`] as headers for an MQTT message
+    /// Get [`CloudEvent`] as user properties for an MQTT publish
     #[must_use]
     pub(crate) fn into_headers(self, publish_topic: &str) -> Vec<(String, String)> {
         let mut headers = vec![

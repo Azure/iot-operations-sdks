@@ -365,7 +365,7 @@ impl From<ReceivedCloudEventBuilderError> for CloudEventParseError {
 }
 
 impl From<CloudEvent> for Vec<(String, String)> {
-    /// Get [`CloudEvent`] as headers for an MQTT message
+    /// Get [`CloudEvent`] as user properties for an MQTT publish
     /// This fn ignores `data_content_type` so that it can be set separately if needed
     fn from(value: CloudEvent) -> Self {
         let mut headers = vec![
@@ -394,7 +394,7 @@ impl From<CloudEvent> for Vec<(String, String)> {
 }
 
 impl CloudEvent {
-    /// Set [`CloudEvent`] as headers on a [`PublishProperties`] for an MQTT message
+    /// Set [`CloudEvent`] as user properties on a [`PublishProperties`] for an MQTT publish
     /// Note that if `data_content_type` is `Some` on the [`CloudEvent`], the value will override
     /// any `content_type` already set in the `PublishProperties`
     #[must_use]
