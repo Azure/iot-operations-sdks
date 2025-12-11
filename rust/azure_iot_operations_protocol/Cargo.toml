@@ -12,7 +12,7 @@ readme = "README.md"
 publish = true
 
 [dependencies]
-azure_iot_operations_mqtt = { version = "0.11.0", path = "../azure_iot_operations_mqtt", registry = "aio-sdks" }
+azure_iot_operations_mqtt = { version = "1.0.0-rc", path = "../azure_iot_operations_mqtt" }
 bytes.workspace = true
 derive_builder.workspace = true
 iso8601-duration = "0.2.0"
@@ -28,7 +28,7 @@ fluent-uri = "0.3.2"
 [dev-dependencies]
 async-std = "1.12"
 async-trait = "0.1.81"
-azure_iot_operations_mqtt = { version = "0.11.0", path = "../azure_iot_operations_mqtt", registry = "aio-sdks", features = ["test-utils"] }
+azure_iot_operations_mqtt = { version = "1.0.0-rc", path = "../azure_iot_operations_mqtt", features = ["test-utils"] }
 ctor = "0.2"
 datatest-stable = "0.2"
 env_logger.workspace = true
