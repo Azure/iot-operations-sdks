@@ -256,18 +256,18 @@ impl CloudEventBuilder {
 }
 
 impl TryFrom<&PublishProperties> for CloudEvent {
-    type Error = CloudEventBuilderError;
+    type Error = CloudEventParseError;
 
     /// Parse a [`CloudEvent`] from a Publish's [`PublishProperties`].
     /// Note that this will return an error if the [`PublishProperties`] do not contain the required fields for a [`CloudEvent`].
     ///
     /// # Errors
-    /// [`CloudEventBuilderError::UninitializedField`] if the [`PublishProperties`] do not contain the required fields for a [`CloudEvent`].
+    /// [`CloudEventParseError::MissingHeader`] if the [`PublishProperties`] do not contain the required fields for a [`CloudEvent`].
     ///
-    /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
+    /// [`CloudEventParseError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
     fn try_from(
         publish_properties: &PublishProperties,
-    ) -> Result<CloudEvent, CloudEventBuilderError> {
+    ) -> Result<CloudEvent, CloudEventParseError> {
         CloudEvent::try_from((
             &publish_properties.user_properties,
             publish_properties.content_type.as_deref(),
@@ -276,18 +276,18 @@ impl TryFrom<&PublishProperties> for CloudEvent {
 }
 
 impl TryFrom<(&Vec<(String, String)>, Option<&str>)> for CloudEvent {
-    type Error = CloudEventBuilderError;
+    type Error = CloudEventParseError;
 
     /// Parse a [`CloudEvent`] from a Publish's user properties and content type.
     /// Note that this will return an error if the arguments do not contain the required fields for a [`CloudEvent`].
     ///
     /// # Errors
-    /// [`CloudEventBuilderError::UninitializedField`] if the arguments do not contain the required fields for a [`CloudEvent`].
+    /// [`CloudEventParseError::MissingHeader`] if the arguments do not contain the required fields for a [`CloudEvent`].
     ///
-    /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
+    /// [`CloudEventParseError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
     fn try_from(
         (user_properties, content_type): (&Vec<(String, String)>, Option<&str>),
-    ) -> Result<CloudEvent, CloudEventBuilderError> {
+    ) -> Result<CloudEvent, CloudEventParseError> {
         // use builder so that all fields can be validated together
         let mut received_cloud_event_builder = ReceivedCloudEventBuilder::default();
         if let Some(content_type) = content_type {
@@ -320,31 +320,54 @@ impl TryFrom<(&Vec<(String, String)>, Option<&str>)> for CloudEvent {
                 _ => {}
             }
         }
-        let mut received_cloud_event =
-            received_cloud_event_builder.build().map_err(|e| match e {
-                ReceivedCloudEventBuilderError::UninitializedField(field_name) => {
-                    CloudEventBuilderError::UninitializedField(field_name)
-                }
-                ReceivedCloudEventBuilderError::ValidationError(message) => {
-                    CloudEventBuilderError::ValidationError(message)
-                }
-            })?;
+        let mut received_cloud_event = received_cloud_event_builder.build()?;
         // now that everything is validated, update the time field to its correct typing
         // NOTE: If the spec_version changes in the future, that may need to be taken into account here.
         // For now, the builder validates spec version 1.0
         if let Some(ref time_str) = received_cloud_event.builder_time {
-            match DateTime::parse_from_rfc3339(time_str) {
-                Ok(parsed_time) => {
-                    let time = parsed_time.with_timezone(&Utc);
-                    received_cloud_event.time = Some(time);
-                }
-                Err(_) => {
-                    // Builder should have already caught this error
-                    unreachable!()
-                }
-            }
+            let parsed_time = DateTime::parse_from_rfc3339(time_str)
+                .expect("Internal builder should have already caught this error");
+            let time = parsed_time.with_timezone(&Utc);
+            received_cloud_event.time = Some(time);
         }
         Ok(received_cloud_event.into())
+    }
+}
+
+/// Error when parsing a Cloud Event from a Publish
+#[derive(Debug)]
+#[non_exhaustive]
+pub enum CloudEventParseError {
+    /// Missing required header
+    MissingHeader(&'static str),
+    /// Invalid header value
+    ValidationError(String),
+}
+
+impl std::error::Error for CloudEventParseError {}
+impl std::fmt::Display for CloudEventParseError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            CloudEventParseError::MissingHeader(field_name) => {
+                write!(f, "Missing required header: {}", field_name)
+            }
+            CloudEventParseError::ValidationError(err_msg) => {
+                write!(f, "Invalid header value: {}", err_msg)
+            }
+        }
+    }
+}
+
+impl From<ReceivedCloudEventBuilderError> for CloudEventParseError {
+    fn from(value: ReceivedCloudEventBuilderError) -> Self {
+        match value {
+            ReceivedCloudEventBuilderError::UninitializedField(field_name) => {
+                CloudEventParseError::MissingHeader(field_name)
+            }
+            ReceivedCloudEventBuilderError::ValidationError(err_msg) => {
+                CloudEventParseError::ValidationError(err_msg)
+            }
+        }
     }
 }
 

@@ -27,18 +27,19 @@ const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Cloud Event struct derived from a received Telemetry Message.
 pub type CloudEvent = aio_cloud_event::CloudEvent;
-// TODO: pub type the error too once we have the right name
+/// Error when parsing a Cloud Event from a received Telemetry Message
+pub type CloudEventParseError = aio_cloud_event::CloudEventParseError;
 
 /// Parse a [`CloudEvent`] from a [`Message`].
 /// Note that this will return an error if the [`Message`] does not contain the required fields for a [`CloudEvent`].
 ///
 /// # Errors
-/// [`CloudEventBuilderError::UninitializedField`] if the [`Message`] does not contain the required fields for a [`CloudEvent`].
+/// [`CloudEventParseError::MissingHeader`] if the [`Message`] does not contain the required fields for a [`CloudEvent`].
 ///
-/// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
+/// [`CloudEventParseError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
 pub fn cloud_event_from_telemetry<T: PayloadSerialize>(
     telemetry: &Message<T>,
-) -> Result<CloudEvent, aio_cloud_event::CloudEventBuilderError> {
+) -> Result<CloudEvent, CloudEventParseError> {
     CloudEvent::try_from((
         &telemetry.custom_user_data,
         telemetry.content_type.as_deref(),

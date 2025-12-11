@@ -156,18 +156,19 @@ where
 
 /// Cloud Event struct derived from the Command Request.
 pub type RequestCloudEvent = aio_cloud_event::CloudEvent;
-// TODO: pub type the error too once we have the right name
+/// Error when parsing a Cloud Event from a Request
+pub type RequestCloudEventParseError = aio_cloud_event::CloudEventParseError;
 
 /// Parse a [`RequestCloudEvent`] from a [`Request`].
 /// Note that this will return an error if the [`Request`] does not contain the required fields for a [`RequestCloudEvent`].
 ///
 /// # Errors
-/// [`aio_cloud_event::CloudEventBuilderError::UninitializedField`] if the [`Request`] does not contain the required fields for a [`RequestCloudEvent`].
+/// [`RequestCloudEventParseError::MissingHeader`] if the [`Request`] does not contain the required fields for a [`RequestCloudEvent`].
 ///
-/// [`aio_cloud_event::CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`RequestCloudEvent`].
+/// [`RequestCloudEventParseError::ValidationError`] if any of the field values are not valid for a [`RequestCloudEvent`].
 pub fn cloud_event_from_request<TReq: PayloadSerialize, TResp: PayloadSerialize>(
     request: &Request<TReq, TResp>,
-) -> Result<RequestCloudEvent, aio_cloud_event::CloudEventBuilderError> {
+) -> Result<RequestCloudEvent, RequestCloudEventParseError> {
     RequestCloudEvent::try_from((&request.custom_user_data, request.content_type.as_deref()))
 }
 
