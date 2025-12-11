@@ -34,9 +34,9 @@ pub type CloudEventParseError = aio_cloud_event::CloudEventParseError;
 /// Note that this will return an error if the [`Message`] does not contain the required fields for a [`CloudEvent`].
 ///
 /// # Errors
-/// [`CloudEventParseError::MissingHeader`] if the [`Message`] does not contain the required fields for a [`CloudEvent`].
-///
-/// [`CloudEventParseError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
+/// [`CloudEventParseError`] if
+///     - the [`Message`] does not contain the required fields for a [`CloudEvent`].
+///     - any of the field values are not valid for a [`CloudEvent`].
 pub fn cloud_event_from_telemetry<T: PayloadSerialize>(
     telemetry: &Message<T>,
 ) -> Result<CloudEvent, CloudEventParseError> {

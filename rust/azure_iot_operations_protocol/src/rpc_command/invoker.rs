@@ -321,9 +321,9 @@ pub type ResponseCloudEventParseError = aio_cloud_event::CloudEventParseError;
 /// Note that this will return an error if the [`Response`] does not contain the required fields for a [`ResponseCloudEvent`].
 ///
 /// # Errors
-/// [`ResponseCloudEventParseError::MissingHeader`] if the [`Response`] does not contain the required fields for a [`ResponseCloudEvent`].
-///
-/// [`ResponseCloudEventParseError::ValidationError`] if any of the field values are not valid for a [`ResponseCloudEvent`].
+/// [`ResponseCloudEventParseError`] if
+///     - the [`Response`] does not contain the required fields for a [`ResponseCloudEvent`].
+///     - any of the field values are not valid for a [`ResponseCloudEvent`].
 pub fn cloud_event_from_response<TResp: PayloadSerialize>(
     response: &Response<TResp>,
 ) -> Result<ResponseCloudEvent, ResponseCloudEventParseError> {

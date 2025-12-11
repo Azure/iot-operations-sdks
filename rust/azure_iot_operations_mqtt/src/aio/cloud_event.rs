@@ -12,6 +12,7 @@ use std::{
 use chrono::{DateTime, SecondsFormat, Utc};
 use fluent_uri::{Uri, UriRef};
 use regex::Regex;
+use thiserror::Error;
 use uuid::Uuid;
 
 use crate::control_packet::PublishProperties;
@@ -262,9 +263,9 @@ impl TryFrom<&PublishProperties> for CloudEvent {
     /// Note that this will return an error if the [`PublishProperties`] do not contain the required fields for a [`CloudEvent`].
     ///
     /// # Errors
-    /// [`CloudEventParseError::MissingHeader`] if the [`PublishProperties`] do not contain the required fields for a [`CloudEvent`].
-    ///
-    /// [`CloudEventParseError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
+    /// [`CloudEventParseError`] if
+    ///     - the [`PublishProperties`] does not contain the required fields for a [`CloudEvent`].
+    ///     - any of the field values are not valid for a [`CloudEvent`].
     fn try_from(
         publish_properties: &PublishProperties,
     ) -> Result<CloudEvent, CloudEventParseError> {
@@ -282,9 +283,9 @@ impl TryFrom<(&Vec<(String, String)>, Option<&str>)> for CloudEvent {
     /// Note that this will return an error if the arguments do not contain the required fields for a [`CloudEvent`].
     ///
     /// # Errors
-    /// [`CloudEventParseError::MissingHeader`] if the arguments do not contain the required fields for a [`CloudEvent`].
-    ///
-    /// [`CloudEventParseError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
+    /// [`CloudEventParseError`] if
+    ///     - the arguments do not contain the required fields for a [`CloudEvent`].
+    ///     - any of the field values are not valid for a [`CloudEvent`].
     fn try_from(
         (user_properties, content_type): (&Vec<(String, String)>, Option<&str>),
     ) -> Result<CloudEvent, CloudEventParseError> {
@@ -335,37 +336,29 @@ impl TryFrom<(&Vec<(String, String)>, Option<&str>)> for CloudEvent {
 }
 
 /// Error when parsing a Cloud Event from a Publish
-#[derive(Debug)]
-#[non_exhaustive]
-pub enum CloudEventParseError {
+#[derive(Debug, Error)]
+#[error(transparent)]
+pub struct CloudEventParseError(#[from] CloudEventParseErrorRepr);
+
+/// Error when parsing a Cloud Event from a Publish
+#[derive(Debug, Error)]
+enum CloudEventParseErrorRepr {
     /// Missing required header
+    #[error("Missing required header: {0}")]
     MissingHeader(&'static str),
     /// Invalid header value
+    #[error("Invalid header value: {0}")]
     ValidationError(String),
-}
-
-impl std::error::Error for CloudEventParseError {}
-impl std::fmt::Display for CloudEventParseError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            CloudEventParseError::MissingHeader(field_name) => {
-                write!(f, "Missing required header: {field_name}")
-            }
-            CloudEventParseError::ValidationError(err_msg) => {
-                write!(f, "Invalid header value: {err_msg}")
-            }
-        }
-    }
 }
 
 impl From<ReceivedCloudEventBuilderError> for CloudEventParseError {
     fn from(value: ReceivedCloudEventBuilderError) -> Self {
         match value {
             ReceivedCloudEventBuilderError::UninitializedField(field_name) => {
-                CloudEventParseError::MissingHeader(field_name)
+                CloudEventParseErrorRepr::MissingHeader(field_name).into()
             }
             ReceivedCloudEventBuilderError::ValidationError(err_msg) => {
-                CloudEventParseError::ValidationError(err_msg)
+                CloudEventParseErrorRepr::ValidationError(err_msg).into()
             }
         }
     }
