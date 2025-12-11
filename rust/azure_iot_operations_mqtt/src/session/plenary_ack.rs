@@ -172,9 +172,17 @@ impl InnerState {
             // Check if all members have acked
             if self.counter.load(Ordering::SeqCst) == total {
                 // Check if result is not yet set
-                if self.result.get().is_none() {
+                if self.result.get().is_none() && self.manual_ack.lock().unwrap().is_some() {
                     // Trigger manual ack
-                    let manual_ack = self.manual_ack.lock().unwrap().take().unwrap(); // TODO: guarantee? Is Option really the best option?
+                    // NOTE: It's a little inefficient to check the Mutex twice, but this is the
+                    // easiest way to keep the compiler happy and guarantee correctness. Revisit
+                    // if we need to improve performance.
+                    let manual_ack = self
+                        .manual_ack
+                        .lock()
+                        .unwrap()
+                        .take()
+                        .expect("manual_ack presence was checked");
                     let result = match manual_ack {
                         ManualAcknowledgement::QoS0 => {
                             unreachable!("no ack is possible on QoS0")
@@ -190,9 +198,9 @@ impl InnerState {
                     // Map the token result to a PlenaryAckCompletionToken
                     let result = result.map(|ct| PlenaryAckCompletionToken { inner: ct.shared() });
 
-                    // TODO: what is the return type?
-                    // TODO: clean up
-                    self.result.set(result).unwrap();
+                    self.result
+                        .set(result)
+                        .expect("result cannot have been set before");
                     self.notify.notify_waiters();
                 }
             }
