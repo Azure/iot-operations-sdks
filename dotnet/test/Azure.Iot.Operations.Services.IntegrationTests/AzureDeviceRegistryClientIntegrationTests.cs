@@ -432,6 +432,62 @@ public class AzureDeviceRegistryClientIntegrationTests
         Assert.False(receivedEvents.ContainsKey(TestDevice_2_Name), $"Unexpected device event for test-thermostat received");
     }
 
+
+    [Fact]
+    public async Task CanClearErrorFromDeviceStatusAsync()
+    {
+        // Arrange
+        var expectedTime = DateTime.Parse("2023-10-01T00:00:00Z");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
+        ApplicationContext applicationContext = new();
+        await using AzureDeviceRegistryClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+
+        var status = new DeviceStatus
+        {
+            Config = new ConfigStatus
+            {
+                Error = new ConfigError()
+                {
+                    Code = "someError",
+                    Message = "bad stuff",
+                    Details = new List<ConfigErrorDetails>()
+                    {
+                        {
+                            new ConfigErrorDetails()
+                            {
+                                Code = "someError"
+                            }
+                        }
+                    }
+                },
+                LastTransitionTime = expectedTime,
+                Version = 1
+            },
+            Endpoints = new DeviceStatusEndpoint
+            {
+                Inbound = new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValue>
+                {
+                    { TestEndpointName, new DeviceStatusInboundEndpointSchemaMapValue() }
+                }
+            }
+        };
+
+        // Act
+        DeviceStatus updatedDevice = await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
+
+        // Assert
+        Assert.NotNull(updatedDevice);
+        Assert.NotNull(updatedDevice.Config);
+        Assert.NotNull(updatedDevice.Config.Error);
+        Assert.Equal(expectedTime, updatedDevice.Config.LastTransitionTime);
+
+        // clear the error
+        status.Config.Error = null;
+        updatedDevice = await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
+        Assert.NotNull(updatedDevice.Config);
+        Assert.Null(updatedDevice.Config.Error);
+
+    }
     private CreateOrUpdateDiscoveredAssetRequest CreateCreateDetectedAssetRequest()
     {
         var asset = new CreateOrUpdateDiscoveredAssetRequest
