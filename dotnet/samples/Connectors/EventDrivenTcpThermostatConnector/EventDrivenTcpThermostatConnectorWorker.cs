@@ -190,7 +190,7 @@ namespace EventDrivenTcpThermostatConnector
 
                             try
                             {
-                                // Report status of the asset once the first event has been received and forwarded
+                                // Report status of the asset on every event received and forwarded
                                 _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
 
                                 await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
