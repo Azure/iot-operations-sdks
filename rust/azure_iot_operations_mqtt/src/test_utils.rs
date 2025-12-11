@@ -482,6 +482,9 @@ impl MockReconnectPolicyController {
     pub fn set_next_delay(&self, delay: Option<Duration>) {
         *self.next_delay.lock().unwrap() = delay;
     }
+
+    // TODO: It would be useful to have a way to know the details of the disconnect in the
+    // notification
 }
 
 /// Mock enhanced auth policy for testing purposes

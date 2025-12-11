@@ -101,7 +101,7 @@ fn connection_settings_builder_preset(client_id: &str) -> MqttConnectionSettings
         .client_id(client_id)
         .hostname("test-hostname")
         .tcp_port(1883u16)
-        .keep_alive(Duration::from_secs(30))
+        .keep_alive(Duration::from_secs(5))
         .receive_max(20u16)
         .receive_packet_size_max(2048)
         .session_expiry(Duration::from_secs(60))
@@ -384,7 +384,75 @@ async fn connection_loss_server_disconnect_reconnect() {
     assert!(matches!(e.kind(), SessionErrorKind::ReconnectHalted));
 }
 
-// TODO: disconnect with Ping timeout, IO error(s), protocol error(s)
+#[tokio::test]
+async fn connection_loss_ping_timeout_reconnect() {
+    env_logger::builder()
+        .is_test(true)
+        .filter_level(log::LevelFilter::Debug)
+        .init();
+
+    let (connection_settings, session, mock_server, mock_rp_controller) =
+        quick_setup_standard_auth("test-connection-loss-ping-timeout-reconnect-client");
+    mock_rp_controller.manual_mode(true);
+    let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
+
+    // Start the session run loop
+    let run_f = tokio::task::spawn(session.run());
+
+    // Validate that the CONNECT packet contains the expected values
+    let connect = mock_server.expect_connect_and_accept(true).await;
+    assert_eq!(connect, expected_connect(&connection_settings, None, false));
+
+    // Wait for connection to be established by Session in response to CONNACK
+    monitor.connected().await;
+
+    // Expect disconnect after the keep-alive timeout
+    // let connection_loss_f = mock_rp_controller.connection_loss_notified();
+    let start = std::time::Instant::now();
+    let connection_loss_f = mock_rp_controller.connection_loss_notified();
+    monitor.disconnected().await;
+    connection_loss_f.await;
+    let elapsed = start.elapsed();
+    assert!(elapsed < *connection_settings.keep_alive() + Duration::from_secs(1));
+    assert!(elapsed >= *connection_settings.keep_alive());
+
+
+}
+
+// TODO: disconnect with IO error(s), protocol error(s)
+
+#[tokio::test]
+async fn session_loss_after_reconnect() {
+    let (connection_settings, session, mock_server, _) =
+        quick_setup_standard_auth("test-session-loss-after-reconnect-client");
+    let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
+
+    // Start the session run loop
+    let run_f = tokio::task::spawn(session.run());
+
+    // Validate that the CONNECT packet contains the expected values
+    let connect = mock_server.expect_connect_and_accept(true).await;
+    assert_eq!(connect, expected_connect(&connection_settings, None, false));
+
+    // Wait for connection to be established by Session in response to CONNACK
+    monitor.connected().await;
+
+    // Disconnect the session and wait for disconnect
+    mock_server.send_disconnect(mqtt_proto::Disconnect {
+        reason_code: mqtt_proto::DisconnectReasonCode::UnspecifiedError,
+        other_properties: mqtt_proto::DisconnectOtherProperties::default(),
+    });
+    monitor.disconnected().await;
+
+    // Wait for reconnect, and indicate the session is not present.
+    mock_server.expect_connect_and_accept(false).await;
+
+    // Session exits due to session loss after reconnect
+    let e = run_f.await.unwrap().unwrap_err();
+    assert!(matches!(e.kind(), SessionErrorKind::SessionLost));
+}
 
 #[tokio::test]
 async fn try_exit_never_run() {
