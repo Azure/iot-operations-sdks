@@ -429,7 +429,7 @@ async fn qos0_multiple_unfiltered_receivers() {
 /// - Receive single PUBLISH via `recv()` and send auto-PUBACK only after all receivers have received it
 /// - Receive multiple PUBLISHes via `recv()`and send auto-PUBACK only after all receivers have received them in message order
 /// - Receive single PUBLISH via `recv_manual_ack()` and send PUBACK only after all receivers have acked it via `AckToken`
-/// - Recieve single PUBLISH via `recv_manual_ack()` and send PUBACK only after all receivers have acked it via dropped `AckToken`
+/// - receive single PUBLISH via `recv_manual_ack()` and send PUBACK only after all receivers have acked it via dropped `AckToken`
 /// - Receive multiple PUBLISHes via `recv_manual_ack()` and send PUBACKs only after all receivers have acked them via `AckToken` in message order
 /// - Receive multiple PUBLISHes via `recv_manual_ack()` and send PUBACKs only after all receivers have acked them via dropped `AckToken` in message order
 async fn qos1_multiple_receiver_same_filter_test_logic(
@@ -878,11 +878,11 @@ async fn dispatch_rules_filter_matching() {
     tokio::task::spawn(session.run());
     mock_server.expect_connect_and_accept(true).await;
 
-    let mut reciever1 = managed_client
+    let mut receiver1 = managed_client
         .create_filtered_pub_receiver(TopicFilter::new("sport/tennis/player1").unwrap());
     let mut receiver2 = managed_client
         .create_filtered_pub_receiver(TopicFilter::new("sport/tennis/player2").unwrap());
-    let mut reciever3 = managed_client
+    let mut receiver3 = managed_client
         .create_filtered_pub_receiver(TopicFilter::new("sport/hockey/player1").unwrap());
     let mut receiver4 =
         managed_client.create_filtered_pub_receiver(TopicFilter::new("sport/tennis/+").unwrap());
@@ -893,9 +893,9 @@ async fn dispatch_rules_filter_matching() {
     let proto_publish1 = proto_publish_qos1("sport/tennis/player1", 1);
     let expected_publish1 = proto_publish1.clone().into();
     mock_server.send_publish(proto_publish1);
-    assert_eq!(reciever1.recv().await.unwrap(), expected_publish1);
+    assert_eq!(receiver1.recv().await.unwrap(), expected_publish1);
     assert!(receiver2.recv().now_or_never().is_none());
-    assert!(reciever3.recv().now_or_never().is_none());
+    assert!(receiver3.recv().now_or_never().is_none());
     assert_eq!(receiver4.recv().await.unwrap(), expected_publish1);
     assert_eq!(receiver5.recv().await.unwrap(), expected_publish1);
     assert_eq!(receiver6.recv().await.unwrap(), expected_publish1);
@@ -904,9 +904,9 @@ async fn dispatch_rules_filter_matching() {
     let proto_publish2 = proto_publish_qos1("sport/hockey/player1", 2);
     let expected_publish2 = proto_publish2.clone().into();
     mock_server.send_publish(proto_publish2);
-    assert!(reciever1.recv().now_or_never().is_none());
+    assert!(receiver1.recv().now_or_never().is_none());
     assert!(receiver2.recv().now_or_never().is_none());
-    assert_eq!(reciever3.recv().await.unwrap(), expected_publish2);
+    assert_eq!(receiver3.recv().await.unwrap(), expected_publish2);
     assert!(receiver4.recv().now_or_never().is_none());
     assert_eq!(receiver5.recv().await.unwrap(), expected_publish2);
     assert_eq!(receiver6.recv().await.unwrap(), expected_publish2);
@@ -915,9 +915,9 @@ async fn dispatch_rules_filter_matching() {
     let proto_publish3 = proto_publish_qos1("news/weather", 3);
     let expected_publish3 = proto_publish3.clone().into();
     mock_server.send_publish(proto_publish3);
-    assert!(reciever1.recv().now_or_never().is_none());
+    assert!(receiver1.recv().now_or_never().is_none());
     assert!(receiver2.recv().now_or_never().is_none());
-    assert!(reciever3.recv().now_or_never().is_none());
+    assert!(receiver3.recv().now_or_never().is_none());
     assert!(receiver4.recv().now_or_never().is_none());
     assert!(receiver5.recv().now_or_never().is_none());
     assert_eq!(receiver6.recv().await.unwrap(), expected_publish3);
@@ -926,9 +926,9 @@ async fn dispatch_rules_filter_matching() {
     let proto_publish4 = proto_publish_qos1("sport/tennis/singles/player2", 4);
     let expected_publish4 = proto_publish4.clone().into();
     mock_server.send_publish(proto_publish4);
-    assert!(reciever1.recv().now_or_never().is_none());
+    assert!(receiver1.recv().now_or_never().is_none());
     assert!(receiver2.recv().now_or_never().is_none());
-    assert!(reciever3.recv().now_or_never().is_none());
+    assert!(receiver3.recv().now_or_never().is_none());
     assert!(receiver4.recv().now_or_never().is_none());
     assert_eq!(receiver5.recv().await.unwrap(), expected_publish4);
     assert_eq!(receiver6.recv().await.unwrap(), expected_publish4);
