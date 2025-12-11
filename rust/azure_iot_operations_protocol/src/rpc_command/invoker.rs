@@ -622,7 +622,7 @@ pub struct Options {
 /// ```
 /// # use std::{collections::HashMap, time::Duration};
 /// # use tokio_test::block_on;
-/// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+/// # use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc_command;
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
@@ -1482,7 +1482,7 @@ async fn flatten<T>(
 mod tests {
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
-    use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+    use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 
     use super::*;

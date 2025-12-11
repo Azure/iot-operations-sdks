@@ -5,7 +5,7 @@ use std::time::Duration;
 
 use env_logger::Builder;
 
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::{
     PublishProperties, QoS, RetainOptions, SubscribeProperties, TopicFilter, TopicName,
 };

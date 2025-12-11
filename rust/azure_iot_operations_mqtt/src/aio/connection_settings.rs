@@ -79,7 +79,7 @@ impl MqttConnectionSettingsBuilder {
     ///
     /// Example
     /// ```
-    /// # use azure_iot_operations_mqtt::{MqttConnectionSettings, MqttConnectionSettingsBuilder, MqttConnectionSettingsBuilderError};
+    /// # use azure_iot_operations_mqtt::aio::connection_settings::{MqttConnectionSettings, MqttConnectionSettingsBuilder, MqttConnectionSettingsBuilderError};
     /// # fn try_main() -> Result<MqttConnectionSettings, MqttConnectionSettingsBuilderError> {
     /// let connection_settings = MqttConnectionSettingsBuilder::from_environment().unwrap().build()?;
     /// # Ok(connection_settings)

@@ -8,12 +8,7 @@
 //! Use the components of the [`session`] module to communicate over MQTT with
 //! an automatically managed connection across a single MQTT session.
 
-pub use crate::connection_settings::{
-    MqttConnectionSettings, MqttConnectionSettingsBuilder, MqttConnectionSettingsBuilderError,
-};
-
 pub mod aio;
-mod connection_settings;
 pub mod control_packet;
 pub mod error;
 pub mod session;
