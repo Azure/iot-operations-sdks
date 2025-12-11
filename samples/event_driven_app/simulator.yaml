@@ -35,7 +35,7 @@ spec:
             name: azure-iot-operations-aio-ca-trust-bundle
       containers:
         - name: event-driven-app-simulator
-          image: alpine
+          image: mcr.microsoft.com/azurelinux/base/core:3.0
           volumeMounts:
             - name: mqtt-client-token
               mountPath: /var/run/secrets/tokens/
@@ -44,7 +44,7 @@ spec:
           command: ["sh", "-c"]
           args:
             - |
-              apk --no-cache add mosquitto-clients
+              apt update && apt install -y mosquitto-clients
 
               SLEEP_DURATION=2
               REPORT_INTERVAL=10
