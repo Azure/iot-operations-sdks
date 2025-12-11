@@ -10,7 +10,7 @@ use env_logger::Builder;
 
 use tokio::time::sleep;
 
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::leased_lock::{lease, lock};

@@ -5,7 +5,7 @@ use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
 use tokio_test::{assert_pending, assert_ready};
 
 use azure_iot_operations_mqtt::{
-    MqttConnectionSettingsBuilder,
+    aio::connection_settings::MqttConnectionSettingsBuilder,
     control_packet::TopicFilter,
     session::{Session, SessionOptionsBuilder, SessionPubReceiver},
     test_utils::{IncomingPacketsTx, InjectedPacketChannels, MockServer, OutgoingPacketsRx},
