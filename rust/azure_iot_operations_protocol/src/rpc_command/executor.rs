@@ -151,25 +151,25 @@ where
     pub fn is_cancelled(&self) -> bool {
         self.response_tx.is_closed()
     }
+}
 
-    /// Parse a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`] from a [`Request`].
-    /// Note that this will return an error if the [`Request`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
-    ///
-    /// # Errors
-    /// [`azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError::UninitializedField`] if the [`Request`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
-    ///
-    /// [`azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
-    pub fn get_cloud_event(
-        &self,
-    ) -> Result<
-        azure_iot_operations_mqtt::aio::cloud_event::CloudEvent,
-        azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError,
-    > {
-        azure_iot_operations_mqtt::aio::cloud_event::CloudEvent::from_user_properties_and_content_type(
-            &self.custom_user_data,
-            self.content_type.as_deref(),
-        )
-    }
+/// Parse a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`] from a [`Request`].
+/// Note that this will return an error if the [`Request`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
+///
+/// # Errors
+/// [`azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError::UninitializedField`] if the [`Request`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
+///
+/// [`azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
+pub fn cloud_event_from_request<TReq: PayloadSerialize, TResp: PayloadSerialize>(
+    request: &Request<TReq, TResp>,
+) -> Result<
+    azure_iot_operations_mqtt::aio::cloud_event::CloudEvent,
+    azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError,
+> {
+    azure_iot_operations_mqtt::aio::cloud_event::CloudEvent::from_user_properties_and_content_type(
+        &request.custom_user_data,
+        request.content_type.as_deref(),
+    )
 }
 
 /// Command Executor Response struct.

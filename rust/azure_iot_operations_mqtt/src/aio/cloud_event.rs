@@ -16,6 +16,8 @@ use uuid::Uuid;
 
 use crate::control_packet::PublishProperties;
 
+// ~~~~~~~~~~ Enum/fns/constants for validating/creating Cloud Event Fields ~~~~~~~~~~
+
 /// Default spec version for a `CloudEvent`. Compliant event producers MUST
 /// use a value of 1.0 when referring to this version of the specification.
 pub const DEFAULT_CLOUD_EVENT_SPEC_VERSION: &str = "1.0";
@@ -159,6 +161,9 @@ impl FromStr for CloudEventFields {
         }
     }
 }
+
+// ~~~~~~~~~~ Public CloudEvent struct and fns to convert to/from publishes ~~~~~~~~~~
+// ~~~~~~~~~~ Builder only used for creating a Cloud Event to send ~~~~~~~~~~
 
 /// Cloud Event struct.
 /// Note: if fields are modified after the [`CloudEvent`] has been built, there is no longer
@@ -379,6 +384,24 @@ impl CloudEvent {
     }
 }
 
+impl Display for CloudEvent {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "CloudEvent {{ id: {id}, source: {source}, spec_version: {spec_version}, event_type: {event_type}, subject: {subject}, data_schema: {data_schema}, data_content_type: {data_content_type}, time: {time:?} }}",
+            id = self.id,
+            source = self.source,
+            spec_version = self.spec_version,
+            event_type = self.event_type,
+            subject = self.subject.as_deref().unwrap_or("None"),
+            data_schema = self.data_schema.as_deref().unwrap_or("None"),
+            data_content_type = self.data_content_type.as_deref().unwrap_or("None"),
+            time = self.time,
+        )
+    }
+}
+
+// ~~~~~~~~~~ Internal builder for validating received cloud events ~~~~~~~~~~
 /// Internal Cloud Event struct with validations for building a [`CloudEvent`] from received [`PublishProperties`].
 ///
 /// Implements the cloud event spec 1.0.
@@ -469,24 +492,6 @@ impl ReceivedCloudEventBuilder {
         }
 
         Ok(())
-    }
-}
-
-// implementing display because debug prints private fields
-impl Display for CloudEvent {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "CloudEvent {{ id: {id}, source: {source}, spec_version: {spec_version}, event_type: {event_type}, subject: {subject}, data_schema: {data_schema}, data_content_type: {data_content_type}, time: {time:?} }}",
-            id = self.id,
-            source = self.source,
-            spec_version = self.spec_version,
-            event_type = self.event_type,
-            subject = self.subject.as_deref().unwrap_or("None"),
-            data_schema = self.data_schema.as_deref().unwrap_or("None"),
-            data_content_type = self.data_content_type.as_deref().unwrap_or("None"),
-            time = self.time,
-        )
     }
 }
 

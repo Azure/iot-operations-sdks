@@ -78,7 +78,7 @@ async fn increment_executor_loop(
         let request = recv_result?;
 
         // Parse cloud event if present
-        match request.get_cloud_event() {
+        match rpc_command::executor::cloud_event_from_request(&request) {
             Ok(cloud_event) => {
                 log::info!("{cloud_event}");
             }
