@@ -44,7 +44,7 @@ spec:
           command: ["sh", "-c"]
           args:
             - |
-              apt update && apt install -y mosquitto-clients
+              tdnf install -y mosquitto-clients
 
               SLEEP_DURATION=2
               REPORT_INTERVAL=10

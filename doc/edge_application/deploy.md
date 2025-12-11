@@ -41,7 +41,7 @@ ENTRYPOINT ["./MyApplication"]
 
 ## Rust Dockerfile
 
-This definition uses the [Azure Linux Rust image](https://mcr.microsoft.com/artifact/mar/azurelinux/base/rust) to build the release application, and then copies the resulting binary (called "rust-application" in the example below) into the [Azure Linux Distroless base image](https://mcr.microsoft.com/artifact/mar/azurelinux/distroless/base).
+This definition uses the [Azure Linux Rust image](https://mcr.microsoft.com/artifact/mar/azurelinux/base/rust) to build the release application, and then copies the resulting binary (called "rust-application" in the example below) into the [Azure Linux Core base image](https://mcr.microsoft.com/artifact/mar/azurelinux/base/core).
 
 ```dockerfile
 # Build application
@@ -51,9 +51,9 @@ COPY . .
 RUN cargo build
 
 # Build runtime image
-FROM mcr.microsoft.com/azurelinux/distroless/base:3.0
+FROM mcr.microsoft.com/azurelinux/base/core:3.0
 WORKDIR /
-RUN apt update; apt install -y libssl3
+RUN tdnf update -y && tdnf install -y openssl
 COPY --from=build work/rust-application .
 ENTRYPOINT ["./rust-application"]
 ```
