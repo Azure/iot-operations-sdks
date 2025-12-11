@@ -224,7 +224,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
-    public Task<DeviceStatus> UpdateDeviceStatusAsync(string deviceName, string inboundEndpointName,
+    public async Task<DeviceStatus> UpdateDeviceStatusAsync(string deviceName, string inboundEndpointName,
         DeviceStatus status, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(deviceName))
@@ -237,6 +237,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
         }
 
+        return await RunWithRetryAsync<DeviceStatus>(async () =>
+        {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -258,13 +260,21 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 
                 string payloadd = Encoding.UTF8.GetString(asdf.SerializedPayload);
                 Console.WriteLine(payloadd);
-                throw new Exception(payloadd);
+
+                UpdateDeviceStatusResponsePayload result = await _adrBaseServiceClient.UpdateDeviceStatusAsync(
+                    request,
+                    null,
+                    additionalTopicTokenMap,
+                    commandTimeout ?? _defaultTimeout,
+                    cancellationToken);
+                return result.UpdatedDeviceStatus.ToModel();
             }
             catch (AkriServiceErrorException exception)
             {
                 var error = exception.AkriServiceError.ToModel();
                 throw new Models.AkriServiceErrorException(error);
             }
+        }, cancellationToken);
     }
 
     public async Task<DeviceStatus> GetDeviceStatusAsync(string deviceName, string inboundEndpointName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
