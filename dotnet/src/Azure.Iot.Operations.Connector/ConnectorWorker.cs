@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly IMqttClient _mqttClient;
         private readonly ApplicationContext _applicationContext;
         private readonly IAzureDeviceRegistryClientWrapperProvider _adrClientWrapperFactory;
-        public IAzureDeviceRegistryClientWrapper? _adrClient;
+        protected IAzureDeviceRegistryClientWrapper? _adrClient;
         private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
         private LeaderElectionClient? _leaderElectionClient;
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
@@ -341,15 +341,15 @@ namespace Azure.Iot.Operations.Connector
                     protocolSpecificIdentifier);
             }
 
-            var deviceStatus = await _adrClient!.GetDeviceStatusAsync("my-rest-thermostat-device-name", "my-rest-thermostat-endpoint-name");
-            if (deviceStatus.Config != null && deviceStatus.Config.Error != null)
-            {
-                _logger.LogInformation("Device status: {}", deviceStatus.Config.Error.Message);
-            }
-            else
-            {
-                _logger.LogInformation("Device status is okay");
-            }
+            //var deviceStatus = await _adrClient!.GetDeviceStatusAsync("my-rest-thermostat-device-name", "my-rest-thermostat-endpoint-name");
+            //if (deviceStatus.Config != null && deviceStatus.Config.Error != null)
+            //{
+            //    _logger.LogInformation("Device status: {}", deviceStatus.Config.Error.Message);
+            //}
+            //else
+            //{
+            //    _logger.LogInformation("Device status is okay"); // this isn't coming back. The error is sticky!
+            //}
 
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 

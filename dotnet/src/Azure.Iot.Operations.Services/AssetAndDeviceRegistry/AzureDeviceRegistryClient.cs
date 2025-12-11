@@ -256,11 +256,6 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
             try
             {
-                var asdf = (new Utf8JsonSerializer()).ToBytes(request);
-                
-                string payloadd = Encoding.UTF8.GetString(asdf.SerializedPayload);
-                Console.WriteLine(payloadd);
-
                 UpdateDeviceStatusResponsePayload result = await _adrBaseServiceClient.UpdateDeviceStatusAsync(
                     request,
                     null,
