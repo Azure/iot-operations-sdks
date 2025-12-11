@@ -2211,6 +2211,59 @@ mod tests {
         assert!(request_builder_result.is_err());
     }
 
+    #[test]
+    fn test_request_invalid_custom_user_data_cloud_event_header() {
+        let mut mock_request_payload = MockPayload::new();
+        mock_request_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let request_builder_result = RequestBuilder::default()
+            .payload(mock_request_payload)
+            .unwrap()
+            .timeout(Duration::from_secs(2))
+            .custom_user_data(vec![("source".to_string(), "test".to_string())])
+            .build();
+
+        assert!(request_builder_result.is_err());
+    }
+
+    #[test]
+    fn test_request_defaults() {
+        let mut mock_request_payload = MockPayload::new();
+        mock_request_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let request_builder_result = RequestBuilder::default()
+            .payload(mock_request_payload)
+            .unwrap()
+            .timeout(Duration::from_secs(2))
+            .build();
+
+        let r = request_builder_result.unwrap();
+
+        assert_eq!(r.timeout, Duration::from_secs(2));
+        assert!(r.custom_user_data.is_empty());
+        assert!(r.topic_tokens.is_empty());
+        assert!(r.cloud_event.is_none());
+        assert!(r.serialized_payload.payload.is_empty());
+    }
+
     /// Tests success: `application_error_headers()` returns no Application Error Code and Payload since `custom_user_data` has none.
     #[tokio::test]
     async fn test_no_app_error_code_and_payload() {
@@ -2258,8 +2311,6 @@ mod tests {
         assert_eq!(application_error_code, Some(error_code_content.into()));
         assert!(application_error_payload.is_none());
     }
-
-    // TODO: telemetry sender/receiver equivalent tests
 }
 
 // Command Request tests

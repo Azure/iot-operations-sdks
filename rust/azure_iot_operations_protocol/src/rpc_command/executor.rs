@@ -1969,6 +1969,55 @@ mod tests {
         }
     }
 
+    #[test]
+    fn test_response_invalid_custom_user_data_cloud_event_header() {
+        let mut mock_response_payload = MockPayload::new();
+        mock_response_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let response_builder_result = ResponseBuilder::default()
+            .payload(mock_response_payload)
+            .unwrap()
+            .custom_user_data(vec![("source".to_string(), "test".to_string())])
+            .build();
+
+        assert!(response_builder_result.is_err());
+    }
+
+    #[test]
+    fn test_response_defaults() {
+        let mut mock_response_payload = MockPayload::new();
+        mock_response_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let response_builder_result = ResponseBuilder::default()
+            .payload(mock_response_payload)
+            .unwrap()
+            .build();
+
+        let r = response_builder_result.unwrap();
+
+        assert!(r.custom_user_data.is_empty());
+        assert!(r.cloud_event.is_none());
+        assert!(r.serialized_payload.payload.is_empty());
+    }
+
     #[tokio::test]
     async fn test_cache_not_found() {
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
@@ -2330,7 +2379,6 @@ mod tests {
         let range = 1..=u32::MAX; // note, range is memory efficient
         assert!(range.contains(&response_message_expiry_interval.unwrap()));
     }
-    // TODO: telemetry sender/receiver equivalent tests
 }
 
 // Test cases for subscribe

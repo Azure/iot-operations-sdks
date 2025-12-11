@@ -3,6 +3,8 @@
 
 use std::{env, time::Duration};
 
+use azure_iot_operations_mqtt::aio::cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION;
+use azure_iot_operations_protocol::common::cloud_event::CloudEventBuilder;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
@@ -24,6 +26,8 @@ use azure_iot_operations_protocol::{
 // - response without payload
 // - response with custom user data
 // - response without custom user data
+// - with cloud event
+// - without cloud event
 // - TODO: different errors received from the executor (invoker only)
 // - Executor shutdown after subscribed
 // - (Executor shutdown before subscribed (no error) has been added in unit tests, connectivity not needed)
@@ -124,7 +128,7 @@ impl PayloadSerialize for EmptyPayload {
 }
 
 /// Tests basic command invoke/response scenario
-/// Payloads are empty, no custom user data
+/// Payloads are empty, no custom user data, no cloud event
 #[tokio::test]
 async fn command_basic_invoke_response_network_tests() {
     let invoker_id = "command_basic_invoke_response_network_tests-rust";
@@ -148,6 +152,7 @@ async fn command_basic_invoke_response_network_tests() {
                         // Validate contents of the request match expected based on what was sent
                         assert_eq!(request.payload, EmptyPayload::default());
                         assert!(request.custom_user_data.is_empty());
+                        assert!(rpc_command::executor::cloud_event_from_request(&request).is_err());
                         assert!(request.timestamp.is_some());
                         assert_eq!(request.invoker_id, Some(String::from(invoker_id)));
                         assert!(request.topic_tokens.is_empty());
@@ -184,6 +189,7 @@ async fn command_basic_invoke_response_network_tests() {
             let response = result.unwrap();
             assert_eq!(response.payload, EmptyPayload::default());
             assert!(response.custom_user_data.is_empty());
+            assert!(rpc_command::invoker::cloud_event_from_response(&response).is_err());
             assert!(response.timestamp.is_some());
 
             // wait for the receive_requests_task to finish to ensure any failed asserts are captured.
@@ -457,15 +463,13 @@ impl PayloadSerialize for DataResponsePayload {
 }
 
 /// Tests more complex command invoke/response scenario
-/// Payloads are not empty and custom user data is present
+/// Payloads are not empty and custom user data and cloud event is present
 #[tokio::test]
 async fn command_complex_invoke_response_network_tests() {
     let invoker_id = "command_complex_invoke_response_network_tests-rust";
+    let request_topic = "protocol/tests/complex/command";
     let Ok((session, invoker, mut executor, exit_handle)) =
-        setup_test::<DataRequestPayload, DataResponsePayload>(
-            invoker_id,
-            "protocol/tests/complex/command",
-        )
+        setup_test::<DataRequestPayload, DataResponsePayload>(invoker_id, request_topic)
     else {
         // Network tests disabled, skipping tests
         return;
@@ -489,6 +493,18 @@ async fn command_complex_invoke_response_network_tests() {
         ("test3".to_string(), "value3".to_string()),
         ("test4".to_string(), "value4".to_string()),
     ];
+    let test_request_cloud_event_source = "aio://test/request";
+    let test_request_cloud_event = CloudEventBuilder::<rpc_command::invoker::Request<_>>::default()
+        .source(test_request_cloud_event_source)
+        .build()
+        .unwrap();
+
+    let test_response_cloud_event_source = "aio://test/response";
+    let test_response_cloud_event =
+        CloudEventBuilder::<rpc_command::executor::Response<_>>::default()
+            .source(test_response_cloud_event_source)
+            .build()
+            .unwrap();
 
     let test_task = tokio::task::spawn({
         let test_request_custom_user_data_clone = test_request_custom_user_data.clone();
@@ -497,38 +513,63 @@ async fn command_complex_invoke_response_network_tests() {
         let test_response_payload_clone: DataResponsePayload = test_response_payload.clone();
         async move {
             // async task to receive command requests on executor
-            let receive_requests_task = tokio::task::spawn({
-                async move {
-                    let mut count = 0;
-                    if let Some(Ok(request)) = executor.recv().await {
-                        count += 1;
+            let receive_requests_task =
+                tokio::task::spawn({
+                    async move {
+                        let mut count = 0;
+                        if let Some(Ok(request)) = executor.recv().await {
+                            count += 1;
 
-                        // Validate contents of the request match expected based on what was sent
-                        assert_eq!(request.payload, test_request_payload_clone);
-                        assert_eq!(
-                            request.custom_user_data,
-                            test_request_custom_user_data_clone
-                        );
-                        assert!(request.timestamp.is_some());
-                        assert_eq!(request.invoker_id, Some(String::from(invoker_id)));
-                        assert!(request.topic_tokens.is_empty());
+                            // Validate contents of the request match expected based on what was sent
+                            assert_eq!(request.payload, test_request_payload_clone);
+                            assert!(test_request_custom_user_data_clone.iter().all(
+                                |(key, value)| {
+                                    request
+                                        .custom_user_data
+                                        .iter()
+                                        .any(|(test_key, test_value)| {
+                                            key == test_key && value == test_value
+                                        })
+                                }
+                            ));
+                            let request_cloud_event =
+                                rpc_command::executor::cloud_event_from_request(&request).unwrap();
+                            assert!(request.timestamp.is_some());
+                            assert_eq!(request.invoker_id, Some(String::from(invoker_id)));
+                            assert!(request.topic_tokens.is_empty());
+                            assert_eq!(request_cloud_event.source, test_request_cloud_event_source);
+                            assert_eq!(
+                                request_cloud_event.spec_version,
+                                DEFAULT_CLOUD_EVENT_SPEC_VERSION
+                            );
+                            assert_eq!(
+                                request_cloud_event.event_type,
+                                rpc_command::DEFAULT_RPC_REQUEST_CLOUD_EVENT_EVENT_TYPE
+                            );
+                            assert_eq!(request_cloud_event.subject.unwrap(), request_topic);
+                            assert_eq!(
+                                request_cloud_event.data_content_type.unwrap(),
+                                "application/json"
+                            );
+                            assert!(request_cloud_event.time.is_some());
 
-                        // send response
-                        let response = rpc_command::executor::ResponseBuilder::default()
-                            .payload(test_response_payload_clone)
-                            .unwrap()
-                            .custom_user_data(test_response_custom_user_data_clone)
-                            .build()
-                            .unwrap();
-                        assert!(request.complete(response).await.is_ok());
+                            // send response
+                            let response = rpc_command::executor::ResponseBuilder::default()
+                                .payload(test_response_payload_clone)
+                                .unwrap()
+                                .custom_user_data(test_response_custom_user_data_clone)
+                                .cloud_event(test_response_cloud_event.clone())
+                                .build()
+                                .unwrap();
+                            assert!(request.complete(response).await.is_ok());
+                        }
+
+                        // only the 1 expected request should occur (checks that recv() didn't return None when it shouldn't have)
+                        assert_eq!(count, 1);
+                        // cleanup should be successful
+                        assert!(executor.shutdown().await.is_ok());
                     }
-
-                    // only the 1 expected request should occur (checks that recv() didn't return None when it shouldn't have)
-                    assert_eq!(count, 1);
-                    // cleanup should be successful
-                    assert!(executor.shutdown().await.is_ok());
-                }
-            });
+                });
 
             // briefly wait after connection to let executor subscribe before sending requests
             monitor.connected().await;
@@ -540,6 +581,7 @@ async fn command_complex_invoke_response_network_tests() {
                 .unwrap()
                 .custom_user_data(test_request_custom_user_data.clone())
                 .timeout(Duration::from_secs(2))
+                .cloud_event(test_request_cloud_event.clone())
                 .build()
                 .unwrap();
             let result = invoker.invoke(request).await;
@@ -547,8 +589,38 @@ async fn command_complex_invoke_response_network_tests() {
             assert!(result.is_ok(), "result: {result:?}");
             let response = result.unwrap();
             assert_eq!(response.payload, test_response_payload);
-            assert_eq!(response.custom_user_data, test_response_custom_user_data);
+            assert!(test_response_custom_user_data.iter().all(|(key, value)| {
+                response
+                    .custom_user_data
+                    .iter()
+                    .any(|(test_key, test_value)| key == test_key && value == test_value)
+            }));
             assert!(response.timestamp.is_some());
+            let response_cloud_event =
+                rpc_command::invoker::cloud_event_from_response(&response).unwrap();
+            assert_eq!(
+                response_cloud_event.source,
+                test_response_cloud_event_source
+            );
+            assert_eq!(
+                response_cloud_event.spec_version,
+                DEFAULT_CLOUD_EVENT_SPEC_VERSION
+            );
+            assert_eq!(
+                response_cloud_event.event_type,
+                rpc_command::DEFAULT_RPC_RESPONSE_CLOUD_EVENT_EVENT_TYPE
+            );
+            assert!(
+                response_cloud_event
+                    .subject
+                    .unwrap()
+                    .contains(request_topic)
+            );
+            assert_eq!(
+                response_cloud_event.data_content_type.unwrap(),
+                "application/something"
+            );
+            assert!(response_cloud_event.time.is_some());
 
             // wait for the receive_requests_task to finish to ensure any failed asserts are captured.
             assert!(receive_requests_task.await.is_ok());
