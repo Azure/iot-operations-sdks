@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
-using System.Text;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Retry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
