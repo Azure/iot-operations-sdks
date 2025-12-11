@@ -89,7 +89,9 @@ impl Drop for PlenaryAckMember {
             let state = self.state.clone();
             tokio::spawn(async move {
                 let _ = state.member_ack().await;
-                // TODO: handle errors with log
+                // NOTE: None of the possible results matter here, so they are not logged.
+                // Detached -> Doesn't matter, fatal error already occurred
+                // Completion Cancelled? -> Doesn't matter, the user didn't care about the result
             });
         }
     }
@@ -175,7 +177,7 @@ impl InnerState {
                     let manual_ack = self.manual_ack.lock().unwrap().take().unwrap(); // TODO: guarantee? Is Option really the best option?
                     let result = match manual_ack {
                         ManualAcknowledgement::QoS0 => {
-                            unimplemented!("no ack on qos 0") // TODO: better error
+                            unreachable!("no ack is possible on QoS0")
                         }
                         ManualAcknowledgement::QoS1(token) => {
                             token.accept(PubAckProperties::default()).await
