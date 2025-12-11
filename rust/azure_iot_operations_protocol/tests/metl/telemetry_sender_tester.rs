@@ -6,13 +6,12 @@ use std::sync::Arc;
 
 use async_std::future;
 use azure_iot_operations_mqtt::session::{SessionManagedClient, SessionMonitor};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
+use azure_iot_operations_protocol::common::CloudEventSubject;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
 use azure_iot_operations_protocol::telemetry;
-use azure_iot_operations_protocol::{
-    application::ApplicationContextBuilder, common::cloud_event as protocol_cloud_event,
-};
 
 use chrono::{DateTime, Utc};
 use tokio::sync::oneshot;
@@ -364,9 +363,7 @@ impl TelemetrySenderTester {
                 }
 
                 if let Some(Some(subject)) = &cloud_event.subject {
-                    cloud_event_builder.subject(protocol_cloud_event::CloudEventSubject::Custom(
-                        subject.clone(),
-                    ));
+                    cloud_event_builder.subject(CloudEventSubject::Custom(subject.clone()));
                 }
 
                 match cloud_event_builder.build() {

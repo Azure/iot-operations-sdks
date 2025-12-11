@@ -15,7 +15,7 @@ use uuid::Uuid;
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
-pub(crate) struct CloudEvent {
+pub struct CloudEvent {
     /// Identifies the context in which an event happened. Often this will include information such
     /// as the type of the event source, the organization publishing the event or the process that
     /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
@@ -25,7 +25,7 @@ pub(crate) struct CloudEvent {
     /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
     /// referring to this version of the specification.
     #[builder(default = "DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string()")]
-    pub(crate) spec_version: String,
+    pub spec_version: String,
     /// Contains a value describing the type of event related to the originating occurrence. Often
     /// this attribute is used for routing, observability, policy enforcement, etc. The format of
     /// this is producer defined and might include information such as the version of the type.
@@ -69,7 +69,7 @@ pub enum CloudEventSubject {
 }
 
 impl CloudEventBuilder {
-    pub(crate) fn new(default_event_type: String) -> Self {
+    pub fn new(default_event_type: String) -> Self {
         let mut new_builder = Self::default();
         new_builder._default_event_type = Some(default_event_type);
         new_builder
@@ -115,7 +115,7 @@ impl CloudEventBuilder {
 impl CloudEvent {
     /// Get [`CloudEvent`] as user properties for an MQTT publish
     #[must_use]
-    pub(crate) fn into_headers(self, publish_topic: &str) -> Vec<(String, String)> {
+    pub fn into_headers(self, publish_topic: &str) -> Vec<(String, String)> {
         let mut headers = vec![
             (CloudEventFields::Id.to_string(), self.id),
             (CloudEventFields::Source.to_string(), self.source),

@@ -8,8 +8,8 @@ use std::{sync::Arc, time::Duration};
 use azure_iot_operations_mqtt::{aio::cloud_event as aio_cloud_event, control_packet::QoS};
 use azure_iot_operations_protocol::{
     common::{
+        CloudEventSubject,
         aio_protocol_error::AIOProtocolError,
-        cloud_event as protocol_cloud_event,
         hybrid_logical_clock::HybridLogicalClock,
         payload_serialize::{BypassPayload, FormatIndicator},
     },
@@ -360,7 +360,7 @@ impl Forwarder {
             asset_external_asset_id,
         );
         cloud_event_builder.event_type(event_type);
-        cloud_event_builder.subject(protocol_cloud_event::CloudEventSubject::Custom(subject));
+        cloud_event_builder.subject(CloudEventSubject::Custom(subject));
 
         // data schema
         if let Some(message_schema_uri) = message_schema_uri {
