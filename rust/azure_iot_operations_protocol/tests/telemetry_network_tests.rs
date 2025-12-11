@@ -6,8 +6,10 @@ use std::{env, time::Duration};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::{
-    aio::{cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
-    connection_settings::MqttConnectionSettingsBuilder},
+    aio::{
+        cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+        connection_settings::MqttConnectionSettingsBuilder,
+    },
     control_packet::{PublishProperties, TopicName},
 };
 use azure_iot_operations_mqtt::{
