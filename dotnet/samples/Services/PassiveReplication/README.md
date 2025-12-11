@@ -27,7 +27,8 @@ For addition information on building and deploying containers to the cluster, re
 1. Apply the deployment to the cluster:
 
     ```bash
-    kubectl apply -f ./deploy.yaml
+    export PASSIVE_REPLICATION_IMAGE_NAME=passivereplicationsample
+    envsubst < deploy.yaml | kubectl apply -f -
     ```
 
 1. Confirm the pods are running:
