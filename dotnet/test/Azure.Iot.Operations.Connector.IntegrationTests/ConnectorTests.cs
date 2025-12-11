@@ -93,7 +93,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     // Check that the device status was reported
                     DeviceStatus deviceStatus = await adrClient.GetDeviceStatusAsync("my-rest-thermostat-device-name", "my-rest-thermostat-endpoint-name");
                     Assert.NotNull(deviceStatus.Config);
-                    Assert.Null(deviceStatus.Config.Error); // failing
+                    Assert.Null(deviceStatus.Config.Error);
                     Assert.NotNull(deviceStatus.Config.LastTransitionTime);
 
                     // Check that both asset statuses were reported

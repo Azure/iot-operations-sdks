@@ -481,12 +481,11 @@ public class AzureDeviceRegistryClientIntegrationTests
         Assert.NotNull(updatedDevice.Config.Error);
         Assert.Equal(expectedTime, updatedDevice.Config.LastTransitionTime);
 
-        // clear the error
+        // clear the error, update the device again, check that the error was cleared
         status.Config.Error = null;
         updatedDevice = await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
         Assert.NotNull(updatedDevice.Config);
         Assert.Null(updatedDevice.Config.Error);
-
     }
     private CreateOrUpdateDiscoveredAssetRequest CreateCreateDetectedAssetRequest()
     {
