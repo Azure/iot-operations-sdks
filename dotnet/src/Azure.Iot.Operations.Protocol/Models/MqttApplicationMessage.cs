@@ -267,11 +267,6 @@ namespace Azure.Iot.Operations.Protocol.Models
                 AddUserProperty(nameof(md.Subject).ToLowerInvariant(), md.Subject);
             }
 
-            if (md.DataContentType is not null)
-            {
-                AddUserProperty(nameof(md.DataContentType).ToLowerInvariant(), md.DataContentType);
-            }
-
             if (md.DataSchema is not null)
             {
                 AddUserProperty(nameof(md.DataSchema).ToLowerInvariant(), md.DataSchema);
@@ -325,11 +320,6 @@ namespace Azure.Iot.Operations.Protocol.Models
             if (md.Subject is not null)
             {
                 AddUserProperty(nameof(md.Subject).ToLowerInvariant(), md.Subject);
-            }
-
-            if (md.DataContentType is not null)
-            {
-                AddUserProperty(nameof(md.DataContentType).ToLowerInvariant(), md.DataContentType);
             }
 
             if (md.DataSchema is not null)
