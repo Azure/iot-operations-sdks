@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+#![allow(clippy::similar_names)]
+
 use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
 use bytes::Bytes;
+use futures_util::FutureExt;
 use tokio_test::{assert_pending, assert_ready};
 
 use azure_iot_operations_mqtt::{
@@ -56,10 +59,31 @@ fn proto_publish_qos1(topic_name: impl AsRef<str>, counter: u16) -> mqtt_proto::
     }
 }
 
+#[tokio::test]
+async fn no_receivers() {
+    let (session, mock_server) = setup_client_and_mock_server("qos0_no_receivers_test_client");
+
+    // Start the session run loop
+    tokio::task::spawn(session.run());
+    mock_server.expect_connect_and_accept(true).await;
+
+    // Send QoS 0 publish from mock server with no client receivers,
+    // but at QoS 0 there is no acknowledgement expected
+    mock_server.send_publish(proto_publish_qos0("test/topic", 1));
+    tokio::time::sleep(std::time::Duration::from_millis(100)).await;
+    mock_server.expect_no_packet();
+
+    // Send QoS 1 publish from mock server with no client receivers,
+    // and it will be automatically acknowledged
+    mock_server.send_publish(proto_publish_qos1("test/topic", 2));
+    let puback = mock_server.expect_puback().await;
+    assert_eq!(puback.packet_identifier, 2);
+}
+
 /// Common test logic for filtered/unfiltered single receiver tests at QoS 0.
 /// Tests that it can:
-/// - receive messages via recv()
-/// - receive messages via recv_manual_ack()
+/// - receive messages via `recv()`
+/// - receive messages via `recv_manual_ack()`
 /// - no PUBACKS are sent because QoS 0
 /// - no mechanism for sending PUBACKs is exposed
 async fn qos0_single_receiver_test_logic(
@@ -129,11 +153,11 @@ async fn qos0_single_unfiltered_receiver() {
 
 /// Common test logic for filtered/unfiltered single receiver tests at QoS 1.
 /// Tests that it can:
-/// - receive messages via recv() and auto-ack PUBLISHes
-/// - receive messages via recv_manual_ack() and manually ack PUBLISHes via AckToken in order
-/// - receive messages via recv_manual_ack() and manually ack PUBLISHes via AckToken out of order
-/// - receive messages via recv_manual_ack() and manually ack PUBLISHes via dropped AckToken in order
-/// - receive messages via recv_manual_ack() and manually ack PUBLISHes via dropped AckToken out of order
+/// - receive messages via `recv()` and auto-ack PUBLISHes
+/// - receive messages via `recv_manual_ack()` and manually ack PUBLISHes via `AckToken` in order
+/// - receive messages via `recv_manual_ack()` and manually ack PUBLISHes via `AckToken` out of order
+/// - receive messages via `recv_manual_ack()` and manually ack PUBLISHes via dropped `AckToken` in order
+/// - receive messages via `recv_manual_ack()` and manually ack PUBLISHes via dropped `AckToken` out of order
 async fn qos1_single_receiver_test_logic(
     mock_server: MockServer,
     mut receiver: SessionPubReceiver,
@@ -304,7 +328,7 @@ async fn qos1_single_unfiltered_receiver() {
 
 /// Common test logic for multiple filtered/unfiltered single receiver tests at QoS 0.
 /// Tests that:
-/// - all receivers receive all messages with both recv() and recv_manual_ack()
+/// - all receivers receive all messages with both `recv()` and `recv_manual_ack()`
 /// - no PUBACKs are sent because QoS 0
 /// - no mechanism for sending PUBACKs is exposed
 async fn qos0_multiple_receiver_same_filter_test_logic(
@@ -402,12 +426,12 @@ async fn qos0_multiple_unfiltered_receivers() {
 
 /// Common test logic for multiple filtered/unfiltered single receiver tests at QoS 1.
 /// Tests that:
-/// - Receive single PUBLISH via recv() and send auto-PUBACK only after all receivers have received it
-/// - Receive multiple PUBLISHes via recv() and send auto-PUBACK only after all receivers have received them in message order
-/// - Receive single PUBLISH via recv_manual_ack() and send PUBACK only after all receivers have acked it via AckToken
-/// - Recieve single PUBLISH via recv_manual_ack() and send PUBACK only after all receivers have acked it via dropped AckToken
-/// - Receive multiple PUBLISHes via recv_manual_ack() and send PUBACKs only after all receivers have acked them via AckToken in message order
-/// - Receive multiple PUBLISHes via recv_manual_ack() and send PUBACKs only after all receivers have acked them via dropped AckToken in message order
+/// - Receive single PUBLISH via `recv()` and send auto-PUBACK only after all receivers have received it
+/// - Receive multiple PUBLISHes via `recv()`and send auto-PUBACK only after all receivers have received them in message order
+/// - Receive single PUBLISH via `recv_manual_ack()` and send PUBACK only after all receivers have acked it via `AckToken`
+/// - Recieve single PUBLISH via `recv_manual_ack()` and send PUBACK only after all receivers have acked it via dropped `AckToken`
+/// - Receive multiple PUBLISHes via `recv_manual_ack()` and send PUBACKs only after all receivers have acked them via `AckToken` in message order
+/// - Receive multiple PUBLISHes via `recv_manual_ack()` and send PUBACKs only after all receivers have acked them via dropped `AckToken` in message order
 async fn qos1_multiple_receiver_same_filter_test_logic(
     mock_server: MockServer,
     mut receiver1: SessionPubReceiver,
@@ -786,10 +810,131 @@ async fn qos1_multiple_unfiltered_receivers() {
     .await;
 }
 
-// #[tokio::test]
+#[tokio::test]
+async fn dispatch_rules_filtered_unfiltered() {
+    let (session, mock_server) =
+        setup_client_and_mock_server("dispatch_rules_filtered_unfiltered_test_client");
+    let managed_client = session.create_managed_client();
 
-// - Validate dispatching (including advanced stuff like dynamic changing as receivers drop/get added)
-// - QoS 0 messages aren't acked until received by all
-// - QoS 1 messages aren't acked until received and acked by all
-// - mixed qos?
+    // Start the session run loop
+    tokio::task::spawn(session.run());
+    mock_server.expect_connect_and_accept(true).await;
+
+    // Unfiltered receiver will receive message because there are no other filters.
+    let mut u_receiver1 = managed_client.create_unfiltered_pub_receiver();
+    let proto_publish1 = proto_publish_qos1("sport/tennis/player1", 1);
+    let expected_publish1 = proto_publish1.clone().into();
+    mock_server.send_publish(proto_publish1);
+    assert_eq!(u_receiver1.recv().await.unwrap(), expected_publish1);
+    assert!(mock_server.expect_puback().await.packet_identifier == 1);
+
+    // A second unfiltered receiver will also receive the message.
+    // Note that a different topic is used here to demonstrate that unfiltered receivers receive all messages.
+    let mut u_receiver2 = managed_client.create_unfiltered_pub_receiver();
+    let proto_publish2 = proto_publish_qos1("sport/tennis/player2", 2);
+    let expected_publish2 = proto_publish2.clone().into();
+    mock_server.send_publish(proto_publish2);
+    assert_eq!(u_receiver1.recv().await.unwrap(), expected_publish2);
+    assert_eq!(u_receiver2.recv().await.unwrap(), expected_publish2);
+    assert!(mock_server.expect_puback().await.packet_identifier == 2);
+
+    // Adding a filtered receiver for a topic means that the unfiltered receivers will no longer receive messages for that topic.
+    let mut f_receiver1 = managed_client
+        .create_filtered_pub_receiver(TopicFilter::new("sport/tennis/player1").unwrap());
+    let proto_publish3 = proto_publish_qos1("sport/tennis/player1", 3);
+    let expected_publish3 = proto_publish3.clone().into();
+    mock_server.send_publish(proto_publish3);
+    assert_eq!(f_receiver1.recv().await.unwrap(), expected_publish3);
+    assert!(u_receiver1.recv().now_or_never().is_none());
+    assert!(u_receiver2.recv().now_or_never().is_none());
+    assert!(mock_server.expect_puback().await.packet_identifier == 3);
+
+    // But the unfiltered receivers will still receive messages for other topics.
+    let proto_publish4 = proto_publish_qos1("sport/tennis/player2", 4);
+    let expected_publish4 = proto_publish4.clone().into();
+    mock_server.send_publish(proto_publish4);
+    assert_eq!(u_receiver1.recv().await.unwrap(), expected_publish4);
+    assert_eq!(u_receiver2.recv().await.unwrap(), expected_publish4);
+    assert!(f_receiver1.recv().now_or_never().is_none());
+    assert!(mock_server.expect_puback().await.packet_identifier == 4);
+
+    // Dropping the filtered receiver means that the unfiltered receivers will again receive messages for that topic.
+    drop(f_receiver1);
+    let proto_publish5 = proto_publish_qos1("sport/tennis/player1", 5);
+    let expected_publish5 = proto_publish5.clone().into();
+    mock_server.send_publish(proto_publish5);
+    assert_eq!(u_receiver1.recv().await.unwrap(), expected_publish5);
+    assert_eq!(u_receiver2.recv().await.unwrap(), expected_publish5);
+    assert!(mock_server.expect_puback().await.packet_identifier == 5);
+}
+
+#[tokio::test]
+async fn dispatch_rules_filter_matching() {
+    let (session, mock_server) =
+        setup_client_and_mock_server("dispatch_rules_filter_matching_test_client");
+    let managed_client = session.create_managed_client();
+
+    // Start the session run loop
+    tokio::task::spawn(session.run());
+    mock_server.expect_connect_and_accept(true).await;
+
+    let mut reciever1 = managed_client
+        .create_filtered_pub_receiver(TopicFilter::new("sport/tennis/player1").unwrap());
+    let mut receiver2 = managed_client
+        .create_filtered_pub_receiver(TopicFilter::new("sport/tennis/player2").unwrap());
+    let mut reciever3 = managed_client
+        .create_filtered_pub_receiver(TopicFilter::new("sport/hockey/player1").unwrap());
+    let mut receiver4 =
+        managed_client.create_filtered_pub_receiver(TopicFilter::new("sport/tennis/+").unwrap());
+    let mut receiver5 =
+        managed_client.create_filtered_pub_receiver(TopicFilter::new("sport/#").unwrap());
+    let mut receiver6 = managed_client.create_filtered_pub_receiver(TopicFilter::new("#").unwrap());
+
+    let proto_publish1 = proto_publish_qos1("sport/tennis/player1", 1);
+    let expected_publish1 = proto_publish1.clone().into();
+    mock_server.send_publish(proto_publish1);
+    assert_eq!(reciever1.recv().await.unwrap(), expected_publish1);
+    assert!(receiver2.recv().now_or_never().is_none());
+    assert!(reciever3.recv().now_or_never().is_none());
+    assert_eq!(receiver4.recv().await.unwrap(), expected_publish1);
+    assert_eq!(receiver5.recv().await.unwrap(), expected_publish1);
+    assert_eq!(receiver6.recv().await.unwrap(), expected_publish1);
+    assert!(mock_server.expect_puback().await.packet_identifier == 1);
+
+    let proto_publish2 = proto_publish_qos1("sport/hockey/player1", 2);
+    let expected_publish2 = proto_publish2.clone().into();
+    mock_server.send_publish(proto_publish2);
+    assert!(reciever1.recv().now_or_never().is_none());
+    assert!(receiver2.recv().now_or_never().is_none());
+    assert_eq!(reciever3.recv().await.unwrap(), expected_publish2);
+    assert!(receiver4.recv().now_or_never().is_none());
+    assert_eq!(receiver5.recv().await.unwrap(), expected_publish2);
+    assert_eq!(receiver6.recv().await.unwrap(), expected_publish2);
+    assert!(mock_server.expect_puback().await.packet_identifier == 2);
+
+    let proto_publish3 = proto_publish_qos1("news/weather", 3);
+    let expected_publish3 = proto_publish3.clone().into();
+    mock_server.send_publish(proto_publish3);
+    assert!(reciever1.recv().now_or_never().is_none());
+    assert!(receiver2.recv().now_or_never().is_none());
+    assert!(reciever3.recv().now_or_never().is_none());
+    assert!(receiver4.recv().now_or_never().is_none());
+    assert!(receiver5.recv().now_or_never().is_none());
+    assert_eq!(receiver6.recv().await.unwrap(), expected_publish3);
+    assert!(mock_server.expect_puback().await.packet_identifier == 3);
+
+    let proto_publish4 = proto_publish_qos1("sport/tennis/singles/player2", 4);
+    let expected_publish4 = proto_publish4.clone().into();
+    mock_server.send_publish(proto_publish4);
+    assert!(reciever1.recv().now_or_never().is_none());
+    assert!(receiver2.recv().now_or_never().is_none());
+    assert!(reciever3.recv().now_or_never().is_none());
+    assert!(receiver4.recv().now_or_never().is_none());
+    assert_eq!(receiver5.recv().await.unwrap(), expected_publish4);
+    assert_eq!(receiver6.recv().await.unwrap(), expected_publish4);
+    assert!(mock_server.expect_puback().await.packet_identifier == 4);
+}
+
+// TODO:
 // - drops / transport disconnects + ack tokens + completion tokens
+// - auto-ack when dropped without having been received?
