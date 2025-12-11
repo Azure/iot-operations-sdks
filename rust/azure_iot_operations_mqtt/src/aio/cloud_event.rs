@@ -182,7 +182,7 @@ pub struct CloudEvent {
     /// The version of the cloud events specification which the event uses. This enables the
     /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
     /// referring to this version of the specification.
-    #[builder(default = "DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string()")] // no default on recv
+    #[builder(default = "DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string()")]
     pub spec_version: String,
     /// Contains a value describing the type of event related to the originating occurrence. Often
     /// this attribute is used for routing, observability, policy enforcement, etc. The format of
@@ -195,7 +195,7 @@ pub struct CloudEvent {
     /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
     /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
     /// id. Consumers MAY assume that Events with identical source and id are duplicates.
-    #[builder(default = "Uuid::new_v4().to_string()")] // no default on recv
+    #[builder(default = "Uuid::new_v4().to_string()")]
     pub id: String,
     /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
     /// determined then this attribute MAY be set to some other time (such as the current time) by
@@ -255,7 +255,9 @@ impl CloudEventBuilder {
     }
 }
 
-impl CloudEvent {
+impl TryFrom<&PublishProperties> for CloudEvent {
+    type Error = CloudEventBuilderError;
+
     /// Parse a [`CloudEvent`] from a Publish's [`PublishProperties`].
     /// Note that this will return an error if the [`PublishProperties`] do not contain the required fields for a [`CloudEvent`].
     ///
@@ -263,14 +265,18 @@ impl CloudEvent {
     /// [`CloudEventBuilderError::UninitializedField`] if the [`PublishProperties`] do not contain the required fields for a [`CloudEvent`].
     ///
     /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
-    pub fn from_publish_properties(
+    fn try_from(
         publish_properties: &PublishProperties,
-    ) -> Result<Self, CloudEventBuilderError> {
-        Self::from_user_properties_and_content_type(
+    ) -> Result<CloudEvent, CloudEventBuilderError> {
+        CloudEvent::try_from((
             &publish_properties.user_properties,
             publish_properties.content_type.as_deref(),
-        )
+        ))
     }
+}
+
+impl TryFrom<(&Vec<(String, String)>, Option<&str>)> for CloudEvent {
+    type Error = CloudEventBuilderError;
 
     /// Parse a [`CloudEvent`] from a Publish's user properties and content type.
     /// Note that this will return an error if the arguments do not contain the required fields for a [`CloudEvent`].
@@ -279,10 +285,9 @@ impl CloudEvent {
     /// [`CloudEventBuilderError::UninitializedField`] if the arguments do not contain the required fields for a [`CloudEvent`].
     ///
     /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
-    pub fn from_user_properties_and_content_type(
-        user_properties: &Vec<(String, String)>,
-        content_type: Option<&str>,
-    ) -> Result<Self, CloudEventBuilderError> {
+    fn try_from(
+        (user_properties, content_type): (&Vec<(String, String)>, Option<&str>),
+    ) -> Result<CloudEvent, CloudEventBuilderError> {
         // use builder so that all fields can be validated together
         let mut received_cloud_event_builder = ReceivedCloudEventBuilder::default();
         if let Some(content_type) = content_type {
@@ -341,32 +346,38 @@ impl CloudEvent {
         }
         Ok(received_cloud_event.into())
     }
+}
 
+impl From<CloudEvent> for Vec<(String, String)> {
     /// Get [`CloudEvent`] as headers for an MQTT message
     /// This fn ignores `data_content_type` so that it can be set separately if needed
-    #[must_use]
-    pub fn into_headers(self) -> Vec<(String, String)> {
+    fn from(value: CloudEvent) -> Self {
         let mut headers = vec![
-            (CloudEventFields::Id.to_string(), self.id),
-            (CloudEventFields::Source.to_string(), self.source),
-            (CloudEventFields::SpecVersion.to_string(), self.spec_version),
-            (CloudEventFields::EventType.to_string(), self.event_type),
+            (CloudEventFields::Id.to_string(), value.id),
+            (CloudEventFields::Source.to_string(), value.source),
+            (
+                CloudEventFields::SpecVersion.to_string(),
+                value.spec_version,
+            ),
+            (CloudEventFields::EventType.to_string(), value.event_type),
         ];
-        if let Some(subject) = self.subject {
+        if let Some(subject) = value.subject {
             headers.push((CloudEventFields::Subject.to_string(), subject));
         }
-        if let Some(time) = self.time {
+        if let Some(time) = value.time {
             headers.push((
                 CloudEventFields::Time.to_string(),
                 time.to_rfc3339_opts(SecondsFormat::Secs, true),
             ));
         }
-        if let Some(data_schema) = self.data_schema {
+        if let Some(data_schema) = value.data_schema {
             headers.push((CloudEventFields::DataSchema.to_string(), data_schema));
         }
         headers
     }
+}
 
+impl CloudEvent {
     /// Set [`CloudEvent`] as headers on a [`PublishProperties`] for an MQTT message
     /// Note that if `data_content_type` is `Some` on the [`CloudEvent`], the value will override
     /// any `content_type` already set in the `PublishProperties`
@@ -378,7 +389,7 @@ impl CloudEvent {
         if let Some(ref data_content_type) = self.data_content_type {
             publish_properties.content_type = Some(data_content_type.clone());
         }
-        let mut headers = self.into_headers();
+        let mut headers = self.into();
         publish_properties.user_properties.append(&mut headers);
         publish_properties
     }
