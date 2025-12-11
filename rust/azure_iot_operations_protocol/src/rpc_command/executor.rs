@@ -222,10 +222,10 @@ impl std::fmt::Display for ResponseCloudEventBuilderError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ResponseCloudEventBuilderError::UninitializedField(field_name) => {
-                write!(f, "Uninitialized field: {}", field_name)
+                write!(f, "Uninitialized field: {field_name}")
             }
             ResponseCloudEventBuilderError::ValidationError(err_msg) => {
-                write!(f, "Validation error: {}", err_msg)
+                write!(f, "Validation error: {err_msg}")
             }
         }
     }

@@ -105,10 +105,10 @@ impl std::fmt::Display for RequestCloudEventBuilderError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             RequestCloudEventBuilderError::UninitializedField(field_name) => {
-                write!(f, "Uninitialized field: {}", field_name)
+                write!(f, "Uninitialized field: {field_name}")
             }
             RequestCloudEventBuilderError::ValidationError(err_msg) => {
-                write!(f, "Validation error: {}", err_msg)
+                write!(f, "Validation error: {err_msg}")
             }
         }
     }

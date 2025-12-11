@@ -349,10 +349,10 @@ impl std::fmt::Display for CloudEventParseError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             CloudEventParseError::MissingHeader(field_name) => {
-                write!(f, "Missing required header: {}", field_name)
+                write!(f, "Missing required header: {field_name}")
             }
             CloudEventParseError::ValidationError(err_msg) => {
-                write!(f, "Invalid header value: {}", err_msg)
+                write!(f, "Invalid header value: {err_msg}")
             }
         }
     }
