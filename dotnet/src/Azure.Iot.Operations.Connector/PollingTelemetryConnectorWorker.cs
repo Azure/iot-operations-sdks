@@ -24,7 +24,6 @@ namespace Azure.Iot.Operations.Connector
         {
             try
             {
-                // You dumby dumb dumb. You need to call this again elsewhere
                 // Report device status is okay
                 _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
                 await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
