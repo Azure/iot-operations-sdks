@@ -16,7 +16,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// The last error that occurred while processing the configuration.
         /// </summary>
         [JsonPropertyName("error")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ConfigError? Error { get; set; } = default;
 
         /// <summary>
