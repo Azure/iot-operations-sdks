@@ -7,11 +7,13 @@ use thiserror::Error;
 
 use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 use azure_iot_operations_protocol::rpc_command;
+use azure_iot_operations_protocol::{
+    application::ApplicationContextBuilder, common::cloud_event::CloudEventBuilder,
+};
 
 const CLIENT_ID: &str = "aio_example_executor_client";
 const HOSTNAME: &str = "localhost";
@@ -74,6 +76,18 @@ async fn increment_executor_loop(
     // Increment the counter for each incoming request
     while let Some(recv_result) = executor.recv().await {
         let request = recv_result?;
+
+        // Parse cloud event if present
+        match request.get_cloud_event() {
+            Ok(cloud_event) => {
+                log::info!("{cloud_event}");
+            }
+            Err(e) => {
+                // If a cloud event is not present, this error is expected
+                log::warn!("Error parsing cloud event: {e}");
+            }
+        }
+
         // Update the counter
         counter += 1;
         log::info!("Counter incremented to: {counter}");
@@ -81,9 +95,14 @@ async fn increment_executor_loop(
         let response = IncrResponsePayload {
             counter_response: counter,
         };
+        let cloud_event = CloudEventBuilder::<rpc_command::executor::Response<_>>::default()
+            .source("aio://increment/executor/sample")
+            .build()
+            .unwrap();
         let response = rpc_command::executor::ResponseBuilder::default()
             .payload(response)
             .unwrap()
+            .cloud_event(cloud_event)
             .build()
             .unwrap();
         // Send the response

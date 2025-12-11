@@ -8,11 +8,13 @@ use thiserror::Error;
 
 use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 use azure_iot_operations_protocol::rpc_command;
+use azure_iot_operations_protocol::{
+    application::ApplicationContextBuilder, common::cloud_event::CloudEventBuilder,
+};
 
 const CLIENT_ID: &str = "aio_example_invoker_client";
 const HOSTNAME: &str = "localhost";
@@ -71,16 +73,31 @@ async fn increment_invoke_loop(
     invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload>,
 ) {
     loop {
+        let cloud_event = CloudEventBuilder::<rpc_command::invoker::Request<_>>::default()
+            .source("aio://increment/invoker/sample")
+            .build()
+            .unwrap();
         let payload = rpc_command::invoker::RequestBuilder::default()
             .payload(IncrRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(2))
+            .cloud_event(cloud_event)
             .build()
             .unwrap();
         log::info!("Sending 'increment' command request...");
         match invoker.invoke(payload).await {
             Ok(response) => {
                 log::info!("Response: {response:?}");
+                // Parse cloud event if present
+                match rpc_command::invoker::cloud_event_from_response(&response) {
+                    Ok(cloud_event) => {
+                        log::info!("{cloud_event}");
+                    }
+                    Err(e) => {
+                        // If a cloud event is not present, this error is expected
+                        log::warn!("Error parsing cloud event: {e}");
+                    }
+                }
             }
             Err(e) => {
                 log::error!("Error invoking 'increment' command: {e}");
