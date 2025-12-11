@@ -169,7 +169,7 @@ impl FromStr for CloudEventFields {
 /// Note: if fields are modified after the [`CloudEvent`] has been built, there is no longer
 /// a guarantee that this is a valid cloud event.
 ///
-/// Implements the cloud event spec 1.0 for the telemetry sender.
+/// Implements the CloudEvents spec 1.0 for generic MQTT messages.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
