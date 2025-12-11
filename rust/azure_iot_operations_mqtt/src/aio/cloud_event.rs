@@ -169,7 +169,7 @@ impl FromStr for CloudEventFields {
 /// Note: if fields are modified after the [`CloudEvent`] has been built, there is no longer
 /// a guarantee that this is a valid cloud event.
 ///
-/// Implements the CloudEvents spec 1.0 for generic MQTT messages.
+/// Implements the `CloudEvents` spec 1.0 for generic MQTT messages.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
@@ -586,10 +586,10 @@ mod tests {
     #[test_case("application/octet-stream", true; "dash_second_half")]
     #[test_case("application/f0o", true; "number_second_half")]
     #[test_case("application/f.o", true; "period_second_half")]
-    #[test_case("foo/bar+bazz", true; "plus_extra")]
+    #[test_case("foo/bar+buzz", true; "plus_extra")]
     #[test_case("f0o/json", false; "number_first_half")]
     #[test_case("foo", false; "no_slash")]
-    #[test_case("foo/bar?bazz", false; "question_mark")]
+    #[test_case("foo/bar?buzz", false; "question_mark")]
     #[test_case("application/json; charset=utf-8", true; "parameter")]
     fn test_cloud_event_validate_data_content_type(data_content_type: &str, expected: bool) {
         assert_eq!(
