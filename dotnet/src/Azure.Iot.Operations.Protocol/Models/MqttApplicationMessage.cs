@@ -336,12 +336,6 @@ namespace Azure.Iot.Operations.Protocol.Models
             {
                 AddUserProperty(nameof(md.DataSchema).ToLowerInvariant(), md.DataSchema);
             }
-
-            // Override ContentType if DataContentType is set
-            if (!string.IsNullOrWhiteSpace(md.DataContentType))
-            {
-                ContentType = md.DataContentType;
-            }
         }
 
         /// <summary>

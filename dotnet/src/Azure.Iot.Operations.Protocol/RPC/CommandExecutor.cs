@@ -475,7 +475,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
             string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
-            EnsureCloudEventTypeAndContentType(metadata, _msAioRpcResponse, payloadContext?.ContentType);
+            if (metadata?.CloudEvent != null)
+            {
+                // Set Type and DataContentType for RPC response CloudEvents
+                metadata.CloudEvent.Type = _msAioRpcResponse;
+                metadata.CloudEvent.DataContentType = payloadContext?.ContentType;
+            }
 
             metadata?.MarshalTo(message);
 
@@ -667,16 +672,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 AkriMqttErrorKind.UnknownError => CommandStatusCode.InternalServerError,
                 _ => CommandStatusCode.InternalServerError,
             };
-        }
-
-        private static void EnsureCloudEventTypeAndContentType(CommandResponseMetadata? metadata, string defaultType, string? payloadContextContentType)
-        {
-            if (metadata?.CloudEvent != null)
-            {
-                // Set Type and DataContentType for RPC response CloudEvents
-                metadata.CloudEvent.Type = defaultType;
-                metadata.CloudEvent.DataContentType = payloadContextContentType;
-            }
         }
 
         public virtual async ValueTask DisposeAsync()

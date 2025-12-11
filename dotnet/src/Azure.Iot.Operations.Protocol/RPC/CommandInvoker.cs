@@ -579,7 +579,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 try
                 {
-                    EnsureCloudEventTypeAndContentType(metadata, _msAioRpcRequest, payloadContext.ContentType);
+                    if (metadata?.CloudEvent != null)
+                    {
+                        // Set Type and DataContentType for RPC request CloudEvents
+                        metadata.CloudEvent.Type = _msAioRpcRequest;
+                        metadata.CloudEvent.DataContentType = payloadContext.ContentType;
+                    }
 
                     metadata?.MarshalTo(requestMessage);
                 }
@@ -788,16 +793,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (!tcs.TrySetCanceled())
             {
                 Trace.TraceWarning($"Failed to cancel the response promise. This may be because the promise was already completed.");
-            }
-        }
-
-        private static void EnsureCloudEventTypeAndContentType(CommandRequestMetadata? metadata, string defaultType, string? payloadContextContentType)
-        {
-            if (metadata?.CloudEvent != null)
-            {
-                // Set Type and DataContentType for RPC request CloudEvents
-                metadata.CloudEvent.Type = defaultType;
-                metadata.CloudEvent.DataContentType = payloadContextContentType;
             }
         }
 

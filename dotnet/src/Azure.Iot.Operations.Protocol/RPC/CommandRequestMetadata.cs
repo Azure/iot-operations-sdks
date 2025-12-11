@@ -156,9 +156,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (CloudEvent != null)
             {
-                var contentType = message.ContentType;
                 message.SetCloudEvent(CloudEvent);
-                message.ContentType = contentType;
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)

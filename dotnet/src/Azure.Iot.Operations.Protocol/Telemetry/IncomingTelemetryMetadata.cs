@@ -149,8 +149,8 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             string dataSchema = safeGetUserProperty(nameof(ProtocolCloudEvent.DataSchema));
 
             string time = safeGetUserProperty(nameof(ProtocolCloudEvent.Time));
-            DateTime _dateTime = DateTime.UtcNow;
-            if (!string.IsNullOrEmpty(time) && !DateTime.TryParse(time, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out _dateTime))
+            DateTime dateTime = DateTime.UtcNow;
+            if (!string.IsNullOrEmpty(time) && !DateTime.TryParse(time, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out dateTime))
             {
                 throw new ArgumentException("Could not parse cloud event from telemetry: Cloud events time must be a valid RFC3339 date-time");
             }
@@ -159,7 +159,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             {
                 Type = type,
                 Id = id,
-                Time = _dateTime,
+                Time = dateTime,
                 DataContentType = ContentType,
                 DataSchema = dataSchema,
                 Subject = subject,

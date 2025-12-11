@@ -40,7 +40,7 @@ public class ProtocolCloudEventTests
             Type = "custom.protocol.type", // Set via internal setter
             DataContentType = "application/protobuf" // Set via internal setter
         };
-
+        message.ContentType = "application/json";
         // Act
         message.SetCloudEvent(cloudEvent);
 
@@ -51,7 +51,7 @@ public class ProtocolCloudEventTests
         Assert.Contains(message.UserProperties!, p => p.Name == "type" && p.Value == "custom.protocol.type");
         Assert.Contains(message.UserProperties!, p => p.Name == "subject" && p.Value == "proto-subject");
         Assert.Contains(message.UserProperties!, p => p.Name == "dataschema" && p.Value == "https://schema.example.com");
-        Assert.Equal("application/protobuf", message.ContentType);
+        Assert.Equal("application/json", message.ContentType);
     }
 
     [Fact]
@@ -92,7 +92,7 @@ public class ProtocolCloudEventTests
             DataContentType = "application/avro"
         };
         message.SetCloudEvent(original);
-
+        message.ContentType = "application/json";
         // Act
         var retrieved = message.GetProtocolCloudEvent();
 
@@ -103,7 +103,7 @@ public class ProtocolCloudEventTests
         Assert.Equal(original.Type, retrieved.Type);
         Assert.Equal(original.Id, retrieved.Id);
         Assert.Equal(original.Time, retrieved.Time);
-        Assert.Equal(original.DataContentType, retrieved.DataContentType);
+        Assert.Equal(message.ContentType ,retrieved.DataContentType);
         Assert.Equal(original.Subject, retrieved.Subject);
         Assert.Equal(original.DataSchema, retrieved.DataSchema);
     }
@@ -270,7 +270,7 @@ public class ProtocolCloudEventTests
 
         // Assert
         Assert.Contains(message.UserProperties!, p => p.Name == "type" && p.Value == "ms.aio.rpc.response");
-        Assert.Contains(message.UserProperties!, p => p.Name == "source" && p.Value == "aio://server");
+        Assert.Contains(message.UserProperties!, p => p.Name == "source" && p.Value == new Uri("aio://server").ToString());
         Assert.Contains(message.UserProperties!, p => p.Name == "subject" && p.Value == "response-subject");
         Assert.Contains(message.UserProperties!, p => p.Name == "custom-key" && p.Value == "custom-value");
     }
@@ -284,7 +284,7 @@ public class ProtocolCloudEventTests
         message.AddUserProperty("source", "aio://server");
         message.AddUserProperty("type", "ms.aio.rpc.response");
         message.AddUserProperty("id", "resp-789");
-        message.AddUserProperty("correlationdata", Guid.NewGuid().ToString());
+        message.CorrelationData = Guid.NewGuid().ToByteArray();
         message.ContentType = "application/protobuf";
 
         // Act
@@ -367,7 +367,7 @@ public class ProtocolCloudEventTests
         // Assert - Id is generated
         Assert.NotNull(cloudEvent.Id);
         Assert.True(Guid.TryParse(cloudEvent.Id, out _));
-        
+
         // Assert - Time is generated
         Assert.NotNull(cloudEvent.Time);
         Assert.True(cloudEvent.Time >= before && cloudEvent.Time <= after);
