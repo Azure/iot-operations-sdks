@@ -161,6 +161,8 @@ impl FromStr for CloudEventFields {
 }
 
 /// Cloud Event struct.
+/// Note: if fields are modified after the [`CloudEvent`] has been built, there is no longer
+/// a guarantee that this is a valid cloud event.
 ///
 /// Implements the cloud event spec 1.0 for the telemetry sender.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
@@ -218,6 +220,10 @@ impl CloudEventBuilder {
             spec_version.clone_from(sv);
         }
 
+        if let Some(id) = &self.id {
+            CloudEventFields::Id.validate(id, &spec_version)?;
+        }
+
         if let Some(source) = &self.source {
             CloudEventFields::Source.validate(source, &spec_version)?;
         }
@@ -226,20 +232,16 @@ impl CloudEventBuilder {
             CloudEventFields::EventType.validate(event_type, &spec_version)?;
         }
 
+        if let Some(Some(subject)) = &self.subject {
+            CloudEventFields::Subject.validate(subject, &spec_version)?;
+        }
+
         if let Some(Some(data_schema)) = &self.data_schema {
             CloudEventFields::DataSchema.validate(data_schema, &spec_version)?;
         }
 
-        if let Some(id) = &self.id {
-            CloudEventFields::Id.validate(id, &spec_version)?;
-        }
-
         if let Some(Some(data_content_type)) = &self.data_content_type {
             CloudEventFields::DataContentType.validate(data_content_type, &spec_version)?;
-        }
-
-        if let Some(Some(subject)) = &self.subject {
-            CloudEventFields::Subject.validate(subject, &spec_version)?;
         }
 
         // time does not need to be validated because converting it to an rfc3339 compliant string will always succeed
@@ -261,25 +263,25 @@ impl CloudEvent {
     ) -> Result<Self, CloudEventBuilderError> {
         Self::from_user_properties_and_content_type(
             &publish_properties.user_properties,
-            publish_properties.content_type.as_ref(),
+            publish_properties.content_type.as_deref(),
         )
     }
 
-    /// Parse a [`CloudEvent`] from a Publish's [`PublishProperties`].
-    /// Note that this will return an error if the [`PublishProperties`] do not contain the required fields for a [`CloudEvent`].
+    /// Parse a [`CloudEvent`] from a Publish's user properties and content type.
+    /// Note that this will return an error if the arguments do not contain the required fields for a [`CloudEvent`].
     ///
     /// # Errors
-    /// [`CloudEventBuilderError::UninitializedField`] if the [`PublishProperties`] do not contain the required fields for a [`CloudEvent`].
+    /// [`CloudEventBuilderError::UninitializedField`] if the arguments do not contain the required fields for a [`CloudEvent`].
     ///
     /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
     pub fn from_user_properties_and_content_type(
         user_properties: &Vec<(String, String)>,
-        content_type: Option<&String>,
+        content_type: Option<&str>,
     ) -> Result<Self, CloudEventBuilderError> {
         // use builder so that all fields can be validated together
         let mut received_cloud_event_builder = ReceivedCloudEventBuilder::default();
         if let Some(content_type) = content_type {
-            received_cloud_event_builder.data_content_type(content_type.clone());
+            received_cloud_event_builder.data_content_type(content_type.to_string());
         }
 
         for (key, value) in user_properties {
@@ -377,7 +379,7 @@ impl CloudEvent {
     }
 }
 
-/// Internal Cloud Event struct for building a [`CloudEvent`] from received [`PublishProperties`].
+/// Internal Cloud Event struct with validations for building a [`CloudEvent`] from received [`PublishProperties`].
 ///
 /// Implements the cloud event spec 1.0.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
@@ -461,6 +463,7 @@ impl ReceivedCloudEventBuilder {
             CloudEventFields::DataContentType.validate(data_content_type, &spec_version)?;
         }
 
+        // only difference from sending side validation
         if let Some(Some(builder_time)) = &self.builder_time {
             CloudEventFields::Time.validate(builder_time, &spec_version)?;
         }

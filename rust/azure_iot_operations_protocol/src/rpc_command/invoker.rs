@@ -40,22 +40,12 @@ use crate::{
     },
     parse_supported_protocol_major_versions,
     rpc_command::{
-        DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION, StatusCode,
-        StatusCodeParseError,
+        DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, DEFAULT_RPC_REQUEST_CLOUD_EVENT_EVENT_TYPE,
+        RPC_COMMAND_PROTOCOL_VERSION, StatusCode, StatusCodeParseError,
     },
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
-
-/// Invoker generic type for Cloud Events
-#[derive(Clone, Debug)]
-pub struct InvokerCloudEvent;
-impl EnvoyCloudEventBuilder for InvokerCloudEvent {
-    /// Default event type for this envoy's cloud events
-    fn default_event_type() -> String {
-        "ms.aio.rpc.request".to_string()
-    }
-}
 
 /// Command Request struct.
 /// Used by the [`Invoker`]
@@ -85,7 +75,14 @@ where
     timeout: Duration,
     /// Cloud event of the request.
     #[builder(default = "None")]
-    cloud_event: Option<crate::common::cloud_event::CloudEvent<InvokerCloudEvent>>,
+    cloud_event: Option<crate::common::cloud_event::CloudEvent<Request<TReq>>>,
+}
+
+impl<TReq: PayloadSerialize> EnvoyCloudEventBuilder for Request<TReq> {
+    /// Default event type for this envoy's cloud events
+    fn default_event_type() -> String {
+        DEFAULT_RPC_REQUEST_CLOUD_EVENT_EVENT_TYPE.to_string()
+    }
 }
 
 impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
@@ -213,7 +210,7 @@ pub fn cloud_event_from_response<TResp: PayloadSerialize>(
 > {
     azure_iot_operations_mqtt::aio::cloud_event::CloudEvent::from_user_properties_and_content_type(
         &response.custom_user_data,
-        response.content_type.as_ref(),
+        response.content_type.as_deref(),
     )
 }
 

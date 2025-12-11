@@ -16,7 +16,7 @@ use azure_iot_operations_protocol::{
             DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
         },
     },
-    telemetry::{self, sender::SenderCloudEvent},
+    telemetry,
 };
 
 const CLIENT_ID: &str = "myClient";
@@ -71,7 +71,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 /// Indefinitely send Telemetry
 async fn telemetry_loop(telemetry_sender: telemetry::Sender<SampleTelemetry>) {
     loop {
-        let cloud_event = CloudEventBuilder::<SenderCloudEvent>::default()
+        let cloud_event = CloudEventBuilder::<telemetry::sender::Message<_>>::default()
             .source("aio://oven/sample")
             .build()
             .unwrap();

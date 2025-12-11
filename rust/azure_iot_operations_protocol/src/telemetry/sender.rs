@@ -21,18 +21,8 @@ use crate::{
         topic_processor::TopicPattern,
         user_properties::{PERSIST_KEY, UserProperty, validate_user_properties},
     },
-    telemetry::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, TELEMETRY_PROTOCOL_VERSION},
+    telemetry::{DEFAULT_TELEMETRY_CLOUD_EVENT_EVENT_TYPE, TELEMETRY_PROTOCOL_VERSION},
 };
-
-/// Telemetry Sender generic type for Cloud Events
-#[derive(Clone, Debug)]
-pub struct SenderCloudEvent;
-impl EnvoyCloudEventBuilder for SenderCloudEvent {
-    /// Default event type for this envoy's cloud events
-    fn default_event_type() -> String {
-        DEFAULT_CLOUD_EVENT_EVENT_TYPE.to_string()
-    }
-}
 
 /// Telemetry Message struct.
 /// Used by the [`Sender`].
@@ -64,7 +54,7 @@ pub struct Message<T: PayloadSerialize> {
     message_expiry: Duration,
     /// Cloud event of the telemetry message.
     #[builder(default = "None")]
-    cloud_event: Option<CloudEvent<SenderCloudEvent>>,
+    cloud_event: Option<CloudEvent<Message<T>>>,
     /// Indicates whether the message should be retained or not.
     #[builder(default = "self.persist == Some(true)")]
     retain: bool,
@@ -73,6 +63,13 @@ pub struct Message<T: PayloadSerialize> {
     /// set by default if this option is enabled).
     #[builder(default = "false")]
     persist: bool,
+}
+
+impl<T: PayloadSerialize> EnvoyCloudEventBuilder for Message<T> {
+    /// Default event type for this envoy's cloud events
+    fn default_event_type() -> String {
+        DEFAULT_TELEMETRY_CLOUD_EVENT_EVENT_TYPE.to_string()
+    }
 }
 
 impl<T: PayloadSerialize> MessageBuilder<T> {

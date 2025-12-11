@@ -14,9 +14,9 @@ use azure_iot_operations_protocol::{
         aio_protocol_error::AIOProtocolError,
         cloud_event::{CloudEvent, CloudEventBuilderError, CloudEventSubject},
         hybrid_logical_clock::HybridLogicalClock,
-        payload_serialize::{BypassPayload, FormatIndicator},
+        payload_serialize::{BypassPayload, FormatIndicator, SerializedPayload},
     },
-    telemetry::{self, sender::SenderCloudEvent},
+    telemetry,
 };
 use azure_iot_operations_services::{azure_device_registry::models as adr_models, state_store};
 use chrono::{DateTime, Utc};
@@ -325,7 +325,7 @@ impl Forwarder {
         asset_external_asset_id: Option<&str>,
         data_timestamp: Option<HybridLogicalClock>,
         protocol_specific_identifier: Option<&str>,
-    ) -> Result<CloudEvent<SenderCloudEvent>, String> {
+    ) -> Result<CloudEvent<telemetry::sender::Message<SerializedPayload>>, String> {
         // TODO: remove once message schema validation is turned back on
         #[allow(clippy::manual_map)]
         let message_schema_uri =
@@ -342,7 +342,10 @@ impl Forwarder {
                 // return Err(Error(ErrorKind::MissingMessageSchema));
                 None
             };
-        let mut cloud_event_builder = azure_iot_operations_protocol::common::cloud_event::CloudEventBuilder::<SenderCloudEvent>::default();
+        let mut cloud_event_builder =
+            azure_iot_operations_protocol::common::cloud_event::CloudEventBuilder::<
+                telemetry::sender::Message<_>,
+            >::default();
 
         // source
         let source = Self::cloud_event_header_source(

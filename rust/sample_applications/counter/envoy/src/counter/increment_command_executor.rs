@@ -7,7 +7,7 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::cloud_event::CloudEvent;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
-use azure_iot_operations_protocol::rpc_command::{self, executor::ExecutorCloudEvent};
+use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::options::CommandExecutorOptions;
 use super::MODEL_ID;
@@ -34,7 +34,10 @@ impl IncrementResponseBuilder {
     }
 
     /// Cloud event for the response
-    pub fn cloud_event(&mut self, cloud_event: CloudEvent<ExecutorCloudEvent>) -> &mut Self {
+    pub fn cloud_event(
+        &mut self,
+        cloud_event: CloudEvent<rpc_command::executor::Response<IncrementResponsePayload>>,
+    ) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }

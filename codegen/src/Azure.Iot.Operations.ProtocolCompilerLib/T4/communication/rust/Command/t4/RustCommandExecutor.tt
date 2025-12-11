@@ -10,7 +10,7 @@ use azure_iot_operations_protocol::common::cloud_event::CloudEvent;
 <# if (this.respSchema != null) { #>
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 <# } #>
-use azure_iot_operations_protocol::rpc_command::{self, executor::ExecutorCloudEvent};
+use azure_iot_operations_protocol::rpc_command;
 use azure_iot_operations_protocol::application::ApplicationContext;
 <# if (this.ttl != null) { #>
 use iso8601_duration;
@@ -58,7 +58,7 @@ impl <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder")
     }
 
     /// Cloud event for the response
-    pub fn cloud_event(&mut self, cloud_event: CloudEvent::<ExecutorCloudEvent>) -> &mut Self {
+    pub fn cloud_event(&mut self, cloud_event: CloudEvent::<rpc_command::executor::Response<<#=this.ResponseType()#>>>) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }

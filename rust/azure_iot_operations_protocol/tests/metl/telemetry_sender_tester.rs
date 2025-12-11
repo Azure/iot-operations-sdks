@@ -323,7 +323,7 @@ impl TelemetrySenderTester {
 
             if let Some(cloud_event) = cloud_event {
                 let mut cloud_event_builder =
-                    CloudEventBuilder::<telemetry::sender::SenderCloudEvent>::default();
+                    CloudEventBuilder::<telemetry::sender::Message<_>>::default();
 
                 if let Some(source) = &cloud_event.source {
                     cloud_event_builder.source(source);

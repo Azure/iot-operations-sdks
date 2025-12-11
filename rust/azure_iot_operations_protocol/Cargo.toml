@@ -23,7 +23,6 @@ uuid = { version = "1.8.0", features = ["v4","fast-rng"] }
 chrono.workspace = true
 regex = "1.11.0"
 thiserror.workspace = true
-fluent-uri = "0.3.2"
 
 [dev-dependencies]
 async-std = "1.12"

@@ -32,7 +32,10 @@ use crate::{
         topic_processor::{TopicPattern, contains_invalid_char, is_valid_replacement},
         user_properties::{PARTITION_KEY, UserProperty, validate_user_properties},
     },
-    rpc_command::{DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION, StatusCode},
+    rpc_command::{
+        DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, DEFAULT_RPC_RESPONSE_CLOUD_EVENT_EVENT_TYPE,
+        RPC_COMMAND_PROTOCOL_VERSION, StatusCode,
+    },
     supported_protocol_major_versions_to_string,
 };
 
@@ -44,16 +47,6 @@ const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
     "Internal logic error, unable to calculate command expiration time";
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
-
-/// Executor generic type for Cloud Events
-#[derive(Clone, Debug)]
-pub struct ExecutorCloudEvent;
-impl EnvoyCloudEventBuilder for ExecutorCloudEvent {
-    /// Default event type for this envoy's cloud events
-    fn default_event_type() -> String {
-        "ms.aio.rpc.response".to_string()
-    }
-}
 
 /// Struct to hold response arguments
 struct ResponseArguments {
@@ -174,7 +167,7 @@ where
     > {
         azure_iot_operations_mqtt::aio::cloud_event::CloudEvent::from_user_properties_and_content_type(
             &self.custom_user_data,
-            self.content_type.as_ref(),
+            self.content_type.as_deref(),
         )
     }
 }
@@ -200,7 +193,14 @@ where
     custom_user_data: Vec<(String, String)>,
     /// Cloud event of the response.
     #[builder(default = "None")]
-    cloud_event: Option<crate::common::cloud_event::CloudEvent<ExecutorCloudEvent>>,
+    cloud_event: Option<crate::common::cloud_event::CloudEvent<Response<TResp>>>,
+}
+
+impl<TResp: PayloadSerialize> EnvoyCloudEventBuilder for Response<TResp> {
+    /// Default event type for this envoy's cloud events
+    fn default_event_type() -> String {
+        DEFAULT_RPC_RESPONSE_CLOUD_EVENT_EVENT_TYPE.to_string()
+    }
 }
 
 impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {

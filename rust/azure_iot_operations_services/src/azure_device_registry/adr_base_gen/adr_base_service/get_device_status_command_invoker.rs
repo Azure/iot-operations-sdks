@@ -10,7 +10,7 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
 use azure_iot_operations_protocol::common::cloud_event::CloudEvent;
-use azure_iot_operations_protocol::rpc_command::{self, invoker::InvokerCloudEvent};
+use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandInvokerOptions;
@@ -40,7 +40,10 @@ impl GetDeviceStatusRequestBuilder {
     }
 
     /// Cloud event for the request
-    pub fn cloud_event(&mut self, cloud_event: CloudEvent<InvokerCloudEvent>) -> &mut Self {
+    pub fn cloud_event(
+        &mut self,
+        cloud_event: CloudEvent<rpc_command::invoker::Request<EmptyJson>>,
+    ) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }

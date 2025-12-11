@@ -37,7 +37,7 @@ pub fn cloud_event_from_telemetry<T: PayloadSerialize>(
 ) -> Result<CloudEvent, CloudEventBuilderError> {
     CloudEvent::from_user_properties_and_content_type(
         &telemetry.custom_user_data,
-        telemetry.content_type.as_ref(),
+        telemetry.content_type.as_deref(),
     )
 }
 

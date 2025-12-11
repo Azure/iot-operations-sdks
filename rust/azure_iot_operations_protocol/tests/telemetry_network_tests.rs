@@ -324,7 +324,7 @@ async fn telemetry_complex_send_receive_network_tests() {
         ("test2".to_string(), "value2".to_string()),
     ];
     let test_cloud_event_source = "aio://test/telemetry";
-    let test_cloud_event = CloudEventBuilder::<telemetry::sender::SenderCloudEvent>::default()
+    let test_cloud_event = CloudEventBuilder::<telemetry::sender::Message<_>>::default()
         .source(test_cloud_event_source)
         .build()
         .unwrap();
@@ -360,7 +360,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(
                             cloud_event.event_type,
-                            telemetry::DEFAULT_CLOUD_EVENT_EVENT_TYPE
+                            telemetry::DEFAULT_TELEMETRY_CLOUD_EVENT_EVENT_TYPE
                         );
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
@@ -392,7 +392,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(
                             cloud_event.event_type,
-                            telemetry::DEFAULT_CLOUD_EVENT_EVENT_TYPE
+                            telemetry::DEFAULT_TELEMETRY_CLOUD_EVENT_EVENT_TYPE
                         );
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
