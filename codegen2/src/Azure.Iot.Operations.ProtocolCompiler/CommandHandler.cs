@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
@@ -120,6 +122,25 @@
                     defaultImpl: options.DefaultImpl);
                 WriteItems(generatedEnvoys, options.OutputDir);
 
+                if (targetLanguage == TargetLanguage.Rust)
+                {
+                    GeneratedItem? cargoInfo = generatedEnvoys.FirstOrDefault(e => e.FileName.Equals("Cargo.toml", StringComparison.OrdinalIgnoreCase));
+                    if (cargoInfo != null)
+                    {
+                        string projectFolder = Path.Combine(options.OutputDir.FullName, cargoInfo.FolderPath);
+                        try
+                        {
+                            RunCargo($"fmt --manifest-path {Path.Combine(projectFolder, "Cargo.toml")}", display: true);
+                            RunCargo("install --locked cargo-machete@0.7.0", display: false);
+                            RunCargo($"machete --fix {projectFolder}", display: true);
+                        }
+                        catch (Win32Exception)
+                        {
+                            Console.WriteLine("cargo tool not found; install per instructions: https://doc.rust-lang.org/cargo/getting-started/installation.html");
+                        }
+                    }
+                }
+
                 DisplayWarnings(errorLog);
             }
             catch (Exception ex)
@@ -131,6 +152,24 @@
             }
 
             return 0;
+        }
+
+        private static void RunCargo(string args, bool display)
+        {
+            if (display)
+            {
+                Console.WriteLine($"cargo {args}");
+            }
+
+            using (Process cargo = new Process())
+            {
+                cargo.StartInfo.FileName = "cargo";
+                cargo.StartInfo.Arguments = args;
+                cargo.StartInfo.UseShellExecute = false;
+                cargo.StartInfo.RedirectStandardOutput = true;
+                cargo.Start();
+                cargo.WaitForExit();
+            }
         }
 
         private static List<ParsedThing> ParseThings(FileInfo[] thingFiles, ErrorLog errorLog)
@@ -229,7 +268,7 @@
                         hasError = true;
                     }
 
-                    if (item is ValueTracker<TDDataSchema> dataSchema && dataSchema.Value.Ref != null)
+                    if (item is ValueTracker<TDDataSchema> dataSchema && dataSchema.Value?.Ref != null)
                     {
                         errorReporter.RegisterReferenceFromThing(dataSchema.Value.Ref.TokenIndex, dataSchema.Value.Ref.Value.Value);
                     }

@@ -107,7 +107,7 @@
         {
             foreach (KeyValuePair<string, Dictionary<string, TypedConstant>> schemaConstant in schemaConstants)
             {
-                foreach (IEnvoyTemplateTransform transform in envoyFactory.GetConstantTransforms(new CodeName(schemaConstant.Key), schemaConstant.Value.Values.OrderBy(c => c.Name.AsGiven).ToList()))
+                foreach (IEnvoyTemplateTransform transform in envoyFactory.GetConstantTransforms(new CodeName(schemaConstant.Key), schemaConstant.Value.Values.ToList()))
                 {
                     transforms[transform.FileName] = transform;
                 }

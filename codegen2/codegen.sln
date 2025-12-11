@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.EnvoyG
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.ProtocolCompiler", "src\Azure.Iot.Operations.ProtocolCompiler\Azure.Iot.Operations.ProtocolCompiler.csproj", "{5A83D072-8E7F-424C-B009-4A6011A13CA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dtdl2Wot", "src\Dtdl2Wot\Dtdl2Wot.csproj", "{67B4CD3D-17A8-4D63-9996-79A424E628A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{5A83D072-8E7F-424C-B009-4A6011A13CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A83D072-8E7F-424C-B009-4A6011A13CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A83D072-8E7F-424C-B009-4A6011A13CA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67B4CD3D-17A8-4D63-9996-79A424E628A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67B4CD3D-17A8-4D63-9996-79A424E628A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67B4CD3D-17A8-4D63-9996-79A424E628A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67B4CD3D-17A8-4D63-9996-79A424E628A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -28,6 +28,7 @@
                     string? inputSchemaType = action.Input != null ? schemaNamer.GetActionInSchema(action.Input?.Value, actionKvp.Key) : null;
                     string? outArgsType = action.Output != null ? schemaNamer.GetActionOutSchema(action.Output?.Value, actionKvp.Key) : null;
                     string? outputSchemaType = actionForm.ErrorRespSchema != null ? schemaNamer.GetActionRespSchema(actionKvp.Key) : outArgsType;
+                    string? errRespName = actionForm.ErrorRespName != null ? schemaNamer.GetActionRespErrorField(actionKvp.Key, actionForm.ErrorRespName) : null;
                     string? errSchemaName = schemaNamer.ChooseTitleOrName(actionForm.ErrorRespSchema?.Value.Title?.Value?.Value, actionForm.ErrorRespName);
 
                     List<string> normalResultNames = action.Output?.Value?.Properties?.Entries?.Keys?.ToList() ?? new();
@@ -46,7 +47,7 @@
                         normalResultNames,
                         normalRequiredNames,
                         outArgsType,
-                        actionForm.ErrorRespName,
+                        errRespName,
                         errSchemaName,
                         actionForm.HeaderCodeName,
                         headerCodeSchema,
@@ -68,7 +69,7 @@
                         normalResultNames,
                         normalRequiredNames,
                         outArgsType,
-                        actionForm.ErrorRespName,
+                        errRespName,
                         errSchemaName,
                         actionForm.HeaderCodeName,
                         headerCodeSchema,

@@ -80,7 +80,7 @@
                 if (actionForm?.ErrorRespSchema != null)
                 {
                     responseFields[schemaNamer.GetActionRespErrorField(actionName, actionForm.ErrorRespName!)] = new FieldSpec(
-                        tdAction.Description?.Value.Value ?? $"Read error for the '{actionName}' Action.",
+                        $"Read error for the '{actionName}' Action.",
                         actionForm.ErrorRespSchema,
                         Require: false,
                         BackupSchemaName: actionForm.ErrorRespName!,
@@ -88,7 +88,7 @@
 
                     string respSchemaName = schemaNamer.GetActionRespSchema(actionName);
                     ObjectSpec propReadRespObjectSpec = new(
-                        tdAction.Description?.Value.Value ?? $"Response to a '{actionName}' Action.",
+                        tdAction.Output?.Value.Description?.Value.Value ?? $"Response to a '{actionName}' Action.",
                         responseFields,
                         actionForm.Format,
                         respSchemaName,

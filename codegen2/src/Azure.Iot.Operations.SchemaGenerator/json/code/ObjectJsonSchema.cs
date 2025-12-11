@@ -17,6 +17,6 @@ namespace Azure.Iot.Operations.SchemaGenerator
 
         public SerializationFormat Format { get => SerializationFormat.Json; }
 
-        public string FileName { get => $"{this.schemaName}.json"; }
+        public string FileName { get => $"{this.schemaName}.{JsonSchemaSupport.JsonSchemaSuffix}"; }
     }
 }

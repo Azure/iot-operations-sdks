@@ -8,6 +8,8 @@ namespace Azure.Iot.Operations.SchemaGenerator
 
     internal class JsonSchemaSupport
     {
+        internal const string JsonSchemaSuffix = "schema.json";
+
         private const string Iso8601DurationExample = "P3Y6M4DT12H30M5S";
         private const string DecimalExample = "1234567890.0987654321";
         private const string AnArbitraryString = "Pretty12345Tricky67890";
@@ -43,7 +45,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
             if ((tdSchema.Value.Type?.Value.Value == TDValues.TypeObject && tdSchema.Value.AdditionalProperties?.Value == null) ||
                 (tdSchema.Value.Type?.Value.Value == TDValues.TypeString && tdSchema.Value.Enum != null))
             {
-                return $"\"$ref\": \"{this.schemaNamer.ApplyBackupSchemaName(tdSchema.Value.Title?.Value.Value, backupSchemaName)}.json\"";
+                return $"\"$ref\": \"{this.schemaNamer.ApplyBackupSchemaName(tdSchema.Value.Title?.Value.Value, backupSchemaName)}.{JsonSchemaSuffix}\"";
             }
 
             switch (tdSchema.Value.Type?.Value.Value ?? string.Empty)

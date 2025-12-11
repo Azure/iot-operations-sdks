@@ -728,7 +728,7 @@
                     orNull: false);
             }
 
-            schemaType = new ReferenceType(schemaName, isNullable: true, orNull: orNull);
+            schemaType = new ReferenceType(schemaName, isNullable: false, orNull: orNull);
             return true;
         }
 
@@ -804,14 +804,14 @@
 
             schemaType = (minimum, maximum) switch
             {
-                ( >= (long)sbyte.MinValue, <= (ulong)sbyte.MaxValue) => new ByteType(orNull),
                 ( >= (long)byte.MinValue, <= (ulong)byte.MaxValue) => new UnsignedByteType(orNull),
-                ( >= (long)short.MinValue, <= (ulong)short.MaxValue) => new ShortType(orNull),
                 ( >= (long)ushort.MinValue, <= (ulong)ushort.MaxValue) => new UnsignedShortType(orNull),
-                ( >= (long)int.MinValue, <= (ulong)int.MaxValue) => new IntegerType(orNull),
                 ( >= (long)uint.MinValue, <= (ulong)uint.MaxValue) => new UnsignedIntegerType(orNull),
-                ( >= (long)long.MinValue, <= (ulong)long.MaxValue) => new LongType(orNull),
                 ( >= (long)ulong.MinValue, <= (ulong)ulong.MaxValue) => new UnsignedLongType(orNull),
+                ( >= (long)sbyte.MinValue, <= (ulong)sbyte.MaxValue) => new ByteType(orNull),
+                ( >= (long)short.MinValue, <= (ulong)short.MaxValue) => new ShortType(orNull),
+                ( >= (long)int.MinValue, <= (ulong)int.MaxValue) => new IntegerType(orNull),
+                ( >= (long)long.MinValue, <= (ulong)long.MaxValue) => new LongType(orNull),
                 _ => new UnsignedLongType(orNull),
             };
 

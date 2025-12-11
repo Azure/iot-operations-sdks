@@ -101,6 +101,11 @@
 
             CheckSchemaDefinitionsCoverage(thing.SchemaDefinitions, thing.Actions, thing.Properties);
 
+            if ((thing.Actions?.Entries?.Count ?? 0) == 0 && (thing.Properties?.Entries?.Count ?? 0) == 0 && (thing.Events?.Entries?.Count ?? 0) == 0)
+            {
+                errorReporter.ReportWarning("Thing Description has no actions, properties, or events defined.", -1);
+            }
+
             return !hasError;
         }
 
@@ -1480,6 +1485,20 @@
                     hasError = true;
                 }
 
+                if (dataSchema.Value.Const?.Value.Value != null)
+                {
+                    if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
+                    {
+                        errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                    }
+
+                    if (dataSchema.Value.Const.Value.Value is not string)
+                    {
+                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value must be a string.", dataSchema.Value.Const.TokenIndex);
+                        hasError = true;
+                    }
+                }
+
                 if (dataSchema.Value.Format != null)
                 {
                     string formatValue = dataSchema.Value.Format.Value.Value;
@@ -1704,7 +1723,7 @@
                     errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                 }
 
-                if (dataSchema.Value.Const.Value.Value is not bool constValue)
+                if (dataSchema.Value.Const.Value.Value is not bool)
                 {
                     errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value must be Boolean.", dataSchema.Value.Const.TokenIndex);
                     hasError = true;
