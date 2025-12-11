@@ -295,7 +295,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         /// If the CloudEvent Time is not set, the current UTC time will be used.
         /// The Type and DataContentType are managed by the protocol library and should not be set by user code.
         /// </remarks>
-        internal void SetCloudEvent(Telemetry.ProtocolCloudEvent md)
+        internal void SetCloudEvent(ProtocolCloudEvent md)
         {
             // Provide default values as per ADR27
             if (string.IsNullOrEmpty(md.Id))

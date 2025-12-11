@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Protocol
     /// </para>
     /// <para>
     /// For use with Azure IoT Operations protocol libraries (TelemetrySender, CommandInvoker, CommandExecutor),
-    /// use <see cref="Telemetry.ProtocolCloudEvent"/> instead, which has protocol-managed Type and DataContentType.
+    /// use <see cref="ProtocolCloudEvent"/> instead, which has protocol-managed Type and DataContentType.
     /// </para>
     /// See <a href="https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md">CloudEvent Spec</a>
     /// </remarks>

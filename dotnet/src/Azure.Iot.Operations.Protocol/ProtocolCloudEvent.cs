@@ -3,11 +3,11 @@
 
 using System;
 
-namespace Azure.Iot.Operations.Protocol.Telemetry
+namespace Azure.Iot.Operations.Protocol
 {
     /// <summary>
     /// CloudEvent implementation for use with Azure IoT Operations protocol libraries (Telemetry and RPC).
-    /// This class is designed for protocol-specific scenarios where the Type and DataContentType are 
+    /// This class is designed for protocol-specific scenarios where the Type and DataContentType are
     /// controlled by the SDK rather than by user code.
     /// </summary>
     /// <remarks>
@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     /// - Does not require Type to be specified in the constructor
     /// </para>
     /// <para>
-    /// For generic CloudEvent usage with MQTT messages outside of protocol contexts, 
+    /// For generic CloudEvent usage with MQTT messages outside of protocol contexts,
     /// use <see cref="CloudEvent"/> instead.
     /// </para>
     /// See <a href="https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md">CloudEvent Spec</a>
@@ -63,8 +63,8 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         /// <summary>
         /// Timestamp of when the occurrence happened.
-        /// If the time of the occurrence cannot be determined then this attribute MAY be set to some other time 
-        /// (such as the current time) by the CloudEvents producer, however all producers for the same source 
+        /// If the time of the occurrence cannot be determined then this attribute MAY be set to some other time
+        /// (such as the current time) by the CloudEvents producer, however all producers for the same source
         /// MUST be consistent in this respect.
         /// </summary>
         public DateTime? Time { get; set; }
@@ -82,7 +82,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// <summary>
         /// Identifies the subject of the event in the context of the event producer (identified by source).
         /// In publish-subscribe scenarios, a subscriber will typically subscribe to events emitted by a source,
-        /// but the source identifier alone might not be sufficient as a qualifier for any specific event 
+        /// but the source identifier alone might not be sufficient as a qualifier for any specific event
         /// if the source context has internal sub-structure.
         /// </summary>
         public string? Subject { get; set; }
