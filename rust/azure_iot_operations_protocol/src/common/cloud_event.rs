@@ -70,9 +70,10 @@ pub enum CloudEventSubject {
 
 impl CloudEventBuilder {
     pub fn new(default_event_type: String) -> Self {
-        let mut new_builder = Self::default();
-        new_builder._default_event_type = Some(default_event_type);
-        new_builder
+        CloudEventBuilder {
+            _default_event_type: Some(default_event_type),
+            ..Default::default()
+        }
     }
 
     fn custom_default_event_type(&self) -> String {

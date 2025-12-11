@@ -207,7 +207,7 @@ pub struct ResponseCloudEvent(protocol_cloud_event::CloudEvent);
 #[derive(Clone)]
 pub struct ResponseCloudEventBuilder(protocol_cloud_event::CloudEventBuilder);
 
-/// Error type for CloudEventBuilder
+/// Error type for [`ResponseCloudEventBuilderError`]
 #[derive(Debug)]
 #[non_exhaustive]
 pub enum ResponseCloudEventBuilderError {
@@ -252,7 +252,7 @@ impl Default for ResponseCloudEventBuilder {
 }
 
 impl ResponseCloudEventBuilder {
-    /// Builds a new CloudEvent.
+    /// Builds a new [`ResponseCloudEvent`].
     /// # Errors
     /// If a required field has not been initialized.
     pub fn build(&self) -> Result<ResponseCloudEvent, ResponseCloudEventBuilderError> {

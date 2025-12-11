@@ -90,7 +90,7 @@ pub struct RequestCloudEvent(protocol_cloud_event::CloudEvent);
 #[derive(Clone)]
 pub struct RequestCloudEventBuilder(protocol_cloud_event::CloudEventBuilder);
 
-/// Error type for CloudEventBuilder
+/// Error type for [`RequestCloudEventBuilderError`]
 #[derive(Debug)]
 #[non_exhaustive]
 pub enum RequestCloudEventBuilderError {
@@ -135,7 +135,7 @@ impl Default for RequestCloudEventBuilder {
 }
 
 impl RequestCloudEventBuilder {
-    /// Builds a new CloudEvent.
+    /// Builds a new [`RequestCloudEvent`].
     /// # Errors
     /// If a required field has not been initialized.
     pub fn build(&self) -> Result<RequestCloudEvent, RequestCloudEventBuilderError> {
