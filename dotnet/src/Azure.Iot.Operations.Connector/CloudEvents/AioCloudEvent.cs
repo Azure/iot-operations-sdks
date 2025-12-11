@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Protocol.Telemetry;
 
 namespace Azure.Iot.Operations.Connector.CloudEvents;
 
@@ -49,6 +50,8 @@ public class AioCloudEvent
 
     /// <summary>
     /// Creates a standard CloudEvent from this AIO CloudEvent metadata.
+    /// This is the generic CloudEvent where Type is user-controlled.
+    /// For protocol use, use ToProtocolCloudEvent instead.
     /// </summary>
     /// <param name="time">Timestamp of when the occurrence happened. Defaults to current UTC time.</param>
     /// <param name="id">Event identifier. Defaults to a new GUID.</param>
@@ -57,6 +60,25 @@ public class AioCloudEvent
     {
         return new CloudEvent(Source, Type)
         {
+            Subject = Subject,
+            DataSchema = DataSchema,
+            Time = time ?? DateTime.UtcNow,
+            Id = id ?? Guid.NewGuid().ToString()
+        };
+    }
+
+    /// <summary>
+    /// Creates a ProtocolCloudEvent from this AIO CloudEvent metadata for protocol use.
+    /// The Type property will be set to the AIO type, and DataContentType will be controlled by the SDK.
+    /// </summary>
+    /// <param name="time">Timestamp of when the occurrence happened. Defaults to current UTC time.</param>
+    /// <param name="id">Event identifier. Defaults to a new GUID.</param>
+    /// <returns>A ProtocolCloudEvent instance with all standard fields populated.</returns>
+    public ProtocolCloudEvent ToProtocolCloudEvent(DateTime? time = null, string? id = null)
+    {
+        return new ProtocolCloudEvent(Source)
+        {
+            Type = Type,
             Subject = Subject,
             DataSchema = DataSchema,
             Time = time ?? DateTime.UtcNow,

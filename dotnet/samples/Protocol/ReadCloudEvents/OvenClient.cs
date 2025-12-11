@@ -18,7 +18,7 @@ public class OvenClient(ApplicationContext applicationContext, MqttSessionClient
     public override async Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
     {
         logger.LogInformation("Received telemetry from {senderId} \n", senderId);
-        CloudEvent? cloudEvent = null;
+        ProtocolCloudEvent? cloudEvent = null;
         try
         {
             cloudEvent = metadata.GetCloudEvent();

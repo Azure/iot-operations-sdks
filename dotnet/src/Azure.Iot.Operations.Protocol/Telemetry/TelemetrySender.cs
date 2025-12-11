@@ -154,7 +154,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
                     metadata.CloudEvent.Time ??= DateTime.UtcNow;
                     metadata.CloudEvent.Subject ??= telemTopic.ToString();
+                    // Set DataContentType internally from serializer
                     metadata.CloudEvent.DataContentType = serializedPayloadContext.ContentType;
+                    // Type is already set to "ms.aio.telemetry" by default in ProtocolCloudEvent
                 }
 
                 // Update HLC and use as the timestamp.

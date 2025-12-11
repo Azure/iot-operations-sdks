@@ -285,6 +285,66 @@ namespace Azure.Iot.Operations.Protocol.Models
         }
 
         /// <summary>
+        /// Sets ProtocolCloudEvent properties on the message by adding them as user properties.
+        /// Used internally by protocol libraries (TelemetrySender, CommandInvoker, CommandExecutor).
+        /// Provides default values for Id and Time if not specified.
+        /// </summary>
+        /// <param name="md">The ProtocolCloudEvent metadata to set on the message.</param>
+        /// <remarks>
+        /// If the CloudEvent Id is not set, a new GUID will be generated.
+        /// If the CloudEvent Time is not set, the current UTC time will be used.
+        /// The Type and DataContentType are managed by the protocol library and should not be set by user code.
+        /// </remarks>
+        internal void SetCloudEvent(Telemetry.ProtocolCloudEvent md)
+        {
+            // Provide default values as per ADR27
+            if (string.IsNullOrEmpty(md.Id))
+            {
+                md.Id = Guid.NewGuid().ToString();
+            }
+
+            if (!md.Time.HasValue)
+            {
+                md.Time = DateTime.UtcNow;
+            }
+
+            AddUserProperty(nameof(md.SpecVersion).ToLowerInvariant(), md.SpecVersion);
+            if (md.Id != null)
+            {
+                AddUserProperty(nameof(md.Id).ToLowerInvariant(), md.Id);
+            }
+
+            AddUserProperty(nameof(md.Type).ToLowerInvariant(), md.Type);
+            AddUserProperty(nameof(md.Source).ToLowerInvariant(), md.Source.ToString());
+
+            if (md.Time is not null)
+            {
+                AddUserProperty(nameof(md.Time).ToLowerInvariant(), md.Time!.Value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture));
+            }
+
+            if (md.Subject is not null)
+            {
+                AddUserProperty(nameof(md.Subject).ToLowerInvariant(), md.Subject);
+            }
+
+            if (md.DataContentType is not null)
+            {
+                AddUserProperty(nameof(md.DataContentType).ToLowerInvariant(), md.DataContentType);
+            }
+
+            if (md.DataSchema is not null)
+            {
+                AddUserProperty(nameof(md.DataSchema).ToLowerInvariant(), md.DataSchema);
+            }
+
+            // Override ContentType if DataContentType is set
+            if (!string.IsNullOrWhiteSpace(md.DataContentType))
+            {
+                ContentType = md.DataContentType;
+            }
+        }
+
+        /// <summary>
         /// Attempts to parse a CloudEvent from the user properties of this MQTT message.
         /// </summary>
         /// <returns>
@@ -344,6 +404,75 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             return new CloudEvent(source, type, specVersion)
             {
+                Id = id,
+                Time = time,
+                DataContentType = ContentType,
+                DataSchema = dataSchema,
+                Subject = subject
+            };
+        }
+
+        /// <summary>
+        /// Gets the CloudEvent from the MQTT message user properties for protocol use.
+        /// This method is used internally by protocol metadata classes and returns a ProtocolCloudEvent
+        /// where Type and DataContentType are controlled by the SDK.
+        /// </summary>
+        /// <returns>A ProtocolCloudEvent parsed from the user properties, or null if CloudEvent properties are not present.</returns>
+        internal ProtocolCloudEvent? GetProtocolCloudEvent()
+        {
+            if (UserProperties == null || UserProperties.Count == 0)
+            {
+                return null;
+            }
+
+            string? SafeGetUserProperty(string name)
+            {
+                return UserProperties
+                    .FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    ?.Value;
+            }
+
+            // Get required properties
+            string? specVersion = SafeGetUserProperty("specversion");
+            if (string.IsNullOrEmpty(specVersion))
+            {
+                return null;
+            }
+
+            if (!specVersion.Equals("1.0", StringComparison.Ordinal))
+            {
+                // Only version 1.0 is supported
+                return null;
+            }
+
+            string? sourceValue = SafeGetUserProperty("source");
+            if (string.IsNullOrEmpty(sourceValue) || !Uri.TryCreate(sourceValue, UriKind.RelativeOrAbsolute, out Uri? source))
+            {
+                return null;
+            }
+
+            string? type = SafeGetUserProperty("type");
+            if (string.IsNullOrEmpty(type))
+            {
+                return null;
+            }
+
+            // Get optional properties
+            string? id = SafeGetUserProperty("id");
+            string? subject = SafeGetUserProperty("subject");
+            string? dataSchema = SafeGetUserProperty("dataschema");
+            string? timeValue = SafeGetUserProperty("time");
+
+            DateTime? time = null;
+            if (!string.IsNullOrEmpty(timeValue) &&
+                DateTime.TryParse(timeValue, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime parsedTime))
+            {
+                time = parsedTime;
+            }
+
+            return new ProtocolCloudEvent(source, specVersion)
+            {
+                Type = type,
                 Id = id,
                 Time = time,
                 DataContentType = ContentType,

@@ -28,7 +28,7 @@ internal class MemMonClient(ApplicationContext applicationContext, MqttSessionCl
 
         try
         {
-            CloudEvent cloudEvent = metadata.GetCloudEvent();
+            ProtocolCloudEvent cloudEvent = metadata.GetCloudEvent();
             logger.LogInformation("Cloud Events Metadata {v1} {v2}", cloudEvent?.Id, cloudEvent?.Time);
         }
         catch (Exception)

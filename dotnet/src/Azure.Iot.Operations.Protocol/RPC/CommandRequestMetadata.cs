@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
 
@@ -49,14 +50,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         public string? Partition { get; }
 
-        /// <summary>
-        /// The CloudEvent metadata attached to the request.
-        /// When CommandRequestMetadata is constructed by user code that will invoke a command, the CloudEvent is initialized to null, and it can be set by user code.
-        /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the CloudEvent is parsed from the request message; this will be null if the message does not contain cloud event headers.
-        /// </summary>
-        public CloudEvent? CloudEvent { get; set; }
-
-        /// <summary>
+    /// <summary>
+    /// CloudEvent metadata for this RPC request. The Type will be automatically set to "ms.aio.rpc.request"
+    /// and DataContentType will be set from the payload serializer.
+    /// When CommandRequestMetadata is constructed by user code that will invoke a command, the CloudEvent is initialized to null, and it can be set by user code.
+    /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the CloudEvent is parsed from the request message; this will be null if the message does not contain cloud event headers.
+    /// </summary>
+    public ProtocolCloudEvent? CloudEvent { get; set; }        /// <summary>
         /// The content type of a command received by a command executor if a content type was provided on the MQTT message.
         /// </summary>
         /// <remarks>
@@ -135,7 +135,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             TopicTokens = MqttTopicProcessor.GetReplacementMap(fullTopicPattern, message.Topic);
 
             // Try to parse CloudEvent from the message
-            CloudEvent = message.GetCloudEvent();
+            CloudEvent = message.GetProtocolCloudEvent();
 
             ContentType = message.ContentType;
             PayloadFormatIndicator = message.PayloadFormatIndicator;

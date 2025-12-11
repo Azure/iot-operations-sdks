@@ -671,16 +671,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private static void EnsureCloudEventTypeAndContentType(CommandResponseMetadata? metadata, string defaultType, string? payloadContextContentType)
         {
-            if (metadata?.CloudEvent != null && metadata.CloudEvent.Type.IsNullOrEmpty())
+            if (metadata?.CloudEvent != null)
             {
-                metadata.CloudEvent = new CloudEvent(metadata.CloudEvent.Source, defaultType, metadata.CloudEvent.SpecVersion)
-                {
-                    Id = metadata.CloudEvent.Id,
-                    Time = metadata.CloudEvent.Time,
-                    DataContentType = payloadContextContentType,
-                    DataSchema = metadata.CloudEvent.DataSchema,
-                    Subject = metadata.CloudEvent.Subject
-                };
+                // Set Type and DataContentType for RPC response CloudEvents
+                metadata.CloudEvent.Type = defaultType;
+                metadata.CloudEvent.DataContentType = payloadContextContentType;
             }
         }
 

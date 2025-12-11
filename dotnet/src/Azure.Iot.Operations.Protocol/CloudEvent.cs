@@ -6,13 +6,23 @@ using System;
 namespace Azure.Iot.Operations.Protocol
 {
     /// <summary>
-    /// Implements the CloudEvent spec 1.0. The required fields are source, type, id and specversion.
-    /// Id is required but we want to update it in the same instance.
-    /// See <a href="https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md">CloudEvent Spec</a>
+    /// Generic CloudEvent implementation for use with MQTT messages outside of protocol-specific contexts.
+    /// The required fields are source, type, id and specversion. Id is required but we want to update it in the same instance.
     /// </summary>
-    /// <param name="source"><see cref="Source"/></param>
-    /// <param name="type"><see cref="Type"/></param>
-    /// <param name="specversion"><see cref="SpecVersion"/></param>
+    /// <remarks>
+    /// <para>
+    /// This class is intended for generic MQTT message usage where the application has full control over
+    /// all CloudEvent properties including Type and DataContentType.
+    /// </para>
+    /// <para>
+    /// For use with Azure IoT Operations protocol libraries (TelemetrySender, CommandInvoker, CommandExecutor),
+    /// use <see cref="Telemetry.ProtocolCloudEvent"/> instead, which has protocol-managed Type and DataContentType.
+    /// </para>
+    /// See <a href="https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md">CloudEvent Spec</a>
+    /// </remarks>
+    /// <param name="source">The source URI identifying where the event originated</param>
+    /// <param name="type">The type of event (user must specify, no default provided)</param>
+    /// <param name="specversion">The CloudEvents specification version (defaults to "1.0")</param>
     public class CloudEvent(Uri source, string type, string specversion = "1.0")
     {
 

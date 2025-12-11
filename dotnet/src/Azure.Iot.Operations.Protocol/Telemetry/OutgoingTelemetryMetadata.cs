@@ -19,14 +19,16 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </remarks>
         public HybridLogicalClock? Timestamp { get; internal set; }
 
-        /// <summary>
-        /// A dictionary of user properties that are sent along with the telemetry message from the TelemetrySender.
-        /// </summary>
-        public Dictionary<string, string> UserData { get; }
+    /// <summary>
+    /// A dictionary of user properties that are sent along with the telemetry message from the TelemetrySender.
+    /// </summary>
+    public Dictionary<string, string> UserData { get; }
 
-        public CloudEvent? CloudEvent { get; set; }
-
-        /// <summary>
+    /// <summary>
+    /// CloudEvent metadata for this telemetry message. The Type will be automatically set to "ms.aio.telemetry"
+    /// and DataContentType will be set from the payload serializer.
+    /// </summary>
+    public ProtocolCloudEvent? CloudEvent { get; set; }        /// <summary>
         /// If true, this telemetry will be persisted by the AIO MQTT broker upon receiving it. This is only applicable
         /// for retained messages. If this value is set to true, <see cref="Retain"/> must also be set to true.
         /// </summary>

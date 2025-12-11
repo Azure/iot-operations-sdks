@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
 
@@ -46,14 +47,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         public Dictionary<string, string> UserData { get; set; } = new();
 
-        /// <summary>
-        /// The CloudEvent metadata attached to the response.
-        /// When CommandResponseMetadata is constructed within a user-code execution function on the CommandExecutor, the CloudEvent is initialized to null, and it can be set by user code.
-        /// When CommandResponseMetadata is returned by command invocation on the CommandInvoker, the CloudEvent is parsed from the response message; this will be null if the message does not contain cloud event headers.
-        /// </summary>
-        public CloudEvent? CloudEvent { get; set; }
-
-        /// <summary>
+    /// <summary>
+    /// CloudEvent metadata for this RPC response. The Type will be automatically set to "ms.aio.rpc.response"
+    /// and DataContentType will be set from the payload serializer.
+    /// When CommandResponseMetadata is constructed within a user-code execution function on the CommandExecutor, the CloudEvent is initialized to null, and it can be set by user code.
+    /// When CommandResponseMetadata is returned by command invocation on the CommandInvoker, the CloudEvent is parsed from the response message; this will be null if the message does not contain cloud event headers.
+    /// </summary>
+    public ProtocolCloudEvent? CloudEvent { get; set; }        /// <summary>
         /// Construct CommandResponseMetadata in user code, presumably within an execution function that will include the metadata in its return value.
         /// </summary>
         /// <remarks>
@@ -100,7 +100,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 }
             }
 
-            CloudEvent = message.GetCloudEvent();
+            CloudEvent = message.GetProtocolCloudEvent();
 
             ContentType = message.ContentType;
             PayloadFormatIndicator = message.PayloadFormatIndicator;

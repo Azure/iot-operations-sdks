@@ -359,7 +359,7 @@ namespace Azure.Iot.Operations.Connector
 
                     var messageMetadata = new OutgoingTelemetryMetadata
                     {
-                        CloudEvent = aioCloudEvent?.ToCloudEvent(_applicationContext.ApplicationHlc.Timestamp)
+                        CloudEvent = aioCloudEvent?.ToProtocolCloudEvent(_applicationContext.ApplicationHlc.Timestamp)
                     };
 
                     // Add AIO-specific extension attributes to UserData
@@ -500,7 +500,7 @@ namespace Azure.Iot.Operations.Connector
 
                     var messageMetadata = new OutgoingTelemetryMetadata
                     {
-                        CloudEvent = aioCloudEvent?.ToCloudEvent(_applicationContext.ApplicationHlc.Timestamp)
+                        CloudEvent = aioCloudEvent?.ToProtocolCloudEvent(_applicationContext.ApplicationHlc.Timestamp)
                     };
 
                     // Add AIO-specific extension attributes to UserData
