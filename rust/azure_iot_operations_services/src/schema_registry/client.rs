@@ -177,7 +177,7 @@ mod tests {
     use std::collections::HashMap;
 
     use azure_iot_operations_mqtt::{
-        MqttConnectionSettingsBuilder,
+        aio::connection_settings::MqttConnectionSettingsBuilder,
         session::{Session, SessionOptionsBuilder},
     };
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
