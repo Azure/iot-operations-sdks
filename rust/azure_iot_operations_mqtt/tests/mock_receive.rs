@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
+use bytes::Bytes;
 use tokio_test::{assert_pending, assert_ready};
 
 use azure_iot_operations_mqtt::{
@@ -32,6 +33,29 @@ fn setup_client_and_mock_server(client_id: &str) -> (Session, MockServer) {
     (session, mock_server)
 }
 
+fn proto_publish_qos0(topic_name: impl AsRef<str>, counter: u16) -> mqtt_proto::Publish<Bytes> {
+    mqtt_proto::Publish {
+        topic_name: mqtt_proto::topic(topic_name),
+        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtMostOnce,
+        retain: false,
+        payload: bytes::Bytes::from(format!("Publish {counter}")),
+        other_properties: mqtt_proto::PublishOtherProperties::default(),
+    }
+}
+
+fn proto_publish_qos1(topic_name: impl AsRef<str>, counter: u16) -> mqtt_proto::Publish<Bytes> {
+    mqtt_proto::Publish {
+        topic_name: mqtt_proto::topic(topic_name),
+        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
+            mqtt_proto::PacketIdentifier::new(counter).unwrap(),
+            false,
+        ),
+        retain: false,
+        payload: bytes::Bytes::from(format!("Publish {counter}")),
+        other_properties: mqtt_proto::PublishOtherProperties::default(),
+    }
+}
+
 /// Common test logic for filtered/unfiltered single receiver tests at QoS 0.
 /// Tests that it can:
 /// - receive messages via recv()
@@ -46,13 +70,7 @@ async fn qos0_single_receiver_test_logic(
     ///////////// Using recv() /////////////
 
     // Send publish from mock server and receive it via recv()
-    let proto_publish = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtMostOnce,
-        retain: false,
-        payload: bytes::Bytes::from("Publish 1"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish = proto_publish_qos0(topic_name, 1);
     let expected_publish = proto_publish.clone().into();
     mock_server.send_publish(proto_publish);
     assert_eq!(receiver.recv().await.unwrap(), expected_publish);
@@ -63,13 +81,7 @@ async fn qos0_single_receiver_test_logic(
     ///////////// Using recv_manual_ack() /////////////
 
     // Send publish from mock server and receive it via recv_manual_ack()
-    let proto_publish = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtMostOnce,
-        retain: false,
-        payload: bytes::Bytes::from("Publish 2"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish = proto_publish_qos0(topic_name, 2);
     let expected_publish = proto_publish.clone().into();
     mock_server.send_publish(proto_publish);
     let response = receiver.recv_manual_ack().await.unwrap();
@@ -130,16 +142,7 @@ async fn qos1_single_receiver_test_logic(
     ///////////// Single message using recv() /////////////
 
     // Send publish from mock server and receive it
-    let proto_publish1 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(1).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 1"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish1 = proto_publish_qos1(topic_name, 1);
     let expected_publish1 = proto_publish1.clone().into();
     mock_server.send_publish(proto_publish1);
     assert_eq!(receiver.recv().await.unwrap(), expected_publish1);
@@ -152,16 +155,7 @@ async fn qos1_single_receiver_test_logic(
     ///////////// Single message using recv_manual_ack() and AckToken /////////////
 
     // Send publish from mock server and receive it via recv_manual_ack()
-    let proto_publish2 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(2).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 2"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish2 = proto_publish_qos1(topic_name, 2);
     let expected_publish2 = proto_publish2.clone().into();
     mock_server.send_publish(proto_publish2);
     let response = receiver.recv_manual_ack().await.unwrap();
@@ -177,16 +171,7 @@ async fn qos1_single_receiver_test_logic(
 
     ///////////// Single message using recv_manual_ack() with dropped AckToken /////////////
 
-    let proto_publish3 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(3).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 3"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish3 = proto_publish_qos1(topic_name, 3);
     let expected_publish3 = proto_publish3.clone().into();
     mock_server.send_publish(proto_publish3);
     let response = receiver.recv_manual_ack().await.unwrap();
@@ -203,38 +188,11 @@ async fn qos1_single_receiver_test_logic(
     ///////////// Multiple messages (unordered acks) using recv_manual_ack() and AckToken /////////////
 
     // Send multiple publishes from mock server and receive them via recv_manual_ack()
-    let proto_publish4 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(4).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 4"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish4 = proto_publish_qos1(topic_name, 4);
     let expected_publish4 = proto_publish4.clone().into();
-    let proto_publish5 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(5).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 5"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish5 = proto_publish_qos1(topic_name, 5);
     let expected_publish5 = proto_publish5.clone().into();
-    let proto_publish6 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(6).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 6"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish6 = proto_publish_qos1(topic_name, 6);
     let expected_publish6 = proto_publish6.clone().into();
     mock_server.send_publish(proto_publish4);
     mock_server.send_publish(proto_publish5);
@@ -272,38 +230,11 @@ async fn qos1_single_receiver_test_logic(
     ///////////// Multiple messages (unordered acks) using recv_manual_ack() with dropped AckTokens /////////////
 
     // Send multiple publishes from mock server and receive them via recv_manual_ack()
-    let proto_publish7 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(7).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 7"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish7 = proto_publish_qos1(topic_name, 7);
     let expected_publish7 = proto_publish7.clone().into();
-    let proto_publish8 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(8).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 8"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish8 = proto_publish_qos1(topic_name, 8);
     let expected_publish8 = proto_publish8.clone().into();
-    let proto_publish9 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(9).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 9"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish9 = proto_publish_qos1(topic_name, 9);
     let expected_publish9 = proto_publish9.clone().into();
     mock_server.send_publish(proto_publish7);
     mock_server.send_publish(proto_publish8);
@@ -386,13 +317,7 @@ async fn qos0_multiple_receiver_same_filter_test_logic(
     ///////////// Using recv() /////////////
 
     // Send publish from mock server and all receivers receive it via recv()
-    let proto_publish = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtMostOnce,
-        retain: false,
-        payload: bytes::Bytes::from("Publish 1"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish = proto_publish_qos0(topic_name, 1);
     let expected_publish = proto_publish.clone().into();
     mock_server.send_publish(proto_publish);
     assert_eq!(receiver1.recv().await.unwrap(), expected_publish);
@@ -405,13 +330,7 @@ async fn qos0_multiple_receiver_same_filter_test_logic(
     ///////////// Using recv_manual_ack() /////////////
 
     // Send publish from mock server and receive it via recv_manual_ack()
-    let proto_publish = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtMostOnce,
-        retain: false,
-        payload: bytes::Bytes::from("Publish 2"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish = proto_publish_qos0(topic_name, 2);
     let expected_publish = proto_publish.clone().into();
     mock_server.send_publish(proto_publish);
     let response1 = receiver1.recv_manual_ack().await.unwrap();
@@ -481,14 +400,14 @@ async fn qos0_multiple_unfiltered_receivers() {
     .await;
 }
 
-/// Common test logic for multiple filtered/unfiltered single receiver tests at QoS 0.
+/// Common test logic for multiple filtered/unfiltered single receiver tests at QoS 1.
 /// Tests that:
-/// - Receive PUBLISHes via recv() and send auto-PUBACK only after all receivers have received it
-/// - Receive PUBLISHes via recv_manual_ack() and send PUBACKs only after all receivers have acked it via AckToken in order
-/// - Receive PUBLISHes via recv_manual_ack() and send PUBACKs only after all receivers have acked it via AckToken out of order
-/// - Receive PUBLISHes via recv_manual_ack() and send PUBACKs only after all receivers have acked it via dropped AckToken in order
-/// - Receive PUBLISHes via recv_manual_ack() and send PUBACKs only after all receivers have acked it via dropped AckToken out of order
-/// - Receive PUBLISHES via recv_manual_ack() and ??? (out or order delayed messages)
+/// - Receive single PUBLISH via recv() and send auto-PUBACK only after all receivers have received it
+/// - Receive multiple PUBLISHes via recv() and send auto-PUBACK only after all receivers have received them in message order
+/// - Receive single PUBLISH via recv_manual_ack() and send PUBACK only after all receivers have acked it via AckToken
+/// - Recieve single PUBLISH via recv_manual_ack() and send PUBACK only after all receivers have acked it via dropped AckToken
+/// - Receive multiple PUBLISHes via recv_manual_ack() and send PUBACKs only after all receivers have acked them via AckToken in message order
+/// - Receive multiple PUBLISHes via recv_manual_ack() and send PUBACKs only after all receivers have acked them via dropped AckToken in message order
 async fn qos1_multiple_receiver_same_filter_test_logic(
     mock_server: MockServer,
     mut receiver1: SessionPubReceiver,
@@ -496,19 +415,10 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     mut receiver3: SessionPubReceiver,
     topic_name: &str,
 ) {
-    ///////////// Using recv() /////////////
+    ///////////// Single message using recv() /////////////
 
-    // Send publish from mock server
-    let proto_publish1 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(1).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 1"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    // Send single publish from mock server
+    let proto_publish1 = proto_publish_qos1(topic_name, 1);
     let expected_publish1 = proto_publish1.clone().into();
     mock_server.send_publish(proto_publish1);
 
@@ -525,39 +435,14 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     assert_eq!(puback1.packet_identifier, 1);
     assert_eq!(puback1.reason_code, mqtt_proto::PubAckReasonCode::Success);
 
+    ///////////// Multiple messages using recv() /////////////
+
     // Send multiple publishes from the mock server
-    let proto_publish2 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(2).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 2"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish2 = proto_publish_qos1(topic_name, 2);
     let expected_publish2 = proto_publish2.clone().into();
-    let proto_publish3 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(3).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 3"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish3 = proto_publish_qos1(topic_name, 3);
     let expected_publish3 = proto_publish3.clone().into();
-    let proto_publish4 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(4).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 4"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish4 = proto_publish_qos1(topic_name, 4);
     let expected_publish4 = proto_publish4.clone().into();
     mock_server.send_publish(proto_publish2);
     mock_server.send_publish(proto_publish3);
@@ -596,19 +481,10 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     // No further packets expected
     mock_server.expect_no_packet();
 
-    ///////////// Using recv_manual_ack() and AckToken /////////////
+    ///////////// Single message using recv_manual_ack() and AckToken /////////////
 
     // Send publish from mock server
-    let proto_publish5 = mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic(topic_name),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtLeastOnce(
-            mqtt_proto::PacketIdentifier::new(5).unwrap(),
-            false,
-        ),
-        retain: false,
-        payload: bytes::Bytes::from("Publish 5"),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    };
+    let proto_publish5 = proto_publish_qos1(topic_name, 5);
     let expected_publish5 = proto_publish5.clone().into();
     mock_server.send_publish(proto_publish5);
 
@@ -625,8 +501,8 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     assert_eq!(r3_response5.0, expected_publish5);
     let r3_acktoken5 = r3_response5.1.expect("Expected ack token for QoS 1");
     mock_server.expect_no_packet();
-    // Begin acknowledging
 
+    // Begin acknowledging
     let mut r1_ack5 = tokio_test::task::spawn(r1_acktoken5.ack()); // ACK from Receiver 1
     assert_pending!(r1_ack5.poll()); // Receiver 1 ACK not yet complete
     mock_server.expect_no_packet(); // No PUBACK yet
@@ -635,47 +511,199 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     assert_pending!(r1_ack5.poll()); // Receiver 1 ACK still not yet complete
     mock_server.expect_no_packet(); // No PUBACK yet
     let mut r3_ack5 = tokio_test::task::spawn(r3_acktoken5.ack()); // ACK from Receiver 3
-
-    assert_pending!(r3_ack5.poll()); // Receiver 3 ACK not yet complete
-    let r3_ct5 = assert_ready!(r3_ack5.poll()); // Receiver 3 ACK should be complete now
-
-    //let r = r3_ack5.await.unwrap();
-
-    // tokio::time::sleep(std::time::Duration::from_secs(1)).await; // Give some time for the ACKs to process
-    // let r3_ct5 = assert_ready!(r3_ack5.poll()); // Receiver 3 ACK should be complete now
-    // let r2_ct5 = assert_ready!(r2_ack5.poll()); // Receiver 2 ACK should be complete now
-    // let r1_ct5 = assert_ready!(r1_ack5.poll()); // Receiver 1 ACK should be complete now
-
-    // let r3_ct5 = assert_ready!(r3_ack5.poll()).unwrap(); // Receiver 3 ACK should be complete now
-    // let r2_ct5 = assert_ready!(r2_ack5.poll()).unwrap(); // Receiver 2 ACK should be complete now
-    // let r1_ct5 = assert_ready!(r1_ack5.poll()).unwrap(); // Receiver 1 ACK should be complete now
-
-    // assert_ready!(tokio_test::task::spawn(r3_ct5).poll()).unwrap(); // Receiver 3 ACK completion token should be complete
-    // assert_ready!(tokio_test::task::spawn(r2_ct5).poll()).unwrap(); // Receiver 2 ACK completion token should be complete
-    // assert_ready!(tokio_test::task::spawn(r1_ct5).poll()).unwrap(); // Receiver 1 ACK completion token should be complete
-
+    let r3_ct5 = assert_ready!(r3_ack5.poll()).unwrap(); // Receiver 3 ACK should be complete now
+    let r2_ct5 = assert_ready!(r2_ack5.poll()).unwrap(); // Receiver 2 ACK should be complete now
+    let r1_ct5 = assert_ready!(r1_ack5.poll()).unwrap(); // Receiver 1 ACK should be complete now
+    r1_ct5.await.unwrap(); // Wait for Receiver 1 completion token
+    r2_ct5.await.unwrap(); // Wait for Receiver 2 completion token
+    r3_ct5.await.unwrap(); // Wait for Receiver 3 completion token
     let puback5 = mock_server.expect_puback().await; // PUBACK for Publish 5 now that all have ACKed
     assert_eq!(puback5.packet_identifier, 5);
     assert_eq!(puback5.reason_code, mqtt_proto::PubAckReasonCode::Success);
 
-    // let mut r3_ack = tokio_test::task::spawn(r3_acktoken5.ack()); // ACK from Receiver 3
+    ///////////// Single message using recv_manual_ack() with dropped AckToken /////////////
 
-    //let mut r1_ct5 = tokio_test::task::spawn(r1_acktoken5.ack().await.unwrap()); // ACK from Receiver 1
-    //mock_server.expect_no_packet(); // No PUBACK yet
-    //assert_pending!(r1_ct5.poll()); // Receiver 1 completion token not ready yet
-    // let mut r2_ct5 = tokio_test::task::spawn(r2_acktoken5.ack().await.unwrap()); // ACK from Receiver 2
-    // mock_server.expect_no_packet(); // No PUBACK yet
-    // assert_pending!(r2_ct5.poll()); // Receiver 2 completion token not ready yet
-    // assert_pending!(r1_ct5.poll()); // Receiver 1 completion token still not ready yet
-    // let r3_ct5 = tokio_test::task::spawn(r3_acktoken5.ack().await.unwrap()); // ACK from Receiver 3
-    // let puback5 = mock_server.expect_puback_and_return().await; // PUBACK now that all have ACKed
-    // assert_eq!(puback5.packet_identifier, 5);
-    // assert_eq!(puback5.reason_code, mqtt_proto::PubAckReasonCode::Success);
-    // r1_ct5.await.unwrap(); // Wait for Receiver 1 completion token
-    // r2_ct5.await.unwrap(); // Wait for Receiver 2 completion token
-    // r3_ct5.await.unwrap(); // Wait for Receiver 3 completion token
+    ///////////// Multiple messages (unordered acks) using recv_manual_ack() and AckToken /////////////
 
-    // It's gotta be something about a mutex right?
+    // Send multiple publishes from the mock server
+    let proto_publish6 = proto_publish_qos1(topic_name, 6);
+    let expected_publish6 = proto_publish6.clone().into();
+    let proto_publish7 = proto_publish_qos1(topic_name, 7);
+    let expected_publish7 = proto_publish7.clone().into();
+    let proto_publish8 = proto_publish_qos1(topic_name, 8);
+    let expected_publish8 = proto_publish8.clone().into();
+    mock_server.send_publish(proto_publish6);
+    mock_server.send_publish(proto_publish7);
+    mock_server.send_publish(proto_publish8);
+
+    // Receive the publishes from all receivers.
+    // The PUBACKs are not sent until all receivers have manually acknowedged via AckToken
+    mock_server.expect_no_packet();
+    let r1_response6 = receiver1.recv_manual_ack().await.unwrap();
+    assert_eq!(r1_response6.0, expected_publish6);
+    let r1_acktoken6 = r1_response6.1.expect("Expected ack token for QoS 1");
+    let r1_response7 = receiver1.recv_manual_ack().await.unwrap();
+    assert_eq!(r1_response7.0, expected_publish7);
+    let r1_acktoken7 = r1_response7.1.expect("Expected ack token for QoS 1");
+    let r1_response8 = receiver1.recv_manual_ack().await.unwrap();
+    assert_eq!(r1_response8.0, expected_publish8);
+    let r1_acktoken8 = r1_response8.1.expect("Expected ack token for QoS 1");
+    let r2_response6 = receiver2.recv_manual_ack().await.unwrap();
+    assert_eq!(r2_response6.0, expected_publish6);
+    let r2_acktoken6 = r2_response6.1.expect("Expected ack token for QoS 1");
+    let r2_response7 = receiver2.recv_manual_ack().await.unwrap();
+    assert_eq!(r2_response7.0, expected_publish7);
+    let r2_acktoken7 = r2_response7.1.expect("Expected ack token for QoS 1");
+    let r2_response8 = receiver2.recv_manual_ack().await.unwrap();
+    assert_eq!(r2_response8.0, expected_publish8);
+    let r2_acktoken8 = r2_response8.1.expect("Expected ack token for QoS 1");
+    let r3_response6 = receiver3.recv_manual_ack().await.unwrap();
+    assert_eq!(r3_response6.0, expected_publish6);
+    let r3_acktoken6 = r3_response6.1.expect("Expected ack token for QoS 1");
+    let r3_response7 = receiver3.recv_manual_ack().await.unwrap();
+    assert_eq!(r3_response7.0, expected_publish7);
+    let r3_acktoken7 = r3_response7.1.expect("Expected ack token for QoS 1");
+    let r3_response8 = receiver3.recv_manual_ack().await.unwrap();
+    assert_eq!(r3_response8.0, expected_publish8);
+    let r3_acktoken8 = r3_response8.1.expect("Expected ack token for QoS 1");
+    mock_server.expect_no_packet();
+
+    // Begin acknowledging
+    let mut r1_ack6 = tokio_test::task::spawn(r1_acktoken6.ack()); // ACK from Receiver 1 for Publish 6
+    assert_pending!(r1_ack6.poll()); // Receiver 1 ACK 6 not yet complete
+    mock_server.expect_no_packet(); // No PUBACK yet
+    let mut r2_ack6 = tokio_test::task::spawn(r2_acktoken6.ack()); // ACK from Receiver 2 for Publish 6
+    assert_pending!(r2_ack6.poll()); // Receiver 2 ACK 6 not yet complete
+    assert_pending!(r1_ack6.poll()); // Receiver 1 ACK 6 still not yet complete
+    mock_server.expect_no_packet(); // No PUBACK yet
+    let mut r1_ack7 = tokio_test::task::spawn(r1_acktoken7.ack()); // ACK from Receiver 1 for Publish 7
+    assert_pending!(r1_ack7.poll()); // Receiver 1 ACK 7 not yet complete
+    assert_pending!(r2_ack6.poll()); // Receiver 2 ACK 6 still not yet complete
+    assert_pending!(r1_ack6.poll()); // Receiver 1 ACK 6 still not yet complete
+    mock_server.expect_no_packet(); // No PUBACK yet
+    let mut r3_ack6 = tokio_test::task::spawn(r3_acktoken6.ack()); // ACK from Receiver 3 for Publish 6
+    let r3_ct6 = assert_ready!(r3_ack6.poll()).unwrap(); // Receiver 3 ACK 6 should be complete now
+    let r2_ct6 = assert_ready!(r2_ack6.poll()).unwrap(); // Receiver 2 ACK 6 should be complete now
+    let r1_ct6 = assert_ready!(r1_ack6.poll()).unwrap(); // Receiver 1 ACK 6 should be complete now
+    assert_pending!(r1_ack7.poll()); // Receiver 1 ACK 7 still not yet complete
+    let puback6 = mock_server.expect_puback().await; // PUBACK for Publish 6 now that all have ACKed
+    assert_eq!(puback6.packet_identifier, 6);
+    assert_eq!(puback6.reason_code, mqtt_proto::PubAckReasonCode::Success);
+    r1_ct6.await.unwrap(); // Wait for Receiver 1 completion token for Publish 6
+    r2_ct6.await.unwrap(); // Wait for Receiver 2 completion token for Publish 6
+    r3_ct6.await.unwrap(); // Wait for Receiver 3 completion token for Publish 6
+    mock_server.expect_no_packet(); // No more PUBACKs yet
+    let mut r2_ack7 = tokio_test::task::spawn(r2_acktoken7.ack()); // ACK from Receiver 2 for Publish 7
+    assert_pending!(r2_ack7.poll()); // Receiver 2 ACK 7 not yet complete
+    assert_pending!(r1_ack7.poll()); // Receiver 1 ACK 7 still not yet complete
+    mock_server.expect_no_packet(); // No PUBACK yet
+    let mut r1_ack8 = tokio_test::task::spawn(r1_acktoken8.ack()); // ACK from Receiver 1 for Publish 8
+    assert_pending!(r1_ack8.poll()); // Receiver 1 ACK 8 not yet complete
+    assert_pending!(r2_ack7.poll()); // Receiver 2 ACK 8 still not yet complete
+    assert_pending!(r1_ack7.poll()); // Receiver 1 ACK 7 still not yet complete
+    mock_server.expect_no_packet(); // No PUBACK yet
+    let mut r2_ack8 = tokio_test::task::spawn(r2_acktoken8.ack()); // ACK from Receiver 2 for Publish 8
+    assert_pending!(r2_ack8.poll()); // Receiver 2 ACK 8 not yet complete
+    assert_pending!(r1_ack8.poll()); // Receiver 1 ACK 8 still not yet complete
+    assert_pending!(r2_ack7.poll()); // Receiver 2 ACK 7 still not yet complete
+    assert_pending!(r1_ack7.poll()); // Receiver 1 ACK 7 still not yet complete
+    mock_server.expect_no_packet(); // No PUBACK yet
+    let mut r3_ack8 = tokio_test::task::spawn(r3_acktoken8.ack()); // ACK from Receiver 3 for Publish 8
+    let r3_ct8 = assert_ready!(r3_ack8.poll()).unwrap(); // Receiver 3 ACK 8 should be complete now
+    let r2_ct8 = assert_ready!(r2_ack8.poll()).unwrap(); // Receiver 2 ACK 8 should be complete now
+    let r1_ct8 = assert_ready!(r1_ack8.poll()).unwrap(); // Receiver 1 ACK 8 should be complete now
+    mock_server.expect_no_packet(); // However, no PUBACK yet due to ordering
+    assert_pending!(r2_ack7.poll()); // Also, receiver 2 ACK 7 still not yet complete
+    let mut r3_ack7 = tokio_test::task::spawn(r3_acktoken7.ack()); // ACK from Receiver 3 for Publish 7
+    tokio::time::sleep(std::time::Duration::from_millis(10)).await; // TODO: Investigate why this sleep is needed to make the test pass
+    let r3_ct7 = assert_ready!(r3_ack7.poll()).unwrap(); // Receiver 3 ACK 7 should be complete now
+    let r2_ct7 = assert_ready!(r2_ack7.poll()).unwrap(); // Receiver 2 ACK 7 should be complete now
+    let r1_ct7 = assert_ready!(r1_ack7.poll()).unwrap(); // Receiver 1 ACK 7 should be complete now
+    let puback7 = mock_server.expect_puback().await; // PUBACK for Publish 7 now that all have ACKed
+    assert_eq!(puback7.packet_identifier, 7);
+    assert_eq!(puback7.reason_code, mqtt_proto::PubAckReasonCode::Success);
+    r1_ct7.await.unwrap(); // Wait for Receiver 1 completion token for Publish 7
+    r2_ct7.await.unwrap(); // Wait for Receiver 2 completion token for Publish 7
+    r3_ct7.await.unwrap(); // Wait for Receiver 3 completion token for Publish 7
+    let puback8 = mock_server.expect_puback().await; // PUBACK for Publish 8 now that all have ACKed
+    assert_eq!(puback8.packet_identifier, 8);
+    assert_eq!(puback8.reason_code, mqtt_proto::PubAckReasonCode::Success);
+    r1_ct8.await.unwrap(); // Wait for Receiver 1 completion token for Publish 8
+    r2_ct8.await.unwrap(); // Wait for Receiver 2 completion token for Publish 8
+    r3_ct8.await.unwrap(); // Wait for Receiver 3 completion token for Publish 8
+
+    ///////////// Multiple messages (unordered acks) using recv_manual_ack() with dropped AckTokens /////////////
+
+    // Send multiple publishes from the mock server
+    let proto_publish9 = proto_publish_qos1(topic_name, 9);
+    let expected_publish9 = proto_publish9.clone().into();
+    let proto_publish10 = proto_publish_qos1(topic_name, 10);
+    let expected_publish10 = proto_publish10.clone().into();
+    let proto_publish11 = proto_publish_qos1(topic_name, 11);
+    let expected_publish11 = proto_publish11.clone().into();
+    mock_server.send_publish(proto_publish9);
+    mock_server.send_publish(proto_publish10);
+    mock_server.send_publish(proto_publish11);
+
+    // Receive the publishes from all receivers.
+    // The PUBACKs are not sent until all receivers have manually acknowedged via AckToken
+    mock_server.expect_no_packet();
+    let r1_response9 = receiver1.recv_manual_ack().await.unwrap();
+    assert_eq!(r1_response9.0, expected_publish9);
+    let r1_acktoken9 = r1_response9.1.expect("Expected ack token for QoS 1");
+    let r1_response10 = receiver1.recv_manual_ack().await.unwrap();
+    assert_eq!(r1_response10.0, expected_publish10);
+    let r1_acktoken10 = r1_response10.1.expect("Expected ack token for QoS 1");
+    let r1_response11 = receiver1.recv_manual_ack().await.unwrap();
+    assert_eq!(r1_response11.0, expected_publish11);
+    let r1_acktoken11 = r1_response11.1.expect("Expected ack token for QoS 1");
+    let r2_response9 = receiver2.recv_manual_ack().await.unwrap();
+    assert_eq!(r2_response9.0, expected_publish9);
+    let r2_acktoken9 = r2_response9.1.expect("Expected ack token for QoS 1");
+    let r2_response10 = receiver2.recv_manual_ack().await.unwrap();
+    assert_eq!(r2_response10.0, expected_publish10);
+    let r2_acktoken10 = r2_response10.1.expect("Expected ack token for QoS 1");
+    let r2_response11 = receiver2.recv_manual_ack().await.unwrap();
+    assert_eq!(r2_response11.0, expected_publish11);
+    let r2_acktoken11 = r2_response11.1.expect("Expected ack token for QoS 1");
+    let r3_response9 = receiver3.recv_manual_ack().await.unwrap();
+    assert_eq!(r3_response9.0, expected_publish9);
+    let r3_acktoken9 = r3_response9.1.expect("Expected ack token for QoS 1");
+    let r3_response10 = receiver3.recv_manual_ack().await.unwrap();
+    assert_eq!(r3_response10.0, expected_publish10);
+    let r3_acktoken10 = r3_response10.1.expect("Expected ack token for QoS 1");
+    let r3_response11 = receiver3.recv_manual_ack().await.unwrap();
+    assert_eq!(r3_response11.0, expected_publish11);
+    let r3_acktoken11 = r3_response11.1.expect("Expected ack token for QoS 1");
+    mock_server.expect_no_packet();
+
+    // Begin acknowledging via drop
+    drop(r1_acktoken9);
+    mock_server.expect_no_packet(); // No PUBACK yet
+    drop(r2_acktoken9);
+    mock_server.expect_no_packet(); // No PUBACK yet
+    drop(r1_acktoken10);
+    mock_server.expect_no_packet(); // No PUBACK yet
+    drop(r3_acktoken9);
+    let puback9 = mock_server.expect_puback().await; // PUBACK for Publish 9 now that all have ACKed
+    assert_eq!(puback9.packet_identifier, 9);
+    assert_eq!(puback9.reason_code, mqtt_proto::PubAckReasonCode::Success);
+    mock_server.expect_no_packet(); // No more PUBACKs yet
+    drop(r2_acktoken10);
+    mock_server.expect_no_packet(); // No PUBACK yet
+    drop(r1_acktoken11);
+    mock_server.expect_no_packet(); // No PUBACK yet
+    drop(r2_acktoken11);
+    mock_server.expect_no_packet(); // No PUBACK yet
+    drop(r3_acktoken11);
+    mock_server.expect_no_packet(); // No PUBACK yet due to ordering
+    drop(r3_acktoken10);
+    let puback10 = mock_server.expect_puback().await; // PUBACK for Publish 10 now that all have ACKed
+    assert_eq!(puback10.packet_identifier, 10);
+    assert_eq!(puback10.reason_code, mqtt_proto::PubAckReasonCode::Success);
+    let puback11 = mock_server.expect_puback().await; // PUBACK for Publish 11 now that all have ACKed
+    assert_eq!(puback11.packet_identifier, 11);
+    assert_eq!(puback11.reason_code, mqtt_proto::PubAckReasonCode::Success);
 }
 
 #[tokio::test]

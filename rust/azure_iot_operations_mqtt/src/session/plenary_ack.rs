@@ -134,7 +134,17 @@ impl InnerState {
         // 1) there are zero members, and thus nobody to trigger `member_ack()`
         // 2) all members have already acked prior to the seal, and thus there will be no further
         //   calls to `member_ack()`
-        self.trigger_if_ready();
+
+        //self.trigger_if_ready();
+
+        tokio::task::spawn({
+            let c = self.clone();
+            async move {
+                c.trigger_if_ready().await;
+            }
+        });
+
+        //tokio::task::spawn(self.trigger_if_ready());
     }
 
     /// Called by `PlenaryAckMember` to indicate a member has acked
@@ -192,7 +202,7 @@ impl InnerState {
         }
     }
 
-    // fn trigger_if_ready(self: &Arc<Self>) -> () {
+    // fn trigger_if_ready(self: &Arc<Self>) {
     //     // Check if sealed
     //     if let Some(total) = *self.sealed.lock().unwrap() {
     //         // Check if all members have acked
