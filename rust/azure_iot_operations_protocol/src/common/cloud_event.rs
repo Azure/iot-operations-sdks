@@ -18,9 +18,9 @@ pub trait EnvoyCloudEventBuilder {
     fn default_event_type() -> String;
 }
 
-/// Cloud Event struct used by the Protocols when sending messages.
+/// Protocol-level Cloud Event struct used for sending messages of various types (e.g., telemetry, RPC).
 ///
-/// Implements the cloud event spec 1.0 for the telemetry sender.
+/// Implements the CloudEvents spec 1.0 for all protocol messages, including telemetry and request/response (RPC).
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
