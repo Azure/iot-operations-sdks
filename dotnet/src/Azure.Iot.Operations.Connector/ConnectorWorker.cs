@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly IMqttClient _mqttClient;
         private readonly ApplicationContext _applicationContext;
         private readonly IAzureDeviceRegistryClientWrapperProvider _adrClientWrapperFactory;
-        protected IAzureDeviceRegistryClientWrapper? _adrClient;
+        public IAzureDeviceRegistryClientWrapper? _adrClient;
         private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
         private LeaderElectionClient? _leaderElectionClient;
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();

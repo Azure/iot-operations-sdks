@@ -1,6 +1,7 @@
 ﻿// Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Net.Sockets;
 using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
@@ -71,6 +72,16 @@ namespace Azure.Iot.Operations.Connector
                     byte[] sampledData;
                     try
                     {
+                        var deviceStatus = await _adrClient!.GetDeviceStatusAsync("my-rest-thermostat-device-name", "my-rest-thermostat-endpoint-name");
+                        if (deviceStatus.Config != null && deviceStatus.Config.Error != null)
+                        {
+                            _logger.LogInformation("Device status: {}", deviceStatus.Config.Error.Message);
+                        }
+                        else
+                        {
+                            _logger.LogInformation("Device status is okay");
+                        }
+
                         sampledData = await datasetSampler.SampleDatasetAsync(dataset);
                     }
                     catch (Exception e)
