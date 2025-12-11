@@ -579,7 +579,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 try
                 {
-                    EnsureCloudEventType(metadata, _msAioRpcRequest);
+                    EnsureCloudEventTypeAndContentType(metadata, _msAioRpcRequest, payloadContext.ContentType);
 
                     metadata?.MarshalTo(requestMessage);
                 }
@@ -791,7 +791,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        private static void EnsureCloudEventType(CommandRequestMetadata? metadata, string defaultType)
+        private static void EnsureCloudEventTypeAndContentType(CommandRequestMetadata? metadata, string defaultType, string? payloadContextContentType)
         {
             if (metadata?.CloudEvent != null && metadata.CloudEvent.Type.IsNullOrEmpty())
             {
@@ -799,7 +799,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 {
                     Id = metadata.CloudEvent.Id,
                     Time = metadata.CloudEvent.Time,
-                    DataContentType = metadata.CloudEvent.DataContentType,
+                    DataContentType = payloadContextContentType,
                     DataSchema = metadata.CloudEvent.DataSchema,
                     Subject = metadata.CloudEvent.Subject
                 };

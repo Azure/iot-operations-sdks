@@ -307,8 +307,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     : actionSendTelemetry.CloudEvent.Type != null
                         ? new CloudEvent(sourceUri, type: actionSendTelemetry.CloudEvent.Type)
                         : actionSendTelemetry.CloudEvent.SpecVersion != null
-                                            ? new CloudEvent(sourceUri, specversion: actionSendTelemetry.CloudEvent.SpecVersion)
-                                            : new CloudEvent(sourceUri);
+                                            ? new CloudEvent(sourceUri,  "ms.aio.telemetry", specversion: actionSendTelemetry.CloudEvent.SpecVersion)
+                                            : new CloudEvent(sourceUri,  "ms.aio.telemetry");
 
                 if (actionSendTelemetry.CloudEvent.Id != null)
                 {

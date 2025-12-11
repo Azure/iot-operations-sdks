@@ -475,7 +475,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
-            EnsureCloudEventType(metadata, _msAioRpcResponse);
+            EnsureCloudEventTypeAndContentType(metadata, _msAioRpcResponse, payloadContext?.ContentType);
 
             metadata?.MarshalTo(message);
 
@@ -669,7 +669,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             };
         }
 
-        private static void EnsureCloudEventType(CommandResponseMetadata? metadata, string defaultType)
+        private static void EnsureCloudEventTypeAndContentType(CommandResponseMetadata? metadata, string defaultType, string? payloadContextContentType)
         {
             if (metadata?.CloudEvent != null && metadata.CloudEvent.Type.IsNullOrEmpty())
             {
@@ -677,7 +677,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 {
                     Id = metadata.CloudEvent.Id,
                     Time = metadata.CloudEvent.Time,
-                    DataContentType = metadata.CloudEvent.DataContentType,
+                    DataContentType = payloadContextContentType,
                     DataSchema = metadata.CloudEvent.DataSchema,
                     Subject = metadata.CloudEvent.Subject
                 };

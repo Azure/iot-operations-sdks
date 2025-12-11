@@ -14,9 +14,9 @@ public class MemMonService : Memmon.Service
     private bool enabled = false;
     private int interval = 5000;
 
-    private readonly CloudEvent _ceMemStats = new (new Uri("aio://test")) { DataSchema = "123" };
-    private readonly CloudEvent _ceWorkingSet = new (new Uri("aio://test")) { DataSchema = "234" };
-    private readonly CloudEvent _ceManagedMemory = new (new Uri("aio://test")) { DataSchema = "345" };
+    private readonly CloudEvent _ceMemStats = new (new Uri("aio://test"),  "ms.aio.telemetry") { DataSchema = "123" };
+    private readonly CloudEvent _ceWorkingSet = new (new Uri("aio://test"),  "ms.aio.telemetry") { DataSchema = "234" };
+    private readonly CloudEvent _ceManagedMemory = new (new Uri("aio://test"),  "ms.aio.telemetry") { DataSchema = "345" };
 
     public MemMonService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient)
     {
@@ -55,7 +55,7 @@ public class MemMonService : Memmon.Service
                     ManagedMemory = GC.GetGCMemoryInfo().TotalCommittedBytes,
                     WorkingSet = Environment.WorkingSet
                 }
-            }, 
+            },
             new OutgoingTelemetryMetadata() { CloudEvent = _ceMemStats });
 
     public override Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsAsync(GetRuntimeStatsRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)

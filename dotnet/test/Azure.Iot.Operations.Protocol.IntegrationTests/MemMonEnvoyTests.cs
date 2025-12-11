@@ -14,7 +14,7 @@ public class MemmonClient : Memmon.Client
     public TaskCompletionSource WorkingSetTelemetryReceivedTcs = new();
 
     public List<WorkingSetTelemetry> ReceivedWorkingSetTelemetry { get; set; } = new();
-    
+
     public List<IncomingTelemetryMetadata> ReceivedWorkingSetTelemetryMetadata { get; set; } = new();
 
     public TaskCompletionSource ManagedMemoryTelemetryReceivedTcs = new();
@@ -91,7 +91,7 @@ public class MemMonEnvoyTests
         Assert.Single(memmonClient.ReceivedWorkingSetTelemetry);
     }
 
-   
+
 
     [Fact]
     public async Task Send_ReceiveTelemetryWithMetadataAndCE()
@@ -115,7 +115,7 @@ public class MemMonEnvoyTests
         var MemoryStatsCorrelationId = Guid.NewGuid();
         var MemoryStatsUserDataKey = Guid.NewGuid().ToString();
         var MemoryStatsUserDataValue = Guid.NewGuid().ToString();
-        var MemoryStatsTelemetryMetadata = new OutgoingTelemetryMetadata() { CloudEvent = new CloudEvent(new Uri("test://mq")) };
+        var MemoryStatsTelemetryMetadata = new OutgoingTelemetryMetadata() { CloudEvent = new CloudEvent(new Uri("test://mq"),  "ms.aio.telemetry") };
         MemoryStatsTelemetryMetadata.UserData.Add(MemoryStatsUserDataKey, MemoryStatsUserDataValue);
         await memMonService.SendTelemetryAsync(new MemoryStatsTelemetry() { MemoryStats = new MemoryStatsSchema { ManagedMemory = 3, WorkingSet = 4 } }, MemoryStatsTelemetryMetadata);
 
@@ -129,7 +129,7 @@ public class MemMonEnvoyTests
         var ManagedMemoryCorrelationId = Guid.NewGuid();
         var ManagedMemoryUserDataKey = Guid.NewGuid().ToString();
         var ManagedMemoryUserDataValue = Guid.NewGuid().ToString();
-        var ManagedMemoryTelemetryMetadata = new OutgoingTelemetryMetadata() { CloudEvent = new CloudEvent(new Uri("test://mq")) };
+        var ManagedMemoryTelemetryMetadata = new OutgoingTelemetryMetadata() { CloudEvent = new CloudEvent(new Uri("test://mq"),  "ms.aio.telemetry") };
         ManagedMemoryTelemetryMetadata.UserData.Add(ManagedMemoryUserDataKey, ManagedMemoryUserDataValue);
         await memMonService.SendTelemetryAsync(new ManagedMemoryTelemetry() { ManagedMemory = 2 }, ManagedMemoryTelemetryMetadata);
 
@@ -249,7 +249,7 @@ public class MemMonEnvoyTests
     private void AssertUserProperty(Dictionary<string, string> props, string name, string value)
     {
 
-        var prop = props.FirstOrDefault(x => x.Key == name); 
+        var prop = props.FirstOrDefault(x => x.Key == name);
 
         if (props is not null)
         {
