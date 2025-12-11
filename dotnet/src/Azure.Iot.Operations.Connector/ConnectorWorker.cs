@@ -777,7 +777,7 @@ namespace Azure.Iot.Operations.Connector
             return compoundDeviceName + "_" + assetName;
         }
 
-        private AioCloudEvent? ConstructCloudEventHeadersForDataset(Device device,
+        internal AioCloudEvent? ConstructCloudEventHeadersForDataset(Device device,
             string deviceName,
             string inboundEndpointName,
             Asset asset,
@@ -788,14 +788,6 @@ namespace Azure.Iot.Operations.Connector
         {
             try
             {
-                // Use the endpoint address as the protocol specific identifier if one was not provided
-                if (protocolSpecificIdentifier == null && device.Endpoints?.Inbound != null &&
-                    device.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var endpoint))
-                {
-                    protocolSpecificIdentifier = endpoint.Address;
-                }
-
-                // Create MessageSchemaReference from registered schema
                 var schemaRef = new MessageSchemaReference
                 {
                     SchemaRegistryNamespace = registeredSchema.Namespace,
@@ -803,7 +795,6 @@ namespace Azure.Iot.Operations.Connector
                     SchemaVersion = registeredSchema.Version
                 };
 
-                // Build and return the AIO CloudEvent
                 return AioCloudEventBuilder.Build(
                     device,
                     deviceName,
@@ -821,7 +812,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private AioCloudEvent? ConstructCloudEventHeadersForEvent(Device device,
+        internal AioCloudEvent? ConstructCloudEventHeadersForEvent(Device device,
             string deviceName,
             string inboundEndpointName,
             Asset asset,
@@ -833,13 +824,6 @@ namespace Azure.Iot.Operations.Connector
         {
             try
             {
-                // Use the endpoint address as the protocol specific identifier if one was not provided
-                if (protocolSpecificIdentifier == null && device.Endpoints?.Inbound != null &&
-                    device.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var endpoint))
-                {
-                    protocolSpecificIdentifier = endpoint.Address;
-                }
-
                 var schemaRef = new MessageSchemaReference
                 {
                     SchemaRegistryNamespace = registeredSchema.Namespace,
