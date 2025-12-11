@@ -1,7 +1,6 @@
 ﻿// Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Net.Sockets;
 using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
@@ -32,7 +31,7 @@ namespace Azure.Iot.Operations.Connector
                     currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
                     currentDeviceStatus.Config.Error = null;
                     return currentDeviceStatus;
-                }, true, null, cancellationToken);
+                }, false, null, cancellationToken);
             }
             catch (Exception e)
             {
@@ -130,7 +129,7 @@ namespace Azure.Iot.Operations.Connector
                                     });
                                     return currentAssetStatus;
                                 },
-                                true,
+                                false,
                                 null,
                                 cancellationToken);
                         }
@@ -154,7 +153,7 @@ namespace Azure.Iot.Operations.Connector
                                     };
                                 currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
                                 return currentDeviceStatus;
-                            }, true, null, cancellationToken);
+                            }, false, null, cancellationToken);
                         }
                         catch (Exception e2)
                         {
