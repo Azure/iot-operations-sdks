@@ -7,13 +7,11 @@ use thiserror::Error;
 
 use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 use azure_iot_operations_protocol::rpc_command;
-use azure_iot_operations_protocol::{
-    application::ApplicationContextBuilder, common::cloud_event::CloudEventBuilder,
-};
 
 const CLIENT_ID: &str = "aio_example_executor_client";
 const HOSTNAME: &str = "localhost";
@@ -95,7 +93,7 @@ async fn increment_executor_loop(
         let response = IncrResponsePayload {
             counter_response: counter,
         };
-        let cloud_event = CloudEventBuilder::<rpc_command::executor::Response<_>>::default()
+        let cloud_event = rpc_command::executor::ResponseCloudEventBuilder::default()
             .source("aio://increment/executor/sample")
             .build()
             .unwrap();

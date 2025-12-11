@@ -18,11 +18,8 @@ use azure_iot_operations_mqtt::{
 };
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder,
-    common::{
-        cloud_event::CloudEventBuilder,
-        payload_serialize::{
-            DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
-        },
+    common::payload_serialize::{
+        DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
     telemetry,
 };
@@ -326,7 +323,7 @@ async fn telemetry_complex_send_receive_network_tests() {
         ("test2".to_string(), "value2".to_string()),
     ];
     let test_cloud_event_source = "aio://test/telemetry";
-    let test_cloud_event = CloudEventBuilder::<telemetry::sender::Message<_>>::default()
+    let test_cloud_event = telemetry::sender::CloudEventBuilder::default()
         .source(test_cloud_event_source)
         .build()
         .unwrap();

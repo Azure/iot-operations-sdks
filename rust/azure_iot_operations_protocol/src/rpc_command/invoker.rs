@@ -4,11 +4,12 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::{
-    aio::cloud_event::CloudEventFields,
+    aio::cloud_event as aio_cloud_event,
     control_packet::{Publish, PublishProperties, QoS, TopicFilter},
     session::{SessionManagedClient, SessionPubReceiver},
 };
 use bytes::Bytes;
+use chrono::{DateTime, Utc};
 use iso8601_duration;
 use tokio::{
     sync::{
@@ -22,7 +23,7 @@ use tokio_util::sync::CancellationToken;
 use uuid::Uuid;
 
 use crate::common::{
-    cloud_event::EnvoyCloudEventBuilder,
+    cloud_event as protocol_cloud_event,
     user_properties::{PARTITION_KEY, validate_invoker_user_properties},
 };
 use crate::{
@@ -75,13 +76,127 @@ where
     timeout: Duration,
     /// Cloud event of the request.
     #[builder(default = "None")]
-    cloud_event: Option<crate::common::cloud_event::CloudEvent<Request<TReq>>>,
+    cloud_event: Option<RequestCloudEvent>,
 }
 
-impl<TReq: PayloadSerialize> EnvoyCloudEventBuilder for Request<TReq> {
-    /// Default event type for this envoy's cloud events
-    fn default_event_type() -> String {
-        DEFAULT_RPC_REQUEST_CLOUD_EVENT_EVENT_TYPE.to_string()
+/// Cloud Event struct used for the Command Request.
+///
+/// Implements the Cloud Events spec 1.0 for the command invoker.
+/// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
+#[derive(Clone, Debug)]
+pub struct RequestCloudEvent(protocol_cloud_event::CloudEvent);
+
+/// Builder for [`RequestCloudEvent`].
+#[derive(Clone)]
+pub struct RequestCloudEventBuilder(protocol_cloud_event::CloudEventBuilder);
+
+/// Error type for CloudEventBuilder
+#[derive(Debug)]
+#[non_exhaustive]
+pub enum RequestCloudEventBuilderError {
+    /// Uninitialized field
+    UninitializedField(&'static str),
+    /// Custom validation error
+    ValidationError(String),
+}
+
+impl std::error::Error for RequestCloudEventBuilderError {}
+impl std::fmt::Display for RequestCloudEventBuilderError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            RequestCloudEventBuilderError::UninitializedField(field_name) => {
+                write!(f, "Uninitialized field: {}", field_name)
+            }
+            RequestCloudEventBuilderError::ValidationError(err_msg) => {
+                write!(f, "Validation error: {}", err_msg)
+            }
+        }
+    }
+}
+
+impl From<protocol_cloud_event::CloudEventBuilderError> for RequestCloudEventBuilderError {
+    fn from(value: protocol_cloud_event::CloudEventBuilderError) -> Self {
+        match value {
+            protocol_cloud_event::CloudEventBuilderError::UninitializedField(field_name) => {
+                RequestCloudEventBuilderError::UninitializedField(field_name)
+            }
+            protocol_cloud_event::CloudEventBuilderError::ValidationError(err_msg) => {
+                RequestCloudEventBuilderError::ValidationError(err_msg)
+            }
+        }
+    }
+}
+impl Default for RequestCloudEventBuilder {
+    fn default() -> Self {
+        Self(protocol_cloud_event::CloudEventBuilder::new(
+            DEFAULT_RPC_REQUEST_CLOUD_EVENT_EVENT_TYPE.to_string(),
+        ))
+    }
+}
+
+impl RequestCloudEventBuilder {
+    /// Builds a new CloudEvent.
+    /// # Errors
+    /// If a required field has not been initialized.
+    pub fn build(&self) -> Result<RequestCloudEvent, RequestCloudEventBuilderError> {
+        Ok(RequestCloudEvent(
+            protocol_cloud_event::CloudEventBuilder::build(&self.0)?,
+        ))
+    }
+    /// Identifies the context in which an event happened. Often this will include information such
+    /// as the type of the event source, the organization publishing the event or the process that
+    /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
+    /// defined by the event producer.
+    pub fn source<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.source(value);
+        self
+    }
+    /// The version of the cloud events specification which the event uses. This enables the
+    /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
+    /// referring to this version of the specification.
+    pub fn spec_version<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.spec_version(value);
+        self
+    }
+    /// Contains a value describing the type of event related to the originating occurrence. Often
+    /// this attribute is used for routing, observability, policy enforcement, etc. The format of
+    /// this is producer defined and might include information such as the version of the type.
+    pub fn event_type<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.event_type(value);
+        self
+    }
+    /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
+    /// reflected by a different URI.
+    pub fn data_schema<VALUE: Into<Option<String>>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.data_schema(value);
+        self
+    }
+    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
+    /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
+    /// id. Consumers MAY assume that Events with identical source and id are duplicates.
+    pub fn id<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.id(value);
+        self
+    }
+    /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
+    /// determined then this attribute MAY be set to some other time (such as the current time) by
+    /// the cloud event producer, however all producers for the same source MUST be consistent in
+    /// this respect. In other words, either they all use the actual time of the occurrence or they
+    /// all use the same algorithm to determine the value used.
+    pub fn time<VALUE: Into<Option<DateTime<Utc>>>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.time(value);
+        self
+    }
+    /// Identifies the subject of the event in the context of the event producer (identified by
+    /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
+    /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
+    /// for any specific event if the source context has internal sub-structure.
+    pub fn subject<VALUE: Into<protocol_cloud_event::CloudEventSubject>>(
+        &mut self,
+        value: VALUE,
+    ) -> &mut Self {
+        self.0.subject(value);
+        self
     }
 }
 
@@ -144,7 +259,7 @@ impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
             for (key, _) in custom_user_data {
-                if CloudEventFields::from_str(key).is_ok() {
+                if aio_cloud_event::CloudEventFields::from_str(key).is_ok() {
                     return Err(format!(
                         "Invalid user data property '{key}' is a reserved Cloud Event key"
                     ));
@@ -167,8 +282,10 @@ impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
         if let Some(Some(cloud_event)) = &self.cloud_event
             && let Some(serialized_payload) = &self.serialized_payload
         {
-            CloudEventFields::DataContentType
-                .validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
+            aio_cloud_event::CloudEventFields::DataContentType.validate(
+                &serialized_payload.content_type,
+                &cloud_event.0.spec_version,
+            )?;
         }
         Ok(())
     }
@@ -195,23 +312,21 @@ where
     pub executor_id: Option<String>,
 }
 
-/// Parse a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`] from a [`Response`].
-/// Note that this will return an error if the [`Response`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
+/// Cloud Event struct derived from the Command Response.
+pub type ResponseCloudEvent = aio_cloud_event::CloudEvent;
+// TODO: pub type the error too once we have the right name
+
+/// Parse a [`ResponseCloudEvent`] from a [`Response`].
+/// Note that this will return an error if the [`Response`] does not contain the required fields for a [`ResponseCloudEvent`].
 ///
 /// # Errors
-/// [`azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError::UninitializedField`] if the [`Response`] does not contain the required fields for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
+/// [`aio_cloud_event::CloudEventBuilderError::UninitializedField`] if the [`Response`] does not contain the required fields for a [`ResponseCloudEvent`].
 ///
-/// [`azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`azure_iot_operations_mqtt::aio::cloud_event::CloudEvent`].
+/// [`aio_cloud_event::CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`ResponseCloudEvent`].
 pub fn cloud_event_from_response<TResp: PayloadSerialize>(
     response: &Response<TResp>,
-) -> Result<
-    azure_iot_operations_mqtt::aio::cloud_event::CloudEvent,
-    azure_iot_operations_mqtt::aio::cloud_event::CloudEventBuilderError,
-> {
-    azure_iot_operations_mqtt::aio::cloud_event::CloudEvent::from_user_properties_and_content_type(
-        &response.custom_user_data,
-        response.content_type.as_deref(),
-    )
+) -> Result<ResponseCloudEvent, aio_cloud_event::CloudEventBuilderError> {
+    ResponseCloudEvent::try_from((&response.custom_user_data, response.content_type.as_deref()))
 }
 
 /// Helper function to return the application error code and payload, if present in `custom_user_data`.
@@ -1039,7 +1154,7 @@ where
 
         // Cloud Events headers
         if let Some(cloud_event) = request.cloud_event {
-            let cloud_event_headers = cloud_event.into_headers(request_topic.as_str());
+            let cloud_event_headers = cloud_event.0.into_headers(request_topic.as_str());
             for (key, value) in cloud_event_headers {
                 request.custom_user_data.push((key, value));
             }

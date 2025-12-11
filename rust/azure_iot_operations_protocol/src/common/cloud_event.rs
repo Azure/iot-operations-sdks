@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::{marker::PhantomData, time::SystemTime};
+use std::time::SystemTime;
 
 use azure_iot_operations_mqtt::aio::cloud_event::{
     CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
@@ -9,22 +9,13 @@ use azure_iot_operations_mqtt::aio::cloud_event::{
 use chrono::{DateTime, SecondsFormat, Utc};
 use uuid::Uuid;
 
-/// Trait for building Cloud Events for different envoys.
-/// This trait should only be used internally by the envoy implementations,
-/// but since the impls of the trait should be pub, this trait should also be pub.
-pub trait EnvoyCloudEventBuilder {
-    /// Default event type for this envoy's cloud events
-    #[must_use]
-    fn default_event_type() -> String;
-}
-
 /// Protocol-level Cloud Event struct used for sending messages of various types (e.g., telemetry, RPC).
 ///
-/// Implements the CloudEvents spec 1.0 for all protocol messages, including telemetry and request/response (RPC).
+/// Implements the Cloud Events spec 1.0 for all protocol messages, including telemetry and request/response (RPC).
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
-pub struct CloudEvent<T: EnvoyCloudEventBuilder> {
+pub(crate) struct CloudEvent {
     /// Identifies the context in which an event happened. Often this will include information such
     /// as the type of the event source, the organization publishing the event or the process that
     /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
@@ -38,7 +29,7 @@ pub struct CloudEvent<T: EnvoyCloudEventBuilder> {
     /// Contains a value describing the type of event related to the originating occurrence. Often
     /// this attribute is used for routing, observability, policy enforcement, etc. The format of
     /// this is producer defined and might include information such as the version of the type.
-    #[builder(default = "T::default_event_type()")]
+    #[builder(default = "self.custom_default_event_type()")]
     event_type: String,
     /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
     /// reflected by a different URI.
@@ -62,8 +53,8 @@ pub struct CloudEvent<T: EnvoyCloudEventBuilder> {
     /// for any specific event if the source context has internal sub-structure.
     #[builder(default = "CloudEventSubject::PublishTopic")]
     subject: CloudEventSubject,
-    #[builder(setter(skip))]
-    default_event_type: PhantomData<T>,
+    #[builder(private)]
+    _default_event_type: String,
 }
 
 /// Enum representing the different values that the [`subject`](CloudEventBuilder::subject) field of a [`CloudEvent`] can take.
@@ -77,7 +68,16 @@ pub enum CloudEventSubject {
     None,
 }
 
-impl<T: EnvoyCloudEventBuilder> CloudEventBuilder<T> {
+impl CloudEventBuilder {
+    pub(crate) fn new(default_event_type: String) -> Self {
+        let mut new_builder = Self::default();
+        new_builder._default_event_type = Some(default_event_type);
+        new_builder
+    }
+
+    fn custom_default_event_type(&self) -> String {
+        self._default_event_type.clone().expect("This CloudEventBuilder must be initialized with a default event type or one must be set on the builder")
+    }
     fn validate(&self) -> Result<(), String> {
         let mut spec_version = DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string();
 
@@ -112,7 +112,7 @@ impl<T: EnvoyCloudEventBuilder> CloudEventBuilder<T> {
     }
 }
 
-impl<T: EnvoyCloudEventBuilder> CloudEvent<T> {
+impl CloudEvent {
     /// Get [`CloudEvent`] as headers for an MQTT message
     #[must_use]
     pub(crate) fn into_headers(self, publish_topic: &str) -> Vec<(String, String)> {

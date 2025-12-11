@@ -4,9 +4,6 @@
 use std::{env, time::Duration};
 
 use azure_iot_operations_mqtt::aio::cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION;
-use azure_iot_operations_protocol::common::cloud_event::CloudEventBuilder;
-use env_logger::Builder;
-
 use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
@@ -16,6 +13,7 @@ use azure_iot_operations_protocol::{
     },
     rpc_command,
 };
+use env_logger::Builder;
 
 // These tests test these happy path scenarios
 // - request with payload
@@ -494,17 +492,16 @@ async fn command_complex_invoke_response_network_tests() {
         ("test4".to_string(), "value4".to_string()),
     ];
     let test_request_cloud_event_source = "aio://test/request";
-    let test_request_cloud_event = CloudEventBuilder::<rpc_command::invoker::Request<_>>::default()
+    let test_request_cloud_event = rpc_command::invoker::RequestCloudEventBuilder::default()
         .source(test_request_cloud_event_source)
         .build()
         .unwrap();
 
     let test_response_cloud_event_source = "aio://test/response";
-    let test_response_cloud_event =
-        CloudEventBuilder::<rpc_command::executor::Response<_>>::default()
-            .source(test_response_cloud_event_source)
-            .build()
-            .unwrap();
+    let test_response_cloud_event = rpc_command::executor::ResponseCloudEventBuilder::default()
+        .source(test_response_cloud_event_source)
+        .build()
+        .unwrap();
 
     let test_task = tokio::task::spawn({
         let test_request_custom_user_data_clone = test_request_custom_user_data.clone();

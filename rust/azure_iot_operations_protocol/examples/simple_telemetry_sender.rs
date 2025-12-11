@@ -10,11 +10,8 @@ use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsB
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder,
-    common::{
-        cloud_event::CloudEventBuilder,
-        payload_serialize::{
-            DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
-        },
+    common::payload_serialize::{
+        DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
     telemetry,
 };
@@ -71,7 +68,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 /// Indefinitely send Telemetry
 async fn telemetry_loop(telemetry_sender: telemetry::Sender<SampleTelemetry>) {
     loop {
-        let cloud_event = CloudEventBuilder::<telemetry::sender::Message<_>>::default()
+        let cloud_event = telemetry::sender::CloudEventBuilder::default()
             .source("aio://oven/sample")
             .build()
             .unwrap();

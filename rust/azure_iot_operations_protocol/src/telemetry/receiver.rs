@@ -3,7 +3,7 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc};
 
 use azure_iot_operations_mqtt::{
-    aio::cloud_event::{CloudEvent, CloudEventBuilderError},
+    aio::cloud_event as aio_cloud_event,
     control_packet::{Publish, QoS, TopicFilter},
     session::{SessionManagedClient, SessionPubReceiver},
     token::AckToken,
@@ -25,6 +25,10 @@ use crate::{
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
+/// Cloud Event struct derived from a received Telemetry Message.
+pub type CloudEvent = aio_cloud_event::CloudEvent;
+// TODO: pub type the error too once we have the right name
+
 /// Parse a [`CloudEvent`] from a [`Message`].
 /// Note that this will return an error if the [`Message`] does not contain the required fields for a [`CloudEvent`].
 ///
@@ -34,11 +38,11 @@ const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
 pub fn cloud_event_from_telemetry<T: PayloadSerialize>(
     telemetry: &Message<T>,
-) -> Result<CloudEvent, CloudEventBuilderError> {
-    CloudEvent::from_user_properties_and_content_type(
+) -> Result<CloudEvent, aio_cloud_event::CloudEventBuilderError> {
+    CloudEvent::try_from((
         &telemetry.custom_user_data,
         telemetry.content_type.as_deref(),
-    )
+    ))
 }
 
 /// Telemetry message struct.
