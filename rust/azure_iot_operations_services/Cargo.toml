@@ -39,7 +39,7 @@ azure_device_registry = [
 
 [dependencies]
 azure_iot_operations_protocol = { version = "0.12.0", path = "../azure_iot_operations_protocol", registry = "aio-sdks" }
-azure_iot_operations_mqtt = { version = "0.11.0", path = "../azure_iot_operations_mqtt", registry = "aio-sdks" }
+azure_iot_operations_mqtt = { version = "1.0.0-rc1", path = "../azure_iot_operations_mqtt" }
 derive_builder.workspace = true
 log.workspace = true
 thiserror.workspace = true
