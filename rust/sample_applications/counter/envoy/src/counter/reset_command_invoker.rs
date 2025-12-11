@@ -6,7 +6,6 @@ use std::time::Duration;
 use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::common::cloud_event::CloudEvent;
 use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::empty_json::EmptyJson;
@@ -36,7 +35,7 @@ impl ResetRequestBuilder {
     /// Cloud event for the request
     pub fn cloud_event(
         &mut self,
-        cloud_event: CloudEvent<rpc_command::invoker::Request<EmptyJson>>,
+        cloud_event: rpc_command::invoker::RequestCloudEvent,
     ) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self

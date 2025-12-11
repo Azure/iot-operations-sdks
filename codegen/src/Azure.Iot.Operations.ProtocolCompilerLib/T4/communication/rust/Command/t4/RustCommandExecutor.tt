@@ -6,7 +6,6 @@ use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::common::cloud_event::CloudEvent;
 <# if (this.respSchema != null) { #>
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 <# } #>
@@ -58,7 +57,7 @@ impl <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder")
     }
 
     /// Cloud event for the response
-    pub fn cloud_event(&mut self, cloud_event: CloudEvent::<rpc_command::executor::Response<<#=this.ResponseType()#>>>) -> &mut Self {
+    pub fn cloud_event(&mut self, cloud_event: rpc_command::executor::ResponseCloudEvent) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }

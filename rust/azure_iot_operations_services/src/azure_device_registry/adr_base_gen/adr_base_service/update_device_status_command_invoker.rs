@@ -9,7 +9,6 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::common::cloud_event::CloudEvent;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
@@ -45,7 +44,7 @@ impl UpdateDeviceStatusRequestBuilder {
     /// Cloud event for the request
     pub fn cloud_event(
         &mut self,
-        cloud_event: CloudEvent<rpc_command::invoker::Request<UpdateDeviceStatusRequestPayload>>,
+        cloud_event: rpc_command::invoker::RequestCloudEvent,
     ) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self

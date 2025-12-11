@@ -7,7 +7,6 @@ use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::common::cloud_event::CloudEvent;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry;
 
@@ -56,10 +55,7 @@ impl TelemetryMessageBuilder {
     }
 
     /// Cloud event for the message
-    pub fn cloud_event(
-        &mut self,
-        cloud_event: CloudEvent<telemetry::sender::Message<TelemetryCollection>>,
-    ) -> &mut Self {
+    pub fn cloud_event(&mut self, cloud_event: telemetry::sender::CloudEvent) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }
