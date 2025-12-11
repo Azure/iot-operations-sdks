@@ -7,7 +7,7 @@
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::{
-    MqttConnectionSettingsBuilder,
+    aio::connection_settings::MqttConnectionSettingsBuilder,
     session::{Session, SessionManagedClient, SessionMonitor, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
