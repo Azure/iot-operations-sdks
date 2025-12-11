@@ -5,16 +5,13 @@
 
 use std::{sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::{
-    aio::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-    control_packet::QoS,
-};
+use azure_iot_operations_mqtt::{aio::cloud_event as aio_cloud_event, control_packet::QoS};
 use azure_iot_operations_protocol::{
     common::{
         aio_protocol_error::AIOProtocolError,
-        cloud_event::{CloudEvent, CloudEventBuilderError, CloudEventSubject},
+        cloud_event as protocol_cloud_event,
         hybrid_logical_clock::HybridLogicalClock,
-        payload_serialize::{BypassPayload, FormatIndicator, SerializedPayload},
+        payload_serialize::{BypassPayload, FormatIndicator},
     },
     telemetry,
 };
@@ -325,7 +322,7 @@ impl Forwarder {
         asset_external_asset_id: Option<&str>,
         data_timestamp: Option<HybridLogicalClock>,
         protocol_specific_identifier: Option<&str>,
-    ) -> Result<CloudEvent<telemetry::sender::Message<SerializedPayload>>, String> {
+    ) -> Result<telemetry::sender::CloudEvent, String> {
         // TODO: remove once message schema validation is turned back on
         #[allow(clippy::manual_map)]
         let message_schema_uri =
@@ -342,10 +339,7 @@ impl Forwarder {
                 // return Err(Error(ErrorKind::MissingMessageSchema));
                 None
             };
-        let mut cloud_event_builder =
-            azure_iot_operations_protocol::common::cloud_event::CloudEventBuilder::<
-                telemetry::sender::Message<_>,
-            >::default();
+        let mut cloud_event_builder = telemetry::sender::CloudEventBuilder::default();
 
         // source
         let source = Self::cloud_event_header_source(
@@ -366,7 +360,7 @@ impl Forwarder {
             asset_external_asset_id,
         );
         cloud_event_builder.event_type(event_type);
-        cloud_event_builder.subject(CloudEventSubject::Custom(subject));
+        cloud_event_builder.subject(protocol_cloud_event::CloudEventSubject::Custom(subject));
 
         // data schema
         if let Some(message_schema_uri) = message_schema_uri {
@@ -380,13 +374,13 @@ impl Forwarder {
         cloud_event_builder.build().map_err(|e| {
             match e {
                 // since we specify `source`, all required fields will always be present
-                CloudEventBuilderError::UninitializedField(_) => {
+                telemetry::sender::CloudEventBuilderError::UninitializedField(_) => {
                     unreachable!()
                 }
                 // This can be caused by a
                 // source that isn't a uri reference
                 // data_schema that isn't a valid uri - don't think this is possible since we create it
-                CloudEventBuilderError::ValidationError(e) => e,
+                telemetry::sender::CloudEventBuilderError::ValidationError(e) => e,
                 e => e.to_string(),
             }
         })
@@ -409,10 +403,10 @@ impl Forwarder {
         if let Some(protocol_id) = protocol_specific_identifier {
             let trimmed_protocol_id = protocol_id.trim();
             if !trimmed_protocol_id.is_empty()
-                && CloudEventFields::Source
+                && aio_cloud_event::CloudEventFields::Source
                     .validate(
                         &format!("{source}:{trimmed_protocol_id}"),
-                        DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+                        aio_cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
                     )
                     .is_ok()
             {
@@ -425,10 +419,10 @@ impl Forwarder {
         {
             let trimmed_external_id = external_id.trim();
             if !trimmed_external_id.is_empty()
-                && CloudEventFields::Source
+                && aio_cloud_event::CloudEventFields::Source
                     .validate(
                         &format!("{source}:{trimmed_external_id}"),
-                        DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+                        aio_cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
                     )
                     .is_ok()
             {
@@ -443,10 +437,10 @@ impl Forwarder {
             // remove any leading slash since we'll add one in
             let trimmed_data_source = data_source.trim().trim_start_matches('/');
             if !trimmed_data_source.is_empty()
-                && CloudEventFields::Source
+                && aio_cloud_event::CloudEventFields::Source
                     .validate(
                         &format!("{source}/{trimmed_data_source}"),
-                        DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+                        aio_cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
                     )
                     .is_ok()
             {
