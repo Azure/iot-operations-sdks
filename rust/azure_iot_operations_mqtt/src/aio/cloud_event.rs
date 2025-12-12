@@ -1148,7 +1148,7 @@ mod tests {
             reconstructed_cloud_event.data_content_type,
             original_cloud_event.data_content_type
         );
-        
+
         // Verify time matches with some tolerance for precision loss during string conversion
         // RFC 3339 format uses seconds precision, so we expect some microsecond/nanosecond loss
         // Note: CloudEventBuilder::default() always sets time to Some(now), so both should be Some
