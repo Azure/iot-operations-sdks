@@ -125,7 +125,7 @@ make_completion_token_ty!(
 );
 
 make_completion_token_ty!(
-    /// Token that can be awaited for the eventual completion of a Subscribe oepration.
+    /// Token that can be awaited for the eventual completion of a Subscribe operation.
     /// (i.e. when the SUBACK has been received from the server).
     pub struct SubscribeCompletionToken(CompletionToken<crate::azure_mqtt::mqtt_proto::SubAck<Bytes>> -> crate::azure_mqtt::packet::SubAck { Into::into })
 );
