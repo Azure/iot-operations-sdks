@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
 
@@ -65,6 +66,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
+        public CloudEvent? CloudEvent { get; set; }
+
         /// <summary>
         /// Construct CommandRequestMetadata in user code, for passing to a command invocation.
         /// </summary>
@@ -94,6 +97,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             Timestamp = null;
             UserData = [];
+            CloudEvent = message.GetCloudEvent();
 
             if (message.UserProperties != null)
             {
@@ -138,6 +142,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (Partition != null)
             {
                 message.AddUserProperty("$partition", Partition);
+            }
+
+            if (CloudEvent != null)
+            {
+                message.AddCloudEvents(CloudEvent);
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)

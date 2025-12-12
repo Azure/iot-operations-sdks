@@ -53,12 +53,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public DateTime? Time { get; set; }
 
         /// <summary>
-        ///  Content type of data value. This attribute enables data to carry any type of content, 
-        ///  whereby format and encoding might differ from that of the chosen event format.
-        /// </summary>
-        public string? DataContentType { get; internal set; }
-
-        /// <summary>
         /// Identifies the subject of the event in the context of the event producer (identified by source). 
         /// In publish-subscribe scenarios, a subscriber will typically subscribe to events emitted by a source, 
         /// but the source identifier alone might not be sufficient as a qualifier for any specific event if the source context has internal sub-structure.

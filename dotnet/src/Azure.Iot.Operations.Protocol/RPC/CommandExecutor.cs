@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -476,6 +477,24 @@ namespace Azure.Iot.Operations.Protocol.RPC
             // Update HLC and use as the timestamp.
             string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+
+            if (metadata?.CloudEvent is not null)
+            {
+                if (metadata.CloudEvent.Type == "ms.aio.telemetry")
+                {
+                    var newCloudEvent = new CloudEvent(metadata.CloudEvent.Source, "ms.aio.rpc.response", metadata.CloudEvent.SpecVersion)
+                    {
+                        Id = metadata.CloudEvent.Id,
+                        Time = metadata.CloudEvent.Time,
+                        Subject = metadata.CloudEvent.Subject,
+                        DataSchema = metadata.CloudEvent.DataSchema
+                    };
+                    metadata.CloudEvent = newCloudEvent;
+                }
+
+                metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
+                metadata.CloudEvent.Time ??= DateTime.UtcNow;
+            }
 
             metadata?.MarshalTo(message);
 

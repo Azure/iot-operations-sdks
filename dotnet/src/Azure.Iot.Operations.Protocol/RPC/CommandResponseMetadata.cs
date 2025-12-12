@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
 
@@ -46,6 +47,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         public Dictionary<string, string> UserData { get; set; } = new();
 
+        public CloudEvent? CloudEvent { get; set; }
+
         /// <summary>
         /// Construct CommandResponseMetadata in user code, presumably within an execution function that will include the metadata in its return value.
         /// </summary>
@@ -73,6 +76,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             Timestamp = null;
             UserData = [];
+            CloudEvent = message.GetCloudEvent();
 
             if (message.UserProperties != null)
             {
@@ -99,6 +103,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (Timestamp != default)
             {
                 message.AddUserProperty(AkriSystemProperties.Timestamp, Timestamp.EncodeToString());
+            }
+
+            if (CloudEvent != null)
+            {
+                message.AddCloudEvents(CloudEvent);
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)

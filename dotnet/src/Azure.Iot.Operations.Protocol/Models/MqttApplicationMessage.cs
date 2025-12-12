@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Telemetry;
+using Azure.Iot.Operations.Protocol;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -183,6 +184,72 @@ namespace Azure.Iot.Operations.Protocol.Models
                 : Encoding.UTF8.GetString(Payload.ToArray());
         }
 
+        public void SetCloudEvent(ExtendedCloudEvent cloudEvent)
+        {
+            if (cloudEvent == null)
+            {
+                return;
+            }
+
+            ContentType = cloudEvent.DataContentType;
+
+            // Ensure defaults
+            cloudEvent.Id ??= Guid.NewGuid().ToString();
+            cloudEvent.Time ??= DateTime.UtcNow;
+
+            AddCloudEvents(cloudEvent);
+        }
+
+        public ExtendedCloudEvent? GetCloudEvent()
+        {
+            if (UserProperties == null)
+            {
+                return null;
+            }
+
+            if (!UserProperties.TryGetProperty("specversion", out string? specversion) || specversion != "1.0")
+            {
+                return null;
+            }
+
+            if (!UserProperties.TryGetProperty("source", out string? sourceStr) || !Uri.TryCreate(sourceStr, UriKind.RelativeOrAbsolute, out Uri? source))
+            {
+                return null;
+            }
+
+            if (!UserProperties.TryGetProperty("type", out string? type))
+            {
+                return null;
+            }
+
+            ExtendedCloudEvent cloudEvent = new(source!, type!, specversion!)
+            {
+                DataContentType = ContentType
+            };
+
+            if (UserProperties.TryGetProperty("id", out string? id))
+            {
+                cloudEvent.Id = id;
+            }
+
+            if (UserProperties.TryGetProperty("time", out string? timeStr) && DateTime.TryParse(timeStr, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime time))
+            {
+                cloudEvent.Time = time;
+            }
+
+            if (UserProperties.TryGetProperty("subject", out string? subject))
+            {
+                cloudEvent.Subject = subject;
+            }
+
+            if (UserProperties.TryGetProperty("dataschema", out string? dataSchema))
+            {
+                cloudEvent.DataSchema = dataSchema;
+            }
+
+            return cloudEvent;
+        }
+
         public void AddMetadata(OutgoingTelemetryMetadata md)
         {
             if (md == null)
@@ -224,11 +291,6 @@ namespace Azure.Iot.Operations.Protocol.Models
             if (md.Subject is not null)
             {
                 AddUserProperty(nameof(md.Subject).ToLowerInvariant(), md.Subject);
-            }
-
-            if (md.DataContentType is not null)
-            {
-                AddUserProperty(nameof(md.DataContentType).ToLowerInvariant(), md.DataContentType);
             }
 
             if (md.DataSchema is not null)

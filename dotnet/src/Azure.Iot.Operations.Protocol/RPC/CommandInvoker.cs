@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -573,6 +574,24 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     requestMessage.Payload = payloadContext.SerializedPayload;
                     requestMessage.PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator;
                     requestMessage.ContentType = payloadContext.ContentType;
+                }
+
+                if (metadata?.CloudEvent is not null)
+                {
+                    if (metadata.CloudEvent.Type == "ms.aio.telemetry")
+                    {
+                        var newCloudEvent = new CloudEvent(metadata.CloudEvent.Source, "ms.aio.rpc.request", metadata.CloudEvent.SpecVersion)
+                        {
+                            Id = metadata.CloudEvent.Id,
+                            Time = metadata.CloudEvent.Time,
+                            Subject = metadata.CloudEvent.Subject,
+                            DataSchema = metadata.CloudEvent.DataSchema
+                        };
+                        metadata.CloudEvent = newCloudEvent;
+                    }
+
+                    metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
+                    metadata.CloudEvent.Time ??= DateTime.UtcNow;
                 }
 
                 try

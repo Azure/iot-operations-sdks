@@ -62,6 +62,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
+        public ExtendedCloudEvent? CloudEvent { get; }
 
         internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId, string? topicPattern = null, string? topicNamespace = null)
         {
@@ -69,6 +70,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
             ContentType = message.ContentType;
             PayloadFormatIndicator = message.PayloadFormatIndicator;
+            CloudEvent = message.GetCloudEvent();
 
             if (message.UserProperties != null)
             {
@@ -110,7 +112,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             PacketId = packetId;
         }
 
-        public CloudEvent GetCloudEvent()
+        public ExtendedCloudEvent GetCloudEvent()
         {
             string safeGetUserProperty(string name)
             {
@@ -155,7 +157,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 throw new ArgumentException("Could not parse cloud event from telemetry: Cloud events time must be a valid RFC3339 date-time");
             }
 
-            return new CloudEvent(source, type)
+            return new ExtendedCloudEvent(source, type)
             {
                 Id = id,
                 Time = _dateTime,
