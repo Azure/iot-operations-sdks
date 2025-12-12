@@ -18,14 +18,9 @@ public class OvenClient(ApplicationContext applicationContext, MqttSessionClient
     public override async Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
     {
         logger.LogInformation("Received telemetry from {senderId} \n", senderId);
-        ExtendedCloudEvent? cloudEvent = null;
-        try
+        if(metadata.CloudEvent == null)
         {
-            cloudEvent = metadata.GetCloudEvent();
-        }
-        catch (ArgumentException e)
-        {
-            logger.LogError(e, "Failed to parse cloud event");
+            logger.LogError("Failed to parse cloud event");
             return;
         }
 
@@ -36,23 +31,23 @@ public class OvenClient(ApplicationContext applicationContext, MqttSessionClient
             "source: {source} \n " +
             "contenttype: {ct} \n " +
             "dataschema: {ds}",
-            cloudEvent.Id,
-            cloudEvent.Time,
-            cloudEvent.Type,
-            cloudEvent.Source,
-            cloudEvent.DataContentType,
-            cloudEvent.DataSchema);
+            metadata.CloudEvent.Id,
+            metadata.CloudEvent.Time,
+            metadata.CloudEvent.Type,
+            metadata.CloudEvent.Source,
+            metadata.CloudEvent.DataContentType,
+            metadata.CloudEvent.DataSchema);
 
-        if (_schemaCache.ContainsKey(cloudEvent.DataSchema!))
+        if (_schemaCache.ContainsKey(metadata.CloudEvent.DataSchema!))
         {
             logger.LogInformation("Schema already cached");
         }
         else
         {
             logger.LogInformation("Schema not cached, fetching from SR");
-            Uri schemaUri = new(cloudEvent.DataSchema!);
+            Uri schemaUri = new(metadata.CloudEvent.DataSchema!);
             var schemaInfo = await schemaRegistryClient.GetAsync(schemaUri.Segments[1]);
-            _schemaCache.Add(cloudEvent.DataSchema!, schemaInfo!.SchemaContent!);
+            _schemaCache.Add(metadata.CloudEvent.DataSchema!, schemaInfo!.SchemaContent!);
             logger.LogInformation("Schema cached");
         }
     }

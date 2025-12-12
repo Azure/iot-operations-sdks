@@ -555,7 +555,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             ExtendedCloudEvent? cloudEvent = null;
             try
             {
-                cloudEvent = metadata.GetCloudEvent();
+                cloudEvent = metadata.CloudEvent;
             }
             catch (Exception)
             {
