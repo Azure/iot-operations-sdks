@@ -18,6 +18,10 @@ pub(crate) mod topic_processor;
 /// This module contains string values for Azure IoT Operations Protocol defined user properties.
 pub mod user_properties;
 
+/// This module contains the sending side cloud event implementation for the Azure IoT Operations Protocol.
+pub(crate) mod cloud_event;
+pub use cloud_event::CloudEventSubject;
+
 /// Used to validate that a string is well-formed UTF-8 per the [MQTT 5 spec](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_UTF-8_Encoded_String)
 #[must_use]
 pub(crate) fn is_invalid_utf8(s: &str) -> bool {

@@ -191,7 +191,7 @@ impl TelemetryReceiverTester {
                     *telemetry_count.lock().unwrap() += 1;
 
                     let cloud_event =
-                        match telemetry::receiver::CloudEvent::from_telemetry(&telemetry) {
+                        match telemetry::receiver::cloud_event_from_telemetry(&telemetry) {
                             Ok(cloud_event) => Some(TestCaseCloudEvent {
                                 source: Some(cloud_event.source),
                                 event_type: Some(cloud_event.event_type),

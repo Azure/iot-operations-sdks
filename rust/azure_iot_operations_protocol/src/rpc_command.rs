@@ -24,6 +24,12 @@ pub(crate) const RPC_COMMAND_PROTOCOL_VERSION: ProtocolVersion =
 pub(crate) const DEFAULT_RPC_COMMAND_PROTOCOL_VERSION: ProtocolVersion =
     ProtocolVersion { major: 1, minor: 0 };
 
+/// Default `CloudEvent` event type for AIO RPC Requests.
+pub const DEFAULT_RPC_REQUEST_CLOUD_EVENT_EVENT_TYPE: &str = "ms.aio.rpc.request";
+
+/// Default `CloudEvent` event type for AIO RPC Responses.
+pub const DEFAULT_RPC_RESPONSE_CLOUD_EVENT_EVENT_TYPE: &str = "ms.aio.rpc.response";
+
 /// Represents the valid status codes for command responses.
 #[repr(u16)]
 #[derive(Debug, Copy, Clone, PartialEq)]

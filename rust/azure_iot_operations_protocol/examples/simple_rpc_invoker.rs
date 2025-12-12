@@ -71,16 +71,31 @@ async fn increment_invoke_loop(
     invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload>,
 ) {
     loop {
+        let cloud_event = rpc_command::invoker::RequestCloudEventBuilder::default()
+            .source("aio://increment/invoker/sample")
+            .build()
+            .unwrap();
         let payload = rpc_command::invoker::RequestBuilder::default()
             .payload(IncrRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(2))
+            .cloud_event(cloud_event)
             .build()
             .unwrap();
         log::info!("Sending 'increment' command request...");
         match invoker.invoke(payload).await {
             Ok(response) => {
                 log::info!("Response: {response:?}");
+                // Parse cloud event if present
+                match rpc_command::invoker::cloud_event_from_response(&response) {
+                    Ok(cloud_event) => {
+                        log::info!("{cloud_event}");
+                    }
+                    Err(e) => {
+                        // If a cloud event is not present, this error is expected
+                        log::warn!("Error parsing cloud event: {e}");
+                    }
+                }
             }
             Err(e) => {
                 log::error!("Error invoking 'increment' command: {e}");
