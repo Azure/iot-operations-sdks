@@ -2,10 +2,6 @@
 
 This directory contains the source code, examples and tests for the Azure IoT Operations Rust SDK.
 
-> [!CAUTION]
-> These crates are currently in preview and are subject to change until version 1.0.
-> Pinning a specific release will protect you from any breaking changes, which are subject to occur until we release 1.0.
-
 ## Overview
 
 The following Azure IoT Operations crates are available:
