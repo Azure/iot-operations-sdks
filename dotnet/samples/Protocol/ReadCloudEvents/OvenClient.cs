@@ -9,7 +9,7 @@ using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Protocol;
 using ReadCloudEvents.Oven;
 
-public class OvenClient(ApplicationContext applicationContext, MqttSessionClient mqttClient, SchemaRegistryClient schemaRegistryClient, ILogger<OvenClient> logger) 
+public class OvenClient(ApplicationContext applicationContext, MqttSessionClient mqttClient, SchemaRegistryClient schemaRegistryClient, ILogger<OvenClient> logger)
     : Oven.Client(applicationContext, mqttClient)
 {
 
@@ -18,7 +18,7 @@ public class OvenClient(ApplicationContext applicationContext, MqttSessionClient
     public override async Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
     {
         logger.LogInformation("Received telemetry from {senderId} \n", senderId);
-        CloudEvent? cloudEvent = null;
+        ExtendedCloudEvent? cloudEvent = null;
         try
         {
             cloudEvent = metadata.GetCloudEvent();
@@ -54,6 +54,6 @@ public class OvenClient(ApplicationContext applicationContext, MqttSessionClient
             var schemaInfo = await schemaRegistryClient.GetAsync(schemaUri.Segments[1]);
             _schemaCache.Add(cloudEvent.DataSchema!, schemaInfo!.SchemaContent!);
             logger.LogInformation("Schema cached");
-        }   
+        }
     }
 }
