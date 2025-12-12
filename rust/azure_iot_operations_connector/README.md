@@ -1,4 +1,21 @@
-# Instructions to deploy sample Rust connector
+# Azure IoT Operations - Connector
+Framework for building Azure IoT Operations connectors that handle device discovery, asset definitions, and data transformation.
+
+[Examples](examples) |
+[Release Notes](https://github.com/Azure/iot-operations-sdks/releases?q=rust%2Fconnector&expanded=true)
+
+## Overview
+
+The Azure IoT Operations Connector framework provides:
+
+- **Base Connector**: Handles device endpoint and asset lifecycle management from Azure Device Registry
+- **ADR Discovery**: Automatically discovers and manages device definitions and asset configurations  
+- **Data Operations**: Supports datasets, events, and streams with schema validation
+- **Status Reporting**: Reports connector and asset status back to Azure Device Registry
+
+Build connectors that seamlessly integrate with Azure IoT Operations to transform and forward data from edge devices.
+
+## Instructions to deploy sample Rust connector
 
 ### The sample Rust connector that retrieves ADR definitions is currently under the `examples` folder of this crate.
 
