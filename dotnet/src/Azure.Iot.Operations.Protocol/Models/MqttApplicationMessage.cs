@@ -232,10 +232,12 @@ namespace Azure.Iot.Operations.Protocol.Models
                 Id = id
             };
 
-            if (UserProperties.TryGetProperty("time", out string? timeStr) && DateTime.TryParse(timeStr, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime time))
+            DateTime time = DateTime.UtcNow;
+            if (UserProperties.TryGetProperty("time", out string? timeStr) && !DateTime.TryParse(timeStr, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out time))
             {
-                cloudEvent.Time = time;
+                return null;
             }
+            cloudEvent.Time = time;
 
             if (UserProperties.TryGetProperty("subject", out string? subject))
             {
