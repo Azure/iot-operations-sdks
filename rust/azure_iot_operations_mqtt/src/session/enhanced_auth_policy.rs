@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Authentication policies for a [`Session`](crate::session::Session).
+//! Enhanced authentication policies for a [`Session`](crate::session::Session).
 
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
@@ -47,7 +47,8 @@ pub enum K8sSatConfigError {
     WatcherError(#[from] notify::Error),
 }
 
-/// An authentication policy that reads SAT tokens from a file and monitors for changes.
+/// An authentication policy that reads SAT tokens from a file in a Kubernetes pod and monitors for
+/// changes.
 pub struct K8sSatFileMonitor {
     /// The latest SAT file auth data
     latest_data: Arc<Mutex<Bytes>>,
@@ -59,7 +60,7 @@ pub struct K8sSatFileMonitor {
 }
 
 impl K8sSatFileMonitor {
-    /// Create a new [`K8sSatFileMonitor`] that monitors the specified SAT file path.
+    /// Create a new [`K8sSatFileMonitor`] that monitors the specified SAT `file_path`.
     /// `aggregation_window` specifies the aggregation window for file change events.
     ///
     /// # Errors
