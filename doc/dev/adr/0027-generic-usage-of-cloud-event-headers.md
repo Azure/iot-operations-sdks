@@ -34,10 +34,17 @@ public class CloudEvent
     public string Type;
     public string Id;
     public DateTime? Time;
-    public string? DataContentType;
     public string? Subject;
     public string? DataSchema;
 }
+
+// In most scenarios, it makes sense for "cloud event" struct to have this field, but there is one
+// case (protocol level sending like invoking a command or sending telemetry) where it doesn't.
+public class ExtendedCloudEvent : CloudEvent
+{
+    public string? DataContentType;
+}
+
 
 public class MqttApplicationMessage 
 {
@@ -45,9 +52,9 @@ public class MqttApplicationMessage
 
   // Note that this will override any content type already set on this message. The header docs
   // per language must make this behavior explicit
-  public void SetCloudEvent(CloudEvent cloudEvent);
+  public void SetCloudEvent(ExtendedCloudEvent cloudEvent);
 
-  public CloudEvent? GetCloudEvent()
+  public ExtendedCloudEvent? GetCloudEvent()
 
   //...
 }
@@ -56,7 +63,7 @@ public class MqttApplicationMessage
 
 ### Example usage
 
-#### Sending side
+#### Generic Sending side
 
 ```csharp
 public static void main()
@@ -64,7 +71,7 @@ public static void main()
     MqttClient client = new ...;
     client.ConnectAsync(...);
 
-    CloudEvent cloudEvent = new CloudEvent()
+    ExtendedCloudEvent cloudEvent = new ExtendedCloudEvent()
     {
       Source = ...
       Type = ...
@@ -82,14 +89,14 @@ public static void main()
 }
 ```
 
-#### Receiving side
+#### Generic Receiving side
 
 ```csharp
 public static void main()
 {
     MqttClient client = new ...;
     client.ConnectAsync(...);
-    sessionClient.ApplicationMessageReceivedAsync += (args) =>
+    client.ApplicationMessageReceivedAsync += (args) =>
     {
         Console.WriteLine("MQTT message received!");
         CloudEvent? cloudEvent = args.ApplicationMessage.GetCloudEvent();
@@ -103,6 +110,50 @@ public static void main()
 }
 ```
 
+#### Protocol sending side
+
+```csharp
+public static void main()
+{
+    MqttClient mqttClient = new ...;
+    mqttClient.ConnectAsync(...);
+
+    // Note that this is the one case where "DataContentType" doesn't make sense
+    // to be settable, so we use the CloudEvent struct that doesn't have "DataContentType".
+    CloudEvent cloudEvent = new CloudEvent()
+    {
+      Source = ...
+      Type = ...
+    };
+
+    TelemetrySender telemetrySender = new(mqttClient, ...);
+
+    // Send the mqtt message with its cloud event
+    telemetrySender.PublishAsync(mqttMessage, cloudEvent);
+}
+```
+
+#### Protocol receiving side
+
+```csharp
+public static void main()
+{
+    MqttClient mqttClient = new ...;
+    mqttClient.ConnectAsync(...);
+    TelemetryReceiver receiver = new(mqttClient);
+    receiver.OnTelemetryReceived += (args) =>
+    {
+        Console.WriteLine("Telemetry received!");
+        ExtendedCloudEvent? cloudEvent = args.ApplicationMessage.GetCloudEvent();
+        if (cloudEvent != null)
+        {
+          Console.WriteLine("It contained a cloud event with Id: " + cloudEvent.Id)
+        }
+    };
+
+    receiver.StartAsync(...);
+}
+```
 
 ## Alternatives Considered
 
