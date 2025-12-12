@@ -147,7 +147,7 @@ impl BaseConnector {
         })
     }
 
-    /// Runs the MQTT Session that allows all Connector Operations to be performed
+    /// Runs the MQTT Session that allows all Connector Operations to be performed.
     /// Returns if the session ends. If this happens, the base connector will need to be recreated
     ///
     /// # Errors
@@ -158,7 +158,7 @@ impl BaseConnector {
         self.session.run().await
     }
 
-    /// Creates a new [`DeviceEndpointClientCreationObservation`] to allow for all Azure Device Registry operations
+    /// Creates a new [`DeviceEndpointClientCreationObservation`] to allow for Azure Device Registry operations
     pub fn create_device_endpoint_client_create_observation(
         &self,
     ) -> DeviceEndpointClientCreationObservation {

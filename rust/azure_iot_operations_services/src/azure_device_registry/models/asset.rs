@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Asset/Dataset models for Azure Device Registry operations.
+//! Asset models for Azure Device Registry operations.
 use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::control_packet::QoS as MqttQoS;

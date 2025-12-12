@@ -90,7 +90,7 @@ pub struct RequestCloudEvent(protocol_cloud_event::CloudEvent);
 #[derive(Clone)]
 pub struct RequestCloudEventBuilder(protocol_cloud_event::CloudEventBuilder);
 
-/// Error type for [`RequestCloudEventBuilderError`]
+/// Error type for [`RequestCloudEventBuilder`]
 #[derive(Debug)]
 #[non_exhaustive]
 pub enum RequestCloudEventBuilderError {
@@ -322,8 +322,8 @@ pub type ResponseCloudEventParseError = aio_cloud_event::CloudEventParseError;
 ///
 /// # Errors
 /// [`ResponseCloudEventParseError`] if
-///     - the [`Response`] does not contain the required fields for a [`ResponseCloudEvent`].
-///     - any of the field values are not valid for a [`ResponseCloudEvent`].
+/// - the [`Response`] does not contain the required fields for a [`ResponseCloudEvent`].
+/// - any of the field values are not valid for a [`ResponseCloudEvent`].
 pub fn cloud_event_from_response<TResp: PayloadSerialize>(
     response: &Response<TResp>,
 ) -> Result<ResponseCloudEvent, ResponseCloudEventParseError> {
@@ -361,7 +361,7 @@ pub fn application_error_headers(
 /// Represents an error reported by a remote executor
 #[derive(thiserror::Error, Debug, Clone)]
 #[error("Remote Error status code: {status_code:?}")]
-pub struct RemoteError {
+struct RemoteError {
     /// Status code received from a remote service that detected the error
     status_code: StatusCode,
     /// Protocol version of data received from a remote service
