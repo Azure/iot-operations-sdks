@@ -513,7 +513,7 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     mock_server.send_publish(proto_publish5);
 
     // Receive publish from all receivers.
-    // The PUBACK is not sent until all receivers have manually acknowedged via AckToken
+    // The PUBACK is not sent until all receivers have manually acknowledged via AckToken
     mock_server.expect_no_packet();
     let r1_response5 = receiver1.recv_manual_ack().await.unwrap();
     assert_eq!(r1_response5.0, expected_publish5);
@@ -551,7 +551,7 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     mock_server.send_publish(proto_publish6);
 
     // Receive publish from all receivers.
-    // The PUBACK is not sent until all receivers have manually acknowedged via dropped AckToken
+    // The PUBACK is not sent until all receivers have manually acknowledged via dropped AckToken
     mock_server.expect_no_packet();
     let r1_response6 = receiver1.recv_manual_ack().await.unwrap();
     assert_eq!(r1_response6.0, expected_publish6);
@@ -588,7 +588,7 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     mock_server.send_publish(proto_publish9);
 
     // Receive the publishes from all receivers.
-    // The PUBACKs are not sent until all receivers have manually acknowedged via AckToken
+    // The PUBACKs are not sent until all receivers have manually acknowledged via AckToken
     mock_server.expect_no_packet();
     let r1_response7 = receiver1.recv_manual_ack().await.unwrap();
     assert_eq!(r1_response7.0, expected_publish7);
@@ -697,7 +697,7 @@ async fn qos1_multiple_receiver_same_filter_test_logic(
     mock_server.send_publish(proto_publish12);
 
     // Receive the publishes from all receivers.
-    // The PUBACKs are not sent until all receivers have manually acknowedged via AckToken
+    // The PUBACKs are not sent until all receivers have manually acknowledged via AckToken
     mock_server.expect_no_packet();
     let r1_response10 = receiver1.recv_manual_ack().await.unwrap();
     assert_eq!(r1_response10.0, expected_publish10);
