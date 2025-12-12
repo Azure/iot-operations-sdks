@@ -7,7 +7,7 @@
 pub use crate::azure_mqtt::topic::{TopicFilter, TopicName};
 
 // Re-export control packet types
-pub use crate::azure_mqtt::packet::{Auth, Disconnect, PubAck, Publish, SubAck, UnsubAck};
+pub use crate::azure_mqtt::packet::{Auth, Disconnect, ConnAck, PubAck, Publish, SubAck, UnsubAck};
 
 // Re-export control packet property types
 pub use crate::azure_mqtt::packet::{
