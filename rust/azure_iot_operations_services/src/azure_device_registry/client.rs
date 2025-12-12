@@ -245,7 +245,7 @@ impl Client {
             .get_all_receiver_ids()
     }
 
-    /// Shutdown the [`Client`]. Shuts down the underlying command invokers.
+    /// Shutdown the [`Client`]. Shuts down the underlying command invokers and telemetry receivers.
     ///
     /// Note: If this method is called, the [`Client`] should not be used again.
     /// If the method returns an error, it may be called again to re-attempt unsubscribing.
