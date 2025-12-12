@@ -57,14 +57,14 @@ pub struct CloudEvent {
     _default_event_type: String,
 }
 
-/// Enum representing the different values that the [`subject`](CloudEventBuilder::subject) field of a [`CloudEvent`] can take.
+/// Enum representing the different values that the `subject` field of a `CloudEvent` can take.
 #[derive(Clone, Debug)]
 pub enum CloudEventSubject {
-    /// The publish topic should be used as the subject when the [`CloudEvent`] is sent across the wire
+    /// The publish topic should be used as the subject when the `CloudEvent` is sent across the wire
     PublishTopic,
-    /// A custom (provided) `String` should be used for the `subject` of the [`CloudEvent`]
+    /// A custom (provided) `String` should be used for the `subject` of the `CloudEvent`
     Custom(String),
-    /// No subject should be included on the [`CloudEvent`]
+    /// No subject should be included on the `CloudEvent`
     None,
 }
 
