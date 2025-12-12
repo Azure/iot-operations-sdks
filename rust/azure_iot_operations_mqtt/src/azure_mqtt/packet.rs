@@ -201,6 +201,7 @@ where
     }
 }
 
+/// Options for retaining published messages
 #[derive(Clone)]
 pub struct RetainOptions {
     pub retain_as_published: bool,

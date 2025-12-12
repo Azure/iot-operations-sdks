@@ -49,11 +49,11 @@ pub enum ConnectError {
     ResponseTimeout,
 }
 
+/// Indicates a protocol violation of the MQTT specification
 #[derive(Debug, Error)]
 #[error(transparent)]
 pub struct ProtocolError(#[from] ProtocolErrorRepr);
 
-/// Indicates a protocol violation of the MQTT specification
 #[derive(Debug, Error)]
 pub(crate) enum ProtocolErrorRepr {
     #[error("protocol violation: malformed packet: {0}")]
