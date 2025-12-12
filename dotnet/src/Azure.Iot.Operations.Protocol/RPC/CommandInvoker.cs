@@ -578,21 +578,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (metadata?.CloudEvent is not null)
                 {
-                    // if type has default value then user did not set it, so set it to rpc.request
-                    if (metadata.CloudEvent.Type == "ms.aio.telemetry")
-                    {
-                        var newCloudEvent = new CloudEvent(metadata.CloudEvent.Source, "ms.aio.rpc.request", metadata.CloudEvent.SpecVersion)
-                        {
-                            Id = metadata.CloudEvent.Id,
-                            Time = metadata.CloudEvent.Time,
-                            Subject = metadata.CloudEvent.Subject,
-                            DataSchema = metadata.CloudEvent.DataSchema
-                        };
-                        metadata.CloudEvent = newCloudEvent;
-                    }
-
                     metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
                     metadata.CloudEvent.Time ??= DateTime.UtcNow;
+                    metadata.CloudEvent.Type ??= "ms.aio.rpc.request";
                 }
 
                 try

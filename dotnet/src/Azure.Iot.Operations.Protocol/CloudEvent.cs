@@ -13,9 +13,8 @@ namespace Azure.Iot.Operations.Protocol
     /// <param name="source"><see cref="Source"/></param>
     /// <param name="type"><see cref="Type"/></param>
     /// <param name="specversion"><see cref="SpecVersion"/></param>
-    public class CloudEvent(Uri source, string type = "ms.aio.telemetry", string specversion = "1.0")
+    public class CloudEvent(Uri source, string? type, string specversion = "1.0")
     {
-
         /// <summary>
         /// Identifies the context in which an event happened.
         /// Often this will include information such as the type of the event source,
@@ -35,7 +34,7 @@ namespace Azure.Iot.Operations.Protocol
         /// Often this attribute is used for routing, observability, policy enforcement, etc.
         /// The format of this is producer defined and might include information such as the version of the type
         /// </summary>
-        public string Type => type;
+        public string? Type { get; set; } = type;
 
         /// <summary>
         ///  Identifies the event. Producers MUST ensure that source + id is unique for each distinct event.
