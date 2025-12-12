@@ -74,6 +74,18 @@ async fn increment_executor_loop(
     // Increment the counter for each incoming request
     while let Some(recv_result) = executor.recv().await {
         let request = recv_result?;
+
+        // Parse cloud event if present
+        match rpc_command::executor::cloud_event_from_request(&request) {
+            Ok(cloud_event) => {
+                log::info!("{cloud_event}");
+            }
+            Err(e) => {
+                // If a cloud event is not present, this error is expected
+                log::warn!("Error parsing cloud event: {e}");
+            }
+        }
+
         // Update the counter
         counter += 1;
         log::info!("Counter incremented to: {counter}");
@@ -81,9 +93,14 @@ async fn increment_executor_loop(
         let response = IncrResponsePayload {
             counter_response: counter,
         };
+        let cloud_event = rpc_command::executor::ResponseCloudEventBuilder::default()
+            .source("aio://increment/executor/sample")
+            .build()
+            .unwrap();
         let response = rpc_command::executor::ResponseBuilder::default()
             .payload(response)
             .unwrap()
+            .cloud_event(cloud_event)
             .build()
             .unwrap();
         // Send the response

@@ -39,6 +39,15 @@ impl GetAssetRequestBuilder {
         self
     }
 
+    /// Cloud event for the request
+    pub fn cloud_event(
+        &mut self,
+        cloud_event: Option<rpc_command::invoker::RequestCloudEvent>,
+    ) -> &mut Self {
+        self.inner_builder.cloud_event(cloud_event);
+        self
+    }
+
     /// Topic token keys/values to be replaced into the publish topic of the request message.
     /// A prefix of "ex:" will be prepended to each key before scanning the topic pattern.
     /// Thus, only tokens of the form `{ex:SOMEKEY}` will be replaced.

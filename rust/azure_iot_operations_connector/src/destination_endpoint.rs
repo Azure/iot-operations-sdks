@@ -5,18 +5,15 @@
 
 use std::{sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::control_packet::QoS;
+use azure_iot_operations_mqtt::{aio::cloud_event as aio_cloud_event, control_packet::QoS};
 use azure_iot_operations_protocol::{
     common::{
+        CloudEventSubject,
         aio_protocol_error::AIOProtocolError,
         hybrid_logical_clock::HybridLogicalClock,
         payload_serialize::{BypassPayload, FormatIndicator},
     },
-    telemetry::{
-        self,
-        cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-        sender::CloudEventSubject,
-    },
+    telemetry,
 };
 use azure_iot_operations_services::{azure_device_registry::models as adr_models, state_store};
 use chrono::{DateTime, Utc};
@@ -406,10 +403,10 @@ impl Forwarder {
         if let Some(protocol_id) = protocol_specific_identifier {
             let trimmed_protocol_id = protocol_id.trim();
             if !trimmed_protocol_id.is_empty()
-                && CloudEventFields::Source
+                && aio_cloud_event::CloudEventFields::Source
                     .validate(
                         &format!("{source}:{trimmed_protocol_id}"),
-                        DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+                        aio_cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
                     )
                     .is_ok()
             {
@@ -422,10 +419,10 @@ impl Forwarder {
         {
             let trimmed_external_id = external_id.trim();
             if !trimmed_external_id.is_empty()
-                && CloudEventFields::Source
+                && aio_cloud_event::CloudEventFields::Source
                     .validate(
                         &format!("{source}:{trimmed_external_id}"),
-                        DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+                        aio_cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
                     )
                     .is_ok()
             {
@@ -440,10 +437,10 @@ impl Forwarder {
             // remove any leading slash since we'll add one in
             let trimmed_data_source = data_source.trim().trim_start_matches('/');
             if !trimmed_data_source.is_empty()
-                && CloudEventFields::Source
+                && aio_cloud_event::CloudEventFields::Source
                     .validate(
                         &format!("{source}/{trimmed_data_source}"),
-                        DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+                        aio_cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
                     )
                     .is_ok()
             {
