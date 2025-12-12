@@ -9,9 +9,9 @@ Framework for building Azure IoT Operations connectors that handle device discov
 The Azure IoT Operations Connector framework provides:
 
 - **Base Connector**: Handles device endpoint and asset lifecycle management from Azure Device Registry
-- **ADR Discovery**: Automatically discovers and manages device definitions and asset configurations  
-- **Data Operations**: Supports datasets, events, and streams with schema validation
-- **Status Reporting**: Reports connector and asset status back to Azure Device Registry
+- **ADR Discovery**: Provides functionality to discover and manage discovered device and asset definitions
+- **Data Operations**: Supports datasets, events, and streams
+- **Status Reporting**: Reports device, endpoint, and asset status back to Azure Device Registry
 
 Build connectors that seamlessly integrate with Azure IoT Operations to transform and forward data from edge devices.
 
