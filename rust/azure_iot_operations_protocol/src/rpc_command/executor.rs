@@ -164,8 +164,8 @@ pub type RequestCloudEventParseError = aio_cloud_event::CloudEventParseError;
 ///
 /// # Errors
 /// [`RequestCloudEventParseError`] if
-///     - the [`Request`] does not contain the required fields for a [`RequestCloudEvent`].
-///     - any of the field values are not valid for a [`RequestCloudEvent`].
+/// - the [`Request`] does not contain the required fields for a [`RequestCloudEvent`].
+/// - any of the field values are not valid for a [`RequestCloudEvent`].
 pub fn cloud_event_from_request<TReq: PayloadSerialize, TResp: PayloadSerialize>(
     request: &Request<TReq, TResp>,
 ) -> Result<RequestCloudEvent, RequestCloudEventParseError> {
@@ -207,7 +207,7 @@ pub struct ResponseCloudEvent(protocol_cloud_event::CloudEvent);
 #[derive(Clone)]
 pub struct ResponseCloudEventBuilder(protocol_cloud_event::CloudEventBuilder);
 
-/// Error type for [`ResponseCloudEventBuilderError`]
+/// Error type for [`ResponseCloudEventBuilder`]
 #[derive(Debug)]
 #[non_exhaustive]
 pub enum ResponseCloudEventBuilderError {
@@ -552,7 +552,7 @@ pub struct Options {
     /// Topic pattern for the command request.
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     request_topic_pattern: String,
-    /// Command name if required by the topic pattern
+    /// Command name
     command_name: String,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
