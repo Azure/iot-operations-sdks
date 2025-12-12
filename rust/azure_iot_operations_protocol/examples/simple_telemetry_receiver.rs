@@ -83,8 +83,8 @@ async fn telemetry_loop(
             message.payload
         );
 
-        // Parse cloud event
-        match telemetry::receiver::CloudEvent::from_telemetry(&message) {
+        // Parse cloud event if present
+        match telemetry::receiver::cloud_event_from_telemetry(&message) {
             Ok(cloud_event) => {
                 log::info!("{cloud_event}");
             }
