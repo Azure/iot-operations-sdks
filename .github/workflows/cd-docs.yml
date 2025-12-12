@@ -1,0 +1,85 @@
+name: CD-Docs
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find release tags
+        id: tags
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for tag in $(gh api repos/Azure/iot-operations-sdks/releases -q '.[].tag_name'); do
+              if [[ $tag =~ (.*)/(.*)/(.*) ]]; then
+                lang=${BASH_REMATCH[1]}
+                package=${BASH_REMATCH[2]}
+                version=${BASH_REMATCH[3]}
+
+                if [[ $lang == "go" && -z ${go_tag} ]]; then
+                  go_tag=$tag
+                elif [[ $lang == "dotnet" && -z ${dotnet_tag} ]]; then
+                  dotnet_tag=$tag
+                fi
+              else
+                echo "Unknown tag: $tag"
+              fi
+          done
+
+          echo "go_tag=$go_tag" >> $GITHUB_OUTPUT
+          echo "dotnet_tag=$dotnet_tag" >> $GITHUB_OUTPUT
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
+
+      - name: Checkout Main
+        uses: actions/checkout@v4
+        with:
+          path: main
+
+      - name: Create index.html
+        run: |
+          mkdir _site
+          cp main/.github/pages/index.html _site
+
+      - name: Checkout Dotnet
+        uses: actions/checkout@v4
+        with:
+          ref: ${{steps.tags.outputs.dotnet_tag}}
+          path: dotnet
+
+      - name: Build .NET docs
+        run: |
+          dotnet tool install -g docfx
+          cp main/.github/pages/docfx.json dotnet/.github/pages
+          cp main/.github/pages/filterConfig.yml dotnet/.github/pages
+          docfx dotnet/.github/pages/docfx.json
+          cp -a dotnet/.github/pages/_site _site/dotnet
+
+      - name: Upload to GitHub Pages
+        id: upload
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+    steps:
+      - name: Deploy artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
+ 
