@@ -3,7 +3,6 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -350,7 +349,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     try
                     {
                         response = _serializer.FromBytes<TResp>(args.ApplicationMessage.Payload, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
-                        responseMetadata = new CommandResponseMetadata(args.ApplicationMessage);
+                        responseMetadata = new CommandResponseMetadata(args.ApplicationMessage)
+                        {
+                            ExtCloudEvent = args.ApplicationMessage.GetCloudEvent()
+                        };
                     }
                     catch (Exception ex)
                     {

@@ -66,7 +66,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
+        // Can be set on the sending side
         public CloudEvent? CloudEvent { get; set; }
+
+        // Cannot be set on the sending side
+        // Can be read on the receiving side
+        public ExtendedCloudEvent? ExtCloudEvent { get; internal set; }
 
         /// <summary>
         /// Construct CommandRequestMetadata in user code, for passing to a command invocation.

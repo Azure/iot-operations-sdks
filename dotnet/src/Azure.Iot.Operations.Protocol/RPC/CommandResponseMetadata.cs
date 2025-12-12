@@ -47,7 +47,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         public Dictionary<string, string> UserData { get; set; } = new();
 
+        // Can be set on the sending side
         public CloudEvent? CloudEvent { get; set; }
+
+        // Cannot be set on the sending side
+        // Can be read on the receiving side
+        public ExtendedCloudEvent? ExtCloudEvent { get; internal set; }
 
         /// <summary>
         /// Construct CommandResponseMetadata in user code, presumably within an execution function that will include the metadata in its return value.
