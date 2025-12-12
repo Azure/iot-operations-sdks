@@ -75,6 +75,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             Timestamp = null;
             UserData = [];
+            if (message.UserProperties != null && !message.UserProperties.TryGetProperty("type", out _))
+            {
+                message.UserProperties.Add(new MqttUserProperty("type", "ms.aio.rpc.response"));
+            }
             CloudEvent = message.GetCloudEvent();
 
             if (message.UserProperties != null)

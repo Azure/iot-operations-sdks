@@ -482,7 +482,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
                 metadata.CloudEvent.Time ??= DateTime.UtcNow;
-                metadata.CloudEvent.Type ??= "ms.aio.rpc.response";
+                metadata.CloudEvent.Subject = topic;
             }
 
             metadata?.MarshalTo(message);

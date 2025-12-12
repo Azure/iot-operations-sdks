@@ -62,7 +62,7 @@ public class IncomingTelemetryMetadataTests
 
         var metadata = new IncomingTelemetryMetadata(message, packetId);
 
-        Assert.Throws<ArgumentException>(() => metadata.CloudEvent);
+        Assert.Null(metadata.CloudEvent);
     }
 
     [Fact]
@@ -104,7 +104,7 @@ public class IncomingTelemetryMetadataTests
 
         Assert.Null(metadata.Timestamp);
         Assert.NotNull(metadata.UserData);
-        Assert.Throws<ArgumentException>(() => metadata.CloudEvent);
+        Assert.Null(metadata.CloudEvent);
         Assert.Equal(packetId, metadata.PacketId);
     }
 
@@ -126,7 +126,7 @@ public class IncomingTelemetryMetadataTests
         var metadata = new IncomingTelemetryMetadata(message, packetId);
 
         Assert.Null(metadata.Timestamp);
-        Assert.Throws<ArgumentException>(() => metadata.CloudEvent);
+        Assert.Null(metadata.CloudEvent);
         Assert.Equal(packetId, metadata.PacketId);
     }
 
@@ -148,7 +148,7 @@ public class IncomingTelemetryMetadataTests
         var metadata = new IncomingTelemetryMetadata(message, packetId);
 
         Assert.Null(metadata.Timestamp);
-        Assert.Throws<ArgumentException>(() => metadata.CloudEvent);
+        Assert.Null(metadata.CloudEvent);
         Assert.Equal(packetId, metadata.PacketId);
     }
 

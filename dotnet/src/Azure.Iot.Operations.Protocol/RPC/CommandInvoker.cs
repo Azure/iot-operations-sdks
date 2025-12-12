@@ -473,7 +473,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <param name="commandTimeout">How long to wait for a command response. Note that each command executor also has a configurable timeout value that may be shorter than this value. <see cref="CommandExecutor{TReq, TResp}.ExecutionTimeout"/></param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The command response including the command response metadata</returns>
-        public async Task<ExtendedResponse<TResp>> InvokeCommandAsync(TReq request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+        public async Task<ExtendedResponse<TResp>> InvokeCommandAsync(TReq request,
+            CommandRequestMetadata? metadata = null,
+            Dictionary<string, string>? additionalTopicTokenMap = null,
+            TimeSpan? commandTimeout = default,
+            CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_isDisposed, this);
@@ -580,7 +584,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 {
                     metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
                     metadata.CloudEvent.Time ??= DateTime.UtcNow;
-                    metadata.CloudEvent.Type ??= "ms.aio.rpc.request";
+                    metadata.CloudEvent.Subject = responseTopic;
                 }
 
                 try
