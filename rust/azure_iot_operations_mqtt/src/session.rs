@@ -19,7 +19,7 @@
 //!
 //! The MQTT session can be ended one of two ways:
 //! 1. The [`ReconnectPolicy`] configured on the [`Session`] halts reconnection attempts, causing
-//!     the [`Session`] to end the MQTT session.
+//!    the [`Session`] to end the MQTT session.
 //! 2. The user uses the [`SessionExitHandle`] to end the MQTT session.
 //!
 //! # Sending and receiving data over MQTT
@@ -295,7 +295,7 @@ impl Session {
 
         let (client_options, connect_parameters) = options
             .connection_settings
-            .to_azure_mqtt_connect_parameters(
+            .into_azure_mqtt_connect_parameters(
                 user_properties,
                 options.max_packet_identifier,
                 options.publish_qos0_queue_size,
