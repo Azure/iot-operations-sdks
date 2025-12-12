@@ -231,7 +231,7 @@ impl AIOProtocolError {
 
     /// Creates a new [`AIOProtocolError`] for a missing MQTT header
     #[must_use]
-    pub fn new_header_missing_error(
+    pub(crate) fn new_header_missing_error(
         header_name: &str,
         is_remote: bool,
         message: Option<String>,
@@ -259,7 +259,7 @@ impl AIOProtocolError {
 
     /// Creates a new [`AIOProtocolError`] for an invalid MQTT header value
     #[must_use]
-    pub fn new_header_invalid_error(
+    pub(crate) fn new_header_invalid_error(
         header_name: &str,
         header_value: &str,
         is_remote: bool,
@@ -288,7 +288,7 @@ impl AIOProtocolError {
 
     /// Creates a new [`AIOProtocolError`] for an invalid MQTT payload
     #[must_use]
-    pub fn new_payload_invalid_error(
+    pub(crate) fn new_payload_invalid_error(
         is_shallow: bool,
         is_remote: bool,
         nested_error: Option<Box<dyn Error + Send + Sync>>,
@@ -317,7 +317,7 @@ impl AIOProtocolError {
 
     /// Creates a new [`AIOProtocolError`] for a timeout
     #[must_use]
-    pub fn new_timeout_error(
+    pub(crate) fn new_timeout_error(
         is_remote: bool,
         nested_error: Option<Box<dyn Error + Send + Sync>>,
         timeout_name: &str,
@@ -347,7 +347,7 @@ impl AIOProtocolError {
 
     /// Creates a new [`AIOProtocolError`] for a cancellation error
     #[must_use]
-    pub fn new_cancellation_error(
+    pub(crate) fn new_cancellation_error(
         is_remote: bool,
         nested_error: Option<Box<dyn Error + Send + Sync>>,
         message: Option<String>,
@@ -375,7 +375,7 @@ impl AIOProtocolError {
 
     /// Creates a new [`AIOProtocolError`] for an invalid configuration error
     #[must_use]
-    pub fn new_configuration_invalid_error(
+    pub(crate) fn new_configuration_invalid_error(
         nested_error: Option<Box<dyn Error + Send + Sync>>,
         property_name: &str,
         property_value: Value,
@@ -404,7 +404,7 @@ impl AIOProtocolError {
 
     /// Creates a new [`AIOProtocolError`] for an invalid state error
     #[must_use]
-    pub fn new_state_invalid_error(
+    pub(crate) fn new_state_invalid_error(
         property_name: &str,
         property_value: Option<Value>,
         message: Option<String>,
@@ -433,7 +433,7 @@ impl AIOProtocolError {
     /// Creates a new [`AIOProtocolError`] for an internal logic error
     #[must_use]
     #[allow(clippy::too_many_arguments)]
-    pub fn new_internal_logic_error(
+    pub(crate) fn new_internal_logic_error(
         is_shallow: bool,
         is_remote: bool,
         nested_error: Option<Box<dyn Error + Send + Sync>>,
@@ -464,7 +464,7 @@ impl AIOProtocolError {
 
     /// Creates a new [`AIOProtocolError`] for an unknown error
     #[must_use]
-    pub fn new_unknown_error(
+    pub(crate) fn new_unknown_error(
         is_remote: bool,
         is_shallow: bool,
         nested_error: Option<Box<dyn Error + Send + Sync>>,
@@ -492,8 +492,9 @@ impl AIOProtocolError {
     }
 
     /// Creates a new [`AIOProtocolError`] for an execution exception error
+    #[allow(dead_code)] // Part of spec to be able to create this, so better to have it now in case we need it later
     #[must_use]
-    pub fn new_execution_exception_error(
+    pub(crate) fn new_execution_exception_error(
         property_name: Option<&str>,
         property_value: Option<Value>,
         message: Option<String>,
@@ -521,7 +522,7 @@ impl AIOProtocolError {
 
     /// Creates a new [`AIOProtocolError`] for an MQTT communication error
     #[must_use]
-    pub fn new_mqtt_error(
+    pub(crate) fn new_mqtt_error(
         message: Option<String>,
         nested_error: Box<dyn Error + Send + Sync>,
         command_name: Option<String>,
@@ -548,7 +549,7 @@ impl AIOProtocolError {
 
     /// Creates a new [`AIOProtocolError`] for an unsupported request version error
     #[must_use]
-    pub fn new_unsupported_version_error(
+    pub(crate) fn new_unsupported_version_error(
         message: Option<String>,
         protocol_version: String,
         supported_protocol_major_versions: Vec<u16>,
