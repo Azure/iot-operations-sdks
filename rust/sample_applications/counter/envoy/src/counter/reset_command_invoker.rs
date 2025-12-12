@@ -35,7 +35,7 @@ impl ResetRequestBuilder {
     /// Cloud event for the request
     pub fn cloud_event(
         &mut self,
-        cloud_event: rpc_command::invoker::RequestCloudEvent,
+        cloud_event: Option<rpc_command::invoker::RequestCloudEvent>,
     ) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self

@@ -55,7 +55,7 @@ impl TelemetryMessageBuilder {
     }
 
     /// Cloud event for the message
-    pub fn cloud_event(&mut self, cloud_event: telemetry::sender::CloudEvent) -> &mut Self {
+    pub fn cloud_event(&mut self, cloud_event: Option<telemetry::sender::CloudEvent>) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }

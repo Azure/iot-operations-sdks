@@ -35,7 +35,7 @@ impl IncrementResponseBuilder {
     /// Cloud event for the response
     pub fn cloud_event(
         &mut self,
-        cloud_event: rpc_command::executor::ResponseCloudEvent,
+        cloud_event: Option<rpc_command::executor::ResponseCloudEvent>,
     ) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self

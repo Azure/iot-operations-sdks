@@ -175,7 +175,7 @@ pub fn cloud_event_from_request<TReq: PayloadSerialize, TResp: PayloadSerialize>
 /// Command Executor Response struct.
 /// Used by the [`Executor`]
 #[derive(Builder, Clone, Debug)]
-#[builder(setter(into, strip_option), build_fn(validate = "Self::validate"))]
+#[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct Response<TResp>
 where
     TResp: PayloadSerialize,
