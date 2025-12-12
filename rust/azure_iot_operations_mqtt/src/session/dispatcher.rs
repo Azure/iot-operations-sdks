@@ -38,7 +38,8 @@ impl AckToken {
 }
 
 /// Token that can be awaited for the eventual completion of an acknowledgement operation for
-/// a publish (PUBACK).
+/// a publish
+/// (i.e. when the PUBACK is sent out onto the network).
 ///
 /// As acknowledgements are required to be delivered in the order that the corresponding publishes
 /// were received, the acknowledgement will not be sent to the server until all publishes received

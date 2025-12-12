@@ -17,10 +17,17 @@
 //! client and server ends. Note that a MQTT session can span multiple connects and disconnects to
 //! the server.
 //!
-//! The MQTT session can be ended one of two ways:
+//! The MQTT session can be ended one of three ways.
 //! 1. The [`ReconnectPolicy`] configured on the [`Session`] halts reconnection attempts, causing
 //!    the [`Session`] to end the MQTT session.
 //! 2. The user uses the [`SessionExitHandle`] to end the MQTT session.
+//! 3. The server discards the MQTT session (e.g. due to expiry or other server-side policy).
+//!
+//! Additionally, the [`Session`] `run` can be ended forcefully via the
+//! [`SessionExitHandle::force_exit`] method, however this does not guarantee that the MQTT session
+//! is ended on the server side.
+//! Similarly, if there is a fatal configuration error during the `run` (e.g. certificate file I/O
+//! error), the `run` will end without ending the MQTT session on the server side.
 //!
 //! # Sending and receiving data over MQTT
 //! A [`Session`] can be used to create a [`SessionManagedClient`] for sending data (i.e. outgoing
@@ -34,9 +41,11 @@
 //! Note that in order to receive incoming data, you must both subscribe to the topic filter of
 //! interest using the [`SessionManagedClient`] and create a [`SessionPubReceiver`] (filtered or
 //! unfiltered). If an incoming message is received that
-//! does not match any [`SessionPubReceiver`]s, it will be acknowledged to the MQTT server and
-//! discarded. Thus, in order to guarantee that messages will not be lost, you should create the
-//! [`SessionPubReceiver`] *before* subscribing to the topic filter.
+//! does not match any [`SessionPubReceiver`]s, it will be acknowledged to the MQTT server (where
+//! applicable) and discarded. Thus, in order to guarantee that messages will not be lost, you
+//! should create the [`SessionPubReceiver`] *before* subscribing to the topic filter in order to
+//! prevent messages being received in between the time you subscribe and the time you create the
+//! [`SessionPubReceiver`].
 
 use std::{
     fmt,
@@ -192,7 +201,7 @@ pub struct SessionOptions {
     /// Reconnect Policy to by used by the `Session`
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     reconnect_policy: Box<dyn ReconnectPolicy>,
-    /// Authentication Policy to be used by the `Session`
+    /// Enhanced Authentication Policy to be used by the `Session`
     #[builder(default = "None")]
     enhanced_auth_policy: Option<Box<dyn EnhancedAuthPolicy>>,
     /// Maximum packet identifier

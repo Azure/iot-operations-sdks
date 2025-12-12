@@ -33,7 +33,6 @@ async fn main() {
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a session
