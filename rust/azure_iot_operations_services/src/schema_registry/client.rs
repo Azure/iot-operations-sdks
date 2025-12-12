@@ -57,7 +57,7 @@ impl Client {
     /// * `get_request` - The request to get a schema from the schema registry.
     /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns a [`Schema`] if the schema was found, otherwise returns an error of type [`Error`].
+    /// Returns a [`Schema`] if the schema was found, otherwise returns an error of type [`struct@Error`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)

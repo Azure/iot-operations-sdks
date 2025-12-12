@@ -460,7 +460,7 @@ pub struct AssetStatus {
 /// Represents the status for a dataset, event, or stream.
 pub struct DatasetEventStreamStatus {
     /// The name of the dataset/event/stream.
-    /// Must be unique within the status.datasets[i]/events[i]/streams[i] array.
+    /// Must be unique within the `status.datasets`/`status.events`/`streams` array.
     /// This name is used to correlate between the spec and status dataset/event/stream information.
     pub name: String,
     /// The message schema reference.
@@ -474,7 +474,7 @@ pub struct DatasetEventStreamStatus {
 pub struct EventGroupStatus {
     /// Array of event statuses that describe the status of each event in the event group.
     pub events: Option<Vec<DatasetEventStreamStatus>>,
-    /// The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.
+    /// The name of the event group. Must be unique within the `status.eventGroups` array. This name is used to correlate between the spec and status event group information.
     pub name: String,
 }
 
@@ -483,7 +483,7 @@ pub struct EventGroupStatus {
 pub struct ManagementGroupStatus {
     /// Array of action statuses that describe the status of each action.
     pub actions: Option<Vec<ActionStatus>>,
-    /// The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.
+    /// The name of the managementgroup. Must be unique within the `status.managementGroup` array. This name is used to correlate between the spec and status management group information.
     pub name: String,
 }
 
@@ -492,7 +492,7 @@ pub struct ManagementGroupStatus {
 pub struct ActionStatus {
     /// The last error that occurred while processing the action.
     pub error: Option<ConfigError>,
-    /// The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.
+    /// The name of the action. Must be unique within the `status.managementGroup[i].actions` array. This name is used to correlate between the spec and status management group action information.
     pub name: String,
     /// The request message schema reference.
     pub request_message_schema_reference: Option<MessageSchemaReference>,

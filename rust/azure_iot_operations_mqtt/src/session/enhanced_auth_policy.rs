@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Authentication policies for a [`Session`](crate::session::Session).
+//! Enhanced authentication policies for a [`Session`](crate::session::Session).
 
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
@@ -47,7 +47,8 @@ pub enum K8sSatConfigError {
     WatcherError(#[from] notify::Error),
 }
 
-/// An authentication policy that reads SAT tokens from a file and monitors for changes.
+/// An authentication policy that reads SAT tokens from a file in a Kubernetes pod and monitors for
+/// changes.
 pub struct K8sSatFileMonitor {
     /// The latest SAT file auth data
     latest_data: Arc<Mutex<Bytes>>,
@@ -59,7 +60,7 @@ pub struct K8sSatFileMonitor {
 }
 
 impl K8sSatFileMonitor {
-    /// Create a new [`K8sSatFileMonitor`] that monitors the specified SAT file path.
+    /// Create a new [`K8sSatFileMonitor`] that monitors the specified SAT `file_path`.
     /// `aggregation_window` specifies the aggregation window for file change events.
     ///
     /// # Errors
@@ -162,7 +163,7 @@ impl EnhancedAuthPolicy for K8sSatFileMonitor {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::control_packet::{AuthProperties, AuthReasonCode};
+    use crate::control_packet::{AuthProperties, AuthReason};
     use crate::test_utils::MockSatFile;
     use std::fs;
     use tokio_test::{assert_pending, assert_ready};
@@ -266,7 +267,7 @@ mod tests {
         let contents_t1 = fs::read(mock_sat_file.path()).unwrap();
         let expected_data = Some(contents_t1.clone().into());
         let auth = Auth {
-            reason: AuthReasonCode::ContinueAuthentication,
+            reason: AuthReason::ContinueAuthentication,
             authentication_info: None,
             properties: AuthProperties::default(),
         };
@@ -318,7 +319,7 @@ mod tests {
             data: Some(contents_t1.clone().into()),
         };
         let auth = Auth {
-            reason: AuthReasonCode::ContinueAuthentication,
+            reason: AuthReason::ContinueAuthentication,
             authentication_info: None,
             properties: AuthProperties::default(),
         };

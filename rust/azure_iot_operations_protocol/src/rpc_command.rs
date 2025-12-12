@@ -87,10 +87,13 @@ impl FromStr for StatusCode {
     }
 }
 
+/// Represents errors that can occur when parsing a `StatusCode` from a string.
 #[derive(thiserror::Error, Debug)]
 pub(crate) enum StatusCodeParseError {
+    /// Unparsable status code
     #[error("Unparsable status code: {0}")]
     UnparsableStatusCode(String),
+    /// Unknown status code
     #[error("Unknown status code: {0}")]
     UnknownStatusCode(u16),
 }

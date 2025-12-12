@@ -43,6 +43,9 @@ use crate::{
 /// Default message expiry interval only for when the message expiry interval is not present
 const DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS: u32 = 10;
 
+/// Additional time in seconds to extend cache entry expiration beyond the command expiration time
+const CACHE_EXPIRY_BUFFER_SECONDS: u64 = 60;
+
 /// Message for when expiration time is unable to be calculated, internal logic error
 const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
     "Internal logic error, unable to calculate command expiration time";
@@ -164,8 +167,8 @@ pub type RequestCloudEventParseError = aio_cloud_event::CloudEventParseError;
 ///
 /// # Errors
 /// [`RequestCloudEventParseError`] if
-///     - the [`Request`] does not contain the required fields for a [`RequestCloudEvent`].
-///     - any of the field values are not valid for a [`RequestCloudEvent`].
+/// - the [`Request`] does not contain the required fields for a [`RequestCloudEvent`].
+/// - any of the field values are not valid for a [`RequestCloudEvent`].
 pub fn cloud_event_from_request<TReq: PayloadSerialize, TResp: PayloadSerialize>(
     request: &Request<TReq, TResp>,
 ) -> Result<RequestCloudEvent, RequestCloudEventParseError> {
@@ -207,7 +210,7 @@ pub struct ResponseCloudEvent(protocol_cloud_event::CloudEvent);
 #[derive(Clone)]
 pub struct ResponseCloudEventBuilder(protocol_cloud_event::CloudEventBuilder);
 
-/// Error type for [`ResponseCloudEventBuilderError`]
+/// Error type for [`ResponseCloudEventBuilder`]
 #[derive(Debug)]
 #[non_exhaustive]
 pub enum ResponseCloudEventBuilderError {
@@ -552,7 +555,7 @@ pub struct Options {
     /// Topic pattern for the command request.
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     request_topic_pattern: String,
-    /// Command name if required by the topic pattern
+    /// Command name
     command_name: String,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
@@ -1589,7 +1592,8 @@ where
                     let cache_entry = CacheEntry::Cached {
                         serialized_payload: serialized_payload.clone(),
                         properties: publish_properties.clone(),
-                        expiration_time: command_expiration_time,
+                        expiration_time: command_expiration_time
+                            + Duration::from_secs(CACHE_EXPIRY_BUFFER_SECONDS),
                     };
                     log::debug!(
                         "[{}][pkid: {}] Caching response",

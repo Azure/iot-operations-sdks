@@ -595,7 +595,7 @@ async fn force_exit_during_reauth() {
 
 /// This test exists to verify that the reauthentication task is properly cancelled on disconnect,
 /// and does not persist across connections.
-#[tokio::test] // NOTE: This test WILL take > 30 seconds.
+#[tokio::test]
 async fn reauth_on_successive_connections() {
     let (connection_settings, session, mock_server, _, mock_eap_controller) =
         quick_setup_enhanced_auth("test-reauth-on-successive-connections-client");
