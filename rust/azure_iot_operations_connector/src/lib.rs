@@ -35,7 +35,6 @@ pub type MessageSchemaBuilderError = PutSchemaRequestBuilderError;
 
 /// Struct format for data sent to the destination
 #[derive(Debug, Clone, PartialEq)]
-/// Struct format for data sent to the [`DataTransformer`] and the destination
 pub struct Data {
     /// The payload in raw bytes
     pub payload: Vec<u8>,

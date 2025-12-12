@@ -201,7 +201,7 @@ impl ConnectorArtifacts {
         })
     }
 
-    /// Creates an [`azure_iot_operations_mqtt::MqttConnectionSettings`] struct given a suffix for
+    /// Creates an [`azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettings`] struct given a suffix for
     /// the client ID.
     ///
     /// # Errors
@@ -429,7 +429,7 @@ impl ConnectorConfiguration {
 #[derive(Debug, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct MqttConnectionConfiguration {
-    /// Broker host in the format <hostname>:<port>
+    /// Broker host in the format `<hostname>:<port>`
     pub host: String,
     /// Number of seconds to keep a connection to the broker alive for
     pub keep_alive_seconds: u16,
