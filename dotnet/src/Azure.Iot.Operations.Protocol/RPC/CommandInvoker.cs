@@ -351,7 +351,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         response = _serializer.FromBytes<TResp>(args.ApplicationMessage.Payload, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
                         responseMetadata = new CommandResponseMetadata(args.ApplicationMessage)
                         {
-                            ExtCloudEvent = args.ApplicationMessage.GetCloudEvent()
+                            ExtendedCloudEvent = args.ApplicationMessage.GetCloudEvent()
                         };
                     }
                     catch (Exception ex)

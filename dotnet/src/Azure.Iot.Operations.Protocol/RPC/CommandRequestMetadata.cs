@@ -71,7 +71,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         // Cannot be set on the sending side
         // Can be read on the receiving side
-        public ExtendedCloudEvent? ExtCloudEvent { get; internal set; }
+        public ExtendedCloudEvent? ExtendedCloudEvent { get; internal set; }
 
         /// <summary>
         /// Construct CommandRequestMetadata in user code, for passing to a command invocation.
