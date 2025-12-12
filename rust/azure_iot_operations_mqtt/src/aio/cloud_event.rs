@@ -631,4 +631,539 @@ mod tests {
     fn test_cloud_event_validate_invalid_spec_version() {
         CloudEventFields::Id.validate("id", "0.0").unwrap_err();
     }
+
+    #[test]
+    fn test_try_from_publish_properties_success() {
+        let user_properties = vec![
+            ("id".to_string(), "test-event-123".to_string()),
+            ("source".to_string(), "aio://sensor/temperature".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+            ("subject".to_string(), "sensor-01".to_string()),
+            ("time".to_string(), "2025-12-11T00:00:00Z".to_string()),
+            (
+                "dataschema".to_string(),
+                "https://example.com/schema".to_string(),
+            ),
+        ];
+
+        let publish_properties = PublishProperties {
+            user_properties,
+            content_type: Some("application/json".to_string()),
+            ..Default::default()
+        };
+
+        let cloud_event = CloudEvent::try_from(&publish_properties).unwrap();
+
+        assert_eq!(cloud_event.id, "test-event-123");
+        assert_eq!(cloud_event.source, "aio://sensor/temperature");
+        assert_eq!(cloud_event.spec_version, "1.0");
+        assert_eq!(cloud_event.event_type, "ms.aio.rpc.request");
+        assert_eq!(cloud_event.subject, Some("sensor-01".to_string()));
+        assert_eq!(
+            cloud_event.data_schema,
+            Some("https://example.com/schema".to_string())
+        );
+        assert_eq!(
+            cloud_event.data_content_type,
+            Some("application/json".to_string())
+        );
+        assert!(cloud_event.time.is_some());
+    }
+
+    #[test]
+    fn test_try_from_publish_properties_minimal_required_fields() {
+        let user_properties = vec![
+            ("id".to_string(), "minimal-event".to_string()),
+            ("source".to_string(), "aio://device/001".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+        ];
+
+        let publish_properties = PublishProperties {
+            user_properties,
+            ..Default::default()
+        };
+
+        let cloud_event = CloudEvent::try_from(&publish_properties).unwrap();
+
+        assert_eq!(cloud_event.id, "minimal-event");
+        assert_eq!(cloud_event.source, "aio://device/001");
+        assert_eq!(cloud_event.spec_version, "1.0");
+        assert_eq!(cloud_event.event_type, "ms.aio.rpc.request");
+        assert_eq!(cloud_event.subject, None);
+        assert_eq!(cloud_event.data_schema, None);
+        assert_eq!(cloud_event.data_content_type, None);
+        assert_eq!(cloud_event.time, None);
+    }
+
+    #[test]
+    fn test_try_from_publish_properties_missing_source() {
+        // Missing 'source' field
+        let user_properties = vec![
+            ("id".to_string(), "test-event".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+        ];
+
+        let publish_properties = PublishProperties {
+            user_properties,
+            ..Default::default()
+        };
+
+        let result = CloudEvent::try_from(&publish_properties);
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("source"));
+    }
+
+    #[test]
+    fn test_try_from_publish_properties_missing_id() {
+        let user_properties = vec![
+            ("source".to_string(), "aio://device/001".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+        ];
+
+        let publish_properties = PublishProperties {
+            user_properties,
+            ..Default::default()
+        };
+
+        let result = CloudEvent::try_from(&publish_properties);
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("id"));
+    }
+
+    #[test]
+    fn test_try_from_publish_properties_missing_type() {
+        let user_properties = vec![
+            ("id".to_string(), "test-event".to_string()),
+            ("source".to_string(), "aio://device/001".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+        ];
+
+        let publish_properties = PublishProperties {
+            user_properties,
+            ..Default::default()
+        };
+
+        let result = CloudEvent::try_from(&publish_properties);
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("event_type"));
+    }
+
+    #[test]
+    fn test_try_from_user_properties_with_content_type() {
+        let user_properties = vec![
+            ("id".to_string(), "content-test".to_string()),
+            ("source".to_string(), "aio://sensor".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+        ];
+
+        let content_type = Some("text/plain");
+
+        let cloud_event = CloudEvent::try_from((&user_properties, content_type)).unwrap();
+
+        assert_eq!(
+            cloud_event.data_content_type,
+            Some("text/plain".to_string())
+        );
+    }
+
+    #[test]
+    fn test_try_from_user_properties_without_content_type() {
+        let user_properties = vec![
+            ("id".to_string(), "no-content-type".to_string()),
+            ("source".to_string(), "aio://sensor".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+        ];
+
+        let content_type = None;
+
+        let cloud_event = CloudEvent::try_from((&user_properties, content_type)).unwrap();
+
+        assert_eq!(cloud_event.data_content_type, None);
+    }
+
+    #[test]
+    fn test_try_from_datacontenttype_header_no_mqtt_content_type() {
+        let user_properties = vec![
+            ("id".to_string(), "header-content-type-test".to_string()),
+            ("source".to_string(), "aio://sensor".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+            ("datacontenttype".to_string(), "application/xml".to_string()),
+        ];
+
+        let content_type = None;
+
+        let cloud_event = CloudEvent::try_from((&user_properties, content_type)).unwrap();
+
+        // datacontenttype header is ignored when no MQTT content type is present
+        assert_eq!(cloud_event.data_content_type, None);
+    }
+
+    #[test]
+    fn test_try_from_invalid_source() {
+        // Invalid source URI
+        let user_properties = vec![
+            ("id".to_string(), "invalid-source".to_string()),
+            ("source".to_string(), "::::invalid-uri".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+        ];
+
+        let result = CloudEvent::try_from((&user_properties, None));
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("source"));
+    }
+
+    #[test]
+    fn test_try_from_invalid_time_format() {
+        let user_properties = vec![
+            ("id".to_string(), "invalid-time".to_string()),
+            ("source".to_string(), "aio://device".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+            ("time".to_string(), "not-a-valid-time".to_string()),
+        ];
+
+        let result = CloudEvent::try_from((&user_properties, None));
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("time") || error_msg.contains("RFC 3339"));
+    }
+
+    #[test]
+    fn test_try_from_invalid_data_schema() {
+        let user_properties = vec![
+            ("id".to_string(), "invalid-schema".to_string()),
+            ("source".to_string(), "aio://device".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+            (
+                "dataschema".to_string(),
+                "./relative-not-allowed".to_string(),
+            ),
+        ];
+
+        let result = CloudEvent::try_from((&user_properties, None));
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("dataschema"));
+    }
+
+    #[test]
+    fn test_try_from_invalid_spec_version() {
+        let user_properties = vec![
+            ("id".to_string(), "invalid-version".to_string()),
+            ("source".to_string(), "aio://device".to_string()),
+            ("specversion".to_string(), "0.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+        ];
+
+        let result = CloudEvent::try_from((&user_properties, None));
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("spec version"));
+    }
+
+    #[test]
+    fn test_try_from_empty_required_fields() {
+        let user_properties = vec![
+            ("id".to_string(), String::new()),
+            ("source".to_string(), "aio://device".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+        ];
+
+        let result = CloudEvent::try_from((&user_properties, None));
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("id") && error_msg.contains("empty"));
+    }
+
+    #[test]
+    fn test_try_from_unknown_properties_ignored() {
+        let user_properties = vec![
+            ("id".to_string(), "ignore-unknown".to_string()),
+            ("source".to_string(), "aio://device".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+            ("unknown_field".to_string(), "should-be-ignored".to_string()),
+            ("another_unknown".to_string(), "also-ignored".to_string()),
+        ];
+
+        let cloud_event = CloudEvent::try_from((&user_properties, None)).unwrap();
+
+        // Should successfully parse, ignoring unknown fields
+        assert_eq!(cloud_event.id, "ignore-unknown");
+        assert_eq!(cloud_event.source, "aio://device");
+    }
+
+    #[test]
+    fn test_cloud_event_to_user_properties() {
+        let cloud_event = CloudEventBuilder::default()
+            .id("test-conversion-123")
+            .source("aio://factory/line1")
+            .event_type("ms.aio.rpc.request")
+            .subject(Some("machine-05".to_string()))
+            .data_schema(Some("https://schema.example.com/telemetry".to_string()))
+            .build()
+            .unwrap();
+
+        let user_properties: Vec<(String, String)> = cloud_event.into();
+
+        // Verify all fields are present in user properties
+        assert!(user_properties.contains(&("id".to_string(), "test-conversion-123".to_string())));
+        assert!(
+            user_properties.contains(&("source".to_string(), "aio://factory/line1".to_string()))
+        );
+        assert!(user_properties.contains(&("specversion".to_string(), "1.0".to_string())));
+        assert!(user_properties.contains(&("type".to_string(), "ms.aio.rpc.request".to_string())));
+        assert!(user_properties.contains(&("subject".to_string(), "machine-05".to_string())));
+        assert!(user_properties.contains(&(
+            "dataschema".to_string(),
+            "https://schema.example.com/telemetry".to_string()
+        )));
+
+        // Check that time is included and properly formatted as RFC 3339
+        let time_property = user_properties.iter().find(|(k, _)| k == "time");
+        let (_, time_value) = time_property.unwrap();
+        // Verify it's a valid RFC 3339 timestamp
+        assert!(DateTime::parse_from_rfc3339(time_value).is_ok());
+    }
+
+    #[test]
+    fn test_cloud_event_to_user_properties_minimal() {
+        let cloud_event = CloudEventBuilder::default()
+            .id("minimal-conversion")
+            .source("aio://device/sensor")
+            .event_type("ms.aio.rpc.request")
+            .time(None::<DateTime<Utc>>) // Explicitly no time
+            .subject(None::<String>) // Explicitly no subject
+            .data_schema(None::<String>) // Explicitly no data schema
+            .build()
+            .unwrap();
+
+        let user_properties: Vec<(String, String)> = cloud_event.into();
+
+        // Verify required fields are present
+        assert!(user_properties.contains(&("id".to_string(), "minimal-conversion".to_string())));
+        assert!(
+            user_properties.contains(&("source".to_string(), "aio://device/sensor".to_string()))
+        );
+        assert!(user_properties.contains(&("specversion".to_string(), "1.0".to_string())));
+        assert!(user_properties.contains(&("type".to_string(), "ms.aio.rpc.request".to_string())));
+
+        // Verify optional fields are not present
+        assert!(!user_properties.iter().any(|(k, _)| k == "subject"));
+        assert!(!user_properties.iter().any(|(k, _)| k == "time"));
+        assert!(!user_properties.iter().any(|(k, _)| k == "dataschema"));
+
+        // data_content_type should not be in user properties (handled separately)
+        assert!(!user_properties.iter().any(|(k, _)| k == "datacontenttype"));
+    }
+
+    #[test]
+    fn test_set_on_publish_properties() {
+        let cloud_event = CloudEventBuilder::default()
+            .id("publish-properties-test")
+            .source("aio://sensor/temp")
+            .event_type("ms.aio.rpc.request")
+            .subject(Some("room-101".to_string()))
+            .build()
+            .unwrap();
+
+        let mut initial_properties = PublishProperties::default();
+        initial_properties
+            .user_properties
+            .push(("existing".to_string(), "property".to_string()));
+
+        let result_properties = cloud_event.set_on_publish_properties(initial_properties);
+
+        // Verify existing properties are preserved
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("existing".to_string(), "property".to_string()))
+        );
+
+        // Verify cloud event properties are added
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("id".to_string(), "publish-properties-test".to_string()))
+        );
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("source".to_string(), "aio://sensor/temp".to_string()))
+        );
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("type".to_string(), "ms.aio.rpc.request".to_string()))
+        );
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("subject".to_string(), "room-101".to_string()))
+        );
+
+        // Verify time is included and properly formatted
+        let time_property = result_properties
+            .user_properties
+            .iter()
+            .find(|(k, _)| k == "time");
+        let (_, time_value) = time_property.unwrap();
+        // Verify it's a valid RFC 3339 timestamp
+        assert!(DateTime::parse_from_rfc3339(time_value).is_ok());
+
+        // Content type should remain None since cloud event doesn't have data_content_type
+        assert_eq!(result_properties.content_type, None);
+    }
+
+    #[test]
+    fn test_set_on_publish_properties_overwrites_content_type() {
+        let cloud_event = CloudEventBuilder::default()
+            .id("content-type-test")
+            .source("aio://api/endpoint")
+            .event_type("ms.aio.rpc.request")
+            .data_content_type(Some("application/protobuf".to_string()))
+            .build()
+            .unwrap();
+
+        let initial_properties = PublishProperties {
+            content_type: Some("text/plain".to_string()),
+            user_properties: vec![("original".to_string(), "header".to_string())],
+            ..Default::default()
+        };
+
+        let result_properties = cloud_event.set_on_publish_properties(initial_properties);
+
+        // Verify content type is overwritten
+        assert_eq!(
+            result_properties.content_type,
+            Some("application/protobuf".to_string())
+        );
+
+        // Verify original user properties are preserved
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("original".to_string(), "header".to_string()))
+        );
+
+        // Verify cloud event properties are added
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("id".to_string(), "content-type-test".to_string()))
+        );
+
+        // data_content_type should NOT appear in user properties
+        assert!(
+            !result_properties
+                .user_properties
+                .iter()
+                .any(|(k, _)| k == "datacontenttype")
+        );
+    }
+
+    #[test]
+    fn test_set_on_publish_properties_preserves_existing_content_type() {
+        let cloud_event = CloudEventBuilder::default()
+            .id("no-overwrite-test")
+            .source("aio://device")
+            .event_type("ms.aio.rpc.request")
+            .data_content_type(None::<String>) // Explicitly no data content type
+            .build()
+            .unwrap();
+
+        let initial_properties = PublishProperties {
+            content_type: Some("application/json".to_string()),
+            ..Default::default()
+        };
+
+        let result_properties = cloud_event.set_on_publish_properties(initial_properties);
+
+        // Content type should remain unchanged since cloud event has no data_content_type
+        assert_eq!(
+            result_properties.content_type,
+            Some("application/json".to_string())
+        );
+    }
+
+    #[test]
+    fn test_cloud_event_round_trip_conversion() {
+        // Create a cloud event with all fields
+        let original_cloud_event = CloudEventBuilder::default()
+            .id("round-trip-test")
+            .source("aio://test/device")
+            .event_type("test.round.trip")
+            .subject(Some("test-subject".to_string()))
+            .data_schema(Some("https://test.schema.com".to_string()))
+            .data_content_type(Some("application/json".to_string()))
+            .build()
+            .unwrap();
+
+        // Convert to PublishProperties
+        let publish_properties = original_cloud_event
+            .clone()
+            .set_on_publish_properties(PublishProperties::default());
+
+        // Convert back to CloudEvent
+        let reconstructed_cloud_event = CloudEvent::try_from(&publish_properties).unwrap();
+
+        // Verify all fields match
+        assert_eq!(reconstructed_cloud_event.id, original_cloud_event.id);
+        assert_eq!(
+            reconstructed_cloud_event.source,
+            original_cloud_event.source
+        );
+        assert_eq!(
+            reconstructed_cloud_event.spec_version,
+            original_cloud_event.spec_version
+        );
+        assert_eq!(
+            reconstructed_cloud_event.event_type,
+            original_cloud_event.event_type
+        );
+        assert_eq!(
+            reconstructed_cloud_event.subject,
+            original_cloud_event.subject
+        );
+        assert_eq!(
+            reconstructed_cloud_event.data_schema,
+            original_cloud_event.data_schema
+        );
+        assert_eq!(
+            reconstructed_cloud_event.data_content_type,
+            original_cloud_event.data_content_type
+        );
+
+        // Verify time matches with some tolerance for precision loss during string conversion
+        // RFC 3339 format uses seconds precision, so we expect some microsecond/nanosecond loss
+        // Note: CloudEventBuilder::default() always sets time to Some(now), so both should be Some
+        match (original_cloud_event.time, reconstructed_cloud_event.time) {
+            (Some(original_time), Some(reconstructed_time)) => {
+                let time_diff = (original_time.timestamp() - reconstructed_time.timestamp()).abs();
+                assert!(
+                    time_diff <= 1,
+                    "Time difference too large: original={original_time:?}, reconstructed={reconstructed_time:?}"
+                );
+            }
+            _ => panic!(
+                "Time field mismatch: original={:?}, reconstructed={:?}",
+                original_cloud_event.time, reconstructed_cloud_event.time
+            ),
+        }
+    }
 }
