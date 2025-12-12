@@ -260,7 +260,7 @@ impl MqttConnectionSettings {
     ///
     /// # Errors
     /// Returns [`ConnectionSettingsAdapterError`] if any conversion fails
-    pub fn to_azure_mqtt_connect_parameters(
+    pub(crate) fn to_azure_mqtt_connect_parameters(
         self,
         user_properties: Vec<(String, String)>,
         max_packet_identifier: crate::azure_mqtt::packet::PacketIdentifier,
