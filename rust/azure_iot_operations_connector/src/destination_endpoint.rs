@@ -24,7 +24,7 @@ use crate::{
     deployment_artifacts::azure_device_registry::AssetRef,
 };
 
-/// Represents an error that occurred in the [`Forwarder`].
+/// Represents an error that occurred when forwarding data.
 #[derive(Debug, Error)]
 #[error(transparent)]
 pub struct Error(#[from] ErrorKind);
@@ -40,7 +40,7 @@ impl Error {
 // TODO: Once we have retriable/not retriable designators on underlying errors, this should
 // split into StateError (Missing Message Schema), RetriableError(Network errors), and
 // NonRetriableError (Invalid data, etc)
-/// Represents the kinds of errors that occur in the [`Forwarder`] implementation.
+/// Represents the kinds of errors that occur when forwarding data.
 #[derive(Error, Debug)]
 pub enum ErrorKind {
     /// Message Schema must be present before data can be forwarded

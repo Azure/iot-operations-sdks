@@ -162,7 +162,7 @@ impl EnhancedAuthPolicy for K8sSatFileMonitor {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::control_packet::{AuthProperties, AuthReasonCode};
+    use crate::control_packet::{AuthProperties, AuthReason};
     use crate::test_utils::MockSatFile;
     use std::fs;
     use tokio_test::{assert_pending, assert_ready};
@@ -266,7 +266,7 @@ mod tests {
         let contents_t1 = fs::read(mock_sat_file.path()).unwrap();
         let expected_data = Some(contents_t1.clone().into());
         let auth = Auth {
-            reason: AuthReasonCode::ContinueAuthentication,
+            reason: AuthReason::ContinueAuthentication,
             authentication_info: None,
             properties: AuthProperties::default(),
         };
@@ -318,7 +318,7 @@ mod tests {
             data: Some(contents_t1.clone().into()),
         };
         let auth = Auth {
-            reason: AuthReasonCode::ContinueAuthentication,
+            reason: AuthReason::ContinueAuthentication,
             authentication_info: None,
             properties: AuthProperties::default(),
         };
