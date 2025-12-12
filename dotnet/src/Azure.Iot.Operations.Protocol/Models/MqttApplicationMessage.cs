@@ -228,10 +228,9 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             ExtendedCloudEvent cloudEvent = new(source!, type!, specversion!)
             {
-                DataContentType = ContentType
+                DataContentType = ContentType,
+                Id = id
             };
-
-            cloudEvent.Id = id;
 
             if (UserProperties.TryGetProperty("time", out string? timeStr) && DateTime.TryParse(timeStr, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime time))
             {
