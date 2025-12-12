@@ -14,7 +14,7 @@ public class MemmonClient : Memmon.Client
     public TaskCompletionSource WorkingSetTelemetryReceivedTcs = new();
 
     public List<WorkingSetTelemetry> ReceivedWorkingSetTelemetry { get; set; } = new();
-    
+
     public List<IncomingTelemetryMetadata> ReceivedWorkingSetTelemetryMetadata { get; set; } = new();
 
     public TaskCompletionSource ManagedMemoryTelemetryReceivedTcs = new();
@@ -91,7 +91,7 @@ public class MemMonEnvoyTests
         Assert.Single(memmonClient.ReceivedWorkingSetTelemetry);
     }
 
-   
+
 
     [Fact]
     public async Task Send_ReceiveTelemetryWithMetadataAndCE()
@@ -165,7 +165,7 @@ public class MemMonEnvoyTests
         var memStatsMD = memmonClient.ReceivedMemoryStatsTelemetryMetadata[0];
         Assert.NotNull(memStatsMD);
         Assert.NotNull(memStatsMD.UserData);
-        Assert.Equal(8, memStatsMD.UserData.Count);
+        Assert.Equal(7, memStatsMD.UserData.Count);
         Assert.NotNull(memStatsMD.GetCloudEvent());
         Assert.Equal("1.0", memStatsMD.GetCloudEvent().SpecVersion);
         Assert.Equal("test://mq/", memStatsMD.GetCloudEvent().Source!.ToString());
@@ -180,7 +180,7 @@ public class MemMonEnvoyTests
         var ManagedMemoryMD = memmonClient.ReceivedManagedMemoryTelemetryMetadata[0];
         Assert.NotNull(ManagedMemoryMD);
         Assert.NotNull(ManagedMemoryMD.UserData);
-        Assert.Equal(8, ManagedMemoryMD.UserData.Count);
+        Assert.Equal(7, ManagedMemoryMD.UserData.Count);
         Assert.Equal("1.0", ManagedMemoryMD.GetCloudEvent()!.SpecVersion);
         Assert.Equal("test://mq/", ManagedMemoryMD.GetCloudEvent().Source!.ToString());
         Assert.Equal("ms.aio.telemetry", ManagedMemoryMD.GetCloudEvent().Type);
@@ -249,7 +249,7 @@ public class MemMonEnvoyTests
     private void AssertUserProperty(Dictionary<string, string> props, string name, string value)
     {
 
-        var prop = props.FirstOrDefault(x => x.Key == name); 
+        var prop = props.FirstOrDefault(x => x.Key == name);
 
         if (props is not null)
         {
