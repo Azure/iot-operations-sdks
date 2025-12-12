@@ -165,7 +165,7 @@ public class MemMonEnvoyTests
         var memStatsMD = memmonClient.ReceivedMemoryStatsTelemetryMetadata[0];
         Assert.NotNull(memStatsMD);
         Assert.NotNull(memStatsMD.UserData);
-        Assert.Equal(8, memStatsMD.UserData.Count);
+        Assert.Equal(7, memStatsMD.UserData.Count); // Only custom user data, CloudEvent is separate
         Assert.NotNull(memStatsMD.GetCloudEvent());
         Assert.Equal("1.0", memStatsMD.GetCloudEvent().SpecVersion);
         Assert.Equal("test://mq/", memStatsMD.GetCloudEvent().Source!.ToString());
@@ -180,7 +180,7 @@ public class MemMonEnvoyTests
         var ManagedMemoryMD = memmonClient.ReceivedManagedMemoryTelemetryMetadata[0];
         Assert.NotNull(ManagedMemoryMD);
         Assert.NotNull(ManagedMemoryMD.UserData);
-        Assert.Equal(8, ManagedMemoryMD.UserData.Count);
+        Assert.Equal(7, ManagedMemoryMD.UserData.Count); // Only custom user data, CloudEvent is separate
         Assert.Equal("1.0", ManagedMemoryMD.GetCloudEvent()!.SpecVersion);
         Assert.Equal("test://mq/", ManagedMemoryMD.GetCloudEvent().Source!.ToString());
         Assert.Equal("ms.aio.telemetry", ManagedMemoryMD.GetCloudEvent().Type);
