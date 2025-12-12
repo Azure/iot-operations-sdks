@@ -47,9 +47,9 @@ We recommend using Ubuntu or Debian for developing your applications. The instru
     ```toml
     [dependencies]
     azure_iot_operations_mqtt = { version = "<version>", registry = "aio-sdks" }
-    azure_iot_operations_protocol = { version = "<version>", registry = "aio-sdks" }
-    azure_iot_operations_services = { version = "<version>", registry = "aio-sdks" }
-    azure_iot_operations_connector = { version = "<version>", registry = "aio-sdks" }
+    azure_iot_operations_protocol = { version = "<version>" }
+    azure_iot_operations_services = { version = "<version>" }
+    azure_iot_operations_connector = { version = "<version>" }
     ```
 
 ### Unreleased builds
