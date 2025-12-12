@@ -79,6 +79,7 @@ impl CloudEventBuilder {
     fn custom_default_event_type(&self) -> String {
         self._default_event_type.clone().expect("This CloudEventBuilder must be initialized with a default event type or one must be set on the builder")
     }
+
     fn validate(&self) -> Result<(), String> {
         let mut spec_version = DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string();
 
