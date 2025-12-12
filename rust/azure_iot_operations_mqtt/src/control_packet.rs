@@ -17,10 +17,12 @@ pub use crate::azure_mqtt::packet::{
 };
 
 // Re-export reason code types
-pub use crate::azure_mqtt::packet::{ConnAckReason, PubAckReason, SubAckReason, UnsubAckReason, DisconnectReason, AuthReason};
+pub use crate::azure_mqtt::packet::{
+    AuthReason, ConnAckReason, DisconnectReason, PubAckReason, SubAckReason, UnsubAckReason,
+};
 
 // Re-export misc. packet-related types
 pub use crate::azure_mqtt::packet::{
-    AuthenticationInfo, DeliveryQoS, DeliveryInfo, PacketIdentifier, PayloadFormatIndicator, QoS, RetainHandling,
-    RetainOptions, SessionExpiryInterval,
+    AuthenticationInfo, DeliveryInfo, DeliveryQoS, PacketIdentifier, PayloadFormatIndicator, QoS,
+    RetainHandling, RetainOptions, SessionExpiryInterval,
 };
