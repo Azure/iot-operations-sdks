@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
@@ -96,10 +97,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             Timestamp = null;
             UserData = [];
-            if (message.UserProperties != null && !message.UserProperties.TryGetProperty("type", out _))
-            {
-                message.UserProperties.Add(new MqttUserProperty("type", "ms.aio.rpc.request"));
-            }
             CloudEvent = message.GetCloudEvent();
 
             if (message.UserProperties != null)
@@ -150,6 +147,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (CloudEvent != null)
             {
                 message.AddCloudEvents(CloudEvent);
+                if (CloudEvent.Type.IsNullOrEmpty())
+                {
+                    CloudEvent.Type = "ms.aio.rpc.request";
+                }
+
+                CloudEvent.Id ??= Guid.NewGuid().ToString();
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)

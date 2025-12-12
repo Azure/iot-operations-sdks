@@ -480,7 +480,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (metadata?.CloudEvent is not null)
             {
-                metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
                 metadata.CloudEvent.Time ??= DateTime.UtcNow;
                 metadata.CloudEvent.Subject = topic;
             }

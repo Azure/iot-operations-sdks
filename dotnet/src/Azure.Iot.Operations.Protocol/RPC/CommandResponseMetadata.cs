@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
@@ -111,6 +112,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (CloudEvent != null)
             {
                 message.AddCloudEvents(CloudEvent);
+                if (CloudEvent.Type.IsNullOrEmpty())
+                {
+                    CloudEvent.Type = "ms.aio.rpc.response";
+                }
+
+                CloudEvent.Id ??= Guid.NewGuid().ToString();
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)
