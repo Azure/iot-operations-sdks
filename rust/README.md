@@ -13,9 +13,9 @@ The following Azure IoT Operations crates are available:
 | Crate | API | Description |
 |-|-|-|
 | [**azure_iot_operations_mqtt**](azure_iot_operations_mqtt) | [:link:](https://docs.rs/azure_iot_operations_mqtt) | MQTTv5 client library for decoupled asynchronous applications |
-| [**azure_iot_operations_protocol**](azure_iot_operations_protocol) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_protocol/) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
-| [**azure_iot_operations_services**](azure_iot_operations_services) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_services/) | Clients for using services of Azure IoT Operations |
-| [**azure_iot_operations_connector**](azure_iot_operations_connector) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_connector/) | Library and Traits for building Azure IoT Operations Connectors |
+| [**azure_iot_operations_protocol**](azure_iot_operations_protocol) | [:link:](https://docs.rs/azure_iot_operations_protocol) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
+| [**azure_iot_operations_services**](azure_iot_operations_services) | [:link:](https://docs.rs/azure_iot_operations_services) | Clients for using services of Azure IoT Operations |
+| [**azure_iot_operations_connector**](azure_iot_operations_connector) | [:link:](https://docs.rs/azure_iot_operations_connector) | Library and Traits for building Azure IoT Operations Connectors |
 
 ## Getting started
 
@@ -40,9 +40,9 @@ We recommend using Ubuntu or Debian for developing your applications. The instru
     ```toml
     [dependencies]
     azure_iot_operations_mqtt = { version = "<version>" }
-    azure_iot_operations_protocol = { version = "<version>", registry = "aio-sdks" }
-    azure_iot_operations_services = { version = "<version>", registry = "aio-sdks" }
-    azure_iot_operations_connector = { version = "<version>", registry = "aio-sdks" }
+    azure_iot_operations_protocol = { version = "<version>" }
+    azure_iot_operations_services = { version = "<version>" }
+    azure_iot_operations_connector = { version = "<version>" }
     ```
 
 ### Unreleased builds
