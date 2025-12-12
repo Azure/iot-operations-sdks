@@ -530,12 +530,8 @@ impl Cache {
                 CacheEntry::Cached {
                     expiration_time, ..
                 } => {
-                    // Add buffer time to expiration time to mitigate any clock drift issues
-                    let expiration_time_buffered =
-                        *expiration_time + Duration::from_secs(CACHE_EXPIRY_BUFFER_SECONDS);
-
                     // Retain only non-expired entries
-                    expiration_time_buffered.elapsed().is_zero()
+                    expiration_time.elapsed().is_zero()
                 }
                 CacheEntry::InProgress {
                     processing_cancellation_token,
@@ -1596,7 +1592,8 @@ where
                     let cache_entry = CacheEntry::Cached {
                         serialized_payload: serialized_payload.clone(),
                         properties: publish_properties.clone(),
-                        expiration_time: command_expiration_time,
+                        expiration_time: command_expiration_time
+                            + Duration::from_secs(CACHE_EXPIRY_BUFFER_SECONDS),
                     };
                     log::debug!(
                         "[{}][pkid: {}] Caching response",
