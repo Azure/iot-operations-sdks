@@ -150,6 +150,23 @@ namespace Azure.Iot.Operations.Connector
                             _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
                         }
                     }
+
+                    try
+                    {
+                        // No errors were encountered while sampling or forwarding data for this device, so clear any error status
+                        // it may have had previously
+                        _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
+                        await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
+                            currentDeviceStatus.Config ??= new();
+                            currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                            currentDeviceStatus.Config.Error = null;
+                            return currentDeviceStatus;
+                        }, true, null, cancellationToken);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
+                    }
                 }, null, TimeSpan.FromSeconds(0), samplingInterval);
 
                 if (!datasetsTimers.TryAdd(dataset.Name, datasetSamplingTimer))
