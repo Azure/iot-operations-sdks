@@ -12,10 +12,10 @@ The following Azure IoT Operations crates are available:
 
 | Crate | API | Description |
 |-|-|-|
-| [**azure_iot_operations_mqtt**](azure_iot_operations_mqtt) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_mqtt/) | MQTTv5 client library for decoupled asynchronous applications |
-| [**azure_iot_operations_protocol**](azure_iot_operations_protocol) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_protocol/) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
-| [**azure_iot_operations_services**](azure_iot_operations_services) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_services/) | Clients for using services of Azure IoT Operations |
-| [**azure_iot_operations_connector**](azure_iot_operations_connector) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_connector/) | Library and Traits for building Azure IoT Operations Connectors |
+| [**azure_iot_operations_mqtt**](azure_iot_operations_mqtt) | [:link:](https://docs.rs/azure_iot_operations_mqtt) | MQTTv5 client library for decoupled asynchronous applications |
+| [**azure_iot_operations_protocol**](azure_iot_operations_protocol) | [:link:](https://docs.rs/azure_iot_operations_protocol) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
+| [**azure_iot_operations_services**](azure_iot_operations_services) | [:link:](https://docs.rs/azure_iot_operations_services) | Clients for using services of Azure IoT Operations |
+| [**azure_iot_operations_connector**](azure_iot_operations_connector) | [:link:](https://docs.rs/azure_iot_operations_connector) | Library and Traits for building Azure IoT Operations Connectors |
 
 ## Getting started
 
@@ -35,21 +35,14 @@ We recommend using Ubuntu or Debian for developing your applications. The instru
     sudo apt-get install libssl-dev pkg-config
     ```
 
-2. Add our crate feed by adding the following to `config.toml` as described [in the Cargo book](https://doc.rust-lang.org/cargo/reference/config.html):
-
-    ```toml
-    [registries]
-    aio-sdks = { index = "sparse+https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/Cargo/index/" }
-    ```
-
-3. Add the crates you wish to use to your application's `Cargo.toml`:
+2. Add the crates you wish to use to your application's `Cargo.toml`:
 
     ```toml
     [dependencies]
-    azure_iot_operations_mqtt = { version = "<version>", registry = "aio-sdks" }
-    azure_iot_operations_protocol = { version = "<version>", registry = "aio-sdks" }
-    azure_iot_operations_services = { version = "<version>", registry = "aio-sdks" }
-    azure_iot_operations_connector = { version = "<version>", registry = "aio-sdks" }
+    azure_iot_operations_mqtt = { version = "<version>" }
+    azure_iot_operations_protocol = { version = "<version>" }
+    azure_iot_operations_services = { version = "<version>" }
+    azure_iot_operations_connector = { version = "<version>" }
     ```
 
 ### Unreleased builds
@@ -68,7 +61,6 @@ Take a dependency on the crates you wish to use in your applications `Cargo.toml
    ```
 
 > [!NOTE]
-> * Due to the repository being private, using a nightly build requires a GH credential, which is difficult to work with in automated deployments.
 > * Referencing different release tags can create dependency issues, it's recommended to use a common SHA across the packages.
 
 ## Samples
