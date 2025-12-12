@@ -12,9 +12,9 @@ readme = "README.md"
 publish = true
 
 [dependencies]
-azure_iot_operations_protocol = { version = "1.0.0", path = "../azure_iot_operations_protocol" }
-azure_iot_operations_services = { version = "1.0.0", path = "../azure_iot_operations_services", features = ["state_store", "schema_registry", "azure_device_registry"]  }
-azure_iot_operations_mqtt = { version = "1.0.0", path = "../azure_iot_operations_mqtt" }
+azure_iot_operations_protocol = { version = "1.0", path = "../azure_iot_operations_protocol" }
+azure_iot_operations_services = { version = "1.0", path = "../azure_iot_operations_services", features = ["state_store", "schema_registry", "azure_device_registry"]  }
+azure_iot_operations_mqtt = { version = "1.0", path = "../azure_iot_operations_mqtt" }
 chrono.workspace = true
 derive_builder.workspace = true
 derive-getters.workspace = true
