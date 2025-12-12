@@ -58,7 +58,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <remarks>
         /// If no prefix or suffix is specified, and no value is provided in <see cref="ResponseTopicPattern"/>, then this
         /// value will default to "clients/{invokerClientId}" for security purposes.
-        /// 
+        ///
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -69,7 +69,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         /// <remarks>
         /// If no suffix is specified, then the command response topic won't include a suffix.
-        /// 
+        ///
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -578,6 +578,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (metadata?.CloudEvent is not null)
                 {
+                    // if type has default value then user did not set it, so set it to rpc.request
                     if (metadata.CloudEvent.Type == "ms.aio.telemetry")
                     {
                         var newCloudEvent = new CloudEvent(metadata.CloudEvent.Source, "ms.aio.rpc.request", metadata.CloudEvent.SpecVersion)
@@ -719,7 +720,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// Dispose this object and choose whether to dispose the underlying mqtt client as well.
         /// </summary>
         /// <param name="disposing">
-        /// If true, this call will dispose the underlying mqtt client. If false, this call will 
+        /// If true, this call will dispose the underlying mqtt client. If false, this call will
         /// not dispose the underlying mqtt client.
         /// </param>
         public async ValueTask DisposeAsync(bool disposing)

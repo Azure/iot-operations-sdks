@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Azure.Iot.Operations.Protocol.Telemetry
+namespace Azure.Iot.Operations.Protocol
 {
     /// <summary>
     /// A CloudEvent that includes the DataContentType field.
@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     public class ExtendedCloudEvent : CloudEvent
     {
         /// <summary>
-        ///  Content type of data value. This attribute enables data to carry any type of content, 
+        ///  Content type of data value. This attribute enables data to carry any type of content,
         ///  whereby format and encoding might differ from that of the chosen event format.
         /// </summary>
         public string? DataContentType { get; set; }

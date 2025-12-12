@@ -328,7 +328,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (!_hasSubscribed)
                 {
-                    
+
                     await SubscribeAsync(TopicTokenMap, cancellationToken).ConfigureAwait(false);
                 }
 
@@ -480,6 +480,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (metadata?.CloudEvent is not null)
             {
+                // if type has default value then user did not set it, so set it to rpc.response
                 if (metadata.CloudEvent.Type == "ms.aio.telemetry")
                 {
                     var newCloudEvent = new CloudEvent(metadata.CloudEvent.Source, "ms.aio.rpc.response", metadata.CloudEvent.SpecVersion)
