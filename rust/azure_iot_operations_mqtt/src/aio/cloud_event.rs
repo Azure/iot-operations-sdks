@@ -698,7 +698,7 @@ mod tests {
     }
 
     #[test]
-    fn test_try_from_publish_properties_missing_required_fields() {
+    fn test_try_from_publish_properties_missing_source() {
         // Missing 'source' field
         let user_properties = vec![
             ("id".to_string(), "test-event".to_string()),
@@ -791,7 +791,25 @@ mod tests {
     }
 
     #[test]
-    fn test_try_from_invalid_field_values() {
+    fn test_try_from_datacontenttype_header_no_mqtt_content_type() {
+        let user_properties = vec![
+            ("id".to_string(), "header-content-type-test".to_string()),
+            ("source".to_string(), "aio://sensor".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+            ("datacontenttype".to_string(), "application/xml".to_string()),
+        ];
+
+        let content_type = None;
+
+        let cloud_event = CloudEvent::try_from((&user_properties, content_type)).unwrap();
+
+        // datacontenttype header is ignored when no MQTT content type is present
+        assert_eq!(cloud_event.data_content_type, None);
+    }
+
+    #[test]
+    fn test_try_from_invalid_source() {
         // Invalid source URI
         let user_properties = vec![
             ("id".to_string(), "invalid-source".to_string()),
@@ -999,6 +1017,15 @@ mod tests {
                 .contains(&("subject".to_string(), "room-101".to_string()))
         );
 
+        // Verify time is included and properly formatted
+        let time_property = result_properties
+            .user_properties
+            .iter()
+            .find(|(k, _)| k == "time");
+        let (_, time_value) = time_property.unwrap();
+        // Verify it's a valid RFC 3339 timestamp
+        assert!(DateTime::parse_from_rfc3339(time_value).is_ok());
+
         // Content type should remain None since cloud event doesn't have data_content_type
         assert_eq!(result_properties.content_type, None);
     }
@@ -1095,7 +1122,7 @@ mod tests {
         // Convert back to CloudEvent
         let reconstructed_cloud_event = CloudEvent::try_from(&publish_properties).unwrap();
 
-        // Verify all fields match (except time which will be different due to builder defaults)
+        // Verify all fields match
         assert_eq!(reconstructed_cloud_event.id, original_cloud_event.id);
         assert_eq!(
             reconstructed_cloud_event.source,
@@ -1121,5 +1148,22 @@ mod tests {
             reconstructed_cloud_event.data_content_type,
             original_cloud_event.data_content_type
         );
+        
+        // Verify time matches with some tolerance for precision loss during string conversion
+        // RFC 3339 format uses seconds precision, so we expect some microsecond/nanosecond loss
+        // Note: CloudEventBuilder::default() always sets time to Some(now), so both should be Some
+        match (original_cloud_event.time, reconstructed_cloud_event.time) {
+            (Some(original_time), Some(reconstructed_time)) => {
+                let time_diff = (original_time.timestamp() - reconstructed_time.timestamp()).abs();
+                assert!(
+                    time_diff <= 1,
+                    "Time difference too large: original={original_time:?}, reconstructed={reconstructed_time:?}"
+                );
+            }
+            _ => panic!(
+                "Time field mismatch: original={:?}, reconstructed={:?}",
+                original_cloud_event.time, reconstructed_cloud_event.time
+            ),
+        }
     }
 }
