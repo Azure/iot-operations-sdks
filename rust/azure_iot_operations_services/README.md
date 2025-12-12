@@ -21,3 +21,4 @@ To enable a specific client, the corresponding feature must be enabled.
 - `state_store`: Enables the State Store client.
 - `schema_registry`: Enables the Schema Registry client.
 - `leased_lock`: Enables the Leased Lock client.
+- `azure_device_registry`: Enables the Azure Device Registry client.

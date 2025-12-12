@@ -17,7 +17,6 @@ pub mod base_connector;
 pub mod data_processor;
 pub mod deployment_artifacts;
 pub mod destination_endpoint;
-pub mod source_endpoint;
 
 #[macro_use]
 extern crate derive_getters;
@@ -58,7 +57,7 @@ pub enum DataOperationKind {
     Stream,
 }
 
-/// Represents the kind of a `DataOperation`
+/// Represents the name of a `DataOperation`
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum DataOperationName {
     /// Dataset
