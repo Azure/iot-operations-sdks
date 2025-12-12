@@ -151,13 +151,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (CloudEvent != null)
             {
-                message.AddCloudEvents(CloudEvent);
                 if (CloudEvent.Type.IsNullOrEmpty())
                 {
                     CloudEvent.Type = "ms.aio.rpc.request";
                 }
 
                 CloudEvent.Id ??= Guid.NewGuid().ToString();
+
+                message.AddCloudEvents(CloudEvent);
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)
