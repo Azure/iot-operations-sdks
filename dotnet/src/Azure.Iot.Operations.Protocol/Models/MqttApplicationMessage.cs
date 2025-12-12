@@ -221,15 +221,17 @@ namespace Azure.Iot.Operations.Protocol.Models
                 return null;
             }
 
+            if (!UserProperties.TryGetProperty("id", out string? id))
+            {
+                return null;
+            }
+
             ExtendedCloudEvent cloudEvent = new(source!, type!, specversion!)
             {
                 DataContentType = ContentType
             };
 
-            if (UserProperties.TryGetProperty("id", out string? id))
-            {
-                cloudEvent.Id = id;
-            }
+            cloudEvent.Id = id;
 
             if (UserProperties.TryGetProperty("time", out string? timeStr) && DateTime.TryParse(timeStr, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime time))
             {

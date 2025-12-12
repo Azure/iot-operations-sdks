@@ -154,7 +154,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
                     metadata.CloudEvent.Time ??= DateTime.UtcNow;
                     metadata.CloudEvent.Subject ??= telemTopic.ToString();
-                    metadata.CloudEvent.Type ??= "ms.aio.telemetry";
                 }
 
                 // Update HLC and use as the timestamp.
