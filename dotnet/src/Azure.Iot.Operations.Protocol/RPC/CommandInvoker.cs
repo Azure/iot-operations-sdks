@@ -585,7 +585,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 if (metadata?.CloudEvent is not null)
                 {
                     metadata.CloudEvent.Time ??= DateTime.UtcNow;
-                    metadata.CloudEvent.Subject = responseTopic;
+                    metadata.CloudEvent.Subject ??= requestTopic;
                 }
 
                 try
