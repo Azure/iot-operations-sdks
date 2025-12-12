@@ -22,7 +22,7 @@
 //!    the [`Session`] to end the MQTT session.
 //! 2. The user uses the [`SessionExitHandle`] to end the MQTT session.
 //! 3. The server discards the MQTT session (e.g. due to expiry or other server-side policy).
-//! 
+//!
 //! Additionally, the [`Session`] `run` can be ended forcefully via the
 //! [`SessionExitHandle::force_exit`] method, however this does not guarantee that the MQTT session
 //! is ended on the server side.
