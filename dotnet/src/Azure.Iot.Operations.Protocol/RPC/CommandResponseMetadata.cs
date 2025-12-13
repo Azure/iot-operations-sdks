@@ -4,7 +4,6 @@
 using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
@@ -116,7 +115,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (CloudEvent != null)
             {
-                if (CloudEvent.Type.IsNullOrEmpty())
+                if (string.IsNullOrEmpty(CloudEvent.Type))
                 {
                     CloudEvent.Type = "ms.aio.rpc.response";
                 }
