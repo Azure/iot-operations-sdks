@@ -46,11 +46,20 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         public Dictionary<string, string> UserData { get; set; } = new();
 
-        // Can be set on the sending side
+        /// <summary>
+        /// The cloud event to apply to an outgoing command response.
+        /// </summary>
+        /// <remarks>
+        /// For getting the full cloud event from a received command response on the invoker side, use <see cref="ExtendedCloudEvent"/>.
+        /// </remarks>
         public CloudEvent? CloudEvent { get; set; }
 
-        // Cannot be set on the sending side
-        // Can be read on the receiving side
+        /// <summary>
+        /// The full received cloud event as received in a command response by a command invoker.
+        /// </summary>
+        /// <remarks>
+        /// For setting cloud events on an outgoing command response, use <see cref="CloudEvent"/> instead.
+        /// </remarks>
         public ExtendedCloudEvent? ExtendedCloudEvent { get; internal set; }
 
         /// <summary>

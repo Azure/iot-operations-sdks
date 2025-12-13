@@ -65,11 +65,20 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
-        // Can be set on the sending side
+        /// <summary>
+        /// The cloud event to apply to an outgoing command invocation.
+        /// </summary>
+        /// <remarks>
+        /// For getting the full cloud event from a received command on the executor side, use <see cref="ExtendedCloudEvent"/>.
+        /// </remarks>
         public CloudEvent? CloudEvent { get; set; }
 
-        // Cannot be set on the sending side
-        // Can be read on the receiving side
+        /// <summary>
+        /// The full received cloud event as received by a command executor.
+        /// </summary>
+        /// <remarks>
+        /// For setting cloud events on an outgoing command, use <see cref="CloudEvent"/> instead.
+        /// </remarks>
         public ExtendedCloudEvent? ExtendedCloudEvent { get; internal set; }
 
         /// <summary>

@@ -147,4 +147,71 @@ public class OrderedAckMqttClientIntegrationTests
 
         await mqttClient.DisconnectAsync();
     }
+
+    [Fact]
+    public async Task TestGenericCloudEventUsage()
+    {
+        await using OrderedAckMqttClient mqttClient = await ClientFactory.CreateClientAsyncFromEnvAsync(Guid.NewGuid().ToString());
+
+        TaskCompletionSource<MqttApplicationMessage> receivedMessageTcs = new();
+        mqttClient.ApplicationMessageReceivedAsync += (args) =>
+        {
+            receivedMessageTcs.TrySetResult(args.ApplicationMessage);
+            return Task.CompletedTask;
+        };
+
+        string expectedTopic = "myTopic/" + Guid.NewGuid().ToString();
+        MqttClientSubscribeResult subscribeResult = await mqttClient.SubscribeAsync(
+            new MqttClientSubscribeOptions(expectedTopic, MqttQualityOfServiceLevel.AtLeastOnce));
+
+        Assert.Single(subscribeResult.Items);
+        Assert.Equal(MqttClientSubscribeReasonCode.GrantedQoS1, subscribeResult.Items.First().ReasonCode);
+
+        byte[] expectedPayload = Guid.NewGuid().ToByteArray();
+        MqttApplicationMessage outgoingMessage = new MqttApplicationMessage(expectedTopic, MqttQualityOfServiceLevel.AtLeastOnce)
+        {
+            PayloadSegment = expectedPayload
+        };
+
+        ExtendedCloudEvent publishedCloudEvent = new(new Uri("some/path"))
+        {
+            Id = Guid.NewGuid().ToString(),
+            Type = "some.type.telemetry",
+            DataSchema = "someDataSchema",
+            Subject = "someSubject",
+            Time = DateTime.UtcNow,
+            DataContentType = "someContentType",
+        };
+
+        outgoingMessage.SetCloudEvent(publishedCloudEvent);
+
+        MqttClientPublishResult publishResult = await mqttClient.PublishAsync(outgoingMessage);
+        Assert.True(publishResult.IsSuccess);
+
+        MqttApplicationMessage? receivedMessage = null;
+        try
+        {
+            receivedMessage = await receivedMessageTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        }
+        catch (TimeoutException)
+        {
+            Assert.Fail("Timed out waiting for the message to be received");
+        }
+
+        Assert.NotNull(receivedMessage);
+        Assert.Equal(expectedPayload, receivedMessage.Payload.ToArray());
+        Assert.Equal(expectedTopic, receivedMessage.Topic);
+
+        ExtendedCloudEvent? receivedCloudEvent = receivedMessage.GetCloudEvent();
+
+        Assert.NotNull(receivedCloudEvent);
+        Assert.Equal(publishedCloudEvent.Id, receivedCloudEvent.Id);
+        Assert.Equal(publishedCloudEvent.Subject, receivedCloudEvent.Subject);
+        Assert.Equal(publishedCloudEvent.Source, receivedCloudEvent.Source);
+        Assert.Equal(publishedCloudEvent.DataContentType, receivedCloudEvent.DataContentType);
+        Assert.Equal(publishedCloudEvent.DataSchema, receivedCloudEvent.DataSchema);
+        Assert.Equal(publishedCloudEvent.Type, receivedCloudEvent.Type);
+        Assert.Equal(publishedCloudEvent.Time, receivedCloudEvent.Time);
+        Assert.Equal(publishedCloudEvent.SpecVersion, receivedCloudEvent.SpecVersion);
+    }
 }

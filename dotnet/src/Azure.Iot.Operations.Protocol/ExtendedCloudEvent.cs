@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol
         /// <param name="source">The source of the event.</param>
         /// <param name="type">The type of the event.</param>
         /// <param name="specversion">The version of the CloudEvents specification.</param>
-        public ExtendedCloudEvent(Uri source, string type, string specversion = "1.0")
+        public ExtendedCloudEvent(Uri source, string type = "", string specversion = "1.0")
             : base(source, type, specversion)
         {
         }
