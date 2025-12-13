@@ -107,7 +107,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        public void MarshalTo(MqttApplicationMessage message)
+        internal void MarshalTo(MqttApplicationMessage message)
         {
             if (Timestamp != default)
             {
@@ -123,7 +123,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 CloudEvent.Id ??= Guid.NewGuid().ToString();
 
-                message.AddCloudEvents(CloudEvent);
+                message.SetCloudEvent(CloudEvent);
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)

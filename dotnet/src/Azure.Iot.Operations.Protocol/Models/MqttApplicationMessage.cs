@@ -183,6 +183,11 @@ namespace Azure.Iot.Operations.Protocol.Models
                 : Encoding.UTF8.GetString(Payload.ToArray());
         }
 
+        /// <summary>
+        /// Apply the provided cloud event to this MQTT message.
+        /// </summary>
+        /// <param name="cloudEvent">The cloud event to apply.</param>
+        /// <remarks>This method will overwrite the content type of the MQTT message if one was set already.</remarks>
         public void SetCloudEvent(ExtendedCloudEvent cloudEvent)
         {
             if (cloudEvent == null)
@@ -196,9 +201,45 @@ namespace Azure.Iot.Operations.Protocol.Models
             cloudEvent.Id ??= Guid.NewGuid().ToString();
             cloudEvent.Time ??= DateTime.UtcNow;
 
-            AddCloudEvents(cloudEvent);
+            SetCloudEvent((CloudEvent)cloudEvent);
         }
 
+        /// <summary>
+        /// Apply the provided cloud event to this MQTT message.
+        /// </summary>
+        /// <param name="cloudEvent">The cloud event to apply.</param>
+        /// <remarks>This method will overwrite the content type of the MQTT message if one was set already.</remarks>
+        public void SetCloudEvent(CloudEvent cloudEvent)
+        {
+            AddUserProperty(nameof(cloudEvent.SpecVersion).ToLowerInvariant(), cloudEvent.SpecVersion);
+            if (cloudEvent.Id != null)
+            {
+                AddUserProperty(nameof(cloudEvent.Id).ToLowerInvariant(), cloudEvent.Id.ToString());
+            }
+
+            AddUserProperty(nameof(cloudEvent.Type).ToLowerInvariant(), cloudEvent.Type);
+            AddUserProperty(nameof(cloudEvent.Source).ToLowerInvariant(), cloudEvent.Source.ToString());
+
+            if (cloudEvent.Time is not null)
+            {
+                AddUserProperty(nameof(cloudEvent.Time).ToLowerInvariant(), cloudEvent.Time!.Value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture));
+            }
+
+            if (cloudEvent.Subject is not null)
+            {
+                AddUserProperty(nameof(cloudEvent.Subject).ToLowerInvariant(), cloudEvent.Subject);
+            }
+
+            if (cloudEvent.DataSchema is not null)
+            {
+                AddUserProperty(nameof(cloudEvent.DataSchema).ToLowerInvariant(), cloudEvent.DataSchema);
+            }
+        }
+
+        /// <summary>
+        /// Read the cloud event fields out of this MQTT message if it contains all the required cloud event fields.
+        /// </summary>
+        /// <returns>The parsed cloud event field if all required cloud event fields were present. This method returns null otherwise.</returns>
         public ExtendedCloudEvent? GetCloudEvent()
         {
             if (UserProperties == null)
@@ -252,7 +293,7 @@ namespace Azure.Iot.Operations.Protocol.Models
             return cloudEvent;
         }
 
-        public void AddMetadata(OutgoingTelemetryMetadata md)
+        internal void AddMetadata(OutgoingTelemetryMetadata md)
         {
             if (md == null)
             {
@@ -265,39 +306,12 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             if (md.CloudEvent is not null)
             {
-                AddCloudEvents(md.CloudEvent);
+                SetCloudEvent(md.CloudEvent);
             }
 
             foreach (KeyValuePair<string, string> kvp in md.UserData)
             {
                 AddUserProperty(kvp.Key, kvp.Value);
-            }
-        }
-
-        public void AddCloudEvents(CloudEvent md)
-        {
-            AddUserProperty(nameof(md.SpecVersion).ToLowerInvariant(), md.SpecVersion);
-            if (md.Id != null)
-            {
-                AddUserProperty(nameof(md.Id).ToLowerInvariant(), md.Id.ToString());
-            }
-
-            AddUserProperty(nameof(md.Type).ToLowerInvariant(), md.Type);
-            AddUserProperty(nameof(md.Source).ToLowerInvariant(), md.Source.ToString());
-
-            if (md.Time is not null)
-            {
-                AddUserProperty(nameof(md.Time).ToLowerInvariant(), md.Time!.Value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture));
-            }
-
-            if (md.Subject is not null)
-            {
-                AddUserProperty(nameof(md.Subject).ToLowerInvariant(), md.Subject);
-            }
-
-            if (md.DataSchema is not null)
-            {
-                AddUserProperty(nameof(md.DataSchema).ToLowerInvariant(), md.DataSchema);
             }
         }
     }
