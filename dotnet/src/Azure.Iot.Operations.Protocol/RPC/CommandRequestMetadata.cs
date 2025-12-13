@@ -66,6 +66,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
         /// <summary>
+        /// The cloud event to apply to an outgoing command invocation.
+        /// </summary>
+        /// <remarks>
+        /// For getting the full cloud event from a received command on the executor side, use <see cref="ExtendedCloudEvent"/>.
+        /// </remarks>
+        public CloudEvent? CloudEvent { get; set; }
+
+        /// <summary>
+        /// The full received cloud event as received by a command executor.
+        /// </summary>
+        /// <remarks>
+        /// For setting cloud events on an outgoing command, use <see cref="CloudEvent"/> instead.
+        /// </remarks>
+        public ExtendedCloudEvent? ExtendedCloudEvent { get; internal set; }
+
+        /// <summary>
         /// Construct CommandRequestMetadata in user code, for passing to a command invocation.
         /// </summary>
         /// <remarks>
@@ -94,6 +110,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             Timestamp = null;
             UserData = [];
+            CloudEvent = message.GetCloudEvent();
 
             if (message.UserProperties != null)
             {
@@ -138,6 +155,18 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (Partition != null)
             {
                 message.AddUserProperty("$partition", Partition);
+            }
+
+            if (CloudEvent != null)
+            {
+                if (string.IsNullOrEmpty(CloudEvent.Type))
+                {
+                    CloudEvent.Type = "ms.aio.rpc.request";
+                }
+
+                CloudEvent.Id ??= Guid.NewGuid().ToString();
+
+                message.SetCloudEvent(CloudEvent);
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)
