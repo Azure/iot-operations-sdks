@@ -216,12 +216,12 @@ namespace Azure.Iot.Operations.Protocol.Models
                 return null;
             }
 
-            if (!UserProperties.TryGetProperty("type", out string? type))
+            if (!UserProperties.TryGetProperty("type", out string? type) || string.IsNullOrWhiteSpace(type))
             {
                 return null;
             }
 
-            if (!UserProperties.TryGetProperty("id", out string? id))
+            if (!UserProperties.TryGetProperty("id", out string? id) || string.IsNullOrWhiteSpace(id))
             {
                 return null;
             }
