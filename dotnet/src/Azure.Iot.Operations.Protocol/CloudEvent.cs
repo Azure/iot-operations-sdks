@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Protocol
     /// <param name="source"><see cref="Source"/></param>
     /// <param name="type"><see cref="Type"/></param>
     /// <param name="specversion"><see cref="SpecVersion"/></param>
-    public class CloudEvent(Uri source, string type = "ms.aio.telemetry", string specversion = "1.0")
+    public class CloudEvent(Uri source, string type = "", string specversion = "1.0")
     {
         /// <summary>
         /// Identifies the context in which an event happened.
