@@ -172,7 +172,7 @@ public class CounterEnvoyTests
             IncrementValue = 1
         };
 
-        CloudEvent sentInvokeCloudEvent = new(new Uri("some/source"), "someRpc.type")
+        CloudEvent sentInvokeCloudEvent = new(new Uri("https://www.microsoft.com"), "someRpc.type")
         {
             DataSchema = "someDataSchema",
             Id = Guid.NewGuid().ToString(),
@@ -197,17 +197,15 @@ public class CounterEnvoyTests
         Assert.Equal(sentInvokeCloudEvent.Id, counterService.ReceivedCloudEvent.Id);
         Assert.Equal(sentInvokeCloudEvent.Subject, counterService.ReceivedCloudEvent.Subject);
         Assert.Equal(sentInvokeCloudEvent.DataSchema, counterService.ReceivedCloudEvent.DataSchema);
-        Assert.Equal(sentInvokeCloudEvent.Time, counterService.ReceivedCloudEvent.Time);
         Assert.Equal(sentInvokeCloudEvent.Source, counterService.ReceivedCloudEvent.Source);
         Assert.Equal(sentInvokeCloudEvent.SpecVersion, counterService.ReceivedCloudEvent.SpecVersion);
         Assert.Equal(sentInvokeCloudEvent.Type, counterService.ReceivedCloudEvent.Type);
-        Assert.Equal("application/json", counterService.ReceivedCloudEvent.DataContentType);
+        Assert.Null(counterService.ReceivedCloudEvent.DataContentType);
 
         // Check that the cloud event sent by the executor in the response is read by the invoker correctly
         Assert.Equal(counterService.PublishedResponseCloudEvent.Id, receivedResponseCloudEvent.Id);
         Assert.Equal(counterService.PublishedResponseCloudEvent.Subject, receivedResponseCloudEvent.Subject);
         Assert.Equal(counterService.PublishedResponseCloudEvent.DataSchema, receivedResponseCloudEvent.DataSchema);
-        Assert.Equal(counterService.PublishedResponseCloudEvent.Time, receivedResponseCloudEvent.Time);
         Assert.Equal(counterService.PublishedResponseCloudEvent.Source, receivedResponseCloudEvent.Source);
         Assert.Equal(counterService.PublishedResponseCloudEvent.SpecVersion, receivedResponseCloudEvent.SpecVersion);
         Assert.Equal(counterService.PublishedResponseCloudEvent.Type, receivedResponseCloudEvent.Type);

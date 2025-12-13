@@ -55,7 +55,7 @@ public class CounterService : Counter.Service
         {
             ReceivedCloudEvent = requestMetadata.ExtendedCloudEvent;
 
-            PublishedResponseCloudEvent = new(new Uri("some/other/source"), "someRpcResponse.type")
+            PublishedResponseCloudEvent = new(new Uri("https://www.contoso.com"), "someRpcResponse.type")
             {
                 DataSchema = "someResponseDataSchema",
                 Id = Guid.NewGuid().ToString(),

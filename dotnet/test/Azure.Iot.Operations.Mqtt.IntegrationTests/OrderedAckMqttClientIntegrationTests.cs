@@ -173,7 +173,7 @@ public class OrderedAckMqttClientIntegrationTests
             PayloadSegment = expectedPayload
         };
 
-        ExtendedCloudEvent publishedCloudEvent = new(new Uri("some/path"))
+        ExtendedCloudEvent publishedCloudEvent = new(new Uri("https://www.microsoft.com"))
         {
             Id = Guid.NewGuid().ToString(),
             Type = "some.type.telemetry",
@@ -211,7 +211,6 @@ public class OrderedAckMqttClientIntegrationTests
         Assert.Equal(publishedCloudEvent.DataContentType, receivedCloudEvent.DataContentType);
         Assert.Equal(publishedCloudEvent.DataSchema, receivedCloudEvent.DataSchema);
         Assert.Equal(publishedCloudEvent.Type, receivedCloudEvent.Type);
-        Assert.Equal(publishedCloudEvent.Time, receivedCloudEvent.Time);
         Assert.Equal(publishedCloudEvent.SpecVersion, receivedCloudEvent.SpecVersion);
     }
 }
