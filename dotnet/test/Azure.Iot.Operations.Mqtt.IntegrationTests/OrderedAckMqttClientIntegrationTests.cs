@@ -148,6 +148,8 @@ public class OrderedAckMqttClientIntegrationTests
         await mqttClient.DisconnectAsync();
     }
 
+    // Test sending an MQTT message using our Cloud Event get/set methods. Validate that
+    // the sent cloud event looks identical to the received cloud event.
     [Fact]
     public async Task TestGenericCloudEventUsage()
     {
