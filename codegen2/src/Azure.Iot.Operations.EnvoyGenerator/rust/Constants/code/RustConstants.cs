@@ -9,14 +9,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     {
         private readonly CodeName schemaName;
         private readonly CodeName genNamespace;
-        private readonly List<TypedConstant> constants;
+        private readonly ConstantsSpec constantSpec;
         private readonly string srcSubdir;
 
-        public RustConstants(CodeName schemaName, CodeName genNamespace, List<TypedConstant> constants, string srcSubdir)
+        public RustConstants(CodeName schemaName, CodeName genNamespace, ConstantsSpec constantSpec, string srcSubdir)
         {
             this.schemaName = schemaName;
             this.genNamespace = genNamespace;
-            this.constants = constants;
+            this.constantSpec = constantSpec;
             this.srcSubdir = srcSubdir;
         }
 

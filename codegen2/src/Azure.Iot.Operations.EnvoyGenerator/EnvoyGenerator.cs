@@ -28,7 +28,7 @@
             Dictionary<string, ErrorSpec> errorSpecs = new();
             Dictionary<string, AggregateErrorSpec> aggErrorSpecs = new();
             HashSet<string> typesToSerialize = new();
-            Dictionary<string, Dictionary<string, TypedConstant>> schemaConstants = new();
+            Dictionary<string, ConstantsSpec> schemaConstants = new();
 
             foreach (ParsedThing parsedThing in parsedThings)
             {
@@ -71,16 +71,29 @@
             return generatedEnvoys;
         }
 
-        private static void CollectNamedConstants(TDThing tdThing, SchemaNamer schemaNamer, Dictionary<string, Dictionary<string, TypedConstant>> schemaConstants)
+        private static void CollectNamedConstants(TDThing tdThing, SchemaNamer schemaNamer, Dictionary<string, ConstantsSpec> schemaConstants)
         {
-            IEnumerable<KeyValuePair<string, ValueTracker<TDDataSchema>>>? constDefs = tdThing.SchemaDefinitions?.Entries?.Where(d => d.Value.Value.Const?.Value != null);
+            IEnumerable<KeyValuePair<string, ValueTracker<TDDataSchema>>>? constDefs = tdThing.SchemaDefinitions?.Entries?.Where(d => d.Value.Value.Const?.Value != null && d.Value.Value.Type?.Value.Value != TDValues.TypeObject);
+            AddNamedConstants(schemaNamer.ConstantsSchema, "Global constants.", constDefs, schemaNamer, schemaConstants);
 
+            foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> topLevelDef in tdThing.SchemaDefinitions?.Entries ?? new())
+            {
+                if (topLevelDef.Value.Value.Type?.Value.Value == TDValues.TypeObject && (bool?)topLevelDef.Value.Value.Const?.Value.Value == true)
+                {
+                    constDefs = topLevelDef.Value.Value.Properties?.Entries?.Where(d => d.Value.Value.Const?.Value != null);
+                    string schemaName = schemaNamer.ApplyBackupSchemaName(topLevelDef.Value.Value.Title?.Value.Value, topLevelDef.Key);
+                    AddNamedConstants(schemaName, topLevelDef.Value.Value.Description?.Value.Value, constDefs!, schemaNamer, schemaConstants);
+                }
+            }
+        }
+
+        private static void AddNamedConstants(string schemaName, string? description, IEnumerable<KeyValuePair<string, ValueTracker<TDDataSchema>>>? constDefs, SchemaNamer schemaNamer, Dictionary<string, ConstantsSpec> schemaConstants)
+        {
             if (constDefs?.Any() ?? false)
             {
-                string schemaName = schemaNamer.ConstantsSchema;
-                if (!schemaConstants.TryGetValue(schemaName, out Dictionary<string, TypedConstant>? namedConstants))
+                if (!schemaConstants.TryGetValue(schemaName, out ConstantsSpec? namedConstants))
                 {
-                    namedConstants = new();
+                    namedConstants = new ConstantsSpec(description, new());
                     schemaConstants[schemaName] = namedConstants;
                 }
 
@@ -88,8 +101,8 @@
                 {
                     if (constDef.Value.Value.Type?.Value.Value == TDValues.TypeString || constDef.Value.Value.Type?.Value.Value == TDValues.TypeNumber || constDef.Value.Value.Type?.Value.Value == TDValues.TypeInteger || constDef.Value.Value.Type?.Value.Value == TDValues.TypeBoolean)
                     {
-                        string constName = schemaNamer.ChooseTitleOrName(constDef.Value.Value.Title?.Value.Value, constDef.Key);
-                        namedConstants[constName] = new TypedConstant(new CodeName(constName), constDef.Value.Value.Type.Value.Value, constDef.Value.Value.Const!.Value!.Value, constDef.Value.Value.Description?.Value.Value);
+                        CodeName constName = new CodeName(schemaNamer.ChooseTitleOrName(constDef.Value.Value.Title?.Value.Value, constDef.Key));
+                        namedConstants.Constants[constName] = new TypedConstant(constDef.Value.Value.Type.Value.Value, constDef.Value.Value.Const!.Value!.Value, constDef.Value.Value.Description?.Value.Value);
                     }
                 }
             }
@@ -103,11 +116,11 @@
             }
         }
 
-        private static void GenerateConstantEnvoys(Dictionary<string, Dictionary<string, TypedConstant>> schemaConstants, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms)
+        private static void GenerateConstantEnvoys(Dictionary<string, ConstantsSpec> schemaConstants, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms)
         {
-            foreach (KeyValuePair<string, Dictionary<string, TypedConstant>> schemaConstant in schemaConstants)
+            foreach (KeyValuePair<string, ConstantsSpec> schemaConstant in schemaConstants)
             {
-                foreach (IEnvoyTemplateTransform transform in envoyFactory.GetConstantTransforms(new CodeName(schemaConstant.Key), schemaConstant.Value.Values.ToList()))
+                foreach (IEnvoyTemplateTransform transform in envoyFactory.GetConstantTransforms(new CodeName(schemaConstant.Key), schemaConstant.Value))
                 {
                     transforms[transform.FileName] = transform;
                 }

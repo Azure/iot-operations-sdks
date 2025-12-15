@@ -21,8 +21,7 @@ namespace Dtdl2Wot
         private readonly bool usesTypes;
         private readonly string contentType;
         private readonly Dictionary<string, DTSchemaInfo> errorSchemas;
-        private readonly List<DTEnumValueInfo> intEnumValues;
-        private readonly List<DTEnumValueInfo> stringEnumValues;
+        private readonly Dictionary<string, DTEnumInfo> namespacedEnums;
         private readonly ThingDescriber thingDescriber;
 
         public InterfaceThing(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion)
@@ -67,8 +66,7 @@ namespace Dtdl2Wot
                 this.errorSchemas[new CodeName(errorField.Schema.Id).AsGiven] = errorField.Schema;
             }
 
-            this.intEnumValues = modelDict.Values.Where(e => e.EntityKind == DTEntityKind.Enum).Select(e => (DTEnumInfo)e).Where(e => ThingDescriber.GetPrimitiveType(e.ValueSchema.Id) == "integer" && !EnumThingSchema.CanExpressAsEnum(e)).SelectMany(e => e.EnumValues).ToList();
-            this.stringEnumValues = modelDict.Values.Where(e => e.EntityKind == DTEntityKind.Enum).Select(e => (DTEnumInfo)e).Where(e => ThingDescriber.GetPrimitiveType(e.ValueSchema.Id) == "string" && !EnumThingSchema.CanExpressAsEnum(e)).SelectMany(e => e.EnumValues).ToList();
+            this.namespacedEnums = modelDict.Values.Where(e => e.EntityKind == DTEntityKind.Enum).Select(e => (DTEnumInfo)e).Where(e => !EnumThingSchema.CanExpressAsEnum(e)).ToDictionary(e => new CodeName(e.Id).AsGiven, e => e);
 
             this.thingDescriber = new ThingDescriber(mqttVersion);
         }

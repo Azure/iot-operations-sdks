@@ -25,7 +25,7 @@
       "type": "application/json"
     }
   ],
-<# if (this.errorSchemas.Any() || this.intEnumValues.Any() || this.stringEnumValues.Any()) { #>
+<# if (this.errorSchemas.Any() || this.namespacedEnums.Any()) { #>
   "schemaDefinitions": {
 <# int ix1 = 1; foreach (KeyValuePair<string, DTSchemaInfo> errorSchema in this.errorSchemas) { #>
     "<#=errorSchema.Key#>": {
@@ -33,25 +33,31 @@
       "description": "<#=errorSchema.Value.Description.First().Value#>",
 <# } #>
 <#=this.thingDescriber.GetTypeAndAddenda(errorSchema.Value, 6)#>
-    }<#=ix1 < this.errorSchemas.Count + this.intEnumValues.Count + this.stringEnumValues.Count ? "," : ""#>
+    }<#=ix1 < this.errorSchemas.Count + this.namespacedEnums.Count ? "," : ""#>
 <# ix1++; } #>
-<# foreach (DTEnumValueInfo intEnumValue in this.intEnumValues) { #>
-    "<#=intEnumValue.Name#>": {
-      "type": "integer",
-<# if (intEnumValue.Description.Any()) { #>
-      "description": "<#=intEnumValue.Description.First().Value#>",
+<# foreach (KeyValuePair<string, DTEnumInfo> namespacedEnum in this.namespacedEnums) { #>
+    "<#=namespacedEnum.Key#>": {
+      "type": "object",
+      "const": true,
+<# if (namespacedEnum.Value.Description.Any()) { #>
+      "description": "<#=namespacedEnum.Value.Description.First().Value#>",
 <# } #>
-      "const": <#=intEnumValue.EnumValue#>
-    }<#=ix1 < this.errorSchemas.Count + this.intEnumValues.Count + this.stringEnumValues.Count ? "," : ""#>
-<# ix1++; } #>
-<# foreach (DTEnumValueInfo stringEnumValue in this.stringEnumValues) { #>
-    "<#=stringEnumValue.Name#>": {
-      "type": "string",
-<# if (stringEnumValue.Description.Any()) { #>
-      "description": "<#=stringEnumValue.Description.First().Value#>",
+      "properties": {
+<# int ix2 = 1; foreach (DTEnumValueInfo enumValue in namespacedEnum.Value.EnumValues) { #>
+        "<#=enumValue.Name#>": {
+          "type": "<#=ThingDescriber.GetPrimitiveType(namespacedEnum.Value.ValueSchema.Id)#>",
+<# if (enumValue.Description.Any()) { #>
+          "description": "<#=enumValue.Description.First().Value#>",
 <# } #>
-      "const": "<#=stringEnumValue.EnumValue#>"
-    }<#=ix1 < this.errorSchemas.Count + this.intEnumValues.Count + this.stringEnumValues.Count ? "," : ""#>
+<# if (ThingDescriber.GetPrimitiveType(namespacedEnum.Value.ValueSchema.Id) == "integer") { #>
+          "const": <#=enumValue.EnumValue#>
+<# } else { #>
+          "const": "<#=enumValue.EnumValue#>"
+<# } #>
+        }<#=ix2 < namespacedEnum.Value.EnumValues.Count ? "," : ""#>
+<# ix2++; } #>
+      }
+    }<#=ix1 < this.errorSchemas.Count + this.namespacedEnums.Count ? "," : ""#>
 <# ix1++; } #>
   },
 <# } #>

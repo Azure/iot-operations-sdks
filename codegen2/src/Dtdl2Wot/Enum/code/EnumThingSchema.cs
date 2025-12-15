@@ -32,7 +32,8 @@ namespace Dtdl2Wot
                     return dtEnum.EnumValues.All(ev => (int)ev.EnumValue >= 0) // all enum values are non-negative
                         && dtEnum.EnumValues.Min(ev => (int)ev.EnumValue) <= 1 // minimum enum value is 0 or 1
                         && dtEnum.EnumValues.Max(ev => (int)ev.EnumValue) <= dtEnum.EnumValues.Count // maximum enum value does not exceed number of enum values
-                        && new HashSet<int>(dtEnum.EnumValues.Select(ev => (int)ev.EnumValue)).Count == dtEnum.EnumValues.Count; // all enum values are unique
+                        && new HashSet<int>(dtEnum.EnumValues.Select(ev => (int)ev.EnumValue)).Count == dtEnum.EnumValues.Count // all enum values are unique
+                        && !dtEnum.EnumValues.Any(ev => ev.Name.Contains(ev.EnumValue.ToString()!)); // no enum value name contains its value
                 case "string":
                     return dtEnum.EnumValues.All(ev => ev.Name == (string)ev.EnumValue); // all enum values have matching names and values
                 default:

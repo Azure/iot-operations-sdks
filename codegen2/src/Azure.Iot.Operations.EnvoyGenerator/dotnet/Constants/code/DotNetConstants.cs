@@ -10,16 +10,16 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly string projectName;
         private readonly CodeName schemaName;
         private readonly CodeName genNamespace;
-        private readonly List<TypedConstant> constants;
+        private readonly ConstantsSpec constantSpec;
         private readonly bool anyDescriptions;
 
-        public DotNetConstants(string projectName, CodeName schemaName, CodeName genNamespace, List<TypedConstant> constants)
+        public DotNetConstants(string projectName, CodeName schemaName, CodeName genNamespace, ConstantsSpec constantSpec)
         {
             this.projectName = projectName;
             this.schemaName = schemaName;
             this.genNamespace = genNamespace;
-            this.constants = constants;
-            this.anyDescriptions = constants.Any(c => c.Description != null);
+            this.constantSpec = constantSpec;
+            this.anyDescriptions = constantSpec.Constants.Any(c => c.Value.Description != null);
         }
 
         public string FileName { get => $"{this.schemaName.GetFileName(TargetLanguage.CSharp)}.g.cs"; }

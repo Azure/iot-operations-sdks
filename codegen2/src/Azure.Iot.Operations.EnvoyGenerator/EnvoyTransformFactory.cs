@@ -37,15 +37,15 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.defaultImpl = defaultImpl;
         }
 
-        internal IEnumerable<IEnvoyTemplateTransform> GetConstantTransforms(CodeName schemaName, List<TypedConstant> constants)
+        internal IEnumerable<IEnvoyTemplateTransform> GetConstantTransforms(CodeName schemaName, ConstantsSpec constantSpec)
         {
             switch (targetLanguage)
             {
                 case TargetLanguage.CSharp:
-                    yield return new DotNetConstants(projectName, schemaName, genNamespace, constants);
+                    yield return new DotNetConstants(projectName, schemaName, genNamespace, constantSpec);
                     break;
                 case TargetLanguage.Rust:
-                    yield return new RustConstants(schemaName, genNamespace, constants, srcSubdir);
+                    yield return new RustConstants(schemaName, genNamespace, constantSpec, srcSubdir);
                     break;
                 default:
                     throw new NotSupportedException($"Target language {targetLanguage} is not supported.");

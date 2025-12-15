@@ -48,7 +48,7 @@ namespace Dtdl2Wot
     }
   ],
 ");
- if (this.errorSchemas.Any() || this.intEnumValues.Any() || this.stringEnumValues.Any()) { 
+ if (this.errorSchemas.Any() || this.namespacedEnums.Any()) { 
             this.Write("  \"schemaDefinitions\": {\r\n");
  int ix1 = 1; foreach (KeyValuePair<string, DTSchemaInfo> errorSchema in this.errorSchemas) { 
             this.Write("    \"");
@@ -61,37 +61,45 @@ namespace Dtdl2Wot
  } 
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingDescriber.GetTypeAndAddenda(errorSchema.Value, 6)));
             this.Write("\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.errorSchemas.Count + this.intEnumValues.Count + this.stringEnumValues.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.errorSchemas.Count + this.namespacedEnums.Count ? "," : ""));
             this.Write("\r\n");
  ix1++; } 
- foreach (DTEnumValueInfo intEnumValue in this.intEnumValues) { 
+ foreach (KeyValuePair<string, DTEnumInfo> namespacedEnum in this.namespacedEnums) { 
             this.Write("    \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(intEnumValue.Name));
-            this.Write("\": {\r\n      \"type\": \"integer\",\r\n");
- if (intEnumValue.Description.Any()) { 
+            this.Write(this.ToStringHelper.ToStringWithCulture(namespacedEnum.Key));
+            this.Write("\": {\r\n      \"type\": \"object\",\r\n      \"const\": true,\r\n");
+ if (namespacedEnum.Value.Description.Any()) { 
             this.Write("      \"description\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(intEnumValue.Description.First().Value));
+            this.Write(this.ToStringHelper.ToStringWithCulture(namespacedEnum.Value.Description.First().Value));
             this.Write("\",\r\n");
  } 
-            this.Write("      \"const\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(intEnumValue.EnumValue));
-            this.Write("\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.errorSchemas.Count + this.intEnumValues.Count + this.stringEnumValues.Count ? "," : ""));
+            this.Write("      \"properties\": {\r\n");
+ int ix2 = 1; foreach (DTEnumValueInfo enumValue in namespacedEnum.Value.EnumValues) { 
+            this.Write("        \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Name));
+            this.Write("\": {\r\n          \"type\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ThingDescriber.GetPrimitiveType(namespacedEnum.Value.ValueSchema.Id)));
+            this.Write("\",\r\n");
+ if (enumValue.Description.Any()) { 
+            this.Write("          \"description\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Description.First().Value));
+            this.Write("\",\r\n");
+ } 
+ if (ThingDescriber.GetPrimitiveType(namespacedEnum.Value.ValueSchema.Id) == "integer") { 
+            this.Write("          \"const\": ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.EnumValue));
             this.Write("\r\n");
- ix1++; } 
- foreach (DTEnumValueInfo stringEnumValue in this.stringEnumValues) { 
-            this.Write("    \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(stringEnumValue.Name));
-            this.Write("\": {\r\n      \"type\": \"string\",\r\n");
- if (stringEnumValue.Description.Any()) { 
-            this.Write("      \"description\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(stringEnumValue.Description.First().Value));
-            this.Write("\",\r\n");
+ } else { 
+            this.Write("          \"const\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.EnumValue));
+            this.Write("\"\r\n");
  } 
-            this.Write("      \"const\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(stringEnumValue.EnumValue));
-            this.Write("\"\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.errorSchemas.Count + this.intEnumValues.Count + this.stringEnumValues.Count ? "," : ""));
+            this.Write("        }");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix2 < namespacedEnum.Value.EnumValues.Count ? "," : ""));
+            this.Write("\r\n");
+ ix2++; } 
+            this.Write("      }\r\n    }");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.errorSchemas.Count + this.namespacedEnums.Count ? "," : ""));
             this.Write("\r\n");
  ix1++; } 
             this.Write("  },\r\n");
