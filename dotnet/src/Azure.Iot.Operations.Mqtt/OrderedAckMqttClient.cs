@@ -185,6 +185,37 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         }
 
         await ValidateMessageSize(applicationMessage);
+
+        try
+        {
+            var select = applicationMessage.UserProperties?.Where((a) => a.Name.Contains("timtay"));
+            if (select != null)
+            {
+                DateTime appLevelSendTime = new DateTime(long.Parse(select.First().Value));
+                DateTime currentTime = DateTime.UtcNow;
+                bool isInvoker = true;
+                foreach (MqttUserProperty userProperty in applicationMessage.UserProperties!)
+                {
+                    if (userProperty.Name.Equals("timtay_beforeinvokepublish"))
+                    {
+                        isInvoker = false;
+                        break;
+                    }
+                }
+                if (!isInvoker)
+                {
+                    applicationMessage.UserProperties!.Add(new MqttUserProperty("timtay_beforeexecutepublish", DateTime.UtcNow.Ticks + ""));
+                }
+                else
+                {
+                    applicationMessage.UserProperties!.Add(new MqttUserProperty("timtay_beforeinvokepublish", DateTime.UtcNow.Ticks + ""));
+                }
+            }
+        }
+        catch (Exception)
+        {
+            //Console.WriteLine(e.StackTrace);
+        }
         return MqttNetConverter.ToGeneric(await UnderlyingMqttClient.PublishAsync(MqttNetConverter.FromGeneric(applicationMessage), cancellationToken));
     }
 
@@ -210,6 +241,33 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     private async Task OnMessageReceived(MQTTnet.MqttApplicationMessageReceivedEventArgs mqttNetArgs)
     {
+        try
+        {
+            bool isInvoker = true;
+            foreach (MQTTnet.Packets.MqttUserProperty userProperty in mqttNetArgs.ApplicationMessage.UserProperties!)
+            {
+                if (userProperty.Name.Equals("timtay_uponinvokepublishreceived"))
+                {
+                    isInvoker = false;
+                    break;
+                }
+            }
+
+            DateTime currentTime = DateTime.UtcNow;
+            if (!isInvoker)
+            {
+                mqttNetArgs.ApplicationMessage.UserProperties!.Add(new MQTTnet.Packets.MqttUserProperty("timtay_uponexecutepublishreceived", DateTime.UtcNow.Ticks + ""));
+            }
+            else
+            {
+                mqttNetArgs.ApplicationMessage.UserProperties!.Add(new MQTTnet.Packets.MqttUserProperty("timtay_uponinvokepublishreceived", DateTime.UtcNow.Ticks + ""));
+            }
+        }
+        catch (Exception)
+        {
+            //Console.WriteLine(e.StackTrace);
+        }
+
         // Never let MQTTnet auto ack a message because it may do so out-of-order
         mqttNetArgs.AutoAcknowledge = false;
         if (mqttNetArgs.ApplicationMessage.QualityOfServiceLevel == MQTTnet.Protocol.MqttQualityOfServiceLevel.AtMostOnce)

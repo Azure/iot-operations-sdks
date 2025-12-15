@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-rpc-deployment
+  labels:
+    app: simple-rpc-deployment
+  namespace: azure-iot-operations
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-rpc-deployment
+  template:
+    metadata:
+      labels:
+        app: simple-rpc-deployment
+    spec:
+      containers:
+      - name: simple-rpc-deployment
+        image: akripreview.azurecr.io/simple-rpc-tester:latest
+        imagePullPolicy: Always
