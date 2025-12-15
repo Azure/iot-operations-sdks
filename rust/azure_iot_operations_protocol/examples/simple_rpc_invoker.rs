@@ -15,7 +15,7 @@ use azure_iot_operations_protocol::common::payload_serialize::{
 use azure_iot_operations_protocol::rpc_command;
 
 const CLIENT_ID: &str = "aio_example_invoker_client";
-const HOSTNAME: &str = "localhost";
+const HOSTNAME: &str = "localhost"; 
 const PORT: u16 = 1883;
 const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 const RESPONSE_TOPIC_PATTERN: &str = "topic/for/response";
