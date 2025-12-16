@@ -41,7 +41,7 @@ use std::time::Duration;
 use azure_iot_operations_connector::{
     AdrConfigError, Data,
     base_connector::{
-        BaseConnector,
+        self, BaseConnector,
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
             DeviceEndpointClient, DeviceEndpointClientCreationObservation, ModifyResult,
@@ -51,16 +51,12 @@ use azure_iot_operations_connector::{
     data_processor::derived_json,
     deployment_artifacts::connector::ConnectorArtifacts,
 };
-use azure_iot_operations_otel::Otel;
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder, common::hybrid_logical_clock::HybridLogicalClock,
 };
 use tokio::sync::watch;
 
 const DEFAULT_SAMPLING_INTERVAL: Duration = Duration::from_millis(10000); // Default sampling interval in milliseconds
-const OTEL_TAG: &str = "connector_scaffolding_template"; // IMPLEMENT: Change this to a unique tag for your connector
-const DEFAULT_LOG_LEVEL: &str =
-    "warn,sample_connector_scaffolding=info,azure_iot_operations_connector=info"; // IMPLEMENT: Change this to a unique log level for your connector and change the tag to match the crate name
 
 /// Macro that generates closures for reporting status with one-way transitions.
 ///
@@ -118,21 +114,30 @@ macro_rules! report_status_if_different {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    env_logger::Builder::new()
+        .filter_level(log::LevelFilter::Warn)
+        .format_timestamp(None)
+        .filter_module("azure_iot_operations_connector", log::LevelFilter::Info)
+        .filter_module("base_connector_sample", log::LevelFilter::Info)
+        .init();
+
     // Create the connector artifacts from the deployment, IMPLEMENT: Use them as needed
     let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;
-
-    // Initialize the OTEL logger / exporter
-    let otel_config = connector_artifacts.to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
-    let mut otel_exporter = Otel::new(otel_config);
-    let otel_task = otel_exporter.run();
 
     log::info!("Starting connector");
 
     // Create the appplication context used by the AIO SDK
     let application_context = ApplicationContextBuilder::default().build()?;
 
+    // Create options for the abse connector, IMPLEMENT: Customize as needed
+    let base_connector_options = base_connector::OptionsBuilder::default().build()?;
+
     // Create the Base Connector to handle device endpoints, assets, and datasets creation, update and deletion notifications plus status reporting.
-    let base_connector = BaseConnector::new(application_context, connector_artifacts)?;
+    let base_connector = BaseConnector::new(
+        application_context,
+        connector_artifacts,
+        base_connector_options,
+    )?;
 
     // Create a device endpoint client creation observation
     let device_endpoint_client_creation_observation =
@@ -152,18 +157,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 }
                 Err(e) => {
                     log::error!("Base connector run failed: {e}");
-                    Err(Box::new(e))?
-                }
-            }
-        }
-        res = otel_task => {
-            match res {
-                Ok(()) => {
-                    log::info!("OTEL run finished successfully");
-                    Ok(())
-                }
-                Err(e) => {
-                    log::error!("OTEL run failed: {e}");
                     Err(Box::new(e))?
                 }
             }
