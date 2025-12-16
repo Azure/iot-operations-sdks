@@ -3425,7 +3425,7 @@ impl From<(adr_models::EventGroup, adr_models::Event)> for EventSpecification {
             name: val.1.name,
             type_ref: val.1.type_ref,
             event_group: EventGroupSpecification {
-                default_destinations: val.0.default_events_destinations,
+                default_destinations: val.0.default_destinations,
                 event_group_configuration: val.0.event_group_configuration,
                 data_source: val.0.data_source,
                 name: val.0.name,
