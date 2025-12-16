@@ -1410,7 +1410,7 @@
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:AssetEventGroup;1",
           "name": "eventGroups",
-          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+          "description": "Array of events groups that are part of the asset. Each event group can have per-event group configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": {
@@ -1419,13 +1419,13 @@
                 {
                   "@type": "Field",
                   "name": "dataSource",
-                  "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.",
+                  "description": "The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
-                  "name": "defaultEventsDestinations",
-                  "description": "Default destinations for an event.",
+                  "name": "defaultDestinations",
+                  "description": "Default destinations for an event group.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1434,14 +1434,14 @@
                 {
                   "@type": "Field",
                   "name": "eventGroupConfiguration",
-                  "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
+                  "description": "Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "@id": "dtmi:com:microsoft:akri:AssetEvent;1",
                   "name": "events",
-                  "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+                  "description": "Array of events that are part of the event group. Each event can have per-event configuration.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": {
@@ -2011,7 +2011,7 @@
         {
           "@type": "Field",
           "name": "eventGroups",
-          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+          "description": "Array of event groups that are part of the asset. Each event group can have per-event group configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetEventGroup;1"
@@ -2238,13 +2238,13 @@
         {
           "@type": "Field",
           "name": "dataSource",
-          "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.",
+          "description": "The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset.",
           "schema": "string"
         },
         {
           "@type": "Field",
-          "name": "defaultEventsDestinations",
-          "description": "Default destinations for an event.",
+          "name": "defaultDestinations",
+          "description": "Default destinations for an event group.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -2253,13 +2253,13 @@
         {
           "@type": "Field",
           "name": "eventGroupConfiguration",
-          "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
+          "description": "Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "events",
-          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+          "description": "Array of events that are part of the event group. Each event can have per-event configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetEvent;1"
