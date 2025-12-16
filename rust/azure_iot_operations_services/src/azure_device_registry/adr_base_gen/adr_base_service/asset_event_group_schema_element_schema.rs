@@ -15,25 +15,25 @@ use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetEventGroupSchemaElementSchema {
-    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.
+    /// The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset.
     #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub data_source: Option<String>,
 
-    /// Default destinations for an event.
-    #[serde(rename = "defaultEventsDestinations")]
+    /// Default destinations for an event group.
+    #[serde(rename = "defaultDestinations")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub default_events_destinations: Option<Vec<EventStreamDestination>>,
+    pub default_destinations: Option<Vec<EventStreamDestination>>,
 
-    /// Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
+    /// Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
     #[serde(rename = "eventGroupConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub event_group_configuration: Option<String>,
 
-    /// Array of events that are part of the asset. Each event can have per-event configuration.
+    /// Array of events that are part of the event group. Each event can have per-event configuration.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub events: Option<Vec<AssetEventSchemaElementSchema>>,

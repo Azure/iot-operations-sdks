@@ -254,7 +254,7 @@ pub struct EventGroup {
     /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.
     pub data_source: Option<String>,
     /// Default destinations for an event.
-    pub default_events_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    pub default_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
     pub event_group_configuration: Option<String>,
     /// Array of events that are part of the asset. Each event can have per-event configuration.
@@ -271,7 +271,7 @@ pub struct DiscoveredEventGroup {
     /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.
     pub data_source: Option<String>,
     /// Default destinations for an event.
-    pub default_events_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    pub default_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
     pub event_group_configuration: Option<String>,
     /// Array of events that are part of the asset. Each event can have per-event configuration.
@@ -878,8 +878,8 @@ impl From<base_client_gen::AssetEventGroupSchemaElementSchema> for EventGroup {
     fn from(value: base_client_gen::AssetEventGroupSchemaElementSchema) -> Self {
         EventGroup {
             events: value.events.option_vec_into().unwrap_or_default(),
-            default_events_destinations: value
-                .default_events_destinations
+            default_destinations: value
+                .default_destinations
                 .option_vec_into()
                 .unwrap_or_default(),
             event_group_configuration: value.event_group_configuration,
@@ -894,7 +894,7 @@ impl From<DiscoveredEventGroup> for base_client_gen::DiscoveredAssetEventGroup {
     fn from(value: DiscoveredEventGroup) -> Self {
         base_client_gen::DiscoveredAssetEventGroup {
             events: value.events.option_vec_into(),
-            default_events_destinations: value.default_events_destinations.option_vec_into(),
+            default_destinations: value.default_destinations.option_vec_into(),
             event_group_configuration: value.event_group_configuration,
             data_source: value.data_source,
             name: value.name,
