@@ -37,7 +37,7 @@ namespace Azure.Iot.Operations.Protocol
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("SpecVersion must not be an empty string");
+                    throw new ArgumentException("SpecVersion must not be null or an empty string");
                 }
 
                 _specVersion = value;
