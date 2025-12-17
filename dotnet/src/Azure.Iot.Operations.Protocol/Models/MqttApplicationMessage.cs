@@ -208,7 +208,6 @@ namespace Azure.Iot.Operations.Protocol.Models
         /// Apply the provided cloud event to this MQTT message.
         /// </summary>
         /// <param name="cloudEvent">The cloud event to apply.</param>
-        /// <remarks>This method will overwrite the content type of the MQTT message if one was set already.</remarks>
         public void SetCloudEvent(CloudEvent cloudEvent)
         {
             AddUserProperty(nameof(cloudEvent.SpecVersion).ToLowerInvariant(), cloudEvent.SpecVersion);
