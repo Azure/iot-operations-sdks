@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: rest-server-deployment
-          image: akribuilds.azurecr.io/rest-test-server:0.3.1
+          image: ${SERVER_IMAGE_NAME}
           ports:
           - containerPort: 8080
             name: http-anon
