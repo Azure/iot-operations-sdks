@@ -153,7 +153,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 if (metadata != null
                     && metadata.CloudEvent is not null
                     && metadata.CloudEvent.Subject != null
-                    && metadata.CloudEvent.Equals(""))
+                    && metadata.CloudEvent.Subject.Equals("", StringComparison.OrdinalIgnoreCase))
                 {
                     metadata.CloudEvent.Subject ??= telemTopic.ToString();
                 }

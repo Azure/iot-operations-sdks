@@ -482,7 +482,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (metadata != null
                 && metadata.CloudEvent is not null
                 && metadata.CloudEvent.Subject != null
-                && metadata.CloudEvent.Equals(""))
+                && metadata.CloudEvent.Subject.Equals("", StringComparison.OrdinalIgnoreCase))
             {
                 metadata.CloudEvent.Subject ??= topic;
             }
