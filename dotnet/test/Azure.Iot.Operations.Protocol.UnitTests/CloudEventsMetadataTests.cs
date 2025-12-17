@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.Telemetry;
-
 namespace Azure.Iot.Operations.Protocol.Tests.Telemetry;
 
 public class CloudEventsMetadataTests
@@ -19,8 +17,9 @@ public class CloudEventsMetadataTests
         Assert.True(Guid.TryParse(metadata.Id, out _));
 
         Assert.Null(metadata.DataSchema);
-        Assert.Null(metadata.Subject);
-        Assert.Null(metadata.Time);
+        Assert.NotNull(metadata.Subject);
+        Assert.Equal("", metadata.Subject);
+        Assert.NotNull(metadata.Time);
     }
 
     [Fact]
