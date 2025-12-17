@@ -118,7 +118,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
         .filter_module("azure_iot_operations_connector", log::LevelFilter::Info)
-        .filter_module("base_connector_sample", log::LevelFilter::Info)
+        .filter_module("sample_connector_scaffolding", log::LevelFilter::Info)
         .init();
 
     // Create the connector artifacts from the deployment, IMPLEMENT: Use them as needed
@@ -126,10 +126,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     log::info!("Starting connector");
 
-    // Create the appplication context used by the AIO SDK
+    // Create the application context used by the AIO SDK
     let application_context = ApplicationContextBuilder::default().build()?;
 
-    // Create options for the abse connector, IMPLEMENT: Customize as needed
+    // Create options for the base connector, IMPLEMENT: Customize as needed
     let base_connector_options = base_connector::OptionsBuilder::default().build()?;
 
     // Create the Base Connector to handle device endpoints, assets, and datasets creation, update and deletion notifications plus status reporting.
