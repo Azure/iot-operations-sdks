@@ -6,6 +6,7 @@
 use core::fmt::Debug;
 
 use azure_iot_operations_mqtt::token::AckToken;
+use azure_iot_operations_protocol::telemetry;
 use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
 use chrono::{DateTime, Utc};
 use thiserror::Error;
@@ -55,6 +56,9 @@ pub enum ErrorKind {
     /// An argument provided for a request was invalid.
     #[error(transparent)]
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
+    /// An argument provided for a telemetry message was invalid.
+    #[error(transparent)]
+    InvalidTelemetryArgument(#[from] telemetry::sender::MessageBuilderError),
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
     ServiceError(base_client_gen::AkriServiceError),
@@ -166,6 +170,43 @@ pub struct Details {
     pub message: Option<String>,
 }
 
+/// Represents the runtime health of a resource.
+#[derive(Debug, Clone)]
+pub struct RuntimeHealth {
+    /// The timestamp (RFC3339) when the health status was last updated, even if the status did not change.
+    pub last_update_time: DateTime<Utc>,
+    /// A human-readable message describing the last transition.
+    pub message: Option<String>,
+    /// Unique, CamelCase reason code describing the cause of the last health state transition.
+    pub reason_code: Option<String>,
+    /// The current health status of the resource.
+    pub status: HealthStatus,
+    /// The version of the resource for which the runtime health is being reported.
+    pub version: u64,
+}
+
+// /// Represents the health state of a resource.
+// #[derive(Debug, Clone)]
+// pub struct HealthState {
+//     /// The timestamp (RFC3339) when the health status was last updated, even if the status did not change.
+//     pub last_update_time: DateTime<Utc>,
+//     /// A human-readable message describing the last transition.
+//     pub message: Option<String>,
+//     /// Unique, CamelCase reason code describing the cause of the last health state transition.
+//     pub reason_code: Option<String>,
+//     /// The current health status of the resource.
+//     pub status: HealthStatus,
+// }
+
+/// Represents the health status of a resource.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum HealthStatus {
+    /// The resource is currently available.
+    Available,
+    /// The resource is currently unavailable.
+    Unavailable,
+}
+
 // ~~ From impls ~~
 
 // NOTE: Each generated module has their own (identical) error, so unify them for error propagation.
@@ -255,6 +296,23 @@ impl From<base_client_gen::DetailsSchemaElementSchema> for Details {
             correlation_id: value.correlation_id,
             info: value.info,
             message: value.message,
+        }
+    }
+}
+
+impl From<RuntimeHealth> for base_client_gen::RuntimeHealth {
+    fn from(value: RuntimeHealth) -> Self {
+        base_client_gen::RuntimeHealth {
+            health_state: base_client_gen::HealthStateSchema {
+                last_update_time: value.last_update_time,
+                message: value.message,
+                reason_code: value.reason_code,
+                status: match value.status {
+                    HealthStatus::Available => base_client_gen::StatusSchema::Available,
+                    HealthStatus::Unavailable => base_client_gen::StatusSchema::Unavailable,
+                },
+            },
+            version: value.version,
         }
     }
 }
