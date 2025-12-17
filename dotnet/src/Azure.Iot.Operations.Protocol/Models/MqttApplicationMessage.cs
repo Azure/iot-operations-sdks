@@ -197,9 +197,6 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             ContentType = cloudEvent.DataContentType;
 
-            // Ensure defaults
-            cloudEvent.Time ??= DateTime.UtcNow;
-
             SetCloudEvent((CloudEvent)cloudEvent);
         }
 

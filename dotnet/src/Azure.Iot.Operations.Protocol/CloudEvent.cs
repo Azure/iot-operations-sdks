@@ -103,14 +103,39 @@ namespace Azure.Iot.Operations.Protocol
         /// by the CloudEvents producer,
         /// however all producers for the same source MUST be consistent in this respect.
         /// </summary>
-        public DateTime? Time { get; set; }
+        /// <remarks>
+        /// By default, this value is set to the current UTC time. This field can be set to null if you don't want the cloud event to include a time.
+        /// </remarks>
+        public DateTime? Time { get; set; } = DateTime.UtcNow;
 
         /// <summary>
         /// Identifies the subject of the event in the context of the event producer (identified by source).
         /// In publish-subscribe scenarios, a subscriber will typically subscribe to events emitted by a source,
         /// but the source identifier alone might not be sufficient as a qualifier for any specific event if the source context has internal sub-structure.
         /// </summary>
-        public string? Subject { get; set; }
+        /// <remarks>
+        /// This value can be null if no subject should be sent, but it cannot be an empty string.
+        /// </remarks>
+        public string? Subject
+        {
+            get
+            {
+                return _subject;
+            }
+            set
+            {
+                if (value != null && string.IsNullOrWhiteSpace(value)) // if value is whitespace
+                {
+                    throw new ArgumentException("Subject must either be null or a non-empty string");
+                }
+
+                _subject = value;
+            }
+        }
+
+        // Users cannot set this to an empty string, so this value signals to telemetry sender/command invoker/etc
+        // to fill in their respective default values if subject is an empty string by the time it reaches them.
+        private string? _subject = "";
 
         /// <summary>
         ///  Identifies the schema that data adheres to.

@@ -149,10 +149,17 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     applicationMessage.AioPersistence = true;
                 }
 
+                // If the cloud event subject has not been set by the user, provide the default value
+                if (metadata != null
+                    && metadata.CloudEvent is not null
+                    && metadata.CloudEvent.Subject != null
+                    && metadata.CloudEvent.Equals(""))
+                {
+                    metadata.CloudEvent.Subject ??= telemTopic.ToString();
+                }
+
                 if (metadata?.CloudEvent is not null)
                 {
-                    metadata.CloudEvent.Time ??= DateTime.UtcNow;
-                    metadata.CloudEvent.Subject ??= telemTopic.ToString();
                     if(string.IsNullOrEmpty(metadata.CloudEvent.Type))
                     {
                         metadata.CloudEvent.Type = "ms.aio.telemetry";
