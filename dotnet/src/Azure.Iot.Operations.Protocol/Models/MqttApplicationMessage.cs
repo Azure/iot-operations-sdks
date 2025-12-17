@@ -183,7 +183,115 @@ namespace Azure.Iot.Operations.Protocol.Models
                 : Encoding.UTF8.GetString(Payload.ToArray());
         }
 
-        public void AddMetadata(OutgoingTelemetryMetadata md)
+        /// <summary>
+        /// Apply the provided cloud event to this MQTT message.
+        /// </summary>
+        /// <param name="cloudEvent">The cloud event to apply.</param>
+        /// <remarks>This method will overwrite the content type of the MQTT message if one was set already.</remarks>
+        public void SetCloudEvent(ExtendedCloudEvent cloudEvent)
+        {
+            if (cloudEvent == null)
+            {
+                return;
+            }
+
+            ContentType = cloudEvent.DataContentType;
+
+            // Ensure defaults
+            cloudEvent.Time ??= DateTime.UtcNow;
+
+            SetCloudEvent((CloudEvent)cloudEvent);
+        }
+
+        /// <summary>
+        /// Apply the provided cloud event to this MQTT message.
+        /// </summary>
+        /// <param name="cloudEvent">The cloud event to apply.</param>
+        public void SetCloudEvent(CloudEvent cloudEvent)
+        {
+            AddUserProperty(nameof(cloudEvent.SpecVersion).ToLowerInvariant(), cloudEvent.SpecVersion);
+            if (cloudEvent.Id != null)
+            {
+                AddUserProperty(nameof(cloudEvent.Id).ToLowerInvariant(), cloudEvent.Id.ToString());
+            }
+
+            AddUserProperty(nameof(cloudEvent.Type).ToLowerInvariant(), cloudEvent.Type);
+            AddUserProperty(nameof(cloudEvent.Source).ToLowerInvariant(), cloudEvent.Source.ToString());
+
+            if (cloudEvent.Time is not null)
+            {
+                AddUserProperty(nameof(cloudEvent.Time).ToLowerInvariant(), cloudEvent.Time!.Value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture));
+            }
+
+            if (cloudEvent.Subject is not null)
+            {
+                AddUserProperty(nameof(cloudEvent.Subject).ToLowerInvariant(), cloudEvent.Subject);
+            }
+
+            if (cloudEvent.DataSchema is not null)
+            {
+                AddUserProperty(nameof(cloudEvent.DataSchema).ToLowerInvariant(), cloudEvent.DataSchema);
+            }
+        }
+
+        /// <summary>
+        /// Read the cloud event fields out of this MQTT message if it contains all the required cloud event fields.
+        /// </summary>
+        /// <returns>The parsed cloud event field if all required cloud event fields were present. This method returns null otherwise.</returns>
+        public ExtendedCloudEvent? GetCloudEvent()
+        {
+            if (UserProperties == null)
+            {
+                return null;
+            }
+
+            if (!UserProperties.TryGetProperty("specversion", out string? specversion) || specversion != "1.0")
+            {
+                return null;
+            }
+
+            if (!UserProperties.TryGetProperty("source", out string? sourceStr) || !Uri.TryCreate(sourceStr, UriKind.RelativeOrAbsolute, out Uri? source))
+            {
+                return null;
+            }
+
+            if (!UserProperties.TryGetProperty("type", out string? type) || string.IsNullOrWhiteSpace(type))
+            {
+                return null;
+            }
+
+            if (!UserProperties.TryGetProperty("id", out string? id) || string.IsNullOrWhiteSpace(id))
+            {
+                return null;
+            }
+
+            ExtendedCloudEvent cloudEvent = new(source!, type!, specversion!)
+            {
+                DataContentType = ContentType,
+                Id = id
+            };
+
+            DateTime time = DateTime.UtcNow;
+            if (UserProperties.TryGetProperty("time", out string? timeStr) && !DateTime.TryParse(timeStr, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out time))
+            {
+                return null;
+            }
+            cloudEvent.Time = time;
+
+            if (UserProperties.TryGetProperty("subject", out string? subject))
+            {
+                cloudEvent.Subject = subject;
+            }
+
+            if (UserProperties.TryGetProperty("dataschema", out string? dataSchema))
+            {
+                cloudEvent.DataSchema = dataSchema;
+            }
+
+            return cloudEvent;
+        }
+
+        internal void AddMetadata(OutgoingTelemetryMetadata md)
         {
             if (md == null)
             {
@@ -196,44 +304,12 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             if (md.CloudEvent is not null)
             {
-                AddCloudEvents(md.CloudEvent);
+                SetCloudEvent(md.CloudEvent);
             }
 
             foreach (KeyValuePair<string, string> kvp in md.UserData)
             {
                 AddUserProperty(kvp.Key, kvp.Value);
-            }
-        }
-
-        public void AddCloudEvents(CloudEvent md)
-        {
-            AddUserProperty(nameof(md.SpecVersion).ToLowerInvariant(), md.SpecVersion);
-            if (md.Id != null)
-            {
-                AddUserProperty(nameof(md.Id).ToLowerInvariant(), md.Id.ToString());
-            }
-
-            AddUserProperty(nameof(md.Type).ToLowerInvariant(), md.Type);
-            AddUserProperty(nameof(md.Source).ToLowerInvariant(), md.Source.ToString());
-
-            if (md.Time is not null)
-            {
-                AddUserProperty(nameof(md.Time).ToLowerInvariant(), md.Time!.Value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture));
-            }
-
-            if (md.Subject is not null)
-            {
-                AddUserProperty(nameof(md.Subject).ToLowerInvariant(), md.Subject);
-            }
-
-            if (md.DataContentType is not null)
-            {
-                AddUserProperty(nameof(md.DataContentType).ToLowerInvariant(), md.DataContentType);
-            }
-
-            if (md.DataSchema is not null)
-            {
-                AddUserProperty(nameof(md.DataSchema).ToLowerInvariant(), md.DataSchema);
             }
         }
     }

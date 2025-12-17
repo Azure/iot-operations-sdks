@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -327,7 +328,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (!_hasSubscribed)
                 {
-                    
+
                     await SubscribeAsync(TopicTokenMap, cancellationToken).ConfigureAwait(false);
                 }
 
@@ -476,6 +477,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
             // Update HLC and use as the timestamp.
             string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+
+            if (metadata?.CloudEvent is not null)
+            {
+                metadata.CloudEvent.Time ??= DateTime.UtcNow;
+                metadata.CloudEvent.Subject ??= topic;
+            }
 
             metadata?.MarshalTo(message);
 

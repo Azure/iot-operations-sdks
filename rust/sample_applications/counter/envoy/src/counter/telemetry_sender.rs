@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
@@ -81,21 +81,16 @@ impl TelemetryMessageBuilder {
 }
 
 /// Telemetry Sender for `TelemetryCollection`
-pub struct TelemetrySender<C>(telemetry::Sender<TelemetryCollection, C>)
-where
-    C: ManagedClient + Send + Sync + 'static;
+pub struct TelemetrySender(telemetry::Sender<TelemetryCollection>);
 
-impl<C> TelemetrySender<C>
-where
-    C: ManagedClient + Send + Sync + 'static,
-{
+impl TelemetrySender {
     /// Creates a new [`TelemetrySender`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         options: &TelemetrySenderOptions,
     ) -> Self {
         let mut sender_options_builder = telemetry::sender::OptionsBuilder::default();

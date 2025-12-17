@@ -4,13 +4,15 @@
 using TestEnvoys.Counter;
 using Azure.Iot.Operations.Protocol.RPC;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class CounterService : Counter.Service
 {
     private int _counter = 0;
+
+    public ExtendedCloudEvent? ReceivedCloudEvent { get; private set; }
+    public CloudEvent? PublishedResponseCloudEvent { get; private set; }
 
     public const string NegativeValueArgumentErrorCode = "NegativeValue";
 
@@ -47,12 +49,30 @@ public class CounterService : Counter.Service
 
     public override Task<ExtendedResponse<ReadCounterResponsePayload>> ReadCounterAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
+        CommandResponseMetadata responseMetadata = new();
+
+        if (requestMetadata.ExtendedCloudEvent != null)
+        {
+            ReceivedCloudEvent = requestMetadata.ExtendedCloudEvent;
+
+            PublishedResponseCloudEvent = new(new Uri("https://www.contoso.com"), "someRpcResponse.type")
+            {
+                DataSchema = "https://www.contoso.com",
+                Id = Guid.NewGuid().ToString(),
+                Subject = "someResponseSubject",
+                Time = DateTime.UtcNow,
+            };
+
+            responseMetadata.CloudEvent = PublishedResponseCloudEvent;
+        }
+
         Console.WriteLine($"--> Executing Counter.ReadCounter with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         var curValue = _counter;
         Console.WriteLine($"--> Executed Counter.ReadCounter with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         return Task.FromResult(new ExtendedResponse<ReadCounterResponsePayload>
         {
-            Response = new ReadCounterResponsePayload { CounterResponse = curValue }
+            Response = new ReadCounterResponsePayload { CounterResponse = curValue },
+            ResponseMetadata = responseMetadata
         });
     }
 

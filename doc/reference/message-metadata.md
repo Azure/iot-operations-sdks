@@ -15,25 +15,6 @@ MQTT messages will include some system and user properties to define metadata va
 |`SourceId`|no|user|`__srcId`|String representing an identifier of the telemetry sender.|
 |`ProtocolVersion`|no|user|`__protVer`| The protocol version of the message. If not provided, a protocol version of 0.1 is assumed by the telemetry receiver. |
 
-### CloudEvents Header
-
-Telemetry messages can include  [CloudEvents](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md) as defined by the [CloudEvents MQTT bindings](https://github.com/cloudevents/spec/blob/main/cloudevents/bindings/mqtt-protocol-binding.md), as we are only targeting MQTT5 we will use the [Binary Content Mode](https://github.com/cloudevents/spec/blob/main/cloudevents/bindings/mqtt-protocol-binding.md#31-binary-content-mode).
-
-#### CloudEvents Properties
-
-We will use the next properties
-
-|Name|Required|Sample Value|Notes|
-|---|--|--|--|
-|`specversion`|yes|1.0| fixed |
-|`type`|yes|ms.aio.telemetry| Defaults to ms.aio.telemetry, overridable by the user |
-|`source`|yes|aio://mycluster/myoven| The origin of the event|
-|`id`|yes|A234-1234-1234| Unique identifier of the message, produced by the TelemetrySender as a Guid|
-|`subject`|no|aio/myoven/telemetry/temperature| The MQTT topic where the message was sent. Provided by the TelemetrySender.|
-|`time`|no|2018-04-05T17:31:00Z| Time when the message was produced, UTC. Provided by the TelemetrySender.|
-|`datacontenttype`|no|application/json| The content type of the message, obtained from the serializer|
-|`dataschema`|no|sr://fabrikam-schemas/123123123234234234234234#1.0.0| Uri to resolve the schema|
-
 ## Command Metadata
 
 ### Request Message
@@ -67,3 +48,22 @@ We will use the next properties
 |`ProtocolVersion`|no|user|`__protVer`| The protocol version of the response. If not provided, a protocol version of 0.1 is assumed by the receiving invoker. |
 |`SupportedProtocolMajorVersion`|no|user|`__supProtMajVer`| A space separated list of protocol major versions that the executor supports. Only provided if the request provided an unsupported protocol version. |
 |`RequestProtocolVersion`|no|user|`__requestProtVer`| The full protocol version of the request that was rejected because it was unsupported by the executor. Only provided if the request provided an unsupported protocol version. |
+
+### CloudEvents Header
+
+Telemetry and RPC messages can include  [CloudEvents](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md) as defined by the [CloudEvents MQTT bindings](https://github.com/cloudevents/spec/blob/main/cloudevents/bindings/mqtt-protocol-binding.md), as we are only targeting MQTT5 we will use the [Binary Content Mode](https://github.com/cloudevents/spec/blob/main/cloudevents/bindings/mqtt-protocol-binding.md#31-binary-content-mode).
+
+#### CloudEvents Properties
+
+We will use the next properties
+
+|Name|Required|Sample Value|Notes|
+|---|--|--|--|
+|`specversion`|yes|1.0| fixed |
+|`type`|yes|ms.aio.telemetry| Defaults to ms.aio.telemetry (when sent by telemetry sender) or ms.aio.rpc.request (when sent by command invoker) or ms.aio.rpc.response (when sent by command executor), overridable by the user |
+|`source`|yes|aio://mycluster/myoven| The origin of the event|
+|`id`|yes|A234-1234-1234| Unique identifier of the message, produced by the TelemetrySender/CommandInvoker/CommandExecutor as a Guid|
+|`subject`|no|aio/myoven/telemetry/temperature| The MQTT topic where the message was sent. Provided by the TelemetrySender/CommandInvoker/CommandExecutor.|
+|`time`|no|2018-04-05T17:31:00Z| Time when the message was produced, UTC. Provided by the TelemetrySender/CommandInvoker/CommandExecutor.|
+|`datacontenttype`|no|application/json| The content type of the message, obtained from the serializer|
+|`dataschema`|no|sr://fabrikam-schemas/123123123234234234234234#1.0.0| Uri to resolve the schema|

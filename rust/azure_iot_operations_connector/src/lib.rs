@@ -17,7 +17,6 @@ pub mod base_connector;
 pub mod data_processor;
 pub mod deployment_artifacts;
 pub mod destination_endpoint;
-pub mod source_endpoint;
 
 #[macro_use]
 extern crate derive_getters;
@@ -35,7 +34,6 @@ pub type MessageSchemaBuilderError = PutSchemaRequestBuilderError;
 
 /// Struct format for data sent to the destination
 #[derive(Debug, Clone, PartialEq)]
-/// Struct format for data sent to the [`DataTransformer`] and the destination
 pub struct Data {
     /// The payload in raw bytes
     pub payload: Vec<u8>,
@@ -59,7 +57,7 @@ pub enum DataOperationKind {
     Stream,
 }
 
-/// Represents the kind of a `DataOperation`
+/// Represents the name of a `DataOperation`
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum DataOperationName {
     /// Dataset

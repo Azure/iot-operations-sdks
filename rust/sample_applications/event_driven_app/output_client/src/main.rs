@@ -7,7 +7,7 @@
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::{
-    MqttConnectionSettingsBuilder,
+    aio::connection_settings::MqttConnectionSettingsBuilder,
     session::{Session, SessionManagedClient, SessionMonitor, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
@@ -33,7 +33,6 @@ async fn main() {
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a session
@@ -152,20 +151,17 @@ async fn process_window(
                                 Err(e) => {
                                     // Error while sending telemetry
                                     log::error!("{e:?}");
-                                    continue;
                                 }
                             }
                         }
                         Err(e) => {
                             // Deserialization error
                             log::error!("{e:?}");
-                            continue;
                         }
                     }
                 } else {
                     log::info!("Sensor data not found in state store");
-                    continue;
-                };
+                }
             }
             // Error while fetching data from state store
             Err(e) => log::error!("{e:?}"),
@@ -196,12 +192,12 @@ impl PayloadSerialize for SensorData {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/json" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/json"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+            )));
         }
 
         let payload = serde_json::from_slice(payload).map_err(|e| {
@@ -251,7 +247,10 @@ impl From<Vec<f64>> for WindowSensorData {
         let mean = sensor_data.iter().sum::<f64>()
             / f64::from(u32::try_from(sensor_data.len()).expect("element count should fit in u32"));
         let median = if count % 2 == 0 {
-            (sensor_data[sensor_data.len() / 2] + sensor_data[sensor_data.len() / 2 - 1]) / 2.0
+            f64::midpoint(
+                sensor_data[sensor_data.len() / 2],
+                sensor_data[sensor_data.len() / 2 - 1],
+            )
         } else {
             sensor_data[sensor_data.len() / 2]
         };

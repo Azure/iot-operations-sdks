@@ -153,4 +153,63 @@ public class CounterEnvoyTests
         Assert.NotNull(deserializedErrorPayload);
         Assert.Equal(expectedNegativeValue, deserializedErrorPayload.InvalidRequestArgumentValue);
     }
+
+    [Fact]
+    public async Task TestRpcWithCloudEvents()
+    {
+        ApplicationContext applicationContext = new ApplicationContext();
+        string executorId = "counter-server-" + Guid.NewGuid();
+        await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
+
+        await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
+        await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
+
+        IncrementRequestPayload payload = new IncrementRequestPayload
+        {
+            IncrementValue = 1
+        };
+
+        CloudEvent sentInvokeCloudEvent = new(new Uri("https://www.microsoft.com"), "someRpc.type")
+        {
+            DataSchema = "https://www.microsoft.com",
+            Id = Guid.NewGuid().ToString(),
+            Subject = "someSubject",
+            Time = DateTime.UtcNow,
+        };
+
+        CommandRequestMetadata requestMetadata = new()
+        {
+            CloudEvent = sentInvokeCloudEvent,
+        };
+
+        var resp = await counterClient.ReadCounterAsync(executorId, requestMetadata, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+
+        ExtendedCloudEvent? receivedResponseCloudEvent = resp.ResponseMetadata!.ExtendedCloudEvent;
+
+        Assert.NotNull(counterService.ReceivedCloudEvent);
+        Assert.NotNull(counterService.PublishedResponseCloudEvent);
+        Assert.NotNull(receivedResponseCloudEvent);
+
+        // Check that the cloud event sent by the invoker is read by the executor correctly
+        Assert.Equal(sentInvokeCloudEvent.Id, counterService.ReceivedCloudEvent.Id);
+        Assert.Equal(sentInvokeCloudEvent.Subject, counterService.ReceivedCloudEvent.Subject);
+        Assert.Equal(sentInvokeCloudEvent.DataSchema, counterService.ReceivedCloudEvent.DataSchema);
+        Assert.Equal(sentInvokeCloudEvent.Source, counterService.ReceivedCloudEvent.Source);
+        Assert.Equal(sentInvokeCloudEvent.SpecVersion, counterService.ReceivedCloudEvent.SpecVersion);
+        Assert.Equal(sentInvokeCloudEvent.Type, counterService.ReceivedCloudEvent.Type);
+        Assert.Null(counterService.ReceivedCloudEvent.DataContentType);
+
+        // Check that the cloud event sent by the executor in the response is read by the invoker correctly
+        Assert.Equal(counterService.PublishedResponseCloudEvent.Id, receivedResponseCloudEvent.Id);
+        Assert.Equal(counterService.PublishedResponseCloudEvent.Subject, receivedResponseCloudEvent.Subject);
+        Assert.Equal(counterService.PublishedResponseCloudEvent.DataSchema, receivedResponseCloudEvent.DataSchema);
+        Assert.Equal(counterService.PublishedResponseCloudEvent.Source, receivedResponseCloudEvent.Source);
+        Assert.Equal(counterService.PublishedResponseCloudEvent.SpecVersion, receivedResponseCloudEvent.SpecVersion);
+        Assert.Equal(counterService.PublishedResponseCloudEvent.Type, receivedResponseCloudEvent.Type);
+        Assert.Equal("application/json", receivedResponseCloudEvent.DataContentType);
+
+    }
 }

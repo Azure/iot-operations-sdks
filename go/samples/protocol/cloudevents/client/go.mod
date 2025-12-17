@@ -3,14 +3,14 @@ module github.com/Azure/iot-operations-sdks/go/samples/protocol/cloudevents/clie
 go 1.24.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.1
-	github.com/Azure/iot-operations-sdks/go/protocol v0.4.1
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.2
+	github.com/Azure/iot-operations-sdks/go/protocol v0.4.2
 	github.com/Azure/iot-operations-sdks/go/samples/protocol/cloudevents/envoy v0.0.0
 	github.com/lmittmann/tint v1.1.2
 )
 
 require (
-	github.com/Azure/iot-operations-sdks/go/internal v0.3.0 // indirect
+	github.com/Azure/iot-operations-sdks/go/internal v0.3.1 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/cheggaaa/pb/v3 v3.1.7 // indirect
 	github.com/clipperhouse/stringish v0.1.1 // indirect
