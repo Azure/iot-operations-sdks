@@ -16,10 +16,11 @@ use crate::azure_device_registry::models::{
     Asset, AssetStatus, Device, DeviceRef, DeviceStatus, DiscoveredAsset, DiscoveredDevice,
 };
 use crate::azure_device_registry::{
-    AssetRef, AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
+    AssetRef, AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind, RuntimeHealth,
 };
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
+    adr_base_gen::adr_base_service::service as base_service_gen, // TODO: this is stupid naming, but idk what else to do
     adr_base_gen::common_types::options as base_options_gen,
     device_discovery_gen::common_types::options as discovery_options_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
@@ -50,6 +51,8 @@ pub struct Client {
     get_device_command_invoker: Arc<base_client_gen::GetDeviceCommandInvoker>,
     get_device_status_command_invoker: Arc<base_client_gen::GetDeviceStatusCommandInvoker>,
     update_device_status_command_invoker: Arc<base_client_gen::UpdateDeviceStatusCommandInvoker>,
+    device_endpoint_health_telemetry_sender:
+        Arc<base_service_gen::DeviceEndpointRuntimeHealthEventTelemetrySender>,
     notify_on_device_update_command_invoker:
         Arc<base_client_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker>,
     create_or_update_discovered_device_command_invoker:
@@ -107,12 +110,21 @@ impl Client {
                 .build()
                 .expect("Builder cannot fail as there is no validation function");
 
-        let telemetry_options = base_options_gen::TelemetryReceiverOptionsBuilder::default()
+        let telemetry_receiver_options =
+            base_options_gen::TelemetryReceiverOptionsBuilder::default()
+                .topic_token_map(HashMap::from([(
+                    "connectorClientId".to_string(),
+                    client.client_id().to_string(),
+                )]))
+                .auto_ack(options.notification_auto_ack)
+                .build()
+                .expect("Builder cannot fail as there is no validation function");
+
+        let telemetry_sender_options = base_options_gen::TelemetrySenderOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
                 "connectorClientId".to_string(),
                 client.client_id().to_string(),
             )]))
-            .auto_ack(options.notification_auto_ack)
             .build()
             .expect("Builder cannot fail as there is no validation function");
 
@@ -137,13 +149,13 @@ impl Client {
                 base_client_gen::DeviceUpdateEventTelemetryReceiver::new(
                     application_context.clone(),
                     client.clone(),
-                    &telemetry_options,
+                    &telemetry_receiver_options,
                 );
             let asset_update_telemetry_receiver =
                 base_client_gen::AssetUpdateEventTelemetryReceiver::new(
                     application_context.clone(),
                     client.clone(),
-                    &telemetry_options,
+                    &telemetry_receiver_options,
                 );
 
             async move {
@@ -177,6 +189,13 @@ impl Client {
                     application_context.clone(),
                     client.clone(),
                     &command_options_base,
+                ),
+            ),
+            device_endpoint_health_telemetry_sender: Arc::new(
+                base_service_gen::DeviceEndpointRuntimeHealthEventTelemetrySender::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &telemetry_sender_options,
                 ),
             ),
             notify_on_device_update_command_invoker: Arc::new(
@@ -654,6 +673,46 @@ impl Client {
             .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
         Ok(response.payload.updated_device_status.into())
+    }
+
+    /// Reports a Device Endpoint's runtime health status to the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the device endpoint.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
+    /// if message_expiry is 0 or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO Telemetry protocol.
+    pub async fn report_device_endpoint_runtime_health_event(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        runtime_health: RuntimeHealth,
+        message_expiry: Duration,
+    ) -> Result<(), Error> {
+        let health_status_message =
+            base_service_gen::DeviceEndpointRuntimeHealthEventTelemetryMessageBuilder::default()
+                .payload(runtime_health.into())
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_base_service_topic_tokens(
+                    device_name,
+                    inbound_endpoint_name,
+                ))
+                .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+                .build()
+                .map_err(ErrorKind::from)?;
+        Ok(self
+            .device_endpoint_health_telemetry_sender
+            .send(health_status_message)
+            .await
+            .map_err(ErrorKind::from)?)
     }
 
     /// Starts observation of a [`Device`]'s updates from the Azure Device Registry service.

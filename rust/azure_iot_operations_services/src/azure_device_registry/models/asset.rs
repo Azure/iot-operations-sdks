@@ -879,7 +879,7 @@ impl From<base_client_gen::AssetEventGroupSchemaElementSchema> for EventGroup {
         EventGroup {
             events: value.events.option_vec_into().unwrap_or_default(),
             default_events_destinations: value
-                .default_events_destinations
+                .default_destinations
                 .option_vec_into()
                 .unwrap_or_default(),
             event_group_configuration: value.event_group_configuration,
@@ -894,7 +894,7 @@ impl From<DiscoveredEventGroup> for base_client_gen::DiscoveredAssetEventGroup {
     fn from(value: DiscoveredEventGroup) -> Self {
         base_client_gen::DiscoveredAssetEventGroup {
             events: value.events.option_vec_into(),
-            default_events_destinations: value.default_events_destinations.option_vec_into(),
+            default_destinations: value.default_events_destinations.option_vec_into(),
             event_group_configuration: value.event_group_configuration,
             data_source: value.data_source,
             name: value.name,
