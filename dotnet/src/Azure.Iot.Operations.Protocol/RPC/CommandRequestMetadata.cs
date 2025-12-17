@@ -111,6 +111,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Timestamp = null;
             UserData = [];
             ExtendedCloudEvent = message.GetCloudEvent();
+            CloudEvent = ExtendedCloudEvent; // in case someone tries to get the non-extended version
 
             if (message.UserProperties != null)
             {
