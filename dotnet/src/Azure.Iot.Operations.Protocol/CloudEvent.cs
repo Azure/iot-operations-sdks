@@ -127,7 +127,7 @@ namespace Azure.Iot.Operations.Protocol
             }
             set
             {
-                if (value == null || string.IsNullOrWhiteSpace(value))
+                if (string.IsNullOrWhiteSpace(value))
                 {
                     _dataSchema = null;
                     return;
