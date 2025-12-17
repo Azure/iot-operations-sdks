@@ -93,7 +93,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 message.UserProperties.Add(new MqttUserProperty("type", "ms.aio.rpc.response"));
             }
-            CloudEvent = message.GetCloudEvent();
+            ExtendedCloudEvent = message.GetCloudEvent();
 
             if (message.UserProperties != null)
             {

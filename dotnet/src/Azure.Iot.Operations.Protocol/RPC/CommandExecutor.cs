@@ -185,7 +185,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     {
                         ContentType = args.ApplicationMessage.ContentType,
                         PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
-                        ExtendedCloudEvent = args.ApplicationMessage.GetCloudEvent()
                     };
                     request = _serializer.FromBytes<TReq>(args.ApplicationMessage.Payload, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
                     // Update application HLC against received timestamp

@@ -110,7 +110,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             Timestamp = null;
             UserData = [];
-            CloudEvent = message.GetCloudEvent();
+            ExtendedCloudEvent = message.GetCloudEvent();
 
             if (message.UserProperties != null)
             {
