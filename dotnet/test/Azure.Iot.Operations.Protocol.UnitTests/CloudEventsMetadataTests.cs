@@ -17,8 +17,7 @@ public class CloudEventsMetadataTests
         Assert.True(Guid.TryParse(metadata.Id, out _));
 
         Assert.Null(metadata.DataSchema);
-        Assert.NotNull(metadata.Subject);
-        Assert.Equal("", metadata.Subject);
+        Assert.Null(metadata.Subject);
         Assert.NotNull(metadata.Time);
     }
 
