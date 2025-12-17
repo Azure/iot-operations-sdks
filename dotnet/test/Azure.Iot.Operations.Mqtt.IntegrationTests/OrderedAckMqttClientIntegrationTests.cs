@@ -182,7 +182,7 @@ public class OrderedAckMqttClientIntegrationTests
             DataSchema = "https://www.microsoft.com",
             Subject = "someSubject",
             Time = DateTime.UtcNow,
-            DataContentType = "someContentType",
+            DataContentType = "application/json",
         };
 
         outgoingMessage.SetCloudEvent(publishedCloudEvent);
