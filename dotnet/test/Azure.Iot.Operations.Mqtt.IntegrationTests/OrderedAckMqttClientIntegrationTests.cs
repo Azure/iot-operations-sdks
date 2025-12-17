@@ -179,7 +179,7 @@ public class OrderedAckMqttClientIntegrationTests
         {
             Id = Guid.NewGuid().ToString(),
             Type = "some.type.telemetry",
-            DataSchema = "someDataSchema",
+            DataSchema = "https://www.microsoft.com",
             Subject = "someSubject",
             Time = DateTime.UtcNow,
             DataContentType = "someContentType",

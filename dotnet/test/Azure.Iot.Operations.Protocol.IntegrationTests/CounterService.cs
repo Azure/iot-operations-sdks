@@ -57,7 +57,7 @@ public class CounterService : Counter.Service
 
             PublishedResponseCloudEvent = new(new Uri("https://www.contoso.com"), "someRpcResponse.type")
             {
-                DataSchema = "someResponseDataSchema",
+                DataSchema = "https://www.contoso.com",
                 Id = Guid.NewGuid().ToString(),
                 Subject = "someResponseSubject",
                 Time = DateTime.UtcNow,

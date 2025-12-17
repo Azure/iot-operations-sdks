@@ -23,7 +23,7 @@ public class IncomingTelemetryMetadataTests
                 new MqttUserProperty(nameof(CloudEvent.Type).ToLowerInvariant(), "eventType"),
                 new MqttUserProperty(nameof(CloudEvent.Source).ToLowerInvariant(), "my://source"),
                 new MqttUserProperty(nameof(CloudEvent.Subject).ToLowerInvariant(), "eventSubject"),
-                new MqttUserProperty(nameof(CloudEvent.DataSchema).ToLowerInvariant(), "eventSchema"),
+                new MqttUserProperty(nameof(CloudEvent.DataSchema).ToLowerInvariant(), "https://www.microsoft.com"),
                 new MqttUserProperty(nameof(CloudEvent.Id).ToLowerInvariant(), id),
                 new MqttUserProperty(nameof(CloudEvent.Time).ToLowerInvariant(), time.ToString("O")),
                 new MqttUserProperty("customProperty", "customValue")
@@ -44,7 +44,7 @@ public class IncomingTelemetryMetadataTests
         Assert.Equal("eventType", metadata.CloudEvent.Type);
         Assert.Equal(new Uri("my://source"), metadata.CloudEvent.Source);
         Assert.Equal("eventSubject", metadata.CloudEvent.Subject);
-        Assert.Equal("eventSchema", metadata.CloudEvent.DataSchema);
+        Assert.Equal("https://www.microsoft.com", metadata.CloudEvent.DataSchema);
         Assert.Equal("application/json", metadata.CloudEvent.DataContentType);
         Assert.Equal(id, metadata.CloudEvent.Id);
         Assert.Equal(time.ToUniversalTime(), metadata.CloudEvent.Time!.Value.ToUniversalTime());
