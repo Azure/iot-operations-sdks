@@ -81,7 +81,24 @@ namespace Azure.Iot.Operations.Protocol
         ///  If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same id.
         ///  Consumers MAY assume that Events with identical source and id are duplicates.
         /// </summary>
-        public string? Id { get; set; } = null!; // although id is required, we want update it in the same instance from the sender.
+        public string? Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Id cannot be null or whitespace");
+                }
+
+                _id = value;
+            }
+        }
+
+        private string _id = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Timestamp of when the occurrence happened.

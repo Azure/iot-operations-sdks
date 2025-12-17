@@ -164,8 +164,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     CloudEvent.Type = "ms.aio.rpc.request";
                 }
 
-                CloudEvent.Id ??= Guid.NewGuid().ToString();
-
                 message.SetCloudEvent(CloudEvent);
             }
 
