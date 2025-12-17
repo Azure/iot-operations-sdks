@@ -13,10 +13,9 @@ bool logMqtt = false;
 
 if (logMqtt) Trace.Listeners.Add(new ConsoleTraceListener());
 await using MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogging = logMqtt });
+await mqttClient.ConnectAsync(MqttConnectionSettings.FromEnvVars());
 
 await using SampleCommandInvoker rpcInvoker = new(new(), mqttClient, commandName, new Utf8JsonSerializer());
-
-await mqttClient.ConnectAsync(MqttConnectionSettings.FromEnvVars());
 
 Console.WriteLine("Connected to the MQTT broker");
 
