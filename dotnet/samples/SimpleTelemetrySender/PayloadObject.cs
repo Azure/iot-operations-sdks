@@ -7,10 +7,10 @@ namespace SimpleTelemetrySender
 {
     public class PayloadObject
     {
-        [JsonPropertyName("SomeField")]
+        [JsonPropertyName("someField")]
         public string? SomeField { get; set; }
 
-        [JsonPropertyName("OtherField")]
+        [JsonPropertyName("otherField")]
         public string? OtherField { get; set; }
     }
 }
