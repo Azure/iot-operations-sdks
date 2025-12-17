@@ -4,5 +4,7 @@ namespace Azure.Iot.Operations.CodeGeneration
     {
         None,
         Json,
+        Raw,
+        Custom,
     }
 }

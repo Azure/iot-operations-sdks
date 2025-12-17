@@ -11,7 +11,6 @@ namespace Dtdl2Wot
 {
     using System.Collections.Generic;
     using System.Linq;
-    using DTDLParser;
     using DTDLParser.Models;
     using System;
     
@@ -19,44 +18,17 @@ namespace Dtdl2Wot
     /// Class to produce the template output
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public partial class TelemetryAffordance : TelemetryAffordanceBase
+    public partial class PlaceholderThingSchema : PlaceholderThingSchemaBase
     {
         /// <summary>
         /// Create the template output
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("    \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.dtTelemetry.Name));
-            this.Write("\": {\r\n");
- if (this.dtTelemetry.Description.Any()) { 
-            this.Write("      \"description\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.dtTelemetry.Description.First().Value));
-            this.Write("\",\r\n");
- } 
- if (this.usesTypes) { 
-            this.Write("      \"data\": {\r\n");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingDescriber.GetTypeAndAddenda(this.dtTelemetry.Schema, 8)));
-            this.Write("\r\n      },\r\n");
- } else { 
-            this.Write("      \"data\": {\r\n        \"type\": \"null\"\r\n      },\r\n");
- } 
-            this.Write("      \"forms\": [\r\n        {\r\n          \"href\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.dtTelemetry.Id));
-            this.Write("\",\r\n          \"contentType\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.contentType));
-            this.Write("\",\r\n");
- if (this.serviceGroupId != null) { 
-            this.Write("          \"dtv:serviceGroupId\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.serviceGroupId));
-            this.Write("\",\r\n");
- } 
- if (this.separate) { 
-            this.Write("          \"dtv:topic\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.telemetryTopic));
-            this.Write("\",\r\n");
- } 
-            this.Write("          \"op\": \"subscribeevent\"\r\n        }\r\n      ]\r\n    }");
+ this.PushIndent(new string(' ', this.indent)); 
+            this.Write("\"dtv:placeholder\": true,\r\n");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingDescriber.GetTypeAndAddenda(this.dtMap.MapValue.Schema, 0)));
+ this.PopIndent(); 
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -65,7 +37,7 @@ namespace Dtdl2Wot
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public class TelemetryAffordanceBase
+    public class PlaceholderThingSchemaBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

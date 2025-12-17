@@ -9,6 +9,8 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         internal static readonly Dictionary<SerializationFormat, List<(string, string)>> serializerPackageVersions = new()
         {
             { SerializationFormat.Json, new List<(string, string)> { ("serde_json", "1.0.105") } },
+            { SerializationFormat.Raw, new List<(string, string)> { } },
+            { SerializationFormat.Custom, new List<(string, string)> { } },
         };
 
         private readonly bool generateProject;

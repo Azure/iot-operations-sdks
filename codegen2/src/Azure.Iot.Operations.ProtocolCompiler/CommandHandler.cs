@@ -46,7 +46,7 @@
 
                 ErrorLog errorLog = new(options.WorkingDir.FullName);
 
-                List<ParsedThing> parsedThings = ParseThings(options.ThingFiles, errorLog);
+                List<ParsedThing> parsedThings = ParseThings(options.ThingFiles, errorLog, out HashSet<SerializationFormat> serializationFormats);
 
                 if (errorLog.HasErrors)
                 {
@@ -107,9 +107,11 @@
 
                 string? sdkPath = options.SdkPath != null ? Path.GetRelativePath(options.OutputDir.FullName, options.SdkPath) : null;
 
+                serializationFormats.UnionWith(generatedSchemas.Keys);
+
                 List<GeneratedItem> generatedEnvoys = EnvoyGenerator.GenerateEnvoys(
                     parsedThings,
-                    generatedSchemas.Keys.ToList(),
+                    serializationFormats.ToList(),
                     targetLanguage,
                     options.GenNamespace,
                     projectName,
@@ -172,9 +174,10 @@
             }
         }
 
-        private static List<ParsedThing> ParseThings(FileInfo[] thingFiles, ErrorLog errorLog)
+        private static List<ParsedThing> ParseThings(FileInfo[] thingFiles, ErrorLog errorLog, out HashSet<SerializationFormat> serializationFormats)
         {
             List<ParsedThing> parsedThings = new();
+            serializationFormats = new HashSet<SerializationFormat>();
 
             foreach (FileInfo thingFile in thingFiles)
             {
@@ -192,7 +195,7 @@
                         int thingCount = 0;
                         foreach (TDThing thing in things)
                         {
-                            if (thingValidator.TryValidateThng(thing))
+                            if (thingValidator.TryValidateThng(thing, serializationFormats))
                             {
                                 ValueTracker<StringHolder>? schemaNamesFilename = thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationSchemaNaming)?.Value.Href;
                                 if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, out SchemaNamer? schemaNamer))

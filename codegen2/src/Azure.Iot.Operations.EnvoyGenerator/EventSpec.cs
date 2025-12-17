@@ -4,12 +4,12 @@
 
     public record EventSpec(CodeName Name, CodeName Sender, CodeName Receiver, ITypeName Schema)
     {
-        public EventSpec(SchemaNamer schemaNamer, string eventName, string schemaType)
+        public EventSpec(SchemaNamer schemaNamer, string eventName, string schemaType, SerializationFormat format)
             : this(
                 new CodeName(eventName),
-                new CodeName(schemaNamer.GetEventSenderBinder(eventName)),
-                new CodeName(schemaNamer.GetEventReceiverBinder(eventName)),
-                new CodeName(schemaType))
+                new CodeName(schemaNamer.GetEventSenderBinder(schemaType)),
+                new CodeName(schemaNamer.GetEventReceiverBinder(schemaType)),
+                EnvoyGeneratorSupport.GetTypeName(schemaType, format))
         {
         }
     }

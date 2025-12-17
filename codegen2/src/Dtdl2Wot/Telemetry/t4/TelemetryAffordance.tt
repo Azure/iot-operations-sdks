@@ -12,7 +12,9 @@
 <#=this.thingDescriber.GetTypeAndAddenda(this.dtTelemetry.Schema, 8)#>
       },
 <# } else { #>
-      "data": {},
+      "data": {
+        "type": "null"
+      },
 <# } #>
       "forms": [
         {

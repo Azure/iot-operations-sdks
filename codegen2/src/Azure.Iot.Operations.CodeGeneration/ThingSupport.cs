@@ -54,15 +54,25 @@
                 return SerializationFormat.None;
             }
 
-            switch (contentType.Value.Value)
+            SerializationFormat format = ContentTypeToFormat(contentType.Value.Value);
+
+            if (format == SerializationFormat.None)
             {
-                case TDValues.ContentTypeJson:
-                    return SerializationFormat.Json;
+                errorReporter.ReportError($"Unsupported content type '{contentType.Value.Value}'.", contentType.TokenIndex);
             }
 
-            errorReporter.ReportError($"Unsupported content type '{contentType.Value.Value}'.", contentType.TokenIndex);
+            return format;
+        }
 
-            return SerializationFormat.None;
+        public static SerializationFormat ContentTypeToFormat(string contentType)
+        {
+            return contentType switch
+            {
+                TDValues.ContentTypeJson => SerializationFormat.Json,
+                TDValues.ContentTypeRaw => SerializationFormat.Raw,
+                TDValues.ContentTypeCustom => SerializationFormat.Custom,
+                _ => SerializationFormat.None,
+            };
         }
 
         private static void AddFormatsFromForms(ErrorReporter errorReporter, IEnumerable<ValueTracker<TDForm>>? forms, HashSet<SerializationFormat> formats)

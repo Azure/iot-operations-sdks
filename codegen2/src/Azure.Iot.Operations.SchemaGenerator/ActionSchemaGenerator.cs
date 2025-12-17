@@ -54,7 +54,7 @@
                     schemaSpecs[inputSchemaName] = new AliasSpec(null, InputOutputType, inputRef.Value.Value, actionForm.Format, inputSchemaName, dirName, TokenIndex: -1);
                     errorReporter.RegisterTypedReferenceFromThing(inputRef.TokenIndex, InputOutputType, inputRef.Value.Value);
                 }
-                else if (tdAction.Input?.Value != null)
+                else if (tdAction.Input?.Value != null && tdAction.Input.Value.Type?.Value.Value != TDValues.TypeNull)
                 {
                     string inputSchemaName = schemaNamer.GetActionInSchema(tdAction.Input.Value, actionName);
                     ObjectSpec inputObjectSpec = ObjectSpec.CreateFromDataSchema(errorReporter, schemaNamer, tdAction.Input, actionForm.Format, inputSchemaName, tdAction.Input.Value.Description?.Value.Value ?? $"Input arguments for action '{actionName}'");
@@ -69,7 +69,7 @@
                     schemaSpecs[outputSchemaName] = new AliasSpec(null, InputOutputType, outputRef.Value.Value, actionForm.Format, outputSchemaName, dirName, TokenIndex: -1);
                     errorReporter.RegisterTypedReferenceFromThing(outputRef.TokenIndex, InputOutputType, outputRef.Value.Value);
                 }
-                else if (tdAction.Output?.Value != null)
+                else if (tdAction.Output?.Value != null && tdAction.Output.Value.Type?.Value.Value != TDValues.TypeNull)
                 {
                     string outputSchemaName = schemaNamer.GetActionOutSchema(tdAction.Output.Value, actionName);
                     ObjectSpec outputObjectSpec = ObjectSpec.CreateFromDataSchema(errorReporter, schemaNamer, tdAction.Output, actionForm.Format, outputSchemaName, tdAction.Output.Value.Description?.Value.Value ?? $"Output arguments for action '{actionName}'");

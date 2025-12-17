@@ -27,8 +27,8 @@
             Dictionary<string, IEnvoyTemplateTransform> transforms = new();
             Dictionary<string, ErrorSpec> errorSpecs = new();
             Dictionary<string, AggregateErrorSpec> aggErrorSpecs = new();
-            HashSet<string> typesToSerialize = new();
             Dictionary<string, ConstantsSpec> schemaConstants = new();
+            Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize = serializationFormats.ToDictionary(f => f, f => new HashSet<string>());
 
             foreach (ParsedThing parsedThing in parsedThings)
             {
@@ -39,9 +39,9 @@
 
                 CodeName serviceName = new CodeName(parsedThing.Thing.Title.Value.Value);
 
-                List<ActionSpec> actionSpecs = ActionEnvoyGenerator.GenerateActionEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, typesToSerialize);
-                List<EventSpec> eventSpecs = EventEnvoyGenerator.GenerateEventEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, typesToSerialize);
-                List<PropertySpec> propSpecs = PropertyEnvoyGenerator.GeneratePropertyEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, aggErrorSpecs, typesToSerialize);
+                List<ActionSpec> actionSpecs = ActionEnvoyGenerator.GenerateActionEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, formattedTypesToSerialize);
+                List<EventSpec> eventSpecs = EventEnvoyGenerator.GenerateEventEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, formattedTypesToSerialize);
+                List<PropertySpec> propSpecs = PropertyEnvoyGenerator.GeneratePropertyEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, aggErrorSpecs, formattedTypesToSerialize);
                 GenerateServiceEnvoys(parsedThing.SchemaNamer, serviceName, actionSpecs, propSpecs, eventSpecs, envoyFactory, transforms);
                 CollectNamedConstants(parsedThing.Thing, parsedThing.SchemaNamer, schemaConstants);
             }
@@ -49,7 +49,7 @@
             GenerateConstantEnvoys(schemaConstants, envoyFactory, transforms);
             GenerateErrorEnvoys(errorSpecs, envoyFactory, transforms);
             GenerateAggregateErrorEnvoys(aggErrorSpecs, envoyFactory, transforms);
-            GenerateSerializationEnvoys(typesToSerialize, envoyFactory, transforms);
+            GenerateSerializationEnvoys(formattedTypesToSerialize, envoyFactory, transforms);
 
             List<GeneratedItem> generatedEnvoys = new();
 
@@ -149,13 +149,16 @@
             }
         }
 
-        private static void GenerateSerializationEnvoys(HashSet<string> typesToSerialize, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms)
+        private static void GenerateSerializationEnvoys(Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms)
         {
-            foreach (string typeToSerialize in typesToSerialize)
+            foreach (KeyValuePair<SerializationFormat, HashSet<string>> formatTypes in formattedTypesToSerialize)
             {
-                foreach (IEnvoyTemplateTransform transform in envoyFactory.GetSerializationTransforms(typeToSerialize))
+                foreach (string typeToSerialize in formatTypes.Value)
                 {
-                    transforms[transform.FileName] = transform;
+                    foreach (IEnvoyTemplateTransform transform in envoyFactory.GetSerializationTransforms(typeToSerialize, formatTypes.Key))
+                    {
+                        transforms[transform.FileName] = transform;
+                    }
                 }
             }
         }

@@ -16,29 +16,29 @@ namespace Dtdl2Wot
             this.ancestralSchemaIds = new HashSet<Dtmi>();
         }
 
-        public string GetTypeAndAddenda(DTSchemaInfo dtSchema, int indent)
+        public string GetTypeAndAddenda(DTSchemaInfo dtSchema, int indent, bool isFragmented = false)
         {
             if (dtSchema.EntityKind == DTEntityKind.Object)
             {
-                var templateTransform = new ObjectThingSchema((DTObjectInfo)dtSchema, indent, this.mqttVersion, this);
+                ITemplateTransform templateTransform = new ObjectThingSchema((DTObjectInfo)dtSchema, indent, this.mqttVersion, this);
                 return this.GetTransformedText(templateTransform, dtSchema.Id);
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Enum)
             {
-                var templateTransform = new EnumThingSchema((DTEnumInfo)dtSchema, indent);
+                ITemplateTransform templateTransform = new EnumThingSchema((DTEnumInfo)dtSchema, indent);
                 return this.GetTransformedText(templateTransform, dtSchema.Id);
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Array)
             {
-                var templateTransform = new ArrayThingSchema((DTArrayInfo)dtSchema, indent, this);
+                ITemplateTransform templateTransform = new ArrayThingSchema((DTArrayInfo)dtSchema, indent, this);
                 return this.GetTransformedText(templateTransform, dtSchema.Id);
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Map)
             {
-                var templateTransform = new MapThingSchema((DTMapInfo)dtSchema, indent, this);
+                ITemplateTransform templateTransform = isFragmented ? new PlaceholderThingSchema((DTMapInfo)dtSchema, indent, this) : new MapThingSchema((DTMapInfo)dtSchema, indent, this);
                 return this.GetTransformedText(templateTransform, dtSchema.Id);
             }
 
@@ -72,19 +72,19 @@ namespace Dtdl2Wot
 
         public string GetCommandAffordance(DTCommandInfo dtCommand, bool usesTypes, string contentType, string commandTopic, string serviceGroupId)
         {
-            var templateTransform = new CommandAffordance(dtCommand, this.mqttVersion, usesTypes, contentType, commandTopic, serviceGroupId, this);
+            ITemplateTransform templateTransform = new CommandAffordance(dtCommand, this.mqttVersion, usesTypes, contentType, commandTopic, serviceGroupId, this);
             return templateTransform.TransformText();
         }
 
         public string GetPropertyAffordance(DTPropertyInfo dtProperty, bool usesTypes, string contentType, string propertyTopic)
         {
-            var templateTransform = new PropertyAffordance(dtProperty, this.mqttVersion, usesTypes, contentType, propertyTopic, this);
+            ITemplateTransform templateTransform = new PropertyAffordance(dtProperty, this.mqttVersion, usesTypes, contentType, propertyTopic, this);
             return templateTransform.TransformText();
         }
 
         public string GetTelemetryAffordance(DTTelemetryInfo dtTelemetry, bool usesTypes, string contentType, string telemetryTopic, string serviceGroupId)
         {
-            var templateTransform = new TelemetryAffordance(dtTelemetry, usesTypes, contentType, telemetryTopic, serviceGroupId, this);
+            ITemplateTransform templateTransform = new TelemetryAffordance(dtTelemetry, usesTypes, contentType, telemetryTopic, serviceGroupId, this);
             return templateTransform.TransformText();
         }
 

@@ -7,6 +7,8 @@
         public const string RelationSchemaNaming = "service-desc";
 
         public const string ContentTypeJson = "application/json";
+        public const string ContentTypeRaw = "application/octet-stream";
+        public const string ContentTypeCustom = "";
 
         public const string OpInvokeAction = "invokeaction";
         public const string OpReadProp = "readproperty";

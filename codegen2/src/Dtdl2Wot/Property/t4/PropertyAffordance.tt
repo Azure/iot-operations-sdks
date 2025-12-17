@@ -8,7 +8,7 @@
       "description": "<#=this.dtProperty.Description.First().Value#>",
 <# } #>
 <# if (this.usesTypes) { #>
-<#=this.thingDescriber.GetTypeAndAddenda(this.valueSchema, 6)#>,
+<#=this.thingDescriber.GetTypeAndAddenda(this.valueSchema, 6, this.isSchemaFragmented)#>,
       "readOnly": <#=this.dtProperty.Writable ? "false" : "true"#>,
 <# } #>
       "forms": [

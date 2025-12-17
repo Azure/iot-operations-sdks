@@ -8,7 +8,7 @@
 
     internal static class PropertyEnvoyGenerator
     {
-        internal static List<PropertySpec> GeneratePropertyEnvoys(ErrorReporter errorReporter, TDThing tdThing, SchemaNamer schemaNamer, CodeName serviceName, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms, Dictionary<string, ErrorSpec> errorSpecs, Dictionary<string, AggregateErrorSpec> aggErrorSpecs, HashSet<string> typesToSerialize)
+        internal static List<PropertySpec> GeneratePropertyEnvoys(ErrorReporter errorReporter, TDThing tdThing, SchemaNamer schemaNamer, CodeName serviceName, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms, Dictionary<string, ErrorSpec> errorSpecs, Dictionary<string, AggregateErrorSpec> aggErrorSpecs, Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize)
         {
             List<PropertySpec> propertySpecs = new();
             Dictionary<string, string> readInnerErrors = new();
@@ -30,12 +30,12 @@
 
                 string propSchema = schemaNamer.GetPropSchema(propKvp.Key);
                 string? readRespSchema = null;
-                string? readErrorSchema = GetAndRecordError(propKvp.Key, readPropForm, schemaNamer, errorSpecs, typesToSerialize, readInnerErrors);
+                string? readErrorSchema = GetAndRecordError(propKvp.Key, readPropForm, schemaNamer, errorSpecs, formattedTypesToSerialize, readInnerErrors);
                 if (readPropForm?.TopicPattern != null && readPropForm.Format != SerializationFormat.None)
                 {
                     readRespSchema = readPropForm.ErrorRespSchema != null ? schemaNamer.GetPropReadRespSchema(propKvp.Key) : propSchema;
-                    typesToSerialize.Add(readRespSchema);
-                    typesToSerialize.Add(propSchema);
+                    formattedTypesToSerialize[readPropForm.Format].Add(readRespSchema);
+                    formattedTypesToSerialize[readPropForm.Format].Add(propSchema);
                 }
 
                 string? writeReqSchema = null;
@@ -46,16 +46,16 @@
                     if (writePropForm?.TopicPattern != null && writePropForm.Format != SerializationFormat.None)
                     {
                         writeReqSchema = (property.Placeholder?.Value.Value ?? false) ? schemaNamer.GetWritablePropSchema(propKvp.Key) : propSchema;
-                        typesToSerialize.Add(writeReqSchema);
+                        formattedTypesToSerialize[writePropForm.Format].Add(writeReqSchema);
 
                         if (writePropForm.HasErrorResponse)
                         {
                             writeRespSchema = schemaNamer.GetPropWriteRespSchema(propKvp.Key);
-                            typesToSerialize.Add(writeRespSchema);
+                            formattedTypesToSerialize[writePropForm.Format].Add(writeRespSchema);
                         }
                     }
 
-                    writeErrorSchema = GetAndRecordError(propKvp.Key, writePropForm, schemaNamer, errorSpecs, typesToSerialize, writeInnerErrors);
+                    writeErrorSchema = GetAndRecordError(propKvp.Key, writePropForm, schemaNamer, errorSpecs, formattedTypesToSerialize, writeInnerErrors);
                 }
 
                 if (readRespSchema != null || writeReqSchema != null)
@@ -123,12 +123,12 @@
             {
                 readAllRespSchema = readAllPropsForm.HasErrorResponse ? schemaNamer.AggregatePropReadRespSchema : schemaNamer.AggregatePropSchema;
 
-                typesToSerialize.Add(readAllRespSchema);
+                formattedTypesToSerialize[readAllPropsForm.Format].Add(readAllRespSchema);
 
                 if (readAllPropsForm.HasErrorResponse)
                 {
-                    typesToSerialize.Add(schemaNamer.AggregatePropSchema);
-                    typesToSerialize.Add(schemaNamer.AggregatePropReadErrSchema);
+                    formattedTypesToSerialize[readAllPropsForm.Format].Add(schemaNamer.AggregatePropSchema);
+                    formattedTypesToSerialize[readAllPropsForm.Format].Add(schemaNamer.AggregatePropReadErrSchema);
                     aggErrorSpecs[schemaNamer.AggregatePropReadErrSchema] = new AggregateErrorSpec(schemaNamer.AggregatePropReadErrSchema, readInnerErrors);
                 }
             }
@@ -139,13 +139,13 @@
             if (writeMultPropsForm?.TopicPattern != null && writeMultPropsForm.Format != SerializationFormat.None)
             {
                 writeMultiReqSchema = schemaNamer.AggregatePropWriteSchema;
-                typesToSerialize.Add(writeMultiReqSchema);
+                formattedTypesToSerialize[writeMultPropsForm.Format].Add(writeMultiReqSchema);
 
                 if (writeMultPropsForm.HasErrorResponse)
                 {
                     writeMultiRespSchema = schemaNamer.AggregatePropWriteRespSchema;
-                    typesToSerialize.Add(writeMultiRespSchema);
-                    typesToSerialize.Add(schemaNamer.AggregatePropWriteErrSchema);
+                    formattedTypesToSerialize[writeMultPropsForm.Format].Add(writeMultiRespSchema);
+                    formattedTypesToSerialize[writeMultPropsForm.Format].Add(schemaNamer.AggregatePropWriteErrSchema);
                     aggErrorSpecs[schemaNamer.AggregatePropWriteErrSchema] = new AggregateErrorSpec(schemaNamer.AggregatePropWriteErrSchema, writeInnerErrors);
                 }
             }
@@ -213,7 +213,7 @@
             return propertySpecs;
         }
 
-        private static string? GetAndRecordError(string propName, FormInfo? form, SchemaNamer schemaNamer, Dictionary<string, ErrorSpec> errorSpecs, HashSet<string> typesToSerialize, Dictionary<string, string> innerErrors)
+        private static string? GetAndRecordError(string propName, FormInfo? form, SchemaNamer schemaNamer, Dictionary<string, ErrorSpec> errorSpecs, Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize, Dictionary<string, string> innerErrors)
         {
             if (form?.ErrorRespSchema == null)
             {
@@ -221,7 +221,11 @@
             }
 
             string errSchemaName = schemaNamer.ChooseTitleOrName(form.ErrorRespSchema.Value.Title?.Value.Value, form.ErrorRespName)!;
-            typesToSerialize.Add(errSchemaName);
+            if (form.ErrorRespFormat != SerializationFormat.None)
+            {
+                formattedTypesToSerialize[form.ErrorRespFormat].Add(errSchemaName);
+            }
+
             errorSpecs[errSchemaName] = new ErrorSpec(
                 errSchemaName,
                 form.ErrorRespSchema.Value.Description?.Value.Value ?? "The action could not be completed",

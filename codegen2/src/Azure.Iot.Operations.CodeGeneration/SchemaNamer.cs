@@ -50,7 +50,7 @@
 
         public string GetEventSchema(string eventName) => Expand(null, this.schemaNameInfo?.EventSchema, $"{Cap(eventName)}Event", eventName);
 
-        public string GetEventValueSchema(string eventSchema) => Expand(null, this.schemaNameInfo?.EventValueSchema, $"{Cap(eventSchema)}Value", eventSchema);
+        public string GetEventValueSchema(string eventName) => Expand(null, this.schemaNameInfo?.EventValueSchema, $"{Cap(eventName)}Value", eventName);
 
         public string GetEventSenderBinder(string eventSchema) => Expand(null, this.schemaNameInfo?.EventSenderBinder, $"{Cap(eventSchema)}Sender", eventSchema);
 

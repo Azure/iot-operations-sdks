@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly CodeName messageName;
         private readonly string srcSubdir;
 
-        public RustTelemetrySender(string telemetryName, string componentName, CodeName genNamespace, string modelId,  ITypeName schemaType, string topicPattern, string srcSubdir)
+        public RustTelemetrySender(string telemetryName, string componentName, CodeName genNamespace, string modelId,  ITypeName schemaType, string topicPattern, string messageStub, string srcSubdir)
         {
             this.telemetryName = new CodeName(telemetryName);
             this.componentName = new CodeName(componentName);
@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.modelId = modelId;
             this.schemaType = schemaType;
             this.topicPattern = topicPattern;
-            this.messageName = new CodeName(this.telemetryName, "message");
+            this.messageName = new CodeName(messageStub, "message");
             this.srcSubdir = srcSubdir;
         }
 

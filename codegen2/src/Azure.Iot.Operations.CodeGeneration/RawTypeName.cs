@@ -2,23 +2,23 @@ namespace Azure.Iot.Operations.CodeGeneration
 {
     using System;
 
-    public class CustomTypeName : ITypeName
+    public class RawTypeName : ITypeName
     {
-        public static CustomTypeName Instance = new();
+        public static RawTypeName Instance = new();
 
         public string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? suffix4 = null, bool local = false)
         {
             if (suffix1 != null)
             {
-                return "CustomPayload" + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3) + GetCapitalized(suffix4);
+                return "RawBytes" + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3) + GetCapitalized(suffix4);
             }
             else
             {
                 return language switch
                 {
-                    TargetLanguage.CSharp => "CustomPayload",
-                    TargetLanguage.Rust => "CustomPayload",
-                    _ => throw new InvalidOperationException($"There is no {language} representation for {typeof(CustomTypeName)}"),
+                    TargetLanguage.CSharp => "byte[]",
+                    TargetLanguage.Rust => "Vec<u8>",
+                    _ => throw new InvalidOperationException($"There is no {language} representation for {typeof(RawTypeName)}"),
                 };
             }
         }
@@ -29,14 +29,14 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 return language switch
                 {
-                    TargetLanguage.CSharp => "CustomPayload" + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3),
-                    TargetLanguage.Rust => "custom_payload" + GetSnakeSuffix(suffix1) + GetSnakeSuffix(suffix2) + GetSnakeSuffix(suffix3),
-                    _ => throw new InvalidOperationException($"There is no {language} representation for {typeof(CustomTypeName)}"),
+                    TargetLanguage.CSharp => "RawBytes" + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3),
+                    TargetLanguage.Rust => "raw_bytes" + GetSnakeSuffix(suffix1) + GetSnakeSuffix(suffix2) + GetSnakeSuffix(suffix3),
+                    _ => throw new InvalidOperationException($"There is no {language} representation for {typeof(RawTypeName)}"),
                 };
             }
             else
             {
-                throw new InvalidOperationException($"{typeof(CustomTypeName)} should not be used for a file name without a suffix");
+                throw new InvalidOperationException($"{typeof(RawTypeName)} should not be used for a file name without a suffix");
             }
         }
 

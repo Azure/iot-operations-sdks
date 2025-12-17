@@ -8,7 +8,7 @@
 
     internal static class ActionEnvoyGenerator
     {
-        internal static List<ActionSpec> GenerateActionEnvoys(ErrorReporter errorReporter, TDThing tdThing, SchemaNamer schemaNamer, CodeName serviceName, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms, Dictionary<string, ErrorSpec> errorSpecs, HashSet<string> typesToSerialize)
+        internal static List<ActionSpec> GenerateActionEnvoys(ErrorReporter errorReporter, TDThing tdThing, SchemaNamer schemaNamer, CodeName serviceName, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms, Dictionary<string, ErrorSpec> errorSpecs, Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize)
         {
             List<ActionSpec> actionSpecs = new();
 
@@ -25,6 +25,8 @@
 
                 if (actionForm?.TopicPattern != null && actionForm.Format != SerializationFormat.None)
                 {
+                    HashSet<string> typesToSerialize = formattedTypesToSerialize[actionForm.Format];
+
                     string? inputSchemaType = action.Input != null ? schemaNamer.GetActionInSchema(action.Input?.Value, actionKvp.Key) : null;
                     string? outArgsType = action.Output != null ? schemaNamer.GetActionOutSchema(action.Output?.Value, actionKvp.Key) : null;
                     string? outputSchemaType = actionForm.ErrorRespSchema != null ? schemaNamer.GetActionRespSchema(actionKvp.Key) : outArgsType;

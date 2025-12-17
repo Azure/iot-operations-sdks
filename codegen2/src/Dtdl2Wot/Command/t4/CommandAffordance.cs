@@ -74,7 +74,7 @@ namespace Dtdl2Wot
  } 
             this.Write("      },\r\n");
  } else { 
-            this.Write("      \"input\": {},\r\n");
+            this.Write("      \"input\": {\r\n        \"type\": \"null\"\r\n      },\r\n");
  } 
  } 
  if (this.dtCommand.Response != null) { 
@@ -121,7 +121,7 @@ namespace Dtdl2Wot
  } 
             this.Write("      },\r\n");
  } else { 
-            this.Write("      \"output\": {},\r\n");
+            this.Write("      \"output\": {\r\n        \"type\": \"null\"\r\n      },\r\n");
  } 
  } 
  if (this.isCommandIdempotent) { 

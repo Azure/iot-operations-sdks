@@ -41,6 +41,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MapThingSchema.tt</DependentUpon>
     </Compile>
+    <Compile Update="Map\t4\PlaceholderThingSchema.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlaceholderThingSchema.tt</DependentUpon>
+    </Compile>
     <Compile Update="Object\t4\ObjectThingSchema.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -82,6 +87,11 @@
     <None Update="Map\t4\MapThingSchema.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>MapThingSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
+    </None>
+    <None Update="Map\t4\PlaceholderThingSchema.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>PlaceholderThingSchema.cs</LastGenOutput>
       <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
     </None>
     <None Update="Object\t4\ObjectThingSchema.tt">

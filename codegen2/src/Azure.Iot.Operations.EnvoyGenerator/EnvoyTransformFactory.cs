@@ -78,12 +78,12 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string serializerClassName = format.GetSerializerClassName();
             EmptyTypeName serializerEmptyType = format.GetEmptyTypeName();
 
-            ITypeName? inputSchema = inputSchemaType != null ? new CodeName(inputSchemaType) : null;
-            ITypeName? outputSchema = outputSchemaType != null ? new CodeName(outputSchemaType) : null;
+            ITypeName? inputSchema = EnvoyGeneratorSupport.GetTypeName(inputSchemaType, format);
+            ITypeName? outputSchema = EnvoyGeneratorSupport.GetTypeName(outputSchemaType, format);
 
             List<CodeName> normalFields = normalResultFields.Select(f => new CodeName(f)).ToList();
             List<CodeName> requiredFields = normalRequiredFields.Select(f => new CodeName(f.Value.Value)).ToList();
-            CodeName? normalSchema = normalResultSchema != null ? new CodeName(normalResultSchema) : null;
+            ITypeName? normalSchema = EnvoyGeneratorSupport.GetTypeName(normalResultSchema, format);
             CodeName? errorName = errorResultName != null ? new CodeName(errorResultName) : null;
             CodeName? errorSchema = errorResultSchema != null ? new CodeName(errorResultSchema) : null;
 
@@ -235,7 +235,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                     {
                         yield return new DotNetPropertyMaintainer(
                             propertyName,
-                            schemaNamer.GetPropMaintainerBinder(propertyName),
+                            schemaNamer.GetPropMaintainerBinder(propSchema),
                             schemaNamer.ReadResponderBinder,
                             schemaNamer.WriteResponderBinder,
                             schemaNamer.GetPropReadActName(propertyName),
@@ -259,7 +259,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                     {
                         yield return new DotNetPropertyConsumer(
                             propertyName,
-                            schemaNamer.GetPropConsumerBinder(propertyName),
+                            schemaNamer.GetPropConsumerBinder(propSchema),
                             schemaNamer.ReadRequesterBinder,
                             schemaNamer.WriteRequesterBinder,
                             schemaNamer.GetPropReadActName(propertyName),
@@ -286,7 +286,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                         yield return new RustPropertyMaintainer(
                             propertyName,
                             new CodeName(propSchema),
-                            schemaNamer.GetPropMaintainerBinder(propertyName),
+                            schemaNamer.GetPropMaintainerBinder(propSchema),
                             schemaNamer.GetPropReadActName(propertyName),
                             schemaNamer.GetPropWriteActName(propertyName),
                             genNamespace,
@@ -312,7 +312,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                         yield return new RustPropertyConsumer(
                             propertyName,
                             new CodeName(propSchema),
-                            schemaNamer.GetPropConsumerBinder(propertyName),
+                            schemaNamer.GetPropConsumerBinder(propSchema),
                             schemaNamer.GetPropReadActName(propertyName),
                             schemaNamer.GetPropWriteActName(propertyName),
                             genNamespace,
@@ -359,24 +359,24 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                 case TargetLanguage.CSharp:
                     if (generateServer)
                     {
-                        yield return new DotNetTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(eventName), projectName, genNamespace, modelId, serviceName, serializerClassName, serializerEmptyType, new CodeName(schemaType), topicPattern);
+                        yield return new DotNetTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(schemaType), projectName, genNamespace, modelId, serviceName, serializerClassName, serializerEmptyType, EnvoyGeneratorSupport.GetTypeName(schemaType, format), topicPattern);
                     }
 
                     if (generateClient)
                     {
-                        yield return new DotNetTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(eventName), projectName, genNamespace, modelId, serviceName, serializerClassName, serializerEmptyType, new CodeName(schemaType), serviceGroupId, topicPattern);
+                        yield return new DotNetTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(schemaType), projectName, genNamespace, modelId, serviceName, serializerClassName, serializerEmptyType, EnvoyGeneratorSupport.GetTypeName(schemaType, format), serviceGroupId, topicPattern);
                     }
 
                     break;
                 case TargetLanguage.Rust:
                     if (generateServer)
                     {
-                        yield return new RustTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(eventName), genNamespace, modelId, new CodeName(schemaType), topicPattern, srcSubdir);
+                        yield return new RustTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(schemaType), genNamespace, modelId, EnvoyGeneratorSupport.GetTypeName(schemaType, format), topicPattern, schemaType, srcSubdir);
                     }
 
                     if (generateClient)
                     {
-                        yield return new RustTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(eventName), genNamespace, modelId, new CodeName(schemaType), serviceGroupId, topicPattern, srcSubdir);
+                        yield return new RustTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(schemaType), genNamespace, modelId, EnvoyGeneratorSupport.GetTypeName(schemaType, format), serviceGroupId, topicPattern, schemaType, srcSubdir);
                     }
 
                     break;
@@ -439,18 +439,21 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             }
         }
 
-        internal IEnumerable<IEnvoyTemplateTransform> GetSerializationTransforms(string serializableType)
+        internal IEnumerable<IEnvoyTemplateTransform> GetSerializationTransforms(string serializableType, SerializationFormat format)
         {
             switch (targetLanguage)
             {
                 case TargetLanguage.CSharp:
                     break;
                 case TargetLanguage.Rust:
-                    yield return new RustSerialization(
-                        genNamespace,
-                        SerializationFormat.Json,
-                        new CodeName(serializableType),
-                        srcSubdir);
+                    if (format != SerializationFormat.Raw && format != SerializationFormat.Custom)
+                    {
+                        yield return new RustSerialization(
+                            genNamespace,
+                            format,
+                            new CodeName(serializableType),
+                            srcSubdir);
+                    }
                     break;
                 default:
                     throw new NotSupportedException($"Target language {targetLanguage} is not supported.");

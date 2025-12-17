@@ -45,10 +45,7 @@ namespace Dtdl2Wot
             this.contentType = payloadFormat switch
             {
                 PayloadFormat.Avro => "application/avro",
-                PayloadFormat.Cbor => "application/cbor",
                 PayloadFormat.Json => "application/json",
-                PayloadFormat.Proto2 => "application/protobuf",
-                PayloadFormat.Proto3 => "application/protobuf",
                 PayloadFormat.Raw => "application/octet-stream",
                 PayloadFormat.Custom => "",
                 _ => throw new InvalidOperationException($"InvalidOperationException \"{payloadFormat}\" not recognized"),

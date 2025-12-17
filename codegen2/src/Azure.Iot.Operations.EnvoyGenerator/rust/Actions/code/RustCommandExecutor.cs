@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly ITypeName? respSchema;
         private readonly List<CodeName> normalResultFields;
         private readonly List<CodeName> normalRequiredFields;
-        private readonly CodeName? normalResultSchema;
+        private readonly ITypeName? normalResultSchema;
         private readonly CodeName? errorResultName;
         private readonly CodeName? errorResultSchema;
         private readonly bool isIdempotent;
@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             ITypeName? respSchema,
             List<CodeName> normalResultFields,
             List<CodeName> normalRequiredFields,
-            CodeName? normalResultSchema,
+            ITypeName? normalResultSchema,
             CodeName? errorResultName,
             CodeName? errorResultSchema,
             bool isIdempotent,

@@ -7,8 +7,8 @@
     "capitalize": true
   },
   "eventValueSchema": {
-    "in": [ "eventSchema" ],
-    "out": "EventOne{eventSchema}Value",
+    "in": [ "eventName" ],
+    "out": "EventOne{eventName}Value",
     "capitalize": true
   }
 }

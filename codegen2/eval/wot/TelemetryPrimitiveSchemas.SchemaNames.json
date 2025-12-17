@@ -5,8 +5,8 @@
     "capitalize": true
   },
   "eventValueSchema": {
-    "in": [ "eventSchema" ],
-    "out": "{eventSchema}Schema",
+    "in": [ "eventName" ],
+    "out": "{eventName}Schema",
     "capitalize": true
   },
   "eventSenderBinder": {

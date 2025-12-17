@@ -40,8 +40,8 @@
             bool isAggregate)
             : this(
                 new CodeName(propertyName),
-                new CodeName(schemaNamer.GetPropConsumerBinder(propertyName)),
-                new CodeName(schemaNamer.GetPropMaintainerBinder(propertyName)),
+                new CodeName(schemaNamer.GetPropConsumerBinder(propSchema)),
+                new CodeName(schemaNamer.GetPropMaintainerBinder(propSchema)),
                 new CodeName(propSchema),
                 readFormat.GetEmptyTypeName(),
                 writeFormat.GetEmptyTypeName(),

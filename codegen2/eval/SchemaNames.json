@@ -22,8 +22,8 @@
     "capitalize": true
   },
   "eventValueSchema": {
-    "in": [ "eventSchema" ],
-    "out": "Event{eventSchema}Value",
+    "in": [ "eventName" ],
+    "out": "Event{eventName}Value",
     "capitalize": true
   },
   "eventSenderBinder": {

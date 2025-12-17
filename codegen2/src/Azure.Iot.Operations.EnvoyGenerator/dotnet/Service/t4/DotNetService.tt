@@ -724,7 +724,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 
     private bool IsLast(EventSpec telemEnvoyInfo) => telemEnvoyInfo.Name.AsGiven == this.eventSpec.Last().Name.AsGiven;
 
-    private string TelemMethodName(EventSpec telemEnvoyInfo, string prefix, string suffix = null) => (new CodeName()).GetMethodName(TargetLanguage.CSharp, "telemetry", suffix, prefix: prefix);
+    private string TelemMethodName(EventSpec telemEnvoyInfo, string prefix, string suffix = null) => ((telemEnvoyInfo.Schema is RawTypeName || telemEnvoyInfo.Schema is CustomTypeName) ? telemEnvoyInfo.Name : new CodeName()).GetMethodName(TargetLanguage.CSharp, "telemetry", suffix, prefix: prefix);
 
     private string GetInfoName(CodeName infoName) => infoName?.GetVariableName(TargetLanguage.CSharp) ?? "errorPayload";
 

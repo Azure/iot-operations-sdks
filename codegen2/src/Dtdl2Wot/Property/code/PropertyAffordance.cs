@@ -16,6 +16,7 @@ namespace Dtdl2Wot
         private readonly DTSchemaInfo? valueSchema;
         private readonly string? readErrorSchemaName;
         private readonly string? writeErrorSchemaName;
+        private readonly bool isSchemaFragmented;
         private readonly ThingDescriber thingDescriber;
 
         public PropertyAffordance(DTPropertyInfo dtProperty, int mqttVersion, bool usesTypes, string contentType, string propertyTopic, ThingDescriber thingDescriber)
@@ -35,6 +36,9 @@ namespace Dtdl2Wot
             this.valueSchema = isSchemaPropertyResult ? valueField?.Schema : dtProperty.Schema;
             this.readErrorSchemaName = readErrorField != null ? new CodeName(readErrorField.Schema.Id).AsGiven : null;
             this.writeErrorSchemaName = writeErrorField != null ? new CodeName(writeErrorField.Schema.Id).AsGiven : null;
+
+            DTEntityInfo? fragCarrier = isSchemaPropertyResult ? valueField : dtProperty;
+            this.isSchemaFragmented = fragCarrier?.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.FragmentedAdjunctTypeFormat, mqttVersion))) ?? false;
 
             this.thingDescriber = thingDescriber;
         }

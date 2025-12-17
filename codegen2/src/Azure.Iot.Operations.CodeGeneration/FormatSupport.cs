@@ -7,6 +7,8 @@
             return format switch
             {
                 SerializationFormat.Json => "JSON",
+                SerializationFormat.Raw => "raw",
+                SerializationFormat.Custom => "custom",
                 _ => string.Empty,
             };
         }
@@ -16,6 +18,8 @@
             return format switch
             {
                 SerializationFormat.Json => "Utf8JsonSerializer",
+                SerializationFormat.Raw => "PassthroughSerializer",
+                SerializationFormat.Custom => "ExternalSerializer",
                 _ => string.Empty,
             };
         }
@@ -25,6 +29,8 @@
             return format switch
             {
                 SerializationFormat.Json => EmptyTypeName.JsonInstance,
+                SerializationFormat.Raw => EmptyTypeName.RawInstance,
+                SerializationFormat.Custom => EmptyTypeName.CustomInstance,
                 _ => EmptyTypeName.JsonInstance,
             };
         }

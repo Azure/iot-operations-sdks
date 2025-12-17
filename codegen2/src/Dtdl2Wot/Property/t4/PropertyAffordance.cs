@@ -35,7 +35,7 @@ namespace Dtdl2Wot
             this.Write("\",\r\n");
  } 
  if (this.usesTypes) { 
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingDescriber.GetTypeAndAddenda(this.valueSchema, 6)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingDescriber.GetTypeAndAddenda(this.valueSchema, 6, this.isSchemaFragmented)));
             this.Write(",\r\n      \"readOnly\": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.dtProperty.Writable ? "false" : "true"));
             this.Write(",\r\n");

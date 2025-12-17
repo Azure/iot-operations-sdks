@@ -36,7 +36,9 @@
 <# } #>
       },
 <# } else { #>
-      "input": {},
+      "input": {
+        "type": "null"
+      },
 <# } #>
 <# } #>
 <# if (this.dtCommand.Response != null) { #>
@@ -70,7 +72,9 @@
 <# } #>
       },
 <# } else { #>
-      "output": {},
+      "output": {
+        "type": "null"
+      },
 <# } #>
 <# } #>
 <# if (this.isCommandIdempotent) { #>

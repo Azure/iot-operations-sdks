@@ -13,6 +13,58 @@
   "security": [
     "nosec_sc"
   ],
+  "schemaDefinitions": {
+    "Foo": {
+      "description": "The requested property read/write could not be completed.",
+      "type": "object",
+      "properties": {
+        "explanation": {
+          "description": "The requested property read/write could not be completed.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "details": {
+          "type": "string"
+        }
+      }
+    },
+    "Bar": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "Baz": {
+      "type": "string",
+      "const": "Hello"
+    }
+  },
+  "forms": [
+    {
+      "href": "dtmi:test:PropertyTogether;1",
+      "contentType": "application/json",
+      "dtv:topic": "test/PropertyTogether/read",
+          "additionalResponses": [
+            {
+              "success": false
+            }
+          ],
+      "op": [ "readallproperties" ]
+    },
+    {
+      "href": "dtmi:test:PropertyTogether;1",
+      "contentType": "application/json",
+      "dtv:topic": "test/PropertyTogether/read",
+          "additionalResponses": [
+            {
+              "success": false
+            }
+          ],
+      "op": [ "writemultipleproperties" ]
+    }
+  ],
   "actions": {
     "DoSomething": {
       "input": {
@@ -39,14 +91,26 @@
         {
           "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Aleph;1",
           "contentType": "application/json",
-          "dtv:topic": "test/ExternalSchemas/Aleph/write",
-          "op": "writeproperty"
+          "dtv:topic": "sample/{modelId}/property/Alpha",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "Foo"
+            }
+          ],
+          "op": [ "readproperty" ]
         },
         {
           "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Aleph;1",
           "contentType": "application/json",
-          "dtv:topic": "test/ExternalSchemas/Aleph/read",
-          "op": "readproperty"
+          "dtv:topic": "sample/{modelId}/property/Alpha",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "Foo"
+            }
+          ],
+          "op": [ "writeproperty" ]
         }
       ]
     }

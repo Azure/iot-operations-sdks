@@ -30,7 +30,7 @@
             this.errorReporter = errorReporter;
         }
 
-        public bool TryValidateThng(TDThing thing)
+        public bool TryValidateThng(TDThing thing, HashSet<SerializationFormat> serializationFormats)
         {
             bool hasError = false;
 
@@ -59,22 +59,22 @@
                 hasError = true;
             }
 
-            if (!TryValidateRootForms(thing.Forms, thing.SchemaDefinitions))
+            if (!TryValidateRootForms(thing.Forms, thing.SchemaDefinitions, serializationFormats))
             {
                 hasError = true;
             }
 
-            if (!TryValidateActions(thing.Actions, thing.SchemaDefinitions))
+            if (!TryValidateActions(thing.Actions, thing.SchemaDefinitions, serializationFormats))
             {
                 hasError = true;
             }
 
-            if (!TryValidateProperties(thing.Properties, thing.SchemaDefinitions))
+            if (!TryValidateProperties(thing.Properties, thing.SchemaDefinitions, serializationFormats))
             {
                 hasError = true;
             }
 
-            if (!TryValidateEvents(thing.Events, thing.SchemaDefinitions))
+            if (!TryValidateEvents(thing.Events, thing.SchemaDefinitions, serializationFormats))
             {
                 hasError = true;
             }
@@ -171,16 +171,21 @@
             }
         }
 
-        private bool TryValidateRootForms(ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions)
+        private bool TryValidateRootForms(ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
         {
             if (forms?.Elements == null)
             {
                 return true;
             }
 
-            if (!TryValidateForms(forms, FormsKind.Root, schemaDefinitions))
+            if (!TryValidateForms(forms, FormsKind.Root, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
             {
                 return false;
+            }
+
+            if (contentType != null)
+            {
+                serializationFormats.Add(ThingSupport.ContentTypeToFormat(contentType.Value.Value));
             }
 
             List<ValueTracker<StringHolder>> aggregateOps = forms.Elements.SelectMany(form => form.Value.Op?.Elements ?? new()).ToList();
@@ -564,7 +569,7 @@
             return !hasError;
         }
 
-        private bool TryValidateActions(MapTracker<TDAction>? actions, MapTracker<TDDataSchema>? schemaDefinitions)
+        private bool TryValidateActions(MapTracker<TDAction>? actions, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
         {
             if (actions?.Entries == null)
             {
@@ -575,35 +580,40 @@
 
             foreach (KeyValuePair<string, ValueTracker<TDAction>> action in actions.Entries)
             {
-                if (!TryValidateAction(action.Key, action.Value, schemaDefinitions))
+                if (!TryValidateAction(action.Key, action.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
                 {
                     hasError = true;
+                }
+                else if (contentType != null)
+                {
+                    serializationFormats.Add(ThingSupport.ContentTypeToFormat(contentType.Value.Value));
                 }
             }
 
             return !hasError;
         }
 
-        private bool TryValidateAction(string name, ValueTracker<TDAction> action, MapTracker<TDDataSchema>? schemaDefinitions)
+        private bool TryValidateAction(string name, ValueTracker<TDAction> action, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
         {
-            bool hasError = false;
-
-            if (action.Value.Input != null && !TryValidateActionDataSchema(action.Value.Input, TDAction.InputName))
-            {
-                hasError = true;
-            }
-
-            if (action.Value.Output != null && !TryValidateActionDataSchema(action.Value.Output, TDAction.OutputName))
-            {
-                hasError = true;
-            }
-
             if (action.Value.Forms == null)
             {
                 errorReporter.ReportError($"Action '{name}' element is missing required '{TDAction.FormsName}' property.", action.TokenIndex);
+                contentType = null;
+                return false;
+            }
+            else if (!TryValidateForms(action.Value.Forms, FormsKind.Action, schemaDefinitions, out contentType))
+            {
+                return false;
+            }
+
+            bool hasError = false;
+
+            if (action.Value.Input != null && !TryValidateActionDataSchema(action.Value.Input, TDAction.InputName, contentType))
+            {
                 hasError = true;
             }
-            else if (!TryValidateForms(action.Value.Forms, FormsKind.Action, schemaDefinitions))
+
+            if (action.Value.Output != null && !TryValidateActionDataSchema(action.Value.Output, TDAction.OutputName, contentType))
             {
                 hasError = true;
             }
@@ -627,21 +637,22 @@
             return !hasError;
         }
 
-        private bool TryValidateActionDataSchema<T>(ValueTracker<T> dataSchema, string propertyName)
+        private bool TryValidateActionDataSchema<T>(ValueTracker<T> dataSchema, string propertyName, ValueTracker<StringHolder>? contentType)
             where T : TDDataSchema, IDeserializable<T>
         {
             bool isStructuredObject = dataSchema.Value.Type?.Value.Value == TDValues.TypeObject && dataSchema.Value.Properties != null;
+            bool isNull = dataSchema.Value.Type?.Value.Value == TDValues.TypeNull;
             bool isReference = dataSchema.Value.Ref != null;
-            if (!isStructuredObject && !isReference)
+            if (!isStructuredObject && !isNull && !isReference)
             {
-                errorReporter.ReportError($"'{TDThing.ActionsName}' element '{propertyName}' property must have a schema of (or a reference to) a structured object type.", dataSchema.TokenIndex);
+                errorReporter.ReportError($"'{TDThing.ActionsName}' element '{propertyName}' property must have a schema of (or a reference to) a structured object type, or no schema at all via a '{TDDataSchema.TypeName}' value of '{TDValues.TypeNull}'.", dataSchema.TokenIndex);
                 return false;
             }
 
-            return TryValidateDataSchema(dataSchema, null, DataSchemaKind.Affordance);
+            return TryValidateDataSchema(dataSchema, null, DataSchemaKind.Action, contentType);
         }
 
-        private bool TryValidateProperties(MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions)
+        private bool TryValidateProperties(MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
         {
             if (properties?.Entries == null)
             {
@@ -652,40 +663,43 @@
 
             foreach (KeyValuePair<string, ValueTracker<TDProperty>> property in properties.Entries)
             {
-                if (!TryValidateProperty(property.Key, property.Value, schemaDefinitions))
+                if (!TryValidateProperty(property.Key, property.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
                 {
                     hasError = true;
+                }
+                else if (contentType != null)
+                {
+                    serializationFormats.Add(ThingSupport.ContentTypeToFormat(contentType.Value.Value));
                 }
             }
 
             return !hasError;
         }
 
-        private bool TryValidateProperty(string name, ValueTracker<TDProperty> property, MapTracker<TDDataSchema>? schemaDefinitions)
+        private bool TryValidateProperty(string name, ValueTracker<TDProperty> property, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
         {
-            bool hasError = false;
-
-            if (!TryValidateDataSchema(property, (propName) => propName == TDProperty.ReadOnlyName || propName == TDProperty.PlaceholderName || propName == TDProperty.FormsName, DataSchemaKind.Affordance))
-            {
-                hasError = true;
-            }
-
             if (property.Value.Forms == null)
             {
                 errorReporter.ReportError($"Property '{name}' element is missing required '{TDProperty.FormsName}' property.", property.TokenIndex);
-                hasError = true;
+                contentType = null;
+                return false;
             }
-            else if (!TryValidatePropertyForms(name, property.Value.Forms, schemaDefinitions, property.Value.ReadOnly))
+            else if (!TryValidatePropertyForms(name, property.Value.Forms, schemaDefinitions, property.Value.ReadOnly, out contentType))
             {
-                hasError = true;
+                return false;
             }
 
-            return !hasError;
+            if (!TryValidateDataSchema(property, (propName) => propName == TDProperty.ReadOnlyName || propName == TDProperty.PlaceholderName || propName == TDProperty.FormsName, DataSchemaKind.Property, contentType))
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        private bool TryValidatePropertyForms(string name, ArrayTracker<TDForm> forms, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<BoolHolder>? readOnly)
+        private bool TryValidatePropertyForms(string name, ArrayTracker<TDForm> forms, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<BoolHolder>? readOnly, out ValueTracker<StringHolder>? contentType)
         {
-            if (!TryValidateForms(forms, FormsKind.Property, schemaDefinitions))
+            if (!TryValidateForms(forms, FormsKind.Property, schemaDefinitions, out contentType))
             {
                 return false;
             }
@@ -735,7 +749,7 @@
             return !hasError;
         }
 
-        private bool TryValidateEvents(MapTracker<TDEvent>? evts, MapTracker<TDDataSchema>? schemaDefinitions)
+        private bool TryValidateEvents(MapTracker<TDEvent>? evts, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
         {
             if (evts?.Entries == null)
             {
@@ -746,30 +760,35 @@
 
             foreach (KeyValuePair<string, ValueTracker<TDEvent>> evt in evts.Entries)
             {
-                if (!TryValidateEvent(evt.Key, evt.Value, schemaDefinitions))
+                if (!TryValidateEvent(evt.Key, evt.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
                 {
                     hasError = true;
+                }
+                else if (contentType != null)
+                {
+                    serializationFormats.Add(ThingSupport.ContentTypeToFormat(contentType.Value.Value));
                 }
             }
 
             return !hasError;
         }
 
-        private bool TryValidateEvent(string name, ValueTracker<TDEvent> evt, MapTracker<TDDataSchema>? schemaDefinitions)
+        private bool TryValidateEvent(string name, ValueTracker<TDEvent> evt, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
         {
-            bool hasError = false;
-
-            if (evt.Value.Data != null && !TryValidateDataSchema(evt.Value.Data, null, DataSchemaKind.Affordance))
-            {
-                hasError = true;
-            }
-
             if (evt.Value.Forms == null)
             {
                 errorReporter.ReportError($"Event '{name}' element is missing required '{TDEvent.FormsName}' property.", evt.TokenIndex);
-                hasError = true;
+                contentType = null;
+                return false;
             }
-            else if (!TryValidateForms(evt.Value.Forms, FormsKind.Event, schemaDefinitions))
+            else if (!TryValidateForms(evt.Value.Forms, FormsKind.Event, schemaDefinitions, out contentType))
+            {
+                return false;
+            }
+
+            bool hasError = false;
+
+            if (evt.Value.Data != null && !TryValidateDataSchema(evt.Value.Data, null, DataSchemaKind.Event, contentType))
             {
                 hasError = true;
             }
@@ -793,8 +812,10 @@
             return !hasError;
         }
 
-        private bool TryValidateForms(ArrayTracker<TDForm> forms, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions)
+        private bool TryValidateForms(ArrayTracker<TDForm> forms, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
         {
+            contentType = null;
+
             if (forms.Elements!.Count == 0)
             {
                 errorReporter.ReportError($"Property '{TDEvent.FormsName}' array value contains no elements; at least one form is required.", forms.TokenIndex);
@@ -805,9 +826,24 @@
 
             foreach (ValueTracker<TDForm> form in forms.Elements)
             {
-                if (!TryValidateForm(form, formsKind, schemaDefinitions))
+                if (!TryValidateForm(form, formsKind, schemaDefinitions, out ValueTracker<StringHolder>? formContentType))
                 {
                     hasError = true;
+                }
+                else if (formContentType != null)
+                {
+                    if (contentType != null)
+                    {
+                        if (formContentType.Value.Value != contentType.Value.Value)
+                        {
+                            errorReporter.ReportError($"'{TDThing.FormsName}' array contains forms with different '{TDForm.ContentTypeName}' property values '{contentType.Value.Value}' and '{formContentType.Value.Value}'.", contentType.TokenIndex, formContentType.TokenIndex);
+                            hasError = true;
+                        }
+                    }
+                    else
+                    {
+                        contentType = formContentType;
+                    }
                 }
             }
 
@@ -834,7 +870,7 @@
             return !hasError;
         }
 
-        private bool TryValidateForm(ValueTracker<TDForm> form, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions)
+        private bool TryValidateForm(ValueTracker<TDForm> form, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
         {
             bool hasError = false;
 
@@ -888,15 +924,22 @@
 
             if (form.Value.ContentType != null)
             {
-                if (string.IsNullOrWhiteSpace(form.Value.ContentType.Value.Value))
+                if (formsKind == FormsKind.Action || formsKind == FormsKind.Event)
                 {
-                    errorReporter.ReportError($"Form '{TDForm.ContentTypeName}' property has empty value.", form.Value.ContentType.TokenIndex);
-                    hasError = true;
+                    if (form.Value.ContentType.Value.Value != TDValues.ContentTypeJson && form.Value.ContentType.Value.Value != TDValues.ContentTypeRaw && form.Value.ContentType.Value.Value != TDValues.ContentTypeCustom)
+                    {
+                        errorReporter.ReportError($"Form '{TDForm.ContentTypeName}' property has unsupported value '{form.Value.ContentType.Value.Value}'; for '{TDThing.ActionsName}' and '{TDThing.EventsName}' forms, supported values are '{TDValues.ContentTypeJson}', '{TDValues.ContentTypeRaw}', and '{TDValues.ContentTypeCustom}' (empty string).", form.Value.ContentType.TokenIndex);
+                        hasError = true;
+                    }
                 }
-                else if (form.Value.ContentType.Value.Value != TDValues.ContentTypeJson)
+                else
                 {
-                    errorReporter.ReportError($"Form '{TDForm.ContentTypeName}' property has unsupported value '{form.Value.ContentType.Value.Value}'; only '{TDValues.ContentTypeJson}' is supported.", form.Value.ContentType.TokenIndex);
-                    hasError = true;
+                    if (form.Value.ContentType.Value.Value != TDValues.ContentTypeJson)
+                    {
+                        string adjective = form.Value.ContentType.Value.Value == TDValues.ContentTypeRaw || form.Value.ContentType.Value.Value == TDValues.ContentTypeCustom ? "disallowed" : "unsupported";
+                        errorReporter.ReportError($"Form '{TDForm.ContentTypeName}' property has {adjective} value '{form.Value.ContentType.Value.Value}'; for '{TDThing.PropertiesName}' and root-level forms, only '{TDValues.ContentTypeJson}' is supported.", form.Value.ContentType.TokenIndex);
+                        hasError = true;
+                    }
                 }
             }
 
@@ -921,6 +964,7 @@
 
             if (hasError)
             {
+                contentType = null;
                 return false;
             }
 
@@ -1068,6 +1112,7 @@
                 }
             }
 
+            contentType = form.Value.ContentType;
             return !hasError;
         }
 
@@ -1187,10 +1232,10 @@
             return !hasError;
         }
 
-        private bool TryValidateDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover, DataSchemaKind dataSchemaKind = DataSchemaKind.Undistinguished)
+        private bool TryValidateDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover, DataSchemaKind dataSchemaKind = DataSchemaKind.Undistinguished, ValueTracker<StringHolder>? contentType = null)
             where T : TDDataSchema, IDeserializable<T>
         {
-            if (dataSchema.Value.Ref != null && dataSchemaKind != DataSchemaKind.Affordance)
+            if (dataSchema.Value.Ref != null && dataSchemaKind != DataSchemaKind.Action && dataSchemaKind != DataSchemaKind.Property && dataSchemaKind != DataSchemaKind.Event)
             {
                 errorReporter.ReportError($"The '{TDDataSchema.RefName}' property is permitted only in the first level of an affordance schema definition ('{TDThing.PropertiesName}', '{TDThing.EventsName}'/'{TDEvent.DataName}', '{TDThing.ActionsName}'/'{TDAction.InputName}', and '{TDThing.ActionsName}'/'{TDAction.OutputName}').", dataSchema.Value.Ref.TokenIndex);
                 return false;
@@ -1208,9 +1253,30 @@
                 return false;
             }
 
+            bool contentTypeIsRawOrCustom = contentType?.Value.Value == TDValues.ContentTypeRaw || contentType?.Value.Value == TDValues.ContentTypeCustom;
+
             if (dataSchema.Value.Ref != null)
             {
-                return TryValidateReferenceDataSchema(dataSchema, propertyApprover);
+                if (contentTypeIsRawOrCustom)
+                {
+                    errorReporter.ReportError($"Data schema with '{TDDataSchema.RefName}' property is not permitted in an affordance with a form that specifies '{TDForm.ContentTypeName}' of '{contentType!.Value.Value}'.", dataSchema.Value.Ref.TokenIndex, contentType!.TokenIndex);
+                    return false;
+                }
+                else
+                {
+                    return TryValidateReferenceDataSchema(dataSchema, propertyApprover);
+                }
+            }
+
+            if (contentTypeIsRawOrCustom && dataSchema.Value.Type!.Value.Value != TDValues.TypeNull)
+            {
+                errorReporter.ReportError($"Data schema with '{TDDataSchema.TypeName}' of '{dataSchema.Value.Type.Value.Value}' is not permitted in an affordance with a form that specifies '{TDForm.ContentTypeName}' of '{contentType!.Value.Value}'; only '{TDDataSchema.TypeName}' of '{TDValues.TypeNull}' is permitted.", dataSchema.Value.Type.TokenIndex, contentType!.TokenIndex);
+                return false;
+            }
+            else if (!contentTypeIsRawOrCustom && dataSchema.Value.Type!.Value.Value == TDValues.TypeNull)
+            {
+                errorReporter.ReportError($"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeNull}' is permitted only in an affordance with a form that specifies '{TDForm.ContentTypeName}' of '{TDValues.ContentTypeRaw}' or '{TDValues.ContentTypeCustom}'.", dataSchema.Value.Type.TokenIndex, contentType?.TokenIndex ?? -1);
+                return false;
             }
 
             switch (dataSchema.Value.Type!.Value.Value)
@@ -1227,6 +1293,8 @@
                     return TryValidateIntegerDataSchema(dataSchema, dataSchemaKind, propertyApprover);
                 case TDValues.TypeBoolean:
                     return TryValidateBooleanDataSchema(dataSchema, dataSchemaKind, propertyApprover);
+                case TDValues.TypeNull:
+                    return TryValidateNullDataSchema(dataSchema, dataSchemaKind, propertyApprover);
                 default:
                     errorReporter.ReportError($"Data schema '{TDDataSchema.TypeName}' property has unsupported value '{dataSchema.Value.Type.Value.Value}'.", dataSchema.Value.Type.TokenIndex);
                     return false;
@@ -1803,10 +1871,42 @@
             return !hasError;
         }
 
+        private bool TryValidateNullDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover)
+             where T : TDDataSchema, IDeserializable<T>
+        {
+            if (dataSchemaKind != DataSchemaKind.Action && dataSchemaKind != DataSchemaKind.Event)
+            {
+                errorReporter.ReportError($"A '{TDDataSchema.TypeName}' property value of '{TDValues.TypeNull}' is permitted only in the '{TDAction.InputName}' or '{TDAction.OutputName}' property value of an '{TDThing.ActionsName}' element or in the '{TDEvent.DataName}' property value of an '{TDThing.EventsName}' element.", dataSchema.Value.Type!.TokenIndex);
+                return false;
+            }
+
+            bool hasError = false;
+
+            foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
+            {
+                if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != TDDataSchema.TypeName && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName)
+                {
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
+                    {
+                        errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
+                    }
+                    else
+                    {
+                        errorReporter.ReportError($"Data schema defines a null type, which does not support '{propertyName.Key}' property.", propertyName.Value);
+                        hasError = true;
+                    }
+                }
+            }
+
+            return !hasError;
+        }
+
         private enum DataSchemaKind
         {
             Undistinguished,
-            Affordance,
+            Action,
+            Property,
+            Event,
             SchemaDefinition,
         }
 
