@@ -51,7 +51,7 @@ public class CounterService : Counter.Service
     {
         CommandResponseMetadata responseMetadata = new();
 
-        if (requestMetadata.CloudEvent != null)
+        if (requestMetadata.ExtendedCloudEvent != null)
         {
             ReceivedCloudEvent = requestMetadata.ExtendedCloudEvent;
 
