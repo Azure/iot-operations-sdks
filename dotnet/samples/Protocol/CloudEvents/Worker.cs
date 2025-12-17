@@ -5,6 +5,7 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
 using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaType;
@@ -41,7 +42,7 @@ public class Worker(MqttSessionClient mqttClient, OvenService ovenService, Schem
                 ExternalTemperature = 100 - counter,
                 InternalTemperature = 200 + counter,
             }, metadata, null, MqttQualityOfServiceLevel.AtMostOnce);
-            
+
             if (counter % 2 == 0)
             {
                 await ovenService.SendTelemetryAsync(new TelemetryCollection()

@@ -2,7 +2,6 @@
 
 Utilities for using the Azure IoT Operations Services over MQTT, leveraging the [Azure IoT Operations - MQTT](../azure_iot_operations_mqtt/) crate.
  
-[API documentation](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_services) |
 [Examples](examples) |
 [Release Notes](https://github.com/Azure/iot-operations-sdks/releases?q=rust%2Fservices&expanded=true)
  
@@ -22,3 +21,4 @@ To enable a specific client, the corresponding feature must be enabled.
 - `state_store`: Enables the State Store client.
 - `schema_registry`: Enables the Schema Registry client.
 - `leased_lock`: Enables the Leased Lock client.
+- `azure_device_registry`: Enables the Azure Device Registry client.

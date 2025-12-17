@@ -4,7 +4,7 @@
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
@@ -21,7 +21,6 @@ async fn main() {
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a session
@@ -149,5 +148,5 @@ async fn increment_counter_and_publish(
 /// Exit the session after a delay.
 async fn exit_timer(exit_handle: SessionExitHandle, exit_after: Duration) {
     tokio::time::sleep(exit_after).await;
-    exit_handle.try_exit().await.unwrap();
+    exit_handle.try_exit().unwrap();
 }

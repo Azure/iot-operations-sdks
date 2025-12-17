@@ -12,6 +12,7 @@
 //! - `schema_registry`: Enables the Schema Registry Client.
 //! - `state_store`: Enables the State Store Client.
 //! - `leased_lock`: Enables the Lease and Lock Clients.
+//! - `azure_device_registry`: Enables the Azure Device Registry client.
 //!
 //! This example shows how you could import features for only the Schema Registry Client:
 //!

@@ -5,8 +5,8 @@ use std::time::Duration;
 use env_logger::Builder;
 use thiserror::Error;
 
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
@@ -23,7 +23,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .init();
 
     // Create a Session
@@ -48,7 +48,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .command_name("increment")
         .build()
         .unwrap();
-    let incr_executor: rpc_command::Executor<IncrRequestPayload, IncrResponsePayload, _> =
+    let incr_executor: rpc_command::Executor<IncrRequestPayload, IncrResponsePayload> =
         rpc_command::Executor::new(
             application_context,
             session.create_managed_client(),
@@ -66,11 +66,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 /// Handle incoming increment command requests
 async fn increment_executor_loop(
-    mut executor: rpc_command::Executor<
-        IncrRequestPayload,
-        IncrResponsePayload,
-        SessionManagedClient,
-    >,
+    mut executor: rpc_command::Executor<IncrRequestPayload, IncrResponsePayload>,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     // Counter to increment
     let mut counter = 0;
@@ -78,6 +74,18 @@ async fn increment_executor_loop(
     // Increment the counter for each incoming request
     while let Some(recv_result) = executor.recv().await {
         let request = recv_result?;
+
+        // Parse cloud event if present
+        match rpc_command::executor::cloud_event_from_request(&request) {
+            Ok(cloud_event) => {
+                log::info!("{cloud_event}");
+            }
+            Err(e) => {
+                // If a cloud event is not present, this error is expected
+                log::warn!("Error parsing cloud event: {e}");
+            }
+        }
+
         // Update the counter
         counter += 1;
         log::info!("Counter incremented to: {counter}");
@@ -85,9 +93,14 @@ async fn increment_executor_loop(
         let response = IncrResponsePayload {
             counter_response: counter,
         };
+        let cloud_event = rpc_command::executor::ResponseCloudEventBuilder::default()
+            .source("aio://increment/executor/sample")
+            .build()
+            .unwrap();
         let response = rpc_command::executor::ResponseBuilder::default()
             .payload(response)
             .unwrap()
+            .cloud_event(cloud_event)
             .build()
             .unwrap();
         // Send the response
