@@ -114,7 +114,11 @@ namespace Azure.Iot.Operations.Protocol
         /// but the source identifier alone might not be sufficient as a qualifier for any specific event if the source context has internal sub-structure.
         /// </summary>
         /// <remarks>
-        /// This value can be null if no subject should be sent, but it cannot be an empty string.
+        /// This value can be set to null if no subject should be sent.
+        ///
+        /// When this cloud event is sent by a telemetry sender/command invoker/command executor, a default
+        /// value of the MQTT topic this event is sent on will be filled in for you if no other value is explicitly
+        /// set.
         /// </remarks>
         public string? Subject
         {
@@ -124,18 +128,21 @@ namespace Azure.Iot.Operations.Protocol
             }
             set
             {
-                if (value != null && string.IsNullOrWhiteSpace(value)) // if value is whitespace
+                if (string.IsNullOrWhiteSpace(value) && value != null) // if value is whitespace
                 {
-                    throw new ArgumentException("Subject must either be null or a non-empty string");
+                    throw new ArgumentException("Subject cannot be whitespace");
                 }
 
+                IsSubjectDefault = false;
                 _subject = value;
             }
         }
 
-        // Users cannot set this to an empty string, so this value signals to telemetry sender/command invoker/etc
-        // to fill in their respective default values if subject is an empty string by the time it reaches them.
-        private string? _subject = "";
+        private string? _subject;
+
+        // Used to track if the user has provided any explicit value for the Subject field. If they haven't,
+        // then it will be filled in for them in the telemetry sender/command invoker/command executor.
+        internal bool IsSubjectDefault = true;
 
         /// <summary>
         ///  Identifies the schema that data adheres to.

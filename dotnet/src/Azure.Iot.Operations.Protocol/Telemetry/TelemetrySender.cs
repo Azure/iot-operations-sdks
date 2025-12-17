@@ -152,8 +152,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 // If the cloud event subject has not been set by the user, provide the default value
                 if (metadata != null
                     && metadata.CloudEvent is not null
-                    && metadata.CloudEvent.Subject != null
-                    && metadata.CloudEvent.Subject.Equals("", StringComparison.OrdinalIgnoreCase))
+                    && metadata.CloudEvent.IsSubjectDefault)
                 {
                     metadata.CloudEvent.Subject = telemTopic.ToString();
                 }
