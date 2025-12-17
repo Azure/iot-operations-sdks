@@ -15,7 +15,8 @@ public class CloudEventsMetadataTests
         Assert.Equal("1.0", metadata.SpecVersion);
         Assert.Equal("tel-type", metadata.Type);
         Assert.Equal("a", metadata.Source!.ToString());
-        Assert.Null(metadata.Id);
+        Assert.NotNull(metadata.Id);
+        Assert.True(Guid.TryParse(metadata.Id, out _));
 
         Assert.Null(metadata.DataSchema);
         Assert.Null(metadata.Subject);

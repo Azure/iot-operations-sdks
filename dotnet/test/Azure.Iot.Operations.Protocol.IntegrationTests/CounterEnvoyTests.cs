@@ -174,7 +174,7 @@ public class CounterEnvoyTests
 
         CloudEvent sentInvokeCloudEvent = new(new Uri("https://www.microsoft.com"), "someRpc.type")
         {
-            DataSchema = "someDataSchema",
+            DataSchema = "https://www.microsoft.com",
             Id = Guid.NewGuid().ToString(),
             Subject = "someSubject",
             Time = DateTime.UtcNow,

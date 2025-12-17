@@ -151,7 +151,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 if (metadata?.CloudEvent is not null)
                 {
-                    metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
                     metadata.CloudEvent.Time ??= DateTime.UtcNow;
                     metadata.CloudEvent.Subject ??= telemTopic.ToString();
                     if(string.IsNullOrEmpty(metadata.CloudEvent.Type))
