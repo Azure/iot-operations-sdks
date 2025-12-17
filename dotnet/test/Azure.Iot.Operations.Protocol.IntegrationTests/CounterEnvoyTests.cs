@@ -211,5 +211,24 @@ public class CounterEnvoyTests
         Assert.Equal(counterService.PublishedResponseCloudEvent.Type, receivedResponseCloudEvent.Type);
         Assert.Equal("application/json", receivedResponseCloudEvent.DataContentType);
 
+        sentInvokeCloudEvent.Subject = null;
+        sentInvokeCloudEvent.Time = null;
+
+        CommandRequestMetadata secondRequestMetadata = new()
+        {
+            CloudEvent = sentInvokeCloudEvent,
+        };
+
+        var resp2 = await counterClient.ReadCounterAsync(executorId, requestMetadata, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+
+        ExtendedCloudEvent? receivedResponseCloudEvent2 = resp2.ResponseMetadata!.ExtendedCloudEvent;
+
+        // Check that the cloud event sent by the invoker is read by the executor correctly
+        Assert.Null(counterService.ReceivedCloudEvent.Subject);
+        Assert.Null(counterService.ReceivedCloudEvent.Time);
+
+        // Check that the cloud event sent by the executor in the response is read by the invoker correctly
+        Assert.Null(receivedResponseCloudEvent.Subject);
+        Assert.Null(receivedResponseCloudEvent.Time);
     }
 }
