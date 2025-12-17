@@ -268,6 +268,255 @@
     },
     {
       "@type": "Telemetry",
+      "name": "deviceEndpointRuntimeHealthEvent",
+      "description": "Telemetry event emitted for reporting the runtime health of the specific inbound endpoint as specified in the topic.",
+      "schema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "@type": [
+              "Field",
+              "Required"
+            ],
+            "name": "runtimeHealth",
+            "description": "The runtime health of the specific inbound endpoint details as specified in the topic.",
+            "schema": "dtmi:com:microsoft:akri:RuntimeHealth;1"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "datasetRuntimeHealthEvent",
+      "description": "Telemetry event emitted for reporting the runtime health of datasets.",
+      "schema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "@type": [
+              "Field",
+              "Required"
+            ],
+            "name": "assetName",
+            "description": "The name of the asset containing the datasets for which the runtime health is being reported.",
+            "schema": "string"
+          },
+          {
+            "@type": [
+              "Field",
+              "Required"
+            ],
+            "name": "datasets",
+            "description": "Array of dataset runtime health information.",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "datasetName",
+                    "description": "The name of the dataset for which the runtime health is being reported.",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "runtimeHealth",
+                    "description": "The runtime health of the specific dataset.",
+                    "schema": "dtmi:com:microsoft:akri:RuntimeHealth;1"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "eventRuntimeHealthEvent",
+      "description": "Telemetry event emitted for reporting the runtime health of events.",
+      "schema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "@type": [
+              "Field",
+              "Required"
+            ],
+            "name": "assetName",
+            "description": "The name of the asset containing the events for which the runtime health is being reported.",
+            "schema": "string"
+          },
+          {
+            "@type": [
+              "Field",
+              "Required"
+            ],
+            "name": "events",
+            "description": "Array of event runtime health information.",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "eventGroupName",
+                    "description": "The name of the event group containing the event for which the runtime health is being reported.",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "eventName",
+                    "description": "The name of the event for which the runtime health is being reported.",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "runtimeHealth",
+                    "description": "The runtime health of the specific event.",
+                    "schema": "dtmi:com:microsoft:akri:RuntimeHealth;1"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "managementActionRuntimeHealthEvent",
+      "description": "Telemetry event emitted for reporting the runtime health of management actions.",
+      "schema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "@type": [
+              "Field",
+              "Required"
+            ],
+            "name": "assetName",
+            "description": "The name of the asset containing the management actions for which the runtime health is being reported.",
+            "schema": "string"
+          },
+          {
+            "@type": [
+              "Field",
+              "Required"
+            ],
+            "name": "managementActions",
+            "description": "Array of management action runtime health information.",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "managementGroupName",
+                    "description": "The name of the management group for which the runtime health is being reported.",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "managementActionName",
+                    "description": "The name of the management action for which the runtime health is being reported.",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "runtimeHealth",
+                    "description": "The runtime health of the specific management action.",
+                    "schema": "dtmi:com:microsoft:akri:RuntimeHealth;1"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "streamRuntimeHealthEvent",
+      "description": "Telemetry event emitted for reporting the runtime health of streams.",
+      "schema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "@type": [
+              "Field",
+              "Required"
+            ],
+            "name": "assetName",
+            "description": "The name of the asset containing the streams for which the runtime health is being reported.",
+            "schema": "string"
+          },
+          {
+            "@type": [
+              "Field",
+              "Required"
+            ],
+            "name": "streams",
+            "description": "Array of stream runtime health information.",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "streamName",
+                    "description": "The name of the stream for which the runtime health is being reported.",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "runtimeHealth",
+                    "description": "The runtime health of the specific stream.",
+                    "schema": "dtmi:com:microsoft:akri:RuntimeHealth;1"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Telemetry",
       "name": "deviceUpdateEvent",
       "description": "Telemetry event emitted when a device is updated, containing the relevant inbound endpoint details as specified in the topic.",
       "schema": {
@@ -1410,7 +1659,7 @@
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:AssetEventGroup;1",
           "name": "eventGroups",
-          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+          "description": "Array of events groups that are part of the asset. Each event group can have per-event group configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": {
@@ -1419,13 +1668,13 @@
                 {
                   "@type": "Field",
                   "name": "dataSource",
-                  "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.",
+                  "description": "The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
-                  "name": "defaultEventsDestinations",
-                  "description": "Default destinations for an event.",
+                  "name": "defaultDestinations",
+                  "description": "Default destinations for an event group.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1434,14 +1683,14 @@
                 {
                   "@type": "Field",
                   "name": "eventGroupConfiguration",
-                  "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
+                  "description": "Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "@id": "dtmi:com:microsoft:akri:AssetEvent;1",
                   "name": "events",
-                  "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+                  "description": "Array of events that are part of the event group. Each event can have per-event configuration.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": {
@@ -2011,7 +2260,7 @@
         {
           "@type": "Field",
           "name": "eventGroups",
-          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+          "description": "Array of event groups that are part of the asset. Each event group can have per-event group configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetEventGroup;1"
@@ -2238,13 +2487,13 @@
         {
           "@type": "Field",
           "name": "dataSource",
-          "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.",
+          "description": "The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset.",
           "schema": "string"
         },
         {
           "@type": "Field",
-          "name": "defaultEventsDestinations",
-          "description": "Default destinations for an event.",
+          "name": "defaultDestinations",
+          "description": "Default destinations for an event group.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -2253,13 +2502,13 @@
         {
           "@type": "Field",
           "name": "eventGroupConfiguration",
-          "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
+          "description": "Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "events",
-          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+          "description": "Array of events that are part of the event group. Each event can have per-event configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DiscoveredAssetEvent;1"
@@ -2459,6 +2708,81 @@
         {
           "name": "Off",
           "enumValue": "Off"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:RuntimeHealth;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "version",
+          "description": "The version of the resource for which the runtime health is being reported.",
+          "schema": "unsignedLong"
+        },
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "healthState",
+          "description": "The current runtime health of the resource.",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [
+                  "Field",
+                  "Required"
+                ],
+                "name": "status",
+                "description": "The current health status of the resource.",
+                "schema": {
+                  "@type": "Enum",
+                  "valueSchema": "string",
+                  "enumValues": [
+                    {
+                      "name": "Available",
+                      "enumValue": "Available"
+                    },
+                    {
+                      "name": "Unavailable",
+                      "enumValue": "Unavailable"
+                    }
+                  ]
+                }
+              },
+              {
+                "@type": [
+                  "Field",
+                  "Required"
+                ],
+                "name": "lastUpdateTime",
+                "description": "The timestamp (RFC3339) when the health status was last updated, even if the status did not change.",
+                "schema": "dateTime"
+              },
+              {
+                "@type": [
+                  "Field"
+                ],
+                "name": "message",
+                "description": "A human-readable message describing the last transition.",
+                "schema": "string"
+              },
+              {
+                "@type": [
+                  "Field"
+                ],
+                "name": "reasonCode",
+                "description": "Unique, CamelCase reason code describing the cause of the last health state transition.",
+                "schema": "string"
+              }
+            ]
+          }
         }
       ]
     },
