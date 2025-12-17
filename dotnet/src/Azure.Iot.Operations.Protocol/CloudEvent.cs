@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Text.RegularExpressions;
 
 namespace Azure.Iot.Operations.Protocol
 {
@@ -53,7 +52,7 @@ namespace Azure.Iot.Operations.Protocol
         /// The format of this is producer defined and might include information such as the version of the type
         /// </summary>
         /// <remarks>
-        /// This value must satisfy the regex ^([-a-z]+)/([-a-z0-9.]+)(\\+([-a-z0-9.]+))?(;.*)?$
+        /// This value cannot be null or whitespace
         /// </remarks>
         public string Type
         {
@@ -63,9 +62,9 @@ namespace Azure.Iot.Operations.Protocol
             }
             set
             {
-                if (!Regex.IsMatch(value, ValidDataContentTypeRegex))
+                if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("The provided data content type does not match the expected regex of " + ValidDataContentTypeRegex);
+                    throw new ArgumentException("The type cannot be null or whitespace");
                 }
 
                 _type = value;
@@ -73,8 +72,6 @@ namespace Azure.Iot.Operations.Protocol
         }
 
         private string _type = type;
-
-        private const string ValidDataContentTypeRegex = "^([-a-z]+)/([-a-z0-9.]+)(\\+([-a-z0-9.]+))?(;.*)?$";
 
         /// <summary>
         ///  Identifies the event. Producers MUST ensure that source + id is unique for each distinct event.
