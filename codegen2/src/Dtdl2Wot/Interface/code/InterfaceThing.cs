@@ -11,6 +11,7 @@ namespace Dtdl2Wot
         private readonly DTInterfaceInfo dtInterface;
         private readonly CodeName serviceName;
         private readonly int mqttVersion;
+        private string schemaNamesPath;
         private readonly string? telemetryTopic;
         private readonly string? commandTopic;
         private readonly string? propertyTopic;
@@ -24,11 +25,12 @@ namespace Dtdl2Wot
         private readonly Dictionary<string, DTEnumInfo> namespacedEnums;
         private readonly ThingDescriber thingDescriber;
 
-        public InterfaceThing(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion)
+        public InterfaceThing(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string schemaNamesPath)
         {
             this.dtInterface = (DTInterfaceInfo)modelDict[interfaceId];
             this.serviceName = new CodeName(dtInterface.Id);
             this.mqttVersion = mqttVersion;
+            this.schemaNamesPath = schemaNamesPath;
 
             this.telemetryTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.TelemTopicPropertyFormat, mqttVersion), out object? telemTopicObj) ? (string)telemTopicObj : null;
             this.commandTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.CmdReqTopicPropertyFormat, mqttVersion), out object? cmdTopicObj) ? (string)cmdTopicObj : null;

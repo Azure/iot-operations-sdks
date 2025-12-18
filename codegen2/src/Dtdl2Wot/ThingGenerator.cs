@@ -19,11 +19,13 @@
             this.mqttVersion = mqttVersion;
         }
 
-        public bool GenerateThing(DirectoryInfo outDir)
+        public bool GenerateThing(DirectoryInfo outDir, FileInfo schemaNamesFile)
         {
+            string schemaNamesPath = Path.GetRelativePath(outDir.FullName, schemaNamesFile.FullName).Replace('\\', '/');
+
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[interfaceId];
 
-            ITemplateTransform interfaceThingTransform = new InterfaceThing(modelDict, interfaceId, this.mqttVersion);
+            ITemplateTransform interfaceThingTransform = new InterfaceThing(modelDict, interfaceId, this.mqttVersion, schemaNamesPath);
 
             string interfaceThingText;
             try

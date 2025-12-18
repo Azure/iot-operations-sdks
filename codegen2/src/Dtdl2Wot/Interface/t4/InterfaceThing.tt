@@ -21,7 +21,7 @@
   "links": [
     {
       "rel": "service-desc",
-      "href": "./SchemaNames.json",
+      "href": "<#=this.schemaNamesPath#>",
       "type": "application/json"
     }
   ],

@@ -14,19 +14,25 @@
         {
             if (args.Length < 2)
             {
-                Console.WriteLine("Usage: Dtdl2Wot <inputFilePath> <outputFolderPath>");
+                Console.WriteLine("Usage: Dtdl2Wot <inputFilePath> <outputFolderPath> [schemaNamesFilePath]");
                 Console.WriteLine("Converts a DTDL model file to a WoT Thing Description.");
+                Console.WriteLine("  <inputFilePath>       Path to the input DTDL model file.");
+                Console.WriteLine("  <outputFolderPath>    Path to the output folder for the generated Thing Description.");
+                Console.WriteLine("  [schemaNamesFilePath] Optional path to a JSON file that defines schema naming rules.");
+                Console.WriteLine("                        If not specified, default path is 'SchemaNames.json' in the output folder.");
+                Console.WriteLine("                        If file does not exist, one will be created (using specified or default path).");
                 return 1;
             }
 
-            string inputFilePath = args[0];
-            string outputFolderPath = args[1];
+            FileInfo inputFile = new FileInfo(args[0]);
+            DirectoryInfo outputDirectory = new DirectoryInfo(args[1]);
+            FileInfo schemaNamesFile = new FileInfo(args.Length > 2 ? args[2] : Path.Combine(outputDirectory.FullName, "SchemaNames.json"));
 
-            string modelText = File.ReadAllText(inputFilePath);
+            string modelText = inputFile.OpenText().ReadToEnd();
 
             DtdlParseLocator parseLocator = (int parseIndex, int parseLine, out string sourceName, out int sourceLine) =>
             {
-                sourceName = inputFilePath;
+                sourceName = inputFile.Name;
                 sourceLine = parseLine;
                 return true;
             };
@@ -44,12 +50,16 @@
 
             ThingGenerator thingGenerator = new ThingGenerator(model, dtInterface.Id, mqttVersion);
 
-            DirectoryInfo outDir = new DirectoryInfo(outputFolderPath);
+            if (!schemaNamesFile.Exists)
+            {
+                Stream schemaNamesStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Dtdl2Wot.Resources.conversion.SchemaNames.json")!;
+                string schemaNamesText = new StreamReader(schemaNamesStream).ReadToEnd();
+                File.WriteAllText(schemaNamesFile.FullName, schemaNamesText);
 
-            string schemaNamesText = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Dtdl2Wot.Resources.conversion.SchemaNames.json")!).ReadToEnd();
-            File.WriteAllText(Path.Combine(outDir.FullName, "SchemaNames.json"), schemaNamesText);
+                Console.WriteLine($"  generated {schemaNamesFile.FullName}");
+            }
 
-            return thingGenerator.GenerateThing(outDir) ? 0 : 1;
+            return thingGenerator.GenerateThing(outputDirectory, schemaNamesFile) ? 0 : 1;
         }
     }
 }
