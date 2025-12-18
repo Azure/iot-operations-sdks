@@ -49,10 +49,7 @@ where
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("modelId".to_string(), "<#=this.modelId#>".to_string());
-<# if (!this.telemetryName.IsEmpty) { #>
-        topic_token_map.insert("telemetryName".to_string(), "<#=this.telemetryName.AsGiven#>".to_string());
-<# } #>
+        topic_token_map.insert("<#=MqttTopicTokens.ModelId#>".to_string(), "<#=this.modelId#>".to_string());
 
         let receiver_options = receiver_options_builder
             .topic_pattern("<#=this.topicPattern#>")

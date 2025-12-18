@@ -56,7 +56,7 @@
     {
       "href": "dtmi:test:PropertyTogether;1",
       "contentType": "application/json",
-      "dtv:topic": "test/PropertyTogether/read",
+      "dtv:topic": "test/PropertyTogether/write",
           "additionalResponses": [
             {
               "success": false
@@ -91,7 +91,7 @@
         {
           "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Aleph;1",
           "contentType": "application/json",
-          "dtv:topic": "sample/{modelId}/property/Alpha",
+          "dtv:topic": "sample/{modelId}/property/Alpha/{action}",
           "additionalResponses": [
             {
               "success": false,
@@ -103,7 +103,7 @@
         {
           "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Aleph;1",
           "contentType": "application/json",
-          "dtv:topic": "sample/{modelId}/property/Alpha",
+          "dtv:topic": "sample/{modelId}/property/Alpha/{action}",
           "additionalResponses": [
             {
               "success": false,

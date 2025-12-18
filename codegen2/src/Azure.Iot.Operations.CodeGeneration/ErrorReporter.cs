@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Text.RegularExpressions;
+    using Azure.Iot.Operations.TDParser;
 
     public class ErrorReporter
     {
@@ -33,9 +34,19 @@
             this.errorLog.RegisterTypedReferenceFromThing(refPath, this.filename, GetLineNumber(byteIndex), type, refValue);
         }
 
+        public void RegisterIdOfThing(ValueTracker<StringHolder> id)
+        {
+            this.errorLog.RegisterIdOfThing(id.Value.Value, this.filename, GetLineNumber(id.TokenIndex));
+        }
+
         public void RegisterNameInThing(string name, long byteIndex)
         {
             this.errorLog.RegisterNameInThing(name, this.filename, GetLineNumber(byteIndex));
+        }
+
+        public void RegisterTopicInThing(string resolvedTopic, long byteIndex, string rawTopic)
+        {
+            this.errorLog.RegisterTopicInThing(resolvedTopic, this.filename, GetLineNumber(byteIndex), rawTopic);
         }
 
         public void RegisterSchemaName(string name, long byteIndex)

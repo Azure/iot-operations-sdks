@@ -24,8 +24,8 @@ namespace Dtdl2Wot
             this.dtProperty = dtProperty;
             this.usesTypes = usesTypes;
             this.contentType = contentType;
-            this.separate = propertyTopic.Contains(MqttTopicTokens.PropertyName);
-            this.propertyTopic = propertyTopic.Replace(MqttTopicTokens.PropertyName, this.dtProperty.Name);
+            this.separate = propertyTopic.Contains(DtdlMqttTopicTokens.PropertyName);
+            this.propertyTopic = propertyTopic.Replace(DtdlMqttTopicTokens.PropertyName, this.dtProperty.Name);
 
             this.isSchemaPropertyResult = dtProperty.Schema.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.PropertyResultAdjunctTypeFormat, mqttVersion)));
             DTFieldInfo? valueField = (dtProperty.Schema as DTObjectInfo)?.Fields?.FirstOrDefault(f => f.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.PropertyValueAdjunctTypeFormat, mqttVersion))));

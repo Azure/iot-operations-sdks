@@ -237,7 +237,7 @@
 
         private static bool DoesTopicReferToMaintainer(string? topic)
         {
-            return topic != null && topic.Contains(MqttTopicTokens.PropertyMaintainerId);
+            return topic != null && topic.Contains($"{{{MqttTopicTokens.PropertyMaintainerId}}}");
         }
     }
 }

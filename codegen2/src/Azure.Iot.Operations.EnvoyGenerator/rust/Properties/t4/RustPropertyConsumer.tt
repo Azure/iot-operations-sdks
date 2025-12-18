@@ -239,12 +239,9 @@ where
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("action".to_string(), "read".to_string());
-        topic_token_map.insert("modelId".to_string(), "<#=this.modelId#>".to_string());
-        topic_token_map.insert("consumerClientId".to_string(), client.client_id().to_string());
-<# if (!this.propertyName.IsEmpty) { #>
-        topic_token_map.insert("propertyName".to_string(), "<#=this.propertyName.AsGiven#>".to_string());
-<# } #>
+        topic_token_map.insert("<#=MqttTopicTokens.PropertyAction#>".to_string(), "<#=MqttTopicTokens.PropertyActionValues.Read#>".to_string());
+        topic_token_map.insert("<#=MqttTopicTokens.ModelId#>".to_string(), "<#=this.modelId#>".to_string());
+        topic_token_map.insert("<#=MqttTopicTokens.PropertyConsumerId#>".to_string(), client.client_id().to_string());
 
         let invoker_options = invoker_options_builder
             .request_topic_pattern("<#=this.readTopicPattern#>")
@@ -371,12 +368,9 @@ where
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("action".to_string(), "write".to_string());
-        topic_token_map.insert("modelId".to_string(), "<#=this.modelId#>".to_string());
-        topic_token_map.insert("consumerClientId".to_string(), client.client_id().to_string());
-<# if (!this.propertyName.IsEmpty) { #>
-        topic_token_map.insert("propertyName".to_string(), "<#=this.propertyName.AsGiven#>".to_string());
-<# } #>
+        topic_token_map.insert("<#=MqttTopicTokens.PropertyAction#>".to_string(), "<#=MqttTopicTokens.PropertyActionValues.Write#>".to_string());
+        topic_token_map.insert("<#=MqttTopicTokens.ModelId#>".to_string(), "<#=this.modelId#>".to_string());
+        topic_token_map.insert("<#=MqttTopicTokens.PropertyConsumerId#>".to_string(), client.client_id().to_string());
 
         let invoker_options = invoker_options_builder
             .request_topic_pattern("<#=this.readTopicPattern#>")

@@ -35,12 +35,11 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public <#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "<#=this.commandName.AsGiven#>", new <#=string.Format(this.serializerClassName, this.TypeParams())#>())
             {
-                TopicTokenMap["modelId"] = "<#=this.modelId#>";
+                TopicTokenMap["<#=MqttTopicTokens.ModelId#>"] = "<#=this.modelId#>";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenMap["executorId"] = mqttClient.ClientId;
+                    TopicTokenMap["<#=MqttTopicTokens.ActionExecutorId#>"] = mqttClient.ClientId;
                 }
-                TopicTokenMap["commandName"] = "<#=this.commandName.AsGiven#>";
             }
         }
     }

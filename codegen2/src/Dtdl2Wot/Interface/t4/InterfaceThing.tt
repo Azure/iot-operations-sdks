@@ -83,7 +83,7 @@
         }
       ],
 <# } #>
-      "dtv:topic": "<#=this.propertyTopic.Replace(MqttTopicTokens.PropertyAction, "write")#>",
+      "dtv:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "write")#>",
       "op": "writemultipleproperties"
     },
 <# } #>
@@ -97,7 +97,7 @@
         }
       ],
 <# } #>
-      "dtv:topic": "<#=this.propertyTopic.Replace(MqttTopicTokens.PropertyAction, "read")#>",
+      "dtv:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "read")#>",
       "op": "readallproperties"
     }
 <# } #>

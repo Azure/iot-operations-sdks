@@ -39,11 +39,6 @@
                 hasError = true;
             }
 
-            if (!TryValidateId(thing.Id))
-            {
-                hasError = true;
-            }
-
             if (!TryValidateTitle(thing.Title))
             {
                 hasError = true;
@@ -59,22 +54,29 @@
                 hasError = true;
             }
 
-            if (!TryValidateRootForms(thing.Forms, thing.SchemaDefinitions, serializationFormats))
+            ValueTracker<StringHolder>? modelIdTopic = null;
+
+            if (!TryValidateRootForms(thing.Forms, thing.SchemaDefinitions, thing.Id!, serializationFormats, ref modelIdTopic))
             {
                 hasError = true;
             }
 
-            if (!TryValidateActions(thing.Actions, thing.SchemaDefinitions, serializationFormats))
+            if (!TryValidateActions(thing.Actions, thing.SchemaDefinitions, thing.Id!, serializationFormats, ref modelIdTopic))
             {
                 hasError = true;
             }
 
-            if (!TryValidateProperties(thing.Properties, thing.SchemaDefinitions, serializationFormats))
+            if (!TryValidateProperties(thing.Properties, thing.SchemaDefinitions, thing.Id!, serializationFormats, ref modelIdTopic))
             {
                 hasError = true;
             }
 
-            if (!TryValidateEvents(thing.Events, thing.SchemaDefinitions, serializationFormats))
+            if (!TryValidateEvents(thing.Events, thing.SchemaDefinitions, thing.Id!, serializationFormats, ref modelIdTopic))
+            {
+                hasError = true;
+            }
+
+            if (!TryValidateId(thing.Id, modelIdTopic))
             {
                 hasError = true;
             }
@@ -171,14 +173,14 @@
             }
         }
 
-        private bool TryValidateRootForms(ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
+        private bool TryValidateRootForms(ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<StringHolder> id, HashSet<SerializationFormat> serializationFormats, ref ValueTracker<StringHolder>? modelIdTopic)
         {
             if (forms?.Elements == null)
             {
                 return true;
             }
 
-            if (!TryValidateForms(forms, FormsKind.Root, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
+            if (!TryValidateForms(forms, FormsKind.Root, schemaDefinitions, id, out ValueTracker<StringHolder>? contentType, ref modelIdTopic))
             {
                 return false;
             }
@@ -431,7 +433,7 @@
             return !hasError;
         }
 
-        private bool TryValidateId(ValueTracker<StringHolder>? id)
+        private bool TryValidateId(ValueTracker<StringHolder>? id, ValueTracker<StringHolder>? modelIdTopic)
         {
             if (id == null)
             {
@@ -444,6 +446,29 @@
                 errorReporter.ReportError($"Thing Description '{TDThing.IdName}' property has empty value.", id.TokenIndex);
                 return false;
             }
+
+            if (id.Value.Value.Any(c => c is < '!' or > '~'))
+            {
+                errorReporter.ReportError($"Thing Description '{TDThing.IdName}' property value \"{id.Value.Value}\" contains invalid character(s); only printable ASCII characters not including space are allowed.", id.TokenIndex);
+                return false;
+            }
+
+            if (modelIdTopic != null)
+            {
+                if (id.Value.Value.Any(c => c is '+' or '#' or '{' or '}'))
+                {
+                    errorReporter.ReportError($"Thing Description '{TDThing.IdName}' property value \"{id.Value.Value}\" contains invalid character(s); only printable ASCII characters not including space, '\"', '+', '#', '{{', or '}}' are allowed when TD includes a topic that contains token '{{{MqttTopicTokens.ModelId}}}'.", id.TokenIndex, modelIdTopic.TokenIndex);
+                    return false;
+                }
+
+                if (id.Value.Value.StartsWith('/') || id.Value.Value.EndsWith('/') || id.Value.Value.Contains("//"))
+                {
+                    errorReporter.ReportError($"Thing Description '{TDThing.IdName}' property value \"{id.Value.Value}\" must not start with, end with, or contain more than one successive '/' when TD includes a topic that contains token '{{{MqttTopicTokens.ModelId}}}'.", id.TokenIndex, modelIdTopic.TokenIndex);
+                    return false;
+                }
+            }
+
+            errorReporter.RegisterIdOfThing(id);
 
             return true;
         }
@@ -569,7 +594,7 @@
             return !hasError;
         }
 
-        private bool TryValidateActions(MapTracker<TDAction>? actions, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
+        private bool TryValidateActions(MapTracker<TDAction>? actions, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<StringHolder> id, HashSet<SerializationFormat> serializationFormats, ref ValueTracker<StringHolder>? modelIdTopic)
         {
             if (actions?.Entries == null)
             {
@@ -580,7 +605,7 @@
 
             foreach (KeyValuePair<string, ValueTracker<TDAction>> action in actions.Entries)
             {
-                if (!TryValidateAction(action.Key, action.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
+                if (!TryValidateAction(action.Key, action.Value, schemaDefinitions, id, out ValueTracker<StringHolder>? contentType, ref modelIdTopic))
                 {
                     hasError = true;
                 }
@@ -593,7 +618,7 @@
             return !hasError;
         }
 
-        private bool TryValidateAction(string name, ValueTracker<TDAction> action, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
+        private bool TryValidateAction(string name, ValueTracker<TDAction> action, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<StringHolder> id, out ValueTracker<StringHolder>? contentType, ref ValueTracker<StringHolder>? modelIdTopic)
         {
             if (action.Value.Forms == null)
             {
@@ -601,7 +626,7 @@
                 contentType = null;
                 return false;
             }
-            else if (!TryValidateForms(action.Value.Forms, FormsKind.Action, schemaDefinitions, out contentType))
+            else if (!TryValidateForms(action.Value.Forms, FormsKind.Action, schemaDefinitions, id, out contentType, ref modelIdTopic))
             {
                 return false;
             }
@@ -652,7 +677,7 @@
             return TryValidateDataSchema(dataSchema, null, DataSchemaKind.Action, contentType);
         }
 
-        private bool TryValidateProperties(MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
+        private bool TryValidateProperties(MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<StringHolder> id, HashSet<SerializationFormat> serializationFormats, ref ValueTracker<StringHolder>? modelIdTopic)
         {
             if (properties?.Entries == null)
             {
@@ -663,7 +688,7 @@
 
             foreach (KeyValuePair<string, ValueTracker<TDProperty>> property in properties.Entries)
             {
-                if (!TryValidateProperty(property.Key, property.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
+                if (!TryValidateProperty(property.Key, property.Value, schemaDefinitions, id, out ValueTracker<StringHolder>? contentType, ref modelIdTopic))
                 {
                     hasError = true;
                 }
@@ -676,7 +701,7 @@
             return !hasError;
         }
 
-        private bool TryValidateProperty(string name, ValueTracker<TDProperty> property, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
+        private bool TryValidateProperty(string name, ValueTracker<TDProperty> property, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<StringHolder> id, out ValueTracker<StringHolder>? contentType, ref ValueTracker<StringHolder>? modelIdTopic)
         {
             if (property.Value.Forms == null)
             {
@@ -684,7 +709,7 @@
                 contentType = null;
                 return false;
             }
-            else if (!TryValidatePropertyForms(name, property.Value.Forms, schemaDefinitions, property.Value.ReadOnly, out contentType))
+            else if (!TryValidatePropertyForms(name, property.Value.Forms, schemaDefinitions, id, property.Value.ReadOnly, out contentType, ref modelIdTopic))
             {
                 return false;
             }
@@ -697,9 +722,11 @@
             return true;
         }
 
-        private bool TryValidatePropertyForms(string name, ArrayTracker<TDForm> forms, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<BoolHolder>? readOnly, out ValueTracker<StringHolder>? contentType)
+        private bool TryValidatePropertyForms(string name, ArrayTracker<TDForm> forms, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<StringHolder> id, ValueTracker<BoolHolder>? readOnly, out ValueTracker<StringHolder>? contentType, ref ValueTracker<StringHolder>? modelIdTopic)
         {
-            if (!TryValidateForms(forms, FormsKind.Property, schemaDefinitions, out contentType))
+            bool isReadOnly = readOnly?.Value.Value == true;
+
+            if (!TryValidateForms(forms, FormsKind.Property, schemaDefinitions, id, out contentType, ref modelIdTopic, isReadOnly))
             {
                 return false;
             }
@@ -712,9 +739,9 @@
 
             if (writeOp != null)
             {
-                if (readOnly?.Value.Value == true)
+                if (isReadOnly)
                 {
-                    errorReporter.ReportError($"'{TDProperty.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but the property has '{TDProperty.ReadOnlyName}' true.", writeOp.TokenIndex, readOnly.TokenIndex);
+                    errorReporter.ReportError($"'{TDProperty.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but the property has '{TDProperty.ReadOnlyName}' true.", writeOp.TokenIndex, readOnly?.TokenIndex ?? -1);
                     hasError = true;
                 }
                 if (readOp == null)
@@ -749,7 +776,7 @@
             return !hasError;
         }
 
-        private bool TryValidateEvents(MapTracker<TDEvent>? evts, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
+        private bool TryValidateEvents(MapTracker<TDEvent>? evts, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<StringHolder> id, HashSet<SerializationFormat> serializationFormats, ref ValueTracker<StringHolder>? modelIdTopic)
         {
             if (evts?.Entries == null)
             {
@@ -760,7 +787,7 @@
 
             foreach (KeyValuePair<string, ValueTracker<TDEvent>> evt in evts.Entries)
             {
-                if (!TryValidateEvent(evt.Key, evt.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
+                if (!TryValidateEvent(evt.Key, evt.Value, schemaDefinitions, id, out ValueTracker<StringHolder>? contentType, ref modelIdTopic))
                 {
                     hasError = true;
                 }
@@ -773,7 +800,7 @@
             return !hasError;
         }
 
-        private bool TryValidateEvent(string name, ValueTracker<TDEvent> evt, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
+        private bool TryValidateEvent(string name, ValueTracker<TDEvent> evt, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<StringHolder> id, out ValueTracker<StringHolder>? contentType, ref ValueTracker<StringHolder>? modelIdTopic)
         {
             if (evt.Value.Forms == null)
             {
@@ -781,7 +808,7 @@
                 contentType = null;
                 return false;
             }
-            else if (!TryValidateForms(evt.Value.Forms, FormsKind.Event, schemaDefinitions, out contentType))
+            else if (!TryValidateForms(evt.Value.Forms, FormsKind.Event, schemaDefinitions, id, out contentType, ref modelIdTopic))
             {
                 return false;
             }
@@ -812,7 +839,7 @@
             return !hasError;
         }
 
-        private bool TryValidateForms(ArrayTracker<TDForm> forms, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
+        private bool TryValidateForms(ArrayTracker<TDForm> forms, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<StringHolder> id, out ValueTracker<StringHolder>? contentType, ref ValueTracker<StringHolder>? modelIdTopic, bool isReadOnly = false)
         {
             contentType = null;
 
@@ -826,7 +853,7 @@
 
             foreach (ValueTracker<TDForm> form in forms.Elements)
             {
-                if (!TryValidateForm(form, formsKind, schemaDefinitions, out ValueTracker<StringHolder>? formContentType))
+                if (!TryValidateForm(form, formsKind, schemaDefinitions, id, out ValueTracker<StringHolder>? formContentType, ref modelIdTopic, isReadOnly))
                 {
                     hasError = true;
                 }
@@ -870,7 +897,7 @@
             return !hasError;
         }
 
-        private bool TryValidateForm(ValueTracker<TDForm> form, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
+        private bool TryValidateForm(ValueTracker<TDForm> form, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<StringHolder> id, out ValueTracker<StringHolder>? contentType, ref ValueTracker<StringHolder>? modelIdTopic, bool isReadOnly)
         {
             bool hasError = false;
 
@@ -897,29 +924,6 @@
             {
                 errorReporter.ReportError($"Form '{TDForm.OpName}' property has no values.", form.Value.Op.TokenIndex);
                 hasError = true;
-            }
-
-            if (form.Value.Topic == null)
-            {
-                if (formsKind == FormsKind.Root)
-                {
-                    errorReporter.ReportError($"Root-level form is missing required '{TDForm.TopicName}' property.", form.TokenIndex);
-                    hasError = true;
-                }
-            }
-            else
-            {
-                if (string.IsNullOrWhiteSpace(form.Value.Topic.Value.Value))
-                {
-                    errorReporter.ReportError($"Form '{TDForm.TopicName}' property has empty value.", form.Value.Topic.TokenIndex);
-                    hasError = true;
-                }
-
-                if (form.Value.ContentType == null)
-                {
-                    errorReporter.ReportError($"Form missing '{TDForm.ContentTypeName}' property, which is required when '{TDForm.TopicName}' property present.", form.TokenIndex, form.Value.Topic.TokenIndex);
-                    hasError = true;
-                }
             }
 
             if (form.Value.ContentType != null)
@@ -1010,6 +1014,10 @@
                 }
             }
 
+            bool hasOpRead = form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpReadProp || op.Value.Value == TDValues.OpReadAllProps) ?? false;
+            bool hasOpWrite = form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp || op.Value.Value == TDValues.OpWriteMultProps) ?? false;
+            bool hasOpSub = form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpSubEvent || op.Value.Value == TDValues.OpSubAllEvents) ?? false;
+
             if (form.Value.Op?.Elements != null)
             {
                 foreach (IGrouping<string, ValueTracker<StringHolder>> dupOpGroup in form.Value.Op.Elements.GroupBy(op => op.Value.Value).Where(g => g.Count() > 1))
@@ -1020,19 +1028,38 @@
 
                 if (formsKind == FormsKind.Root)
                 {
-                    bool hasReadAllProps = form.Value.Op.Elements.Any(op => op.Value.Value == TDValues.OpReadAllProps);
-                    bool hasWriteMultProps = form.Value.Op.Elements.Any(op => op.Value.Value == TDValues.OpWriteMultProps);
-                    bool hasSubAllEvents = form.Value.Op.Elements.Any(op => op.Value.Value == TDValues.OpSubAllEvents);
-                    if (hasReadAllProps && hasSubAllEvents)
+                    if (hasOpRead && hasOpSub)
                     {
                         errorReporter.ReportError($"A single form '{TDForm.OpName}' property cannot contain both '{TDValues.OpReadAllProps}' and '{TDValues.OpSubAllEvents}' values.", form.Value.Op.TokenIndex);
                         hasError = true;
                     }
-                    if (hasWriteMultProps && hasSubAllEvents)
+                    if (hasOpWrite && hasOpSub)
                     {
                         errorReporter.ReportError($"Form '{TDForm.OpName}' property cannot contain both '{TDValues.OpWriteMultProps}' and '{TDValues.OpSubAllEvents}' values.", form.Value.Op.TokenIndex);
                         hasError = true;
                     }
+                }
+            }
+
+            if (form.Value.Topic == null)
+            {
+                if (formsKind == FormsKind.Root)
+                {
+                    errorReporter.ReportError($"Root-level form is missing required '{TDForm.TopicName}' property.", form.TokenIndex);
+                    hasError = true;
+                }
+            }
+            else
+            {
+                if (!TryValidateTopic(form.Value.Topic, formsKind, id, hasOpRead, hasOpWrite, hasOpSub, ref modelIdTopic, isReadOnly))
+                {
+                    hasError = true;
+                }
+
+                if (form.Value.ContentType == null)
+                {
+                    errorReporter.ReportError($"Form missing '{TDForm.ContentTypeName}' property, which is required when '{TDForm.TopicName}' property present.", form.TokenIndex, form.Value.Topic.TokenIndex);
+                    hasError = true;
                 }
             }
 
@@ -1113,6 +1140,162 @@
             }
 
             contentType = form.Value.ContentType;
+            return !hasError;
+        }
+
+        private bool TryValidateTopic(ValueTracker<StringHolder> topic, FormsKind formsKind, ValueTracker<StringHolder> id, bool hasOpRead, bool hasOpWrite, bool hasOpSub, ref ValueTracker<StringHolder>? modelIdTopic, bool isReadOnly)
+        {
+            FormsKind effectiveFormsKind = formsKind switch
+            {
+                FormsKind.Action => FormsKind.Action,
+                FormsKind.Property => FormsKind.Property,
+                FormsKind.Event => FormsKind.Event,
+                FormsKind.Root when hasOpRead || hasOpWrite => FormsKind.Property,
+                FormsKind.Root when hasOpSub => FormsKind.Event,
+                _ => FormsKind.Root,
+            };
+
+            bool hasError = false;
+
+            if (topic.Value.Value.Length == 0)
+            {
+                errorReporter.ReportError($"Form '{TDForm.TopicName}' property has empty value.", topic.TokenIndex);
+                return false;
+            }
+
+            if (topic.Value.Value.StartsWith('$'))
+            {
+                errorReporter.ReportError($"Form '{TDForm.TopicName}' property value starts with reserved character '$'.", topic.TokenIndex);
+                hasError = true;
+            }
+
+            bool actionTokenPresent = false;
+            foreach (string level in topic.Value.Value.Split('/'))
+            {
+                if (level.Length == 0)
+                {
+                    errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing empty topic level.", topic.TokenIndex);
+                    hasError = true;
+                }
+                else if (level.StartsWith('{') && level.EndsWith('}'))
+                {
+                    string token = level[1..^1];
+                    if (token.Length == 0)
+                    {
+                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing empty token '{{}}'.", topic.TokenIndex);
+                        hasError = true;
+                    }
+                    else if (token.StartsWith("ex:"))
+                    {
+                        string exToken = token[3..];
+                        if (exToken.Length == 0)
+                        {
+                            errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing empty custom token '{{ex:}}'.", topic.TokenIndex);
+                            hasError = true;
+                        }
+                        else if (!exToken.All(c => char.IsAsciiLetter(c)))
+                        {
+                            errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing custom token '{{{token}}}' that contains invalid character(s); only ASCII letters are allowed after the 'ex:' prefix.", topic.TokenIndex);
+                            hasError = true;
+                        }
+                    }
+                    else
+                    {
+                        if (token == MqttTopicTokens.ModelId)
+                        {
+                            if (modelIdTopic == null)
+                            {
+                                modelIdTopic = topic;
+                            }
+                        }
+                        else
+                        {
+                            switch (effectiveFormsKind)
+                            {
+                                case FormsKind.Action:
+                                    if (token != MqttTopicTokens.ActionInvokerId && token != MqttTopicTokens.ActionExecutorId)
+                                    {
+                                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing token '{{{token}}}' that does not start with 'ex:' and that is not valid in an action topic; only '{{{MqttTopicTokens.ModelId}}}', '{{{MqttTopicTokens.ActionInvokerId}}}', and '{{{MqttTopicTokens.ActionExecutorId}}}' are allowed.", topic.TokenIndex);
+                                        hasError = true;
+                                    }
+                                    break;
+                                case FormsKind.Property:
+                                    if (token == MqttTopicTokens.PropertyAction)
+                                    {
+                                        actionTokenPresent = true;
+                                    }
+                                    else if (token != MqttTopicTokens.PropertyConsumerId && token != MqttTopicTokens.PropertyMaintainerId)
+                                    {
+                                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing token '{{{token}}}' that does not start with 'ex:' and that is not valid in a property topic; only '{{{MqttTopicTokens.ModelId}}}', '{{{MqttTopicTokens.PropertyAction}}}', '{{{MqttTopicTokens.PropertyConsumerId}}}', and '{{{MqttTopicTokens.PropertyMaintainerId}}}' are allowed.", topic.TokenIndex);
+                                        hasError = true;
+                                    }
+                                    break;
+                                case FormsKind.Event:
+                                    if (token != MqttTopicTokens.EventSenderId)
+                                    {
+                                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing token '{{{token}}}' that does not start with 'ex:' and that is not valid in an event topic; only '{{{MqttTopicTokens.ModelId}}}' and '{{{MqttTopicTokens.EventSenderId}}}' are allowed.", topic.TokenIndex);
+                                        hasError = true;
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (level.Any(c => c is < '!' or > '~' or '+' or '#' or '{' or '}'))
+                    {
+                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing non-token topic level '{level}' that contains invalid character(s); only printable ASCII characters not including space, '\"', '+', '#', '{{', or '}}' are allowed.", topic.TokenIndex);
+                        hasError = true;
+                    }
+                }
+            }
+
+            string partiallyResolvedTopic = topic.Value.Value.Replace($"{{{MqttTopicTokens.ModelId}}}", id.Value.Value);
+            if (effectiveFormsKind == FormsKind.Property)
+            {
+                if (actionTokenPresent)
+                {
+                    string readResolvedTopic = partiallyResolvedTopic.Replace($"{{{MqttTopicTokens.PropertyAction}}}", MqttTopicTokens.PropertyActionValues.Read);
+                    string writeResolvedTopic = partiallyResolvedTopic.Replace($"{{{MqttTopicTokens.PropertyAction}}}", MqttTopicTokens.PropertyActionValues.Write);
+
+                    if (hasOpRead)
+                    {
+                        errorReporter.RegisterTopicInThing(readResolvedTopic, topic.TokenIndex, topic.Value.Value);
+                    }
+
+                    if (hasOpWrite)
+                    {
+                        errorReporter.RegisterTopicInThing(writeResolvedTopic, topic.TokenIndex, topic.Value.Value);
+                    }
+
+                    if (!hasOpRead && !hasOpWrite)
+                    {
+                        errorReporter.RegisterTopicInThing(readResolvedTopic, topic.TokenIndex, topic.Value.Value);
+                        if (!isReadOnly)
+                        {
+                            errorReporter.RegisterTopicInThing(writeResolvedTopic, topic.TokenIndex, topic.Value.Value);
+                        }
+                    }
+                }
+                else
+                {
+                    if ((hasOpRead && hasOpWrite) || (!hasOpRead && !hasOpWrite && !isReadOnly))
+                    {
+                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property value is missing required '{{{MqttTopicTokens.PropertyAction}}}' token for a property form that supports both read and write operations.", topic.TokenIndex);
+                        hasError = true;
+                    }
+                    else
+                    {
+                        errorReporter.RegisterTopicInThing(partiallyResolvedTopic, topic.TokenIndex, topic.Value.Value);
+                    }
+                }
+            }
+            else
+            {
+                errorReporter.RegisterTopicInThing(partiallyResolvedTopic, topic.TokenIndex, topic.Value.Value);
+            }
+
             return !hasError;
         }
 

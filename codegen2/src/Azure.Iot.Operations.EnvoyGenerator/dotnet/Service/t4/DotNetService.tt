@@ -48,8 +48,8 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             /// <param name="mqttClient">The MQTT client to use.</param>
             /// <param name="topicTokenMap">
             /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
-            /// for topic tokens such as "modelId" which should be the same for the duration of this service's lifetime. Note that
-            /// additional topic tokens can be specified per-telemetry message.
+            /// for topic tokens such as "<#=MqttTopicTokens.ModelId#>" which should be the same for the duration of this service's lifetime. Note that
+            /// additional topic tokens can be specified per event message.
             /// </param>
             public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
@@ -95,12 +95,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 }
 
 <# foreach (var actionSpec in this.actionSpecs) { #>
-                this.<#=actionSpec.Executor.GetVariableName(TargetLanguage.CSharp)#>.TopicTokenMap.TryAdd("executorId", clientId);
+                this.<#=actionSpec.Executor.GetVariableName(TargetLanguage.CSharp)#>.TopicTokenMap.TryAdd("<#=MqttTopicTokens.ActionExecutorId#>", clientId);
 <# } #>
 <# foreach (var propSpec in this.propSpecs) { #>
-                this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.TopicTokenMap.TryAdd("maintainerId", clientId);
+                this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.TopicTokenMap.TryAdd("<#=MqttTopicTokens.PropertyMaintainerId#>", clientId);
 <# if (propSpec.WriteReqSchema != null) { #>
-                this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.TopicTokenMap.TryAdd("maintainerId", clientId);
+                this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.TopicTokenMap.TryAdd("<#=MqttTopicTokens.PropertyMaintainerId#>", clientId);
 <# } #>
 <# } #>
             }
@@ -364,7 +364,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             /// <param name="mqttClient">The MQTT client to use.</param>
             /// <param name="topicTokenMap">
             /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
-            /// for topic tokens such as "modelId" which should be the same for the duration of this client's lifetime.
+            /// for topic tokens such as "<#=MqttTopicTokens.ModelId#>" which should be the same for the duration of this client's lifetime.
             /// </param>
             public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {

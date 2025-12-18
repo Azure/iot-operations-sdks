@@ -17,8 +17,8 @@ namespace Dtdl2Wot
             this.dtTelemetry = dtTelemetry;
             this.usesTypes = usesTypes;
             this.contentType = contentType;
-            this.separate = telemetryTopic.Contains(MqttTopicTokens.TelemetryName);
-            this.telemetryTopic = telemetryTopic.Replace(MqttTopicTokens.TelemetryName, this.dtTelemetry.Name);
+            this.separate = telemetryTopic.Contains(DtdlMqttTopicTokens.TelemetryName);
+            this.telemetryTopic = telemetryTopic.Replace(DtdlMqttTopicTokens.TelemetryName, this.dtTelemetry.Name);
             this.serviceGroupId = serviceGroupId;
 
             this.thingDescriber = thingDescriber;

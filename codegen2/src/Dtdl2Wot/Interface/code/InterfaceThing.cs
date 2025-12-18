@@ -37,8 +37,8 @@ namespace Dtdl2Wot
             this.telemServiceGroupId = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.TelemServiceGroupIdPropertyFormat, mqttVersion), out object? telemServiceGroupIdObj) ? (string)telemServiceGroupIdObj : null;
             this.cmdServiceGroupId = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.CmdServiceGroupIdPropertyFormat, mqttVersion), out object? cmdServiceGroupIdObj) ? (string)cmdServiceGroupIdObj : null;
 
-            this.aggregateTelemetries = this.telemetryTopic != null && !this.telemetryTopic.Contains(MqttTopicTokens.TelemetryName);
-            this.aggregateProperties = this.propertyTopic != null && !this.propertyTopic.Contains(MqttTopicTokens.PropertyName);
+            this.aggregateTelemetries = this.telemetryTopic != null && !this.telemetryTopic.Contains(DtdlMqttTopicTokens.TelemetryName);
+            this.aggregateProperties = this.propertyTopic != null && !this.propertyTopic.Contains(DtdlMqttTopicTokens.PropertyName);
 
             string payloadFormat = (string)dtInterface.SupplementalProperties[string.Format(DtdlMqttExtensionValues.PayloadFormatPropertyFormat, mqttVersion)];
             this.usesTypes = payloadFormat != PayloadFormat.Raw && payloadFormat != PayloadFormat.Custom;

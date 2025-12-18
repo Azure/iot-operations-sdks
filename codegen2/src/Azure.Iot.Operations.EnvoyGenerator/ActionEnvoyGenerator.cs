@@ -122,7 +122,7 @@
 
         private static bool DoesTopicReferToExecutor(string? topic)
         {
-            return topic != null && topic.Contains(MqttTopicTokens.CommandExecutorId);
+            return topic != null && topic.Contains($"{{{MqttTopicTokens.ActionExecutorId}}}");
         }
     }
 }

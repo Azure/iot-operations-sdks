@@ -30,7 +30,7 @@ namespace Dtdl2Wot
             this.dtCommand = dtCommand;
             this.usesTypes = usesTypes;
             this.contentType = contentType;
-            this.commandTopic = commandTopic.Replace(MqttTopicTokens.CommandName, this.dtCommand.Name);
+            this.commandTopic = commandTopic.Replace(DtdlMqttTopicTokens.CommandName, this.dtCommand.Name);
             this.serviceGroupId = serviceGroupId;
 
             this.isResponseSchemaResult = dtCommand.Response?.Schema != null && dtCommand.Response.Schema.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ResultAdjunctTypeFormat, mqttVersion)));

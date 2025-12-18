@@ -2,12 +2,15 @@
 {
     using System.Collections.Generic;
     using System.IO;
+    using Azure.Iot.Operations.TDParser.Model;
 
     public class ErrorLog
     {
-        private readonly Dictionary<string, List<ExternalReference>> referencesFromThings;
-        private readonly Dictionary<(string, string), List<ExternalReference>> typedReferencesFromThings;
+        private readonly Dictionary<string, List<KeyValuePair<string, int>>> idsOfThings;
+        private readonly Dictionary<string, List<ValueReference>> referencesFromThings;
+        private readonly Dictionary<(string, string), List<ValueReference>> typedReferencesFromThings;
         private readonly Dictionary<string, Dictionary<string, int>> namesInThings;
+        private readonly Dictionary<string, List<ValueReference>> topicsInThings;
         private readonly Dictionary<string, List<KeyValuePair<string, int>>> schemaNames;
         private readonly string defaultFolder;
 
@@ -21,9 +24,11 @@
 
         public ErrorLog(string defaultFolder)
         {
-            this.referencesFromThings = new Dictionary<string, List<ExternalReference>>();
-            this.typedReferencesFromThings = new Dictionary<(string, string), List<ExternalReference>>();
+            this.idsOfThings = new Dictionary<string, List<KeyValuePair<string, int>>>();
+            this.referencesFromThings = new Dictionary<string, List<ValueReference>>();
+            this.typedReferencesFromThings = new Dictionary<(string, string), List<ValueReference>>();
             this.namesInThings = new Dictionary<string, Dictionary<string, int>>();
+            this.topicsInThings = new Dictionary<string, List<ValueReference>>();
             this.schemaNames = new Dictionary<string, List<KeyValuePair<string, int>>>();
             this.defaultFolder = defaultFolder;
 
@@ -34,6 +39,17 @@
 
         public void CheckForDuplicatesInThings()
         {
+            foreach (var (id, idSites) in idsOfThings)
+            {
+                if (idSites.Count > 1)
+                {
+                    foreach (var (filename, lineNumber) in idSites)
+                    {
+                        AddError(ErrorLevel.Error, $"Duplicate use of '{TDThing.IdName}' value '{id}' across TDs.", filename, lineNumber, crossRef: id);
+                    }
+                }
+            }
+
             foreach (var (name, nameSites) in namesInThings)
             {
                 if (nameSites.Count > 1)
@@ -41,6 +57,30 @@
                     foreach (var (filename, lineNumber) in nameSites)
                     {
                         AddError(ErrorLevel.Error, $"Duplicate use of generated name '{name}' across Thing Descriptions.", filename, lineNumber, crossRef: name);
+                    }
+                }
+            }
+
+            foreach (var (topic, topicReferences) in topicsInThings)
+            {
+                if (topicReferences.Count > 1)
+                {
+                    foreach (ValueReference reference in topicReferences)
+                    {
+                        string description;
+                        string citation;
+                        if (topic == reference.Value)
+                        {
+                            description = "Topic";
+                            citation = string.Empty;
+                        }
+                        else
+                        {
+                            description = topic.Contains('{') ? "Partially resolved topic" : "Resolved topic";
+                            citation = $" (in model as \"{reference.Value}\")";
+                        }
+
+                        AddError(ErrorLevel.Error, $"{description} '{topic}' used by multiple affordances{citation}.", reference.Filename, reference.LineNumber, crossRef: topic);
                     }
                 }
             }
@@ -64,12 +104,12 @@
         {
             string fullPath = Path.GetFullPath(Path.Combine(this.defaultFolder, refPath)).Replace('\\', '/');
 
-            if (!referencesFromThings.TryGetValue(fullPath, out List<ExternalReference>? references))
+            if (!referencesFromThings.TryGetValue(fullPath, out List<ValueReference>? references))
             {
                 references = new();
                 referencesFromThings[fullPath] = references;
             }
-            references.Add(new ExternalReference(filename, lineNumber, refValue));
+            references.Add(new ValueReference(filename, lineNumber, refValue));
         }
 
         public void RegisterTypedReferenceFromThing(string refPath, string filename, int lineNumber, string type, string refValue)
@@ -77,12 +117,23 @@
             string fullPath = Path.GetFullPath(Path.Combine(this.defaultFolder, refPath)).Replace('\\', '/');
             var key = (fullPath, type);
 
-            if (!typedReferencesFromThings.TryGetValue(key, out List<ExternalReference>? typedReferences))
+            if (!typedReferencesFromThings.TryGetValue(key, out List<ValueReference>? typedReferences))
             {
                 typedReferences = new();
                 typedReferencesFromThings[key] = typedReferences;
             }
-            typedReferences.Add(new ExternalReference(filename, lineNumber, refValue));
+            typedReferences.Add(new ValueReference(filename, lineNumber, refValue));
+        }
+
+        public void RegisterIdOfThing(string id, string filename, int lineNumber)
+        {
+            if (!idsOfThings.TryGetValue(id, out List<KeyValuePair<string, int>>? idSites))
+            {
+                idSites = new();
+                idsOfThings[id] = idSites;
+            }
+
+            idSites.Add(new KeyValuePair<string, int>(filename, lineNumber));
         }
 
         public void RegisterNameInThing(string name, string filename, int lineNumber)
@@ -97,6 +148,16 @@
             {
                 nameSites[filename] = lineNumber;
             }
+        }
+
+        public void RegisterTopicInThing(string resolvedTopic, string filename, int lineNumber, string rawTopic)
+        {
+            if (!topicsInThings.TryGetValue(resolvedTopic, out List<ValueReference>? topicReferences))
+            {
+                topicReferences = new();
+                topicsInThings[resolvedTopic] = topicReferences;
+            }
+            topicReferences.Add(new ValueReference(filename, lineNumber, rawTopic));
         }
 
         public void RegisterSchemaName(string name, string filename, string dirpath, int lineNumber)
@@ -139,11 +200,11 @@
 
         public void AddReferenceError(string refPath, string description, string reason, string filename, string dirpath, int lineNumber, string refValue)
         {
-            if (dirpath.Equals(this.defaultFolder) && referencesFromThings.TryGetValue(refPath, out List<ExternalReference>? references))
+            if (dirpath.Equals(this.defaultFolder) && referencesFromThings.TryGetValue(refPath, out List<ValueReference>? references))
             {
-                foreach (ExternalReference reference in references)
+                foreach (ValueReference reference in references)
                 {
-                    AddError(ErrorLevel.Error, $"External schema reference \"{reference.RefValue}\" not resolvable; {reason}", reference.Filename, reference.LineNumber);
+                    AddError(ErrorLevel.Error, $"External schema reference \"{reference.Value}\" not resolvable; {reason}", reference.Filename, reference.LineNumber);
                 }
             }
             else
@@ -155,11 +216,11 @@
         public void AddReferenceTypeError(string refPath, string description, string filename, string dirpath, int lineNumber, string refValue, string refType, string actualType)
         {
             var key = (refPath, refType);
-            if (dirpath.Equals(this.defaultFolder) && typedReferencesFromThings.TryGetValue(key, out List<ExternalReference>? typedReferences))
+            if (dirpath.Equals(this.defaultFolder) && typedReferencesFromThings.TryGetValue(key, out List<ValueReference>? typedReferences))
             {
-                foreach (ExternalReference reference in typedReferences)
+                foreach (ValueReference reference in typedReferences)
                 {
-                    AddError(ErrorLevel.Error, $"External schema reference \"{reference.RefValue}\" is expected to define a schema of type \"{refType}\", but it defines a schema of type \"{actualType}\"", reference.Filename, reference.LineNumber);
+                    AddError(ErrorLevel.Error, $"External schema reference \"{reference.Value}\" is expected to define a schema of type \"{refType}\", but it defines a schema of type \"{actualType}\"", reference.Filename, reference.LineNumber);
                 }
             }
             else

@@ -47,15 +47,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                     ServiceGroupId = string.Empty;
                     RequestTopicPattern = AttributeRetriever.GetAttribute<PropertyTopicAttribute>(this)?.Topic ?? string.Empty;
 
-                    TopicTokenMap["action"] = "read";
-                    TopicTokenMap["modelId"] = "<#=this.modelId#>";
+                    TopicTokenMap["<#=MqttTopicTokens.PropertyAction#>"] = "<#=MqttTopicTokens.PropertyActionValues.Read#>";
+                    TopicTokenMap["<#=MqttTopicTokens.ModelId#>"] = "<#=this.modelId#>";
                     if (mqttClient.ClientId != null)
                     {
-                        TopicTokenMap["maintainerId"] = mqttClient.ClientId;
+                        TopicTokenMap["<#=MqttTopicTokens.PropertyMaintainerId#>"] = mqttClient.ClientId;
                     }
-<# if (!this.propertyName.IsEmpty) { #>
-                    TopicTokenMap["propertyName"] = "<#=this.propertyName.AsGiven#>";
-<# } #>
                 }
             }
 <# } #>
@@ -82,15 +79,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     RequestTopicPattern = AttributeRetriever.GetAttribute<PropertyTopicAttribute>(this)?.Topic ?? string.Empty;
 
-                    TopicTokenMap["action"] = "write";
-                    TopicTokenMap["modelId"] = "<#=this.modelId#>";
+                    TopicTokenMap["<#=MqttTopicTokens.PropertyAction#>"] = "<#=MqttTopicTokens.PropertyActionValues.Write#>";
+                    TopicTokenMap["<#=MqttTopicTokens.ModelId#>"] = "<#=this.modelId#>";
                     if (mqttClient.ClientId != null)
                     {
-                        TopicTokenMap["maintainerId"] = mqttClient.ClientId;
+                        TopicTokenMap["<#=MqttTopicTokens.PropertyMaintainerId#>"] = mqttClient.ClientId;
                     }
-<# if (!this.propertyName.IsEmpty) { #>
-                    TopicTokenMap["propertyName"] = "<#=this.propertyName.AsGiven#>";
-<# } #>
                 }
             }
 <# } #>
