@@ -14,7 +14,6 @@
         private readonly Option<FileInfo?> typeNamerFile;
         private readonly Option<DirectoryInfo> outputDir;
         private readonly Option<string> workingDir;
-        private readonly Option<string> outputSourceSubdir;
         private readonly Option<string> genNamespace;
         private readonly Option<string?> sdkPath;
         private readonly Option<string> language;
@@ -30,7 +29,6 @@
         /// <param name="schemaFiles">Filespec(s) of files containing schema definitions.</param>
         /// <param name="outputDir">Directory for receiving generated code.</param>
         /// <param name="workingDir">Directory for storing temporary files (relative to outDir unless path is rooted).</param>
-        /// <param name="outputSourceSubdir">Subdirectory under outputDir for generated source code.</param>
         /// <param name="genNamespace">Namespace for generated code; null for default.</param>
         /// <param name="sdkPath">Local path or feed URL for Azure.Iot.Operations.Protocol SDK.</param>
         /// <param name="language">Programming language for generated code.</param>
@@ -44,7 +42,6 @@
             Option<FileInfo?> typeNamerFile,
             Option<DirectoryInfo> outputDir,
             Option<string> workingDir,
-            Option<string> outputSourceSubdir,
             Option<string> genNamespace,
             Option<string?> sdkPath,
             Option<string> language,
@@ -58,7 +55,6 @@
             this.typeNamerFile = typeNamerFile;
             this.outputDir = outputDir;
             this.workingDir = workingDir;
-            this.outputSourceSubdir = outputSourceSubdir;
             this.genNamespace = genNamespace;
             this.sdkPath = sdkPath;
             this.language = language;
@@ -81,7 +77,6 @@
                 TypeNamerFile = bindingContext.ParseResult.GetValueForOption(this.typeNamerFile),
                 OutputDir = outputDir,
                 WorkingDir = Path.IsPathRooted(workingDir) ? new DirectoryInfo(workingDir) : new DirectoryInfo(Path.Combine(outputDir.FullName, workingDir)),
-                OutputSourceSubdir = bindingContext.ParseResult.GetValueForOption(this.outputSourceSubdir)!,
                 GenNamespace = bindingContext.ParseResult.GetValueForOption(this.genNamespace)!,
                 SdkPath = bindingContext.ParseResult.GetValueForOption(this.sdkPath),
                 Language = bindingContext.ParseResult.GetValueForOption(this.language)!,

@@ -21,11 +21,11 @@
         private const ConsoleColor ErrorColor = ConsoleColor.Red;
         private const ConsoleColor WarningColor = ConsoleColor.Yellow;
 
-        private static readonly Dictionary<string, TargetLanguage> LanguageMap = new()
+        private static readonly Dictionary<string, (TargetLanguage, string)> LanguageMap = new()
         {
-            { "csharp", TargetLanguage.CSharp },
-            { "rust", TargetLanguage.Rust },
-            { "none", TargetLanguage.None },
+            { "csharp", (TargetLanguage.CSharp, "") },
+            { "rust", (TargetLanguage.Rust, "src") },
+            { "none", (TargetLanguage.None, "") },
         };
 
         public static readonly string[] SupportedLanguages = LanguageMap.Keys.ToArray();
@@ -42,7 +42,7 @@
                 }
 
                 string projectName = LegalizeProjectName(options.OutputDir.Name);
-                TargetLanguage targetLanguage = LanguageMap[options.Language.ToLowerInvariant()];
+                (TargetLanguage targetLanguage, string srcSubdir) = LanguageMap[options.Language.ToLowerInvariant()];
 
                 ErrorLog errorLog = new(options.WorkingDir.FullName);
 
@@ -90,7 +90,7 @@
                 {
                     Dictionary<string, string> schemaTextsByName = schemaSet.Value.ToDictionary(s => Path.GetFullPath(Path.Combine(options.WorkingDir.FullName, s.FolderPath, s.FileName)).Replace('\\', '/'), s => s.Content);
                     TypeGenerator typeGenerator = new TypeGenerator(schemaSet.Key, targetLanguage, typeNamer, errorLog);
-                    generatedTypes.AddRange(typeGenerator.GenerateTypes(schemaTextsByName, new CodeName(options.GenNamespace), projectName, options.OutputSourceSubdir));
+                    generatedTypes.AddRange(typeGenerator.GenerateTypes(schemaTextsByName, new CodeName(options.GenNamespace), projectName, srcSubdir));
                 }
 
                 errorLog.CheckForDuplicatesInSchemas();
@@ -117,7 +117,7 @@
                     projectName,
                     sdkPath,
                     typeNames,
-                    options.OutputSourceSubdir,
+                    srcSubdir,
                     generateClient: !options.ServerOnly,
                     generateServer: !options.ClientOnly,
                     generateProject: !options.NoProj,

@@ -12,8 +12,8 @@ $genFromDtdl --modelFile ./eng/dtdl/device-discovery-service.json --outDir ./eng
 [[ -d ./eng/dtdl/FromWot/AssetAndDeviceRegistry ]] && rm -r ./eng/dtdl/FromWot/AssetAndDeviceRegistry
 $genFromWot --thingFiles ./eng/dtdl/AdrBaseService.TD.json --outDir ./eng/dtdl/FromWot/AssetAndDeviceRegistry --lang csharp --namespace AdrBaseService --workingDir obj/akri/AdrBaseService --sdkPath ../../../dotnet/src/Azure.Iot.Operations.Protocol
 $genFromWot --thingFiles ./eng/dtdl/DeviceDiscoveryService.TD.json --outDir ./eng/dtdl/FromWot/AssetAndDeviceRegistry --lang csharp --namespace DeviceDiscoveryService --workingDir obj/akri/DeviceDiscoveryService --sdkPath ../../../dotnet/src/Azure.Iot.Operations.Protocol
-$genFromWot --thingFiles ./eng/dtdl/AdrBaseService.TD.json --outDir ./eng/dtdl/FromWot/AssetAndDeviceRegistry/adr_base_gen --srcSubdir src --lang rust --namespace AdrBaseService --workingDir target/akri/AdrBaseService --sdkPath ../../../rust
-$genFromWot --thingFiles ./eng/dtdl/DeviceDiscoveryService.TD.json --outDir ./eng/dtdl/FromWot/AssetAndDeviceRegistry/device_discovery_gen --srcSubdir src --lang rust --namespace DeviceDiscoveryService --workingDir target/akri/DeviceDiscoveryService --sdkPath ../../../rust
+$genFromWot --thingFiles ./eng/dtdl/AdrBaseService.TD.json --outDir ./eng/dtdl/FromWot/AssetAndDeviceRegistry/adr_base_gen --lang rust --namespace AdrBaseService --workingDir target/akri/AdrBaseService --sdkPath ../../../rust
+$genFromWot --thingFiles ./eng/dtdl/DeviceDiscoveryService.TD.json --outDir ./eng/dtdl/FromWot/AssetAndDeviceRegistry/device_discovery_gen --lang rust --namespace DeviceDiscoveryService --workingDir target/akri/DeviceDiscoveryService --sdkPath ../../../rust
 
 [[ -d ./eng/dtdl/FromDtdl/SchemaRegistry ]] && rm -r ./eng/dtdl/FromDtdl/SchemaRegistry
 $genFromDtdl --modelFile ./eng/dtdl/SchemaRegistry-1.json --outDir ./eng/dtdl/FromDtdl/SchemaRegistry --lang csharp --sdkPath ../../../dotnet/src/Azure.Iot.Operations.Protocol
@@ -21,7 +21,7 @@ $genFromDtdl --modelFile ./eng/dtdl/SchemaRegistry-1.json --outDir ./eng/dtdl/Fr
 
 [[ -d ./eng/dtdl/FromWot/SchemaRegistry ]] && rm -r ./eng/dtdl/FromWot/SchemaRegistry
 $genFromWot --thingFiles ./eng/dtdl/SchemaRegistry.TD.json --outDir ./eng/dtdl/FromWot/SchemaRegistry --lang csharp --namespace SchemaRegistry --workingDir obj/akri/SchemaRegistry --sdkPath ../../../dotnet/src/Azure.Iot.Operations.Protocol
-$genFromWot --thingFiles ./eng/dtdl/SchemaRegistry.TD.json --outDir ./eng/dtdl/FromWot/SchemaRegistry/schemaregistry_gen --srcSubdir src --lang rust --namespace SchemaRegistry --workingDir target/akri/SchemaRegistry --sdkPath ../../../rust
+$genFromWot --thingFiles ./eng/dtdl/SchemaRegistry.TD.json --outDir ./eng/dtdl/FromWot/SchemaRegistry/schemaregistry_gen --lang rust --namespace SchemaRegistry --workingDir target/akri/SchemaRegistry --sdkPath ../../../rust
 
 [[ -d ./eng/dtdl/FromDtdl/StateStore ]] && rm -r ./eng/dtdl/FromDtdl/StateStore
 $genFromDtdl --modelFile ./eng/dtdl/statestore.json --outDir ./eng/dtdl/FromDtdl/StateStore --lang csharp --sdkPath ../../../dotnet/src/Azure.Iot.Operations.Protocol
@@ -29,4 +29,4 @@ $genFromDtdl --modelFile ./eng/dtdl/statestore.json --outDir ./eng/dtdl/FromDtdl
 
 [[ -d ./eng/dtdl/FromWot/StateStore ]] && rm -r ./eng/dtdl/FromWot/StateStore
 $genFromWot --thingFiles ./eng/dtdl/StateStore.TD.json --outDir ./eng/dtdl/FromWot/StateStore --lang csharp --namespace StateStore --workingDir obj/akri/StateStore --sdkPath ../../../dotnet/src/Azure.Iot.Operations.Protocol
-$genFromWot --thingFiles ./eng/dtdl/StateStore.TD.json --outDir ./eng/dtdl/FromWot/StateStore/state_store_gen --srcSubdir src --lang rust --namespace StateStore --workingDir obj/akri/StateStore --sdkPath ../../../dotnet/src/Azure.Iot.Operations.Protocol
+$genFromWot --thingFiles ./eng/dtdl/StateStore.TD.json --outDir ./eng/dtdl/FromWot/StateStore/state_store_gen --lang rust --namespace StateStore --workingDir obj/akri/StateStore --sdkPath ../../../dotnet/src/Azure.Iot.Operations.Protocol

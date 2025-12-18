@@ -39,12 +39,6 @@
                 description: "Directory for storing temporary files (relative to outDir unless path is rooted)")
             { ArgumentHelpName = "DIRPATH" };
 
-            var srcSubdirOption = new Option<string>(
-                name: "--srcSubdir",
-                getDefaultValue: () => string.Empty,
-                description: "Subdirectory under OutputDir for generated source code")
-            { ArgumentHelpName = "SUBDIR" };
-
             var namespaceOption = new Option<string>(
                 name: "--namespace",
                 getDefaultValue: () => DefaultNamespace,
@@ -84,7 +78,6 @@
             typeNamerOption,
             outDirOption,
             workingDirOption,
-            srcSubdirOption,
             namespaceOption,
             sdkPathOption,
             langOption,
@@ -100,7 +93,6 @@
                 typeNamerOption,
                 outDirOption,
                 workingDirOption,
-                srcSubdirOption,
                 namespaceOption,
                 sdkPathOption,
                 langOption,

@@ -22,9 +22,6 @@
         /// <summary>Gets or sets the directory for receiving generated code.</summary>
         public required DirectoryInfo OutputDir { get; set; }
 
-        /// <summary>Gets or sets a subdirectory under OutputDir for generated source code.</summary>
-        public required string OutputSourceSubdir { get; set; }
-
         /// <summary>Gets or sets a namespace for generated code.</summary>
         public required string GenNamespace { get; set; }
 
