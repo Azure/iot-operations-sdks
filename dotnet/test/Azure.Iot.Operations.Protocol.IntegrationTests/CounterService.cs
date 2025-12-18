@@ -59,8 +59,10 @@ public class CounterService : Counter.Service
             {
                 DataSchema = "https://www.contoso.com",
                 Id = Guid.NewGuid().ToString(),
-                Subject = "someResponseSubject",
-                Time = DateTime.UtcNow,
+
+                //echo back the time and subject for testing purposes
+                Subject = ReceivedCloudEvent.Subject,
+                Time = ReceivedCloudEvent.Time
             };
 
             responseMetadata.CloudEvent = PublishedResponseCloudEvent;

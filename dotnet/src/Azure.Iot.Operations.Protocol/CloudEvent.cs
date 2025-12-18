@@ -37,7 +37,7 @@ namespace Azure.Iot.Operations.Protocol
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("SpecVersion must not be an empty string");
+                    throw new ArgumentException("SpecVersion must not be null or an empty string");
                 }
 
                 _specVersion = value;
@@ -103,14 +103,46 @@ namespace Azure.Iot.Operations.Protocol
         /// by the CloudEvents producer,
         /// however all producers for the same source MUST be consistent in this respect.
         /// </summary>
-        public DateTime? Time { get; set; }
+        /// <remarks>
+        /// By default, this value is set to the current UTC time. This field can be set to null if you don't want the cloud event to include a time.
+        /// </remarks>
+        public DateTime? Time { get; set; } = DateTime.UtcNow;
 
         /// <summary>
         /// Identifies the subject of the event in the context of the event producer (identified by source).
         /// In publish-subscribe scenarios, a subscriber will typically subscribe to events emitted by a source,
         /// but the source identifier alone might not be sufficient as a qualifier for any specific event if the source context has internal sub-structure.
         /// </summary>
-        public string? Subject { get; set; }
+        /// <remarks>
+        /// This value can be set to null if no subject should be sent.
+        ///
+        /// When this cloud event is sent by a telemetry sender/command invoker/command executor, a default
+        /// value of the MQTT topic this event is sent on will be filled in for you if no other value is explicitly
+        /// set.
+        /// </remarks>
+        public string? Subject
+        {
+            get
+            {
+                return _subject;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value) && value != null) // if value is whitespace
+                {
+                    throw new ArgumentException("Subject cannot be whitespace");
+                }
+
+                IsSubjectDefault = false;
+                _subject = value;
+            }
+        }
+
+        private string? _subject;
+
+        // Used to track if the user has provided any explicit value for the Subject field. If they haven't,
+        // then it will be filled in for them in the telemetry sender/command invoker/command executor.
+        internal bool IsSubjectDefault = true;
 
         /// <summary>
         ///  Identifies the schema that data adheres to.
