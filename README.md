@@ -6,8 +6,6 @@
 [![CD-Docs](https://github.com/Azure/iot-operations-sdks/actions/workflows/cd-docs.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/cd-docs.yml)
 [![E2E-cross-language](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml)
 
-> [!CAUTION]
-> The assets in this repository are currently in **Public Preview** and have been made available for early access and feedback purposes.
 
 ## What is Azure IoT Operations?
 
