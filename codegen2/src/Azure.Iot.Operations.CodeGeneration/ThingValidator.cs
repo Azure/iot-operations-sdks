@@ -83,7 +83,7 @@
 
             if (hasError)
             {
-                return true;
+                return false;
             }
 
             if (!TryValidateCrossFormConsistency(thing.Forms, thing.Actions))
@@ -1537,6 +1537,183 @@
             return !hasError;
         }
 
+        private bool TryValidateStringConst<T>(ValueTracker<T> dataSchema, ValueTracker<ObjectHolder> constProperty, ValueTracker<ObjectHolder> constValue)
+             where T : TDDataSchema, IDeserializable<T>
+        {
+            if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
+            {
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+            }
+
+            bool hasError = false;
+
+            if (constValue.Value.Value is not string)
+            {
+                errorReporter.ReportError($"The specified constant value must be a string.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                hasError = true;
+            }
+
+            HashSet<string> supportedProperties = new()
+            {
+                TDDataSchema.TypeName,
+                TDDataSchema.TitleName,
+                TDDataSchema.DescriptionName,
+                TDDataSchema.ConstName,
+            };
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a constant string schema", constProperty.TokenIndex))
+            {
+                hasError = true;
+            }
+
+            return !hasError;
+        }
+
+        private bool TryValidateNumberConst<T>(ValueTracker<T> dataSchema, ValueTracker<ObjectHolder> constProperty, ValueTracker<ObjectHolder> constValue)
+             where T : TDDataSchema, IDeserializable<T>
+        {
+            bool hasError = false;
+
+            if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
+            {
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+            }
+
+            if (constValue.Value.Value is double numValue)
+            {
+                if (dataSchema.Value.Minimum?.Value.Value != null && numValue < dataSchema.Value.Minimum.Value.Value)
+                {
+                    errorReporter.ReportError($"The specified constant value ({numValue}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
+                    hasError = true;
+                }
+                if (dataSchema.Value.Maximum?.Value.Value != null && numValue > dataSchema.Value.Maximum.Value.Value)
+                {
+                    errorReporter.ReportError($"The specified constant value ({numValue}) cannot be greater than the '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Maximum.TokenIndex);
+                    hasError = true;
+                }
+            }
+            else
+            {
+                errorReporter.ReportError($"The specified constant value must be a number.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                hasError = true;
+            }
+
+            HashSet<string> supportedProperties = new()
+            {
+                TDDataSchema.TypeName,
+                TDDataSchema.TitleName,
+                TDDataSchema.DescriptionName,
+                TDDataSchema.MinimumName,
+                TDDataSchema.MaximumName,
+                TDDataSchema.ConstName,
+            };
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a constant number schema", constProperty.TokenIndex))
+            {
+                hasError = true;
+            }
+
+            return !hasError;
+        }
+
+        private bool TryValidateIntegerConst<T>(ValueTracker<T> dataSchema, ValueTracker<ObjectHolder> constProperty, ValueTracker<ObjectHolder> constValue)
+             where T : TDDataSchema, IDeserializable<T>
+        {
+            bool hasError = false;
+
+            if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
+            {
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+            }
+
+            if (constValue.Value.Value is double numValue && double.IsInteger(numValue))
+            {
+                if (dataSchema.Value.Minimum?.Value.Value != null && numValue < dataSchema.Value.Minimum.Value.Value)
+                {
+                    errorReporter.ReportError($"The specified constant value ({numValue}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
+                    hasError = true;
+                }
+                if (dataSchema.Value.Maximum?.Value.Value != null && numValue > dataSchema.Value.Maximum.Value.Value)
+                {
+                    errorReporter.ReportError($"The specified constant value ({numValue}) cannot be greater than the '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Maximum.TokenIndex);
+                    hasError = true;
+                }
+            }
+            else
+            {
+                errorReporter.ReportError($"The specified constant value must be an integer.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                hasError = true;
+            }
+
+            HashSet<string> supportedProperties = new()
+            {
+                TDDataSchema.TypeName,
+                TDDataSchema.TitleName,
+                TDDataSchema.DescriptionName,
+                TDDataSchema.MinimumName,
+                TDDataSchema.MaximumName,
+                TDDataSchema.ConstName,
+            };
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a constant integer schema", constProperty.TokenIndex))
+            {
+                hasError = true;
+            }
+
+            return !hasError;
+        }
+
+        private bool TryValidateBooleanConst<T>(ValueTracker<T> dataSchema, ValueTracker<ObjectHolder> constProperty, ValueTracker<ObjectHolder> constValue)
+             where T : TDDataSchema, IDeserializable<T>
+        {
+            bool hasError = false;
+
+            if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
+            {
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+            }
+
+            if (constValue.Value.Value is not bool)
+            {
+                errorReporter.ReportError($"The specified constant value must be Boolean.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                hasError = true;
+            }
+
+            HashSet<string> supportedProperties = new()
+            {
+                TDDataSchema.TypeName,
+                TDDataSchema.TitleName,
+                TDDataSchema.DescriptionName,
+                TDDataSchema.ConstName,
+            };
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a constant boolean schema", constProperty.TokenIndex))
+            {
+                hasError = true;
+            }
+
+            return !hasError;
+        }
+
+        private bool TryValidateResidualProperties(Dictionary<string, long> propertyNames, HashSet<string> supportedProperties, string schemaDescription, long cfTokenIndex = -1)
+        {
+            bool hasError = false;
+
+            foreach (KeyValuePair<string, long> propertyName in propertyNames)
+            {
+                if (!supportedProperties.Contains(propertyName.Key))
+                {
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
+                    {
+                        errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
+                    }
+                    else
+                    {
+                        errorReporter.ReportError($"Data schema defines {schemaDescription}; property '{propertyName.Key}' is not supported.", propertyName.Value, cfTokenIndex);
+                        hasError = true;
+                    }
+                }
+            }
+
+            return !hasError;
+        }
+
         private bool TryValidateObjectDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover)
              where T : TDDataSchema, IDeserializable<T>
         {
@@ -1559,29 +1736,71 @@
                 {
                     if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                     {
-                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only when the object definition is in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
-                        return false;
-                    }
-                    else if ((dataSchema.Value.Const.Value.Value as bool?) != true)
-                    {
-                        errorReporter.ReportError($"When used within an object definition, the '{TDDataSchema.ConstName}' property must have a Boolean value of true, indicating that the '{TDDataSchema.PropertiesName}' elements are constant definitions.", dataSchema.Value.Const.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
                         hasError = true;
                     }
-
-                    foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> property in dataSchema.Value.Properties.Entries)
+                    else if (dataSchema.Value.Const.Value.ValueMap?.Entries == null)
                     {
-                        if (property.Value.Value.Const == null)
+                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value must be an object.", dataSchema.Value.Const.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                        hasError = true;
+                    }
+                    else
+                    {
+                        foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> property in dataSchema.Value.Properties.Entries)
                         {
-                            errorReporter.ReportError($"Data schema property '{property.Key}' value must have '{TDDataSchema.ConstName}' property when the parent schema defines a constant object.", property.Value.TokenIndex, dataSchema.Value.Const.TokenIndex);
-                            hasError = true;
+                            if (property.Value.Value.Type == null)
+                            {
+                                errorReporter.ReportError($"Data schema property '{property.Key}' is missing '{TDDataSchema.TypeName}' property, which is required in an object definition that specifies a constant value.", property.Value.TokenIndex, dataSchema.Value.Const.TokenIndex);
+                                hasError = true;
+                            }
+                            else if (dataSchema.Value.Const.Value.ValueMap.Entries!.TryGetValue(property.Key, out ValueTracker<ObjectHolder>? constValue))
+                            {
+                                switch (property.Value.Value.Type!.Value.Value)
+                                {
+                                    case TDValues.TypeString:
+                                        if (!TryValidateStringConst(property.Value, dataSchema.Value.Const, constValue))
+                                        {
+                                            hasError = true;
+                                        }
+                                        break;
+                                    case TDValues.TypeNumber:
+                                        if (!TryValidateNumberConst(property.Value, dataSchema.Value.Const, constValue))
+                                        {
+                                            hasError = true;
+                                        }
+                                        break;
+                                    case TDValues.TypeInteger:
+                                        if (!TryValidateIntegerConst(property.Value, dataSchema.Value.Const, constValue))
+                                        {
+                                            hasError = true;
+                                        }
+                                        break;
+                                    case TDValues.TypeBoolean:
+                                        if (!TryValidateBooleanConst(property.Value, dataSchema.Value.Const, constValue))
+                                        {
+                                            hasError = true;
+                                        }
+                                        break;
+                                    default:
+                                        errorReporter.ReportError($"Data schema property '{property.Key}' value must specify a '{TDDataSchema.TypeName}' value of '{TDValues.TypeString}', '{TDValues.TypeNumber}', '{TDValues.TypeInteger}', or '{TDValues.TypeBoolean}' because the object definition specifies a constant value.", property.Value.Value.Type.TokenIndex, dataSchema.Value.Const.TokenIndex);
+                                        hasError = true;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                errorReporter.ReportError($"Data schema '{TDDataSchema.PropertiesName}' value has property named '{property.Key}' that has no value in '{TDDataSchema.ConstName}' elements.", property.Value.TokenIndex, dataSchema.Value.Const.Value.ValueMap.TokenIndex);
+                                hasError = true;
+                            }
                         }
-                        else if (property.Value.Value.Type!.Value.Value == TDValues.TypeObject)
+
+                        foreach (KeyValuePair<string, ValueTracker<ObjectHolder>> constValue in dataSchema.Value.Const.Value.ValueMap.Entries!)
                         {
-                            errorReporter.ReportError($"Data schema property '{property.Key}' value is not permitted to define a nested constant object; value must define a constant with a primitive type ('{TDValues.TypeString}', '{TDValues.TypeNumber}', '{TDValues.TypeInteger}', or '{TDValues.TypeBoolean}').", property.Value.TokenIndex);
-                        }
-                        else if (!TryValidateDataSchema(property.Value, null, DataSchemaKind.SchemaDefinition))
-                        {
-                            hasError = true;
+                            if (!dataSchema.Value.Properties.Entries.ContainsKey(constValue.Key))
+                            {
+                                errorReporter.ReportError($"Data schema '{TDDataSchema.ConstName}' value has property named '{constValue.Key}' that has no type definition in '{TDDataSchema.PropertiesName}' elements.", constValue.Value.TokenIndex, dataSchema.Value.Properties.TokenIndex);
+                                hasError = true;
+                            }
                         }
                     }
 
@@ -1590,20 +1809,17 @@
                         errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                     }
 
-                    foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
+                    HashSet<string> supportedProperties = new()
                     {
-                        if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != TDDataSchema.TypeName && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName && propertyName.Key != TDDataSchema.PropertiesName && propertyName.Key != TDDataSchema.ConstName)
-                        {
-                            if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
-                            {
-                                errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
-                            }
-                            else
-                            {
-                                errorReporter.ReportError($"Data schema defines a constant object, which does not support '{propertyName.Key}' property.", propertyName.Value);
-                                hasError = true;
-                            }
-                        }
+                        TDDataSchema.TypeName,
+                        TDDataSchema.TitleName,
+                        TDDataSchema.DescriptionName,
+                        TDDataSchema.PropertiesName,
+                        TDDataSchema.ConstName,
+                    };
+                    if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a constant object", dataSchema.Value.Const.TokenIndex))
+                    {
+                        hasError = true;
                     }
                 }
                 else
@@ -1614,11 +1830,6 @@
                         {
                             hasError = true;
                         }
-                    }
-
-                    if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
-                    {
-                        errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                     }
 
                     if (dataSchema.Value.Required?.Elements != null)
@@ -1642,21 +1853,24 @@
                         }
                     }
 
-                    foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
+                    HashSet<string> supportedProperties = new()
                     {
-                        if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != TDDataSchema.TypeName && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName && propertyName.Key != TDDataSchema.PropertiesName && propertyName.Key != TDDataSchema.RequiredName && propertyName.Key != TDDataSchema.ErrorMessageName)
-                        {
-                            if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
-                            {
-                                errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
-                            }
-                            else
-                            {
-                                errorReporter.ReportError($"Data schema defines a structured object, which does not support '{propertyName.Key}' property.", propertyName.Value);
-                                hasError = true;
-                            }
-                        }
+                        TDDataSchema.TypeName,
+                        TDDataSchema.TitleName,
+                        TDDataSchema.DescriptionName,
+                        TDDataSchema.PropertiesName,
+                        TDDataSchema.RequiredName,
+                        TDDataSchema.ErrorMessageName,
+                    };
+                    if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a structured object", dataSchema.Value.Properties.TokenIndex))
+                    {
+                        hasError = true;
                     }
+                }
+
+                if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
+                {
+                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                 }
             }
             else
@@ -1666,20 +1880,16 @@
                     hasError = true;
                 }
 
-                foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
+                HashSet<string> supportedProperties = new()
                 {
-                    if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != TDDataSchema.TypeName && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName && propertyName.Key != TDDataSchema.AdditionalPropertiesName)
-                    {
-                        if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
-                        {
-                            errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
-                        }
-                        else
-                        {
-                            errorReporter.ReportError($"Data schema defines a map, which does not support '{propertyName.Key}' property.", propertyName.Value);
-                            hasError = true;
-                        }
-                    }
+                    TDDataSchema.TypeName,
+                    TDDataSchema.TitleName,
+                    TDDataSchema.DescriptionName,
+                    TDDataSchema.AdditionalPropertiesName,
+                };
+                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a map", dataSchema.Value.AdditionalProperties!.TokenIndex))
+                {
+                    hasError = true;
                 }
             }
 
@@ -1718,18 +1928,24 @@
                 }
             }
 
+            HashSet<string> supportedProperties = new()
+            {
+                TDDataSchema.TypeName,
+                TDDataSchema.TitleName,
+                TDDataSchema.DescriptionName,
+                TDDataSchema.ItemsName,
+            };
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "an array schema"))
+            {
+                hasError = true;
+            }
+
             return !hasError;
         }
 
         private bool TryValidateStringDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover)
              where T : TDDataSchema, IDeserializable<T>
         {
-            if (dataSchema.Value.Const != null && dataSchemaKind != DataSchemaKind.SchemaDefinition)
-            {
-                errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element or nested within a constant object definition.", dataSchema.Value.Const.TokenIndex);
-                return false;
-            }
-
             bool hasError = false;
 
             if (dataSchema.Value.Enum?.Elements != null)
@@ -1748,119 +1964,110 @@
                     }
                 }
 
-                foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
+                HashSet<string> supportedProperties = new()
                 {
-                    if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != TDDataSchema.TypeName && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName && propertyName.Key != TDDataSchema.EnumName)
-                    {
-                        if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
-                        {
-                            errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
-                        }
-                        else
-                        {
-                            errorReporter.ReportError($"Data schema defines an enumerated string, which does not support '{propertyName.Key}' property.", propertyName.Value);
-                            hasError = true;
-                        }
-                    }
+                    TDDataSchema.TypeName,
+                    TDDataSchema.TitleName,
+                    TDDataSchema.DescriptionName,
+                    TDDataSchema.EnumName,
+                };
+                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "an enumerated string", dataSchema.Value.Enum.TokenIndex))
+                {
+                    hasError = true;
                 }
             }
             else
             {
-                List<string> exclusiveProperties = new();
                 if (dataSchema.Value.Const != null)
                 {
-                    exclusiveProperties.Add(TDDataSchema.ConstName);
-                }
-                if (dataSchema.Value.Format != null)
-                {
-                    exclusiveProperties.Add(TDDataSchema.FormatName);
-                }
-                if (dataSchema.Value.Pattern != null)
-                {
-                    exclusiveProperties.Add(TDDataSchema.PatternName);
-                }
-                if (dataSchema.Value.ContentEncoding != null)
-                {
-                    exclusiveProperties.Add(TDDataSchema.ContentEncodingName);
-                }
-
-                if (exclusiveProperties.Count > 1)
-                {
-                    errorReporter.ReportError($"Data schema string type cannot have more than one of the following properties: {string.Join(", ", exclusiveProperties)}.", dataSchema.TokenIndex);
-                    hasError = true;
-                }
-
-                if (dataSchema.Value.Const?.Value.Value != null)
-                {
-                    if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
+                    if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                     {
-                        errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
+                        hasError = true;
                     }
-
-                    if (dataSchema.Value.Const.Value.Value is not string)
+                    else if (!TryValidateStringConst(dataSchema, dataSchema.Value.Const, dataSchema.Value.Const))
                     {
-                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value must be a string.", dataSchema.Value.Const.TokenIndex);
                         hasError = true;
                     }
                 }
-
-                if (dataSchema.Value.Format != null)
+                else
                 {
-                    string formatValue = dataSchema.Value.Format.Value.Value;
-                    if (formatValue != TDValues.FormatDateTime && formatValue != TDValues.FormatDate && formatValue != TDValues.FormatTime && formatValue != TDValues.FormatUuid)
+                    List<string> exclusiveProperties = new();
+                    if (dataSchema.Value.Format != null)
                     {
-                        errorReporter.ReportError($"Data schema '{TDDataSchema.FormatName}' property has unsupported value '{formatValue}'; supported values are '{TDValues.FormatDateTime}', '{TDValues.FormatDate}', '{TDValues.FormatTime}', and '{TDValues.FormatUuid}'.", dataSchema.Value.Format.TokenIndex);
+                        exclusiveProperties.Add(TDDataSchema.FormatName);
+                    }
+                    if (dataSchema.Value.Pattern != null)
+                    {
+                        exclusiveProperties.Add(TDDataSchema.PatternName);
+                    }
+                    if (dataSchema.Value.ContentEncoding != null)
+                    {
+                        exclusiveProperties.Add(TDDataSchema.ContentEncodingName);
+                    }
+
+                    if (exclusiveProperties.Count > 1)
+                    {
+                        errorReporter.ReportError($"Data schema string type cannot have more than one of the following properties: {string.Join(", ", exclusiveProperties)}.", dataSchema.TokenIndex);
                         hasError = true;
                     }
-                }
 
-                if (dataSchema.Value.ContentEncoding != null)
-                {
-                    string contentEncodingValue = dataSchema.Value.ContentEncoding.Value.Value;
-                    if (contentEncodingValue != TDValues.ContentEncodingBase64)
+                    if (dataSchema.Value.Format != null)
                     {
-                        errorReporter.ReportError($"Data schema '{TDDataSchema.ContentEncodingName}' property has unsupported value '{contentEncodingValue}'; only supported value is '{TDValues.ContentEncodingBase64}'.", dataSchema.Value.ContentEncoding.TokenIndex);
-                        hasError = true;
-                    }
-                }
-
-                if (dataSchema.Value.Pattern != null)
-                {
-                    string patternValue = dataSchema.Value.Pattern.Value.Value;
-                    try
-                    {
-                        Regex patternRegex = new Regex(patternValue);
-
-                        if (patternRegex.IsMatch(AnArbitraryString))
+                        string formatValue = dataSchema.Value.Format.Value.Value;
+                        if (formatValue != TDValues.FormatDateTime && formatValue != TDValues.FormatDate && formatValue != TDValues.FormatTime && formatValue != TDValues.FormatUuid)
                         {
-                            errorReporter.ReportWarning($"Data schema '{TDDataSchema.PatternName}' property value \"{patternValue}\" matches an arbitrary test string value, so no type restriction will be applied.", dataSchema.Value.Pattern.TokenIndex);
-                        }
-                        else if (!patternRegex.IsMatch(Iso8601DurationExample) && !patternRegex.IsMatch(DecimalExample))
-                        {
-                            errorReporter.ReportError($"Data schema '{TDDataSchema.PatternName}' property value \"{patternValue}\" matches neither an ISO 8601 duration value (e.g., \"{Iso8601DurationExample}\") nor a decimal value (e.g., \"{DecimalExample}\"), so indended type is indeterminate.", dataSchema.Value.Pattern.TokenIndex);
+                            errorReporter.ReportError($"Data schema '{TDDataSchema.FormatName}' property has unsupported value '{formatValue}'; supported values are '{TDValues.FormatDateTime}', '{TDValues.FormatDate}', '{TDValues.FormatTime}', and '{TDValues.FormatUuid}'.", dataSchema.Value.Format.TokenIndex);
                             hasError = true;
                         }
                     }
-                    catch (RegexParseException)
-                    {
-                        errorReporter.ReportError($"Data schema '{TDDataSchema.PatternName}' property has invalid regular expression pattern '{patternValue}'", dataSchema.Value.Pattern.TokenIndex);
-                        hasError = true;
-                    }
-                }
 
-                foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
-                {
-                    if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != TDDataSchema.TypeName && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName && propertyName.Key != TDDataSchema.ConstName && propertyName.Key != TDDataSchema.FormatName && propertyName.Key != TDDataSchema.ContentEncodingName && propertyName.Key != TDDataSchema.PatternName)
+                    if (dataSchema.Value.ContentEncoding != null)
                     {
-                        if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
+                        string contentEncodingValue = dataSchema.Value.ContentEncoding.Value.Value;
+                        if (contentEncodingValue != TDValues.ContentEncodingBase64)
                         {
-                            errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
-                        }
-                        else
-                        {
-                            errorReporter.ReportError($"Data schema defines a string type, which does not support '{propertyName.Key}' property.", propertyName.Value);
+                            errorReporter.ReportError($"Data schema '{TDDataSchema.ContentEncodingName}' property has unsupported value '{contentEncodingValue}'; only supported value is '{TDValues.ContentEncodingBase64}'.", dataSchema.Value.ContentEncoding.TokenIndex);
                             hasError = true;
                         }
+                    }
+
+                    if (dataSchema.Value.Pattern != null)
+                    {
+                        string patternValue = dataSchema.Value.Pattern.Value.Value;
+                        try
+                        {
+                            Regex patternRegex = new Regex(patternValue);
+
+                            if (patternRegex.IsMatch(AnArbitraryString))
+                            {
+                                errorReporter.ReportWarning($"Data schema '{TDDataSchema.PatternName}' property value \"{patternValue}\" matches an arbitrary test string value, so no type restriction will be applied.", dataSchema.Value.Pattern.TokenIndex);
+                            }
+                            else if (!patternRegex.IsMatch(Iso8601DurationExample) && !patternRegex.IsMatch(DecimalExample))
+                            {
+                                errorReporter.ReportError($"Data schema '{TDDataSchema.PatternName}' property value \"{patternValue}\" matches neither an ISO 8601 duration value (e.g., \"{Iso8601DurationExample}\") nor a decimal value (e.g., \"{DecimalExample}\"), so indended type is indeterminate.", dataSchema.Value.Pattern.TokenIndex);
+                                hasError = true;
+                            }
+                        }
+                        catch (RegexParseException)
+                        {
+                            errorReporter.ReportError($"Data schema '{TDDataSchema.PatternName}' property has invalid regular expression pattern '{patternValue}'", dataSchema.Value.Pattern.TokenIndex);
+                            hasError = true;
+                        }
+                    }
+
+                    HashSet<string> supportedProperties = new()
+                    {
+                        TDDataSchema.TypeName,
+                        TDDataSchema.TitleName,
+                        TDDataSchema.DescriptionName,
+                        TDDataSchema.FormatName,
+                        TDDataSchema.ContentEncodingName,
+                        TDDataSchema.PatternName,
+                    };
+                    if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a string schema"))
+                    {
+                        hasError = true;
                     }
                 }
             }
@@ -1873,58 +2080,37 @@
         {
             bool hasError = false;
 
-            if (dataSchema.Value.Const?.Value.Value != null && dataSchemaKind != DataSchemaKind.SchemaDefinition)
-            {
-                errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element or nested within a constant object definition.", dataSchema.Value.Const.TokenIndex);
-                return false;
-            }
-
             if (dataSchema.Value.Minimum?.Value.Value != null && dataSchema.Value.Maximum?.Value.Value != null && dataSchema.Value.Maximum.Value.Value < dataSchema.Value.Minimum.Value.Value)
             {
                 errorReporter.ReportError($"The '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", dataSchema.Value.Maximum.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
                 hasError = true;
             }
 
-            if (dataSchema.Value.Const?.Value.Value != null)
+            if (dataSchema.Value.Const != null)
             {
-                if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
+                if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                 {
-                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                    errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
+                    hasError = true;
                 }
-
-                if (dataSchema.Value.Const.Value.Value is double constValue)
+                else if (!TryValidateNumberConst(dataSchema, dataSchema.Value.Const, dataSchema.Value.Const))
                 {
-                    if (dataSchema.Value.Minimum?.Value.Value != null && constValue < dataSchema.Value.Minimum.Value.Value)
-                    {
-                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value ({constValue}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", dataSchema.Value.Const.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
-                        hasError = true;
-                    }
-                    if (dataSchema.Value.Maximum?.Value.Value != null && constValue > dataSchema.Value.Maximum.Value.Value)
-                    {
-                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value ({constValue}) cannot be greater than the '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}).", dataSchema.Value.Const.TokenIndex, dataSchema.Value.Maximum.TokenIndex);
-                        hasError = true;
-                    }
-                }
-                else
-                {
-                    errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value must be a number.", dataSchema.Value.Const.TokenIndex);
                     hasError = true;
                 }
             }
-
-            foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
+            else
             {
-                if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != TDDataSchema.TypeName && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName && propertyName.Key != TDDataSchema.ConstName && propertyName.Key != TDDataSchema.MinimumName && propertyName.Key != TDDataSchema.MaximumName)
+                HashSet<string> supportedProperties = new()
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
-                    {
-                        errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
-                    }
-                    else
-                    {
-                        errorReporter.ReportError($"Data schema defines a number type, which does not support '{propertyName.Key}' property.", propertyName.Value);
-                        hasError = true;
-                    }
+                    TDDataSchema.TypeName,
+                    TDDataSchema.TitleName,
+                    TDDataSchema.DescriptionName,
+                    TDDataSchema.MinimumName,
+                    TDDataSchema.MaximumName,
+                };
+                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a number schema"))
+                {
+                    hasError = true;
                 }
             }
 
@@ -1935,12 +2121,6 @@
              where T : TDDataSchema, IDeserializable<T>
         {
             bool hasError = false;
-
-            if (dataSchema.Value.Const?.Value.Value != null && dataSchemaKind != DataSchemaKind.SchemaDefinition)
-            {
-                errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element or nested within a constant object definition.", dataSchema.Value.Const.TokenIndex);
-                return false;
-            }
 
             if (dataSchema.Value.Minimum?.Value.Value != null && !double.IsInteger(dataSchema.Value.Minimum.Value.Value))
             {
@@ -1964,46 +2144,31 @@
                 hasError = true;
             }
 
-            if (dataSchema.Value.Const?.Value.Value != null)
+            if (dataSchema.Value.Const != null)
             {
-                if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
+                if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                 {
-                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                    errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
+                    hasError = true;
                 }
-
-                if (dataSchema.Value.Const.Value.Value is double constValue && double.IsInteger(constValue))
+                else if (dataSchema.Value.Const != null && !TryValidateIntegerConst(dataSchema, dataSchema.Value.Const, dataSchema.Value.Const))
                 {
-                    if (dataSchema.Value.Minimum?.Value.Value != null && constValue < dataSchema.Value.Minimum.Value.Value)
-                    {
-                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value ({constValue}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", dataSchema.Value.Const.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
-                        hasError = true;
-                    }
-                    if (dataSchema.Value.Maximum?.Value.Value != null && constValue > dataSchema.Value.Maximum.Value.Value)
-                    {
-                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value ({constValue}) cannot be greater than the '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}).", dataSchema.Value.Const.TokenIndex, dataSchema.Value.Maximum.TokenIndex);
-                        hasError = true;
-                    }
-                }
-                else
-                {
-                    errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value must be an integer.", dataSchema.Value.Const.TokenIndex);
                     hasError = true;
                 }
             }
-
-            foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
+            else
             {
-                if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != TDDataSchema.TypeName && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName && propertyName.Key != TDDataSchema.ConstName && propertyName.Key != TDDataSchema.MinimumName && propertyName.Key != TDDataSchema.MaximumName)
+                HashSet<string> supportedProperties = new()
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
-                    {
-                        errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
-                    }
-                    else
-                    {
-                        errorReporter.ReportError($"Data schema defines a integer type, which does not support '{propertyName.Key}' property.", propertyName.Value);
-                        hasError = true;
-                    }
+                    TDDataSchema.TypeName,
+                    TDDataSchema.TitleName,
+                    TDDataSchema.DescriptionName,
+                    TDDataSchema.MinimumName,
+                    TDDataSchema.MaximumName,
+                };
+                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "an integer schema"))
+                {
+                    hasError = true;
                 }
             }
 
@@ -2013,41 +2178,31 @@
         private bool TryValidateBooleanDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover)
              where T : TDDataSchema, IDeserializable<T>
         {
-            if (dataSchema.Value.Const != null && dataSchemaKind != DataSchemaKind.SchemaDefinition)
-            {
-                errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element or nested within a constant object definition.", dataSchema.Value.Const.TokenIndex);
-                return false;
-            }
-
             bool hasError = false;
 
-            if (dataSchema.Value.Const?.Value.Value != null)
+            if (dataSchema.Value.Const != null)
             {
-                if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
+                if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                 {
-                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                    errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
+                    hasError = true;
                 }
-
-                if (dataSchema.Value.Const.Value.Value is not bool)
+                else if (!TryValidateBooleanConst(dataSchema, dataSchema.Value.Const, dataSchema.Value.Const))
                 {
-                    errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value must be Boolean.", dataSchema.Value.Const.TokenIndex);
                     hasError = true;
                 }
             }
-
-            foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
+            else
             {
-                if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != TDDataSchema.TypeName && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName && propertyName.Key != TDDataSchema.ConstName)
+                HashSet<string> supportedProperties = new()
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
-                    {
-                        errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
-                    }
-                    else
-                    {
-                        errorReporter.ReportError($"Data schema defines a number type, which does not support '{propertyName.Key}' property.", propertyName.Value);
-                        hasError = true;
-                    }
+                    TDDataSchema.TypeName,
+                    TDDataSchema.TitleName,
+                    TDDataSchema.DescriptionName,
+                };
+                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a Boolean schema"))
+                {
+                    hasError = true;
                 }
             }
 
@@ -2063,25 +2218,18 @@
                 return false;
             }
 
-            bool hasError = false;
-
-            foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
+            HashSet<string> supportedProperties = new()
             {
-                if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != TDDataSchema.TypeName && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName)
-                {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
-                    {
-                        errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
-                    }
-                    else
-                    {
-                        errorReporter.ReportError($"Data schema defines a null type, which does not support '{propertyName.Key}' property.", propertyName.Value);
-                        hasError = true;
-                    }
-                }
+                TDDataSchema.TypeName,
+                TDDataSchema.TitleName,
+                TDDataSchema.DescriptionName,
+            };
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a null schema"))
+            {
+                return false;
             }
 
-            return !hasError;
+            return true;
         }
 
         private enum DataSchemaKind

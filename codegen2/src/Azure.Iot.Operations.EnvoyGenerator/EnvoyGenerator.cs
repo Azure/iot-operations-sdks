@@ -73,23 +73,31 @@
 
         private static void CollectNamedConstants(TDThing tdThing, SchemaNamer schemaNamer, Dictionary<string, ConstantsSpec> schemaConstants)
         {
-            IEnumerable<KeyValuePair<string, ValueTracker<TDDataSchema>>>? constDefs = tdThing.SchemaDefinitions?.Entries?.Where(d => d.Value.Value.Const?.Value != null && d.Value.Value.Type?.Value.Value != TDValues.TypeObject);
-            AddNamedConstants(schemaNamer.ConstantsSchema, "Global constants.", constDefs, schemaNamer, schemaConstants);
+            IEnumerable<KeyValuePair<string, ValueTracker<TDDataSchema>>> constDefs;
+            Dictionary<string, ValueTracker<ObjectHolder>> constValues;
+
+            if (tdThing.SchemaDefinitions?.Entries != null)
+            {
+                constDefs = tdThing.SchemaDefinitions.Entries.Where(d => d.Value.Value.Const?.Value != null && d.Value.Value.Type?.Value.Value != TDValues.TypeObject);
+                constValues = constDefs.ToDictionary(d => d.Key, d => d.Value.Value.Const!);
+                AddNamedConstants(schemaNamer.ConstantsSchema, "Global constants.", constDefs, constValues, schemaNamer, schemaConstants);
+            }
 
             foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> topLevelDef in tdThing.SchemaDefinitions?.Entries ?? new())
             {
-                if (topLevelDef.Value.Value.Type?.Value.Value == TDValues.TypeObject && (bool?)topLevelDef.Value.Value.Const?.Value.Value == true)
+                if (topLevelDef.Value.Value.Properties?.Entries != null && topLevelDef.Value.Value.Const?.Value.ValueMap != null)
                 {
-                    constDefs = topLevelDef.Value.Value.Properties?.Entries?.Where(d => d.Value.Value.Const?.Value != null);
+                    constDefs = topLevelDef.Value.Value.Properties.Entries;
+                    constValues = topLevelDef.Value.Value.Const.Value.ValueMap!.Entries!;
                     string schemaName = schemaNamer.ApplyBackupSchemaName(topLevelDef.Value.Value.Title?.Value.Value, topLevelDef.Key);
-                    AddNamedConstants(schemaName, topLevelDef.Value.Value.Description?.Value.Value, constDefs!, schemaNamer, schemaConstants);
+                    AddNamedConstants(schemaName, topLevelDef.Value.Value.Description?.Value.Value, constDefs!, constValues, schemaNamer, schemaConstants);
                 }
             }
         }
 
-        private static void AddNamedConstants(string schemaName, string? description, IEnumerable<KeyValuePair<string, ValueTracker<TDDataSchema>>>? constDefs, SchemaNamer schemaNamer, Dictionary<string, ConstantsSpec> schemaConstants)
+        private static void AddNamedConstants(string schemaName, string? description, IEnumerable<KeyValuePair<string, ValueTracker<TDDataSchema>>> constDefs, Dictionary<string, ValueTracker<ObjectHolder>> constValues, SchemaNamer schemaNamer, Dictionary<string, ConstantsSpec> schemaConstants)
         {
-            if (constDefs?.Any() ?? false)
+            if (constDefs.Any())
             {
                 if (!schemaConstants.TryGetValue(schemaName, out ConstantsSpec? namedConstants))
                 {
@@ -102,7 +110,7 @@
                     if (constDef.Value.Value.Type?.Value.Value == TDValues.TypeString || constDef.Value.Value.Type?.Value.Value == TDValues.TypeNumber || constDef.Value.Value.Type?.Value.Value == TDValues.TypeInteger || constDef.Value.Value.Type?.Value.Value == TDValues.TypeBoolean)
                     {
                         CodeName constName = new CodeName(schemaNamer.ChooseTitleOrName(constDef.Value.Value.Title?.Value.Value, constDef.Key));
-                        namedConstants.Constants[constName] = new TypedConstant(constDef.Value.Value.Type.Value.Value, constDef.Value.Value.Const!.Value!.Value, constDef.Value.Value.Description?.Value.Value);
+                        namedConstants.Constants[constName] = new TypedConstant(constDef.Value.Value.Type.Value.Value, constValues[constDef.Key].Value.Value!, constDef.Value.Value.Description?.Value.Value);
                     }
                 }
             }

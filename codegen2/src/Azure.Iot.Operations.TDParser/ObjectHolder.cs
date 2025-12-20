@@ -6,7 +6,9 @@
 
     public class ObjectHolder : IEquatable<ObjectHolder>, IDeserializable<ObjectHolder>
     {
-        public required object Value { get; set; }
+        public object? Value { get; set; }
+
+        public MapTracker<ObjectHolder>? ValueMap { get; set; }
 
         public virtual bool Equals(ObjectHolder? other)
         {
@@ -14,15 +16,20 @@
             {
                 return false;
             }
-            else
+            if (Value != other.Value)
             {
-                return Value == other.Value;
+                return false;
             }
+            if (ValueMap != other.ValueMap)
+            {
+                return false;
+            }
+            return true;
         }
 
         public override int GetHashCode()
         {
-            return Value.GetHashCode();
+            return (Value, ValueMap).GetHashCode();
         }
 
         public static bool operator ==(ObjectHolder? left, ObjectHolder? right)
@@ -66,6 +73,8 @@
         {
             switch (reader.TokenType)
             {
+                case JsonTokenType.StartObject:
+                    return new ObjectHolder { ValueMap = MapTracker<ObjectHolder>.Deserialize(ref reader, string.Empty) };
                 case JsonTokenType.String:
                     return new ObjectHolder { Value = reader.GetString()! };
                 case JsonTokenType.Number:
@@ -75,7 +84,7 @@
                 case JsonTokenType.False:
                     return new ObjectHolder { Value = false };
                 default:
-                    throw new InvalidOperationException($"expected primitive value but found {reader.TokenType}");
+                    throw new InvalidOperationException($"expected primitive value or JSON object but found {reader.TokenType}");
             }
         }
 

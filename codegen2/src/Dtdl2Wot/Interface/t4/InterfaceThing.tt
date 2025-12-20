@@ -38,21 +38,20 @@
 <# foreach (KeyValuePair<string, DTEnumInfo> namespacedEnum in this.namespacedEnums) { #>
     "<#=namespacedEnum.Key#>": {
       "type": "object",
-      "const": true,
+      "const": {
+<# int ix2 = 1; foreach (DTEnumValueInfo enumValue in namespacedEnum.Value.EnumValues) { #>
+        "<#=enumValue.Name#>": <#=(ThingDescriber.GetPrimitiveType(namespacedEnum.Value.ValueSchema.Id) == "integer") ? enumValue.EnumValue : $"\"{enumValue.EnumValue}\""#><#=ix2 < namespacedEnum.Value.EnumValues.Count ? "," : ""#>
+<# ix2++; } #>
+      },
 <# if (namespacedEnum.Value.Description.Any()) { #>
       "description": "<#=namespacedEnum.Value.Description.First().Value#>",
 <# } #>
       "properties": {
-<# int ix2 = 1; foreach (DTEnumValueInfo enumValue in namespacedEnum.Value.EnumValues) { #>
+<# ix2 = 1; foreach (DTEnumValueInfo enumValue in namespacedEnum.Value.EnumValues) { #>
         "<#=enumValue.Name#>": {
           "type": "<#=ThingDescriber.GetPrimitiveType(namespacedEnum.Value.ValueSchema.Id)#>",
 <# if (enumValue.Description.Any()) { #>
-          "description": "<#=enumValue.Description.First().Value#>",
-<# } #>
-<# if (ThingDescriber.GetPrimitiveType(namespacedEnum.Value.ValueSchema.Id) == "integer") { #>
-          "const": <#=enumValue.EnumValue#>
-<# } else { #>
-          "const": "<#=enumValue.EnumValue#>"
+          "description": "<#=enumValue.Description.First().Value#>"
 <# } #>
         }<#=ix2 < namespacedEnum.Value.EnumValues.Count ? "," : ""#>
 <# ix2++; } #>
