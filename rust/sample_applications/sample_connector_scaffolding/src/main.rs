@@ -41,7 +41,7 @@ use std::time::Duration;
 use azure_iot_operations_connector::{
     AdrConfigError, Data,
     base_connector::{
-        BaseConnector,
+        self, BaseConnector,
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
             DeviceEndpointClient, DeviceEndpointClientCreationObservation, ModifyResult,
@@ -51,16 +51,12 @@ use azure_iot_operations_connector::{
     data_processor::derived_json,
     deployment_artifacts::connector::ConnectorArtifacts,
 };
-use azure_iot_operations_otel::Otel;
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder, common::hybrid_logical_clock::HybridLogicalClock,
 };
 use tokio::sync::watch;
 
 const DEFAULT_SAMPLING_INTERVAL: Duration = Duration::from_millis(10000); // Default sampling interval in milliseconds
-const OTEL_TAG: &str = "connector_scaffolding_template"; // IMPLEMENT: Change this to a unique tag for your connector
-const DEFAULT_LOG_LEVEL: &str =
-    "warn,sample_connector_scaffolding=info,azure_iot_operations_connector=info"; // IMPLEMENT: Change this to a unique log level for your connector and change the tag to match the crate name
 
 /// Macro that generates closures for reporting status with one-way transitions.
 ///
@@ -90,23 +86,58 @@ macro_rules! report_status_one_way {
     };
 }
 
+/// Macro that generates closures for reporting status any time it's different than the current status
+///
+/// This means that unless the statuses match exactly, the new status will be reported
+///
+/// Reports Ok in any case where status is not Ok
+/// Reports Err in any case where the status is not the same exact Err
+macro_rules! report_status_if_different {
+    ($new_status:expr) => {
+        |status| {
+            let should_report = match (&status, &$new_status) {
+                // Report Ok(()) in all cases unless it's already Ok
+                (Some(Ok(())), Ok(())) => false,
+                // If the current status is Err, only don't report if they match
+                (Some(Err(curr_err)), Err(new_err)) => *curr_err != new_err,
+                // Report anything else
+                _ => true,
+            };
+            if should_report {
+                Some($new_status)
+            } else {
+                None
+            }
+        }
+    };
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    env_logger::Builder::new()
+        .filter_level(log::LevelFilter::Warn)
+        .format_timestamp(None)
+        .filter_module("azure_iot_operations_connector", log::LevelFilter::Info)
+        .filter_module("sample_connector_scaffolding", log::LevelFilter::Info)
+        .init();
+
     // Create the connector artifacts from the deployment, IMPLEMENT: Use them as needed
     let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;
 
-    // Initialize the OTEL logger / exporter
-    let otel_config = connector_artifacts.to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
-    let mut otel_exporter = Otel::new(otel_config);
-    let otel_task = otel_exporter.run();
-
     log::info!("Starting connector");
 
-    // Create the appplication context used by the AIO SDK
+    // Create the application context used by the AIO SDK
     let application_context = ApplicationContextBuilder::default().build()?;
 
+    // Create options for the base connector, IMPLEMENT: Customize as needed
+    let base_connector_options = base_connector::OptionsBuilder::default().build()?;
+
     // Create the Base Connector to handle device endpoints, assets, and datasets creation, update and deletion notifications plus status reporting.
-    let base_connector = BaseConnector::new(application_context, connector_artifacts)?;
+    let base_connector = BaseConnector::new(
+        application_context,
+        connector_artifacts,
+        base_connector_options,
+    )?;
 
     // Create a device endpoint client creation observation
     let device_endpoint_client_creation_observation =
@@ -126,18 +157,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 }
                 Err(e) => {
                     log::error!("Base connector run failed: {e}");
-                    Err(Box::new(e))?
-                }
-            }
-        }
-        res = otel_task => {
-            match res {
-                Ok(()) => {
-                    log::info!("OTEL run finished successfully");
-                    Ok(())
-                }
-                Err(e) => {
-                    log::error!("OTEL run failed: {e}");
                     Err(Box::new(e))?
                 }
             }
@@ -533,35 +552,16 @@ async fn handle_dataset(
             // Using 'biased;' ensures updates are prioritized over sampling.
             biased;
             // Monitor for device endpoint readiness changes
-            _ = device_endpoint_ready_watcher_rx.changed() => {
+            res = device_endpoint_ready_watcher_rx.changed() => {
+                if res.is_err() {
+                    // While this signals that the device endpoint has been deleted, the associated dataset will be deleted momentarily as well.
+                    log::info!("{dataset_log_identifier} Device Endpoint deleted notification received, ending dataset handler");
+                    break;
+                }
                 // Update our local device endpoint readiness state
                 is_device_endpoint_ready = *device_endpoint_ready_watcher_rx.borrow_and_update();
 
-                log::info!("{dataset_log_identifier} Device endpoint ready state changed to {is_device_endpoint_ready}");
-            },
-            // Monitor for asset updates and readiness changes
-            _ = asset_update_watcher_rx.changed() => {
-                // Update our local asset readiness state
-                is_asset_ready = *asset_update_watcher_rx.borrow_and_update();
-                log::debug!("{dataset_log_identifier} Asset update notification received. Current ready state is {is_asset_ready}");
-
-                // Re-report dataset status as status has been cleared
-                match data_operation_status_reporter
-                    .report_status_if_modified(report_status_one_way!(
-                        last_reported_dataset_status.clone()
-                    ))
-                    .await
-                {
-                    Ok(ModifyResult::Reported) => {
-                        log::info!("{dataset_log_identifier} Dataset status reported");
-                    }
-                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
-                    Err(e) => {
-                        log::error!(
-                            "{dataset_log_identifier} Failed to report Dataset status: {e}"
-                        );
-                    }
-                }
+                log::debug!("{dataset_log_identifier} Device endpoint ready state changed to {is_device_endpoint_ready}");
             },
             data_operation_notification = data_operation_client.recv_notification() => {
                 // Match the data operation notification to handle updates, deletions, or invalid updates
@@ -578,7 +578,7 @@ async fn handle_dataset(
 
                         // Report the dataset status based on validation.
                         match data_operation_status_reporter
-                            .report_status_if_modified(report_status_one_way!(
+                            .report_status_if_modified(report_status_if_different!(
                                 last_reported_dataset_status.clone()
                             ))
                             .await
@@ -605,6 +605,35 @@ async fn handle_dataset(
                         is_dataset_ready = false;
                         // Continue to wait for a valid update
                     },
+                }
+            },
+            // Monitor for asset updates and readiness changes
+            res = asset_update_watcher_rx.changed() => {
+                if res.is_err() {
+                    // The asset client has been deleted, we need to end the data operation handler
+                    log::info!("{dataset_log_identifier} Asset deleted notification received, ending dataset handler");
+                    break;
+                }
+                // Update our local asset readiness state
+                is_asset_ready = *asset_update_watcher_rx.borrow_and_update();
+                log::debug!("{dataset_log_identifier} Asset update notification received. Current ready state is {is_asset_ready}");
+
+                // Re-report dataset status as status has been cleared
+                match data_operation_status_reporter
+                    .report_status_if_modified(report_status_one_way!(
+                        last_reported_dataset_status.clone()
+                    ))
+                    .await
+                {
+                    Ok(ModifyResult::Reported) => {
+                        log::info!("{dataset_log_identifier} Dataset status reported");
+                    }
+                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
+                    Err(e) => {
+                        log::error!(
+                            "{dataset_log_identifier} Failed to report Dataset status: {e}"
+                        );
+                    }
                 }
             },
             _ = timer.tick(), if is_dataset_ready && is_asset_ready && is_device_endpoint_ready => {

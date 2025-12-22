@@ -13,12 +13,12 @@ public interface ISchemaRegistryClient : IAsyncDisposable
     /// Retrieves schema information from a schema registry service based on the provided schema ID and version.
     /// </summary>
     /// <param name="schemaId">The unique identifier of the schema to retrieve. This is required to locate the schema in the registry.</param>
-    /// <param name="version">The version of the schema to fetch. If not specified, defaults to "1.0.0".</param>
-    /// <param name="timeout">>An optional timeout for the operation, which specifies the maximum time allowed for the request to complete.</param>
+    /// <param name="version">The version of the schema to fetch. If not specified, defaults to "1". Values are expected to be whole integers.</param>
+    /// <param name="timeout">An optional timeout for the operation, which specifies the maximum time allowed for the request to complete.</param>
     /// <param name="cancellationToken">A token that can be used to cancel the operation before completion if needed.</param>
     /// <returns>Information about the requested schema</returns>
     /// <exception cref="Models.SchemaRegistryErrorException">If the requested schema does not exist</exception>
-    Task<SchemaInfo> GetAsync(string schemaId, string version = "1.0.0", TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
+    Task<SchemaInfo> GetAsync(string schemaId, string version = "1", TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
 
     /// <summary>
     /// Adds or updates a schema in the schema registry service with the specified content, format, type, and metadata.
@@ -26,14 +26,13 @@ public interface ISchemaRegistryClient : IAsyncDisposable
     /// <param name="schemaContent">The content of the schema to be added or updated in the registry.</param>
     /// <param name="schemaFormat">The format of the schema. Specifies how the schema content should be interpreted.</param>
     /// <param name="schemaType">The type of the schema, such as message schema or data schema. Defaults to <see cref="SchemaType.MessageSchema"/>.</param>
-    /// <param name="version">The version of the schema to add or update. If not specified, defaults to "1.0.0".</param>
-    /// 
+    /// <param name="version">The version of the schema to add or update. If not specified, defaults to "1". Values are expected to be whole integers.</param>
     /// <param name="tags">Optional metadata tags to associate with the schema. These tags can be used to store additional information 
     /// about the schema in key-value format.</param>
     /// <param name="description">The optional description of the schema.</param>
     /// <param name="displayName">The optional display name of the schema.</param>
-    /// <param name="timeout">>An optional timeout for the operation, which specifies the maximum time allowed for the request to complete.</param>
+    /// <param name="timeout">An optional timeout for the operation, which specifies the maximum time allowed for the request to complete.</param>
     /// <param name="cancellationToken">A token that can be used to cancel the operation before completion if needed.</param>
     /// <returns>Information about the created/updated schema</returns>
-    Task<SchemaInfo> PutAsync(string schemaContent, SchemaFormat schemaFormat, SchemaType schemaType = SchemaType.MessageSchema, string version = "1.0.0", Dictionary<string, string> tags = default!, string? displayName = null, string? description = null, TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
+    Task<SchemaInfo> PutAsync(string schemaContent, SchemaFormat schemaFormat, SchemaType schemaType = SchemaType.MessageSchema, string version = "1", Dictionary<string, string> tags = default!, string? displayName = null, string? description = null, TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
 }

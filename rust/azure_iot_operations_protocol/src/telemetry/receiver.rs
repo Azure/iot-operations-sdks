@@ -1,203 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr, sync::Arc};
+use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc};
 
 use azure_iot_operations_mqtt::{
-    control_packet::{Publish, QoS},
-    interface::{AckToken, ManagedClient, PubReceiver},
+    aio::cloud_event as aio_cloud_event,
+    control_packet::{Publish, QoS, TopicFilter},
+    session::{SessionManagedClient, SessionPubReceiver},
+    token::AckToken,
 };
-use chrono::{DateTime, Utc};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
     ProtocolVersion,
     application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
-        aio_protocol_error::{AIOProtocolError, Value},
+        aio_protocol_error::AIOProtocolError,
         hybrid_logical_clock::HybridLogicalClock,
         payload_serialize::{FormatIndicator, PayloadSerialize},
         topic_processor::TopicPattern,
         user_properties::UserProperty,
     },
-    telemetry::{
-        DEFAULT_TELEMETRY_PROTOCOL_VERSION,
-        cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-    },
+    telemetry::DEFAULT_TELEMETRY_PROTOCOL_VERSION,
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
-/// Cloud Event struct used by the [`Receiver`].
+/// Cloud Event struct derived from a received Telemetry Message.
+pub type CloudEvent = aio_cloud_event::CloudEvent;
+/// Error when parsing a Cloud Event from a received Telemetry Message
+pub type CloudEventParseError = aio_cloud_event::CloudEventParseError;
+
+/// Parse a [`CloudEvent`] from a [`Message`].
+/// Note that this will return an error if the [`Message`] does not contain the required fields for a [`CloudEvent`].
 ///
-/// Implements the cloud event spec 1.0 for the telemetry receiver.
-/// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
-#[derive(Builder, Clone)]
-#[builder(setter(into), build_fn(validate = "Self::validate"))]
-pub struct CloudEvent {
-    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
-    /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
-    /// id. Consumers MAY assume that Events with identical source and id are duplicates.
-    pub id: String,
-    /// Identifies the context in which an event happened. Often this will include information such
-    /// as the type of the event source, the organization publishing the event or the process that
-    /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
-    /// defined by the event producer.
-    pub source: String,
-    /// The version of the cloud events specification which the event uses. This enables the
-    /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
-    /// referring to this version of the specification.
-    pub spec_version: String,
-    /// Contains a value describing the type of event related to the originating occurrence. Often
-    /// this attribute is used for routing, observability, policy enforcement, etc. The format of
-    /// this is producer defined and might include information such as the version of the type.
-    pub event_type: String,
-    /// Identifies the subject of the event in the context of the event producer (identified by
-    /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
-    /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
-    /// for any specific event if the source context has internal sub-structure.
-    #[builder(default = "None")]
-    pub subject: Option<String>,
-    /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
-    /// reflected by a different URI.
-    #[builder(default = "None")]
-    pub data_schema: Option<String>,
-    /// Content type of data value. This attribute enables data to carry any type of content,
-    /// whereby format and encoding might differ from that of the chosen event format.
-    #[builder(default = "None")]
-    pub data_content_type: Option<String>,
-    /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
-    /// determined then this attribute MAY be set to some other time (such as the current time) by
-    /// the cloud event producer, however all producers for the same source MUST be consistent in
-    /// this respect. In other words, either they all use the actual time of the occurrence or they
-    /// all use the same algorithm to determine the value used.
-    #[builder(setter(skip))]
-    pub time: Option<DateTime<Utc>>,
-    /// time as a string so that it can be validated during build
-    #[builder(default = "None")]
-    builder_time: Option<String>,
-}
-
-impl CloudEventBuilder {
-    // now that spec version is known, all fields can be validated against that spec version
-    fn validate(&self) -> Result<(), String> {
-        let mut spec_version = DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string();
-
-        if let Some(sv) = &self.spec_version {
-            CloudEventFields::SpecVersion.validate(sv, &spec_version)?;
-            spec_version = sv.to_string();
-        }
-
-        if let Some(id) = &self.id {
-            CloudEventFields::Id.validate(id, &spec_version)?;
-        }
-
-        if let Some(source) = &self.source {
-            CloudEventFields::Source.validate(source, &spec_version)?;
-        }
-
-        if let Some(event_type) = &self.event_type {
-            CloudEventFields::EventType.validate(event_type, &spec_version)?;
-        }
-
-        if let Some(Some(subject)) = &self.subject {
-            CloudEventFields::Subject.validate(subject, &spec_version)?;
-        }
-
-        if let Some(Some(data_schema)) = &self.data_schema {
-            CloudEventFields::DataSchema.validate(data_schema, &spec_version)?;
-        }
-
-        if let Some(Some(data_content_type)) = &self.data_content_type {
-            CloudEventFields::DataContentType.validate(data_content_type, &spec_version)?;
-        }
-
-        if let Some(Some(builder_time)) = &self.builder_time {
-            CloudEventFields::Time.validate(builder_time, &spec_version)?;
-        }
-
-        Ok(())
-    }
-}
-
-// implementing display because debug prints private fields
-impl Display for CloudEvent {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "CloudEvent {{ id: {id}, source: {source}, spec_version: {spec_version}, event_type: {event_type}, subject: {subject}, data_schema: {data_schema}, data_content_type: {data_content_type}, time: {time:?} }}",
-            id = self.id,
-            source = self.source,
-            spec_version = self.spec_version,
-            event_type = self.event_type,
-            subject = self.subject.as_deref().unwrap_or("None"),
-            data_schema = self.data_schema.as_deref().unwrap_or("None"),
-            data_content_type = self.data_content_type.as_deref().unwrap_or("None"),
-            time = self.time,
-        )
-    }
-}
-
-impl CloudEvent {
-    /// Parse a [`CloudEvent`] from a [`Message`].
-    /// Note that this will return an error if the [`Message`] does not contain the required fields for a [`CloudEvent`].
-    ///
-    /// # Errors
-    /// [`CloudEventBuilderError::UninitializedField`] if the [`Message`] does not contain the required fields for a [`CloudEvent`].
-    ///
-    /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
-    pub fn from_telemetry<T: PayloadSerialize>(
-        telemetry: &Message<T>,
-    ) -> Result<Self, CloudEventBuilderError> {
-        // use builder so that all fields can be validated together
-        let mut cloud_event_builder = CloudEventBuilder::default();
-        if let Some(content_type) = &telemetry.content_type {
-            cloud_event_builder.data_content_type(content_type.clone());
-        }
-
-        for (key, value) in &telemetry.custom_user_data {
-            match CloudEventFields::from_str(key) {
-                Ok(CloudEventFields::Id) => {
-                    cloud_event_builder.id(value);
-                }
-                Ok(CloudEventFields::Source) => {
-                    cloud_event_builder.source(value);
-                }
-                Ok(CloudEventFields::SpecVersion) => {
-                    cloud_event_builder.spec_version(value);
-                }
-                Ok(CloudEventFields::EventType) => {
-                    cloud_event_builder.event_type(value);
-                }
-                Ok(CloudEventFields::Subject) => {
-                    cloud_event_builder.subject(Some(value.into()));
-                }
-                Ok(CloudEventFields::DataSchema) => {
-                    cloud_event_builder.data_schema(Some(value.into()));
-                }
-                Ok(CloudEventFields::Time) => {
-                    cloud_event_builder.builder_time(Some(value.into()));
-                }
-                _ => {}
-            }
-        }
-        let mut cloud_event = cloud_event_builder.build()?;
-        // now that everything is validated, update the time field to its correct typing
-        // NOTE: If the spec_version changes in the future, that may need to be taken into account here.
-        // For now, the builder validates spec version 1.0
-        if let Some(ref time_str) = cloud_event.builder_time {
-            match DateTime::parse_from_rfc3339(time_str) {
-                Ok(parsed_time) => {
-                    let time = parsed_time.with_timezone(&Utc);
-                    cloud_event.time = Some(time);
-                }
-                Err(_) => {
-                    // Builder should have already caught this error
-                    unreachable!()
-                }
-            }
-        }
-        Ok(cloud_event)
-    }
+/// # Errors
+/// [`CloudEventParseError`] if
+/// - the [`Message`] does not contain the required fields for a [`CloudEvent`].
+/// - any of the field values are not valid for a [`CloudEvent`].
+pub fn cloud_event_from_telemetry<T: PayloadSerialize>(
+    telemetry: &Message<T>,
+) -> Result<CloudEvent, CloudEventParseError> {
+    CloudEvent::try_from((
+        &telemetry.custom_user_data,
+        telemetry.content_type.as_deref(),
+    ))
 }
 
 /// Telemetry message struct.
@@ -220,6 +66,8 @@ pub struct Message<T: PayloadSerialize> {
     pub topic_tokens: HashMap<String, String>,
     /// Incoming message topic
     pub topic: String,
+    /// Indicates if the message is a duplicate delivery if QoS 1 (DUP flag in MQTT publish)
+    pub duplicate: Option<bool>,
 }
 
 impl<T> TryFrom<Publish> for Message<T>
@@ -235,7 +83,7 @@ where
         //  we won't want to keep entire copies of all Publishes, so we will just copy the
         //  properties once.
 
-        let publish_properties = value.properties.ok_or("Publish contains no properties")?;
+        let publish_properties = value.properties;
 
         // Parse user properties
         let expected_aio_properties = [
@@ -293,19 +141,22 @@ where
             .transpose()
             .map_err(|e| e.to_string())?;
 
-        // Parse topic
-        let topic = std::str::from_utf8(&value.topic)
-            .map_err(|e| e.to_string())?
-            .to_string();
-
         // Deserialize payload
-        let format_indicator = publish_properties.payload_format_indicator.try_into().unwrap_or_else(|e| {
-            log::error!("Received invalid payload format indicator: {e}. This should not be possible to receive from the broker. Using default.");
-            FormatIndicator::default()
-        });
+        let format_indicator = publish_properties.payload_format_indicator.into();
+
         let content_type = publish_properties.content_type;
         let payload = T::deserialize(&value.payload, content_type.as_ref(), &format_indicator)
             .map_err(|e| format!("{e:?}"))?;
+        let duplicate = match value.qos {
+            azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtMostOnce => None,
+            azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtLeastOnce(delivery_info) => {
+                Some(delivery_info.dup)
+            }
+            azure_iot_operations_mqtt::control_packet::DeliveryQoS::ExactlyOnce(_) => {
+                // Before conversion, a check is done to prevent any QoS 2 messages from being processed
+                unreachable!()
+            }
+        };
 
         let telemetry_message = Message {
             payload,
@@ -316,7 +167,8 @@ where
             timestamp,
             // NOTE: Topic Tokens cannot be created from just a Publish, they need additional information
             topic_tokens: HashMap::default(),
-            topic,
+            topic: value.topic_name.as_str().to_string(),
+            duplicate,
         };
         Ok(telemetry_message)
     }
@@ -348,7 +200,7 @@ pub struct Options {
 /// # Example
 /// ```
 /// # use tokio_test::block_on;
-/// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+/// # use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry;
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
@@ -365,26 +217,25 @@ pub struct Options {
 /// let receiver_options = telemetry::receiver::OptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
-/// let mut receiver: telemetry::Receiver<Vec<u8>, _> = telemetry::Receiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
+/// let mut receiver: telemetry::Receiver<Vec<u8>> = telemetry::Receiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// // let telemetry_message = receiver.recv().await.unwrap();
 /// ```
-pub struct Receiver<T, C>
+pub struct Receiver<T>
 where
     T: PayloadSerialize + Send + Sync + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     // Static properties of the receiver
     application_hlc: Arc<ApplicationHybridLogicalClock>,
-    mqtt_client: C,
-    mqtt_receiver: C::PubReceiver,
-    telemetry_topic: String,
+    mqtt_client: SessionManagedClient,
+    #[allow(clippy::struct_field_names)]
+    mqtt_receiver: SessionPubReceiver,
+    telemetry_topic: TopicFilter,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
     // Describes state
-    receiver_state: State,
+    state: State,
     // Information to manage state
-    receiver_cancellation_token: CancellationToken,
+    cancellation_token: CancellationToken,
     // User autoack setting
     auto_ack: bool,
 }
@@ -398,17 +249,15 @@ enum State {
 }
 
 /// Implementation of a Telemetry Sender
-impl<T, C> Receiver<T, C>
+impl<T> Receiver<T>
 where
     T: PayloadSerialize + Send + Sync + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`Receiver`].
     ///
     /// # Arguments
     /// * `application_context` - [`ApplicationContext`] that the telemetry receiver is part of.
-    /// * `client` - [`ManagedClient`] to use for telemetry communication.
+    /// * `client` - [`SessionManagedClient`] to use for telemetry communication.
     /// * `receiver_options` - [`Options`] to configure the telemetry receiver.
     ///
     /// Returns Ok([`Receiver`]) on success, otherwise returns[`AIOProtocolError`].
@@ -423,7 +272,7 @@ where
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         receiver_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validation for topic pattern and related options done in
@@ -442,20 +291,14 @@ where
         })?;
 
         // Get the telemetry topic
-        let telemetry_topic = topic_pattern.as_subscribe_topic();
+        let telemetry_topic = topic_pattern.as_subscribe_topic().map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(
+                e,
+                "receiver_options.topic_pattern",
+            )
+        })?;
 
-        let mqtt_receiver = match client.create_filtered_pub_receiver(&telemetry_topic) {
-            Ok(receiver) => receiver,
-            Err(e) => {
-                return Err(AIOProtocolError::new_configuration_invalid_error(
-                    Some(Box::new(e)),
-                    "topic_pattern",
-                    Value::String(telemetry_topic),
-                    Some("Could not parse subscription topic pattern".to_string()),
-                    None,
-                ));
-            }
-        };
+        let mqtt_receiver = client.create_filtered_pub_receiver(telemetry_topic.clone());
 
         Ok(Self {
             application_hlc: application_context.application_hlc,
@@ -464,8 +307,8 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
-            receiver_state: State::New,
-            receiver_cancellation_token: CancellationToken::new(),
+            state: State::New,
+            cancellation_token: CancellationToken::new(),
             auto_ack: receiver_options.auto_ack,
         })
     }
@@ -483,30 +326,46 @@ where
         // Close the receiver, no longer receive messages
         self.mqtt_receiver.close();
 
-        match self.receiver_state {
+        match self.state {
             State::New | State::ShutdownSuccessful => {
                 // If subscribe has not been called or shutdown was successful, do not unsubscribe
-                self.receiver_state = State::ShutdownSuccessful;
+                self.state = State::ShutdownSuccessful;
             }
             State::Subscribed => {
-                let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+                let unsubscribe_result = self
+                    .mqtt_client
+                    .unsubscribe(
+                        self.telemetry_topic.clone(),
+                        azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
+                    )
+                    .await;
 
                 match unsubscribe_result {
                     Ok(unsub_ct) => match unsub_ct.await {
-                        Ok(()) => {
-                            self.receiver_state = State::ShutdownSuccessful;
-                        }
+                        Ok(unsuback) => match unsuback.as_result() {
+                            Ok(()) => {
+                                self.state = State::ShutdownSuccessful;
+                            }
+                            Err(e) => {
+                                log::error!("Telemetry Receiver Unsuback error: {unsuback:?}");
+                                return Err(AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT error on telemetry receiver unsuback".to_string()),
+                                    Box::new(e),
+                                    None,
+                                ));
+                            }
+                        },
                         Err(e) => {
-                            log::error!("Unsuback error: {e}");
+                            log::error!("Telemetry Receiver Unsubscribe completion error: {e}");
                             return Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on telemetry receiver unsuback".to_string()),
+                                Some("MQTT error on telemetry receiver unsubscribe".to_string()),
                                 Box::new(e),
                                 None,
                             ));
                         }
                     },
                     Err(e) => {
-                        log::error!("Client error while unsubscribing: {e}");
+                        log::error!("Client error while unsubscribing in Telemetry Receiver: {e}");
                         return Err(AIOProtocolError::new_mqtt_error(
                             Some("Client error on telemetry receiver unsubscribe".to_string()),
                             Box::new(e),
@@ -528,23 +387,38 @@ where
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
         let subscribe_result = self
             .mqtt_client
-            .subscribe(&self.telemetry_topic, QoS::AtLeastOnce)
+            .subscribe(
+                self.telemetry_topic.clone(),
+                QoS::AtLeastOnce,
+                false,
+                azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
+                azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),
+            )
             .await;
 
         match subscribe_result {
             Ok(sub_ct) => match sub_ct.await {
-                Ok(()) => { /* Success */ }
+                Ok(suback) => {
+                    suback.as_result().map_err(|e| {
+                        log::error!("Telemetry Receiver Suback error: {suback:?}");
+                        AIOProtocolError::new_mqtt_error(
+                            Some("MQTT error on telemetry receiver suback".to_string()),
+                            Box::new(e),
+                            None,
+                        )
+                    })?;
+                }
                 Err(e) => {
-                    log::error!("Suback error: {e}");
+                    log::error!("Telemetry Receiver Subscribe completion error: {e}");
                     return Err(AIOProtocolError::new_mqtt_error(
-                        Some("MQTT error on telemetry receiver suback".to_string()),
+                        Some("MQTT error on telemetry receiver subscribe".to_string()),
                         Box::new(e),
                         None,
                     ));
                 }
             },
             Err(e) => {
-                log::error!("Client error while subscribing: {e}");
+                log::error!("Client error while subscribing in Telemetry Receiver: {e}");
                 return Err(AIOProtocolError::new_mqtt_error(
                     Some("Client error on telemetry receiver subscribe".to_string()),
                     Box::new(e),
@@ -562,6 +436,11 @@ where
     /// - Returns [`AIOProtocolError`] on error.
     ///
     /// A received message can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
+    /// If successful [`AckToken::ack`] will return a completion token that can be awaited to ensure the acknowledgement
+    /// was delivered on the wire. The acknowledgement may fail to be delivered because of a network disconnection
+    /// at which point a duplicate message may be received once the connection is re-established. The [`Message`]
+    /// contains a [`duplicate`](Message::duplicate) field that indicates if the message is a duplicate delivery. It is
+    /// left up to the application to handle duplicate messages appropriately.
     ///
     /// Will also subscribe to the telemetry topic if not already subscribed.
     ///
@@ -571,11 +450,11 @@ where
         &mut self,
     ) -> Option<Result<(Message<T>, Option<AckToken>), AIOProtocolError>> {
         // Subscribe to the telemetry topic if not already subscribed
-        if self.receiver_state == State::New {
+        if self.state == State::New {
             if let Err(e) = self.try_subscribe().await {
                 return Some(Err(e));
             }
-            self.receiver_state = State::Subscribed;
+            self.state = State::Subscribed;
         }
 
         loop {
@@ -589,10 +468,24 @@ where
                     }
 
                     // Get pkid for logging
-                    let pkid = m.pkid;
+                    let pkid = match m.qos {
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtMostOnce => {
+                            // CONSIDER: maybe we should log with something else, but this matches old behavior
+                            // QoS0 doesn't have a packet id, but 0 isn't a valid packet id, and rumqttc used to use 0
+                            0
+                        }
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtLeastOnce(
+                            delivery_info,
+                        ) => delivery_info.packet_identifier.get(),
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::ExactlyOnce(_) => {
+                            // This should never happen as the telemetry receiver should always receive QoS 1 messages
+                            log::warn!("Received QoS 2 telemetry message");
+                            continue;
+                        }
+                    };
 
                     // Process the received message
-                    log::info!("[pkid: {pkid}] Received message");
+                    log::debug!("[pkid: {pkid}] Received message");
 
                     match TryInto::<Message<T>>::try_into(m) {
                         Ok(mut message) => {
@@ -604,23 +497,23 @@ where
                                 .extend(self.topic_pattern.parse_tokens(&message.topic));
 
                             // Update application HLC
-                            if let Some(hlc) = &message.timestamp {
-                                if let Err(e) = self.application_hlc.update(hlc) {
-                                    log::error!(
-                                        "[pkid: {pkid}]: Failure updating application HLC against {hlc}: {e}"
-                                    );
-                                }
+                            if let Some(hlc) = &message.timestamp
+                                && let Err(e) = self.application_hlc.update(hlc)
+                            {
+                                log::warn!(
+                                    "[pkid: {pkid}]: Failure updating application HLC against received telemetry HLC {hlc}: {e}"
+                                );
                             }
                             return Some(Ok((message, ack_token)));
                         }
                         Err(e_string) => {
-                            log::error!("[pkid: {pkid}] {e_string}");
+                            log::warn!("[pkid: {pkid}] {e_string}");
 
                             // Ack on error to prevent redelivery
                             if let Some(ack_token) = ack_token {
                                 tokio::spawn({
                                     let receiver_cancellation_token_clone =
-                                        self.receiver_cancellation_token.clone();
+                                        self.cancellation_token.clone();
                                     async move {
                                         tokio::select! {
                                             () = receiver_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
@@ -628,7 +521,7 @@ where
                                                 match ack_res {
                                                     Ok(_) => { /* Success */ }
                                                     Err(e) => {
-                                                        log::error!("[pkid: {pkid}] Ack error {e}");
+                                                        log::warn!("[pkid: {pkid}] Telemetry Receiver Ack error {e}");
                                                     }
                                                 }
                                             }
@@ -648,32 +541,36 @@ where
     }
 }
 
-impl<T, C> Drop for Receiver<T, C>
+impl<T> Drop for Receiver<T>
 where
     T: PayloadSerialize + Send + Sync + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {
         // Cancel all tasks awaiting responses
-        self.receiver_cancellation_token.cancel();
+        self.cancellation_token.cancel();
         // Close the receiver
         self.mqtt_receiver.close();
 
         // If the receiver has not unsubscribed, attempt to unsubscribe
-        if State::Subscribed == self.receiver_state {
+        if State::Subscribed == self.state {
             tokio::spawn({
                 let telemetry_topic = self.telemetry_topic.clone();
                 let mqtt_client = self.mqtt_client.clone();
                 async move {
-                    match mqtt_client.unsubscribe(telemetry_topic.clone()).await {
+                    match mqtt_client
+                        .unsubscribe(
+                            telemetry_topic.clone(),
+                            azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
+                        )
+                        .await
+                    {
                         Ok(_) => {
                             log::debug!(
-                                "Unsubscribe sent on topic {telemetry_topic}. Unsuback may still be pending."
+                                "Telemetry Receiver Unsubscribe sent on topic {telemetry_topic}. Unsuback may still be pending."
                             );
                         }
                         Err(e) => {
-                            log::error!("Unsubscribe error on topic {telemetry_topic}: {e}");
+                            log::warn!("Telemetry Receiver Unsubscribe error on topic {telemetry_topic}: {e}");
                         }
                     }
                 }
@@ -691,11 +588,14 @@ mod tests {
     use super::*;
     use crate::{
         application::ApplicationContextBuilder,
-        common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload},
+        common::{
+            aio_protocol_error::{AIOProtocolErrorKind, Value},
+            payload_serialize::MockPayload,
+        },
         telemetry::receiver::{OptionsBuilder, Receiver},
     };
     use azure_iot_operations_mqtt::{
-        MqttConnectionSettingsBuilder,
+        aio::connection_settings::MqttConnectionSettingsBuilder,
         session::{Session, SessionOptionsBuilder},
     };
 
@@ -726,7 +626,7 @@ mod tests {
             .build()
             .unwrap();
 
-        Receiver::<MockPayload, _>::new(
+        Receiver::<MockPayload>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -744,7 +644,7 @@ mod tests {
             .build()
             .unwrap();
 
-        Receiver::<MockPayload, _>::new(
+        Receiver::<MockPayload>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -761,7 +661,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let result: Result<Receiver<MockPayload, _>, _> = Receiver::new(
+        let result: Result<Receiver<MockPayload>, _> = Receiver::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -792,7 +692,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let mut receiver: Receiver<MockPayload, _> = Receiver::new(
+        let mut receiver: Receiver<MockPayload> = Receiver::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,

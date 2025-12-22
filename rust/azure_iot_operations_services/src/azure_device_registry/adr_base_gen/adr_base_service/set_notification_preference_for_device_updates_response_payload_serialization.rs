@@ -40,14 +40,14 @@ impl PayloadSerialize for SetNotificationPreferenceForDeviceUpdatesResponsePaylo
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
-        if let Some(content_type) = content_type {
-            if !SetNotificationPreferenceForDeviceUpdatesResponsePayload::is_content_type(
+        if let Some(content_type) = content_type
+            && !SetNotificationPreferenceForDeviceUpdatesResponsePayload::is_content_type(
                 content_type,
-            ) {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type}'. Must be 'application/json'"
-                )));
-            }
+            )
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type}'. Must be 'application/json'"
+            )));
         }
         serde_json::from_slice(payload).map_err(DeserializationError::InvalidPayload)
     }

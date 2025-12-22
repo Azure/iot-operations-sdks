@@ -22,9 +22,7 @@ jobs:
                 package=${BASH_REMATCH[2]}
                 version=${BASH_REMATCH[3]}
 
-                if [[ $lang == "rust" && -z ${rust_tag} ]]; then
-                  rust_tag=$tag
-                elif [[ $lang == "go" && -z ${go_tag} ]]; then
+                if [[ $lang == "go" && -z ${go_tag} ]]; then
                   go_tag=$tag
                 elif [[ $lang == "dotnet" && -z ${dotnet_tag} ]]; then
                   dotnet_tag=$tag
@@ -34,7 +32,6 @@ jobs:
               fi
           done
 
-          echo "rust_tag=$rust_tag" >> $GITHUB_OUTPUT
           echo "go_tag=$go_tag" >> $GITHUB_OUTPUT
           echo "dotnet_tag=$dotnet_tag" >> $GITHUB_OUTPUT
 
@@ -52,18 +49,6 @@ jobs:
         run: |
           mkdir _site
           cp main/.github/pages/index.html _site
-
-      - name: Checkout Rust
-        uses: actions/checkout@v4
-        with:
-          ref: ${{steps.tags.outputs.rust_tag}}
-          path: rust
-
-      - name: Build Rust docs
-        run: |
-          cd rust/rust
-          cargo doc --no-deps --all-features
-          cp -a target/doc ../../_site/rust
 
       - name: Checkout Dotnet
         uses: actions/checkout@v4

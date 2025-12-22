@@ -8,7 +8,7 @@ use serde_json::{self, Value};
 
 use crate::{Data, MessageSchema, MessageSchemaBuilder, MessageSchemaBuilderError};
 
-/// An error that occurred during the transformation of data.
+/// An error that occurred during the schema generation of data.
 #[derive(Debug, thiserror::Error)]
 #[error("{repr}")]
 pub struct SchemaGenerationError {

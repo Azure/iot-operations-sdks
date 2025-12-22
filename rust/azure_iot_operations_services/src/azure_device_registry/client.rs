@@ -7,7 +7,7 @@
 
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
+use azure_iot_operations_mqtt::{session::SessionManagedClient, token::AckToken};
 use azure_iot_operations_protocol::application::ApplicationContext;
 use derive_builder::Builder;
 use tokio::sync::Notify;
@@ -43,51 +43,43 @@ pub struct ClientOptions {
 
 /// Azure Device Registry client implementation.
 #[derive(Clone)]
-pub struct Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync,
-{
+pub struct Client {
     // general
     shutdown_notifier: Arc<Notify>,
     // device
-    get_device_command_invoker: Arc<base_client_gen::GetDeviceCommandInvoker<C>>,
-    get_device_status_command_invoker: Arc<base_client_gen::GetDeviceStatusCommandInvoker<C>>,
-    update_device_status_command_invoker: Arc<base_client_gen::UpdateDeviceStatusCommandInvoker<C>>,
+    get_device_command_invoker: Arc<base_client_gen::GetDeviceCommandInvoker>,
+    get_device_status_command_invoker: Arc<base_client_gen::GetDeviceStatusCommandInvoker>,
+    update_device_status_command_invoker: Arc<base_client_gen::UpdateDeviceStatusCommandInvoker>,
     notify_on_device_update_command_invoker:
-        Arc<base_client_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker<C>>,
+        Arc<base_client_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker>,
     create_or_update_discovered_device_command_invoker:
-        Arc<discovery_client_gen::CreateOrUpdateDiscoveredDeviceCommandInvoker<C>>,
+        Arc<discovery_client_gen::CreateOrUpdateDiscoveredDeviceCommandInvoker>,
     device_update_notification_dispatcher: Arc<Dispatcher<(Device, Option<AckToken>), DeviceRef>>,
     // asset
-    get_asset_command_invoker: Arc<base_client_gen::GetAssetCommandInvoker<C>>,
-    get_asset_status_command_invoker: Arc<base_client_gen::GetAssetStatusCommandInvoker<C>>,
-    update_asset_status_command_invoker: Arc<base_client_gen::UpdateAssetStatusCommandInvoker<C>>,
+    get_asset_command_invoker: Arc<base_client_gen::GetAssetCommandInvoker>,
+    get_asset_status_command_invoker: Arc<base_client_gen::GetAssetStatusCommandInvoker>,
+    update_asset_status_command_invoker: Arc<base_client_gen::UpdateAssetStatusCommandInvoker>,
     notify_on_asset_update_command_invoker:
-        Arc<base_client_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker<C>>,
+        Arc<base_client_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker>,
     create_or_update_discovered_asset_command_invoker:
-        Arc<base_client_gen::CreateOrUpdateDiscoveredAssetCommandInvoker<C>>,
+        Arc<base_client_gen::CreateOrUpdateDiscoveredAssetCommandInvoker>,
     asset_update_notification_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>), AssetRef>>,
 }
 
-impl<C> Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync,
-{
+impl Client {
     // ~~~~~~~~~~~~~~~~~ General APIs ~~~~~~~~~~~~~~~~~~~~~
     /// Create a new Azure Device Registry Client.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the Client Id of the [`ManagedClient`] isn't valid as a topic token.
+    /// if the Client Id of the [`SessionManagedClient`] isn't valid as a topic token.
     /// # Panics
     /// Panics if the options for the underlying command invokers or receivers cannot be built. Not possible since
     /// the options are statically generated.
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         options: ClientOptions,
     ) -> Result<Self, Error> {
         // THIS IS A TEMPORARY FIX. WORKAROUND FOR THE FACT THAT CODEGEN PANICS ON INVALID CLIENT ID
@@ -253,7 +245,7 @@ where
             .get_all_receiver_ids()
     }
 
-    /// Shutdown the [`Client`]. Shuts down the underlying command invokers.
+    /// Shutdown the [`Client`]. Shuts down the underlying command invokers and telemetry receivers.
     ///
     /// Note: If this method is called, the [`Client`] should not be used again.
     /// If the method returns an error, it may be called again to re-attempt unsubscribing.
@@ -290,7 +282,7 @@ where
         }
 
         if errors.is_empty() {
-            log::info!("Shutdown done gracefully");
+            log::info!("Azure Device Registry Client shutdown done gracefully");
             Ok(())
         } else {
             Err(Error(ErrorKind::ShutdownError(errors)))
@@ -364,13 +356,11 @@ where
     /// It receives update notifications from the Azure Device Registry service.
     async fn receive_update_notification_loop(
         shutdown_notifier: Arc<Notify>,
-        mut device_update_telemetry_receiver: base_client_gen::DeviceUpdateEventTelemetryReceiver<
-            C,
-        >,
+        mut device_update_telemetry_receiver: base_client_gen::DeviceUpdateEventTelemetryReceiver,
         device_update_notification_dispatcher: Arc<
             Dispatcher<(Device, Option<AckToken>), DeviceRef>,
         >,
-        mut asset_update_telemetry_receiver: base_client_gen::AssetUpdateEventTelemetryReceiver<C>,
+        mut asset_update_telemetry_receiver: base_client_gen::AssetUpdateEventTelemetryReceiver,
         asset_update_notification_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>), AssetRef>>,
     ) {
         let max_attempt = 3;
@@ -429,28 +419,28 @@ where
                     match device_update_message {
                         Some(Ok((device_update_telemetry, ack_token))) => {
                             let Some(device_name) = device_update_telemetry.topic_tokens.get(DEVICE_NAME_RECEIVED_TOPIC_TOKEN) else {
-                                log::error!("Device Update Notification missing {DEVICE_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                log::warn!("Device Update Notification missing {DEVICE_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
                                 continue;
                             };
                             let Some(inbound_endpoint_name) = device_update_telemetry.topic_tokens.get(INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN) else {
-                                log::error!("Device Update Notification missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                log::warn!("Device Update Notification missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
                                 continue;
                             };
 
                             // Try to send the notification to the associated receiver
                             let receiver_id = DeviceRef {
-                                device_name: device_name.to_string(),
-                                endpoint_name: inbound_endpoint_name.to_string(),
+                                device_name: device_name.clone(),
+                                endpoint_name: inbound_endpoint_name.clone(),
                             };
                             match device_update_notification_dispatcher.dispatch(&receiver_id, (device_update_telemetry.payload.device_update_event.device.into(), ack_token)) {
                                 Ok(()) => {
                                     log::debug!("Device Update Notification dispatched for {receiver_id:?}");
                                 }
-                                Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::SendError }) => {
-                                    log::warn!("Device Update Observation has been dropped. Received Device Update Notification: {payload:?}");
+                                Err(DispatchError { data: (_, _), kind: DispatchErrorKind::SendError }) => {
+                                    log::warn!("Device Update Observation has been dropped. Received Device Update Notification for {receiver_id:?}");
                                 }
-                                Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
-                                    log::warn!("Device Endpoint is not being observed. Received Device Update Notification: {payload:?} for {receiver_id:?}");
+                                Err(DispatchError { data: (_, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
+                                    log::warn!("Device Endpoint is not being observed. Received Device Update Notification for {receiver_id:?}");
                                 }
                             }
                         },
@@ -478,29 +468,29 @@ where
                     match asset_update_message {
                         Some(Ok((asset_update_telemetry, ack_token))) => {
                             let Some(device_name) = asset_update_telemetry.topic_tokens.get(DEVICE_NAME_RECEIVED_TOPIC_TOKEN) else {
-                                log::error!("Asset Update Notification missing {DEVICE_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                log::warn!("Asset Update Notification missing {DEVICE_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
                                 continue;
                             };
                             let Some(inbound_endpoint_name) = asset_update_telemetry.topic_tokens.get(INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN) else {
-                                log::error!("Asset Update Notification missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                log::warn!("Asset Update Notification missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
                                 continue;
                             };
 
                             // Try to send the notification to the associated receiver
                             let receiver_id = AssetRef {
-                                device_name: device_name.to_string(),
-                                inbound_endpoint_name: inbound_endpoint_name.to_string(),
-                                name: asset_update_telemetry.payload.asset_update_event.asset_name.to_string(),
+                                device_name: device_name.clone(),
+                                inbound_endpoint_name: inbound_endpoint_name.clone(),
+                                name: asset_update_telemetry.payload.asset_update_event.asset_name.clone(),
                             };
                             match asset_update_notification_dispatcher.dispatch(&receiver_id, (asset_update_telemetry.payload.asset_update_event.asset.into(), ack_token)) {
                                 Ok(()) => {
                                     log::debug!("Asset Update Notification dispatched for {receiver_id:?}");
                                 }
-                                Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::SendError }) => {
-                                    log::warn!("Asset Update Observation has been dropped. Received Asset Update Notification: {payload:?}");
+                                Err(DispatchError { data: (_, _), kind: DispatchErrorKind::SendError }) => {
+                                    log::warn!("Asset Update Observation has been dropped. Received Asset Update Notification for {receiver_id:?}");
                                 }
-                                Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
-                                    log::warn!("Asset Endpoint is not being observed. Received Asset Update Notification: {payload:?} for {receiver_id}");
+                                Err(DispatchError { data: (_, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
+                                    log::warn!("Asset is not being observed. Received Asset Update Notification for {receiver_id:?}");
                                 }
                             }
                         },
@@ -1330,8 +1320,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-    use azure_iot_operations_mqtt::session::SessionManagedClient;
+    use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
     use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind;
@@ -1356,7 +1345,7 @@ mod tests {
         Session::new(session_options).unwrap()
     }
 
-    fn create_adr_client() -> Client<SessionManagedClient> {
+    fn create_adr_client() -> Client {
         let session = create_session();
         let managed_client = session.create_managed_client();
 
@@ -1462,7 +1451,7 @@ mod tests {
     #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
     async fn test_get_asset_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
-        let adr_client: Client<SessionManagedClient> = create_adr_client();
+        let adr_client: Client = create_adr_client();
         let result = adr_client
             .get_asset(
                 device_name.to_string(),
@@ -1517,7 +1506,7 @@ mod tests {
     #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
     async fn test_get_asset_status_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
-        let adr_client: Client<SessionManagedClient> = create_adr_client();
+        let adr_client: Client = create_adr_client();
         let result = adr_client
             .get_asset_status(
                 device_name.to_string(),
@@ -2036,7 +2025,7 @@ mod tests {
         let device_name = "test-device".to_string();
         let inbound_endpoint_name = "test-endpoint".to_string();
 
-        let topic_tokens = Client::<SessionManagedClient>::get_base_service_topic_tokens(
+        let topic_tokens = Client::get_base_service_topic_tokens(
             device_name.clone(),
             inbound_endpoint_name.clone(),
         );
@@ -2058,9 +2047,8 @@ mod tests {
     #[test]
     fn test_get_discovery_service_topic_tokens() {
         let inbound_endpoint_type = "test-endpoint-type".to_string();
-        let topic_tokens = Client::<SessionManagedClient>::get_discovery_service_topic_tokens(
-            inbound_endpoint_type.clone(),
-        );
+        let topic_tokens =
+            Client::get_discovery_service_topic_tokens(inbound_endpoint_type.clone());
 
         assert_eq!(topic_tokens.len(), 1);
         assert_eq!(

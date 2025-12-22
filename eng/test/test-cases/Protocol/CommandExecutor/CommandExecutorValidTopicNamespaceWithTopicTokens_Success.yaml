@@ -1,0 +1,37 @@
+---
+test-name: CommandExecutorValidTopicNamespaceWithTopicTokens_Success
+description:
+  condition: >-
+    A command is received with a topic namespace and standard/custom topic tokens.
+  expect: >-
+    The command executor should parse out the standard and custom topic tokens correctly.
+
+
+prologue:
+  executors:
+  - topic-namespace: "some/topic/namespace"
+    request-topic: "mock/{modelId}/test/{ex:foobar}"
+    topic-token-map:
+      "modelId": "dtmi:test:MyModel;1"
+    token-metadata-prefix: "token:"
+
+actions:
+- action: receive request
+  topic: "some/topic/namespace/mock/dtmi:test:MyModel;1/test/MyValue"
+  correlation-index: 0
+  response-topic: "some/topic/namespace/response/mock/dtmi:test:MyModel;1/test/MyValue"
+- action: await acknowledgement
+
+epilogue:
+  subscribed-topics:
+  - "some/topic/namespace/mock/dtmi:test:MyModel;1/test/+"
+  published-messages:
+  - correlation-index: 0
+    topic: "some/topic/namespace/response/mock/dtmi:test:MyModel;1/test/MyValue"
+    content-type: "application/json"
+    format-indicator: 1
+    metadata:
+      "token:modelId": "dtmi:test:MyModel;1"
+      "token:ex:foobar": "MyValue"
+    command-status: 200 # OK
+...

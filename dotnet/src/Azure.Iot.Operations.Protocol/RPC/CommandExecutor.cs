@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -180,7 +181,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 CommandRequestMetadata requestMetadata;
                 try
                 {
-                    requestMetadata = new CommandRequestMetadata(args.ApplicationMessage, RequestTopicPattern)
+                    requestMetadata = new CommandRequestMetadata(args.ApplicationMessage, RequestTopicPattern, TopicNamespace)
                     {
                         ContentType = args.ApplicationMessage.ContentType,
                         PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
@@ -327,7 +328,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (!_hasSubscribed)
                 {
-                    
+
                     await SubscribeAsync(TopicTokenMap, cancellationToken).ConfigureAwait(false);
                 }
 
@@ -476,6 +477,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
             // Update HLC and use as the timestamp.
             string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+
+            // If the cloud event subject has not been set by the user, provide the default value
+            if (metadata != null
+                && metadata.CloudEvent is not null
+                && metadata.CloudEvent.IsSubjectDefault)
+            {
+                metadata.CloudEvent.Subject = topic;
+            }
 
             metadata?.MarshalTo(message);
 

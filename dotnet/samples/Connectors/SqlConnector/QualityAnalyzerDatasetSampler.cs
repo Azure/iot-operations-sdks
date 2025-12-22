@@ -28,12 +28,12 @@ namespace SqlQualityAnalyzerConnectorApp
         {
             try
             {
-                AssetDatasetDataPointSchemaElement sqlServerCountryDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Country"))!.First();
+                AssetDatasetDataPoint sqlServerCountryDataPoint = dataset.DataPointsDictionary!["Country"];
                 string sqlServerCountryTable = sqlServerCountryDataPoint.DataSource!;
-                AssetDatasetDataPointSchemaElement sqlServerViscosityDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Viscosity"))!.First();
-                AssetDatasetDataPointSchemaElement sqlServerSweetnessDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Sweetness"))!.First();
-                AssetDatasetDataPointSchemaElement sqlServerParticleSizeDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("ParticleSize"))!.First();
-                AssetDatasetDataPointSchemaElement sqlServerOverallDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Overall"))!.First();
+                AssetDatasetDataPoint sqlServerViscosityDataPoint = dataset.DataPointsDictionary["Viscosity"];
+                AssetDatasetDataPoint sqlServerSweetnessDataPoint = dataset.DataPointsDictionary!["Sweetness"];
+                AssetDatasetDataPoint sqlServerParticleSizeDataPoint = dataset.DataPointsDictionary!["ParticleSize"];
+                AssetDatasetDataPoint sqlServerOverallDataPoint = dataset.DataPointsDictionary!["Overall"];
 
                 string query = $"SELECT {sqlServerCountryDataPoint.Name}, {sqlServerViscosityDataPoint.Name}, {sqlServerSweetnessDataPoint.Name}, {sqlServerParticleSizeDataPoint.Name}, {sqlServerOverallDataPoint.Name} from CountryMeasurements";
 
@@ -51,32 +51,50 @@ namespace SqlQualityAnalyzerConnectorApp
                 // Option 1: Get the data joining tables
                 // Option 2: Get the data from each table by doing multiple queries and join them in the code
                 List<QualityAnalyzerData> qualityAnalyzerDataList = new List<QualityAnalyzerData>();
-                using (SqlConnection connection = new SqlConnection(_fullConnectionString))
+
+                int retries = 5;
+                TimeSpan delay = TimeSpan.FromSeconds(1);
+
+                for (int attempt = 0; attempt < retries; attempt++)
                 {
-                    await connection.OpenAsync();
-                    
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    try
                     {
-                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+
+                        using (SqlConnection connection = new SqlConnection(_fullConnectionString))
                         {
-                            if (reader.HasRows)
+                            await connection.OpenAsync();
+                            
+                            using (SqlCommand command = new SqlCommand(query, connection))
                             {
-                                while (await reader.ReadAsync())
+                                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                                 {
-                                    QualityAnalyzerData analyzerData = new QualityAnalyzerData
+                                    if (reader.HasRows)
                                     {
-                                        Viscosity = double.Parse(reader["Viscosity"]?.ToString() ?? "0.0"),
-                                        Sweetness = double.Parse(reader["Sweetness"]?.ToString() ?? "0.0"),
-                                        ParticleSize = double.Parse(reader["ParticleSize"]?.ToString() ?? "0.0"),
-                                        Overall = double.Parse(reader["Overall"]?.ToString() ?? "0.0"),
-                                        Country = reader["Country"]?.ToString()
-                                    };
-                                    qualityAnalyzerDataList.Add(analyzerData);
+                                        while (await reader.ReadAsync())
+                                        {
+                                            QualityAnalyzerData analyzerData = new QualityAnalyzerData
+                                            {
+                                                Viscosity = double.Parse(reader["Viscosity"]?.ToString() ?? "0.0"),
+                                                Sweetness = double.Parse(reader["Sweetness"]?.ToString() ?? "0.0"),
+                                                ParticleSize = double.Parse(reader["ParticleSize"]?.ToString() ?? "0.0"),
+                                                Overall = double.Parse(reader["Overall"]?.ToString() ?? "0.0"),
+                                                Country = reader["Country"]?.ToString()
+                                            };
+                                            qualityAnalyzerDataList.Add(analyzerData);
+                                        }
+                                    }
                                 }
                             }
                         }
+                        break;
+                    }
+                    catch (SqlException) when (attempt < retries - 1)
+                    {
+                        await Task.Delay(delay, cancellationToken);
+                        delay *= 2;
                     }
                 }
+
                 return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(qualityAnalyzerDataList));
             }
             catch (Exception ex)

@@ -152,8 +152,8 @@ impl DeviceEndpointStatusReporter {
                     inbound_endpoint_status.err(),
                 )])
             } else {
-                // If the inbound endpoint status is not present, exclude it from the report
-                HashMap::new()
+                // If the inbound endpoint status is not present, we still have to include it in the report
+                HashMap::from([(self.device_endpoint_ref.inbound_endpoint_name.clone(), None)])
             }
         };
 
@@ -677,7 +677,7 @@ impl DeviceEndpointClient {
                 create_notification = self.asset_create_observation.recv_notification(), if !self.pending_asset_creation => {
                     let Some((asset_ref, asset_deletion_token)) = create_notification else {
                         // if the create notification is None, then the device endpoint has been deleted
-                        log::debug!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
+                        log::info!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
                         // unobserve as cleanup
                         // Spawn a new task to prevent a possible cancellation and ensure the deleted
                         // notification reaches the application.
@@ -712,7 +712,6 @@ impl DeviceEndpointClient {
                         // Always send the result (Some or None) to unblock the receiver
                         let _ = asset_completion_tx.send(asset_client);
                     });
-                    continue; // Continue the loop to wait for task completion
                 }
             }
         }
@@ -1340,7 +1339,9 @@ impl AssetClient {
             DataOperationKind::Dataset => {
                 destination_endpoint::Destination::new_dataset_destinations(
                     &updated_asset.default_datasets_destinations,
-                    &self.asset_ref.inbound_endpoint_name,
+                    &self.asset_ref,
+                    updated_asset.uuid.as_ref(),
+                    updated_asset.external_asset_id.as_ref(),
                     &self.connector_context,
                 )
             }
@@ -1351,14 +1352,18 @@ impl AssetClient {
                 // use that bad configuration
                 destination_endpoint::Destination::new_event_stream_destinations(
                     &updated_asset.default_events_destinations,
-                    &self.asset_ref.inbound_endpoint_name,
+                    &self.asset_ref,
+                    updated_asset.uuid.as_ref(),
+                    updated_asset.external_asset_id.as_ref(),
                     &self.connector_context,
                 )
             }
             DataOperationKind::Stream => {
                 destination_endpoint::Destination::new_event_stream_destinations(
                     &updated_asset.default_streams_destinations,
-                    &self.asset_ref.inbound_endpoint_name,
+                    &self.asset_ref,
+                    updated_asset.uuid.as_ref(),
+                    updated_asset.external_asset_id.as_ref(),
                     &self.connector_context,
                 )
             }
@@ -1492,7 +1497,7 @@ impl AssetClient {
                         }
                         updates.status_updated = true;
                     }
-                };
+                }
             }
         }
     }
@@ -1647,7 +1652,7 @@ impl AssetClient {
         tokio::select! {
             biased;
             () = self.asset_deletion_token.cancelled() => {
-                log::debug!("Asset deletion token received, stopping asset update observation for {:?}", self.asset_ref);
+                log::info!("Asset deletion token received, stopping asset update observation for {:?}", self.asset_ref);
                 // unobserve as cleanup
                 // Spawn a new task to prevent a possible cancellation and ensure the deleted
                 // notification reaches the application.
@@ -2144,48 +2149,84 @@ impl DataOperationClient {
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new data_operation
+        let data_operation_ref = DataOperationRef {
+            data_operation_name: definition.name(),
+            asset_name: asset_ref.name.clone(),
+            device_name: asset_ref.device_name.clone(),
+            inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
+        };
+        // technically because these fields are under the lock, if they change, we won't update them unless there's a data operation update
+        // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
+        let (device_uuid, device_external_device_id) = {
+            let device_spec = device_specification.read().unwrap();
+            (
+                device_spec.uuid.clone(),
+                device_spec.external_device_id.clone(),
+            )
+        };
+        let (asset_uuid, asset_external_asset_id) = {
+            let asset_spec = asset_specification.read().unwrap();
+            (
+                asset_spec.uuid.clone(),
+                asset_spec.external_asset_id.clone(),
+            )
+        };
         let forwarder = match definition {
             DataOperationDefinition::Dataset(ref dataset) => {
                 destination_endpoint::Forwarder::new_dataset_forwarder(
-                    &dataset.destinations,
-                    &asset_ref.inbound_endpoint_name,
+                    dataset,
                     default_destinations,
+                    &asset_ref,
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     connector_context.clone(),
                 )
             }
             DataOperationDefinition::Event(ref event) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &event.destinations,
-                    &asset_ref.inbound_endpoint_name,
                     default_destinations,
+                    &data_operation_ref,
+                    event.data_source.clone(),
+                    event.type_ref.clone(),
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     connector_context.clone(),
                 )
             }
             DataOperationDefinition::Stream(ref stream) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &stream.destinations,
-                    &asset_ref.inbound_endpoint_name,
                     default_destinations,
+                    &data_operation_ref,
+                    None,
+                    stream.type_ref.clone(),
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     connector_context.clone(),
                 )
             }
-        }?;
+        }
+        .inspect_err(|e| {
+            log::error!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
+        })?;
         Ok(Self {
-            data_operation_ref: DataOperationRef {
-                data_operation_name: definition.name(),
-                asset_name: asset_ref.name.clone(),
-                device_name: asset_ref.device_name.clone(),
-                inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
-            },
-            asset_ref,
+            data_operation_ref,
             definition,
             asset_status,
             asset_specification,
             device_specification,
             device_status,
             forwarder,
-            data_operation_update_watcher_rx,
             connector_context,
+            asset_ref,
+            data_operation_update_watcher_rx,
         })
     }
 
@@ -2493,7 +2534,7 @@ impl DataOperationClient {
                     // If the dataset doesn't exist in the current status, then add it
                     new_status.datasets.get_or_insert_with(Vec::new).push(
                         adr_models::DatasetEventStreamStatus {
-                            name: dataset_name.to_string(),
+                            name: dataset_name.clone(),
                             message_schema_reference: Some(message_schema_reference.clone()),
                             error: None,
                         },
@@ -2523,7 +2564,7 @@ impl DataOperationClient {
                         // If the event doesn't exist in the current status, then add it
                         event_group_status.events.get_or_insert_with(Vec::new).push(
                             adr_models::DatasetEventStreamStatus {
-                                name: event_name.to_string(),
+                                name: event_name.clone(),
                                 message_schema_reference: Some(message_schema_reference.clone()),
                                 error: None,
                             },
@@ -2533,9 +2574,9 @@ impl DataOperationClient {
                     // If the event group doesn't exist in the current status, then add it
                     new_status.event_groups.get_or_insert_with(Vec::new).push(
                         adr_models::EventGroupStatus {
-                            name: event_group_name.to_string(),
+                            name: event_group_name.clone(),
                             events: Some(vec![adr_models::DatasetEventStreamStatus {
-                                name: event_name.to_string(),
+                                name: event_name.clone(),
                                 message_schema_reference: Some(message_schema_reference.clone()),
                                 error: None,
                             }]),
@@ -2557,7 +2598,7 @@ impl DataOperationClient {
                     // If the stream doesn't exist in the current status, then add it
                     new_status.streams.get_or_insert_with(Vec::new).push(
                         adr_models::DatasetEventStreamStatus {
-                            name: stream_name.to_string(),
+                            name: stream_name.clone(),
                             message_schema_reference: Some(message_schema_reference.clone()),
                             error: None,
                         },
@@ -2631,12 +2672,16 @@ impl DataOperationClient {
 
     /// Used to send transformed data to the destination
     /// Returns once the message has been sent successfully
+    /// Use `forward_data_provide_protocol_specific_identifier` if it is desired to
+    /// provide a Protocol Specific Identifier to be used on the Cloud Event `source`
+    /// header used if the destination is `MQTT`. If this fn is used, the Cloud Event Header
+    /// will default to using either the device external device id or the device name.
     ///
     /// # Errors
     /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
     /// if the [`MessageSchema`] has not been reported yet. This is required before forwarding any data
     ///
-    /// [`destination_endpoint::Error`] of kind [`DataValidationError`](destination_endpoint::ErrorKind::MqttTelemetryError)
+    /// [`destination_endpoint::Error`] of kind [`ValidationError`](destination_endpoint::ErrorKind::ValidationError)
     /// if the [`Data`] isn't valid.
     ///
     /// [`destination_endpoint::Error`] of kind [`BrokerStateStoreError`](destination_endpoint::ErrorKind::BrokerStateStoreError)
@@ -2645,7 +2690,36 @@ impl DataOperationClient {
     /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
     /// if the destination is `Mqtt` and there are any errors sending the message to the broker
     pub async fn forward_data(&self, data: Data) -> Result<(), destination_endpoint::Error> {
-        self.forwarder.send_data(data).await
+        self.forwarder.send_data(data, None).await
+    }
+
+    /// Used to send transformed data to the destination
+    /// Returns once the message has been sent successfully.
+    /// `protocol_specific_identifier` will be used on the Cloud Event
+    /// `source` header used if the destination is `MQTT`. If `forward_data` is used instead of this fn,
+    /// the Cloud Event Header will default to using either the device external device id or the device name.
+    /// The inbound endpoint address is a recommended value for this field.
+    ///
+    /// # Errors
+    /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
+    /// if the [`MessageSchema`] has not been reported yet. This is required before forwarding any data
+    ///
+    /// [`destination_endpoint::Error`] of kind [`ValidationError`](destination_endpoint::ErrorKind::ValidationError)
+    /// if the [`Data`] isn't valid.
+    ///
+    /// [`destination_endpoint::Error`] of kind [`BrokerStateStoreError`](destination_endpoint::ErrorKind::BrokerStateStoreError)
+    /// if the destination is `BrokerStateStore` and there are any errors setting the data with the service
+    ///
+    /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
+    /// if the destination is `Mqtt` and there are any errors sending the message to the broker
+    pub async fn forward_data_provide_protocol_specific_identifier(
+        &self,
+        data: Data,
+        protocol_specific_identifier: &str,
+    ) -> Result<(), destination_endpoint::Error> {
+        self.forwarder
+            .send_data(data, Some(protocol_specific_identifier))
+            .await
     }
 
     /// Used to receive notifications about the Data Operation from the Azure Device Registry Service.
@@ -2687,28 +2761,60 @@ impl DataOperationClient {
             return DataOperationNotification::Deleted;
         }
         // create new forwarder, in case destination has changed
+        // technically because these fields are under the lock, if they change, we won't update them unless there's a data operation update
+        // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
+        let (device_uuid, device_external_device_id) = {
+            let device_spec = self.device_specification.read().unwrap();
+            (
+                device_spec.uuid.clone(),
+                device_spec.external_device_id.clone(),
+            )
+        };
+        let (asset_uuid, asset_external_asset_id) = {
+            let asset_spec = self.asset_specification.read().unwrap();
+            (
+                asset_spec.uuid.clone(),
+                asset_spec.external_asset_id.clone(),
+            )
+        };
         let forwarder_result = match updated_data_operation {
             DataOperationDefinition::Dataset(ref updated_dataset) => {
                 destination_endpoint::Forwarder::new_dataset_forwarder(
-                    &updated_dataset.destinations,
-                    &self.asset_ref.inbound_endpoint_name,
+                    updated_dataset,
                     &default_destinations,
+                    &self.asset_ref,
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     self.connector_context.clone(),
                 )
             }
             DataOperationDefinition::Event(ref updated_event) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &updated_event.destinations,
-                    &self.asset_ref.inbound_endpoint_name,
                     &default_destinations,
+                    &self.data_operation_ref,
+                    updated_event.data_source.clone(),
+                    updated_event.type_ref.clone(),
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     self.connector_context.clone(),
                 )
             }
             DataOperationDefinition::Stream(ref updated_stream) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &updated_stream.destinations,
-                    &self.asset_ref.inbound_endpoint_name,
                     &default_destinations,
+                    &self.data_operation_ref,
+                    None,
+                    updated_stream.type_ref.clone(),
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     self.connector_context.clone(),
                 )
             }
