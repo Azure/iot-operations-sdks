@@ -1,8 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- T4 build support for .NET Core (Begin) -->
+  <Target Name="CheckT4Installed">
+    <Exec Command="t4 -h &gt; NUL" IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="T4ExitCode" />
+    </Exec>
+  </Target>
+  <Target Name="InstallT4" DependsOnTargets="CheckT4Installed">
+    <Exec Command="dotnet tool install -g dotnet-t4" Condition="'$(T4ExitCode)' != '0'" />
+  </Target>
+
+  <ItemGroup>
+    <TextTemplate Include="**\*.tt" />
+  </ItemGroup>
+  <Target Name="T4Transform" BeforeTargets="BeforeBuild" DependsOnTargets="InstallT4" Inputs="@(TextTemplate)" Outputs="@(TextTemplate->'%(RelativeDir)%(Filename).cs')" Condition="'$(MSBuildRuntimeType)'=='Core'">
+    <Exec Command="t4 --class=Azure.Iot.Operations.ProtocolCompilerLib.%(TextTemplate.Filename) %(TextTemplate.Identity)" />
+    <ItemGroup>
+      <Compile Include="@(TextTemplate->'%(RelativeDir)%(Filename).cs')" Exclude="@(Compile)" />
+    </ItemGroup>
+  </Target>
+  <!-- T4 build support for .NET Core (End) -->
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <TransformOnBuild>true</TransformOnBuild>
+    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
   </PropertyGroup>
 
   <ItemGroup>
@@ -63,5 +86,7 @@
       <DependentUpon>ObjectJsonSchema.tt</DependentUpon>
     </Compile>
   </ItemGroup>
+
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets')" />
 
 </Project>
