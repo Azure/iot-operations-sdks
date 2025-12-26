@@ -3,13 +3,10 @@
     using System;
     using System.CommandLine;
     using System.IO;
+    using Azure.Iot.Operations.ProtocolCompilerLib;
 
     internal class Program
     {
-        private static readonly string DefaultOutDir = ".";
-        private static readonly string DefaultWorkingDir = "schemas";
-        private static readonly string DefaultNamespace = "Generated";
-
         static void Main(string[] args)
         {
             var thingFilesOption = new Option<FileInfo[]>(
@@ -29,19 +26,19 @@
 
             var outDirOption = new Option<DirectoryInfo>(
                 name: "--outDir",
-                getDefaultValue: () => new DirectoryInfo(DefaultOutDir),
+                getDefaultValue: () => new DirectoryInfo(CommandPerformer.DefaultOutDir),
                 description: "Directory for receiving generated code")
             { ArgumentHelpName = "DIRPATH" };
 
             var workingDirOption = new Option<string>(
                 name: "--workingDir",
-                getDefaultValue: () => DefaultWorkingDir,
+                getDefaultValue: () => CommandPerformer.DefaultWorkingDir,
                 description: "Directory for storing temporary files (relative to outDir unless path is rooted)")
             { ArgumentHelpName = "DIRPATH" };
 
             var namespaceOption = new Option<string>(
                 name: "--namespace",
-                getDefaultValue: () => DefaultNamespace,
+                getDefaultValue: () => CommandPerformer.DefaultNamespace,
                 description: "Namespace for generated code")
             { ArgumentHelpName = "NAMESPACE" };
 

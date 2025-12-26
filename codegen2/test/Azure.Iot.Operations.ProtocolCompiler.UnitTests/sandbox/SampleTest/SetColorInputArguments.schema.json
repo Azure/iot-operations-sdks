@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "SetColorInputArguments",
+  "description": "Input arguments for action 'setColor'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "newColor" ],
+  "properties": {
+    "newColor": {
+      "description": "The 'newColor' Field.",
+      "type": "string"
+    }
+  }
+}

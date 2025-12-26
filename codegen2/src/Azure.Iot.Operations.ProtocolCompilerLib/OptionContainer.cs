@@ -1,4 +1,4 @@
-﻿namespace Azure.Iot.Operations.ProtocolCompiler
+﻿namespace Azure.Iot.Operations.ProtocolCompilerLib
 {
     using System.IO;
 

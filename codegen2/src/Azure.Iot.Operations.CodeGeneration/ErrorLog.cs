@@ -14,6 +14,8 @@
         private readonly Dictionary<string, List<KeyValuePair<string, int>>> schemaNames;
         private readonly string defaultFolder;
 
+        public string Phase { get; set; } = "Initialization";
+
         public HashSet<ErrorRecord> Warnings { get; init; }
 
         public HashSet<ErrorRecord> Errors { get; init; }
@@ -181,7 +183,7 @@
             }
         }
 
-        public void AddError(ErrorLevel level, string message, string filename, int lineNumber, int cfLineNumber = -1, string crossRef = "")
+        public void AddError(ErrorLevel level, string message, string filename, int lineNumber, int cfLineNumber = 0, string crossRef = "")
         {
             ErrorRecord errorRecord = new(message, filename, lineNumber, cfLineNumber, crossRef);
             switch (level)

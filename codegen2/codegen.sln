@@ -19,6 +19,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Protoc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dtdl2Wot", "src\Dtdl2Wot\Dtdl2Wot.csproj", "{67B4CD3D-17A8-4D63-9996-79A424E628A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.ProtocolCompilerLib", "src\Azure.Iot.Operations.ProtocolCompilerLib\Azure.Iot.Operations.ProtocolCompilerLib.csproj", "{F4163CB9-D895-4144-AEB5-CBDBC36B21D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.ProtocolCompiler.UnitTests", "test\Azure.Iot.Operations.ProtocolCompiler.UnitTests\Azure.Iot.Operations.ProtocolCompiler.UnitTests.csproj", "{24D55C64-5869-C81B-611B-A84AB1D357C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,9 +63,20 @@ Global
 		{67B4CD3D-17A8-4D63-9996-79A424E628A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67B4CD3D-17A8-4D63-9996-79A424E628A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67B4CD3D-17A8-4D63-9996-79A424E628A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4163CB9-D895-4144-AEB5-CBDBC36B21D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4163CB9-D895-4144-AEB5-CBDBC36B21D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4163CB9-D895-4144-AEB5-CBDBC36B21D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4163CB9-D895-4144-AEB5-CBDBC36B21D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D55C64-5869-C81B-611B-A84AB1D357C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D55C64-5869-C81B-611B-A84AB1D357C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D55C64-5869-C81B-611B-A84AB1D357C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D55C64-5869-C81B-611B-A84AB1D357C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{24D55C64-5869-C81B-611B-A84AB1D357C0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DBD77462-D0B0-41D2-BC2B-EF17A519C667}

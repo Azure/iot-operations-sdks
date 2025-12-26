@@ -3,6 +3,7 @@
     using System.CommandLine;
     using System.CommandLine.Binding;
     using System.IO;
+    using Azure.Iot.Operations.ProtocolCompilerLib;
 
     /// <summary>
     /// Custom arguemnt binder for CLI.

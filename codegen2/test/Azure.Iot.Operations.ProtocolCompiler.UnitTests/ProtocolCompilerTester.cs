@@ -1,0 +1,136 @@
+﻿namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests
+{
+    using System.Globalization;
+    using Xunit;
+    using System.Diagnostics;
+    using System.Buffers;
+    using System.IO;
+    using System.Text.Json;
+    using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.ProtocolCompilerLib;
+
+    public class ProtocolCompilerTester
+    {
+        private const string basePath = "../../..";
+        private const string testCasesPath = $"{basePath}/test-cases";
+        private const string successCasesPath = $"{testCasesPath}/success";
+        private const string failureCasesPath = $"{testCasesPath}/failure";
+        private const string tdPath = $"{basePath}/thing-descriptions";
+        private const string schemasPath = $"{basePath}/schemas";
+        private const string namerPath = $"{basePath}/name-config";
+        private const string sandboxPath = $"{basePath}/sandbox";
+
+        static ProtocolCompilerTester()
+        {
+        }
+
+        public static IEnumerable<object[]> GetFailureTestCases()
+        {
+            foreach (string testCasePath in Directory.GetFiles(failureCasesPath, @"*.json"))
+            {
+                string testCaseName = Path.GetFileNameWithoutExtension(testCasePath);
+                using (StreamReader streamReader = File.OpenText($"{failureCasesPath}/{testCaseName}.json"))
+                {
+                    TestCase? testCase = JsonSerializer.Deserialize<TestCase>(streamReader.ReadToEnd());
+                    Assert.False(testCase == null, $"Test case '{testCaseName}' descriptor failed to deserialize");
+                    Assert.False(testCase.Success, $"Test case '{testCaseName}' is in failure folder but is marked as success.");
+                    Assert.False(testCase.Errors.Length == 0, $"Test case '{testCaseName}' is marked as failure but descriptor contains no 'errors' elements.");
+                    yield return new object[] { testCaseName, testCase.CommandLine, testCase.Errors };
+                }
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(GetFailureTestCases))]
+        public void TestProtocolCompilerFailures(string testCaseName, TestCommandLine commandLine, TestError[] errors)
+        {
+            OptionContainer options = GetOptionContainer(testCaseName, commandLine);
+
+            ErrorLog errorLog = CommandPerformer.GenerateCode(options, (_, _) => { }, suppressExternalTools: true);
+
+            if (errorLog.HasErrors)
+            {
+                foreach (ErrorRecord errorRecord in errorLog.Errors)
+                {
+                    TestError? expectedError = GetBestMatchingExpectedError(errorRecord, errors);
+                    if (expectedError != null)
+                    {
+                        Assert.Equal(expectedError.Filename, errorRecord.Filename);
+                        Assert.Equal(expectedError.LineNumber, errorRecord.LineNumber);
+                        Assert.Equal(expectedError.CfLineNumber, errorRecord.CfLineNumber);
+                        Assert.Equal(expectedError.CrossRef, errorRecord.CrossRef);
+                    }
+                    else
+                    {
+                        Assert.Fail($"Test case '{testCaseName}' returned unexpected error: '{errorRecord.Message}', file: {errorRecord.Filename}, line: {errorRecord.LineNumber}, cfLine: {errorRecord.CfLineNumber}, crossRef: '{errorRecord.CrossRef}'");
+                    }
+                }
+            }
+            else
+            {
+                Assert.Fail($"Test case '{testCaseName}' was expected to fail but returned no errors.");
+            }
+        }
+
+        private static TestError? GetBestMatchingExpectedError(ErrorRecord errorRecord, TestError[] errors)
+        {
+            List<TestError> plausibleErrors = errors.Where(e => e.Filename == errorRecord.Filename && Math.Abs(e.LineNumber - errorRecord.LineNumber) < 2).ToList();
+            if (plausibleErrors.Count == 0)
+            {
+                return null;
+            }
+
+            // TODO left off here
+            return null;
+        }
+
+        private static OptionContainer GetOptionContainer(string testCaseName, TestCommandLine commandLine)
+        {
+            string testCaseSandboxPath = $"{sandboxPath}/{testCaseName}";
+
+            if (commandLine.ThingFiles.Any(tf => Path.IsPathRooted(tf)))
+            {
+                Assert.Fail($"Test case '{testCaseName}' specifies absolute path for thing file, which is not supported in test.");
+            }
+            if (commandLine.SchemaFiles.Any(sf => Path.IsPathRooted(sf)))
+            {
+                Assert.Fail($"Test case '{testCaseName}' specifies absolute path for schema file, which is not supported in test.");
+            }
+            if (commandLine.TypeNamerFile != null && Path.IsPathRooted(commandLine.TypeNamerFile))
+            {
+                Assert.Fail($"Test case '{testCaseName}' specifies absolute path for type namer file, which is not supported in test.");
+            }
+            if (commandLine.OutputDir != null && Path.IsPathRooted(commandLine.OutputDir))
+            {
+                Assert.Fail($"Test case '{testCaseName}' specifies absolute path for output directory, which is not supported in test.");
+            }
+            if (commandLine.WorkingDir != null && Path.IsPathRooted(commandLine.WorkingDir))
+            {
+                Assert.Fail($"Test case '{testCaseName}' specifies absolute path for working directory, which is not supported in test.");
+            }
+
+            FileInfo[] thingFiles = commandLine.ThingFiles.Select(tf => new FileInfo(Path.GetFullPath($"{tdPath}/{tf}"))).ToArray();
+            string[] schemaFiles = commandLine.SchemaFiles.Select(tf => Path.GetFullPath($"{schemasPath}/{tf}")).ToArray();
+            FileInfo? typeNamerFile = commandLine.TypeNamerFile != null ? new FileInfo(Path.GetFullPath($"{namerPath}/{commandLine.TypeNamerFile}")) : null;
+            DirectoryInfo outputDir = new DirectoryInfo(commandLine.OutputDir != null ? Path.GetFullPath($"{testCaseSandboxPath}/{commandLine.OutputDir}") : $"{testCaseSandboxPath}/{CommandPerformer.DefaultOutDir}");
+            DirectoryInfo workingDir = new DirectoryInfo(commandLine.WorkingDir != null ? Path.GetFullPath($"{outputDir}/{commandLine.WorkingDir}") : $"{outputDir}/{CommandPerformer.DefaultWorkingDir}");
+            string genNamespace = commandLine.GenNamespace ?? CommandPerformer.DefaultNamespace;
+
+            return new OptionContainer
+            {
+                ThingFiles = thingFiles,
+                SchemaFiles = schemaFiles,
+                TypeNamerFile = typeNamerFile,
+                OutputDir = outputDir,
+                WorkingDir = workingDir,
+                GenNamespace = genNamespace,
+                SdkPath = commandLine.SdkPath,
+                Language = commandLine.Language ?? "none",
+                ClientOnly = commandLine.ClientOnly,
+                ServerOnly = commandLine.ServerOnly,
+                NoProj = commandLine.NoProj,
+                DefaultImpl = commandLine.DefaultImpl
+            };
+        }
+    }
+}

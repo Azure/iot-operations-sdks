@@ -1518,20 +1518,15 @@
                 }
             }
 
-            foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
+            HashSet<string> supportedProperties = new()
             {
-                if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != "dtv:ref" && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName)
-                {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
-                    {
-                        errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
-                    }
-                    else
-                    {
-                        errorReporter.ReportError($"Data schema has '{TDDataSchema.RefName}' property, which does not support '{propertyName.Key}' property.", propertyName.Value, tokenIndex);
-                        hasError = true;
-                    }
-                }
+                TDDataSchema.RefName,
+                TDDataSchema.TitleName,
+                TDDataSchema.DescriptionName,
+            };
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a schema via a reference", tokenIndex))
+            {
+                hasError = true;
             }
 
             return !hasError;
@@ -1560,7 +1555,7 @@
                 TDDataSchema.DescriptionName,
                 TDDataSchema.ConstName,
             };
-            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a constant string schema", constProperty.TokenIndex))
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant string schema", constProperty.TokenIndex))
             {
                 hasError = true;
             }
@@ -1606,7 +1601,7 @@
                 TDDataSchema.MaximumName,
                 TDDataSchema.ConstName,
             };
-            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a constant number schema", constProperty.TokenIndex))
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant number schema", constProperty.TokenIndex))
             {
                 hasError = true;
             }
@@ -1652,7 +1647,7 @@
                 TDDataSchema.MaximumName,
                 TDDataSchema.ConstName,
             };
-            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a constant integer schema", constProperty.TokenIndex))
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant integer schema", constProperty.TokenIndex))
             {
                 hasError = true;
             }
@@ -1683,7 +1678,7 @@
                 TDDataSchema.DescriptionName,
                 TDDataSchema.ConstName,
             };
-            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a constant boolean schema", constProperty.TokenIndex))
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant boolean schema", constProperty.TokenIndex))
             {
                 hasError = true;
             }
@@ -1691,13 +1686,13 @@
             return !hasError;
         }
 
-        private bool TryValidateResidualProperties(Dictionary<string, long> propertyNames, HashSet<string> supportedProperties, string schemaDescription, long cfTokenIndex = -1)
+        private bool TryValidateResidualProperties(Dictionary<string, long> propertyNames, HashSet<string> supportedProperties, Func<string, bool>? propertyApprover, string schemaDescription, long cfTokenIndex = -1)
         {
             bool hasError = false;
 
             foreach (KeyValuePair<string, long> propertyName in propertyNames)
             {
-                if (!supportedProperties.Contains(propertyName.Key))
+                if (propertyApprover?.Invoke(propertyName.Key) != true && !supportedProperties.Contains(propertyName.Key))
                 {
                     if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
                     {
@@ -1817,7 +1812,7 @@
                         TDDataSchema.PropertiesName,
                         TDDataSchema.ConstName,
                     };
-                    if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a constant object", dataSchema.Value.Const.TokenIndex))
+                    if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a constant object", dataSchema.Value.Const.TokenIndex))
                     {
                         hasError = true;
                     }
@@ -1862,7 +1857,7 @@
                         TDDataSchema.RequiredName,
                         TDDataSchema.ErrorMessageName,
                     };
-                    if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a structured object", dataSchema.Value.Properties.TokenIndex))
+                    if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a structured object", dataSchema.Value.Properties.TokenIndex))
                     {
                         hasError = true;
                     }
@@ -1887,7 +1882,7 @@
                     TDDataSchema.DescriptionName,
                     TDDataSchema.AdditionalPropertiesName,
                 };
-                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a map", dataSchema.Value.AdditionalProperties!.TokenIndex))
+                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a map", dataSchema.Value.AdditionalProperties!.TokenIndex))
                 {
                     hasError = true;
                 }
@@ -1912,22 +1907,6 @@
                 hasError = true;
             }
 
-            foreach (KeyValuePair<string, long> propertyName in dataSchema.Value.PropertyNames)
-            {
-                if (propertyApprover?.Invoke(propertyName.Key) != true && propertyName.Key != TDDataSchema.TypeName && propertyName.Key != TDDataSchema.TitleName && propertyName.Key != TDDataSchema.DescriptionName && propertyName.Key != TDDataSchema.ItemsName)
-                {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
-                    {
-                        errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
-                    }
-                    else
-                    {
-                        errorReporter.ReportError($"Data schema defines an array, which does not support '{propertyName.Key}' property.", propertyName.Value);
-                        hasError = true;
-                    }
-                }
-            }
-
             HashSet<string> supportedProperties = new()
             {
                 TDDataSchema.TypeName,
@@ -1935,7 +1914,7 @@
                 TDDataSchema.DescriptionName,
                 TDDataSchema.ItemsName,
             };
-            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "an array schema"))
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "an array", dataSchema.Value.Type!.TokenIndex))
             {
                 hasError = true;
             }
@@ -1971,7 +1950,7 @@
                     TDDataSchema.DescriptionName,
                     TDDataSchema.EnumName,
                 };
-                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "an enumerated string", dataSchema.Value.Enum.TokenIndex))
+                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "an enumerated string", dataSchema.Value.Enum.TokenIndex))
                 {
                     hasError = true;
                 }
@@ -2065,7 +2044,7 @@
                         TDDataSchema.ContentEncodingName,
                         TDDataSchema.PatternName,
                     };
-                    if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a string schema"))
+                    if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a string schema"))
                     {
                         hasError = true;
                     }
@@ -2108,7 +2087,7 @@
                     TDDataSchema.MinimumName,
                     TDDataSchema.MaximumName,
                 };
-                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a number schema"))
+                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a number schema"))
                 {
                     hasError = true;
                 }
@@ -2166,7 +2145,7 @@
                     TDDataSchema.MinimumName,
                     TDDataSchema.MaximumName,
                 };
-                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "an integer schema"))
+                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "an integer schema"))
                 {
                     hasError = true;
                 }
@@ -2200,7 +2179,7 @@
                     TDDataSchema.TitleName,
                     TDDataSchema.DescriptionName,
                 };
-                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a Boolean schema"))
+                if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a Boolean schema"))
                 {
                     hasError = true;
                 }
@@ -2224,7 +2203,7 @@
                 TDDataSchema.TitleName,
                 TDDataSchema.DescriptionName,
             };
-            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, "a null schema"))
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a null schema"))
             {
                 return false;
             }
