@@ -143,7 +143,7 @@
 
             if (existingSpec.GetType() != schemaSpec.GetType())
             {
-                errorReporter.ReportError($"Schema name {schemaName} is duplicated on schema with different type.", schemaSpec.TokenIndex, existingSpec.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.Duplication, $"Schema name {schemaName} is duplicated on schema with different type.", schemaSpec.TokenIndex, existingSpec.TokenIndex);
                 return false;
             }
             else if (existingSpec is ObjectSpec existingObjectSpec && schemaSpec is ObjectSpec newObjectSpec)
@@ -152,7 +152,7 @@
                 {
                     if (!newObjectSpec.Fields.TryGetValue(field.Key, out FieldSpec? newField))
                     {
-                        errorReporter.ReportError($"Schema name {schemaName} is duplicated but schema has field '{field.Key}' not present in other schema.", field.Value.Schema.TokenIndex, newObjectSpec.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.Duplication, $"Schema name {schemaName} is duplicated but schema has field '{field.Key}' not present in other schema.", field.Value.Schema.TokenIndex, newObjectSpec.TokenIndex);
                         return false;
                     }
                 }
@@ -161,7 +161,7 @@
                 {
                     if (!existingObjectSpec.Fields.TryGetValue(field.Key, out FieldSpec? extantField))
                     {
-                        errorReporter.ReportError($"Schema name {schemaName} is duplicated but schema has field '{field.Key}' not present in other schema.", field.Value.Schema.TokenIndex, existingObjectSpec.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.Duplication, $"Schema name {schemaName} is duplicated but schema has field '{field.Key}' not present in other schema.", field.Value.Schema.TokenIndex, existingObjectSpec.TokenIndex);
                         return false;
                     }
                 }
@@ -171,7 +171,7 @@
                     FieldSpec existingFieldValue = existingObjectSpec.Fields[field.Key];
                     if (!field.Value.Equals(existingFieldValue))
                     {
-                        errorReporter.ReportError($"Schema name {schemaName} is duplicated but field '{field.Key}' has different value.", field.Value.Schema.TokenIndex, existingFieldValue.Schema.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.Duplication, $"Schema name {schemaName} is duplicated but field '{field.Key}' has different value.", field.Value.Schema.TokenIndex, existingFieldValue.Schema.TokenIndex);
                         return false;
                     }
                 }
@@ -184,7 +184,7 @@
                 {
                     if (!newEnumSpec.Values.Contains(value))
                     {
-                        errorReporter.ReportError($"Schema name {schemaName} is duplicated but schema has enum value '{value}' not present in other schema.", existingEnumSpec.TokenIndex, newEnumSpec.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.Duplication, $"Schema name {schemaName} is duplicated but schema has enum value '{value}' not present in other schema.", existingEnumSpec.TokenIndex, newEnumSpec.TokenIndex);
                         return false;
                     }
                 }
@@ -193,7 +193,7 @@
                 {
                     if (!existingEnumSpec.Values.Contains(value))
                     {
-                        errorReporter.ReportError($"Schema name {schemaName} is duplicated but schema has enum value '{value}' not present in other schema.", newEnumSpec.TokenIndex, existingEnumSpec.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.Duplication, $"Schema name {schemaName} is duplicated but schema has enum value '{value}' not present in other schema.", newEnumSpec.TokenIndex, existingEnumSpec.TokenIndex);
                         return false;
                     }
                 }

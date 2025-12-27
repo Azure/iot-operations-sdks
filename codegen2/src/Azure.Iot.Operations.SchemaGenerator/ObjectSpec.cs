@@ -14,7 +14,7 @@
 
             if (dataSchema.Value.Type?.Value.Value != TDValues.TypeObject)
             {
-                errorReporter.ReportError($"Object schema '{schemaName}' must have type 'object'.", dataSchema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"Object schema '{schemaName}' must have type 'object'.", dataSchema.TokenIndex);
             }
 
             Dictionary<string, FieldSpec> fieldSpecs = new();

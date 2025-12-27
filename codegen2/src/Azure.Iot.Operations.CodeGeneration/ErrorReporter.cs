@@ -54,19 +54,19 @@
             this.errorLog.RegisterSchemaName(name, this.filename, this.basePath, GetLineNumber(byteIndex));
         }
 
-        public void ReportError(string message, long byteIndex, long cfByteIndex = -1, ErrorLevel level = ErrorLevel.Error)
+        public void ReportError(ErrorCondition condition, string message, long byteIndex, long cfByteIndex = -1, ErrorLevel level = ErrorLevel.Error)
         {
-            this.errorLog.AddError(level, message, this.filename, GetLineNumber(byteIndex), GetLineNumber(cfByteIndex));
+            this.errorLog.AddError(level, condition, message, this.filename, GetLineNumber(byteIndex), GetLineNumber(cfByteIndex));
         }
 
         public void ReportWarning(string message, long byteIndex, long cfByteIndex = -1)
         {
-            ReportError(message, byteIndex, cfByteIndex, ErrorLevel.Warning);
+            ReportError(ErrorCondition.None, message, byteIndex, cfByteIndex, ErrorLevel.Warning);
         }
 
-        public void ReportFatal(string message, long byteIndex, long cfByteIndex = -1)
+        public void ReportFatal(ErrorCondition condition, string message, long byteIndex, long cfByteIndex = -1)
         {
-            ReportError(message, byteIndex, cfByteIndex, ErrorLevel.Fatal);
+            ReportError(condition, message, byteIndex, cfByteIndex, ErrorLevel.Fatal);
         }
 
         public void ReportReferenceError(string description, string reason, string refValue, long byteIndex)
@@ -89,11 +89,11 @@
                 string innerMessage = match.Groups[1].Captures[0].Value;
                 string message = $"JSON syntax error: {innerMessage}.";
                 int lineNumber = int.Parse(match.Groups[2].Captures[0].Value) + 1;
-                this.errorLog.AddError(ErrorLevel.Fatal, message, this.filename, lineNumber);
+                this.errorLog.AddError(ErrorLevel.Fatal, ErrorCondition.JsonInvalid, message, this.filename, lineNumber);
             }
             else
             {
-                this.errorLog.AddError(ErrorLevel.Fatal, ex.Message, this.filename, -1);
+                this.errorLog.AddError(ErrorLevel.Fatal, ErrorCondition.JsonInvalid, ex.Message, this.filename, -1);
             }
         }
 

@@ -55,6 +55,12 @@
                     TestError? expectedError = GetBestMatchingExpectedError(errorRecord, errors);
                     if (expectedError != null)
                     {
+                        if (!Enum.TryParse<ErrorCondition>(expectedError.Condition, out ErrorCondition expectedCondition))
+                        {
+                            Assert.Fail($"Test case '{testCaseName}' contains invalid error condition string '{expectedError.Condition}' in expected errors.");
+                        }
+
+                        Assert.Equal(expectedCondition, errorRecord.Condition);
                         Assert.Equal(expectedError.Filename, errorRecord.Filename);
                         Assert.Equal(expectedError.LineNumber, errorRecord.LineNumber);
                         Assert.Equal(expectedError.CfLineNumber, errorRecord.CfLineNumber);
@@ -74,14 +80,30 @@
 
         private static TestError? GetBestMatchingExpectedError(ErrorRecord errorRecord, TestError[] errors)
         {
-            List<TestError> plausibleErrors = errors.Where(e => e.Filename == errorRecord.Filename && Math.Abs(e.LineNumber - errorRecord.LineNumber) < 2).ToList();
-            if (plausibleErrors.Count == 0)
+            if (errors.Length == 0)
             {
                 return null;
             }
 
-            // TODO left off here
-            return null;
+            List<TestError> fileMatches = errors.Where(e => e.Filename == errorRecord.Filename).ToList();
+            if (fileMatches.Count == 0)
+            {
+                return errors[0];
+            }
+
+            List<TestError> conditionMatches = fileMatches.Where(e => e.Condition == errorRecord.Condition.ToString()).ToList();
+            if (conditionMatches.Count == 0)
+            {
+                return fileMatches[0];
+            }
+
+            int minLineOffset = conditionMatches.Min(e => Math.Abs(e.LineNumber - errorRecord.LineNumber));
+            List<TestError> minOffsetMatches = conditionMatches.Where(e => Math.Abs(e.LineNumber - errorRecord.LineNumber) == minLineOffset).ToList();
+
+            int minCfLineOffset = minOffsetMatches.Min(e => Math.Abs(e.CfLineNumber - errorRecord.CfLineNumber));
+            List<TestError> minCfOffsetMatches = minOffsetMatches.Where(e => Math.Abs(e.CfLineNumber - errorRecord.CfLineNumber) == minCfLineOffset).ToList();
+
+            return minCfOffsetMatches.First();
         }
 
         private static OptionContainer GetOptionContainer(string testCaseName, TestCommandLine commandLine)

@@ -58,7 +58,7 @@
 
             if (format == SerializationFormat.None)
             {
-                errorReporter.ReportError($"Unsupported content type '{contentType.Value.Value}'.", contentType.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Unsupported content type '{contentType.Value.Value}'.", contentType.TokenIndex);
             }
 
             return format;

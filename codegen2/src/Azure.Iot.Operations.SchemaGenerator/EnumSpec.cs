@@ -14,11 +14,11 @@
 
             if (dataSchema.Value.Type?.Value.Value != TDValues.TypeString)
             {
-                errorReporter.ReportError($"Enum schema '{schemaName}' must have type 'string'.", dataSchema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"Enum schema '{schemaName}' must have type 'string'.", dataSchema.TokenIndex);
             }
             if (dataSchema.Value.Enum?.Elements == null)
             {
-                errorReporter.ReportError($"Enum schema '{schemaName}' must have at least one defined value.", dataSchema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ElementMissing, $"Enum schema '{schemaName}' must have at least one defined value.", dataSchema.TokenIndex);
             }
 
             string? description = dataSchema.Value.Description?.Value.Value ?? defaultDescription;

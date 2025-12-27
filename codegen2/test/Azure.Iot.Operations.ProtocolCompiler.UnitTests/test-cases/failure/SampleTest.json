@@ -16,6 +16,7 @@
   },
   "errors": [
     {
+      "condition": "PropertyUnsupportedValue",
       "filename": "OneAction.TD.json",
       "line": 32,
       "cfLine": 0,

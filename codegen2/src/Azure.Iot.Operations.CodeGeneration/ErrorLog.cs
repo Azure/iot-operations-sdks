@@ -47,7 +47,7 @@
                 {
                     foreach (var (filename, lineNumber) in idSites)
                     {
-                        AddError(ErrorLevel.Error, $"Duplicate use of '{TDThing.IdName}' value '{id}' across TDs.", filename, lineNumber, crossRef: id);
+                        AddError(ErrorLevel.Error, ErrorCondition.Duplication, $"Duplicate use of '{TDThing.IdName}' value '{id}' across TDs.", filename, lineNumber, crossRef: id);
                     }
                 }
             }
@@ -58,7 +58,7 @@
                 {
                     foreach (var (filename, lineNumber) in nameSites)
                     {
-                        AddError(ErrorLevel.Error, $"Duplicate use of generated name '{name}' across Thing Descriptions.", filename, lineNumber, crossRef: name);
+                        AddError(ErrorLevel.Error, ErrorCondition.Duplication, $"Duplicate use of generated name '{name}' across Thing Descriptions.", filename, lineNumber, crossRef: name);
                     }
                 }
             }
@@ -82,7 +82,7 @@
                             citation = $" (in model as \"{reference.Value}\")";
                         }
 
-                        AddError(ErrorLevel.Error, $"{description} '{topic}' used by multiple affordances{citation}.", reference.Filename, reference.LineNumber, crossRef: topic);
+                        AddError(ErrorLevel.Error, ErrorCondition.Duplication, $"{description} '{topic}' used by multiple affordances{citation}.", reference.Filename, reference.LineNumber, crossRef: topic);
                     }
                 }
             }
@@ -96,7 +96,7 @@
                 {
                     foreach (var (filename, lineNumber) in nameSites)
                     {
-                        AddError(ErrorLevel.Error, $"Duplicate use of generated name '{name}' across schema definitions.", filename, lineNumber, crossRef: name);
+                        AddError(ErrorLevel.Error, ErrorCondition.Duplication, $"Duplicate use of generated name '{name}' across schema definitions.", filename, lineNumber, crossRef: name);
                     }
                 }
             }
@@ -183,9 +183,9 @@
             }
         }
 
-        public void AddError(ErrorLevel level, string message, string filename, int lineNumber, int cfLineNumber = 0, string crossRef = "")
+        public void AddError(ErrorLevel level, ErrorCondition condition, string message, string filename, int lineNumber, int cfLineNumber = 0, string crossRef = "")
         {
-            ErrorRecord errorRecord = new(message, filename, lineNumber, cfLineNumber, crossRef);
+            ErrorRecord errorRecord = new(condition, message, filename, lineNumber, cfLineNumber, crossRef);
             switch (level)
             {
                 case ErrorLevel.Warning:
@@ -206,12 +206,12 @@
             {
                 foreach (ValueReference reference in references)
                 {
-                    AddError(ErrorLevel.Error, $"External schema reference \"{reference.Value}\" not resolvable; {reason}", reference.Filename, reference.LineNumber);
+                    AddError(ErrorLevel.Error, ErrorCondition.ItemNotFound, $"External schema reference \"{reference.Value}\" not resolvable; {reason}", reference.Filename, reference.LineNumber);
                 }
             }
             else
             {
-                AddError(ErrorLevel.Error, $"{description} \"{refValue}\" not resolvable; {reason}", filename, lineNumber);
+                AddError(ErrorLevel.Error, ErrorCondition.ItemNotFound, $"{description} \"{refValue}\" not resolvable; {reason}", filename, lineNumber);
             }
         }
 
@@ -222,12 +222,12 @@
             {
                 foreach (ValueReference reference in typedReferences)
                 {
-                    AddError(ErrorLevel.Error, $"External schema reference \"{reference.Value}\" is expected to define a schema of type \"{refType}\", but it defines a schema of type \"{actualType}\"", reference.Filename, reference.LineNumber);
+                    AddError(ErrorLevel.Error, ErrorCondition.TypeMismatch, $"External schema reference \"{reference.Value}\" is expected to define a schema of type \"{refType}\", but it defines a schema of type \"{actualType}\"", reference.Filename, reference.LineNumber);
                 }
             }
             else
             {
-                AddError(ErrorLevel.Error, $"{description} \"{refValue}\" is expected to define a schema of type \"{refType}\", but it defines a schema of type \"{actualType}\"", filename, lineNumber);
+                AddError(ErrorLevel.Error, ErrorCondition.TypeMismatch, $"{description} \"{refValue}\" is expected to define a schema of type \"{refType}\", but it defines a schema of type \"{actualType}\"", filename, lineNumber);
             }
         }
     }

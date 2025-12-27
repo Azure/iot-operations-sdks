@@ -195,7 +195,7 @@
             ValueTracker<StringHolder>? readAllOp = aggregateOps.FirstOrDefault(op => op.Value.Value == TDValues.OpReadAllProps);
             if (writeMultiOp != null && readAllOp == null)
             {
-                errorReporter.ReportError($"'{TDThing.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' but no '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}'.", writeMultiOp.TokenIndex, forms.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDThing.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' but no '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}'.", writeMultiOp.TokenIndex, forms.TokenIndex);
                 return false;
             }
 
@@ -212,7 +212,7 @@
                 {
                     if (!(action.Value.Value.Forms?.Elements?.Any(f => f.Value.Topic != null) ?? false))
                     {
-                        errorReporter.ReportError($"Action '{action.Key}' has no '{TDAction.FormsName}' element with a '{TDForm.TopicName}' property, so it cannot be invoked.", action.Value.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.Unusable, $"Action '{action.Key}' has no '{TDAction.FormsName}' element with a '{TDForm.TopicName}' property, so it cannot be invoked.", action.Value.TokenIndex);
                         hasError = true;
                     }
                 }
@@ -235,7 +235,7 @@
             {
                 if (properties?.Entries == null || properties.Entries.Count == 0)
                 {
-                    errorReporter.ReportError($"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}' to read the aggregation of all properties, but Thing Description has no properties defined.",
+                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}' to read the aggregation of all properties, but Thing Description has no properties defined.",
                         readAllForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpReadAllProps).TokenIndex,
                         properties?.TokenIndex ?? -1);
                     hasError = true;
@@ -252,7 +252,7 @@
             {
                 if (properties?.Entries == null || properties.Entries.Count(p => p.Value.Value.ReadOnly?.Value.Value != true && p.Value.Value.Forms!.Elements!.Any(f => f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true)) == 0)
                 {
-                    errorReporter.ReportError($"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' to write a selected aggregation of writable properties, but Thing Description has no writable properties.",
+                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' to write a selected aggregation of writable properties, but Thing Description has no writable properties.",
                         writeMultiForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpWriteMultProps).TokenIndex,
                         properties?.TokenIndex ?? -1);
                     hasError = true;
@@ -279,14 +279,14 @@
                             {
                                 if (readAllForm == null)
                                 {
-                                    errorReporter.ReportError($"Property '{prop.Key}' has '{TDProperty.FormsName}' element with no '{TDForm.TopicName}' property, so it cannot be read individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpReadAllProps}', so this property also cannot be read in aggregate.",
+                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with no '{TDForm.TopicName}' property, so it cannot be read individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpReadAllProps}', so this property also cannot be read in aggregate.",
                                         form.TokenIndex,
                                         rootForms?.TokenIndex ?? -1);
                                     hasError = true;
                                 }
                                 else if (propFormHasAdditionalResponses && !aggregateReadHasAdditionalResponses && !aggregateWriteHasAdditionalResponses)
                                 {
-                                    errorReporter.ReportError($"Property '{prop.Key}' has '{TDProperty.FormsName}' element with no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual read or write, nor can it be returned on an aggregate read or write because no root-level form with '{TDForm.OpName}' value of '{TDValues.OpReadAllProps}' or '{TDValues.OpWriteMultProps}' has an '{TDForm.AdditionalResponsesName}' value.",
+                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual read or write, nor can it be returned on an aggregate read or write because no root-level form with '{TDForm.OpName}' value of '{TDValues.OpReadAllProps}' or '{TDValues.OpWriteMultProps}' has an '{TDForm.AdditionalResponsesName}' value.",
                                         form.TokenIndex,
                                         rootForms?.TokenIndex ?? -1);
                                     hasError = true;
@@ -297,14 +297,14 @@
                             {
                                 if (readAllForm == null)
                                 {
-                                    errorReporter.ReportError($"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpReadProp}' but no '{TDForm.TopicName}' property, so it cannot be read individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpReadAllProps}', so this property also cannot be read in aggregate.",
+                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpReadProp}' but no '{TDForm.TopicName}' property, so it cannot be read individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpReadAllProps}', so this property also cannot be read in aggregate.",
                                         form.TokenIndex,
                                         rootForms?.TokenIndex ?? -1);
                                     hasError = true;
                                 }
                                 else if (propFormHasAdditionalResponses && !aggregateReadHasAdditionalResponses)
                                 {
-                                    errorReporter.ReportError($"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpReadProp}' but no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual read, nor can it be returned on an aggregate read because the root-level form with '{TDForm.OpName}' value of '{TDValues.OpReadAllProps}' has no '{TDForm.AdditionalResponsesName}' value.",
+                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpReadProp}' but no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual read, nor can it be returned on an aggregate read because the root-level form with '{TDForm.OpName}' value of '{TDValues.OpReadAllProps}' has no '{TDForm.AdditionalResponsesName}' value.",
                                         form.TokenIndex,
                                         readAllForm.TokenIndex);
                                     hasError = true;
@@ -315,14 +315,14 @@
                             {
                                 if (writeMultiForm == null)
                                 {
-                                    errorReporter.ReportError($"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpWriteProp}' but no '{TDForm.TopicName}' property, so it cannot be written individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpWriteMultProps}', so this property also cannot be written in aggregate.",
+                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpWriteProp}' but no '{TDForm.TopicName}' property, so it cannot be written individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpWriteMultProps}', so this property also cannot be written in aggregate.",
                                         form.TokenIndex,
                                         rootForms?.TokenIndex ?? -1);
                                     hasError = true;
                                 }
                                 else if (propFormHasAdditionalResponses && (writeMultiForm.Value.AdditionalResponses?.Elements?.Count ?? 0) == 0)
                                 {
-                                    errorReporter.ReportError($"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpWriteProp}' but no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual write, nor can it be returned on an aggregate write because the root-level form with '{TDForm.OpName}' value of '{TDValues.OpWriteMultProps}' has no '{TDForm.AdditionalResponsesName}' value.",
+                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpWriteProp}' but no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual write, nor can it be returned on an aggregate write because the root-level form with '{TDForm.OpName}' value of '{TDValues.OpWriteMultProps}' has no '{TDForm.AdditionalResponsesName}' value.",
                                         form.TokenIndex,
                                         writeMultiForm.TokenIndex);
                                     hasError = true;
@@ -346,7 +346,7 @@
             {
                 if (subAllForm != null)
                 {
-                    errorReporter.ReportError($"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpSubAllEvents}' to subscribe to the aggregation of all events, but Thing Description has no events defined.",
+                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpSubAllEvents}' to subscribe to the aggregation of all events, but Thing Description has no events defined.",
                         subAllForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpSubAllEvents).TokenIndex,
                         events?.TokenIndex ?? -1);
                     hasError = true;
@@ -358,7 +358,7 @@
                 {
                     if (!(evt.Value.Value.Forms?.Elements?.Any(f => f.Value.Topic != null) ?? false))
                     {
-                        errorReporter.ReportError($"Event '{evt.Key}' has no '{TDEvent.FormsName}' element with a '{TDForm.TopicName}' property, so it cannot be subscribed individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpSubAllEvents}', so this event also cannot be subscribed in aggregate.",
+                        errorReporter.ReportError(ErrorCondition.Unusable, $"Event '{evt.Key}' has no '{TDEvent.FormsName}' element with a '{TDForm.TopicName}' property, so it cannot be subscribed individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpSubAllEvents}', so this event also cannot be subscribed in aggregate.",
                             evt.Value.TokenIndex,
                             rootForms?.TokenIndex ?? -1);
                         hasError = true;
@@ -375,7 +375,7 @@
 
             if (context?.Elements == null)
             {
-                errorReporter.ReportError($"Thing Description is missing required '{TDThing.ContextName}' property.", -1);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.ContextName}' property.", -1);
                 return false;
             }
 
@@ -407,7 +407,7 @@
                         }
                         else if (localContext.Value.Value.Value != AioContextUriBase)
                         {
-                            errorReporter.ReportError($"Local {TDThing.ContextName} term \"{localContext.Key}\" has incorrect URI value \"{localContext.Value.Value.Value}\".", contextSpecifier.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Local {TDThing.ContextName} term \"{localContext.Key}\" has incorrect URI value \"{localContext.Value.Value.Value}\".", contextSpecifier.TokenIndex);
                             hasError = true;
                         }
                         else
@@ -420,13 +420,13 @@
 
             if (!tdContextPresent)
             {
-                errorReporter.ReportError($"Thing Description is missing required '{TDThing.ContextName}' remote URI \"{TdContextUri}\".", context.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.ContextName}' remote URI \"{TdContextUri}\".", context.TokenIndex);
                 hasError = true;
             }
 
             if (!aioContextPresent)
             {
-                errorReporter.ReportError($"Thing Description is missing required '{TDThing.ContextName}' local term \"{AioContextPrefix}\" with URI value \"{AioContextUriBase}\".", context.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.ContextName}' local term \"{AioContextPrefix}\" with URI value \"{AioContextUriBase}\".", context.TokenIndex);
                 hasError = true;
             }
 
@@ -437,19 +437,19 @@
         {
             if (id == null)
             {
-                errorReporter.ReportError($"Thing Description is missing required '{TDThing.IdName}' property.", -1);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.IdName}' property.", -1);
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(id.Value.Value))
             {
-                errorReporter.ReportError($"Thing Description '{TDThing.IdName}' property has empty value.", id.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Description '{TDThing.IdName}' property has empty value.", id.TokenIndex);
                 return false;
             }
 
             if (id.Value.Value.Any(c => c is < '!' or > '~'))
             {
-                errorReporter.ReportError($"Thing Description '{TDThing.IdName}' property value \"{id.Value.Value}\" contains invalid character(s); only printable ASCII characters not including space are allowed.", id.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Thing Description '{TDThing.IdName}' property value \"{id.Value.Value}\" contains invalid character(s); only printable ASCII characters not including space are allowed.", id.TokenIndex);
                 return false;
             }
 
@@ -457,13 +457,13 @@
             {
                 if (id.Value.Value.Any(c => c is '+' or '#' or '{' or '}'))
                 {
-                    errorReporter.ReportError($"Thing Description '{TDThing.IdName}' property value \"{id.Value.Value}\" contains invalid character(s); only printable ASCII characters not including space, '\"', '+', '#', '{{', or '}}' are allowed when TD includes a topic that contains token '{{{MqttTopicTokens.ModelId}}}'.", id.TokenIndex, modelIdTopic.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Thing Description '{TDThing.IdName}' property value \"{id.Value.Value}\" contains invalid character(s); only printable ASCII characters not including space, '\"', '+', '#', '{{', or '}}' are allowed when TD includes a topic that contains token '{{{MqttTopicTokens.ModelId}}}'.", id.TokenIndex, modelIdTopic.TokenIndex);
                     return false;
                 }
 
                 if (id.Value.Value.StartsWith('/') || id.Value.Value.EndsWith('/') || id.Value.Value.Contains("//"))
                 {
-                    errorReporter.ReportError($"Thing Description '{TDThing.IdName}' property value \"{id.Value.Value}\" must not start with, end with, or contain more than one successive '/' when TD includes a topic that contains token '{{{MqttTopicTokens.ModelId}}}'.", id.TokenIndex, modelIdTopic.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Thing Description '{TDThing.IdName}' property value \"{id.Value.Value}\" must not start with, end with, or contain more than one successive '/' when TD includes a topic that contains token '{{{MqttTopicTokens.ModelId}}}'.", id.TokenIndex, modelIdTopic.TokenIndex);
                     return false;
                 }
             }
@@ -477,19 +477,19 @@
         {
             if (title == null)
             {
-                errorReporter.ReportError($"Thing Description is missing required '{TDThing.TitleName}' property.", -1);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.TitleName}' property.", -1);
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(title.Value.Value))
             {
-                errorReporter.ReportError($"Thing Description '{TDThing.TitleName}' property has empty value.", title.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Description '{TDThing.TitleName}' property has empty value.", title.TokenIndex);
                 return false;
             }
 
             if (!TitleRegex.IsMatch(title.Value.Value))
             {
-                errorReporter?.ReportError($"Thing Description '{TDThing.TitleName}' property value \"{title.Value.Value}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters", title.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Description '{TDThing.TitleName}' property value \"{title.Value.Value}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters", title.TokenIndex);
                 return false;
             }
 
@@ -523,28 +523,28 @@
 
                 if (link.Value.Href == null)
                 {
-                    errorReporter.ReportError($"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' is missing required '{TDLink.HrefName}' property.", link.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' is missing required '{TDLink.HrefName}' property.", link.TokenIndex);
                     hasError = true;
                 }
                 else if (string.IsNullOrWhiteSpace(link.Value.Href.Value.Value))
                 {
-                    errorReporter.ReportError($"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' has empty '{TDLink.HrefName}' property value.", link.Value.Href.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' has empty '{TDLink.HrefName}' property value.", link.Value.Href.TokenIndex);
                     hasError = true;
                 }
 
                 if (link.Value.Type == null)
                 {
-                    errorReporter.ReportError($"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' is missing required '{TDLink.TypeName}' property.", link.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' is missing required '{TDLink.TypeName}' property.", link.TokenIndex);
                     hasError = true;
                 }
                 else if (string.IsNullOrWhiteSpace(link.Value.Type.Value.Value))
                 {
-                    errorReporter.ReportError($"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' has empty '{TDLink.TypeName}' property value.", link.Value.Type.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' has empty '{TDLink.TypeName}' property value.", link.Value.Type.TokenIndex);
                     hasError = true;
                 }
                 else if (link.Value.Type.Value.Value != TDValues.ContentTypeJson)
                 {
-                    errorReporter.ReportError($"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' has '{TDLink.TypeName}' property with unsupported value '{link.Value.Type.Value.Value}'.", link.Value.Type.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' has '{TDLink.TypeName}' property with unsupported value '{link.Value.Type.Value.Value}'.", link.Value.Type.TokenIndex);
                     hasError = true;
                 }
 
@@ -558,7 +558,7 @@
                         }
                         else
                         {
-                            errorReporter.ReportError($"Link has '{propertyName.Key}' property, which is not supported.", propertyName.Value);
+                            errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Link has '{propertyName.Key}' property, which is not supported.", propertyName.Value);
                             hasError = true;
                         }
                     }
@@ -567,7 +567,7 @@
 
             if (relSchemaNamerCount > 1)
             {
-                errorReporter.ReportError($"Thing Description has multiple links with '{TDLink.RelName}' property value '{LinkRelSchemaNamer}'; only one is allowed.", links.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.Duplication, $"Thing Description has multiple links with '{TDLink.RelName}' property value '{LinkRelSchemaNamer}'; only one is allowed.", links.TokenIndex);
                 hasError = true;
             }
 
@@ -622,7 +622,7 @@
         {
             if (action.Value.Forms == null)
             {
-                errorReporter.ReportError($"Action '{name}' element is missing required '{TDAction.FormsName}' property.", action.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Action '{name}' element is missing required '{TDAction.FormsName}' property.", action.TokenIndex);
                 contentType = null;
                 return false;
             }
@@ -653,7 +653,7 @@
                     }
                     else
                     {
-                        errorReporter.ReportError($"Action '{name}' has '{propertyName.Key}' property, which is not supported.", propertyName.Value);
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Action '{name}' has '{propertyName.Key}' property, which is not supported.", propertyName.Value);
                         hasError = true;
                     }
                 }
@@ -670,7 +670,7 @@
             bool isReference = dataSchema.Value.Ref != null;
             if (!isStructuredObject && !isNull && !isReference)
             {
-                errorReporter.ReportError($"'{TDThing.ActionsName}' element '{propertyName}' property must have a schema of (or a reference to) a structured object type, or no schema at all via a '{TDDataSchema.TypeName}' value of '{TDValues.TypeNull}'.", dataSchema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"'{TDThing.ActionsName}' element '{propertyName}' property must have a schema of (or a reference to) a structured object type, or no schema at all via a '{TDDataSchema.TypeName}' value of '{TDValues.TypeNull}'.", dataSchema.TokenIndex);
                 return false;
             }
 
@@ -705,7 +705,7 @@
         {
             if (property.Value.Forms == null)
             {
-                errorReporter.ReportError($"Property '{name}' element is missing required '{TDProperty.FormsName}' property.", property.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Property '{name}' element is missing required '{TDProperty.FormsName}' property.", property.TokenIndex);
                 contentType = null;
                 return false;
             }
@@ -741,12 +741,12 @@
             {
                 if (isReadOnly)
                 {
-                    errorReporter.ReportError($"'{TDProperty.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but the property has '{TDProperty.ReadOnlyName}' true.", writeOp.TokenIndex, readOnly?.TokenIndex ?? -1);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDProperty.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but the property has '{TDProperty.ReadOnlyName}' true.", writeOp.TokenIndex, readOnly?.TokenIndex ?? -1);
                     hasError = true;
                 }
                 if (readOp == null)
                 {
-                    errorReporter.ReportError($"'{TDProperty.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but no '{TDForm.OpName}' property with value '{TDValues.OpReadProp}'.", writeOp.TokenIndex, forms.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDProperty.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but no '{TDForm.OpName}' property with value '{TDValues.OpReadProp}'.", writeOp.TokenIndex, forms.TokenIndex);
                     hasError = true;
                 }
                 else
@@ -755,7 +755,7 @@
                     bool hasTopicalReadForm = forms.Elements!.Any(form => form.Value.Topic != null && (form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpReadProp) ?? false));
                     if (topicalWriteForm != null && !hasTopicalReadForm)
                     {
-                        errorReporter.ReportError($"'{TDProperty.FormsName}' array contains entry with '{TDForm.TopicName}' property and '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but no entry with '{TDForm.TopicName}' property and '{TDForm.OpName}' property with value '{TDValues.OpReadProp}'.", topicalWriteForm.TokenIndex, forms.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDProperty.FormsName}' array contains entry with '{TDForm.TopicName}' property and '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but no entry with '{TDForm.TopicName}' property and '{TDForm.OpName}' property with value '{TDValues.OpReadProp}'.", topicalWriteForm.TokenIndex, forms.TokenIndex);
                         hasError = true;
                     }
                 }
@@ -768,7 +768,7 @@
                 }
                 else if (readOnly.Value.Value == false)
                 {
-                    errorReporter.ReportError($"Property '{name}' is effectively read-only because the only '{TDForm.OpName}' value in '{TDProperty.FormsName}' is '{TDValues.OpReadProp}'; however, the property has a '{TDProperty.ReadOnlyName}' property with value false.", readOp.TokenIndex, readOnly.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Property '{name}' is effectively read-only because the only '{TDForm.OpName}' value in '{TDProperty.FormsName}' is '{TDValues.OpReadProp}'; however, the property has a '{TDProperty.ReadOnlyName}' property with value false.", readOp.TokenIndex, readOnly.TokenIndex);
                     hasError = true;
                 }
             }
@@ -804,7 +804,7 @@
         {
             if (evt.Value.Forms == null)
             {
-                errorReporter.ReportError($"Event '{name}' element is missing required '{TDEvent.FormsName}' property.", evt.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Event '{name}' element is missing required '{TDEvent.FormsName}' property.", evt.TokenIndex);
                 contentType = null;
                 return false;
             }
@@ -830,7 +830,7 @@
                     }
                     else
                     {
-                        errorReporter.ReportError($"Event '{name}' has '{propertyName.Key}' property, which is not supported.", propertyName.Value);
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Event '{name}' has '{propertyName.Key}' property, which is not supported.", propertyName.Value);
                         hasError = true;
                     }
                 }
@@ -845,7 +845,7 @@
 
             if (forms.Elements!.Count == 0)
             {
-                errorReporter.ReportError($"Property '{TDEvent.FormsName}' array value contains no elements; at least one form is required.", forms.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ElementMissing, $"Property '{TDEvent.FormsName}' array value contains no elements; at least one form is required.", forms.TokenIndex);
                 return false;
             }
 
@@ -863,7 +863,7 @@
                     {
                         if (formContentType.Value.Value != contentType.Value.Value)
                         {
-                            errorReporter.ReportError($"'{TDThing.FormsName}' array contains forms with different '{TDForm.ContentTypeName}' property values '{contentType.Value.Value}' and '{formContentType.Value.Value}'.", contentType.TokenIndex, formContentType.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDThing.FormsName}' array contains forms with different '{TDForm.ContentTypeName}' property values '{contentType.Value.Value}' and '{formContentType.Value.Value}'.", contentType.TokenIndex, formContentType.TokenIndex);
                             hasError = true;
                         }
                     }
@@ -882,7 +882,7 @@
             ValueTracker<TDForm>? oplessForm = forms.Elements.FirstOrDefault(f => f.Value.Op == null);
             if (oplessForm != null && forms.Elements.Count > 1)
             {
-                errorReporter.ReportError($"'{TDThing.FormsName}' array contains a form with no '{TDForm.OpName}' property, so it must be the only form in the array.", oplessForm.TokenIndex, forms.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDThing.FormsName}' array contains a form with no '{TDForm.OpName}' property, so it must be the only form in the array.", oplessForm.TokenIndex, forms.TokenIndex);
                 return false;
             }
 
@@ -890,7 +890,7 @@
 
             foreach (IGrouping<string, ValueTracker<StringHolder>> dupOpGroup in aggregateOps.GroupBy(op => op.Value.Value).Where(g => g.Count() > 1))
             {
-                errorReporter.ReportError($"'{TDThing.FormsName}' array contains '{TDForm.OpName}' properties that duplicate value '{dupOpGroup.Key}'.", dupOpGroup.First().TokenIndex, dupOpGroup.Skip(1).First().TokenIndex);
+                errorReporter.ReportError(ErrorCondition.Duplication, $"'{TDThing.FormsName}' array contains '{TDForm.OpName}' properties that duplicate value '{dupOpGroup.Key}'.", dupOpGroup.First().TokenIndex, dupOpGroup.Skip(1).First().TokenIndex);
                 hasError = true;
             }
 
@@ -903,12 +903,12 @@
 
             if (form.Value.Href == null)
             {
-                errorReporter.ReportError($"Form is missing required '{TDForm.HrefName}' property.", form.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Form is missing required '{TDForm.HrefName}' property.", form.TokenIndex);
                 hasError = true;
             }
             else if (string.IsNullOrWhiteSpace(form.Value.Href.Value.Value))
             {
-                errorReporter.ReportError($"Form '{TDForm.HrefName}' property has empty value.", form.Value.Href.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Form '{TDForm.HrefName}' property has empty value.", form.Value.Href.TokenIndex);
                 hasError = true;
             }
 
@@ -916,13 +916,13 @@
             {
                 if (formsKind == FormsKind.Root)
                 {
-                    errorReporter.ReportError($"Root-level form is missing required '{TDForm.OpName}' property.", form.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Root-level form is missing required '{TDForm.OpName}' property.", form.TokenIndex);
                     hasError = true;
                 }
             }
             else if (form.Value.Op.Elements.Count == 0)
             {
-                errorReporter.ReportError($"Form '{TDForm.OpName}' property has no values.", form.Value.Op.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ElementMissing, $"Form '{TDForm.OpName}' property has no values.", form.Value.Op.TokenIndex);
                 hasError = true;
             }
 
@@ -932,7 +932,7 @@
                 {
                     if (form.Value.ContentType.Value.Value != TDValues.ContentTypeJson && form.Value.ContentType.Value.Value != TDValues.ContentTypeRaw && form.Value.ContentType.Value.Value != TDValues.ContentTypeCustom)
                     {
-                        errorReporter.ReportError($"Form '{TDForm.ContentTypeName}' property has unsupported value '{form.Value.ContentType.Value.Value}'; for '{TDThing.ActionsName}' and '{TDThing.EventsName}' forms, supported values are '{TDValues.ContentTypeJson}', '{TDValues.ContentTypeRaw}', and '{TDValues.ContentTypeCustom}' (empty string).", form.Value.ContentType.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Form '{TDForm.ContentTypeName}' property has unsupported value '{form.Value.ContentType.Value.Value}'; for '{TDThing.ActionsName}' and '{TDThing.EventsName}' forms, supported values are '{TDValues.ContentTypeJson}', '{TDValues.ContentTypeRaw}', and '{TDValues.ContentTypeCustom}' (empty string).", form.Value.ContentType.TokenIndex);
                         hasError = true;
                     }
                 }
@@ -941,7 +941,7 @@
                     if (form.Value.ContentType.Value.Value != TDValues.ContentTypeJson)
                     {
                         string adjective = form.Value.ContentType.Value.Value == TDValues.ContentTypeRaw || form.Value.ContentType.Value.Value == TDValues.ContentTypeCustom ? "disallowed" : "unsupported";
-                        errorReporter.ReportError($"Form '{TDForm.ContentTypeName}' property has {adjective} value '{form.Value.ContentType.Value.Value}'; for '{TDThing.PropertiesName}' and root-level forms, only '{TDValues.ContentTypeJson}' is supported.", form.Value.ContentType.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Form '{TDForm.ContentTypeName}' property has {adjective} value '{form.Value.ContentType.Value.Value}'; for '{TDThing.PropertiesName}' and root-level forms, only '{TDValues.ContentTypeJson}' is supported.", form.Value.ContentType.TokenIndex);
                         hasError = true;
                     }
                 }
@@ -951,17 +951,17 @@
             {
                 if (formsKind == FormsKind.Root && !(form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpSubAllEvents) ?? false))
                 {
-                    errorReporter.ReportError($"'{TDForm.ServiceGroupIdName}' property is not allowed in root-level '{TDThing.FormsName}' property without an '{TDForm.OpName}' property value of '{TDValues.OpSubAllEvents}'.", form.Value.ServiceGroupId.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDForm.ServiceGroupIdName}' property is not allowed in root-level '{TDThing.FormsName}' property without an '{TDForm.OpName}' property value of '{TDValues.OpSubAllEvents}'.", form.Value.ServiceGroupId.TokenIndex);
                     hasError = true;
                 }
                 else if (formsKind == FormsKind.Property)
                 {
-                    errorReporter.ReportError($"'{TDForm.ServiceGroupIdName}' property is not allowed in '{TDProperty.FormsName}' property of a '{TDThing.PropertiesName}' element.", form.Value.ServiceGroupId.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"'{TDForm.ServiceGroupIdName}' property is not allowed in '{TDProperty.FormsName}' property of a '{TDThing.PropertiesName}' element.", form.Value.ServiceGroupId.TokenIndex);
                     hasError = true;
                 }
                 else if (string.IsNullOrWhiteSpace(form.Value.ServiceGroupId.Value.Value))
                 {
-                    errorReporter.ReportError($"Form '{TDForm.ServiceGroupIdName}' property has empty value.", form.Value.ServiceGroupId.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Form '{TDForm.ServiceGroupIdName}' property has empty value.", form.Value.ServiceGroupId.TokenIndex);
                     hasError = true;
                 }
             }
@@ -976,7 +976,7 @@
             {
                 if (string.IsNullOrWhiteSpace(op.Value.Value))
                 {
-                    errorReporter.ReportError($"Form '{TDForm.OpName}' property has empty value.", op.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Form '{TDForm.OpName}' property has empty value.", op.TokenIndex);
                     hasError = true;
                     continue;
                 }
@@ -986,28 +986,28 @@
                     case FormsKind.Root:
                         if (op.Value.Value != TDValues.OpReadAllProps && op.Value.Value != TDValues.OpWriteMultProps && op.Value.Value != TDValues.OpSubAllEvents)
                         {
-                            errorReporter.ReportError($"Form '{TDForm.OpName}' property has unsupported value '{op.Value.Value}' for a root-level form; supported values are '{TDValues.OpReadAllProps}', '{TDValues.OpWriteMultProps}', and '{TDValues.OpSubAllEvents}'.", op.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Form '{TDForm.OpName}' property has unsupported value '{op.Value.Value}' for a root-level form; supported values are '{TDValues.OpReadAllProps}', '{TDValues.OpWriteMultProps}', and '{TDValues.OpSubAllEvents}'.", op.TokenIndex);
                             hasError = true;
                         }
                         break;
                     case FormsKind.Property:
                         if (op.Value.Value != TDValues.OpReadProp && op.Value.Value != TDValues.OpWriteProp)
                         {
-                            errorReporter.ReportError($"Form '{TDForm.OpName}' property has unsupported value '{op.Value.Value}' for a property form; supported values are '{TDValues.OpReadProp}' and '{TDValues.OpWriteProp}'.", op.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Form '{TDForm.OpName}' property has unsupported value '{op.Value.Value}' for a property form; supported values are '{TDValues.OpReadProp}' and '{TDValues.OpWriteProp}'.", op.TokenIndex);
                             hasError = true;
                         }
                         break;
                     case FormsKind.Action:
                         if (op.Value.Value != TDValues.OpInvokeAction)
                         {
-                            errorReporter.ReportError($"Form '{TDForm.OpName}' property has unsupported value '{op.Value.Value}' for an action form; only supported value is '{TDValues.OpInvokeAction}'.", op.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Form '{TDForm.OpName}' property has unsupported value '{op.Value.Value}' for an action form; only supported value is '{TDValues.OpInvokeAction}'.", op.TokenIndex);
                             hasError = true;
                         }
                         break;
                     case FormsKind.Event:
                         if (op.Value.Value != TDValues.OpSubEvent)
                         {
-                            errorReporter.ReportError($"Form '{TDForm.OpName}' property has unsupported value '{op.Value.Value}' for an event form; only supported value is '{TDValues.OpSubEvent}'.", op.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Form '{TDForm.OpName}' property has unsupported value '{op.Value.Value}' for an event form; only supported value is '{TDValues.OpSubEvent}'.", op.TokenIndex);
                             hasError = true;
                         }
                         break;
@@ -1022,7 +1022,7 @@
             {
                 foreach (IGrouping<string, ValueTracker<StringHolder>> dupOpGroup in form.Value.Op.Elements.GroupBy(op => op.Value.Value).Where(g => g.Count() > 1))
                 {
-                    errorReporter.ReportError($"Form '{TDForm.OpName}' property has duplicate value '{dupOpGroup.Key}'.", form.Value.Op.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.Duplication, $"Form '{TDForm.OpName}' property has duplicate value '{dupOpGroup.Key}'.", form.Value.Op.TokenIndex);
                     hasError = true;
                 }
 
@@ -1030,12 +1030,12 @@
                 {
                     if (hasOpRead && hasOpSub)
                     {
-                        errorReporter.ReportError($"A single form '{TDForm.OpName}' property cannot contain both '{TDValues.OpReadAllProps}' and '{TDValues.OpSubAllEvents}' values.", form.Value.Op.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"A single form '{TDForm.OpName}' property cannot contain both '{TDValues.OpReadAllProps}' and '{TDValues.OpSubAllEvents}' values.", form.Value.Op.TokenIndex);
                         hasError = true;
                     }
                     if (hasOpWrite && hasOpSub)
                     {
-                        errorReporter.ReportError($"Form '{TDForm.OpName}' property cannot contain both '{TDValues.OpWriteMultProps}' and '{TDValues.OpSubAllEvents}' values.", form.Value.Op.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Form '{TDForm.OpName}' property cannot contain both '{TDValues.OpWriteMultProps}' and '{TDValues.OpSubAllEvents}' values.", form.Value.Op.TokenIndex);
                         hasError = true;
                     }
                 }
@@ -1045,7 +1045,7 @@
             {
                 if (formsKind == FormsKind.Root)
                 {
-                    errorReporter.ReportError($"Root-level form is missing required '{TDForm.TopicName}' property.", form.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Root-level form is missing required '{TDForm.TopicName}' property.", form.TokenIndex);
                     hasError = true;
                 }
             }
@@ -1058,7 +1058,7 @@
 
                 if (form.Value.ContentType == null)
                 {
-                    errorReporter.ReportError($"Form missing '{TDForm.ContentTypeName}' property, which is required when '{TDForm.TopicName}' property present.", form.TokenIndex, form.Value.Topic.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Form missing '{TDForm.ContentTypeName}' property, which is required when '{TDForm.TopicName}' property present.", form.TokenIndex, form.Value.Topic.TokenIndex);
                     hasError = true;
                 }
             }
@@ -1067,27 +1067,27 @@
             {
                 if (formsKind != FormsKind.Action)
                 {
-                    errorReporter.ReportError($"Form '{TDForm.HeaderCodeName}' property is permitted only in action forms.", form.Value.HeaderCode.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Form '{TDForm.HeaderCodeName}' property is permitted only in action forms.", form.Value.HeaderCode.TokenIndex);
                     hasError = true;
                 }
                 else if (string.IsNullOrWhiteSpace(form.Value.HeaderCode.Value.Value))
                 {
-                    errorReporter.ReportError($"Form '{TDForm.HeaderCodeName}' property has empty value.", form.Value.HeaderCode.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Form '{TDForm.HeaderCodeName}' property has empty value.", form.Value.HeaderCode.TokenIndex);
                     hasError = true;
                 }
                 else if (schemaDefinitions?.Entries == null)
                 {
-                    errorReporter.ReportError($"Form '{TDForm.HeaderCodeName}' property must refer to key in '{TDThing.SchemaDefinitionsName}' property, but TD has no '{TDThing.SchemaDefinitionsName}' property.", form.Value.HeaderCode.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Form '{TDForm.HeaderCodeName}' property must refer to key in '{TDThing.SchemaDefinitionsName}' property, but TD has no '{TDThing.SchemaDefinitionsName}' property.", form.Value.HeaderCode.TokenIndex);
                     hasError = true;
                 }
                 else if (!schemaDefinitions.Entries.TryGetValue(form.Value.HeaderCode.Value.Value, out ValueTracker<TDDataSchema>? dataSchema))
                 {
-                    errorReporter.ReportError($"Form '{TDForm.HeaderCodeName}' property refers to non-existent key '{form.Value.HeaderCode.Value.Value}' in '{TDThing.SchemaDefinitionsName}' property.", form.Value.HeaderCode.TokenIndex, schemaDefinitions.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Form '{TDForm.HeaderCodeName}' property refers to non-existent key '{form.Value.HeaderCode.Value.Value}' in '{TDThing.SchemaDefinitionsName}' property.", form.Value.HeaderCode.TokenIndex, schemaDefinitions.TokenIndex);
                     hasError = true;
                 }
                 else if (dataSchema.Value.Type?.Value.Value != TDValues.TypeString || dataSchema.Value.Enum == null)
                 {
-                    errorReporter.ReportError($"Form '{TDForm.HeaderCodeName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{form.Value.HeaderCode.Value.Value}', but this is not a string enum.", form.Value.HeaderCode.TokenIndex, dataSchema.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.TypeMismatch, $"Form '{TDForm.HeaderCodeName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{form.Value.HeaderCode.Value.Value}', but this is not a string enum.", form.Value.HeaderCode.TokenIndex, dataSchema.TokenIndex);
                     hasError = true;
                 }
             }
@@ -1096,12 +1096,12 @@
             {
                 if (formsKind == FormsKind.Event)
                 {
-                    errorReporter.ReportError($"Form '{TDForm.AdditionalResponsesName}' property is not permitted in an event form.", form.Value.AdditionalResponses.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Form '{TDForm.AdditionalResponsesName}' property is not permitted in an event form.", form.Value.AdditionalResponses.TokenIndex);
                     hasError = true;
                 }
                 else if (formsKind == FormsKind.Root && !form.Value.Op!.Elements!.Any(op => op.Value.Value == TDValues.OpReadAllProps || op.Value.Value == TDValues.OpWriteMultProps))
                 {
-                    errorReporter.ReportError($"Form '{TDForm.AdditionalResponsesName}' property is not permitted in a root form without an '{TDForm.OpName}' property value of '{TDValues.OpReadAllProps}' or '{TDValues.OpWriteMultProps}'.", form.Value.AdditionalResponses.TokenIndex, form.Value.Op.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Form '{TDForm.AdditionalResponsesName}' property is not permitted in a root form without an '{TDForm.OpName}' property value of '{TDValues.OpReadAllProps}' or '{TDValues.OpWriteMultProps}'.", form.Value.AdditionalResponses.TokenIndex, form.Value.Op.TokenIndex);
                     hasError = true;
                 }
                 else if (!TryValidateSchemaReferences(form.Value.AdditionalResponses, formsKind, TDForm.AdditionalResponsesName, schemaDefinitions))
@@ -1114,7 +1114,7 @@
             {
                 if (formsKind != FormsKind.Action)
                 {
-                    errorReporter.ReportError($"Form '{TDForm.HeaderInfoName}' property is permitted only in an action form.", form.Value.HeaderInfo.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Form '{TDForm.HeaderInfoName}' property is permitted only in an action form.", form.Value.HeaderInfo.TokenIndex);
                     hasError = true;
                 }
                 else if (!TryValidateSchemaReferences(form.Value.HeaderInfo, formsKind, TDForm.HeaderInfoName, schemaDefinitions))
@@ -1133,7 +1133,7 @@
                     }
                     else
                     {
-                        errorReporter.ReportError($"Form has '{propertyName.Key}' property, which is not supported.", propertyName.Value);
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Form has '{propertyName.Key}' property, which is not supported.", propertyName.Value);
                         hasError = true;
                     }
                 }
@@ -1159,13 +1159,13 @@
 
             if (topic.Value.Value.Length == 0)
             {
-                errorReporter.ReportError($"Form '{TDForm.TopicName}' property has empty value.", topic.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Form '{TDForm.TopicName}' property has empty value.", topic.TokenIndex);
                 return false;
             }
 
             if (topic.Value.Value.StartsWith('$'))
             {
-                errorReporter.ReportError($"Form '{TDForm.TopicName}' property value starts with reserved character '$'.", topic.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Form '{TDForm.TopicName}' property value starts with reserved character '$'.", topic.TokenIndex);
                 hasError = true;
             }
 
@@ -1174,7 +1174,7 @@
             {
                 if (level.Length == 0)
                 {
-                    errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing empty topic level.", topic.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Form '{TDForm.TopicName}' property has value containing empty topic level.", topic.TokenIndex);
                     hasError = true;
                 }
                 else if (level.StartsWith('{') && level.EndsWith('}'))
@@ -1182,7 +1182,7 @@
                     string token = level[1..^1];
                     if (token.Length == 0)
                     {
-                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing empty token '{{}}'.", topic.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Form '{TDForm.TopicName}' property has value containing empty token '{{}}'.", topic.TokenIndex);
                         hasError = true;
                     }
                     else if (token.StartsWith("ex:"))
@@ -1190,12 +1190,12 @@
                         string exToken = token[3..];
                         if (exToken.Length == 0)
                         {
-                            errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing empty custom token '{{ex:}}'.", topic.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Form '{TDForm.TopicName}' property has value containing empty custom token '{{ex:}}'.", topic.TokenIndex);
                             hasError = true;
                         }
                         else if (!exToken.All(c => char.IsAsciiLetter(c)))
                         {
-                            errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing custom token '{{{token}}}' that contains invalid character(s); only ASCII letters are allowed after the 'ex:' prefix.", topic.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Form '{TDForm.TopicName}' property has value containing custom token '{{{token}}}' that contains invalid character(s); only ASCII letters are allowed after the 'ex:' prefix.", topic.TokenIndex);
                             hasError = true;
                         }
                     }
@@ -1215,7 +1215,7 @@
                                 case FormsKind.Action:
                                     if (token != MqttTopicTokens.ActionInvokerId && token != MqttTopicTokens.ActionExecutorId)
                                     {
-                                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing token '{{{token}}}' that does not start with 'ex:' and that is not valid in an action topic; only '{{{MqttTopicTokens.ModelId}}}', '{{{MqttTopicTokens.ActionInvokerId}}}', and '{{{MqttTopicTokens.ActionExecutorId}}}' are allowed.", topic.TokenIndex);
+                                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Form '{TDForm.TopicName}' property has value containing token '{{{token}}}' that does not start with 'ex:' and that is not valid in an action topic; only '{{{MqttTopicTokens.ModelId}}}', '{{{MqttTopicTokens.ActionInvokerId}}}', and '{{{MqttTopicTokens.ActionExecutorId}}}' are allowed.", topic.TokenIndex);
                                         hasError = true;
                                     }
                                     break;
@@ -1226,14 +1226,14 @@
                                     }
                                     else if (token != MqttTopicTokens.PropertyConsumerId && token != MqttTopicTokens.PropertyMaintainerId)
                                     {
-                                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing token '{{{token}}}' that does not start with 'ex:' and that is not valid in a property topic; only '{{{MqttTopicTokens.ModelId}}}', '{{{MqttTopicTokens.PropertyAction}}}', '{{{MqttTopicTokens.PropertyConsumerId}}}', and '{{{MqttTopicTokens.PropertyMaintainerId}}}' are allowed.", topic.TokenIndex);
+                                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Form '{TDForm.TopicName}' property has value containing token '{{{token}}}' that does not start with 'ex:' and that is not valid in a property topic; only '{{{MqttTopicTokens.ModelId}}}', '{{{MqttTopicTokens.PropertyAction}}}', '{{{MqttTopicTokens.PropertyConsumerId}}}', and '{{{MqttTopicTokens.PropertyMaintainerId}}}' are allowed.", topic.TokenIndex);
                                         hasError = true;
                                     }
                                     break;
                                 case FormsKind.Event:
                                     if (token != MqttTopicTokens.EventSenderId)
                                     {
-                                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing token '{{{token}}}' that does not start with 'ex:' and that is not valid in an event topic; only '{{{MqttTopicTokens.ModelId}}}' and '{{{MqttTopicTokens.EventSenderId}}}' are allowed.", topic.TokenIndex);
+                                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Form '{TDForm.TopicName}' property has value containing token '{{{token}}}' that does not start with 'ex:' and that is not valid in an event topic; only '{{{MqttTopicTokens.ModelId}}}' and '{{{MqttTopicTokens.EventSenderId}}}' are allowed.", topic.TokenIndex);
                                         hasError = true;
                                     }
                                     break;
@@ -1245,7 +1245,7 @@
                 {
                     if (level.Any(c => c is < '!' or > '~' or '+' or '#' or '{' or '}'))
                     {
-                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property has value containing non-token topic level '{level}' that contains invalid character(s); only printable ASCII characters not including space, '\"', '+', '#', '{{', or '}}' are allowed.", topic.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Form '{TDForm.TopicName}' property has value containing non-token topic level '{level}' that contains invalid character(s); only printable ASCII characters not including space, '\"', '+', '#', '{{', or '}}' are allowed.", topic.TokenIndex);
                         hasError = true;
                     }
                 }
@@ -1282,7 +1282,7 @@
                 {
                     if ((hasOpRead && hasOpWrite) || (!hasOpRead && !hasOpWrite && !isReadOnly))
                     {
-                        errorReporter.ReportError($"Form '{TDForm.TopicName}' property value is missing required '{{{MqttTopicTokens.PropertyAction}}}' token for a property form that supports both read and write operations.", topic.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Form '{TDForm.TopicName}' property value is missing required '{{{MqttTopicTokens.PropertyAction}}}' token for a property form that supports both read and write operations.", topic.TokenIndex);
                         hasError = true;
                     }
                     else
@@ -1313,7 +1313,7 @@
 
             if (schemaReferences.Elements.Count > 1)
             {
-                errorReporter.ReportError($"No more than one element is permitted in '{propertyName}' array.", schemaReferences.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ElementsPlural, $"No more than one element is permitted in '{propertyName}' array.", schemaReferences.TokenIndex);
                 hasError = true;
             }
 
@@ -1328,18 +1328,18 @@
             {
                 if (parentPropName == TDForm.HeaderInfoName)
                 {
-                    errorReporter.ReportError($"'{parentPropName}' element is missing required '{TDSchemaReference.ContentTypeName}' property.", schemaReference.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"'{parentPropName}' element is missing required '{TDSchemaReference.ContentTypeName}' property.", schemaReference.TokenIndex);
                     hasError = true;
                 }
             }
             else if (string.IsNullOrWhiteSpace(schemaReference.Value.ContentType.Value.Value))
             {
-                errorReporter.ReportError($"'{parentPropName}' element has empty '{TDSchemaReference.ContentTypeName}' property value.", schemaReference.Value.ContentType.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"'{parentPropName}' element has empty '{TDSchemaReference.ContentTypeName}' property value.", schemaReference.Value.ContentType.TokenIndex);
                 hasError = true;
             }
             else if (schemaReference.Value.ContentType.Value.Value != TDValues.ContentTypeJson)
             {
-                errorReporter.ReportError($"'{parentPropName}' element has '{TDSchemaReference.ContentTypeName}' property with unsupported value '{schemaReference.Value.ContentType.Value.Value}'.", schemaReference.Value.ContentType.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"'{parentPropName}' element has '{TDSchemaReference.ContentTypeName}' property with unsupported value '{schemaReference.Value.ContentType.Value.Value}'.", schemaReference.Value.ContentType.TokenIndex);
                 hasError = true;
             }
 
@@ -1347,13 +1347,13 @@
             {
                 if (parentPropName == TDForm.AdditionalResponsesName)
                 {
-                    errorReporter.ReportError($"'{parentPropName}' element is missing required '{TDSchemaReference.SuccessName}' property.", schemaReference.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"'{parentPropName}' element is missing required '{TDSchemaReference.SuccessName}' property.", schemaReference.TokenIndex);
                     hasError = true;
                 }
             }
             else if (schemaReference.Value.Success.Value.Value == true)
             {
-                errorReporter.ReportError($"'{parentPropName}' element has '{TDSchemaReference.SuccessName}' property value of true, which is not supported.", schemaReference.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"'{parentPropName}' element has '{TDSchemaReference.SuccessName}' property value of true, which is not supported.", schemaReference.TokenIndex);
                 hasError = true;
             }
 
@@ -1361,38 +1361,38 @@
             {
                 if (formsKind != FormsKind.Root)
                 {
-                    errorReporter.ReportError($"'{parentPropName}' element is missing '{TDSchemaReference.SchemaName}' property, which is required except within root-level '{TDThing.FormsName}' elements.", schemaReference.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"'{parentPropName}' element is missing '{TDSchemaReference.SchemaName}' property, which is required except within root-level '{TDThing.FormsName}' elements.", schemaReference.TokenIndex);
                     hasError = true;
                 }
             }
             else if (formsKind == FormsKind.Root)
             {
-                errorReporter.ReportError($"'{parentPropName}' element has '{TDSchemaReference.SchemaName}' property, which is not allowed within root-level '{TDThing.FormsName}' element because schema is automatically composed from schema definitions in affordance '{TDThing.FormsName}' elements.", schemaReference.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"'{parentPropName}' element has '{TDSchemaReference.SchemaName}' property, which is not allowed within root-level '{TDThing.FormsName}' element because schema is automatically composed from schema definitions in affordance '{TDThing.FormsName}' elements.", schemaReference.TokenIndex);
                 hasError = true;
             }
             else if (string.IsNullOrWhiteSpace(schemaReference.Value.Schema.Value.Value))
             {
-                errorReporter.ReportError($"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property has empty value.", schemaReference.Value.Schema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property has empty value.", schemaReference.Value.Schema.TokenIndex);
                 hasError = true;
             }
             else if (schemaDefinitions?.Entries == null)
             {
-                errorReporter.ReportError($"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property must refer to key in '{TDThing.SchemaDefinitionsName}' property, but TD has no '{TDThing.SchemaDefinitionsName}' property.", schemaReference.Value.Schema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property must refer to key in '{TDThing.SchemaDefinitionsName}' property, but TD has no '{TDThing.SchemaDefinitionsName}' property.", schemaReference.Value.Schema.TokenIndex);
                 hasError = true;
             }
             else if (!schemaDefinitions.Entries.TryGetValue(schemaReference.Value.Schema.Value.Value, out ValueTracker<TDDataSchema>? dataSchema))
             {
-                errorReporter.ReportError($"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property refers to non-existent key '{schemaReference.Value.Schema.Value.Value}' in '{TDThing.SchemaDefinitionsName}' property.", schemaReference.Value.Schema.TokenIndex, schemaDefinitions.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property refers to non-existent key '{schemaReference.Value.Schema.Value.Value}' in '{TDThing.SchemaDefinitionsName}' property.", schemaReference.Value.Schema.TokenIndex, schemaDefinitions.TokenIndex);
                 hasError = true;
             }
             else if (dataSchema.Value.Type?.Value.Value != TDValues.TypeObject)
             {
-                errorReporter.ReportError($"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{schemaReference.Value.Schema.Value.Value}', but this is not a structured object definition.", schemaReference.Value.Schema.TokenIndex, dataSchema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{schemaReference.Value.Schema.Value.Value}', but this is not a structured object definition.", schemaReference.Value.Schema.TokenIndex, dataSchema.TokenIndex);
                 hasError = true;
             }
             else if (dataSchema.Value.Properties == null)
             {
-                errorReporter.ReportError($"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{schemaReference.Value.Schema.Value.Value}', but this defines a map, whereas a structured object is required.", schemaReference.Value.Schema.TokenIndex, dataSchema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{schemaReference.Value.Schema.Value.Value}', but this defines a map, whereas a structured object is required.", schemaReference.Value.Schema.TokenIndex, dataSchema.TokenIndex);
                 hasError = true;
             }
 
@@ -1406,7 +1406,7 @@
                     }
                     else
                     {
-                        errorReporter.ReportError($"Schema reference has '{propertyName.Key}' property, which is not supported.", propertyName.Value);
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Schema reference has '{propertyName.Key}' property, which is not supported.", propertyName.Value);
                         hasError = true;
                     }
                 }
@@ -1420,19 +1420,19 @@
         {
             if (dataSchema.Value.Ref != null && dataSchemaKind != DataSchemaKind.Action && dataSchemaKind != DataSchemaKind.Property && dataSchemaKind != DataSchemaKind.Event)
             {
-                errorReporter.ReportError($"The '{TDDataSchema.RefName}' property is permitted only in the first level of an affordance schema definition ('{TDThing.PropertiesName}', '{TDThing.EventsName}'/'{TDEvent.DataName}', '{TDThing.ActionsName}'/'{TDAction.InputName}', and '{TDThing.ActionsName}'/'{TDAction.OutputName}').", dataSchema.Value.Ref.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"The '{TDDataSchema.RefName}' property is permitted only in the first level of an affordance schema definition ('{TDThing.PropertiesName}', '{TDThing.EventsName}'/'{TDEvent.DataName}', '{TDThing.ActionsName}'/'{TDAction.InputName}', and '{TDThing.ActionsName}'/'{TDAction.OutputName}').", dataSchema.Value.Ref.TokenIndex);
                 return false;
             }
 
             if (dataSchema.Value.Ref == null && dataSchema.Value.Type == null)
             {
-                errorReporter.ReportError($"Data schema must have either '{TDDataSchema.RefName}' or '{TDDataSchema.TypeName}' property.", dataSchema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Data schema must have either '{TDDataSchema.RefName}' or '{TDDataSchema.TypeName}' property.", dataSchema.TokenIndex);
                 return false;
             }
 
             if (dataSchema.Value.Ref != null && dataSchema.Value.Type != null)
             {
-                errorReporter.ReportError($"Data schema cannot have both '{TDDataSchema.RefName}' and '{TDDataSchema.TypeName}' properties.", dataSchema.Value.Ref.TokenIndex, dataSchema.Value.Type.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema cannot have both '{TDDataSchema.RefName}' and '{TDDataSchema.TypeName}' properties.", dataSchema.Value.Ref.TokenIndex, dataSchema.Value.Type.TokenIndex);
                 return false;
             }
 
@@ -1442,7 +1442,7 @@
             {
                 if (contentTypeIsRawOrCustom)
                 {
-                    errorReporter.ReportError($"Data schema with '{TDDataSchema.RefName}' property is not permitted in an affordance with a form that specifies '{TDForm.ContentTypeName}' of '{contentType!.Value.Value}'.", dataSchema.Value.Ref.TokenIndex, contentType!.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema with '{TDDataSchema.RefName}' property is not permitted in an affordance with a form that specifies '{TDForm.ContentTypeName}' of '{contentType!.Value.Value}'.", dataSchema.Value.Ref.TokenIndex, contentType!.TokenIndex);
                     return false;
                 }
                 else
@@ -1453,12 +1453,12 @@
 
             if (contentTypeIsRawOrCustom && dataSchema.Value.Type!.Value.Value != TDValues.TypeNull)
             {
-                errorReporter.ReportError($"Data schema with '{TDDataSchema.TypeName}' of '{dataSchema.Value.Type.Value.Value}' is not permitted in an affordance with a form that specifies '{TDForm.ContentTypeName}' of '{contentType!.Value.Value}'; only '{TDDataSchema.TypeName}' of '{TDValues.TypeNull}' is permitted.", dataSchema.Value.Type.TokenIndex, contentType!.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema with '{TDDataSchema.TypeName}' of '{dataSchema.Value.Type.Value.Value}' is not permitted in an affordance with a form that specifies '{TDForm.ContentTypeName}' of '{contentType!.Value.Value}'; only '{TDDataSchema.TypeName}' of '{TDValues.TypeNull}' is permitted.", dataSchema.Value.Type.TokenIndex, contentType!.TokenIndex);
                 return false;
             }
             else if (!contentTypeIsRawOrCustom && dataSchema.Value.Type!.Value.Value == TDValues.TypeNull)
             {
-                errorReporter.ReportError($"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeNull}' is permitted only in an affordance with a form that specifies '{TDForm.ContentTypeName}' of '{TDValues.ContentTypeRaw}' or '{TDValues.ContentTypeCustom}'.", dataSchema.Value.Type.TokenIndex, contentType?.TokenIndex ?? -1);
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeNull}' is permitted only in an affordance with a form that specifies '{TDForm.ContentTypeName}' of '{TDValues.ContentTypeRaw}' or '{TDValues.ContentTypeCustom}'.", dataSchema.Value.Type.TokenIndex, contentType?.TokenIndex ?? -1);
                 return false;
             }
 
@@ -1479,7 +1479,7 @@
                 case TDValues.TypeNull:
                     return TryValidateNullDataSchema(dataSchema, dataSchemaKind, propertyApprover);
                 default:
-                    errorReporter.ReportError($"Data schema '{TDDataSchema.TypeName}' property has unsupported value '{dataSchema.Value.Type.Value.Value}'.", dataSchema.Value.Type.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Data schema '{TDDataSchema.TypeName}' property has unsupported value '{dataSchema.Value.Type.Value.Value}'.", dataSchema.Value.Type.TokenIndex);
                     return false;
             }
         }
@@ -1494,17 +1494,17 @@
 
             if (string.IsNullOrWhiteSpace(refValue))
             {
-                errorReporter.ReportError($"Data schema '{TDDataSchema.RefName}' property has empty value.", tokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Data schema '{TDDataSchema.RefName}' property has empty value.", tokenIndex);
                 hasError = true;
             }
             else if (!RefCharRegex.IsMatch(refValue))
             {
-                errorReporter.ReportError($"Data schema '{TDDataSchema.RefName}' property value \"{refValue}\" contains one or more illegal characters.", tokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Data schema '{TDDataSchema.RefName}' property value \"{refValue}\" contains one or more illegal characters.", tokenIndex);
                 hasError = true;
             }
             else if (refValue.StartsWith('#'))
             {
-                errorReporter.ReportError($"Data schema '{TDDataSchema.RefName}' property value \"{refValue}\" may not begin with a '#' character.", tokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Data schema '{TDDataSchema.RefName}' property value \"{refValue}\" may not begin with a '#' character.", tokenIndex);
                 hasError = true;
             }
             else
@@ -1513,7 +1513,7 @@
                 bool hasPathSegs = refValue.Contains('/') && refValue.IndexOf('/') < (refValue.Contains('#') ? refValue.IndexOf('#') : refValue.Length);
                 if (!isRelative && hasPathSegs)
                 {
-                    errorReporter.ReportError($"Data schema '{TDDataSchema.RefName}' property value \"{refValue}\" must be relative (start with \"./\" or \"../\") if it has any path segments.", tokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Data schema '{TDDataSchema.RefName}' property value \"{refValue}\" must be relative (start with \"./\" or \"../\") if it has any path segments.", tokenIndex);
                     hasError = true;
                 }
             }
@@ -1544,7 +1544,7 @@
 
             if (constValue.Value.Value is not string)
             {
-                errorReporter.ReportError($"The specified constant value must be a string.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The specified constant value must be a string.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
                 hasError = true;
             }
 
@@ -1577,18 +1577,18 @@
             {
                 if (dataSchema.Value.Minimum?.Value.Value != null && numValue < dataSchema.Value.Minimum.Value.Value)
                 {
-                    errorReporter.ReportError($"The specified constant value ({numValue}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"The specified constant value ({numValue}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
                     hasError = true;
                 }
                 if (dataSchema.Value.Maximum?.Value.Value != null && numValue > dataSchema.Value.Maximum.Value.Value)
                 {
-                    errorReporter.ReportError($"The specified constant value ({numValue}) cannot be greater than the '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Maximum.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"The specified constant value ({numValue}) cannot be greater than the '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Maximum.TokenIndex);
                     hasError = true;
                 }
             }
             else
             {
-                errorReporter.ReportError($"The specified constant value must be a number.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The specified constant value must be a number.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
                 hasError = true;
             }
 
@@ -1623,18 +1623,18 @@
             {
                 if (dataSchema.Value.Minimum?.Value.Value != null && numValue < dataSchema.Value.Minimum.Value.Value)
                 {
-                    errorReporter.ReportError($"The specified constant value ({numValue}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"The specified constant value ({numValue}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
                     hasError = true;
                 }
                 if (dataSchema.Value.Maximum?.Value.Value != null && numValue > dataSchema.Value.Maximum.Value.Value)
                 {
-                    errorReporter.ReportError($"The specified constant value ({numValue}) cannot be greater than the '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Maximum.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"The specified constant value ({numValue}) cannot be greater than the '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}).", constValue.TokenIndex, dataSchema.Value.Maximum.TokenIndex);
                     hasError = true;
                 }
             }
             else
             {
-                errorReporter.ReportError($"The specified constant value must be an integer.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The specified constant value must be an integer.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
                 hasError = true;
             }
 
@@ -1667,7 +1667,7 @@
 
             if (constValue.Value.Value is not bool)
             {
-                errorReporter.ReportError($"The specified constant value must be Boolean.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The specified constant value must be Boolean.", constValue.TokenIndex, dataSchema.Value.Type!.TokenIndex);
                 hasError = true;
             }
 
@@ -1700,7 +1700,7 @@
                     }
                     else
                     {
-                        errorReporter.ReportError($"Data schema defines {schemaDescription}; property '{propertyName.Key}' is not supported.", propertyName.Value, cfTokenIndex);
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Data schema defines {schemaDescription}; property '{propertyName.Key}' is not supported.", propertyName.Value, cfTokenIndex);
                         hasError = true;
                     }
                 }
@@ -1714,13 +1714,13 @@
         {
             if (dataSchema.Value.Properties?.Entries == null && dataSchema.Value.AdditionalProperties == null)
             {
-                errorReporter.ReportError($"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeObject}' must have either '{TDDataSchema.PropertiesName}' or 'dtv:additionalProperties' property.", dataSchema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeObject}' must have either '{TDDataSchema.PropertiesName}' or 'dtv:additionalProperties' property.", dataSchema.TokenIndex);
                 return false;
             }
 
             if (dataSchema.Value.Properties?.Entries != null && dataSchema.Value.AdditionalProperties != null)
             {
-                errorReporter.ReportError($"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeObject}' cannot have both '{TDDataSchema.PropertiesName}' and 'dtv:additionalProperties' properties.", dataSchema.Value.Properties.TokenIndex, dataSchema.Value.AdditionalProperties.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeObject}' cannot have both '{TDDataSchema.PropertiesName}' and 'dtv:additionalProperties' properties.", dataSchema.Value.Properties.TokenIndex, dataSchema.Value.AdditionalProperties.TokenIndex);
                 return false;
             }
 
@@ -1731,12 +1731,12 @@
                 {
                     if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                     {
-                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
                         hasError = true;
                     }
                     else if (dataSchema.Value.Const.Value.ValueMap?.Entries == null)
                     {
-                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property value must be an object.", dataSchema.Value.Const.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The '{TDDataSchema.ConstName}' property value must be an object.", dataSchema.Value.Const.TokenIndex, dataSchema.Value.Type!.TokenIndex);
                         hasError = true;
                     }
                     else
@@ -1745,7 +1745,7 @@
                         {
                             if (property.Value.Value.Type == null)
                             {
-                                errorReporter.ReportError($"Data schema property '{property.Key}' is missing '{TDDataSchema.TypeName}' property, which is required in an object definition that specifies a constant value.", property.Value.TokenIndex, dataSchema.Value.Const.TokenIndex);
+                                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Data schema property '{property.Key}' is missing '{TDDataSchema.TypeName}' property, which is required in an object definition that specifies a constant value.", property.Value.TokenIndex, dataSchema.Value.Const.TokenIndex);
                                 hasError = true;
                             }
                             else if (dataSchema.Value.Const.Value.ValueMap.Entries!.TryGetValue(property.Key, out ValueTracker<ObjectHolder>? constValue))
@@ -1777,14 +1777,14 @@
                                         }
                                         break;
                                     default:
-                                        errorReporter.ReportError($"Data schema property '{property.Key}' value must specify a '{TDDataSchema.TypeName}' value of '{TDValues.TypeString}', '{TDValues.TypeNumber}', '{TDValues.TypeInteger}', or '{TDValues.TypeBoolean}' because the object definition specifies a constant value.", property.Value.Value.Type.TokenIndex, dataSchema.Value.Const.TokenIndex);
+                                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema property '{property.Key}' value must specify a '{TDDataSchema.TypeName}' value of '{TDValues.TypeString}', '{TDValues.TypeNumber}', '{TDValues.TypeInteger}', or '{TDValues.TypeBoolean}' because the object definition specifies a constant value.", property.Value.Value.Type.TokenIndex, dataSchema.Value.Const.TokenIndex);
                                         hasError = true;
                                         break;
                                 }
                             }
                             else
                             {
-                                errorReporter.ReportError($"Data schema '{TDDataSchema.PropertiesName}' value has property named '{property.Key}' that has no value in '{TDDataSchema.ConstName}' elements.", property.Value.TokenIndex, dataSchema.Value.Const.Value.ValueMap.TokenIndex);
+                                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Data schema '{TDDataSchema.PropertiesName}' value has property named '{property.Key}' that has no value in '{TDDataSchema.ConstName}' elements.", property.Value.TokenIndex, dataSchema.Value.Const.Value.ValueMap.TokenIndex);
                                 hasError = true;
                             }
                         }
@@ -1793,7 +1793,7 @@
                         {
                             if (!dataSchema.Value.Properties.Entries.ContainsKey(constValue.Key))
                             {
-                                errorReporter.ReportError($"Data schema '{TDDataSchema.ConstName}' value has property named '{constValue.Key}' that has no type definition in '{TDDataSchema.PropertiesName}' elements.", constValue.Value.TokenIndex, dataSchema.Value.Properties.TokenIndex);
+                                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Data schema '{TDDataSchema.ConstName}' value has property named '{constValue.Key}' that has no type definition in '{TDDataSchema.PropertiesName}' elements.", constValue.Value.TokenIndex, dataSchema.Value.Properties.TokenIndex);
                                 hasError = true;
                             }
                         }
@@ -1833,7 +1833,7 @@
                         {
                             if (!dataSchema.Value.Properties.Entries.ContainsKey(requiredProperty.Value.Value))
                             {
-                                errorReporter.ReportError($"Data schema '{TDDataSchema.RequiredName}' property names non-existent property '{requiredProperty.Value.Value}'.", requiredProperty.TokenIndex, dataSchema.Value.Properties.TokenIndex);
+                                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Data schema '{TDDataSchema.RequiredName}' property names non-existent property '{requiredProperty.Value.Value}'.", requiredProperty.TokenIndex, dataSchema.Value.Properties.TokenIndex);
                                 hasError = true;
                             }
                         }
@@ -1843,7 +1843,7 @@
                     {
                         if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                         {
-                            errorReporter.ReportError($"The '{TDDataSchema.ErrorMessageName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.ErrorMessage.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"The '{TDDataSchema.ErrorMessageName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.ErrorMessage.TokenIndex);
                             hasError = true;
                         }
                     }
@@ -1896,7 +1896,7 @@
         {
             if (dataSchema.Value.Items == null)
             {
-                errorReporter.ReportError($"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeArray}' must have '{TDDataSchema.ItemsName}' property.", dataSchema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeArray}' must have '{TDDataSchema.ItemsName}' property.", dataSchema.TokenIndex);
                 return false;
             }
 
@@ -1938,7 +1938,7 @@
                 {
                     if (!EnumValueRegex.IsMatch(enumValue.Value.Value))
                     {
-                        errorReporter.ReportError($"Data schema '{TDDataSchema.EnumName}' property has value \"{enumValue.Value.Value}\" that does not conform to codegen enum member naming rules -- it must start with a letter and contain only alphanumeric characters and underscores", enumValue.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Data schema '{TDDataSchema.EnumName}' property has value \"{enumValue.Value.Value}\" that does not conform to codegen enum member naming rules -- it must start with a letter and contain only alphanumeric characters and underscores", enumValue.TokenIndex);
                         hasError = true;
                     }
                 }
@@ -1961,7 +1961,7 @@
                 {
                     if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                     {
-                        errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
                         hasError = true;
                     }
                     else if (!TryValidateStringConst(dataSchema, dataSchema.Value.Const, dataSchema.Value.Const))
@@ -1987,7 +1987,7 @@
 
                     if (exclusiveProperties.Count > 1)
                     {
-                        errorReporter.ReportError($"Data schema string type cannot have more than one of the following properties: {string.Join(", ", exclusiveProperties)}.", dataSchema.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema string type cannot have more than one of the following properties: {string.Join(", ", exclusiveProperties)}.", dataSchema.TokenIndex);
                         hasError = true;
                     }
 
@@ -1996,7 +1996,7 @@
                         string formatValue = dataSchema.Value.Format.Value.Value;
                         if (formatValue != TDValues.FormatDateTime && formatValue != TDValues.FormatDate && formatValue != TDValues.FormatTime && formatValue != TDValues.FormatUuid)
                         {
-                            errorReporter.ReportError($"Data schema '{TDDataSchema.FormatName}' property has unsupported value '{formatValue}'; supported values are '{TDValues.FormatDateTime}', '{TDValues.FormatDate}', '{TDValues.FormatTime}', and '{TDValues.FormatUuid}'.", dataSchema.Value.Format.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Data schema '{TDDataSchema.FormatName}' property has unsupported value '{formatValue}'; supported values are '{TDValues.FormatDateTime}', '{TDValues.FormatDate}', '{TDValues.FormatTime}', and '{TDValues.FormatUuid}'.", dataSchema.Value.Format.TokenIndex);
                             hasError = true;
                         }
                     }
@@ -2006,7 +2006,7 @@
                         string contentEncodingValue = dataSchema.Value.ContentEncoding.Value.Value;
                         if (contentEncodingValue != TDValues.ContentEncodingBase64)
                         {
-                            errorReporter.ReportError($"Data schema '{TDDataSchema.ContentEncodingName}' property has unsupported value '{contentEncodingValue}'; only supported value is '{TDValues.ContentEncodingBase64}'.", dataSchema.Value.ContentEncoding.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Data schema '{TDDataSchema.ContentEncodingName}' property has unsupported value '{contentEncodingValue}'; only supported value is '{TDValues.ContentEncodingBase64}'.", dataSchema.Value.ContentEncoding.TokenIndex);
                             hasError = true;
                         }
                     }
@@ -2024,13 +2024,13 @@
                             }
                             else if (!patternRegex.IsMatch(Iso8601DurationExample) && !patternRegex.IsMatch(DecimalExample))
                             {
-                                errorReporter.ReportError($"Data schema '{TDDataSchema.PatternName}' property value \"{patternValue}\" matches neither an ISO 8601 duration value (e.g., \"{Iso8601DurationExample}\") nor a decimal value (e.g., \"{DecimalExample}\"), so indended type is indeterminate.", dataSchema.Value.Pattern.TokenIndex);
+                                errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Data schema '{TDDataSchema.PatternName}' property value \"{patternValue}\" matches neither an ISO 8601 duration value (e.g., \"{Iso8601DurationExample}\") nor a decimal value (e.g., \"{DecimalExample}\"), so indended type is indeterminate.", dataSchema.Value.Pattern.TokenIndex);
                                 hasError = true;
                             }
                         }
                         catch (RegexParseException)
                         {
-                            errorReporter.ReportError($"Data schema '{TDDataSchema.PatternName}' property has invalid regular expression pattern '{patternValue}'", dataSchema.Value.Pattern.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Data schema '{TDDataSchema.PatternName}' property has invalid regular expression pattern '{patternValue}'", dataSchema.Value.Pattern.TokenIndex);
                             hasError = true;
                         }
                     }
@@ -2061,7 +2061,7 @@
 
             if (dataSchema.Value.Minimum?.Value.Value != null && dataSchema.Value.Maximum?.Value.Value != null && dataSchema.Value.Maximum.Value.Value < dataSchema.Value.Minimum.Value.Value)
             {
-                errorReporter.ReportError($"The '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", dataSchema.Value.Maximum.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"The '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", dataSchema.Value.Maximum.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
                 hasError = true;
             }
 
@@ -2069,7 +2069,7 @@
             {
                 if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                 {
-                    errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
                     hasError = true;
                 }
                 else if (!TryValidateNumberConst(dataSchema, dataSchema.Value.Const, dataSchema.Value.Const))
@@ -2103,12 +2103,12 @@
 
             if (dataSchema.Value.Minimum?.Value.Value != null && !double.IsInteger(dataSchema.Value.Minimum.Value.Value))
             {
-                errorReporter.ReportError($"The '{TDDataSchema.MinimumName}' property value must be an integer.", dataSchema.Value.Minimum.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The '{TDDataSchema.MinimumName}' property value must be an integer.", dataSchema.Value.Minimum.TokenIndex);
                 hasError = true;
             }
             if (dataSchema.Value.Maximum?.Value.Value != null && !double.IsInteger(dataSchema.Value.Maximum.Value.Value))
             {
-                errorReporter.ReportError($"The '{TDDataSchema.MaximumName}' property value must be an integer.", dataSchema.Value.Maximum.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The '{TDDataSchema.MaximumName}' property value must be an integer.", dataSchema.Value.Maximum.TokenIndex);
                 hasError = true;
             }
 
@@ -2119,7 +2119,7 @@
 
             if (dataSchema.Value.Minimum?.Value.Value != null && dataSchema.Value.Maximum?.Value.Value != null && dataSchema.Value.Maximum.Value.Value < dataSchema.Value.Minimum.Value.Value)
             {
-                errorReporter.ReportError($"The '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", dataSchema.Value.Maximum.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"The '{TDDataSchema.MaximumName}' property value ({dataSchema.Value.Maximum.Value.Value}) cannot be less than the '{TDDataSchema.MinimumName}' property value ({dataSchema.Value.Minimum.Value.Value}).", dataSchema.Value.Maximum.TokenIndex, dataSchema.Value.Minimum.TokenIndex);
                 hasError = true;
             }
 
@@ -2127,7 +2127,7 @@
             {
                 if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                 {
-                    errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
                     hasError = true;
                 }
                 else if (dataSchema.Value.Const != null && !TryValidateIntegerConst(dataSchema, dataSchema.Value.Const, dataSchema.Value.Const))
@@ -2163,7 +2163,7 @@
             {
                 if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                 {
-                    errorReporter.ReportError($"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"The '{TDDataSchema.ConstName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.Const.TokenIndex);
                     hasError = true;
                 }
                 else if (!TryValidateBooleanConst(dataSchema, dataSchema.Value.Const, dataSchema.Value.Const))
@@ -2193,7 +2193,7 @@
         {
             if (dataSchemaKind != DataSchemaKind.Action && dataSchemaKind != DataSchemaKind.Event)
             {
-                errorReporter.ReportError($"A '{TDDataSchema.TypeName}' property value of '{TDValues.TypeNull}' is permitted only in the '{TDAction.InputName}' or '{TDAction.OutputName}' property value of an '{TDThing.ActionsName}' element or in the '{TDEvent.DataName}' property value of an '{TDThing.EventsName}' element.", dataSchema.Value.Type!.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"A '{TDDataSchema.TypeName}' property value of '{TDValues.TypeNull}' is permitted only in the '{TDAction.InputName}' or '{TDAction.OutputName}' property value of an '{TDThing.ActionsName}' element or in the '{TDEvent.DataName}' property value of an '{TDThing.EventsName}' element.", dataSchema.Value.Type!.TokenIndex);
                 return false;
             }
 

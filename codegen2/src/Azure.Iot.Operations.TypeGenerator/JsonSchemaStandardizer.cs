@@ -93,7 +93,7 @@
 
             if (schemaTracker.ValueKind != JsonValueKind.Object)
             {
-                errorReporter?.ReportError("JSON Schema definition has non-object value", schemaTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.JsonInvalid, "JSON Schema definition has non-object value", schemaTracker.TokenIndex);
                 return false;
             }
 
@@ -107,18 +107,18 @@
                 string? title = titleTracker.GetString();
                 if (titleTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(title))
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyTitle}' property has non-string or empty value", titleTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyTitle}' property has non-string or empty value", titleTracker.TokenIndex);
                     hasError = true;
                 }
                 else if (!this.typeNamer.SuppressTitles && !TitleRegex.IsMatch(title))
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyTitle}' property value \"{title}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters", titleTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyTitle}' property value \"{title}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters", titleTracker.TokenIndex);
                     hasError = true;
                 }
             }
             else if (isTopLevel)
             {
-                errorReporter?.ReportError($"JSON Schema file missing top-level '{JsonSchemaValues.PropertyTitle}' property", schemaTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyMissing, $"JSON Schema file missing top-level '{JsonSchemaValues.PropertyTitle}' property", schemaTracker.TokenIndex);
                 hasError = true;
             }
 
@@ -126,7 +126,7 @@
             {
                 if (descTracker.ValueKind != JsonValueKind.String)
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyDescription}' property has non-string value", descTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyDescription}' property has non-string value", descTracker.TokenIndex);
                     hasError = true;
                 }
             }
@@ -138,13 +138,13 @@
 
             if (!schemaTracker.TryGetProperty(JsonSchemaValues.PropertyType, out JsonTracker typeTracker))
             {
-                errorReporter?.ReportError($"JSON Schema definition has neither '{JsonSchemaValues.PropertyType}' nor '{JsonSchemaValues.PropertyRef}' property", schemaTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyMissing, $"JSON Schema definition has neither '{JsonSchemaValues.PropertyType}' nor '{JsonSchemaValues.PropertyRef}' property", schemaTracker.TokenIndex);
                 return false;
             }
 
             if (typeTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(typeTracker.GetString()))
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyType}' property has non-string or empty value", typeTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyType}' property has non-string or empty value", typeTracker.TokenIndex);
                 return false;
             }
 
@@ -169,7 +169,7 @@
                 case JsonSchemaValues.TypeBoolean:
                     return TryGetBooleanSchemaType(schemaTracker, orNull, errorReporter, out schemaType);
                 default:
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyType}' property has unrecognized value \"{typeTracker.GetString()}\"", typeTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.PropertyUnsupportedValue, $"JSON Schema '{JsonSchemaValues.PropertyType}' property has unrecognized value \"{typeTracker.GetString()}\"", typeTracker.TokenIndex);
                     return false;
             }
         }
@@ -183,13 +183,13 @@
 
             if (anyOfTracker.ValueKind != JsonValueKind.Array)
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property has non-array value", anyOfTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property has non-array value", anyOfTracker.TokenIndex);
                 return false;
             }
 
             if (anyOfTracker.GetArrayLength() != 2)
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property must have exactly two elements to represent a nullable type", anyOfTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property must have exactly two elements to represent a nullable type", anyOfTracker.TokenIndex);
                 return false;
             }
 
@@ -201,12 +201,12 @@
 
             if (firstIsNull && secondIsNull)
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property has two elements that both have type '{JsonSchemaValues.TypeNull}'", anyOfTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property has two elements that both have type '{JsonSchemaValues.TypeNull}'", anyOfTracker.TokenIndex);
                 return false;
             }
             if (!firstIsNull && !secondIsNull)
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property has two elements neither of which has type '{JsonSchemaValues.TypeNull}'", anyOfTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' property has two elements neither of which has type '{JsonSchemaValues.TypeNull}'", anyOfTracker.TokenIndex);
                 return false;
             }
 
@@ -221,17 +221,17 @@
 
             if (tracker.ValueKind != JsonValueKind.Object)
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' {ordinal} element is not a JSON object", tracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' {ordinal} element is not a JSON object", tracker.TokenIndex);
                 return false;
             }
             if (!tracker.TryGetProperty(JsonSchemaValues.PropertyType, out JsonTracker typeTracker))
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' {ordinal} element missing '{JsonSchemaValues.PropertyType}' property", tracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyMissing, $"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' {ordinal} element missing '{JsonSchemaValues.PropertyType}' property", tracker.TokenIndex);
                 return false;
             }
             if (typeTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(typeTracker.GetString()))
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' {ordinal} element '{JsonSchemaValues.PropertyType}' property has non-string or empty value", typeTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyAnyOf}' {ordinal} element '{JsonSchemaValues.PropertyType}' property has non-string or empty value", typeTracker.TokenIndex);
                 return false;
             }
             if (typeTracker.GetString() == JsonSchemaValues.TypeNull)
@@ -286,7 +286,7 @@
             {
                 if (refTypeTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(refTypeTracker.GetString()))
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyType}' property has non-string or empty value", refTypeTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyType}' property has non-string or empty value", refTypeTracker.TokenIndex);
                     return false;
                 }
 
@@ -332,7 +332,7 @@
                 {
                     if (schemaTracker.TryGetProperty(JsonSchemaValues.PropertyProperties, out _))
                     {
-                        errorReporter?.ReportError($"JSON Schema element has both a '{JsonSchemaValues.PropertyProperties}' property and an object-valued '{JsonSchemaValues.PropertyAdditionalProperties}' property -- intended type is ambiguous between Object and Map", schemaTracker.TokenIndex);
+                        errorReporter?.ReportError(ErrorCondition.ValuesInconsistent, $"JSON Schema element has both a '{JsonSchemaValues.PropertyProperties}' property and an object-valued '{JsonSchemaValues.PropertyAdditionalProperties}' property -- intended type is ambiguous between Object and Map", schemaTracker.TokenIndex);
                         return false;
                     }
 
@@ -367,7 +367,7 @@
                 }
                 else if (addlPropsTracker.ValueKind != JsonValueKind.False)
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyAdditionalProperties}' property must have a value that is either a JSON object or a literal false", addlPropsTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyAdditionalProperties}' property must have a value that is either a JSON object or a literal false", addlPropsTracker.TokenIndex);
                     return false;
                 }
             }
@@ -378,7 +378,7 @@
 
                 if (propertiesTracker.ValueKind != JsonValueKind.Object)
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyProperties}' property has non-object value", propertiesTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyProperties}' property has non-object value", propertiesTracker.TokenIndex);
                     return false;
                 }
 
@@ -387,7 +387,7 @@
                 {
                     if (requiredTracker.ValueKind != JsonValueKind.Array)
                     {
-                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyRequired}' property has non-array value", requiredTracker.TokenIndex);
+                        errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyRequired}' property has non-array value", requiredTracker.TokenIndex);
                         hasError = true;
                     }
                     else
@@ -397,12 +397,12 @@
                             string? reqName = reqTracker.GetString();
                             if (reqTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(reqName))
                             {
-                                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyRequired}' element in array has non-string or empty value", reqTracker.TokenIndex);
+                                errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyRequired}' element in array has non-string or empty value", reqTracker.TokenIndex);
                                 hasError = true;
                             }
                             else if (!propertiesTracker.TryGetProperty(reqName, out _))
                             {
-                                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyRequired}' element in array has value '{reqName}' that does not correspond to any property in '{JsonSchemaValues.PropertyProperties}' element", reqTracker.TokenIndex);
+                                errorReporter?.ReportError(ErrorCondition.ItemNotFound, $"JSON Schema '{JsonSchemaValues.PropertyRequired}' element in array has value '{reqName}' that does not correspond to any property in '{JsonSchemaValues.PropertyProperties}' element", reqTracker.TokenIndex);
                                 hasError = true;
                             }
                             else
@@ -489,7 +489,7 @@
                 return true;
             }
 
-            errorReporter?.ReportError($"JSON Schema element has neither a '{JsonSchemaValues.PropertyProperties}' property nor an object-valued '{JsonSchemaValues.PropertyAdditionalProperties}' property", schemaTracker.TokenIndex);
+            errorReporter?.ReportError(ErrorCondition.PropertyMissing, $"JSON Schema element has neither a '{JsonSchemaValues.PropertyProperties}' property nor an object-valued '{JsonSchemaValues.PropertyAdditionalProperties}' property", schemaTracker.TokenIndex);
             return false;
         }
 
@@ -508,12 +508,12 @@
 
             if (!schemaTracker.TryGetProperty(JsonSchemaValues.PropertyItems, out JsonTracker itemsTracker))
             {
-                errorReporter?.ReportError($"JSON Schema element has type '{JsonSchemaValues.TypeArray}' but no '{JsonSchemaValues.PropertyItems}' element", schemaTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyMissing, $"JSON Schema element has type '{JsonSchemaValues.TypeArray}' but no '{JsonSchemaValues.PropertyItems}' property", schemaTracker.TokenIndex);
                 hasError = true;
             }
             else if (itemsTracker.ValueKind != JsonValueKind.Object)
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyItems}' property has non-object value", itemsTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyItems}' property has non-object value", itemsTracker.TokenIndex);
                 hasError = true;
             }
 
@@ -568,7 +568,7 @@
                     modifierCount++;
                     if (formatTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(formatTracker.GetString()))
                     {
-                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has non-string or empty value", formatTracker.TokenIndex);
+                        errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has non-string or empty value", formatTracker.TokenIndex);
                         hasError = true;
                     }
                 }
@@ -577,7 +577,7 @@
                     modifierCount++;
                     if (encodingTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(encodingTracker.GetString()))
                     {
-                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyContentEncoding}' property has non-string or empty value", encodingTracker.TokenIndex);
+                        errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyContentEncoding}' property has non-string or empty value", encodingTracker.TokenIndex);
                         hasError = true;
                     }
                 }
@@ -586,14 +586,14 @@
                     modifierCount++;
                     if (patternTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(patternTracker.GetString()))
                     {
-                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyPattern}' property has non-string or empty value", patternTracker.TokenIndex);
+                        errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyPattern}' property has non-string or empty value", patternTracker.TokenIndex);
                         hasError = true;
                     }
                 }
 
                 if (modifierCount > 1)
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.TypeString}' type can have at most one of '{JsonSchemaValues.PropertyFormat}', '{JsonSchemaValues.PropertyContentEncoding}', or '{JsonSchemaValues.PropertyPattern}' properties", schemaTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.ValuesInconsistent, $"JSON Schema '{JsonSchemaValues.TypeString}' type can have at most one of '{JsonSchemaValues.PropertyFormat}', '{JsonSchemaValues.PropertyContentEncoding}', or '{JsonSchemaValues.PropertyPattern}' properties", schemaTracker.TokenIndex);
                     hasError = true;
                 }
 
@@ -635,7 +635,7 @@
                             schemaType = new UuidType(orNull);
                             return true;
                         default:
-                            errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has unrecognized value \"{formatTracker.GetString()}\"", formatTracker.TokenIndex);
+                            errorReporter?.ReportError(ErrorCondition.PropertyUnsupportedValue, $"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has unrecognized value \"{formatTracker.GetString()}\"", formatTracker.TokenIndex);
                             return false;
                     }
                 }
@@ -648,7 +648,7 @@
                             schemaType = new BytesType(orNull);
                             return true;
                         default:
-                            errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyContentEncoding}' property has unrecognized value \"{encodingTracker.GetString()}\"", encodingTracker.TokenIndex);
+                            errorReporter?.ReportError(ErrorCondition.PropertyUnsupportedValue, $"JSON Schema '{JsonSchemaValues.PropertyContentEncoding}' property has unrecognized value \"{encodingTracker.GetString()}\"", encodingTracker.TokenIndex);
                             return false;
                     }
                 }
@@ -661,7 +661,7 @@
                             schemaType = new DecimalType(orNull);
                             return true;
                         default:
-                            errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyPattern}' property has unprocessable value \"{patternTracker.GetString()}\"", patternTracker.TokenIndex);
+                            errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyPattern}' property has unprocessable value \"{patternTracker.GetString()}\"", patternTracker.TokenIndex);
                             return false;
                     }
                 }
@@ -673,7 +673,7 @@
             List<CodeName> enumValues = new();
             if (enumTracker.ValueKind != JsonValueKind.Array)
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyEnum}' property has non-array value", enumTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyEnum}' property has non-array value", enumTracker.TokenIndex);
                 hasError = true;
             }
             else
@@ -682,12 +682,12 @@
                 {
                     if (valueTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(valueTracker.GetString()))
                     {
-                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyEnum}' element in array has non-string or empty value", valueTracker.TokenIndex);
+                        errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyEnum}' element in array has non-string or empty value", valueTracker.TokenIndex);
                         hasError = true;
                     }
                     else if (!EnumValueRegex.IsMatch(valueTracker.GetString()!))
                     {
-                        errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyEnum}' element value \"{valueTracker.GetString()}\"must start with a letter and contain only alphanumerics and underscores", valueTracker.TokenIndex);
+                        errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyEnum}' element value \"{valueTracker.GetString()}\"must start with a letter and contain only alphanumerics and underscores", valueTracker.TokenIndex);
                         hasError = true;
                     }
                     else
@@ -743,17 +743,17 @@
             {
                 if (maxTracker.ValueKind != JsonValueKind.Number)
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMaximum}' property has non-numeric value", maxTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyMaximum}' property has non-numeric value", maxTracker.TokenIndex);
                     hasError = true;
                 }
                 else if (!double.IsInteger(maxTracker.GetDouble()))
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMaximum}' property has non-integer numeric value", maxTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyMaximum}' property has non-integer numeric value", maxTracker.TokenIndex);
                     hasError = true;
                 }
                 else if (maxTracker.GetDouble() < 0)
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMaximum}' property has negative value", maxTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyMaximum}' property has negative value", maxTracker.TokenIndex);
                     hasError = true;
                 }
                 else
@@ -766,17 +766,17 @@
             {
                 if (minTracker.ValueKind != JsonValueKind.Number)
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMinimum}' property has non-numeric value", minTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyMinimum}' property has non-numeric value", minTracker.TokenIndex);
                     hasError = true;
                 }
                 else if (!double.IsInteger(minTracker.GetDouble()))
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMinimum}' property has non-integer numeric value", minTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyMinimum}' property has non-integer numeric value", minTracker.TokenIndex);
                     hasError = true;
                 }
                 else if (minTracker.GetDouble() > 0)
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyMinimum}' property has positive value", minTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyMinimum}' property has positive value", minTracker.TokenIndex);
                     hasError = true;
                 }
                 else
@@ -828,7 +828,7 @@
             {
                 if (formatTracker.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(formatTracker.GetString()))
                 {
-                    errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has non-string or empty value", formatTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has non-string or empty value", formatTracker.TokenIndex);
                     hasError = true;
                 }
                 else
@@ -842,7 +842,7 @@
                             isDouble = true;
                             break;
                         default:
-                            errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has unrecognized value -- must be either '{JsonSchemaValues.FormatFloat}' or '{JsonSchemaValues.FormatDouble}'", formatTracker.TokenIndex);
+                            errorReporter?.ReportError(ErrorCondition.PropertyUnsupportedValue, $"JSON Schema '{JsonSchemaValues.PropertyFormat}' property has unrecognized value -- must be either '{JsonSchemaValues.FormatFloat}' or '{JsonSchemaValues.FormatDouble}'", formatTracker.TokenIndex);
                             hasError = true;
                             break;
                     }
@@ -900,13 +900,13 @@
 
             if (referencingTracker.ValueKind != JsonValueKind.String)
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyRef}' property has non-string value", referencingTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.JsonInvalid, $"JSON Schema '{JsonSchemaValues.PropertyRef}' property has non-string value", referencingTracker.TokenIndex);
                 return false;
             }
 
             if (string.IsNullOrEmpty(referencingTracker.GetString()))
             {
-                errorReporter?.ReportError($"JSON Schema '{JsonSchemaValues.PropertyRef}' property has empty string value", referencingTracker.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyEmpty, $"JSON Schema '{JsonSchemaValues.PropertyRef}' property has empty string value", referencingTracker.TokenIndex);
                 return false;
             }
 

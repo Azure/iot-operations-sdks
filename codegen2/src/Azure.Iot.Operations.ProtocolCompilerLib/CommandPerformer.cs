@@ -144,7 +144,7 @@
             }
             catch (Exception ex)
             {
-                AddUnlocatableError($"Exception: {ex.Message}", errorLog);
+                AddUnlocatableError(ErrorCondition.JsonInvalid, $"Exception: {ex.Message}", errorLog);
                 return errorLog;
             }
 
@@ -220,7 +220,7 @@
             FileInfo namerFile = new FileInfo(Path.Combine(folderPath, namerFilename.Value.Value));
             if (!namerFile.Exists)
             {
-                errorReporter.ReportError($"Could not find schema naming file '{namerFilename.Value.Value}'.", namerFilename.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Could not find schema naming file '{namerFilename.Value.Value}'.", namerFilename.TokenIndex);
 
                 schemaNamer = null;
                 return false;
@@ -235,7 +235,7 @@
             }
             catch (Exception ex)
             {
-                errorReporter.ReportError($"Failed to parse schema naming file '{namerFilename.Value.Value}': {ex.Message}", namerFilename.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.JsonInvalid, $"Failed to parse schema naming file '{namerFilename.Value.Value}': {ex.Message}", namerFilename.TokenIndex);
                 schemaNamer = null;
                 return false;
             }
@@ -262,7 +262,7 @@
                 {
                     if (item is ISourceTracker tracker && tracker.DeserializingFailed)
                     {
-                        errorReporter.ReportError($"TD deserialization error: {tracker.DeserializationError ?? string.Empty}.", tracker.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.JsonInvalid, $"TD deserialization error: {tracker.DeserializationError ?? string.Empty}.", tracker.TokenIndex);
                         hasError = true;
                     }
 
@@ -324,20 +324,20 @@
 
             if (!anyThingFiles && !anySchemaFiles)
             {
-                AddUnlocatableError($"No Thing Description files specified, and no schema files {(options.SchemaFiles.Length > 0 ? "found" : "specified")}.  Use option --help for CLI usage and options.", errorLog);
+                AddUnlocatableError(ErrorCondition.ElementMissing, $"No Thing Description files specified, and no schema files {(options.SchemaFiles.Length > 0 ? "found" : "specified")}.  Use option --help for CLI usage and options.", errorLog);
                 return;
             }
 
             if (!SupportedLanguages.Contains(options.Language))
             {
                 string langCondition = string.IsNullOrEmpty(options.Language) ? "language not specified" : $"language '{options.Language}' not recognized";
-                AddUnlocatableError($"{langCondition}; language must be {string.Join(" or ", SupportedLanguages.Select(l => $"'{l}'"))} (use 'none' for no code generation)", errorLog);
+                AddUnlocatableError(ErrorCondition.PropertyUnsupportedValue, $"{langCondition}; language must be {string.Join(" or ", SupportedLanguages.Select(l => $"'{l}'"))} (use 'none' for no code generation)", errorLog);
                 return;
             }
 
             if (options.ClientOnly && options.ServerOnly)
             {
-                AddUnlocatableError("options --clientOnly and --serverOnly are mutually exclusive", errorLog);
+                AddUnlocatableError(ErrorCondition.ValuesInconsistent, "options --clientOnly and --serverOnly are mutually exclusive", errorLog);
                 return;
             }
 
@@ -345,7 +345,7 @@
             {
                 foreach (FileInfo f in options.ThingFiles.Where(tf => !tf.Exists))
                 {
-                    AddUnlocatableError($"Non-existent Thing Description file: {f.FullName}", errorLog);
+                    AddUnlocatableError(ErrorCondition.ItemNotFound, $"Non-existent Thing Description file: {f.FullName}", errorLog);
                 }
                 return;
             }
@@ -375,14 +375,14 @@
             }
         }
 
-        private static void AddUnlocatableError(string message, ErrorLog errorLog)
+        private static void AddUnlocatableError(ErrorCondition condition, string message, ErrorLog errorLog)
         {
-            errorLog.AddError(ErrorLevel.Error, message, string.Empty, 0);
+            errorLog.AddError(ErrorLevel.Error, condition, message, string.Empty, 0);
         }
 
         private static void AddUnlocatableWarning(string message, ErrorLog errorLog)
         {
-            errorLog.AddError(ErrorLevel.Warning, message, string.Empty, 0);
+            errorLog.AddError(ErrorLevel.Warning, ErrorCondition.None, message, string.Empty, 0);
         }
     }
 }
