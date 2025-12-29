@@ -564,8 +564,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // TODO remove this once akri service is code gen'd to expect srcId instead of invId
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
-                string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
-                requestMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+                _ = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
                 await using var hlcClone = new HybridLogicalClock(_applicationContext.ApplicationHlc);
                 if (metadata != null)
                 {
