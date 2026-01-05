@@ -112,7 +112,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string? DocumentationUri { get; set; } = default;
 
         /// <summary>
-        /// Array of events that are part of the asset. Each event can have per-event configuration.
+        /// Array of event groups that are part of the asset. Each event group can have per-event group configuration.
         /// </summary>
         [JsonPropertyName("eventGroups")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
