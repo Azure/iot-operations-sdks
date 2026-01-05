@@ -39,7 +39,6 @@ enum-iterator = { version = "2", default-features = false }
 futures-executor = { version = "0.3", default-features = false, features = [
     "std", # for futures_executor::block_on
 ] }
-futures-sink = { version = "0.3", default-features = false }
 futures-util = { version = "0.3", default-features = false, features = [
     "std", # for futures_util::future::Shared
 ] }
