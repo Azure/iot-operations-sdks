@@ -58,7 +58,7 @@ async fn health_sender_run<T: HealthComponent>(
             Err(e) => {
                 // Handle error (e.g., log it)
                 log::warn!("Failed to report health status: {:?}", e);
-                // TODO: retry? Retries now done by not saving this as the last_reported_time
+                // TODO: retry? Retries now done by not saving this as the last_reported_time - should this factor into the sleep time?
             }
         }
         tokio::select! {
@@ -142,12 +142,11 @@ impl HealthComponent for DataOperationRef {
             DataOperationName::Dataset { name } => {
                 connector_context
                     .azure_device_registry_client
-                    .report_dataset_runtime_health_event(
+                    .report_dataset_runtime_health_events(
                         self.device_name.clone(),
                         self.inbound_endpoint_name.clone(),
                         self.asset_name.clone(),
-                        name.clone(),
-                        status,
+                        vec![(name.clone(), status)],
                         connector_context.azure_device_registry_timeout,
                     )
                     .await
