@@ -1148,14 +1148,84 @@ impl Client {
         Ok(response.payload.updated_asset_status.into())
     }
 
-    /// Reports a Dataset's runtime health status to the Azure Device Registry service.
+    // /// Reports a Dataset's runtime health status to the Azure Device Registry service.
+    // ///
+    // /// # Arguments
+    // /// * `device_name` - The name of the device.
+    // /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    // /// * `asset_name` - The name of the asset.
+    // /// * `dataset_name` - The name of the dataset.
+    // /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the dataset.
+    // /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    // ///
+    // /// # Errors
+    // /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
+    // /// if message_expiry is 0 or > `u32::max`.
+    // ///
+    // /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    // /// - device or inbound endpoint names are invalid.
+    // /// - there are any underlying errors from the AIO Telemetry protocol.
+    // ///
+    // /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    // /// if the asset or dataset name is empty.
+    // pub async fn report_dataset_runtime_health_event(
+    //     &self,
+    //     device_name: String,
+    //     inbound_endpoint_name: String,
+    //     asset_name: String,
+    //     dataset_name: String,
+    //     runtime_health: RuntimeHealth,
+    //     message_expiry: Duration,
+    // ) -> Result<(), Error> {
+    //     if asset_name.trim().is_empty() {
+    //         return Err(Error(ErrorKind::ValidationError(
+    //             "asset_name must not be empty".to_string(),
+    //         )));
+    //     }
+    //     if dataset_name.trim().is_empty() {
+    //         return Err(Error(ErrorKind::ValidationError(
+    //             "dataset_name must not be empty".to_string(),
+    //         )));
+    //     }
+
+    //     let payload = base_service_gen::DatasetRuntimeHealthEventTelemetry {
+    //         dataset_runtime_health_event: base_service_gen::DatasetRuntimeHealthEventSchema {
+    //             asset_name,
+    //             datasets: vec![base_service_gen::DatasetsSchemaElementSchema {
+    //                 dataset_name,
+    //                 runtime_health: runtime_health.into(),
+    //             }],
+    //         },
+    //     };
+
+    //     let health_status_message =
+    //         base_service_gen::DatasetRuntimeHealthEventTelemetryMessageBuilder::default()
+    //             .payload(payload)
+    //             .map_err(ErrorKind::from)?
+    //             .topic_tokens(Self::get_base_service_topic_tokens(
+    //                 device_name,
+    //                 inbound_endpoint_name,
+    //             ))
+    //             .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+    //             .build()
+    //             .map_err(ErrorKind::from)?;
+    //     Ok(self
+    //         .dataset_health_telemetry_sender
+    //         .send(health_status_message)
+    //         .await
+    //         .map_err(ErrorKind::from)?)
+    // }
+
+    /// Reports Datasets' runtime health statuses to the Azure Device Registry service.
+    /// Note: Reporting multiple dataset statuses in a single call has the same effect
+    /// as reporting them individually, but reduced network calls. Duplicate dataset names
+    /// in the `runtime_healths` vector will result in undefined behavior.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `dataset_name` - The name of the dataset.
-    /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the dataset.
+    /// * `runtime_healths` - A vector of tuples containing dataset names and their corresponding [`RuntimeHealth`] containing all runtime health information for the datasets.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -1168,13 +1238,12 @@ impl Client {
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if the asset or dataset name is empty.
-    pub async fn report_dataset_runtime_health_event(
+    pub async fn report_dataset_runtime_health_events(
         &self,
         device_name: String,
         inbound_endpoint_name: String,
         asset_name: String,
-        dataset_name: String,
-        runtime_health: RuntimeHealth,
+        runtime_healths: Vec<(String, RuntimeHealth)>,
         message_expiry: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
@@ -1182,19 +1251,28 @@ impl Client {
                 "asset_name must not be empty".to_string(),
             )));
         }
-        if dataset_name.trim().is_empty() {
-            return Err(Error(ErrorKind::ValidationError(
-                "dataset_name must not be empty".to_string(),
-            )));
+        // If there are no health statuses to report, this is a no-op
+        if runtime_healths.is_empty() {
+            return Ok(());
+        }
+
+        let mut dataset_statuses = Vec::with_capacity(runtime_healths.len());
+        for (dataset_name, runtime_health) in runtime_healths {
+            if dataset_name.trim().is_empty() {
+                return Err(Error(ErrorKind::ValidationError(
+                    "dataset_name must not be empty".to_string(),
+                )));
+            }
+            dataset_statuses.push(base_service_gen::DatasetsSchemaElementSchema {
+                dataset_name: dataset_name,
+                runtime_health: runtime_health.into(),
+            });
         }
 
         let payload = base_service_gen::DatasetRuntimeHealthEventTelemetry {
             dataset_runtime_health_event: base_service_gen::DatasetRuntimeHealthEventSchema {
                 asset_name,
-                datasets: vec![base_service_gen::DatasetsSchemaElementSchema {
-                    dataset_name,
-                    runtime_health: runtime_health.into(),
-                }],
+                datasets: dataset_statuses,
             },
         };
 
