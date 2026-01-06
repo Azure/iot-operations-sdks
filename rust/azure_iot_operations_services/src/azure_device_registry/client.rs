@@ -1219,7 +1219,7 @@ impl Client {
     /// Reports Datasets' runtime health statuses to the Azure Device Registry service.
     /// Note: Reporting multiple dataset statuses in a single call has the same effect
     /// as reporting them individually, but reduced network calls. Duplicate dataset names
-    /// in the `runtime_healths` vector will result in undefined behavior.
+    /// in the `runtime_healths` vector will result in the latest (by version and timestamp) entry being used
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
