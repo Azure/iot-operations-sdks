@@ -63,7 +63,7 @@ pub struct DeviceEndpointStatusReporter {
     connector_context: Arc<ConnectorContext>,
     device_endpoint_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     device_endpoint_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
-    health_tx: UnboundedSender<RuntimeHealth>,
+    health_tx: UnboundedSender<Option<RuntimeHealth>>,
     device_endpoint_ref: DeviceEndpointRef,
 }
 
@@ -74,7 +74,7 @@ impl DeviceEndpointStatusReporter {
     /// okay to call this function frequently. It is required to call this function any time
     /// the health status changes to ensure that the service has the latest information.
     /// If the health status does not change, the underlying client will report the last known
-    /// health status at the base connector `health_report_interval`'s frequency at minimum.
+    /// health status at the base connector `health_report_interval`'s frequency unless `reset_health_status` is called.
     pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
         let version = match self.device_endpoint_specification.read().unwrap().version {
             Some(v) => v,
@@ -93,7 +93,13 @@ impl DeviceEndpointStatusReporter {
             status: health_status.status,
             version,
         };
-        if let Err(_e) = self.health_tx.send(runtime_health) {
+        if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
+            log::warn!("Health status receiver closed")
+        };
+    }
+
+    pub fn reset_health_status(&self) {
+        if let Err(_e) = self.health_tx.send(None) {
             log::warn!("Health status receiver closed")
         };
     }
@@ -603,7 +609,7 @@ pub struct DeviceEndpointClient {
     pending_asset_creation: bool,
     /// Channel for sending health status updates
     #[getter(skip)]
-    health_tx: UnboundedSender<RuntimeHealth>,
+    health_tx: UnboundedSender<Option<RuntimeHealth>>,
     /// Channels for sending and receiving completed asset clients.
     /// This is used to ensure that we only process one asset creation at a time
     #[getter(skip)]
@@ -1932,7 +1938,7 @@ pub struct DataOperationStatusReporter {
     connector_context: Arc<ConnectorContext>,
     asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
     asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
-    health_tx: UnboundedSender<RuntimeHealth>,
+    health_tx: UnboundedSender<Option<RuntimeHealth>>,
     data_operation_ref: DataOperationRef,
     asset_ref: AssetRef,
 }
@@ -1944,7 +1950,7 @@ impl DataOperationStatusReporter {
     /// okay to call this function frequently. It is required to call this function any time
     /// the health status changes to ensure that the service has the latest information.
     /// If the health status does not change, the underlying client will report the last known
-    /// health status at the base connector `health_report_interval`'s frequency at minimum.
+    /// health status at the base connector `health_report_interval`'s frequency at minimum unless `reset_health_status` is called.
     pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
         let version = match self.asset_specification.read().unwrap().version {
             Some(v) => v,
@@ -1963,7 +1969,13 @@ impl DataOperationStatusReporter {
             status: health_status.status,
             version,
         };
-        if let Err(_e) = self.health_tx.send(runtime_health) {
+        if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
+            log::warn!("Health status receiver closed")
+        };
+    }
+
+    pub fn reset_health_status(&self) {
+        if let Err(_e) = self.health_tx.send(None) {
             log::warn!("Health status receiver closed")
         };
     }
@@ -2209,7 +2221,7 @@ pub struct DataOperationClient {
     data_operation_update_watcher_rx: watch::Receiver<DataOperationUpdateNotification>,
     /// Channel for sending health status updates
     #[getter(skip)]
-    health_tx: UnboundedSender<RuntimeHealth>,
+    health_tx: UnboundedSender<Option<RuntimeHealth>>,
 }
 
 impl DataOperationClient {

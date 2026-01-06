@@ -179,6 +179,7 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                 break;
             }
             ClientNotification::Updated => {
+                device_endpoint_reporter.reset_health_status();
                 log::info!("{log_identifier} Device updated: {device_endpoint_client:?}");
 
                 // Update device status - usually only on first report or error changes
@@ -202,6 +203,12 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                 {
                     log::error!("{log_identifier} Error reporting endpoint status: {e}");
                 }
+                // TODO: move this to a better place
+                device_endpoint_reporter.report_health_status(RuntimeHealthStatus {
+                    message: None,
+                    reason_code: None,
+                    status: HealthStatus::Available,
+                });
             }
             ClientNotification::Created(asset_client) => {
                 let asset_log_identifier =
@@ -324,6 +331,7 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
             biased;
             // Listen for a dataset update notifications
             res = data_operation_client.recv_notification() => {
+                data_operation_reporter.reset_health_status();
                 match res {
                     DataOperationNotification::Updated => {
                         log::info!("{log_identifier} Dataset updated: {data_operation_client:?}");
