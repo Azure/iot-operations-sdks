@@ -16,6 +16,7 @@ use azure_iot_operations_connector::{
     AdrConfigError, Data, DataOperationKind,
     base_connector::{
         self, BaseConnector,
+        health_status::RuntimeHealthStatus,
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
             DeviceEndpointClient, DeviceEndpointClientCreationObservation, SchemaModifyResult,
@@ -25,7 +26,7 @@ use azure_iot_operations_connector::{
     deployment_artifacts::connector::ConnectorArtifacts,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::azure_device_registry;
+use azure_iot_operations_services::azure_device_registry::{self, HealthStatus};
 
 /// Only reports status on first time (None) and when changing from OK to Error.
 /// Skips reporting when status has already been reported and hasn't changed.
@@ -163,6 +164,13 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
     {
         log::error!("{log_identifier} Error reporting endpoint status: {e}");
     }
+
+    // TODO: move this to a better place
+    device_endpoint_reporter.report_health_status(RuntimeHealthStatus {
+        message: None,
+        reason_code: None,
+        status: HealthStatus::Available,
+    });
 
     loop {
         match device_endpoint_client.recv_notification().await {

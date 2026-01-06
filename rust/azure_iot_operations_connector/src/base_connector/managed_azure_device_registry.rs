@@ -7,7 +7,7 @@ use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Ar
 
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self,
+        self, RuntimeHealth,
         models::{self as adr_models, Asset},
     },
     schema_registry,
@@ -22,7 +22,10 @@ use tokio_util::sync::CancellationToken;
 use crate::{
     AdrConfigError, Data, DataOperationKind, DataOperationName, DataOperationRef, MessageSchema,
     MessageSchemaReference,
-    base_connector::ConnectorContext,
+    base_connector::{
+        ConnectorContext,
+        health_status::{self, RuntimeHealthStatus},
+    },
     deployment_artifacts::{
         self,
         azure_device_registry::{AssetRef, DeviceEndpointRef},
@@ -60,10 +63,34 @@ pub struct DeviceEndpointStatusReporter {
     connector_context: Arc<ConnectorContext>,
     device_endpoint_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     device_endpoint_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
+    health_tx: UnboundedSender<RuntimeHealth>,
     device_endpoint_ref: DeviceEndpointRef,
 }
 
 impl DeviceEndpointStatusReporter {
+    pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
+        let version = match self.device_endpoint_specification.read().unwrap().version {
+            Some(v) => v,
+            None => {
+                log::warn!(
+                    "Cannot report health status for {:?} because device specification version is None",
+                    self.device_endpoint_ref
+                );
+                return;
+            }
+        };
+        let runtime_health = RuntimeHealth {
+            last_update_time: Utc::now(),
+            message: health_status.message,
+            reason_code: health_status.reason_code,
+            status: health_status.status,
+            version,
+        };
+        if let Err(_e) = self.health_tx.send(runtime_health) {
+            log::warn!("Health status receiver closed")
+        };
+    }
+
     /// Used to conditionally report the device status and then updates the device with the new status returned.
     ///
     /// The `modify` function is called with the current device status (if any) and should return:
@@ -567,6 +594,9 @@ pub struct DeviceEndpointClient {
     /// Flag to track if asset creation is in progress
     #[getter(skip)]
     pending_asset_creation: bool,
+    /// Channel for sending health status updates
+    #[getter(skip)]
+    health_tx: UnboundedSender<RuntimeHealth>,
     /// Channels for sending and receiving completed asset clients.
     /// This is used to ensure that we only process one asset creation at a time
     #[getter(skip)]
@@ -588,6 +618,10 @@ impl DeviceEndpointClient {
     ) -> Result<Self, String> {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
 
+        let health_tx = health_status::new_health_sender(
+            connector_context.clone(),
+            device_endpoint_ref.clone(),
+        );
         Ok(DeviceEndpointClient {
             specification: Arc::new(std::sync::RwLock::new(DeviceSpecification::new(
                 device,
@@ -605,6 +639,7 @@ impl DeviceEndpointClient {
             device_update_observation,
             asset_create_observation,
             pending_asset_creation: false,
+            health_tx,
             asset_completion_rx,
             asset_completion_tx,
             connector_context,
@@ -724,6 +759,7 @@ impl DeviceEndpointClient {
             connector_context: self.connector_context.clone(),
             device_endpoint_status: self.status.clone(),
             device_endpoint_specification: self.specification.clone(),
+            health_tx: self.health_tx.clone(),
             device_endpoint_ref: self.device_endpoint_ref.clone(),
         }
     }
