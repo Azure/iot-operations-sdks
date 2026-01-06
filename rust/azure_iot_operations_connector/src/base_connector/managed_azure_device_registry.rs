@@ -68,6 +68,13 @@ pub struct DeviceEndpointStatusReporter {
 }
 
 impl DeviceEndpointStatusReporter {
+    /// This function is used to report the current runtime health status of the Endpoint.
+    ///
+    /// NOTE: This will only report the health status to the service if needed, so it is
+    /// okay to call this function frequently. It is required to call this function any time
+    /// the health status changes to ensure that the service has the latest information.
+    /// If the health status does not change, the underlying client will report the last known
+    /// health status at the base connector `health_report_interval`'s frequency at minimum.
     pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
         let version = match self.device_endpoint_specification.read().unwrap().version {
             Some(v) => v,
@@ -1925,11 +1932,42 @@ pub struct DataOperationStatusReporter {
     connector_context: Arc<ConnectorContext>,
     asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
     asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
+    health_tx: UnboundedSender<RuntimeHealth>,
     data_operation_ref: DataOperationRef,
     asset_ref: AssetRef,
 }
 
 impl DataOperationStatusReporter {
+    /// This function is used to report the current runtime health status of the data operation.
+    ///
+    /// NOTE: This will only report the health status to the service if needed, so it is
+    /// okay to call this function frequently. It is required to call this function any time
+    /// the health status changes to ensure that the service has the latest information.
+    /// If the health status does not change, the underlying client will report the last known
+    /// health status at the base connector `health_report_interval`'s frequency at minimum.
+    pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
+        let version = match self.asset_specification.read().unwrap().version {
+            Some(v) => v,
+            None => {
+                log::warn!(
+                    "Cannot report health status for {:?} because asset specification version is None",
+                    self.data_operation_ref
+                );
+                return;
+            }
+        };
+        let runtime_health = RuntimeHealth {
+            last_update_time: Utc::now(),
+            message: health_status.message,
+            reason_code: health_status.reason_code,
+            status: health_status.status,
+            version,
+        };
+        if let Err(_e) = self.health_tx.send(runtime_health) {
+            log::warn!("Health status receiver closed")
+        };
+    }
+
     /// Used to conditionally report the data operation status and then updates the asset with the new status returned.
     ///
     /// The `modify` function is called with the current data operation status (if any) and should return:
@@ -2169,6 +2207,9 @@ pub struct DataOperationClient {
     /// fully processed or not.
     #[getter(skip)]
     data_operation_update_watcher_rx: watch::Receiver<DataOperationUpdateNotification>,
+    /// Channel for sending health status updates
+    #[getter(skip)]
+    health_tx: UnboundedSender<RuntimeHealth>,
 }
 
 impl DataOperationClient {
@@ -2252,6 +2293,8 @@ impl DataOperationClient {
         .inspect_err(|e| {
             log::error!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
         })?;
+        let health_tx =
+            health_status::new_health_sender(connector_context.clone(), data_operation_ref.clone());
         Ok(Self {
             data_operation_ref,
             definition,
@@ -2263,6 +2306,7 @@ impl DataOperationClient {
             connector_context,
             asset_ref,
             data_operation_update_watcher_rx,
+            health_tx,
         })
     }
 
@@ -2930,6 +2974,7 @@ impl DataOperationClient {
             connector_context: self.connector_context.clone(),
             asset_status: self.asset_status.clone(),
             asset_specification: self.asset_specification.clone(),
+            health_tx: self.health_tx.clone(),
             data_operation_ref: self.data_operation_ref.clone(),
             asset_ref: self.asset_ref.clone(),
         }

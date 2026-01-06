@@ -62,6 +62,12 @@ pub struct Client {
     get_asset_command_invoker: Arc<base_client_gen::GetAssetCommandInvoker>,
     get_asset_status_command_invoker: Arc<base_client_gen::GetAssetStatusCommandInvoker>,
     update_asset_status_command_invoker: Arc<base_client_gen::UpdateAssetStatusCommandInvoker>,
+    dataset_health_telemetry_sender:
+        Arc<base_service_gen::DatasetRuntimeHealthEventTelemetrySender>,
+    event_health_telemetry_sender: Arc<base_service_gen::EventRuntimeHealthEventTelemetrySender>,
+    stream_health_telemetry_sender: Arc<base_service_gen::StreamRuntimeHealthEventTelemetrySender>,
+    management_action_health_telemetry_sender:
+        Arc<base_service_gen::ManagementActionRuntimeHealthEventTelemetrySender>,
     notify_on_asset_update_command_invoker:
         Arc<base_client_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker>,
     create_or_update_discovered_asset_command_invoker:
@@ -230,6 +236,34 @@ impl Client {
                     application_context.clone(),
                     client.clone(),
                     &command_options_base,
+                ),
+            ),
+            dataset_health_telemetry_sender: Arc::new(
+                base_service_gen::DatasetRuntimeHealthEventTelemetrySender::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &telemetry_sender_options,
+                ),
+            ),
+            event_health_telemetry_sender: Arc::new(
+                base_service_gen::EventRuntimeHealthEventTelemetrySender::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &telemetry_sender_options,
+                ),
+            ),
+            stream_health_telemetry_sender: Arc::new(
+                base_service_gen::StreamRuntimeHealthEventTelemetrySender::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &telemetry_sender_options,
+                ),
+            ),
+            management_action_health_telemetry_sender: Arc::new(
+                base_service_gen::ManagementActionRuntimeHealthEventTelemetrySender::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &telemetry_sender_options,
                 ),
             ),
             notify_on_asset_update_command_invoker: Arc::new(
@@ -1112,6 +1146,297 @@ impl Client {
             .map_err(ErrorKind::from)?;
 
         Ok(response.payload.updated_asset_status.into())
+    }
+
+    /// Reports a Dataset's runtime health status to the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `dataset_name` - The name of the dataset.
+    /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the dataset.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
+    /// if message_expiry is 0 or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO Telemetry protocol.
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the asset or dataset name is empty.
+    pub async fn report_dataset_runtime_health_event(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        dataset_name: String,
+        runtime_health: RuntimeHealth,
+        message_expiry: Duration,
+    ) -> Result<(), Error> {
+        if asset_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "asset_name must not be empty".to_string(),
+            )));
+        }
+        if dataset_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "dataset_name must not be empty".to_string(),
+            )));
+        }
+
+        let payload = base_service_gen::DatasetRuntimeHealthEventTelemetry {
+            dataset_runtime_health_event: base_service_gen::DatasetRuntimeHealthEventSchema {
+                asset_name,
+                datasets: vec![base_service_gen::DatasetsSchemaElementSchema {
+                    dataset_name,
+                    runtime_health: runtime_health.into(),
+                }],
+            },
+        };
+
+        let health_status_message =
+            base_service_gen::DatasetRuntimeHealthEventTelemetryMessageBuilder::default()
+                .payload(payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_base_service_topic_tokens(
+                    device_name,
+                    inbound_endpoint_name,
+                ))
+                .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+                .build()
+                .map_err(ErrorKind::from)?;
+        Ok(self
+            .dataset_health_telemetry_sender
+            .send(health_status_message)
+            .await
+            .map_err(ErrorKind::from)?)
+    }
+
+    /// Reports an Event's runtime health status to the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `event_group_name` - The name of the event group.
+    /// * `event_name` - The name of the event.
+    /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the event.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
+    /// if message_expiry is 0 or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO Telemetry protocol.
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the asset, event group, or event name is empty.
+    pub async fn report_event_runtime_health_event(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        event_group_name: String,
+        event_name: String,
+        runtime_health: RuntimeHealth,
+        message_expiry: Duration,
+    ) -> Result<(), Error> {
+        if asset_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "asset_name must not be empty".to_string(),
+            )));
+        }
+        if event_group_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "event_group_name must not be empty".to_string(),
+            )));
+        }
+        if event_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "event_name must not be empty".to_string(),
+            )));
+        }
+
+        let payload = base_service_gen::EventRuntimeHealthEventTelemetry {
+            event_runtime_health_event: base_service_gen::EventRuntimeHealthEventSchema {
+                asset_name,
+                events: vec![base_service_gen::EventsSchemaElementSchema {
+                    event_group_name,
+                    event_name,
+                    runtime_health: runtime_health.into(),
+                }],
+            },
+        };
+
+        let health_status_message =
+            base_service_gen::EventRuntimeHealthEventTelemetryMessageBuilder::default()
+                .payload(payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_base_service_topic_tokens(
+                    device_name,
+                    inbound_endpoint_name,
+                ))
+                .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+                .build()
+                .map_err(ErrorKind::from)?;
+        Ok(self
+            .event_health_telemetry_sender
+            .send(health_status_message)
+            .await
+            .map_err(ErrorKind::from)?)
+    }
+
+    /// Reports a Stream's runtime health status to the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `stream_name` - The name of the stream.
+    /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the stream.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
+    /// if message_expiry is 0 or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO Telemetry protocol.
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the asset or stream name is empty.
+    pub async fn report_stream_runtime_health_event(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        stream_name: String,
+        runtime_health: RuntimeHealth,
+        message_expiry: Duration,
+    ) -> Result<(), Error> {
+        if asset_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "asset_name must not be empty".to_string(),
+            )));
+        }
+        if stream_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "stream_name must not be empty".to_string(),
+            )));
+        }
+
+        let payload = base_service_gen::StreamRuntimeHealthEventTelemetry {
+            stream_runtime_health_event: base_service_gen::StreamRuntimeHealthEventSchema {
+                asset_name,
+                streams: vec![base_service_gen::StreamsSchemaElementSchema {
+                    stream_name,
+                    runtime_health: runtime_health.into(),
+                }],
+            },
+        };
+
+        let health_status_message =
+            base_service_gen::StreamRuntimeHealthEventTelemetryMessageBuilder::default()
+                .payload(payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_base_service_topic_tokens(
+                    device_name,
+                    inbound_endpoint_name,
+                ))
+                .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+                .build()
+                .map_err(ErrorKind::from)?;
+        Ok(self
+            .stream_health_telemetry_sender
+            .send(health_status_message)
+            .await
+            .map_err(ErrorKind::from)?)
+    }
+
+    /// Reports a Management Action's runtime health status to the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `management_group_name` - The name of the management group.
+    /// * `management_action_name` - The name of the management action.
+    /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the management action.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
+    /// if message_expiry is 0 or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO Telemetry protocol.
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the asset, management group, or management action name is empty.
+    pub async fn report_management_action_runtime_health_event(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        management_group_name: String,
+        management_action_name: String,
+        runtime_health: RuntimeHealth,
+        message_expiry: Duration,
+    ) -> Result<(), Error> {
+        if asset_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "asset_name must not be empty".to_string(),
+            )));
+        }
+        if management_group_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "management_group_name must not be empty".to_string(),
+            )));
+        }
+        if management_action_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "management_action_name must not be empty".to_string(),
+            )));
+        }
+
+        let payload = base_service_gen::ManagementActionRuntimeHealthEventTelemetry {
+            management_action_runtime_health_event:
+                base_service_gen::ManagementActionRuntimeHealthEventSchema {
+                    asset_name,
+                    management_actions: vec![
+                        base_service_gen::ManagementActionsSchemaElementSchema {
+                            management_group_name,
+                            management_action_name,
+                            runtime_health: runtime_health.into(),
+                        },
+                    ],
+                },
+        };
+
+        let health_status_message =
+            base_service_gen::ManagementActionRuntimeHealthEventTelemetryMessageBuilder::default()
+                .payload(payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_base_service_topic_tokens(
+                    device_name,
+                    inbound_endpoint_name,
+                ))
+                .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+                .build()
+                .map_err(ErrorKind::from)?;
+        Ok(self
+            .management_action_health_telemetry_sender
+            .send(health_status_message)
+            .await
+            .map_err(ErrorKind::from)?)
     }
 
     /// Starts observation of an [`Asset`]'s updates from the Azure Device Registry service.

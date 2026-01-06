@@ -388,6 +388,11 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                     }
                     Err(e) => {
                         log::error!("{log_identifier} Error reporting message schema: {e}");
+                        data_operation_reporter.report_health_status(RuntimeHealthStatus {
+                            message: None,
+                            reason_code: Some("SchemaReportErr".to_string()),
+                            status: HealthStatus::Unavailable,
+                        });
                         continue; // Can't forward data without a schema reported
                     }
                 }
@@ -398,8 +403,20 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                             "{log_identifier} data {count} forwarded"
                         );
                         count += 1;
+                        data_operation_reporter.report_health_status(RuntimeHealthStatus {
+                            message: None,
+                            reason_code: None,
+                            status: HealthStatus::Available,
+                        });
                     }
-                    Err(e) => log::error!("{log_identifier} error forwarding data: {e}"),
+                    Err(e) => {
+                        log::error!("{log_identifier} error forwarding data: {e}");
+                        data_operation_reporter.report_health_status(RuntimeHealthStatus {
+                            message: None,
+                            reason_code: Some("DataForwardErr".to_string()),
+                            status: HealthStatus::Unavailable,
+                        });
+                    },
                 }
             }
         }
