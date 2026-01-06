@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringReadOnly.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "SchemaDefinitionStringReadOnly.TD.json",
+      "line": 19,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

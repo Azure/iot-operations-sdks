@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringContentEncodingUnsupportedValue.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "SchemaDefinitionStringContentEncodingUnsupportedValue.TD.json",
+      "line": 19,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

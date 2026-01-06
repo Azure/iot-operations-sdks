@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/ActionFormTopicTokenConsumerId.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "ActionFormTopicTokenConsumerId.TD.json",
+      "line": 22,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

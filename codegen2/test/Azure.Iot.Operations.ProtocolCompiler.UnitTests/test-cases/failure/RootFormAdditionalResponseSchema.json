@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/RootFormAdditionalResponseSchema.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "RootFormAdditionalResponseSchema.TD.json",
+      "line": 30,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "id": "dtmi:test:Noop;1",
+  "title": "Noop",
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": [
+    "nosec_sc"
+  ],
+  "actions": {
+    "peek": {
+      "output": {
+        "type": "object",
+        "properties": {
+          "outVal": {
+            "type": "string"
+          }
+        }
+      },
+      "forms": [
+        {
+          "href": "dtmi:test:ProtocolCompiler:peek;1",
+          "contentType": "application/octet-stream",
+          "dtv:topic": "sample/peek/{executorId}",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/PropertyFormOplessAdditionalResponsesNoTopicAndRootFormReadAllWithoutAdditionalResponses.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Unusable",
+      "filename": "PropertyFormOplessAdditionalResponsesNoTopicAndRootFormReadAllWithoutAdditionalResponses.TD.json",
+      "line": 40,
+      "cfLine": 26,
+      "crossRef": ""
+    }
+  ]
+}

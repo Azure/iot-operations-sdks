@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidThing/TitleNotString.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "JsonInvalid",
+      "filename": "TitleNotString.TD.json",
+      "line": 7,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

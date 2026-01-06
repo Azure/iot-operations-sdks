@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidThing/PropertyFormOpReadAll.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "PropertyFormOpReadAll.TD.json",
+      "line": 26,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

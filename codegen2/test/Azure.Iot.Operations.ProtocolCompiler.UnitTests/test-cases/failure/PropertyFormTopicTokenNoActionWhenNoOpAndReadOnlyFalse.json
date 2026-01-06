@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/PropertyFormTopicTokenNoActionWhenNoOpAndReadOnlyFalse.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "PropertyFormTopicTokenNoActionWhenNoOpAndReadOnlyFalse.TD.json",
+      "line": 26,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

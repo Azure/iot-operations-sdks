@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/EventUnsupportedProperty.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "EventUnsupportedProperty.TD.json",
+      "line": 33,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

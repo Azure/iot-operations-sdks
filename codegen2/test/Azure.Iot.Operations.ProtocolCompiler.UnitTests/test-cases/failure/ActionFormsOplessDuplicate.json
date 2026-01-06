@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/ActionFormsOplessDuplicate.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "ActionFormsOplessDuplicate.TD.json",
+      "line": 19,
+      "cfLine": 18,
+      "crossRef": ""
+    }
+  ]
+}

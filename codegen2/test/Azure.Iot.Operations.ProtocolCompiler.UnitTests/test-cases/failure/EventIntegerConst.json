@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/EventIntegerConst.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "EventIntegerConst.TD.json",
+      "line": 24,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

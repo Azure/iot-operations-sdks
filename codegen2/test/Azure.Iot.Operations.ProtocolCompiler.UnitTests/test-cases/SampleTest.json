@@ -1,0 +1,26 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "valid/Noop.TD.json" ],
+    "schemas": [ ],
+    "typeNamer": null,
+    "outDir": "",
+    "workingDir": "",
+    "namespaace": "",
+    "sdkPath": null,
+    "lang": "none",
+    "clientOnly": false,
+    "serverOnly": false,
+    "noProj": false,
+    "defaultImpl": false
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "OneAction.TD.json",
+      "line": 32,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

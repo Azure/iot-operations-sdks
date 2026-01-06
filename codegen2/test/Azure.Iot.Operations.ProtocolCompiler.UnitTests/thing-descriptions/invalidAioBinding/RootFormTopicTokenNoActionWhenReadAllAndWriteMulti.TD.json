@@ -1,0 +1,58 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "id": "dtmi:test:Noop;1",
+  "title": "Noop",
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": [
+    "nosec_sc"
+  ],
+  "forms": [
+    {
+      "href": "dtmi:test:ProtocolCompiler:events;1",
+      "dtv:topic": "sample/{modelId}/events",
+      "contentType": "application/json",
+      "op": [ "readallproperties", "writemultipleproperties" ]
+    }
+  ],
+  "actions": {
+    "noop": {
+      "forms": [
+        {
+          "href": "dtmi:test:ProtocolCompiler:_contents:__noop;1",
+          "contentType": "application/json",
+          "dtv:topic": "sample/{modelId}/command/noop",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+    "alpha": {
+      "type": "string",
+      "forms": [
+        {
+          "href": "dtmi:test:ProtocolCompiler:_contents:__alpha;1"
+        }
+      ]
+    }
+  },
+  "events": {
+    "alert": {
+      "data": {
+        "type": "string"
+      },
+      "forms": [
+        {
+          "href": "dtmi:test:ProtocolCompiler:_contents:__alert;1"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringEnumFormat.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "SchemaDefinitionStringEnumFormat.TD.json",
+      "line": 20,
+      "cfLine": 19,
+      "crossRef": ""
+    }
+  ]
+}

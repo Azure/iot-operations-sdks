@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/IdInvalidReplacementForTokenInTopic.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "IdInvalidReplacementForTokenInTopic.TD.json",
+      "line": 6,
+      "cfLine": 22,
+      "crossRef": ""
+    }
+  ]
+}

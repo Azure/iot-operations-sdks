@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidThing/EventFormsEmpty.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ElementMissing",
+      "filename": "EventFormsEmpty.TD.json",
+      "line": 25,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

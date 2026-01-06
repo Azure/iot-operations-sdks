@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponseNoSchemaDefinitions.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "ActionFormAdditionalResponseNoSchemaDefinitions.TD.json",
+      "line": 27,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

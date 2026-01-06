@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/EventBooleanConst.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "EventBooleanConst.TD.json",
+      "line": 24,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

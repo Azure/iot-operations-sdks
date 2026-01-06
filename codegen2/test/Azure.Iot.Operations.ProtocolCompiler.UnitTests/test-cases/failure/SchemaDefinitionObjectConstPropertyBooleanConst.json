@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyBooleanConst.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "SchemaDefinitionObjectConstPropertyBooleanConst.TD.json",
+      "line": 22,
+      "cfLine": 25,
+      "crossRef": ""
+    }
+  ]
+}

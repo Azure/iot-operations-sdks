@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/ActionInputObjectConst.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "ActionInputObjectConst.TD.json",
+      "line": 25,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

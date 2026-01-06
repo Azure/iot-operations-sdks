@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponseSchemaEmpty.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyEmpty",
+      "filename": "ActionFormAdditionalResponseSchemaEmpty.TD.json",
+      "line": 45,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionNumberConstValueAboveMax.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "SchemaDefinitionNumberConstValueAboveMax.TD.json",
+      "line": 20,
+      "cfLine": 19,
+      "crossRef": ""
+    }
+  ]
+}

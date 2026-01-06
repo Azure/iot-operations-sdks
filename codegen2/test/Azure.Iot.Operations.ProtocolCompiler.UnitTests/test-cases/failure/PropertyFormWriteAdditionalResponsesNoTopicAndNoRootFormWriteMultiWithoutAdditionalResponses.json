@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/PropertyFormWriteAdditionalResponsesNoTopicAndNoRootFormWriteMultiWithoutAdditionalResponses.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Unusable",
+      "filename": "PropertyFormWriteAdditionalResponsesNoTopicAndNoRootFormWriteMultiWithoutAdditionalResponses.TD.json",
+      "line": 62,
+      "cfLine": 38,
+      "crossRef": ""
+    }
+  ]
+}

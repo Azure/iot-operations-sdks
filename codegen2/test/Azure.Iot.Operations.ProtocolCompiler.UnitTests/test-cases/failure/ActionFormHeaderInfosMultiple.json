@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/ActionFormHeaderInfosMultiple.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ElementsPlural",
+      "filename": "ActionFormHeaderInfosMultiple.TD.json",
+      "line": 42,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

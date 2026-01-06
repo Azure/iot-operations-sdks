@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/EventFormTopicNoContentType.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "EventFormTopicNoContentType.TD.json",
+      "line": 26,
+      "cfLine": 28,
+      "crossRef": ""
+    }
+  ]
+}

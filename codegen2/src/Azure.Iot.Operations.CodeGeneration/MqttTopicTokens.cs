@@ -6,6 +6,11 @@
     public static class MqttTopicTokens
     {
         /// <summary>
+        /// Prefix for a custom token.
+        /// </summary>
+        public const string PrefixCustom = "ex:";
+
+        /// <summary>
         /// Token representing the ID of a service.
         /// </summary>
         public const string ModelId = "modelId";

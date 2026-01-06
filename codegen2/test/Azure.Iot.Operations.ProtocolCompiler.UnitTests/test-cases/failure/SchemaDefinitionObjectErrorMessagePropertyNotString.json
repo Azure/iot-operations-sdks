@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectErrorMessagePropertyNotString.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "TypeMismatch",
+      "filename": "SchemaDefinitionObjectErrorMessagePropertyNotString.TD.json",
+      "line": 24,
+      "cfLine": 20,
+      "crossRef": ""
+    }
+  ]
+}

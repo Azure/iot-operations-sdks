@@ -1,0 +1,19 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "valid/OneAction.TD.json" ],
+    "schemas": [],
+    "lang": "none",
+    "clientOnly": true,
+    "serverOnly": true
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "",
+      "line": 0,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

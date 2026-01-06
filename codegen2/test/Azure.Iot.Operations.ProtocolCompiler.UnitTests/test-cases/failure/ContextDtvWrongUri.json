@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/ContextDtvWrongUri.TD.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "ContextDtvWrongUri.TD.json",
+      "line": 4,
+      "cfLine": 0,
+      "crossRef": ""
+    },
+    {
+      "condition": "PropertyMissing",
+      "filename": "ContextDtvWrongUri.TD.json",
+      "line": 2,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

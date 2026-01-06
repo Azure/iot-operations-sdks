@@ -1,0 +1,9 @@
+{
+  "json.schemaDownload.enable": true,
+  "json.schemas": [
+    {
+      "fileMatch": [ "**/*.TD.json" ],
+      "url": "../../../schema/aio-td-json-schema.json"
+    }
+  ]
+}
