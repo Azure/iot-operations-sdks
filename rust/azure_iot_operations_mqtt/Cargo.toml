@@ -32,10 +32,6 @@ tokio = { version = "1.41", default-features = false, features = ["io-util", "ma
 uuid = { version = "1.8.0", features = ["v4","fast-rng"] }
 
 # for internal mqtt client
-async-tungstenite = { version = "0.29", default-features = false, features = [
-    "futures-03-sink",
-    "tokio-runtime",
-] }
 bstr = { version = "1", default-features = false }
 derive-where = { version = "1", default-features = false }
 either = { version = "1.6", default-features = false }
@@ -43,7 +39,6 @@ enum-iterator = { version = "2", default-features = false }
 futures-executor = { version = "0.3", default-features = false, features = [
     "std", # for futures_executor::block_on
 ] }
-futures-sink = { version = "0.3", default-features = false }
 futures-util = { version = "0.3", default-features = false, features = [
     "std", # for futures_util::future::Shared
 ] }
