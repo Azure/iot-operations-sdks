@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#![allow(missing_docs)]
+//! Utilities to handle health status reporting logic for Azure Device Registry components.
 
+use std::ops::Add;
 use std::sync::Arc;
 
 use azure_iot_operations_services::azure_device_registry::{self, HealthStatus, RuntimeHealth};
+use chrono::{DateTime, Utc};
 use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender};
 
 use crate::{
-    base_connector::ConnectorContext,
+    DataOperationName, DataOperationRef, base_connector::ConnectorContext,
     deployment_artifacts::azure_device_registry::DeviceEndpointRef,
 };
 
@@ -38,6 +40,7 @@ async fn health_sender_run<T: HealthComponent>(
     component: T,
 ) {
     let mut current_status = health_rx.recv().await.unwrap();
+    let mut last_reported_time = current_status.last_update_time;
     loop {
         // report current or new status
         // TODO: tokio::task?
@@ -47,16 +50,20 @@ async fn health_sender_run<T: HealthComponent>(
         {
             Ok(_) => {
                 log::info!("Reported health status: {:?}", current_status);
+                // Setting to current time rather than current_status time in case the
+                // receiver is backed up - if we set to current_status time,
+                // the next report might trigger sooner than the health interval requires, causing the backup to worsen
+                last_reported_time = chrono::Utc::now();
             }
             Err(e) => {
                 // Handle error (e.g., log it)
                 log::warn!("Failed to report health status: {:?}", e);
-                // TODO: retry?
+                // TODO: retry? Retries now done by not saving this as the last_reported_time
             }
         }
         tokio::select! {
             biased;
-            recv_result = health_recv(&mut health_rx, &current_status) => {
+            recv_result = health_recv(&mut health_rx, &mut current_status, last_reported_time.add(connector_context.health_report_interval)) => {
                 match recv_result {
                     // TODO: need another way to end this task when the component is deleted as well
                     None => break, // Channel closed, TODO: handle this case properly
@@ -64,28 +71,43 @@ async fn health_sender_run<T: HealthComponent>(
                 }
             }
             _ = tokio::time::sleep(connector_context.health_report_interval) => {
-                // if let Some(status) = &current_status {
-                // Report the current health status to Azure IoT Operations Services
-                // (Implementation of reporting logic goes here)
-                // }
+                current_status.last_update_time = chrono::Utc::now();
             }
         }
     }
 }
 async fn health_recv(
     health_rx: &mut UnboundedReceiver<RuntimeHealth>,
-    curr_status: &RuntimeHealth,
+    curr_status: &mut RuntimeHealth,
+    next_fallback_report_time: DateTime<Utc>,
 ) -> Option<RuntimeHealth> {
     loop {
-        let new_status = health_rx.recv().await?;
-        if new_status.last_update_time < curr_status.last_update_time {
+        // use try_recv to avoid an await point if there are pending messages.
+        let new_status = match health_rx.try_recv() {
+            Ok(status) => status,
+            // If there aren't any pending messages, it's okay if the timeout branch of the select completes
+            Err(tokio::sync::mpsc::error::TryRecvError::Empty) => health_rx.recv().await?,
+            Err(tokio::sync::mpsc::error::TryRecvError::Disconnected) => return None,
+        };
+
+        // if new status is more stale than the current status, ignore it
+        if new_status.version < curr_status.version
+            || new_status.last_update_time < curr_status.last_update_time
+        {
             continue;
         }
-        if new_status.version < curr_status.version {
-            continue;
-        }
-        if new_status.status == curr_status.status {
-            // TODO: do we need to update last_update_time to compare against in this case?
+
+        // if status is exactly the same other than the timestamp, don't report, but update curr_status
+        if new_status.version == curr_status.version
+            && new_status.status == curr_status.status
+            && new_status.message == curr_status.message
+            && new_status.reason_code == curr_status.reason_code
+            // if we've been getting continuous reports that don't allow the the timeout branch of the tokio select to complete, trigger the
+            // steady state status reporting from here
+            && new_status.last_update_time < next_fallback_report_time
+        {
+            // Override the curr_status to have the latest timestamp
+            *curr_status = new_status;
             continue;
         }
         return Some(new_status);
@@ -107,6 +129,60 @@ impl HealthComponent for DeviceEndpointRef {
                 connector_context.azure_device_registry_timeout,
             )
             .await
+    }
+}
+
+impl HealthComponent for DataOperationRef {
+    async fn report_health_status(
+        &self,
+        connector_context: &Arc<ConnectorContext>,
+        status: RuntimeHealth,
+    ) -> Result<(), azure_device_registry::Error> {
+        match &self.data_operation_name {
+            DataOperationName::Dataset { name } => {
+                connector_context
+                    .azure_device_registry_client
+                    .report_dataset_runtime_health_event(
+                        self.device_name.clone(),
+                        self.inbound_endpoint_name.clone(),
+                        self.asset_name.clone(),
+                        name.clone(),
+                        status,
+                        connector_context.azure_device_registry_timeout,
+                    )
+                    .await
+            }
+            DataOperationName::Event {
+                name,
+                event_group_name,
+            } => {
+                connector_context
+                    .azure_device_registry_client
+                    .report_event_runtime_health_event(
+                        self.device_name.clone(),
+                        self.inbound_endpoint_name.clone(),
+                        self.asset_name.clone(),
+                        event_group_name.clone(),
+                        name.clone(),
+                        status,
+                        connector_context.azure_device_registry_timeout,
+                    )
+                    .await
+            }
+            DataOperationName::Stream { name } => {
+                connector_context
+                    .azure_device_registry_client
+                    .report_stream_runtime_health_event(
+                        self.device_name.clone(),
+                        self.inbound_endpoint_name.clone(),
+                        self.asset_name.clone(),
+                        name.clone(),
+                        status,
+                        connector_context.azure_device_registry_timeout,
+                    )
+                    .await
+            }
+        }
     }
 }
 
