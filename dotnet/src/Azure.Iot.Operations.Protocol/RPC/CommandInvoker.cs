@@ -349,10 +349,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     try
                     {
                         response = _serializer.FromBytes<TResp>(args.ApplicationMessage.Payload, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
-                        responseMetadata = new CommandResponseMetadata(args.ApplicationMessage)
-                        {
-                            ExtendedCloudEvent = args.ApplicationMessage.GetCloudEvent()
-                        };
+                        responseMetadata = new CommandResponseMetadata(args.ApplicationMessage);
                     }
                     catch (Exception ex)
                     {
@@ -567,8 +564,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // TODO remove this once akri service is code gen'd to expect srcId instead of invId
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
-                string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
-                requestMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+                _ = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
                 await using var hlcClone = new HybridLogicalClock(_applicationContext.ApplicationHlc);
                 if (metadata != null)
                 {
@@ -582,10 +578,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     requestMessage.ContentType = payloadContext.ContentType;
                 }
 
-                if (metadata?.CloudEvent is not null)
+                // If the cloud event subject has not been set by the user, provide the default value
+                if (metadata != null
+                    && metadata.CloudEvent is not null
+                    && metadata.CloudEvent.IsSubjectDefault)
                 {
-                    metadata.CloudEvent.Time ??= DateTime.UtcNow;
-                    metadata.CloudEvent.Subject ??= requestTopic;
+                    metadata.CloudEvent.Subject = requestTopic;
                 }
 
                 try

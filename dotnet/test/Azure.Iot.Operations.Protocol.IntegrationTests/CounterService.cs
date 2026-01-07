@@ -51,16 +51,18 @@ public class CounterService : Counter.Service
     {
         CommandResponseMetadata responseMetadata = new();
 
-        if (requestMetadata.CloudEvent != null)
+        if (requestMetadata.ExtendedCloudEvent != null)
         {
             ReceivedCloudEvent = requestMetadata.ExtendedCloudEvent;
 
             PublishedResponseCloudEvent = new(new Uri("https://www.contoso.com"), "someRpcResponse.type")
             {
-                DataSchema = "someResponseDataSchema",
+                DataSchema = "https://www.contoso.com",
                 Id = Guid.NewGuid().ToString(),
-                Subject = "someResponseSubject",
-                Time = DateTime.UtcNow,
+
+                //echo back the time and subject for testing purposes
+                Subject = ReceivedCloudEvent.Subject,
+                Time = ReceivedCloudEvent.Time
             };
 
             responseMetadata.CloudEvent = PublishedResponseCloudEvent;

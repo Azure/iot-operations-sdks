@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.Telemetry;
-
 namespace Azure.Iot.Operations.Protocol.Tests.Telemetry;
 
 public class CloudEventsMetadataTests
@@ -15,11 +13,12 @@ public class CloudEventsMetadataTests
         Assert.Equal("1.0", metadata.SpecVersion);
         Assert.Equal("tel-type", metadata.Type);
         Assert.Equal("a", metadata.Source!.ToString());
-        Assert.Null(metadata.Id);
+        Assert.NotNull(metadata.Id);
+        Assert.True(Guid.TryParse(metadata.Id, out _));
 
         Assert.Null(metadata.DataSchema);
         Assert.Null(metadata.Subject);
-        Assert.Null(metadata.Time);
+        Assert.NotNull(metadata.Time);
     }
 
     [Fact]

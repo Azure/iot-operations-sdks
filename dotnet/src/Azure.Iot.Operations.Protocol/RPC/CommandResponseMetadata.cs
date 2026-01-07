@@ -89,11 +89,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             Timestamp = null;
             UserData = [];
-            if (message.UserProperties != null && !message.UserProperties.TryGetProperty("type", out _))
-            {
-                message.UserProperties.Add(new MqttUserProperty("type", "ms.aio.rpc.response"));
-            }
-            CloudEvent = message.GetCloudEvent();
+            ExtendedCloudEvent = message.GetCloudEvent();
+            CloudEvent = ExtendedCloudEvent; // in case someone tries to get the non-extended version
 
             if (message.UserProperties != null)
             {
@@ -128,8 +125,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 {
                     CloudEvent.Type = "ms.aio.rpc.response";
                 }
-
-                CloudEvent.Id ??= Guid.NewGuid().ToString();
 
                 message.SetCloudEvent(CloudEvent);
             }
