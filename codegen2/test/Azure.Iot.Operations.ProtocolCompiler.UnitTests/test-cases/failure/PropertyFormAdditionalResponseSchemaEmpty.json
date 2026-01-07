@@ -8,7 +8,7 @@
     {
       "condition": "PropertyEmpty",
       "filename": "PropertyFormAdditionalResponseSchemaEmpty.TD.json",
-      "line": 40,
+      "line": 39,
       "cfLine": 0,
       "crossRef": ""
     }

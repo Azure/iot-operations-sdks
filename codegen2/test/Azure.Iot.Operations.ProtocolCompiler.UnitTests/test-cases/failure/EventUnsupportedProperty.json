@@ -8,7 +8,7 @@
     {
       "condition": "PropertyUnsupported",
       "filename": "EventUnsupportedProperty.TD.json",
-      "line": 25,
+      "line": 24,
       "cfLine": 0,
       "crossRef": ""
     }

@@ -17,7 +17,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:peek;1",
           "contentType": "",
           "dtv:topic": "sample/peek/{executorId}",
           "op": "invokeaction"

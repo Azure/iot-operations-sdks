@@ -8,8 +8,8 @@
     {
       "condition": "Unusable",
       "filename": "RootFormWriteMultiButNoWritableProperties.TD.json",
-      "line": 19,
-      "cfLine": 24,
+      "line": 17,
+      "cfLine": 22,
       "crossRef": ""
     }
   ]

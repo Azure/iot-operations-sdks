@@ -20,7 +20,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:_contents:__alpha;1",
           "contentType": "application/json",
           "dtv:topic": "sample/alpha/{maintainerId}",
           "op": "readproperty"

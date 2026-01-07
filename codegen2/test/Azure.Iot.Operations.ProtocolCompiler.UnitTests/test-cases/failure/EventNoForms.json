@@ -6,7 +6,7 @@
   },
   "errors": [
     {
-      "condition": "PropertyMissing",
+      "condition": "Unusable",
       "filename": "EventNoForms.TD.json",
       "line": 13,
       "cfLine": 0,

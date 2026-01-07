@@ -7,7 +7,6 @@
   "title": "Noop",
   "forms": [
     {
-      "href": "dtmi:test:ProtocolCompiler:read;1",
       "dtv:topic": "sample/TestThing/read",
       "contentType": "application/json",
       "additionalResponses": [
@@ -23,7 +22,6 @@
     "noop": {
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:_contents:__noop;1",
           "contentType": "application/json",
           "dtv:topic": "sample/TestThing/command/noop",
           "op": "invokeaction"
@@ -36,7 +34,6 @@
       "type": "string",
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:_contents:__alpha;1"
         }
       ]
     }
@@ -48,7 +45,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:_contents:__alert;1"
         }
       ]
     }

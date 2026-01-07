@@ -17,7 +17,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:poke;1",
           "contentType": "application/octet-stream",
           "dtv:topic": "sample/poke/{executorId}",
           "op": "invokeaction"

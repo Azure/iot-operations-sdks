@@ -6,7 +6,7 @@
   },
   "errors": [
     {
-      "condition": "PropertyMissing",
+      "condition": "Unusable",
       "filename": "ActionNoForms.TD.json",
       "line": 9,
       "cfLine": 0,

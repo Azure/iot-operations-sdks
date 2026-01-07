@@ -16,7 +16,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:alert;1",
           "dtv:topic": "sample/alert/TestThing",
           "op": "subscribeevent"
         }

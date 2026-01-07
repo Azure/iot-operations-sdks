@@ -1,7 +1,0 @@
-{
-  "success": true,
-  "commandLine": {
-    "thingFiles": [ "valid/IdInvalidReplacementButNotInTopic.TD.json" ],
-    "lang": "none"
-  }
-}

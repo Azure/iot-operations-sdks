@@ -8,7 +8,7 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "PropertyFormTopicTokenNoActionWhenNoOpAndReadOnlyFalse.TD.json",
-      "line": 18,
+      "line": 17,
       "cfLine": 0,
       "crossRef": ""
     }

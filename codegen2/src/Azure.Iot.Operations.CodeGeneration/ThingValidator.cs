@@ -190,11 +190,6 @@
 
         private bool TryValidateRootForms(ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
         {
-            if (forms?.Elements == null)
-            {
-                return true;
-            }
-
             if (!TryValidateForms(forms, FormsKind.Root, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
             {
                 return false;
@@ -205,12 +200,12 @@
                 serializationFormats.Add(ThingSupport.ContentTypeToFormat(contentType.Value.Value));
             }
 
-            List<ValueTracker<StringHolder>> aggregateOps = forms.Elements.SelectMany(form => form.Value.Op?.Elements ?? new()).ToList();
+            List<ValueTracker<StringHolder>> aggregateOps = forms?.Elements?.SelectMany(form => form.Value.Op?.Elements ?? new()).ToList() ?? new();
             ValueTracker<StringHolder>? writeMultiOp = aggregateOps.FirstOrDefault(op => op.Value.Value == TDValues.OpWriteMultProps);
             ValueTracker<StringHolder>? readAllOp = aggregateOps.FirstOrDefault(op => op.Value.Value == TDValues.OpReadAllProps);
             if (writeMultiOp != null && readAllOp == null)
             {
-                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDThing.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' but no '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}'.", writeMultiOp.TokenIndex, forms.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDThing.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' but no '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}'.", writeMultiOp.TokenIndex, forms?.TokenIndex ?? -1);
                 return false;
             }
 
@@ -255,7 +250,7 @@
                         properties?.TokenIndex ?? -1);
                     hasError = true;
                 }
-                else if (aggregateReadHasAdditionalResponses && !properties.Entries.Any(p => p.Value.Value.Forms!.Elements!.Any(f => (f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpReadProp) ?? true) && (f.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0)))
+                else if (aggregateReadHasAdditionalResponses && !properties.Entries.Any(p => p.Value.Value.Forms?.Elements?.Any(f => (f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpReadProp) ?? true) && (f.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0) ?? false))
                 {
                     errorReporter.ReportWarning($"Root-level form has '{TDForm.OpName}' value of '{TDValues.OpReadAllProps}' and an '{TDForm.AdditionalResponsesName}' value; however, no readable '{TDThing.PropertiesName}' element has a form with an '{TDForm.AdditionalResponsesName}' value to aggregate.",
                         readAllForm.TokenIndex,
@@ -265,14 +260,14 @@
 
             if (writeMultiForm != null)
             {
-                if (properties?.Entries == null || properties.Entries.Count(p => p.Value.Value.ReadOnly?.Value.Value != true && p.Value.Value.Forms!.Elements!.Any(f => f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true)) == 0)
+                if (properties?.Entries == null || properties.Entries.Count(p => p.Value.Value.ReadOnly?.Value.Value != true && (p.Value.Value.Forms?.Elements?.Any(f => f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true) ?? true)) == 0)
                 {
                     errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' to write a selected aggregation of writable properties, but Thing Description has no writable properties.",
                         writeMultiForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpWriteMultProps).TokenIndex,
                         properties?.TokenIndex ?? -1);
                     hasError = true;
                 }
-                else if (aggregateWriteHasAdditionalResponses && !properties.Entries.Any(p => p.Value.Value.ReadOnly?.Value.Value != true && p.Value.Value.Forms!.Elements!.Any(f => (f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true) && (f.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0)))
+                else if (aggregateWriteHasAdditionalResponses && !properties.Entries.Any(p => p.Value.Value.ReadOnly?.Value.Value != true && (p.Value.Value.Forms?.Elements?.Any(f => (f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true) && (f.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0) ?? false)))
                 {
                     errorReporter.ReportWarning($"Root-level form has '{TDForm.OpName}' value of '{TDValues.OpWriteMultProps}' and an '{TDForm.AdditionalResponsesName}' value; however, no writable '{TDThing.PropertiesName}' element has a form with an '{TDForm.AdditionalResponsesName}' value to aggregate.",
                         writeMultiForm.TokenIndex,
@@ -284,63 +279,76 @@
             {
                 foreach (KeyValuePair<string, ValueTracker<TDProperty>> prop in properties.Entries)
                 {
-                    foreach (ValueTracker<TDForm> form in prop.Value.Value.Forms!.Elements!)
+                    if (prop.Value.Value.Forms?.Elements == null)
                     {
-                        bool propFormHasAdditionalResponses = (form.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0;
-
-                        if (form.Value.Topic == null)
+                        if (readAllForm == null)
                         {
-                            if (form.Value.Op == null)
-                            {
-                                if (readAllForm == null)
-                                {
-                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with no '{TDForm.TopicName}' property, so it cannot be read individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpReadAllProps}', so this property also cannot be read in aggregate.",
-                                        form.TokenIndex,
-                                        rootForms?.TokenIndex ?? -1);
-                                    hasError = true;
-                                }
-                                else if (propFormHasAdditionalResponses && !aggregateReadHasAdditionalResponses && !aggregateWriteHasAdditionalResponses)
-                                {
-                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual read or write, nor can it be returned on an aggregate read or write because no root-level form with '{TDForm.OpName}' value of '{TDValues.OpReadAllProps}' or '{TDValues.OpWriteMultProps}' has an '{TDForm.AdditionalResponsesName}' value.",
-                                        form.TokenIndex,
-                                        rootForms?.TokenIndex ?? -1);
-                                    hasError = true;
-                                }
-                            }
+                            errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has no '{TDProperty.FormsName}' property, so it cannot be read individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpReadAllProps}', so this property also cannot be read in aggregate.",
+                                prop.Value.TokenIndex,
+                                rootForms?.TokenIndex ?? -1);
+                            hasError = true;
+                        }
+                    }
+                    else
+                    {
+                        foreach (ValueTracker<TDForm> form in prop.Value.Value.Forms.Elements)
+                        {
+                            bool propFormHasAdditionalResponses = (form.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0;
 
-                            if (form.Value.Op?.Elements != null && form.Value.Op.Elements.Any(op => op.Value.Value == TDValues.OpReadProp))
+                            if (form.Value.Topic == null)
                             {
-                                if (readAllForm == null)
+                                if (form.Value.Op == null)
                                 {
-                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpReadProp}' but no '{TDForm.TopicName}' property, so it cannot be read individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpReadAllProps}', so this property also cannot be read in aggregate.",
-                                        form.TokenIndex,
-                                        rootForms?.TokenIndex ?? -1);
-                                    hasError = true;
+                                    if (readAllForm == null)
+                                    {
+                                        errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with no '{TDForm.TopicName}' property, so it cannot be read individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpReadAllProps}', so this property also cannot be read in aggregate.",
+                                            form.TokenIndex,
+                                            rootForms?.TokenIndex ?? -1);
+                                        hasError = true;
+                                    }
+                                    else if (propFormHasAdditionalResponses && !aggregateReadHasAdditionalResponses && !aggregateWriteHasAdditionalResponses)
+                                    {
+                                        errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual read or write, nor can it be returned on an aggregate read or write because no root-level form with '{TDForm.OpName}' value of '{TDValues.OpReadAllProps}' or '{TDValues.OpWriteMultProps}' has an '{TDForm.AdditionalResponsesName}' value.",
+                                            form.TokenIndex,
+                                            rootForms?.TokenIndex ?? -1);
+                                        hasError = true;
+                                    }
                                 }
-                                else if (propFormHasAdditionalResponses && !aggregateReadHasAdditionalResponses)
-                                {
-                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpReadProp}' but no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual read, nor can it be returned on an aggregate read because the root-level form with '{TDForm.OpName}' value of '{TDValues.OpReadAllProps}' has no '{TDForm.AdditionalResponsesName}' value.",
-                                        form.TokenIndex,
-                                        readAllForm.TokenIndex);
-                                    hasError = true;
-                                }
-                            }
 
-                            if (form.Value.Op?.Elements != null && form.Value.Op.Elements.Any(op => op.Value.Value == TDValues.OpWriteProp))
-                            {
-                                if (writeMultiForm == null)
+                                if (form.Value.Op?.Elements != null && form.Value.Op.Elements.Any(op => op.Value.Value == TDValues.OpReadProp))
                                 {
-                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpWriteProp}' but no '{TDForm.TopicName}' property, so it cannot be written individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpWriteMultProps}', so this property also cannot be written in aggregate.",
-                                        form.TokenIndex,
-                                        rootForms?.TokenIndex ?? -1);
-                                    hasError = true;
+                                    if (readAllForm == null)
+                                    {
+                                        errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpReadProp}' but no '{TDForm.TopicName}' property, so it cannot be read individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpReadAllProps}', so this property also cannot be read in aggregate.",
+                                            form.TokenIndex,
+                                            rootForms?.TokenIndex ?? -1);
+                                        hasError = true;
+                                    }
+                                    else if (propFormHasAdditionalResponses && !aggregateReadHasAdditionalResponses)
+                                    {
+                                        errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpReadProp}' but no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual read, nor can it be returned on an aggregate read because the root-level form with '{TDForm.OpName}' value of '{TDValues.OpReadAllProps}' has no '{TDForm.AdditionalResponsesName}' value.",
+                                            form.TokenIndex,
+                                            readAllForm.TokenIndex);
+                                        hasError = true;
+                                    }
                                 }
-                                else if (propFormHasAdditionalResponses && (writeMultiForm.Value.AdditionalResponses?.Elements?.Count ?? 0) == 0)
+
+                                if (form.Value.Op?.Elements != null && form.Value.Op.Elements.Any(op => op.Value.Value == TDValues.OpWriteProp))
                                 {
-                                    errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpWriteProp}' but no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual write, nor can it be returned on an aggregate write because the root-level form with '{TDForm.OpName}' value of '{TDValues.OpWriteMultProps}' has no '{TDForm.AdditionalResponsesName}' value.",
-                                        form.TokenIndex,
-                                        writeMultiForm.TokenIndex);
-                                    hasError = true;
+                                    if (writeMultiForm == null)
+                                    {
+                                        errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpWriteProp}' but no '{TDForm.TopicName}' property, so it cannot be written individually; however, there is no root-level form with an '{TDForm.OpName}' property that has value '{TDValues.OpWriteMultProps}', so this property also cannot be written in aggregate.",
+                                            form.TokenIndex,
+                                            rootForms?.TokenIndex ?? -1);
+                                        hasError = true;
+                                    }
+                                    else if (propFormHasAdditionalResponses && (writeMultiForm.Value.AdditionalResponses?.Elements?.Count ?? 0) == 0)
+                                    {
+                                        errorReporter.ReportError(ErrorCondition.Unusable, $"Property '{prop.Key}' has '{TDProperty.FormsName}' element with '{TDForm.OpName}' value of '{TDValues.OpWriteProp}' but no '{TDForm.TopicName}' property, so its '{TDForm.AdditionalResponsesName}' value cannot be returned on an individual write, nor can it be returned on an aggregate write because the root-level form with '{TDForm.OpName}' value of '{TDValues.OpWriteMultProps}' has no '{TDForm.AdditionalResponsesName}' value.",
+                                            form.TokenIndex,
+                                            writeMultiForm.TokenIndex);
+                                        hasError = true;
+                                    }
                                 }
                             }
                         }
@@ -618,13 +626,7 @@
 
         private bool TryValidateAction(string name, ValueTracker<TDAction> action, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
         {
-            if (action.Value.Forms == null)
-            {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Action '{name}' element is missing required '{TDAction.FormsName}' property.", action.TokenIndex);
-                contentType = null;
-                return false;
-            }
-            else if (!TryValidateForms(action.Value.Forms, FormsKind.Action, schemaDefinitions, out contentType))
+            if (!TryValidateForms(action.Value.Forms, FormsKind.Action, schemaDefinitions, out contentType))
             {
                 return false;
             }
@@ -701,13 +703,7 @@
 
         private bool TryValidateProperty(string name, ValueTracker<TDProperty> property, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
         {
-            if (property.Value.Forms == null)
-            {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Property '{name}' element is missing required '{TDProperty.FormsName}' property.", property.TokenIndex);
-                contentType = null;
-                return false;
-            }
-            else if (!TryValidatePropertyForms(name, property.Value.Forms, schemaDefinitions, property.Value.ReadOnly, out contentType))
+            if (!TryValidatePropertyForms(name, property.Value.Forms, schemaDefinitions, property.Value.ReadOnly, out contentType))
             {
                 return false;
             }
@@ -720,7 +716,7 @@
             return true;
         }
 
-        private bool TryValidatePropertyForms(string name, ArrayTracker<TDForm> forms, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<BoolHolder>? readOnly, out ValueTracker<StringHolder>? contentType)
+        private bool TryValidatePropertyForms(string name, ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<BoolHolder>? readOnly, out ValueTracker<StringHolder>? contentType)
         {
             bool isReadOnly = readOnly?.Value.Value == true;
 
@@ -731,7 +727,7 @@
 
             bool hasError = false;
 
-            List<ValueTracker<StringHolder>> aggregateOps = forms.Elements!.SelectMany(form => form.Value.Op?.Elements ?? new()).ToList();
+            List<ValueTracker<StringHolder>> aggregateOps = forms?.Elements?.SelectMany(form => form.Value.Op?.Elements ?? new())?.ToList() ?? new();
             ValueTracker<StringHolder>? writeOp = aggregateOps.FirstOrDefault(op => op.Value.Value == TDValues.OpWriteProp);
             ValueTracker<StringHolder>? readOp = aggregateOps.FirstOrDefault(op => op.Value.Value == TDValues.OpReadProp);
 
@@ -744,16 +740,16 @@
                 }
                 if (readOp == null)
                 {
-                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDProperty.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but no '{TDForm.OpName}' property with value '{TDValues.OpReadProp}'.", writeOp.TokenIndex, forms.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDProperty.FormsName}' array contains '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but no '{TDForm.OpName}' property with value '{TDValues.OpReadProp}'.", writeOp.TokenIndex, forms?.TokenIndex ?? -1);
                     hasError = true;
                 }
                 else
                 {
-                    ValueTracker<TDForm>? topicalWriteForm = forms.Elements!.FirstOrDefault(form => form.Value.Topic != null && (form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? false));
-                    bool hasTopicalReadForm = forms.Elements!.Any(form => form.Value.Topic != null && (form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpReadProp) ?? false));
+                    ValueTracker<TDForm>? topicalWriteForm = forms?.Elements?.FirstOrDefault(form => form.Value.Topic != null && (form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? false));
+                    bool hasTopicalReadForm = forms?.Elements?.Any(form => form.Value.Topic != null && (form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpReadProp) ?? false)) ?? false;
                     if (topicalWriteForm != null && !hasTopicalReadForm)
                     {
-                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDProperty.FormsName}' array contains entry with '{TDForm.TopicName}' property and '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but no entry with '{TDForm.TopicName}' property and '{TDForm.OpName}' property with value '{TDValues.OpReadProp}'.", topicalWriteForm.TokenIndex, forms.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDProperty.FormsName}' array contains entry with '{TDForm.TopicName}' property and '{TDForm.OpName}' property with value '{TDValues.OpWriteProp}' but no entry with '{TDForm.TopicName}' property and '{TDForm.OpName}' property with value '{TDValues.OpReadProp}'.", topicalWriteForm.TokenIndex, forms?.TokenIndex ?? -1);
                         hasError = true;
                     }
                 }
@@ -800,13 +796,7 @@
 
         private bool TryValidateEvent(string name, ValueTracker<TDEvent> evt, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
         {
-            if (evt.Value.Forms == null)
-            {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Event '{name}' element is missing required '{TDEvent.FormsName}' property.", evt.TokenIndex);
-                contentType = null;
-                return false;
-            }
-            else if (!TryValidateForms(evt.Value.Forms, FormsKind.Event, schemaDefinitions, out contentType))
+            if (!TryValidateForms(evt.Value.Forms, FormsKind.Event, schemaDefinitions, out contentType))
             {
                 return false;
             }
@@ -837,9 +827,14 @@
             return !hasError;
         }
 
-        private bool TryValidateForms(ArrayTracker<TDForm> forms, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool isReadOnly = false)
+        private bool TryValidateForms(ArrayTracker<TDForm>? forms, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool isReadOnly = false)
         {
             contentType = null;
+
+            if (forms?.Elements == null)
+            {
+                return true;
+            }
 
             if (forms.Elements!.Count == 0)
             {
@@ -898,17 +893,6 @@
         private bool TryValidateForm(ValueTracker<TDForm> form, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool isReadOnly)
         {
             bool hasError = false;
-
-            if (form.Value.Href == null)
-            {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Form is missing required '{TDForm.HrefName}' property.", form.TokenIndex);
-                hasError = true;
-            }
-            else if (string.IsNullOrWhiteSpace(form.Value.Href.Value.Value))
-            {
-                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Form '{TDForm.HrefName}' property has empty value.", form.Value.Href.TokenIndex);
-                hasError = true;
-            }
 
             if (form.Value.Op?.Elements == null)
             {
@@ -1129,7 +1113,7 @@
 
             foreach (KeyValuePair<string, long> propertyName in form.Value.PropertyNames)
             {
-                if (propertyName.Key != TDForm.HrefName && propertyName.Key != TDForm.ContentTypeName && propertyName.Key != TDForm.AdditionalResponsesName && propertyName.Key != TDForm.HeaderInfoName && propertyName.Key != TDForm.HeaderCodeName && propertyName.Key != TDForm.ServiceGroupIdName && propertyName.Key != TDForm.TopicName && propertyName.Key != TDForm.OpName)
+                if (propertyName.Key != TDForm.ContentTypeName && propertyName.Key != TDForm.AdditionalResponsesName && propertyName.Key != TDForm.HeaderInfoName && propertyName.Key != TDForm.HeaderCodeName && propertyName.Key != TDForm.ServiceGroupIdName && propertyName.Key != TDForm.TopicName && propertyName.Key != TDForm.OpName)
                 {
                     if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
                     {

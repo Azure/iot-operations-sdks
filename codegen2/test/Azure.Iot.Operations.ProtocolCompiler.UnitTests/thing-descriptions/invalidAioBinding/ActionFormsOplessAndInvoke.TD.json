@@ -9,13 +9,11 @@
     "noop": {
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:noop;1",
           "contentType": "application/json",
           "dtv:topic": "sample/noop/{executorId}",
           "op": "invokeaction"
         },
         {
-          "href": "dtmi:test:ProtocolCompiler:noop;1",
           "contentType": "application/json",
           "dtv:topic": "sample/noop/{executorId}"
         }

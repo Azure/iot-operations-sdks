@@ -17,7 +17,6 @@
   },
   "forms": [
     {
-      "href": "dtmi:test:ProtocolCompiler:events;1",
       "dtv:topic": "sample/all/events/read",
       "contentType": "application/json",
       "op": "readallproperties",
@@ -28,7 +27,6 @@
       ]
     },
     {
-      "href": "dtmi:test:ProtocolCompiler:events;1",
       "dtv:topic": "sample/all/events/write",
       "contentType": "application/json",
       "op": "writemultipleproperties"
@@ -41,7 +39,6 @@
       "type": "string",
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:_contents:__alpha;1",
           "contentType": "application/json",
           "op": "readproperty",
           "additionalResponses": [
@@ -52,7 +49,6 @@
           ]
         },
         {
-          "href": "dtmi:test:ProtocolCompiler:_contents:__alpha;1",
           "contentType": "application/json",
           "op": "writeproperty",
           "additionalResponses": [

@@ -7,7 +7,6 @@
   "title": "Noop",
   "forms": [
     {
-      "href": "dtmi:test:ProtocolCompiler:events;1",
       "dtv:topic": "sample/all/events",
       "contentType": "application/json",
       "op": "readallproperties"

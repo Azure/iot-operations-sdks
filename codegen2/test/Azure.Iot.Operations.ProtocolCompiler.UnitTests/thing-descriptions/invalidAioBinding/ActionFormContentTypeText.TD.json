@@ -9,7 +9,6 @@
     "noop": {
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:noop;1",
           "contentType": "application/text",
           "dtv:topic": "sample/noop/{executorId}",
           "op": "invokeaction"

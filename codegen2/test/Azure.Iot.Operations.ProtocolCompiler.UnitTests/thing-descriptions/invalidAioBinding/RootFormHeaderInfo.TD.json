@@ -16,7 +16,6 @@
   },
   "forms": [
     {
-      "href": "dtmi:test:ProtocolCompiler:events;1",
       "dtv:topic": "sample/TestThing/events",
       "contentType": "application/json",
       "dtv:headerInfo": [
@@ -32,7 +31,6 @@
     "noop": {
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:_contents:__noop;1",
           "contentType": "application/json",
           "dtv:topic": "sample/TestThing/command/noop",
           "op": "invokeaction"
@@ -45,7 +43,6 @@
       "type": "string",
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:_contents:__alpha;1"
         }
       ]
     }
@@ -57,7 +54,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:_contents:__alert;1"
         }
       ]
     }

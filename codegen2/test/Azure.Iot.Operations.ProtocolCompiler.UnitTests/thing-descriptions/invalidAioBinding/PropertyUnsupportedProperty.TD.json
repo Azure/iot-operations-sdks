@@ -12,7 +12,6 @@
       "type": "string",
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:_contents:__alpha;1",
           "contentType": "application/json",
           "dtv:topic": "sample/alpha/read",
           "op": "readproperty"

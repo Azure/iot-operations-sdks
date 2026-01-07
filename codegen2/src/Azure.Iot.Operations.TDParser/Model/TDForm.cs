@@ -6,7 +6,6 @@
 
     public class TDForm : IEquatable<TDForm>, IDeserializable<TDForm>
     {
-        public const string HrefName = "href";
         public const string ContentTypeName = "contentType";
         public const string AdditionalResponsesName = "additionalResponses";
         public const string HeaderInfoName = "dtv:headerInfo";
@@ -14,8 +13,6 @@
         public const string ServiceGroupIdName = "dtv:serviceGroupId";
         public const string TopicName = "dtv:topic";
         public const string OpName = "op";
-
-        public ValueTracker<StringHolder>? Href { get; set; }
 
         public ValueTracker<StringHolder>? ContentType { get; set; }
 
@@ -41,8 +38,7 @@
             }
             else
             {
-                return Href == other.Href &&
-                       ContentType == other.ContentType &&
+                return ContentType == other.ContentType &&
                        AdditionalResponses == other.AdditionalResponses &&
                        HeaderInfo == other.HeaderInfo &&
                        HeaderCode == other.HeaderCode &&
@@ -54,7 +50,7 @@
 
         public override int GetHashCode()
         {
-            return (Href, ContentType, AdditionalResponses, HeaderInfo, HeaderCode, ServiceGroupId, Topic, Op).GetHashCode();
+            return (ContentType, AdditionalResponses, HeaderInfo, HeaderCode, ServiceGroupId, Topic, Op).GetHashCode();
         }
 
         public static bool operator ==(TDForm? left, TDForm? right)
@@ -96,13 +92,6 @@
 
         public IEnumerable<ITraversable> Traverse()
         {
-            if (Href != null)
-            {
-                foreach (ITraversable item in Href.Traverse())
-                {
-                    yield return item;
-                }
-            }
             if (ContentType != null)
             {
                 foreach (ITraversable item in ContentType.Traverse())
@@ -173,9 +162,6 @@
 
                 switch (propertyName)
                 {
-                    case HrefName:
-                        form.Href = ValueTracker<StringHolder>.Deserialize(ref reader, HrefName);
-                        break;
                     case ContentTypeName:
                         form.ContentType = ValueTracker<StringHolder>.Deserialize(ref reader, ContentTypeName);
                         break;

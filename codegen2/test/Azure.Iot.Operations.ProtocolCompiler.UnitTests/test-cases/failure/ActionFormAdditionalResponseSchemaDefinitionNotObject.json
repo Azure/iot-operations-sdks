@@ -8,7 +8,7 @@
     {
       "condition": "TypeMismatch",
       "filename": "ActionFormAdditionalResponseSchemaDefinitionNotObject.TD.json",
-      "line": 36,
+      "line": 35,
       "cfLine": 9,
       "crossRef": ""
     }

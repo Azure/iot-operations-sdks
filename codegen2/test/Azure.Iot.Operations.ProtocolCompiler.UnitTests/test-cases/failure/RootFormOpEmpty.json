@@ -8,7 +8,7 @@
     {
       "condition": "PropertyEmpty",
       "filename": "RootFormOpEmpty.TD.json",
-      "line": 13,
+      "line": 12,
       "cfLine": 0,
       "crossRef": ""
     }

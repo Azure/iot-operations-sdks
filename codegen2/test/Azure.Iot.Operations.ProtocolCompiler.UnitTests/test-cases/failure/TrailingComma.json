@@ -15,7 +15,7 @@
     {
       "condition": "JsonInvalid",
       "filename": "TrailingComma.TD.json",
-      "line": 16,
+      "line": 15,
       "cfLine": 0,
       "crossRef": ""
     }

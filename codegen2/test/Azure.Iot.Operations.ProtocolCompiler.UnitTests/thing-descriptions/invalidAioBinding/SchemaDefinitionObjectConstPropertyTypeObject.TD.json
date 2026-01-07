@@ -29,7 +29,6 @@
     "noop": {
       "forms": [
         {
-          "href": "dtmi:test:ProtocolCompiler:_contents:__noop;1",
           "contentType": "application/json",
           "dtv:topic": "sample/TestThing/command/noop",
           "op": "invokeaction"

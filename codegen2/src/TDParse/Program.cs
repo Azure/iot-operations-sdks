@@ -42,7 +42,6 @@
                 {
                     foreach (var form in thing.Forms.Elements)
                     {
-                        Console.WriteLine($"Form href: {form.Value.Href}");
                         if (form.Value.ContentType != null)
                         {
                             Console.WriteLine($"  ContentType: {form.Value.ContentType}");
