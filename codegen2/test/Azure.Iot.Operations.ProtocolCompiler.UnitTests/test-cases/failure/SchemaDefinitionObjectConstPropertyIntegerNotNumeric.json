@@ -8,8 +8,8 @@
     {
       "condition": "TypeMismatch",
       "filename": "SchemaDefinitionObjectConstPropertyIntegerNotNumeric.TD.json",
-      "line": 25,
-      "cfLine": 21,
+      "line": 17,
+      "cfLine": 13,
       "crossRef": ""
     }
   ]

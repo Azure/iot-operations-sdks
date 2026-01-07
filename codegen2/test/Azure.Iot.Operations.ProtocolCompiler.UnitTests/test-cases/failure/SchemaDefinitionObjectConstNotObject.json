@@ -8,8 +8,8 @@
     {
       "condition": "TypeMismatch",
       "filename": "SchemaDefinitionObjectConstNotObject.TD.json",
-      "line": 24,
-      "cfLine": 18,
+      "line": 16,
+      "cfLine": 10,
       "crossRef": ""
     }
   ]

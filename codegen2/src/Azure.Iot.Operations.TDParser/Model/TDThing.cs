@@ -7,7 +7,7 @@
     public class TDThing : IEquatable<TDThing>, IDeserializable<TDThing>
     {
         public const string ContextName = "@context";
-        public const string IdName = "id";
+        public const string TypeName = "@type";
         public const string TitleName = "title";
         public const string LinksName = "links";
         public const string SchemaDefinitionsName = "schemaDefinitions";
@@ -18,7 +18,7 @@
 
         public ArrayTracker<TDContextSpecifier>? Context { get; set; }
 
-        public ValueTracker<StringHolder>? Id { get; set; }
+        public ValueTracker<StringHolder>? Type { get; set; }
 
         public ValueTracker<StringHolder>? Title { get; set; }
 
@@ -45,7 +45,7 @@
             else
             {
                 return Context == other.Context &&
-                       Id == other.Id &&
+                       Type == other.Type &&
                        Title == other.Title &&
                        Links == other.Links &&
                        SchemaDefinitions == other.SchemaDefinitions &&
@@ -58,7 +58,7 @@
 
         public override int GetHashCode()
         {
-            return (Context, Id, Title, Links, SchemaDefinitions, Forms, Actions, Properties, Events).GetHashCode();
+            return (Context, Type, Title, Links, SchemaDefinitions, Forms, Actions, Properties, Events).GetHashCode();
         }
 
         public static bool operator ==(TDThing? left, TDThing? right)
@@ -107,9 +107,9 @@
                     yield return item;
                 }
             }
-            if (Id != null)
+            if (Type != null)
             {
-                foreach (ITraversable item in Id.Traverse())
+                foreach (ITraversable item in Type.Traverse())
                 {
                     yield return item;
                 }
@@ -187,8 +187,8 @@
                     case ContextName:
                         thing.Context = ArrayTracker<TDContextSpecifier>.Deserialize(ref reader, ContextName);
                         break;
-                    case IdName:
-                        thing.Id = ValueTracker<StringHolder>.Deserialize(ref reader, IdName);
+                    case TypeName:
+                        thing.Type = ValueTracker<StringHolder>.Deserialize(ref reader, TypeName);
                         break;
                     case TitleName:
                         thing.Title = ValueTracker<StringHolder>.Deserialize(ref reader, TitleName);

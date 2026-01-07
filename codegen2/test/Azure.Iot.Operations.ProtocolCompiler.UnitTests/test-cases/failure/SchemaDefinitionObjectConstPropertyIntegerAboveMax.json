@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "SchemaDefinitionObjectConstPropertyIntegerAboveMax.TD.json",
-      "line": 26,
-      "cfLine": 22,
+      "line": 18,
+      "cfLine": 14,
       "crossRef": ""
     }
   ]

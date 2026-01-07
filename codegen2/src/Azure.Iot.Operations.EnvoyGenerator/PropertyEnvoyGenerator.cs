@@ -92,7 +92,6 @@
 
                     foreach (IEnvoyTemplateTransform transform in envoyFactory.GetPropertyTransforms(
                         schemaNamer,
-                        tdThing.Id!.Value!.Value,
                         serviceName,
                         propKvp.Key,
                         propSchema,
@@ -186,7 +185,6 @@
 
                 foreach (IEnvoyTemplateTransform transform in envoyFactory.GetPropertyTransforms(
                     schemaNamer,
-                    tdThing.Id!.Value!.Value,
                     serviceName,
                     schemaNamer.AggregatePropName,
                     schemaNamer.AggregatePropSchema,

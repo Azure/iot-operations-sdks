@@ -54,7 +54,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
         internal IEnumerable<IEnvoyTemplateTransform> GetActionTransforms(
             SchemaNamer schemaNamer,
-            string modelId,
             CodeName serviceName,
             string actionName,
             string? inputSchemaType,
@@ -102,7 +101,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetActionExecutorBinder(actionName),
                             projectName,
                             genNamespace,
-                            modelId,
                             serviceName,
                             serializerClassName,
                             serializerEmptyType,
@@ -120,7 +118,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetActionInvokerBinder(actionName),
                             projectName,
                             genNamespace,
-                            modelId,
                             serviceName,
                             serializerClassName,
                             serializerEmptyType,
@@ -152,7 +149,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             actionName,
                             schemaNamer.GetActionExecutorBinder(actionName),
                             genNamespace,
-                            modelId,
                             serializerEmptyType,
                             inputSchema,
                             outputSchema,
@@ -177,7 +173,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             actionName,
                             schemaNamer.GetActionInvokerBinder(actionName),
                             genNamespace,
-                            modelId,
                             serializerEmptyType,
                             inputSchema,
                             outputSchema,
@@ -203,7 +198,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
         internal IEnumerable<IEnvoyTemplateTransform> GetPropertyTransforms(
             SchemaNamer schemaNamer,
-            string modelId,
             CodeName serviceName,
             string propertyName,
             string propSchema,
@@ -242,7 +236,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetPropWriteActName(propertyName),
                             projectName,
                             genNamespace,
-                            modelId,
                             serviceName,
                             readSerializerClassName,
                             readSerializerEmptyType,
@@ -266,7 +259,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetPropWriteActName(propertyName),
                             projectName,
                             genNamespace,
-                            modelId,
                             serviceName,
                             readSerializerClassName,
                             readSerializerEmptyType,
@@ -290,7 +282,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetPropReadActName(propertyName),
                             schemaNamer.GetPropWriteActName(propertyName),
                             genNamespace,
-                            modelId,
                             readSerializerEmptyType,
                             writeSerializerEmptyType,
                             readRespSchema,
@@ -316,7 +307,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetPropReadActName(propertyName),
                             schemaNamer.GetPropWriteActName(propertyName),
                             genNamespace,
-                            modelId,
                             readSerializerEmptyType,
                             writeSerializerEmptyType,
                             readRespSchema,
@@ -343,7 +333,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
         internal IEnumerable<IEnvoyTemplateTransform> GetEventTransforms(
             SchemaNamer schemaNamer,
-            string modelId,
             CodeName serviceName,
             string eventName,
             string schemaType,
@@ -359,24 +348,24 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                 case TargetLanguage.CSharp:
                     if (generateServer)
                     {
-                        yield return new DotNetTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(schemaType), projectName, genNamespace, modelId, serviceName, serializerClassName, serializerEmptyType, EnvoyGeneratorSupport.GetTypeName(schemaType, format), topicPattern);
+                        yield return new DotNetTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(schemaType), projectName, genNamespace, serviceName, serializerClassName, serializerEmptyType, EnvoyGeneratorSupport.GetTypeName(schemaType, format), topicPattern);
                     }
 
                     if (generateClient)
                     {
-                        yield return new DotNetTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(schemaType), projectName, genNamespace, modelId, serviceName, serializerClassName, serializerEmptyType, EnvoyGeneratorSupport.GetTypeName(schemaType, format), serviceGroupId, topicPattern);
+                        yield return new DotNetTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(schemaType), projectName, genNamespace, serviceName, serializerClassName, serializerEmptyType, EnvoyGeneratorSupport.GetTypeName(schemaType, format), serviceGroupId, topicPattern);
                     }
 
                     break;
                 case TargetLanguage.Rust:
                     if (generateServer)
                     {
-                        yield return new RustTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(schemaType), genNamespace, modelId, EnvoyGeneratorSupport.GetTypeName(schemaType, format), topicPattern, schemaType, srcSubdir);
+                        yield return new RustTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(schemaType), genNamespace, EnvoyGeneratorSupport.GetTypeName(schemaType, format), topicPattern, schemaType, srcSubdir);
                     }
 
                     if (generateClient)
                     {
-                        yield return new RustTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(schemaType), genNamespace, modelId, EnvoyGeneratorSupport.GetTypeName(schemaType, format), serviceGroupId, topicPattern, schemaType, srcSubdir);
+                        yield return new RustTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(schemaType), genNamespace, EnvoyGeneratorSupport.GetTypeName(schemaType, format), serviceGroupId, topicPattern, schemaType, srcSubdir);
                     }
 
                     break;

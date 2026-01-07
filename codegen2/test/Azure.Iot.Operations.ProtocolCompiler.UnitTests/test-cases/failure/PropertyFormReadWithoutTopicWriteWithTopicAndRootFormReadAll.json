@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "PropertyFormReadWithoutTopicWriteWithTopicAndRootFormReadAll.TD.json",
-      "line": 35,
-      "cfLine": 29,
+      "line": 27,
+      "cfLine": 21,
       "crossRef": ""
     }
   ]

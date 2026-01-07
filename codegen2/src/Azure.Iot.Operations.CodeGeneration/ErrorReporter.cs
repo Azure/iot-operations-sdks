@@ -34,11 +34,6 @@
             this.errorLog.RegisterTypedReferenceFromThing(refPath, this.filename, GetLineNumber(byteIndex), type, refValue);
         }
 
-        public void RegisterIdOfThing(ValueTracker<StringHolder> id)
-        {
-            this.errorLog.RegisterIdOfThing(id.Value.Value, this.filename, GetLineNumber(id.TokenIndex));
-        }
-
         public void RegisterNameInThing(string name, long byteIndex)
         {
             this.errorLog.RegisterNameInThing(name, this.filename, GetLineNumber(byteIndex));

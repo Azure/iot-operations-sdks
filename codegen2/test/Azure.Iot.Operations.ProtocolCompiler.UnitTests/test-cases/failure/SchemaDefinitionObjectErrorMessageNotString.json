@@ -8,7 +8,7 @@
     {
       "condition": "JsonInvalid",
       "filename": "SchemaDefinitionObjectErrorMessageNotString.TD.json",
-      "line": 24,
+      "line": 16,
       "cfLine": 0,
       "crossRef": ""
     }

@@ -10,6 +10,8 @@
         public const string ContentTypeRaw = "application/octet-stream";
         public const string ContentTypeCustom = "";
 
+        public const string TypeThingModel = "tm:ThingModel";
+
         public const string OpInvokeAction = "invokeaction";
         public const string OpReadProp = "readproperty";
         public const string OpWriteProp = "writeproperty";

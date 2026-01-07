@@ -23,7 +23,7 @@
                     string schemaType = schemaNamer.GetEventSchema(eventKvp.Key);
                     formattedTypesToSerialize[subEventForm.Format].Add(schemaType);
                     eventSpecs.Add(new EventSpec(schemaNamer, eventKvp.Key, schemaType, subEventForm.Format));
-                    foreach (IEnvoyTemplateTransform transform in envoyFactory.GetEventTransforms(schemaNamer, tdThing.Id!.Value!.Value, serviceName, eventKvp.Key, schemaType, subEventForm.Format, subEventForm.ServiceGroupId, subEventForm.TopicPattern))
+                    foreach (IEnvoyTemplateTransform transform in envoyFactory.GetEventTransforms(schemaNamer, serviceName, eventKvp.Key, schemaType, subEventForm.Format, subEventForm.ServiceGroupId, subEventForm.TopicPattern))
                     {
                         transforms[transform.FileName] = transform;
                     }
@@ -35,7 +35,7 @@
             {
                 formattedTypesToSerialize[subAllEventsForm.Format].Add(schemaNamer.AggregateEventSchema);
                 eventSpecs.Add(new EventSpec(schemaNamer, schemaNamer.AggregateEventName, schemaNamer.AggregateEventSchema, subAllEventsForm.Format));
-                foreach (IEnvoyTemplateTransform transform in envoyFactory.GetEventTransforms(schemaNamer, tdThing.Id!.Value!.Value, serviceName, schemaNamer.AggregateEventName, schemaNamer.AggregateEventSchema, subAllEventsForm.Format, subAllEventsForm.ServiceGroupId, subAllEventsForm.TopicPattern))
+                foreach (IEnvoyTemplateTransform transform in envoyFactory.GetEventTransforms(schemaNamer, serviceName, schemaNamer.AggregateEventName, schemaNamer.AggregateEventSchema, subAllEventsForm.Format, subAllEventsForm.ServiceGroupId, subAllEventsForm.TopicPattern))
                 {
                     transforms[transform.FileName] = transform;
                 }

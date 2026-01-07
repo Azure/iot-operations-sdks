@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/IdNotString.TD.json" ],
+    "thingFiles": [ "invalidThing/TypeEmpty.TD.json" ],
     "lang": "none"
   },
   "errors": [
     {
-      "condition": "JsonInvalid",
-      "filename": "IdNotString.TD.json",
+      "condition": "PropertyEmpty",
+      "filename": "TypeEmpty.TD.json",
       "line": 6,
       "cfLine": 0,
       "crossRef": ""

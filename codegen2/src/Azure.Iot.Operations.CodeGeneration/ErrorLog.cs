@@ -6,7 +6,6 @@
 
     public class ErrorLog
     {
-        private readonly Dictionary<string, List<KeyValuePair<string, int>>> idsOfThings;
         private readonly Dictionary<string, List<ValueReference>> referencesFromThings;
         private readonly Dictionary<(string, string), List<ValueReference>> typedReferencesFromThings;
         private readonly Dictionary<string, Dictionary<string, int>> namesInThings;
@@ -26,7 +25,6 @@
 
         public ErrorLog(string defaultFolder)
         {
-            this.idsOfThings = new Dictionary<string, List<KeyValuePair<string, int>>>();
             this.referencesFromThings = new Dictionary<string, List<ValueReference>>();
             this.typedReferencesFromThings = new Dictionary<(string, string), List<ValueReference>>();
             this.namesInThings = new Dictionary<string, Dictionary<string, int>>();
@@ -41,17 +39,6 @@
 
         public void CheckForDuplicatesInThings()
         {
-            foreach (var (id, idSites) in idsOfThings)
-            {
-                if (idSites.Count > 1)
-                {
-                    foreach (var (filename, lineNumber) in idSites)
-                    {
-                        AddError(ErrorLevel.Error, ErrorCondition.Duplication, $"Duplicate use of '{TDThing.IdName}' value '{id}' across TDs.", filename, lineNumber, crossRef: id);
-                    }
-                }
-            }
-
             foreach (var (name, nameSites) in namesInThings)
             {
                 if (nameSites.Count > 1)
@@ -125,17 +112,6 @@
                 typedReferencesFromThings[key] = typedReferences;
             }
             typedReferences.Add(new ValueReference(filename, lineNumber, refValue));
-        }
-
-        public void RegisterIdOfThing(string id, string filename, int lineNumber)
-        {
-            if (!idsOfThings.TryGetValue(id, out List<KeyValuePair<string, int>>? idSites))
-            {
-                idSites = new();
-                idsOfThings[id] = idSites;
-            }
-
-            idSites.Add(new KeyValuePair<string, int>(filename, lineNumber));
         }
 
         public void RegisterNameInThing(string name, string filename, int lineNumber)

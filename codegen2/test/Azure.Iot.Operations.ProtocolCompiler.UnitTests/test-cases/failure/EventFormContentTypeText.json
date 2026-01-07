@@ -8,7 +8,7 @@
     {
       "condition": "PropertyUnsupportedValue",
       "filename": "EventFormContentTypeText.TD.json",
-      "line": 28,
+      "line": 20,
       "cfLine": 0,
       "crossRef": ""
     }

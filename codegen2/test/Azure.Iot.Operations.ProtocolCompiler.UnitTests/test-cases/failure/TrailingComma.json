@@ -8,14 +8,14 @@
     {
       "condition": "JsonInvalid",
       "filename": "TrailingComma.TD.json",
-      "line": 19,
+      "line": 11,
       "cfLine": 0,
       "crossRef": ""
     },
     {
       "condition": "JsonInvalid",
       "filename": "TrailingComma.TD.json",
-      "line": 24,
+      "line": 16,
       "cfLine": 0,
       "crossRef": ""
     }

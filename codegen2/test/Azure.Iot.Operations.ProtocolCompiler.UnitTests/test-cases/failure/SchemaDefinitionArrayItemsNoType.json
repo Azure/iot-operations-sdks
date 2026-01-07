@@ -8,7 +8,7 @@
     {
       "condition": "PropertyMissing",
       "filename": "SchemaDefinitionArrayItemsNoType.TD.json",
-      "line": 19,
+      "line": 11,
       "cfLine": 0,
       "crossRef": ""
     }

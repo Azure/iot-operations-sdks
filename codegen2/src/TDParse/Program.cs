@@ -36,7 +36,7 @@
                         Console.WriteLine($"@context: {context}");
                     }
                 }
-                Console.WriteLine($"ID: {thing.Id}");
+                Console.WriteLine($"Type: {thing.Type}");
                 Console.WriteLine($"Title: {thing.Title}");
                 if (thing.Forms?.Elements != null)
                 {

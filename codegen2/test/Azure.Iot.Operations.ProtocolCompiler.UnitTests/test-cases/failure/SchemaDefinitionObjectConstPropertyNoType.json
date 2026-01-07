@@ -8,8 +8,8 @@
     {
       "condition": "PropertyMissing",
       "filename": "SchemaDefinitionObjectConstPropertyNoType.TD.json",
-      "line": 20,
-      "cfLine": 23,
+      "line": 12,
+      "cfLine": 15,
       "crossRef": ""
     }
   ]

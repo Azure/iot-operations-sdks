@@ -8,8 +8,8 @@
     {
       "condition": "ItemNotFound",
       "filename": "SchemaDefinitionObjectConstPropertyNoValue.TD.json",
-      "line": 20,
-      "cfLine": 24,
+      "line": 12,
+      "cfLine": 16,
       "crossRef": ""
     }
   ]

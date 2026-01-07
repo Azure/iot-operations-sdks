@@ -8,8 +8,8 @@
     {
       "condition": "Unusable",
       "filename": "PropertyFormReadAdditionalResponsesNoTopicAndRootFormReadAllWithoutAdditionalResponses.TD.json",
-      "line": 40,
-      "cfLine": 27,
+      "line": 32,
+      "cfLine": 19,
       "crossRef": ""
     }
   ]

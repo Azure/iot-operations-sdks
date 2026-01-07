@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "ActionInputNullAndContentTypeJson.TD.json",
-      "line": 19,
-      "cfLine": 24,
+      "line": 11,
+      "cfLine": 16,
       "crossRef": ""
     }
   ]

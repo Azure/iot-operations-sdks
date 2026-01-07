@@ -8,7 +8,7 @@
     {
       "condition": "PropertyUnsupportedValue",
       "filename": "RootFormContentTypeText.TD.json",
-      "line": 20,
+      "line": 12,
       "cfLine": 0,
       "crossRef": ""
     }

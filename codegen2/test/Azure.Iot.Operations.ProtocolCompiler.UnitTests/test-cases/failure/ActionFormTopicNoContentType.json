@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "ActionFormTopicNoContentType.TD.json",
-      "line": 19,
-      "cfLine": 21,
+      "line": 11,
+      "cfLine": 13,
       "crossRef": ""
     }
   ]

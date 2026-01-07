@@ -26,7 +26,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public <#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new <#=this.serializerClassName#>())
             {
-                TopicTokenMap["<#=MqttTopicTokens.ModelId#>"] = "<#=this.modelId#>";
                 if (mqttClient.ClientId != null)
                 {
                     TopicTokenMap["<#=MqttTopicTokens.EventSenderId#>"] = mqttClient.ClientId;

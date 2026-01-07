@@ -11,11 +11,6 @@
         public const string PrefixCustom = "ex:";
 
         /// <summary>
-        /// Token representing the ID of a service.
-        /// </summary>
-        public const string ModelId = "modelId";
-
-        /// <summary>
         /// Token representing the ID of an Action executor, should be used only in Action topic patterns.
         /// </summary>
         public const string ActionExecutorId = "executorId";

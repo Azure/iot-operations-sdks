@@ -1,14 +1,14 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/ActionNoForms.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionNoForms.TD.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyMissing",
       "filename": "ActionNoForms.TD.json",
-      "line": 17,
+      "line": 9,
       "cfLine": 0,
       "crossRef": ""
     }

@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "EventObjectAndContentTypeCustom.TD.json",
-      "line": 23,
-      "cfLine": 33,
+      "line": 15,
+      "cfLine": 25,
       "crossRef": ""
     }
   ]

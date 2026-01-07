@@ -8,8 +8,8 @@
     {
       "condition": "TypeMismatch",
       "filename": "ActionFormHeaderCodeSchemaDefinitionNotEnum.TD.json",
-      "line": 29,
-      "cfLine": 17,
+      "line": 21,
+      "cfLine": 9,
       "crossRef": ""
     }
   ]

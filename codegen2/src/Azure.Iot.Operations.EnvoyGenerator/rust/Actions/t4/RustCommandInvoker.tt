@@ -158,7 +158,6 @@ where
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("<#=MqttTopicTokens.ModelId#>".to_string(), "<#=this.modelId#>".to_string());
         topic_token_map.insert("<#=MqttTopicTokens.ActionInvokerId#>".to_string(), client.client_id().to_string());
 
         let invoker_options = invoker_options_builder

@@ -29,7 +29,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
-                TopicTokenMap["<#=MqttTopicTokens.ModelId#>"] = "<#=this.modelId#>";
                 if (mqttClient.ClientId != null)
                 {
                     TopicTokenMap["<#=MqttTopicTokens.ActionInvokerId#>"] = mqttClient.ClientId;

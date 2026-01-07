@@ -49,8 +49,6 @@ where
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("<#=MqttTopicTokens.ModelId#>".to_string(), "<#=this.modelId#>".to_string());
-
         let receiver_options = receiver_options_builder
             .topic_pattern("<#=this.topicPattern#>")
             .topic_token_map(topic_token_map)

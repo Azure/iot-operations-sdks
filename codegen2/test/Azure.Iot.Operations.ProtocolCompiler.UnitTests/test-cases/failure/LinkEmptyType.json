@@ -8,7 +8,7 @@
     {
       "condition": "PropertyEmpty",
       "filename": "LinkEmptyType.TD.json",
-      "line": 20,
+      "line": 12,
       "cfLine": 0,
       "crossRef": ""
     }

@@ -8,8 +8,8 @@
     {
       "condition": "TypeMismatch",
       "filename": "PropertyFormAdditionalResponseSchemaDefinitionNotObject.TD.json",
-      "line": 47,
-      "cfLine": 17,
+      "line": 39,
+      "cfLine": 9,
       "crossRef": ""
     }
   ]

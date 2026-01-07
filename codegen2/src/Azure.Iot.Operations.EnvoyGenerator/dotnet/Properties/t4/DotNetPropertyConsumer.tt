@@ -46,7 +46,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                     RequestTopicPattern = AttributeRetriever.GetAttribute<PropertyTopicAttribute>(this)?.Topic ?? string.Empty;
 
                     TopicTokenMap["<#=MqttTopicTokens.PropertyAction#>"] = "<#=MqttTopicTokens.PropertyActionValues.Read#>";
-                    TopicTokenMap["<#=MqttTopicTokens.ModelId#>"] = "<#=this.modelId#>";
                     if (mqttClient.ClientId != null)
                     {
                         TopicTokenMap["<#=MqttTopicTokens.PropertyConsumerId#>"] = mqttClient.ClientId;
@@ -77,7 +76,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                     RequestTopicPattern = AttributeRetriever.GetAttribute<PropertyTopicAttribute>(this)?.Topic ?? string.Empty;
 
                     TopicTokenMap["<#=MqttTopicTokens.PropertyAction#>"] = "<#=MqttTopicTokens.PropertyActionValues.Write#>";
-                    TopicTokenMap["<#=MqttTopicTokens.ModelId#>"] = "<#=this.modelId#>";
                     if (mqttClient.ClientId != null)
                     {
                         TopicTokenMap["<#=MqttTopicTokens.PropertyConsumerId#>"] = mqttClient.ClientId;

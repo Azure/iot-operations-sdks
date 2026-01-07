@@ -32,9 +32,9 @@ namespace Dtdl2Wot
             this.mqttVersion = mqttVersion;
             this.schemaNamesPath = schemaNamesPath;
 
-            this.telemetryTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.TelemTopicPropertyFormat, mqttVersion), out object? telemTopicObj) ? (string)telemTopicObj : null;
-            this.commandTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.CmdReqTopicPropertyFormat, mqttVersion), out object? cmdTopicObj) ? (string)cmdTopicObj : null;
-            this.propertyTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.PropTopicPropertyFormat, mqttVersion), out object? propTopicObj) ? (string)propTopicObj : null;
+            this.telemetryTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.TelemTopicPropertyFormat, mqttVersion), out object? telemTopicObj) ? ((string)telemTopicObj).Replace(DtdlMqttTopicTokens.ModelId, interfaceId.AbsoluteUri) : null;
+            this.commandTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.CmdReqTopicPropertyFormat, mqttVersion), out object? cmdTopicObj) ? ((string)cmdTopicObj).Replace(DtdlMqttTopicTokens.ModelId, interfaceId.AbsoluteUri) : null;
+            this.propertyTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.PropTopicPropertyFormat, mqttVersion), out object? propTopicObj) ? ((string)propTopicObj).Replace(DtdlMqttTopicTokens.ModelId, interfaceId.AbsoluteUri) : null;
 
             this.telemServiceGroupId = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.TelemServiceGroupIdPropertyFormat, mqttVersion), out object? telemServiceGroupIdObj) ? (string)telemServiceGroupIdObj : null;
             this.cmdServiceGroupId = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.CmdServiceGroupIdPropertyFormat, mqttVersion), out object? cmdServiceGroupIdObj) ? (string)cmdServiceGroupIdObj : null;

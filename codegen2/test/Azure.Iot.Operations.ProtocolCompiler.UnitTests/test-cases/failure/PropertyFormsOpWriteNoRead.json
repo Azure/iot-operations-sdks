@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "PropertyFormsOpWriteNoRead.TD.json",
-      "line": 26,
-      "cfLine": 21,
+      "line": 18,
+      "cfLine": 13,
       "crossRef": ""
     }
   ]

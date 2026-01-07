@@ -3,16 +3,8 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
-  "id": "dtmi:test:Noop;1",
+  "@type": "tm:ThingModel",
   "title": "Noop",
-  "securityDefinitions": {
-    "nosec_sc": {
-      "scheme": "nosec"
-    }
-  },
-  "security": [
-    "nosec_sc"
-  ],
   "schemaDefinitions": {
     "Error": {
       "type": "object",
@@ -36,7 +28,7 @@
         {
           "href": "dtmi:test:ProtocolCompiler:alert;1",
           "contentType": "application/json",
-          "dtv:topic": "sample/alert/{modelId}",
+          "dtv:topic": "sample/alert/TestThing",
           "op": "subscribeevent",
           "additionalResponses": [
             {

@@ -8,16 +8,8 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
-  "id": "<#=this.dtInterface.Id.ToString()#>",
+  "@type": "tm:ThingModel",
   "title": "<#=this.serviceName.AsGiven#>",
-  "securityDefinitions": {
-    "nosec_sc": {
-      "scheme": "nosec"
-    }
-  },
-  "security": [
-    "nosec_sc"
-  ],
   "links": [
     {
       "rel": "service-desc",

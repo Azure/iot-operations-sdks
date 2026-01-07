@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "SchemaDefinitionObjectConstPropertyTypeUnsupported.TD.json",
-      "line": 21,
-      "cfLine": 24,
+      "line": 13,
+      "cfLine": 16,
       "crossRef": ""
     }
   ]

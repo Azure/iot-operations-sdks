@@ -6,6 +6,11 @@
     public static class DtdlMqttTopicTokens
     {
         /// <summary>
+        /// Token representing the DTMI of a DTDL model.
+        /// </summary>
+        public const string ModelId = "{modelId}";
+
+        /// <summary>
         /// Token representing the name of a Command.
         /// </summary>
         public const string CommandName = "{commandName}";

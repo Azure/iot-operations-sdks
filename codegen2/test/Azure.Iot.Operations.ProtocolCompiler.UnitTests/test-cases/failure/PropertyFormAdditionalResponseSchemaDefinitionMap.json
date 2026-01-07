@@ -8,8 +8,8 @@
     {
       "condition": "TypeMismatch",
       "filename": "PropertyFormAdditionalResponseSchemaDefinitionMap.TD.json",
-      "line": 45,
-      "cfLine": 24,
+      "line": 37,
+      "cfLine": 16,
       "crossRef": ""
     }
   ]

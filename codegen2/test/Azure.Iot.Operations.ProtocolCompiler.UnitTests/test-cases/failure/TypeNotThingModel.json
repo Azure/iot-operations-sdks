@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/IdInvalidCharacters.TD.json" ],
+    "thingFiles": [ "invalidThing/TypeNotThingModel.TD.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyInvalid",
-      "filename": "IdInvalidCharacters.TD.json",
+      "filename": "TypeNotThingModel.TD.json",
       "line": 6,
       "cfLine": 0,
       "crossRef": ""

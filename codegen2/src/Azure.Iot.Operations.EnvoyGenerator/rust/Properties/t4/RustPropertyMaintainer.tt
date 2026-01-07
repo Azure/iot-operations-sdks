@@ -167,7 +167,6 @@ where
             .collect();
 
         topic_token_map.insert("<#=MqttTopicTokens.PropertyAction#>".to_string(), "<#=MqttTopicTokens.PropertyActionValues.Read#>".to_string());
-        topic_token_map.insert("<#=MqttTopicTokens.ModelId#>".to_string(), "<#=this.modelId#>".to_string());
         topic_token_map.insert("<#=MqttTopicTokens.PropertyMaintainerId#>".to_string(), client.client_id().to_string());
 
         let executor_options = executor_options_builder
@@ -238,7 +237,6 @@ where
             .collect();
 
         topic_token_map.insert("<#=MqttTopicTokens.PropertyAction#>".to_string(), "<#=MqttTopicTokens.PropertyActionValues.Write#>".to_string());
-        topic_token_map.insert("<#=MqttTopicTokens.ModelId#>".to_string(), "<#=this.modelId#>".to_string());
         topic_token_map.insert("<#=MqttTopicTokens.PropertyMaintainerId#>".to_string(), client.client_id().to_string());
 
         let executor_options = executor_options_builder

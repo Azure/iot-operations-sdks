@@ -8,7 +8,7 @@
     {
       "condition": "PropertyUnsupported",
       "filename": "SchemaDefinitionRef.TD.json",
-      "line": 18,
+      "line": 10,
       "cfLine": 0,
       "crossRef": ""
     }

@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "RootFormsOpWriteMultiNoReadAll.TD.json",
-      "line": 21,
-      "cfLine": 16,
+      "line": 13,
+      "cfLine": 8,
       "crossRef": ""
     }
   ]

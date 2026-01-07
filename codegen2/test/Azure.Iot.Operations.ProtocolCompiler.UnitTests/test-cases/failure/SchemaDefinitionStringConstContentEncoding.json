@@ -8,8 +8,8 @@
     {
       "condition": "PropertyUnsupported",
       "filename": "SchemaDefinitionStringConstContentEncoding.TD.json",
-      "line": 20,
-      "cfLine": 19,
+      "line": 12,
+      "cfLine": 11,
       "crossRef": ""
     }
   ]

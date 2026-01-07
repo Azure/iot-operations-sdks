@@ -8,7 +8,7 @@
     {
       "condition": "JsonInvalid",
       "filename": "SchemaDefinitionNumberMaxNotNumeric.TD.json",
-      "line": 19,
+      "line": 11,
       "cfLine": 0,
       "crossRef": ""
     }

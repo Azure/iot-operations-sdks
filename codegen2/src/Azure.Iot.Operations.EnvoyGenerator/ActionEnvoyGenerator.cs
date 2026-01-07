@@ -59,7 +59,6 @@
 
                     foreach (IEnvoyTemplateTransform transform in envoyFactory.GetActionTransforms(
                         schemaNamer,
-                        tdThing.Id!.Value!.Value,
                         serviceName,
                         actionKvp.Key,
                         inputSchemaType,
