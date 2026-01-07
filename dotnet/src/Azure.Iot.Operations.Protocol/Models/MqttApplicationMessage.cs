@@ -197,10 +197,6 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             ContentType = cloudEvent.DataContentType;
 
-            // Ensure defaults
-            cloudEvent.Id ??= Guid.NewGuid().ToString();
-            cloudEvent.Time ??= DateTime.UtcNow;
-
             SetCloudEvent((CloudEvent)cloudEvent);
         }
 
@@ -208,7 +204,6 @@ namespace Azure.Iot.Operations.Protocol.Models
         /// Apply the provided cloud event to this MQTT message.
         /// </summary>
         /// <param name="cloudEvent">The cloud event to apply.</param>
-        /// <remarks>This method will overwrite the content type of the MQTT message if one was set already.</remarks>
         public void SetCloudEvent(CloudEvent cloudEvent)
         {
             AddUserProperty(nameof(cloudEvent.SpecVersion).ToLowerInvariant(), cloudEvent.SpecVersion);
@@ -273,12 +268,22 @@ namespace Azure.Iot.Operations.Protocol.Models
                 Id = id
             };
 
-            DateTime time = DateTime.UtcNow;
-            if (UserProperties.TryGetProperty("time", out string? timeStr) && !DateTime.TryParse(timeStr, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out time))
+            if (UserProperties.TryGetProperty("time", out string? timeStr))
             {
-                return null;
+                if (DateTime.TryParse(timeStr, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime time))
+                {
+                    cloudEvent.Time = time;
+                }
+                else
+                {
+                    // date time value was provided, but could not be parsed, so this isn't a cloud event
+                    return null;
+                }
             }
-            cloudEvent.Time = time;
+            else
+            {
+                cloudEvent.Time = null;
+            }
 
             if (UserProperties.TryGetProperty("subject", out string? subject))
             {

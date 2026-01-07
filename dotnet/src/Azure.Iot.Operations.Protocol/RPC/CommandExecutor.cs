@@ -185,7 +185,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     {
                         ContentType = args.ApplicationMessage.ContentType,
                         PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
-                        ExtendedCloudEvent = args.ApplicationMessage.GetCloudEvent()
                     };
                     request = _serializer.FromBytes<TReq>(args.ApplicationMessage.Payload, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
                     // Update application HLC against received timestamp
@@ -479,10 +478,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
             string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
-            if (metadata?.CloudEvent is not null)
+            // If the cloud event subject has not been set by the user, provide the default value
+            if (metadata != null
+                && metadata.CloudEvent is not null
+                && metadata.CloudEvent.IsSubjectDefault)
             {
-                metadata.CloudEvent.Time ??= DateTime.UtcNow;
-                metadata.CloudEvent.Subject ??= topic;
+                metadata.CloudEvent.Subject = topic;
             }
 
             metadata?.MarshalTo(message);

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Text.RegularExpressions;
 
 namespace Azure.Iot.Operations.Protocol
 {
@@ -14,7 +15,35 @@ namespace Azure.Iot.Operations.Protocol
         ///  Content type of data value. This attribute enables data to carry any type of content,
         ///  whereby format and encoding might differ from that of the chosen event format.
         /// </summary>
-        public string? DataContentType { get; set; }
+        /// <remarks>
+        /// This value must either be null, whitespace, or satisfy the regex of <see cref="ValidDataContentTypeRegex"/>
+        /// </remarks>
+        public string? DataContentType
+        {
+            get
+            {
+                return _dataContentType;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    _dataContentType = value;
+                    return;
+                }
+
+                if (!Regex.IsMatch(value, ValidDataContentTypeRegex))
+                {
+                    throw new ArgumentException("The provided data content type does not satisfy the regex of " + ValidDataContentTypeRegex);
+                }
+
+                _dataContentType = value;
+            }
+        }
+
+        private string? _dataContentType;
+
+        public const string ValidDataContentTypeRegex = "^([-a-z]+)/([-a-z0-9.]+)(\\+([-a-z0-9.]+))?(;.*)?$";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtendedCloudEvent"/> class.
