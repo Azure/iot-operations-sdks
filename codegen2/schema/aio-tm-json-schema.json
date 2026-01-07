@@ -781,7 +781,7 @@
   },
   "allOf": [
     {
-      "$ref": "./td-json-schema-validation.json"
+      "$ref": "./tm-json-schema-validation.json"
     },
     {
       "properties": {

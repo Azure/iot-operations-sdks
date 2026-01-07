@@ -9,9 +9,11 @@
         public const string ContextName = "@context";
         public const string TypeName = "@type";
         public const string TitleName = "title";
+        public const string DescriptionName = "description";
         public const string LinksName = "links";
         public const string SchemaDefinitionsName = "schemaDefinitions";
         public const string FormsName = "forms";
+        public const string OptionalName = "tm:optional";
         public const string ActionsName = "actions";
         public const string PropertiesName = "properties";
         public const string EventsName = "events";
@@ -22,11 +24,15 @@
 
         public ValueTracker<StringHolder>? Title { get; set; }
 
+        public ValueTracker<StringHolder>? Description { get; set; }
+
         public ArrayTracker<TDLink>? Links { get; set; }
 
         public MapTracker<TDDataSchema>? SchemaDefinitions { get; set; }
 
         public ArrayTracker<TDForm>? Forms { get; set; }
+
+        public ArrayTracker<StringHolder>? Optional { get; set; }
 
         public MapTracker<TDAction>? Actions { get; set; }
 
@@ -47,9 +53,11 @@
                 return Context == other.Context &&
                        Type == other.Type &&
                        Title == other.Title &&
+                       Description == other.Description &&
                        Links == other.Links &&
                        SchemaDefinitions == other.SchemaDefinitions &&
                        Forms == other.Forms &&
+                       Optional == other.Optional &&
                        Actions == other.Actions &&
                        Properties == other.Properties &&
                        Events == other.Events;
@@ -58,7 +66,7 @@
 
         public override int GetHashCode()
         {
-            return (Context, Type, Title, Links, SchemaDefinitions, Forms, Actions, Properties, Events).GetHashCode();
+            return (Context, Type, Title, Description, Links, SchemaDefinitions, Forms, Optional, Actions, Properties, Events).GetHashCode();
         }
 
         public static bool operator ==(TDThing? left, TDThing? right)
@@ -121,6 +129,13 @@
                     yield return item;
                 }
             }
+            if (Description != null)
+            {
+                foreach (ITraversable item in Description.Traverse())
+                {
+                    yield return item;
+                }
+            }
             if (Links != null)
             {
                 foreach (ITraversable item in Links.Traverse())
@@ -138,6 +153,13 @@
             if (Forms != null)
             {
                 foreach (ITraversable item in Forms.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (Optional != null)
+            {
+                foreach (ITraversable item in Optional.Traverse())
                 {
                     yield return item;
                 }
@@ -193,6 +215,9 @@
                     case TitleName:
                         thing.Title = ValueTracker<StringHolder>.Deserialize(ref reader, TitleName);
                         break;
+                    case DescriptionName:
+                        thing.Description = ValueTracker<StringHolder>.Deserialize(ref reader, DescriptionName);
+                        break;
                     case LinksName:
                         thing.Links = ArrayTracker<TDLink>.Deserialize(ref reader, LinksName);
                         break;
@@ -201,6 +226,9 @@
                         break;
                     case FormsName:
                         thing.Forms = ArrayTracker<TDForm>.Deserialize(ref reader, FormsName);
+                        break;
+                    case OptionalName:
+                        thing.Optional = ArrayTracker<StringHolder>.Deserialize(ref reader, OptionalName);
                         break;
                     case ActionsName:
                         thing.Actions = MapTracker<TDAction>.Deserialize(ref reader, ActionsName);

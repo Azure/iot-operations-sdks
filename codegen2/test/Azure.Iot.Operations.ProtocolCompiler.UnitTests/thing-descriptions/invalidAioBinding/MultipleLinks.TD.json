@@ -7,12 +7,12 @@
   "title": "Noop",
   "links": [
     {
-      "rel": "service-desc",
+      "rel": "dtv:naming",
       "href": "../../name-rules/DefaultSchemaNames.json",
       "type": "application/json"
     },
     {
-      "rel": "service-desc",
+      "rel": "dtv:naming",
       "href": "../../name-rules/DefaultSchemaNames.json",
       "type": "application/json"
     }

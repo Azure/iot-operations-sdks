@@ -4,7 +4,7 @@
 
     public static class TDValues
     {
-        public const string RelationSchemaNaming = "service-desc";
+        public const string RelationSchemaNaming = "dtv:naming";
 
         public const string ContentTypeJson = "application/json";
         public const string ContentTypeRaw = "application/octet-stream";

@@ -5,18 +5,13 @@
   ],
   "@type": "tm:ThingModel",
   "title": "Noop",
-  "links": [
-    {
-      "rel": "dtv:naming",
-      "type": "application/json"
-    }
-  ],
+  "foobar": "hello",
   "actions": {
     "noop": {
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/TestThing/command/noop",
+          "dtv:topic": "sample/noop/{executorId}",
           "op": "invokeaction"
         }
       ]

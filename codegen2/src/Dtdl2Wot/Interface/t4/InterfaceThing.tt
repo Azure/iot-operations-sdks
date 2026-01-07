@@ -12,7 +12,7 @@
   "title": "<#=this.serviceName.AsGiven#>",
   "links": [
     {
-      "rel": "service-desc",
+      "rel": "dtv:naming",
       "href": "<#=this.schemaNamesPath#>",
       "type": "application/json"
     }

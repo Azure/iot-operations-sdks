@@ -13,8 +13,6 @@
         private const string AioContextUriBase = "http://azure.com/DigitalTwins/dtmi#";
         private const string AioContextPrefix = "dtv";
 
-        private const string LinkRelSchemaNamer = "service-desc";
-
         private const string Iso8601DurationExample = "P3Y6M4DT12H30M5S";
         private const string DecimalExample = "1234567890.0987654321";
         private const string AnArbitraryString = "Pretty12345Tricky67890";
@@ -99,19 +97,7 @@
                 hasError = true;
             }
 
-            HashSet<string> supportedProperties = new()
-            {
-                TDThing.ContextName,
-                TDThing.TypeName,
-                TDThing.TitleName,
-                TDThing.LinksName,
-                TDThing.SchemaDefinitionsName,
-                TDThing.FormsName,
-                TDThing.ActionsName,
-                TDThing.PropertiesName,
-                TDThing.EventsName,
-            };
-            if (!TryValidateResidualProperties(thing.PropertyNames, supportedProperties, null, "an AIO Thing Model"))
+            if (!TryValidateThingPropertyNames(thing.PropertyNames))
             {
                 hasError = true;
             }
@@ -121,6 +107,39 @@
             if ((thing.Actions?.Entries?.Count ?? 0) == 0 && (thing.Properties?.Entries?.Count ?? 0) == 0 && (thing.Events?.Entries?.Count ?? 0) == 0)
             {
                 errorReporter.ReportWarning("Thing Description has no actions, properties, or events defined.", -1);
+            }
+
+            return !hasError;
+        }
+
+        private bool TryValidateThingPropertyNames(Dictionary<string, long> propertyNames)
+        {
+            bool hasError = false;
+
+            foreach (KeyValuePair<string, long> propertyName in propertyNames)
+            {
+                if (propertyName.Key != TDThing.ContextName &&
+                    propertyName.Key != TDThing.TypeName &&
+                    propertyName.Key != TDThing.TitleName &&
+                    propertyName.Key != TDThing.DescriptionName &&
+                    propertyName.Key != TDThing.LinksName &&
+                    propertyName.Key != TDThing.SchemaDefinitionsName &&
+                    propertyName.Key != TDThing.FormsName &&
+                    propertyName.Key != TDThing.OptionalName &&
+                    propertyName.Key != TDThing.ActionsName &&
+                    propertyName.Key != TDThing.PropertiesName &&
+                    propertyName.Key != TDThing.EventsName)
+                {
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
+                    {
+                        errorReporter.ReportWarning($"Thing has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
+                    }
+                    else
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Thing has '{propertyName.Key}' property, which is not supported.", propertyName.Value);
+                        hasError = true;
+                    }
+                }
             }
 
             return !hasError;
@@ -519,7 +538,7 @@
                     errorReporter.ReportWarning($"Link element is missing '{TDLink.RelName}' property; element will be ignored.", link.TokenIndex);
                     continue;
                 }
-                if (link.Value.Rel.Value.Value != LinkRelSchemaNamer)
+                if (link.Value.Rel.Value.Value != TDValues.RelationSchemaNaming)
                 {
                     errorReporter.ReportWarning($"Link element {TDLink.RelName} property has unrecognized value '{link.Value.Rel.Value.Value}'; element will be ignored.", link.Value.Rel.TokenIndex);
                     continue;
@@ -529,28 +548,28 @@
 
                 if (link.Value.Href == null)
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' is missing required '{TDLink.HrefName}' property.", link.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{TDValues.RelationSchemaNaming}' is missing required '{TDLink.HrefName}' property.", link.TokenIndex);
                     hasError = true;
                 }
                 else if (string.IsNullOrWhiteSpace(link.Value.Href.Value.Value))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' has empty '{TDLink.HrefName}' property value.", link.Value.Href.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{TDValues.RelationSchemaNaming}' has empty '{TDLink.HrefName}' property value.", link.Value.Href.TokenIndex);
                     hasError = true;
                 }
 
                 if (link.Value.Type == null)
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' is missing required '{TDLink.TypeName}' property.", link.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{TDValues.RelationSchemaNaming}' is missing required '{TDLink.TypeName}' property.", link.TokenIndex);
                     hasError = true;
                 }
                 else if (string.IsNullOrWhiteSpace(link.Value.Type.Value.Value))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' has empty '{TDLink.TypeName}' property value.", link.Value.Type.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{TDValues.RelationSchemaNaming}' has empty '{TDLink.TypeName}' property value.", link.Value.Type.TokenIndex);
                     hasError = true;
                 }
                 else if (link.Value.Type.Value.Value != TDValues.ContentTypeJson)
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Link element with {TDLink.RelName}='{LinkRelSchemaNamer}' has '{TDLink.TypeName}' property with unsupported value '{link.Value.Type.Value.Value}'.", link.Value.Type.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Link element with {TDLink.RelName}='{TDValues.RelationSchemaNaming}' has '{TDLink.TypeName}' property with unsupported value '{link.Value.Type.Value.Value}'.", link.Value.Type.TokenIndex);
                     hasError = true;
                 }
 
@@ -573,7 +592,7 @@
 
             if (relSchemaNamerCount > 1)
             {
-                errorReporter.ReportError(ErrorCondition.Duplication, $"Thing Description has multiple links with '{TDLink.RelName}' property value '{LinkRelSchemaNamer}'; only one is allowed.", links.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.Duplication, $"Thing Description has multiple links with '{TDLink.RelName}' property value '{TDValues.RelationSchemaNaming}'; only one is allowed.", links.TokenIndex);
                 hasError = true;
             }
 
@@ -1509,7 +1528,7 @@
         {
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             bool hasError = false;
@@ -1542,7 +1561,7 @@
 
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             if (constValue.Value.Value is double numValue)
@@ -1588,7 +1607,7 @@
 
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             if (constValue.Value.Value is double numValue && double.IsInteger(numValue))
@@ -1634,7 +1653,7 @@
 
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             if (constValue.Value.Value is not bool)
@@ -1778,7 +1797,7 @@
 
                     if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
                     {
-                        errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                        errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                     }
 
                     HashSet<string> supportedProperties = new()
@@ -1852,7 +1871,7 @@
 
                 if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
                 {
-                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                 }
             }
             else
@@ -1918,7 +1937,7 @@
             {
                 if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
                 {
-                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a 'service-desc' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                 }
 
                 foreach (ValueTracker<StringHolder> enumValue in dataSchema.Value.Enum.Elements)

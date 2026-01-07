@@ -7,7 +7,7 @@
   "title": "Noop",
   "links": [
     {
-      "rel": "service-desc",
+      "rel": "dtv:naming",
       "href": "",
       "type": "application/json"
     }
