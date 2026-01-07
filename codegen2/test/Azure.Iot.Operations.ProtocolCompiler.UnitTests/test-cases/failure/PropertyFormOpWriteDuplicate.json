@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormOpWriteDuplicate.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/PropertyFormOpWriteDuplicate.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "Duplication",
-      "filename": "PropertyFormOpWriteDuplicate.TD.json",
+      "filename": "PropertyFormOpWriteDuplicate.TM.json",
       "line": 17,
       "cfLine": 0,
       "crossRef": ""

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionOutputNumber.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionOutputNumber.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "TypeMismatch",
-      "filename": "ActionOutputNumber.TD.json",
+      "filename": "ActionOutputNumber.TM.json",
       "line": 10,
       "cfLine": 0,
       "crossRef": ""

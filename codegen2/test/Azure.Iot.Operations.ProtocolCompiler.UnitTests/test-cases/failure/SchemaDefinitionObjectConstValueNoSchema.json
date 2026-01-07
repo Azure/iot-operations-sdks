@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstValueNoSchema.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstValueNoSchema.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ItemNotFound",
-      "filename": "SchemaDefinitionObjectConstValueNoSchema.TD.json",
+      "filename": "SchemaDefinitionObjectConstValueNoSchema.TM.json",
       "line": 14,
       "cfLine": 11,
       "crossRef": ""

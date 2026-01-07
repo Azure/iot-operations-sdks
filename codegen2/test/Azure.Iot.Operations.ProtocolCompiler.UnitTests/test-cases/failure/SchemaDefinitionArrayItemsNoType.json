@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionArrayItemsNoType.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionArrayItemsNoType.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyMissing",
-      "filename": "SchemaDefinitionArrayItemsNoType.TD.json",
+      "filename": "SchemaDefinitionArrayItemsNoType.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

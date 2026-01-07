@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidJson/UnclosedObject.TD.json" ],
+    "thingFiles": [ "invalidJson/UnclosedObject.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "UnclosedObject.TD.json",
+      "filename": "UnclosedObject.TM.json",
       "line": 15,
       "cfLine": 0,
       "crossRef": ""

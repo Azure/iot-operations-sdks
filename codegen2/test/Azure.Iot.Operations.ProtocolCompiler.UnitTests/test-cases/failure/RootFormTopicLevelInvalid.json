@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormTopicLevelInvalid.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormTopicLevelInvalid.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyInvalid",
-      "filename": "RootFormTopicLevelInvalid.TD.json",
+      "filename": "RootFormTopicLevelInvalid.TM.json",
       "line": 10,
       "cfLine": 0,
       "crossRef": ""

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringEnumConst.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringEnumConst.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "SchemaDefinitionStringEnumConst.TD.json",
+      "filename": "SchemaDefinitionStringEnumConst.TM.json",
       "line": 12,
       "cfLine": 11,
       "crossRef": ""

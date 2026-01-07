@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidJson/DuplicateKey.TD.json" ],
+    "thingFiles": [ "invalidJson/DuplicateKey.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "DuplicateKey.TD.json",
+      "filename": "DuplicateKey.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

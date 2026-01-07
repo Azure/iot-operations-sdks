@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventNullAndContentTypeJson.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/EventNullAndContentTypeJson.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "EventNullAndContentTypeJson.TD.json",
+      "filename": "EventNullAndContentTypeJson.TM.json",
       "line": 15,
       "cfLine": 19,
       "crossRef": ""

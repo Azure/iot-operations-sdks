@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectNoDeterminant.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectNoDeterminant.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyMissing",
-      "filename": "SchemaDefinitionObjectNoDeterminant.TD.json",
+      "filename": "SchemaDefinitionObjectNoDeterminant.TM.json",
       "line": 9,
       "cfLine": 0,
       "crossRef": ""

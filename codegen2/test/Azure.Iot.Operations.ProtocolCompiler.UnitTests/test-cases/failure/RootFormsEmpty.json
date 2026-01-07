@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/RootFormsEmpty.TD.json" ],
+    "thingFiles": [ "invalidThing/RootFormsEmpty.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ElementMissing",
-      "filename": "RootFormsEmpty.TD.json",
+      "filename": "RootFormsEmpty.TM.json",
       "line": 8,
       "cfLine": 0,
       "crossRef": ""

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyTypeArray.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyTypeArray.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "SchemaDefinitionObjectConstPropertyTypeArray.TD.json",
+      "filename": "SchemaDefinitionObjectConstPropertyTypeArray.TM.json",
       "line": 13,
       "cfLine": 19,
       "crossRef": ""

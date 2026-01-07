@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionOutputObjectConst.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionOutputObjectConst.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "ActionOutputObjectConst.TD.json",
+      "filename": "ActionOutputObjectConst.TM.json",
       "line": 17,
       "cfLine": 0,
       "crossRef": ""

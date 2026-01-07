@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponseNoSchema.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponseNoSchema.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyMissing",
-      "filename": "ActionFormAdditionalResponseNoSchema.TD.json",
+      "filename": "ActionFormAdditionalResponseNoSchema.TM.json",
       "line": 34,
       "cfLine": 0,
       "crossRef": ""

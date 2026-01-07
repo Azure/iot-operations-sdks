@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormHeaderInfoNoSchemaDefinitions.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionFormHeaderInfoNoSchemaDefinitions.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ItemNotFound",
-      "filename": "ActionFormHeaderInfoNoSchemaDefinitions.TD.json",
+      "filename": "ActionFormHeaderInfoNoSchemaDefinitions.TM.json",
       "line": 18,
       "cfLine": 0,
       "crossRef": ""

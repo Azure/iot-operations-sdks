@@ -18,7 +18,6 @@
 <# } #>
       "forms": [
         {
-          "href": "<#=this.dtTelemetry.Id#>",
           "contentType": "<#=this.contentType#>",
 <# if (this.serviceGroupId != null) { #>
           "dtv:serviceGroupId": "<#=this.serviceGroupId#>",

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringConstFormat.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringConstFormat.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "SchemaDefinitionStringConstFormat.TD.json",
+      "filename": "SchemaDefinitionStringConstFormat.TM.json",
       "line": 12,
       "cfLine": 11,
       "crossRef": ""

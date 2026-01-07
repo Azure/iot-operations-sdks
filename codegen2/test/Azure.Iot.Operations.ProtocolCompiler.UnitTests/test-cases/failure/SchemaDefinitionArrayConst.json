@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionArrayConst.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionArrayConst.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "SchemaDefinitionArrayConst.TD.json",
+      "filename": "SchemaDefinitionArrayConst.TM.json",
       "line": 14,
       "cfLine": 0,
       "crossRef": ""

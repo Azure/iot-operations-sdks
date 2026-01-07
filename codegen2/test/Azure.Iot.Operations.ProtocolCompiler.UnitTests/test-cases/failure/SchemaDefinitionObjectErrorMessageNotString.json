@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectErrorMessageNotString.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectErrorMessageNotString.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "SchemaDefinitionObjectErrorMessageNotString.TD.json",
+      "filename": "SchemaDefinitionObjectErrorMessageNotString.TM.json",
       "line": 16,
       "cfLine": 0,
       "crossRef": ""

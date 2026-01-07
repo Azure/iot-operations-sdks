@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidJson/NumericKey.TD.json" ],
+    "thingFiles": [ "invalidJson/NumericKey.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "NumericKey.TD.json",
+      "filename": "NumericKey.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

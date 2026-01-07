@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/SchemaDefinitionMapAdditionalPropertiesNotObject.TD.json" ],
+    "thingFiles": [ "invalidThing/SchemaDefinitionMapAdditionalPropertiesNotObject.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "SchemaDefinitionMapAdditionalPropertiesNotObject.TD.json",
+      "filename": "SchemaDefinitionMapAdditionalPropertiesNotObject.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

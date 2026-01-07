@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormAdditionalResponseSchemaDefinitionMap.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/PropertyFormAdditionalResponseSchemaDefinitionMap.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "TypeMismatch",
-      "filename": "PropertyFormAdditionalResponseSchemaDefinitionMap.TD.json",
+      "filename": "PropertyFormAdditionalResponseSchemaDefinitionMap.TM.json",
       "line": 36,
       "cfLine": 16,
       "crossRef": ""

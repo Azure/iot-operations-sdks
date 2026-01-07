@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormServiceGroupEmpty.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionFormServiceGroupEmpty.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyEmpty",
-      "filename": "ActionFormServiceGroupEmpty.TD.json",
+      "filename": "ActionFormServiceGroupEmpty.TM.json",
       "line": 15,
       "cfLine": 0,
       "crossRef": ""

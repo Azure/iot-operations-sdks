@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerReadOnly.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerReadOnly.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "SchemaDefinitionIntegerReadOnly.TD.json",
+      "filename": "SchemaDefinitionIntegerReadOnly.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

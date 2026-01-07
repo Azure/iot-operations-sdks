@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormWriteMultiButNoWritableProperties.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormWriteMultiButNoWritableProperties.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "Unusable",
-      "filename": "RootFormWriteMultiButNoWritableProperties.TD.json",
+      "filename": "RootFormWriteMultiButNoWritableProperties.TM.json",
       "line": 17,
       "cfLine": 22,
       "crossRef": ""

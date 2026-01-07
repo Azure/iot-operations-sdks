@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormHeaderInfo.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormHeaderInfo.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "RootFormHeaderInfo.TD.json",
+      "filename": "RootFormHeaderInfo.TM.json",
       "line": 21,
       "cfLine": 0,
       "crossRef": ""

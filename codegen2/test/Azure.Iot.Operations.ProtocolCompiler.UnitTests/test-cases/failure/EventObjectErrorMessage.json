@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventObjectErrorMessage.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/EventObjectErrorMessage.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "EventObjectErrorMessage.TD.json",
+      "filename": "EventObjectErrorMessage.TM.json",
       "line": 21,
       "cfLine": 0,
       "crossRef": ""

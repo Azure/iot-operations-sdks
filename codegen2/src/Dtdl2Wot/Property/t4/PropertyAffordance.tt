@@ -14,7 +14,6 @@
       "forms": [
 <# if (this.dtProperty.Writable) { #>
         {
-          "href": "<#=this.dtProperty.Id#>",
           "contentType": "<#=this.contentType#>",
 <# if (this.isSchemaPropertyResult && this.writeErrorSchemaName != null) { #>
           "additionalResponses": [
@@ -31,7 +30,6 @@
         },
 <# } #>
         {
-          "href": "<#=this.dtProperty.Id#>",
           "contentType": "<#=this.contentType#>",
 <# if (this.isSchemaPropertyResult && this.readErrorSchemaName != null) { #>
           "additionalResponses": [

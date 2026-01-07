@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidJson/MissingComma.TD.json" ],
+    "thingFiles": [ "invalidJson/MissingComma.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "MissingComma.TD.json",
+      "filename": "MissingComma.TM.json",
       "line": 13,
       "cfLine": 0,
       "crossRef": ""

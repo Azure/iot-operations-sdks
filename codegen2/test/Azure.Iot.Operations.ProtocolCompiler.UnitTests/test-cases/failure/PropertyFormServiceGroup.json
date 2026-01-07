@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormServiceGroup.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/PropertyFormServiceGroup.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "PropertyFormServiceGroup.TD.json",
+      "filename": "PropertyFormServiceGroup.TM.json",
       "line": 18,
       "cfLine": 0,
       "crossRef": ""

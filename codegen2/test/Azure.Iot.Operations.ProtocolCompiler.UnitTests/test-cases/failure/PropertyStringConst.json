@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyStringConst.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/PropertyStringConst.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "PropertyStringConst.TD.json",
+      "filename": "PropertyStringConst.TM.json",
       "line": 13,
       "cfLine": 0,
       "crossRef": ""

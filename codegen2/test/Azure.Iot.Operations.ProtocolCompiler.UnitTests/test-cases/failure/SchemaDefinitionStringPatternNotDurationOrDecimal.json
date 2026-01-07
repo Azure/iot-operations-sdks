@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringPatternNotDurationOrDecimal.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringPatternNotDurationOrDecimal.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupportedValue",
-      "filename": "SchemaDefinitionStringPatternNotDurationOrDecimal.TD.json",
+      "filename": "SchemaDefinitionStringPatternNotDurationOrDecimal.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

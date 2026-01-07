@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/SchemaDefinitionIntegerMaxNotNumeric.TD.json" ],
+    "thingFiles": [ "invalidThing/SchemaDefinitionIntegerMaxNotNumeric.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "SchemaDefinitionIntegerMaxNotNumeric.TD.json",
+      "filename": "SchemaDefinitionIntegerMaxNotNumeric.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

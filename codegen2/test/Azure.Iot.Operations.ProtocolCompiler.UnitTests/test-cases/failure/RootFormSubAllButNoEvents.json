@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormSubAllButNoEvents.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormSubAllButNoEvents.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "Unusable",
-      "filename": "RootFormSubAllButNoEvents.TD.json",
+      "filename": "RootFormSubAllButNoEvents.TM.json",
       "line": 12,
       "cfLine": 19,
       "crossRef": ""

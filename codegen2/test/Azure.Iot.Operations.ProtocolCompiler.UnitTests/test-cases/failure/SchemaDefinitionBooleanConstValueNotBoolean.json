@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionBooleanConstValueNotBoolean.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionBooleanConstValueNotBoolean.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "TypeMismatch",
-      "filename": "SchemaDefinitionBooleanConstValueNotBoolean.TD.json",
+      "filename": "SchemaDefinitionBooleanConstValueNotBoolean.TM.json",
       "line": 11,
       "cfLine": 10,
       "crossRef": ""

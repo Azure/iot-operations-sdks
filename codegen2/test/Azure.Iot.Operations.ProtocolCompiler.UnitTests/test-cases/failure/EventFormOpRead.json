@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/EventFormOpRead.TD.json" ],
+    "thingFiles": [ "invalidThing/EventFormOpRead.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupportedValue",
-      "filename": "EventFormOpRead.TD.json",
+      "filename": "EventFormOpRead.TM.json",
       "line": 21,
       "cfLine": 0,
       "crossRef": ""

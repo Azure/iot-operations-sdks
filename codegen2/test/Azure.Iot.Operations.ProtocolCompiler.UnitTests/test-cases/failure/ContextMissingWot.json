@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/ContextMissingWot.TD.json" ],
+    "thingFiles": [ "invalidThing/ContextMissingWot.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyMissing",
-      "filename": "ContextMissingWot.TD.json",
+      "filename": "ContextMissingWot.TM.json",
       "line": 2,
       "cfLine": 0,
       "crossRef": ""

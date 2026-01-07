@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/PropertyFormsEmpty.TD.json" ],
+    "thingFiles": [ "invalidThing/PropertyFormsEmpty.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ElementMissing",
-      "filename": "PropertyFormsEmpty.TD.json",
+      "filename": "PropertyFormsEmpty.TM.json",
       "line": 13,
       "cfLine": 0,
       "crossRef": ""

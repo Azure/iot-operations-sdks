@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringPatternAndContentEncoding.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringPatternAndContentEncoding.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "SchemaDefinitionStringPatternAndContentEncoding.TD.json",
+      "filename": "SchemaDefinitionStringPatternAndContentEncoding.TM.json",
       "line": 9,
       "cfLine": 0,
       "crossRef": ""

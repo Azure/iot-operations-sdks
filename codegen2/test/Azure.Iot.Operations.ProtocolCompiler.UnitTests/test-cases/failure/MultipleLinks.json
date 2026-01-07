@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/MultipleLinks.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/MultipleLinks.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "Duplication",
-      "filename": "MultipleLinks.TD.json",
+      "filename": "MultipleLinks.TM.json",
       "line": 8,
       "cfLine": 0,
       "crossRef": ""

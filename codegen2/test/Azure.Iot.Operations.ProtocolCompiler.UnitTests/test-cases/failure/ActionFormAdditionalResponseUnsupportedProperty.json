@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponseUnsupportedProperty.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponseUnsupportedProperty.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "ActionFormAdditionalResponseUnsupportedProperty.TD.json",
+      "filename": "ActionFormAdditionalResponseUnsupportedProperty.TM.json",
       "line": 37,
       "cfLine": 0,
       "crossRef": ""

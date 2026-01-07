@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringEnumElementInvalid.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringEnumElementInvalid.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "SchemaDefinitionStringEnumElementInvalid.TD.json",
+      "filename": "SchemaDefinitionStringEnumElementInvalid.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

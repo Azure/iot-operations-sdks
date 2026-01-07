@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventFormTopicTokenAction.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/EventFormTopicTokenAction.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyInvalid",
-      "filename": "EventFormTopicTokenAction.TD.json",
+      "filename": "EventFormTopicTokenAction.TM.json",
       "line": 20,
       "cfLine": 0,
       "crossRef": ""

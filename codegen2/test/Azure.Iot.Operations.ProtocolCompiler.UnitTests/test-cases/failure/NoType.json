@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/NoType.TD.json" ],
+    "thingFiles": [ "invalidThing/NoType.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyMissing",
-      "filename": "NoType.TD.json",
+      "filename": "NoType.TM.json",
       "line": 0,
       "cfLine": 0,
       "crossRef": ""

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormOpWriteMultiDuplicate.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormOpWriteMultiDuplicate.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "Duplication",
-      "filename": "RootFormOpWriteMultiDuplicate.TD.json",
+      "filename": "RootFormOpWriteMultiDuplicate.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

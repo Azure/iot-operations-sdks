@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormTopicNoContentType.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionFormTopicNoContentType.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "ActionFormTopicNoContentType.TD.json",
+      "filename": "ActionFormTopicNoContentType.TM.json",
       "line": 11,
       "cfLine": 12,
       "crossRef": ""

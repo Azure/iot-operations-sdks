@@ -85,7 +85,6 @@
 <# } #>
       "forms": [
         {
-          "href": "<#=this.dtCommand.Id#>",
           "contentType": "<#=this.contentType#>",
 <# if (this.isResponseSchemaResult) { #>
 <# if (this.errorSchemaName != null) { #>

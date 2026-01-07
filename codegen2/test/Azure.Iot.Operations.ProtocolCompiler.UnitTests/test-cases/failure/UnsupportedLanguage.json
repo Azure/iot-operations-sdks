@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "valid/Noop.TD.json" ],
+    "thingFiles": [ "valid/Noop.TM.json" ],
     "lang": "haskell"
   },
   "errors": [

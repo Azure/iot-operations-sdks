@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormAdditionalResponseSuccessTrue.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormAdditionalResponseSuccessTrue.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupportedValue",
-      "filename": "RootFormAdditionalResponseSuccessTrue.TD.json",
+      "filename": "RootFormAdditionalResponseSuccessTrue.TM.json",
       "line": 15,
       "cfLine": 0,
       "crossRef": ""

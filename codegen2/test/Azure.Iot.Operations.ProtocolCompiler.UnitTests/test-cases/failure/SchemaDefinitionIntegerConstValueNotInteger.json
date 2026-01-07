@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerConstValueNotInteger.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerConstValueNotInteger.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "TypeMismatch",
-      "filename": "SchemaDefinitionIntegerConstValueNotInteger.TD.json",
+      "filename": "SchemaDefinitionIntegerConstValueNotInteger.TM.json",
       "line": 11,
       "cfLine": 10,
       "crossRef": ""

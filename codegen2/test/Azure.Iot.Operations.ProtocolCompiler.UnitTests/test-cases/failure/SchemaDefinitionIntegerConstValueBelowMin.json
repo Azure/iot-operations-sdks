@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerConstValueBelowMin.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerConstValueBelowMin.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "SchemaDefinitionIntegerConstValueBelowMin.TD.json",
+      "filename": "SchemaDefinitionIntegerConstValueBelowMin.TM.json",
       "line": 12,
       "cfLine": 11,
       "crossRef": ""

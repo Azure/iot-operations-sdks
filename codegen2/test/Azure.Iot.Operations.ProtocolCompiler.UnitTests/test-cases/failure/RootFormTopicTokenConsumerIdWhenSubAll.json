@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormTopicTokenConsumerIdWhenSubAll.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormTopicTokenConsumerIdWhenSubAll.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyInvalid",
-      "filename": "RootFormTopicTokenConsumerIdWhenSubAll.TD.json",
+      "filename": "RootFormTopicTokenConsumerIdWhenSubAll.TM.json",
       "line": 10,
       "cfLine": 0,
       "crossRef": ""

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/SchemaDefinitionObjectConstPropertyTypeUnsupported.TD.json" ],
+    "thingFiles": [ "invalidThing/SchemaDefinitionObjectConstPropertyTypeUnsupported.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "SchemaDefinitionObjectConstPropertyTypeUnsupported.TD.json",
+      "filename": "SchemaDefinitionObjectConstPropertyTypeUnsupported.TM.json",
       "line": 13,
       "cfLine": 16,
       "crossRef": ""

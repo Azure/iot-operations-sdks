@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormNoContentType.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormNoContentType.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "RootFormNoContentType.TD.json",
+      "filename": "RootFormNoContentType.TM.json",
       "line": 9,
       "cfLine": 10,
       "crossRef": ""

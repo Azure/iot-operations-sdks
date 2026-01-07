@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerMaxNotInteger.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerMaxNotInteger.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "TypeMismatch",
-      "filename": "SchemaDefinitionIntegerMaxNotInteger.TD.json",
+      "filename": "SchemaDefinitionIntegerMaxNotInteger.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/PropertyFormOpInvoke.TD.json" ],
+    "thingFiles": [ "invalidThing/PropertyFormOpInvoke.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupportedValue",
-      "filename": "PropertyFormOpInvoke.TD.json",
+      "filename": "PropertyFormOpInvoke.TM.json",
       "line": 17,
       "cfLine": 0,
       "crossRef": ""

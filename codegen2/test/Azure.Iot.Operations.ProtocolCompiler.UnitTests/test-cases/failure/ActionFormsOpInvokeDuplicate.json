@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormsOpInvokeDuplicate.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionFormsOpInvokeDuplicate.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "Duplication",
-      "filename": "ActionFormsOpInvokeDuplicate.TD.json",
+      "filename": "ActionFormsOpInvokeDuplicate.TM.json",
       "line": 14,
       "cfLine": 19,
       "crossRef": ""

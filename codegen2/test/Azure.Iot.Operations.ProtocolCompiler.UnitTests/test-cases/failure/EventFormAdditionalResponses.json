@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventFormAdditionalResponses.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/EventFormAdditionalResponses.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "EventFormAdditionalResponses.TD.json",
+      "filename": "EventFormAdditionalResponses.TM.json",
       "line": 32,
       "cfLine": 0,
       "crossRef": ""

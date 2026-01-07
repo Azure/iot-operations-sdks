@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormServiceGroupNoSubAll.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormServiceGroupNoSubAll.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "RootFormServiceGroupNoSubAll.TD.json",
+      "filename": "RootFormServiceGroupNoSubAll.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

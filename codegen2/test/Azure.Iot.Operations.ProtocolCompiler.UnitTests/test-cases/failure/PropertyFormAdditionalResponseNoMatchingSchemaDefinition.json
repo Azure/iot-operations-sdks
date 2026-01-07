@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormAdditionalResponseNoMatchingSchemaDefinition.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/PropertyFormAdditionalResponseNoMatchingSchemaDefinition.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ItemNotFound",
-      "filename": "PropertyFormAdditionalResponseNoMatchingSchemaDefinition.TD.json",
+      "filename": "PropertyFormAdditionalResponseNoMatchingSchemaDefinition.TM.json",
       "line": 31,
       "cfLine": 8,
       "crossRef": ""

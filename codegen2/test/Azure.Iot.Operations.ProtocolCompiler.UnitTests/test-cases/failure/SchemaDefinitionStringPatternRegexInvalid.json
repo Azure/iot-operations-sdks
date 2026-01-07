@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringPatternRegexInvalid.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionStringPatternRegexInvalid.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyInvalid",
-      "filename": "SchemaDefinitionStringPatternRegexInvalid.TD.json",
+      "filename": "SchemaDefinitionStringPatternRegexInvalid.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

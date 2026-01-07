@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventFormOpSubDuplicate.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/EventFormOpSubDuplicate.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "Duplication",
-      "filename": "EventFormOpSubDuplicate.TD.json",
+      "filename": "EventFormOpSubDuplicate.TM.json",
       "line": 21,
       "cfLine": 0,
       "crossRef": ""

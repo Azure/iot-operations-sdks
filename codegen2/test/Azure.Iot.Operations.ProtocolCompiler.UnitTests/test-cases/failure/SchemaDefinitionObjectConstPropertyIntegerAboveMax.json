@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyIntegerAboveMax.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyIntegerAboveMax.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "SchemaDefinitionObjectConstPropertyIntegerAboveMax.TD.json",
+      "filename": "SchemaDefinitionObjectConstPropertyIntegerAboveMax.TM.json",
       "line": 18,
       "cfLine": 14,
       "crossRef": ""

@@ -1,7 +1,7 @@
 {
   "success": true,
   "commandLine": {
-    "thingFiles": [ "valid/LinkOtherRel.TD.json" ],
+    "thingFiles": [ "valid/LinkOtherRel.TM.json" ],
     "lang": "none"
   }
 }

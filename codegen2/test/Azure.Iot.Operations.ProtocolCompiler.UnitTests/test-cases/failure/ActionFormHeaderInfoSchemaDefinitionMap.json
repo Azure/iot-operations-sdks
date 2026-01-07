@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormHeaderInfoSchemaDefinitionMap.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionFormHeaderInfoSchemaDefinitionMap.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "TypeMismatch",
-      "filename": "ActionFormHeaderInfoSchemaDefinitionMap.TD.json",
+      "filename": "ActionFormHeaderInfoSchemaDefinitionMap.TM.json",
       "line": 33,
       "cfLine": 16,
       "crossRef": ""

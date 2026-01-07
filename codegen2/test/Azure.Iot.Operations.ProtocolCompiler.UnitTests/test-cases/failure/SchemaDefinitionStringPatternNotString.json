@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/SchemaDefinitionStringPatternNotString.TD.json" ],
+    "thingFiles": [ "invalidThing/SchemaDefinitionStringPatternNotString.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "SchemaDefinitionStringPatternNotString.TD.json",
+      "filename": "SchemaDefinitionStringPatternNotString.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

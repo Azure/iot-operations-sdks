@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormOpWiteMultiAndSubAll.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormOpWiteMultiAndSubAll.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "RootFormOpWiteMultiAndSubAll.TD.json",
+      "filename": "RootFormOpWiteMultiAndSubAll.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

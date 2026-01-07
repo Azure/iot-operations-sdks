@@ -1,20 +1,20 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidJson/TrailingComma.TD.json" ],
+    "thingFiles": [ "invalidJson/TrailingComma.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "TrailingComma.TD.json",
+      "filename": "TrailingComma.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""
     },
     {
       "condition": "JsonInvalid",
-      "filename": "TrailingComma.TD.json",
+      "filename": "TrailingComma.TM.json",
       "line": 15,
       "cfLine": 0,
       "crossRef": ""

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionInputObjectAndContentTypeCustom.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionInputObjectAndContentTypeCustom.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "ActionInputObjectAndContentTypeCustom.TD.json",
+      "filename": "ActionInputObjectAndContentTypeCustom.TM.json",
       "line": 11,
       "cfLine": 20,
       "crossRef": ""

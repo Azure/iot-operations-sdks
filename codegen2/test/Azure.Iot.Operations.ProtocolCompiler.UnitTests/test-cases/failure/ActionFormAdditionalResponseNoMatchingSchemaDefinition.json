@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponseNoMatchingSchemaDefinition.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponseNoMatchingSchemaDefinition.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ItemNotFound",
-      "filename": "ActionFormAdditionalResponseNoMatchingSchemaDefinition.TD.json",
+      "filename": "ActionFormAdditionalResponseNoMatchingSchemaDefinition.TM.json",
       "line": 28,
       "cfLine": 8,
       "crossRef": ""

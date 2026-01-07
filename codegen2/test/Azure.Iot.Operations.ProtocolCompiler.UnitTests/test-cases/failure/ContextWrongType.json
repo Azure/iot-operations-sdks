@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/ContextWrongType.TD.json" ],
+    "thingFiles": [ "invalidThing/ContextWrongType.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "ContextWrongType.TD.json",
+      "filename": "ContextWrongType.TM.json",
       "line": 2,
       "cfLine": 0,
       "crossRef": ""

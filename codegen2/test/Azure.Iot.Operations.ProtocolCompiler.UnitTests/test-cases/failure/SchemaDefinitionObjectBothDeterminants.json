@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectBothDeterminants.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectBothDeterminants.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "SchemaDefinitionObjectBothDeterminants.TD.json",
+      "filename": "SchemaDefinitionObjectBothDeterminants.TM.json",
       "line": 11,
       "cfLine": 16,
       "crossRef": ""

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/LinkNoType.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/LinkNoType.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyMissing",
-      "filename": "LinkNoType.TD.json",
+      "filename": "LinkNoType.TM.json",
       "line": 9,
       "cfLine": 0,
       "crossRef": ""

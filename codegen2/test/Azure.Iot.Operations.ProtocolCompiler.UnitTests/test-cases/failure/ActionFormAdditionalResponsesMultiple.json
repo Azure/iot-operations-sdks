@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponsesMultiple.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponsesMultiple.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ElementsPlural",
-      "filename": "ActionFormAdditionalResponsesMultiple.TD.json",
+      "filename": "ActionFormAdditionalResponsesMultiple.TM.json",
       "line": 33,
       "cfLine": 0,
       "crossRef": ""

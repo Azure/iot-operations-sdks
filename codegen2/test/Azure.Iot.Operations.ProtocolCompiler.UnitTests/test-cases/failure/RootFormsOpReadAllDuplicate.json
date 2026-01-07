@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormsOpReadAllDuplicate.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormsOpReadAllDuplicate.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "Duplication",
-      "filename": "RootFormsOpReadAllDuplicate.TD.json",
+      "filename": "RootFormsOpReadAllDuplicate.TM.json",
       "line": 12,
       "cfLine": 17,
       "crossRef": ""

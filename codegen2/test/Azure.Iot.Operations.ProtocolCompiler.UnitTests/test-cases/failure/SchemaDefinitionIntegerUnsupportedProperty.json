@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerUnsupportedProperty.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerUnsupportedProperty.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "SchemaDefinitionIntegerUnsupportedProperty.TD.json",
+      "filename": "SchemaDefinitionIntegerUnsupportedProperty.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

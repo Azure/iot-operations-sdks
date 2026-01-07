@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormsOpWriteNoRead.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/PropertyFormsOpWriteNoRead.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "PropertyFormsOpWriteNoRead.TD.json",
+      "filename": "PropertyFormsOpWriteNoRead.TM.json",
       "line": 17,
       "cfLine": 13,
       "crossRef": ""

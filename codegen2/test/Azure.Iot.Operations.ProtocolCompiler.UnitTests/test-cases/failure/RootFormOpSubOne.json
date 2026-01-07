@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/RootFormOpElementEmpty.TD.json" ],
+    "thingFiles": [ "invalidThing/RootFormOpElementEmpty.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyEmpty",
-      "filename": "RootFormOpElementEmpty.TD.json",
+      "filename": "RootFormOpElementEmpty.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

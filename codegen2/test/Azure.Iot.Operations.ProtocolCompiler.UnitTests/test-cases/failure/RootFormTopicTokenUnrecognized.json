@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormTopicTokenUnrecognized.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormTopicTokenUnrecognized.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyInvalid",
-      "filename": "RootFormTopicTokenUnrecognized.TD.json",
+      "filename": "RootFormTopicTokenUnrecognized.TM.json",
       "line": 10,
       "cfLine": 0,
       "crossRef": ""

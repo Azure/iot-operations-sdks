@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionBooleanUnsupportedProperty.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionBooleanUnsupportedProperty.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "SchemaDefinitionBooleanUnsupportedProperty.TD.json",
+      "filename": "SchemaDefinitionBooleanUnsupportedProperty.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

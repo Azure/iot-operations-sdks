@@ -70,7 +70,7 @@ namespace Dtdl2Wot
             this.thingDescriber = new ThingDescriber(mqttVersion);
         }
 
-        public string FileName { get => $"{this.serviceName.AsGiven}.TD.json"; }
+        public string FileName { get => $"{this.serviceName.AsGiven}.TM.json"; }
 
         public string FolderPath { get => string.Empty; }
     }

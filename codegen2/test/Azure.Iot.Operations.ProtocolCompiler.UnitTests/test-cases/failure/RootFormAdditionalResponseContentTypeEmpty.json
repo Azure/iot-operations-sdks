@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormAdditionalResponseContentTypeEmpty.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormAdditionalResponseContentTypeEmpty.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyEmpty",
-      "filename": "RootFormAdditionalResponseContentTypeEmpty.TD.json",
+      "filename": "RootFormAdditionalResponseContentTypeEmpty.TM.json",
       "line": 14,
       "cfLine": 0,
       "crossRef": ""

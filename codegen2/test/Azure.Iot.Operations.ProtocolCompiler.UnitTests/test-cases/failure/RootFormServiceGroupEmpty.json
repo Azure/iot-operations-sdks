@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormServiceGroupEmpty.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormServiceGroupEmpty.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyEmpty",
-      "filename": "RootFormServiceGroupEmpty.TD.json",
+      "filename": "RootFormServiceGroupEmpty.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerMinNotInteger.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerMinNotInteger.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "TypeMismatch",
-      "filename": "SchemaDefinitionIntegerMinNotInteger.TD.json",
+      "filename": "SchemaDefinitionIntegerMinNotInteger.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

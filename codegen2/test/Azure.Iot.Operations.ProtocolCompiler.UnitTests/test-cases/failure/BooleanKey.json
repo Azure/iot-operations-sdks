@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidJson/BooleanKey.TD.json" ],
+    "thingFiles": [ "invalidJson/BooleanKey.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "BooleanKey.TD.json",
+      "filename": "BooleanKey.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

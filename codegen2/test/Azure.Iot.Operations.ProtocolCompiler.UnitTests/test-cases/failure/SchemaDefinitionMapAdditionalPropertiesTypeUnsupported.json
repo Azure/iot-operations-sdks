@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/SchemaDefinitionMapAdditionalPropertiesTypeUnsupported.TD.json" ],
+    "thingFiles": [ "invalidThing/SchemaDefinitionMapAdditionalPropertiesTypeUnsupported.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupportedValue",
-      "filename": "SchemaDefinitionMapAdditionalPropertiesTypeUnsupported.TD.json",
+      "filename": "SchemaDefinitionMapAdditionalPropertiesTypeUnsupported.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

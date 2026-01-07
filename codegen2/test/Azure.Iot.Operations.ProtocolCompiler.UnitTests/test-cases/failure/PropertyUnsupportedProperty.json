@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyUnsupportedProperty.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/PropertyUnsupportedProperty.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "PropertyUnsupportedProperty.TD.json",
+      "filename": "PropertyUnsupportedProperty.TM.json",
       "line": 20,
       "cfLine": 0,
       "crossRef": ""

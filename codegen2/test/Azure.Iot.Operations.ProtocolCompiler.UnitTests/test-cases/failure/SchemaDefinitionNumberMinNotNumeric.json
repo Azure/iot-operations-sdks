@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/SchemaDefinitionNumberMinNotNumeric.TD.json" ],
+    "thingFiles": [ "invalidThing/SchemaDefinitionNumberMinNotNumeric.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "SchemaDefinitionNumberMinNotNumeric.TD.json",
+      "filename": "SchemaDefinitionNumberMinNotNumeric.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

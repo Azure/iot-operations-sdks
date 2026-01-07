@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/TypeNotThingModel.TD.json" ],
+    "thingFiles": [ "invalidThing/TypeNotThingModel.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyInvalid",
-      "filename": "TypeNotThingModel.TD.json",
+      "filename": "TypeNotThingModel.TM.json",
       "line": 6,
       "cfLine": 0,
       "crossRef": ""

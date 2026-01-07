@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionNoFormsWithTopic.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionNoFormsWithTopic.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "Unusable",
-      "filename": "ActionNoFormsWithTopic.TD.json",
+      "filename": "ActionNoFormsWithTopic.TM.json",
       "line": 9,
       "cfLine": 0,
       "crossRef": ""

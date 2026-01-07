@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormOpReadAllAndSubAll.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormOpReadAllAndSubAll.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "RootFormOpReadAllAndSubAll.TD.json",
+      "filename": "RootFormOpReadAllAndSubAll.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

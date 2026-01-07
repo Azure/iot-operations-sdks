@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormsOpWriteMultiNoReadAll.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormsOpWriteMultiNoReadAll.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "RootFormsOpWriteMultiNoReadAll.TD.json",
+      "filename": "RootFormsOpWriteMultiNoReadAll.TM.json",
       "line": 12,
       "cfLine": 8,
       "crossRef": ""

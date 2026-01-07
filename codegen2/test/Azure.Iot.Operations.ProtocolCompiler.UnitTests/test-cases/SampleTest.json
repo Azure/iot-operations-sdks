@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "valid/Noop.TD.json" ],
+    "thingFiles": [ "valid/Noop.TM.json" ],
     "schemas": [ ],
     "typeNamer": null,
     "outDir": "",
@@ -17,7 +17,7 @@
   "errors": [
     {
       "condition": "PropertyUnsupportedValue",
-      "filename": "OneAction.TD.json",
+      "filename": "OneAction.TM.json",
       "line": 32,
       "cfLine": 0,
       "crossRef": ""

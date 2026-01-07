@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyStringValueNotString.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyStringValueNotString.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "TypeMismatch",
-      "filename": "SchemaDefinitionObjectConstPropertyStringValueNotString.TD.json",
+      "filename": "SchemaDefinitionObjectConstPropertyStringValueNotString.TM.json",
       "line": 17,
       "cfLine": 13,
       "crossRef": ""

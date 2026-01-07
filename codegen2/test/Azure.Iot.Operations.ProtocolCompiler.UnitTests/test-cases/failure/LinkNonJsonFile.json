@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/LinkNonJsonFile.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/LinkNonJsonFile.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "JsonInvalid",
-      "filename": "LinkNonJsonFile.TD.json",
+      "filename": "LinkNonJsonFile.TM.json",
       "line": 11,
       "cfLine": 0,
       "crossRef": ""

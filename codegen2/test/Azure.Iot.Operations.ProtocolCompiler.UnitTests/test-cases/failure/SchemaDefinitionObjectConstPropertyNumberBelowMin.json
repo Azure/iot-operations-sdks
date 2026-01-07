@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyNumberBelowMin.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyNumberBelowMin.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "SchemaDefinitionObjectConstPropertyNumberBelowMin.TD.json",
+      "filename": "SchemaDefinitionObjectConstPropertyNumberBelowMin.TM.json",
       "line": 18,
       "cfLine": 14,
       "crossRef": ""

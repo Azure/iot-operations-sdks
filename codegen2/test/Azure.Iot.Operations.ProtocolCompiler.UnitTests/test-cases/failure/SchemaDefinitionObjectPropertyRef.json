@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectPropertyRef.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectPropertyRef.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "SchemaDefinitionObjectPropertyRef.TD.json",
+      "filename": "SchemaDefinitionObjectPropertyRef.TM.json",
       "line": 13,
       "cfLine": 0,
       "crossRef": ""

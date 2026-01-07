@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventFormHeaderCode.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/EventFormHeaderCode.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "EventFormHeaderCode.TD.json",
+      "filename": "EventFormHeaderCode.TM.json",
       "line": 31,
       "cfLine": 0,
       "crossRef": ""

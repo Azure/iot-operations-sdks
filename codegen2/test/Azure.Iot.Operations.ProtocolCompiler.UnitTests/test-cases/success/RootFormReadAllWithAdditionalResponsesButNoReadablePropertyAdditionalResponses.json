@@ -1,12 +1,12 @@
 {
   "success": true,
   "commandLine": {
-    "thingFiles": [ "valid/RootFormReadAllWithAdditionalResponsesButNoReadablePropertyAdditionalResponses.TD.json" ],
+    "thingFiles": [ "valid/RootFormReadAllWithAdditionalResponsesButNoReadablePropertyAdditionalResponses.TM.json" ],
     "lang": "none"
   },
   "warnings": [
     {
-      "filename": "RootFormReadAllWithAdditionalResponsesButNoReadablePropertyAdditionalResponses.TD.json",
+      "filename": "RootFormReadAllWithAdditionalResponsesButNoReadablePropertyAdditionalResponses.TM.json",
       "line": 27,
       "cfLine": 41,
       "crossRef": ""

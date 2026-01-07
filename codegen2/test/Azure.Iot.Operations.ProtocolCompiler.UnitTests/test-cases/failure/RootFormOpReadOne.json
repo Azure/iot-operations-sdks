@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/RootFormOpReadOne.TD.json" ],
+    "thingFiles": [ "invalidThing/RootFormOpReadOne.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupportedValue",
-      "filename": "RootFormOpReadOne.TD.json",
+      "filename": "RootFormOpReadOne.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

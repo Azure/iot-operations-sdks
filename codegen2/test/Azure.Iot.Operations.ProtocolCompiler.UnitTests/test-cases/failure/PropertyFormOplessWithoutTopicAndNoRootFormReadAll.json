@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormOplessWithoutTopicAndNoRootFormReadAll.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/PropertyFormOplessWithoutTopicAndNoRootFormReadAll.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "Unusable",
-      "filename": "PropertyFormOplessWithoutTopicAndNoRootFormReadAll.TD.json",
+      "filename": "PropertyFormOplessWithoutTopicAndNoRootFormReadAll.TM.json",
       "line": 14,
       "cfLine": 0,
       "crossRef": ""

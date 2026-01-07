@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormHeaderCode.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/PropertyFormHeaderCode.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "PropertyFormHeaderCode.TD.json",
+      "filename": "PropertyFormHeaderCode.TM.json",
       "line": 27,
       "cfLine": 0,
       "crossRef": ""

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormsOplessDuplicate.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/PropertyFormsOplessDuplicate.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "PropertyFormsOplessDuplicate.TD.json",
+      "filename": "PropertyFormsOplessDuplicate.TM.json",
       "line": 14,
       "cfLine": 13,
       "crossRef": ""

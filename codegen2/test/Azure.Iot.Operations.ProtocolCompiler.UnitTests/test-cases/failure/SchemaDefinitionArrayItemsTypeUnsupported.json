@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/SchemaDefinitionArrayItemsTypeUnsupported.TD.json" ],
+    "thingFiles": [ "invalidThing/SchemaDefinitionArrayItemsTypeUnsupported.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupportedValue",
-      "filename": "SchemaDefinitionArrayItemsTypeUnsupported.TD.json",
+      "filename": "SchemaDefinitionArrayItemsTypeUnsupported.TM.json",
       "line": 12,
       "cfLine": 0,
       "crossRef": ""

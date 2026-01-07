@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ContextDtvWrongPrefix.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ContextDtvWrongPrefix.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyMissing",
-      "filename": "ContextDtvWrongPrefix.TD.json",
+      "filename": "ContextDtvWrongPrefix.TM.json",
       "line": 2,
       "cfLine": 0,
       "crossRef": ""

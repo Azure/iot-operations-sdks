@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventNoFormsWithTopicAndNoRootFormSubAll.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/EventNoFormsWithTopicAndNoRootFormSubAll.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "Unusable",
-      "filename": "EventNoFormsWithTopicAndNoRootFormSubAll.TD.json",
+      "filename": "EventNoFormsWithTopicAndNoRootFormSubAll.TM.json",
       "line": 13,
       "cfLine": 0,
       "crossRef": ""

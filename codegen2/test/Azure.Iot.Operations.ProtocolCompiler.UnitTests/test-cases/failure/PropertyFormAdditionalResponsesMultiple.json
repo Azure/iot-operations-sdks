@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormAdditionalResponsesMultiple.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/PropertyFormAdditionalResponsesMultiple.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ElementsPlural",
-      "filename": "PropertyFormAdditionalResponsesMultiple.TD.json",
+      "filename": "PropertyFormAdditionalResponsesMultiple.TM.json",
       "line": 36,
       "cfLine": 0,
       "crossRef": ""

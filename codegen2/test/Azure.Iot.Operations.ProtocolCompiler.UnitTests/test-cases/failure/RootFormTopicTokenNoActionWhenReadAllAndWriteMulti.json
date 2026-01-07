@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormTopicTokenNoActionWhenReadAllAndWriteMulti.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/RootFormTopicTokenNoActionWhenReadAllAndWriteMulti.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "ValuesInconsistent",
-      "filename": "RootFormTopicTokenNoActionWhenReadAllAndWriteMulti.TD.json",
+      "filename": "RootFormTopicTokenNoActionWhenReadAllAndWriteMulti.TM.json",
       "line": 10,
       "cfLine": 0,
       "crossRef": ""

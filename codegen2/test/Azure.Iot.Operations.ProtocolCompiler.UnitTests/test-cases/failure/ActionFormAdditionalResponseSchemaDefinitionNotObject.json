@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponseSchemaDefinitionNotObject.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponseSchemaDefinitionNotObject.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "TypeMismatch",
-      "filename": "ActionFormAdditionalResponseSchemaDefinitionNotObject.TD.json",
+      "filename": "ActionFormAdditionalResponseSchemaDefinitionNotObject.TM.json",
       "line": 35,
       "cfLine": 9,
       "crossRef": ""

@@ -1,20 +1,20 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ContextDtvWrongUri.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ContextDtvWrongUri.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyInvalid",
-      "filename": "ContextDtvWrongUri.TD.json",
+      "filename": "ContextDtvWrongUri.TM.json",
       "line": 4,
       "cfLine": 0,
       "crossRef": ""
     },
     {
       "condition": "PropertyMissing",
-      "filename": "ContextDtvWrongUri.TD.json",
+      "filename": "ContextDtvWrongUri.TM.json",
       "line": 2,
       "cfLine": 0,
       "crossRef": ""

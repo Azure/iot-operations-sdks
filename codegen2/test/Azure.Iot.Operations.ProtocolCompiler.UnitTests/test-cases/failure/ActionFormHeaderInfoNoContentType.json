@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormHeaderInfoNoContentType.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/ActionFormHeaderInfoNoContentType.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyMissing",
-      "filename": "ActionFormHeaderInfoNoContentType.TD.json",
+      "filename": "ActionFormHeaderInfoNoContentType.TM.json",
       "line": 33,
       "cfLine": 0,
       "crossRef": ""

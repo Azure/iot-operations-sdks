@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventFormServiceGroupEmpty.TD.json" ],
+    "thingFiles": [ "invalidAioBinding/EventFormServiceGroupEmpty.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyEmpty",
-      "filename": "EventFormServiceGroupEmpty.TD.json",
+      "filename": "EventFormServiceGroupEmpty.TM.json",
       "line": 22,
       "cfLine": 0,
       "crossRef": ""
