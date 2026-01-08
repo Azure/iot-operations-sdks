@@ -94,15 +94,24 @@ impl DeviceEndpointStatusReporter {
             version,
         };
         if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
+            // should not be possible unless the device is deleted I think?
             log::warn!("Health status receiver closed")
         };
     }
 
+    /// This function is used to stop background reporting of the health status until a new status is reported.
+    /// This should be called when the component is updated to indicate that the previous health status may no longer be applicable.
     pub fn reset_health_status(&self) {
         if let Err(_e) = self.health_tx.send(None) {
             log::warn!("Health status receiver closed")
         };
     }
+
+    // pub fn report_all_children_health_status(&self, health_status: RuntimeHealthStatus) {
+    //     // for all datasets, events, streams, management groups, report this health status
+    //     // TODO: should this be 4 separate functions?
+    //     // TODO: should this be on the asset instead and require the application to do some communication themselves?
+    // }
 
     /// Used to conditionally report the device status and then updates the device with the new status returned.
     ///
@@ -1974,6 +1983,8 @@ impl DataOperationStatusReporter {
         };
     }
 
+    /// This function is used to stop background reporting of the health status until a new status is reported.
+    /// This should be called when the component is updated to indicate that the previous health status may no longer be applicable.
     pub fn reset_health_status(&self) {
         if let Err(_e) = self.health_tx.send(None) {
             log::warn!("Health status receiver closed")
