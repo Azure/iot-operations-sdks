@@ -6,8 +6,9 @@
 use core::fmt::Debug;
 
 use azure_iot_operations_mqtt::token::AckToken;
-use azure_iot_operations_protocol::telemetry;
-use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
+use azure_iot_operations_protocol::{
+    common::aio_protocol_error::AIOProtocolError, rpc_command, telemetry,
+};
 use chrono::{DateTime, Utc};
 use thiserror::Error;
 
@@ -58,6 +59,7 @@ pub enum ErrorKind {
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
     /// An argument provided for a telemetry message was invalid.
     #[error(transparent)]
+    // TODO: consider instead combining with InvalidRequestArgument to avoid breaking api change
     InvalidTelemetryArgument(#[from] telemetry::sender::MessageBuilderError),
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
@@ -184,19 +186,6 @@ pub struct RuntimeHealth {
     /// The version of the resource for which the runtime health is being reported.
     pub version: u64,
 }
-
-// /// Represents the health state of a resource.
-// #[derive(Debug, Clone)]
-// pub struct HealthState {
-//     /// The timestamp (RFC3339) when the health status was last updated, even if the status did not change.
-//     pub last_update_time: DateTime<Utc>,
-//     /// A human-readable message describing the last transition.
-//     pub message: Option<String>,
-//     /// Unique, CamelCase reason code describing the cause of the last health state transition.
-//     pub reason_code: Option<String>,
-//     /// The current health status of the resource.
-//     pub status: HealthStatus,
-// }
 
 /// Represents the health status of a resource.
 #[derive(Debug, Clone, PartialEq, Eq)]

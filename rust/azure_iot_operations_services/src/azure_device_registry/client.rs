@@ -20,7 +20,7 @@ use crate::azure_device_registry::{
 };
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
-    adr_base_gen::adr_base_service::service as base_service_gen, // TODO: this is stupid naming, but idk what else to do
+    adr_base_gen::adr_base_service::service as base_service_gen,
     adr_base_gen::common_types::options as base_options_gen,
     device_discovery_gen::common_types::options as discovery_options_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
@@ -719,7 +719,7 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if message_expiry is 0 or > `u32::max`.
+    /// if message_expiry is > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -739,7 +739,7 @@ impl Client {
                     device_name,
                     inbound_endpoint_name,
                 ))
-                .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+                .message_expiry(message_expiry)
                 .build()
                 .map_err(ErrorKind::from)?;
         Ok(self
@@ -1160,7 +1160,7 @@ impl Client {
     // ///
     // /// # Errors
     // /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    // /// if message_expiry is 0 or > `u32::max`.
+    // /// if message_expiry is > `u32::max`.
     // ///
     // /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     // /// - device or inbound endpoint names are invalid.
@@ -1206,7 +1206,7 @@ impl Client {
     //                 device_name,
     //                 inbound_endpoint_name,
     //             ))
-    //             .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+    //             .message_expiry(message_expiry)
     //             .build()
     //             .map_err(ErrorKind::from)?;
     //     Ok(self
@@ -1230,14 +1230,14 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if message_expiry is 0 or > `u32::max`.
+    /// if message_expiry is > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO Telemetry protocol.
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset or dataset name is empty.
+    /// if the asset or any dataset name is empty.
     pub async fn report_dataset_runtime_health_events(
         &self,
         device_name: String,
@@ -1256,6 +1256,7 @@ impl Client {
             return Ok(());
         }
 
+        // TODO: can this be optimized?
         let mut dataset_statuses = Vec::with_capacity(runtime_healths.len());
         for (dataset_name, runtime_health) in runtime_healths {
             if dataset_name.trim().is_empty() {
@@ -1284,7 +1285,7 @@ impl Client {
                     device_name,
                     inbound_endpoint_name,
                 ))
-                .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+                .message_expiry(message_expiry)
                 .build()
                 .map_err(ErrorKind::from)?;
         Ok(self
@@ -1307,7 +1308,7 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if message_expiry is 0 or > `u32::max`.
+    /// if message_expiry is > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1360,7 +1361,7 @@ impl Client {
                     device_name,
                     inbound_endpoint_name,
                 ))
-                .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+                .message_expiry(message_expiry)
                 .build()
                 .map_err(ErrorKind::from)?;
         Ok(self
@@ -1382,7 +1383,7 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if message_expiry is 0 or > `u32::max`.
+    /// if message_expiry is > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1428,7 +1429,7 @@ impl Client {
                     device_name,
                     inbound_endpoint_name,
                 ))
-                .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+                .message_expiry(message_expiry)
                 .build()
                 .map_err(ErrorKind::from)?;
         Ok(self
@@ -1451,7 +1452,7 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if message_expiry is 0 or > `u32::max`.
+    /// if message_expiry is > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1507,7 +1508,7 @@ impl Client {
                     device_name,
                     inbound_endpoint_name,
                 ))
-                .message_expiry(message_expiry) // TODO: do we want to allow users to set this or not?
+                .message_expiry(message_expiry)
                 .build()
                 .map_err(ErrorKind::from)?;
         Ok(self
