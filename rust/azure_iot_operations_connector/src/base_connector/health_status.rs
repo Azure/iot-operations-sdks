@@ -15,6 +15,8 @@ use crate::{
     deployment_artifacts::azure_device_registry::DeviceEndpointRef,
 };
 
+/// Trait for how each component reports health status to the ADR service
+/// General practice is to implement this trait for the `*Ref` types
 pub(crate) trait HealthComponent: Clone + Send + Sync + 'static {
     fn report_health_status(
         &self,
@@ -23,27 +25,34 @@ pub(crate) trait HealthComponent: Clone + Send + Sync + 'static {
     ) -> impl std::future::Future<Output = Result<(), azure_device_registry::Error>> + std::marker::Send;
 }
 
+/// Creates the Unbounded Sender to report health status for the given component
+/// and spawns the task to handle sending the health status reports.
 pub(crate) fn new_health_sender<T: HealthComponent>(
     connector_context: Arc<ConnectorContext>,
     component: T,
 ) -> UnboundedSender<Option<RuntimeHealth>> {
     let (health_tx, health_rx) = tokio::sync::mpsc::unbounded_channel();
 
-    // TODO: need cancellation token?
+    // TODO: need cancellation token for when component is deleted
     tokio::task::spawn(health_sender_run(connector_context, health_rx, component));
     health_tx
 }
-// TODO: spawn this as a task in new? Or find some way to link this to baseConnector::run()
+// TODO: Any way to link this to baseConnector::run()?
 async fn health_sender_run<T: HealthComponent>(
     connector_context: Arc<ConnectorContext>,
     mut health_rx: UnboundedReceiver<Option<RuntimeHealth>>,
     component: T,
 ) {
+    // Latest status from the application (whether reported or not). None if background reporting
+    // shouldn't be happening. None also means the next status should always be reported, even if
+    // it's equivalent to the previous one. (TODO: is that second part of the behavior desired?)
     let mut current_status = None;
+    // Time of the last successfully reported status, or None if background reporting is disabled
     let mut last_reported_time = None;
     loop {
         tokio::select! {
             biased;
+            // passes in the next time that a report should happen in case this doesn't free up to allow the sleep branch to complete
             recv_result = health_recv(&mut health_rx, &mut current_status, last_reported_time.map(|t: DateTime<Utc>| t.add(connector_context.health_report_interval))) => {
                 match recv_result {
                     // TODO: need another way to end this task when the component is deleted as well
@@ -52,20 +61,22 @@ async fn health_sender_run<T: HealthComponent>(
                 }
             }
             _ = tokio::time::sleep(connector_context.health_report_interval) => {
+                // if current_status is None, it means that background reporting shouldn't happen
                 if let Some(curr_status) = &mut current_status {
-                    // update time to report steady state
+                    // update time to report updated steady state
                     curr_status.last_update_time = chrono::Utc::now();
                 }
             }
         }
         // report current or new status
-        // TODO: tokio::task?
+        // TODO: tokio::task to avoid backing up the rx?
         if let Some(ref curr_status) = current_status {
             match component
                 .report_health_status(&connector_context, curr_status.clone())
                 .await
             {
                 Ok(_) => {
+                    // TODO: move this log to debug once this is ready for PR
                     log::info!("Reported health status: {:?}", curr_status);
                     // Setting to current time rather than current_status time in case the
                     // receiver is backed up - if we set to current_status time,
@@ -73,12 +84,12 @@ async fn health_sender_run<T: HealthComponent>(
                     last_reported_time = Some(chrono::Utc::now());
                 }
                 Err(e) => {
-                    // Handle error (e.g., log it)
                     log::warn!("Failed to report health status: {:?}", e);
-                    // TODO: retry? Retries now done by not saving this as the last_reported_time - should this factor into the sleep time?
+                    // TODO: retry? Retries kinda done by not saving this as the last_reported_time, but that only applies if the application reports again - should this factor into the sleep time?
                 }
             }
         } else {
+            // If current_status is None, also reset last_reported_time to None to avoid "background reporting" from the health_recv task
             last_reported_time = None;
         }
     }
@@ -90,6 +101,8 @@ async fn health_recv(
 ) -> Option<Option<RuntimeHealth>> {
     loop {
         // use try_recv to avoid an await point if there are pending messages.
+        // Any actual message from the application should be prioritized over the last cached message that
+        // would be reported from the timeout branch of the select.
         let new_status = match health_rx.try_recv() {
             Ok(status) => status,
             // If there aren't any pending messages, it's okay if the timeout branch of the select completes
@@ -98,8 +111,11 @@ async fn health_recv(
         };
         let new_status = match new_status {
             Some(status) => status,
+            // If the application sent None, propagate that to indicate background reporting should stop
             None => return Some(None),
         };
+        // If background reporting is on, check if this new status is more recent/different than the current status
+        // If background reporting is off, then we should always report the new status (TODO: could altering this prevent duplicate reports on the data operation when it's status gets reset at times that it hasn't had a version update?)
         if let Some(existing_status) = curr_status {
             // if new status is more stale than the current status, ignore it
             if new_status.version < existing_status.version
