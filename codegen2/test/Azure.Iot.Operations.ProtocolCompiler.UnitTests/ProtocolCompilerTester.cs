@@ -13,7 +13,7 @@
         private const string testCasesPath = $"{basePath}/test-cases";
         private const string successCasesPath = $"{testCasesPath}/success";
         private const string failureCasesPath = $"{testCasesPath}/failure";
-        private const string tdPath = $"{basePath}/thing-descriptions";
+        private const string tmPath = $"{basePath}/thing-models";
         private const string schemasPath = $"{basePath}/schemas";
         private const string namerPath = $"{basePath}/name-config";
         private const string sandboxPath = $"{basePath}/sandbox";
@@ -190,7 +190,7 @@
                 Assert.Fail($"Test case '{testCaseName}' specifies absolute path for working directory, which is not supported in test.");
             }
 
-            FileInfo[] thingFiles = commandLine.ThingFiles.Select(tf => new FileInfo(Path.GetFullPath($"{tdPath}/{tf}"))).ToArray();
+            FileInfo[] thingFiles = commandLine.ThingFiles.Select(tf => new FileInfo(Path.GetFullPath($"{tmPath}/{tf}"))).ToArray();
             string[] schemaFiles = commandLine.SchemaFiles.Select(tf => Path.GetFullPath($"{schemasPath}/{tf}")).ToArray();
             FileInfo? typeNamerFile = commandLine.TypeNamerFile != null ? new FileInfo(Path.GetFullPath($"{namerPath}/{commandLine.TypeNamerFile}")) : null;
             DirectoryInfo outputDir = new DirectoryInfo(commandLine.OutputDir != null ? Path.GetFullPath($"{testCaseSandboxPath}/{commandLine.OutputDir}") : $"{testCaseSandboxPath}/{CommandPerformer.DefaultOutDir}");
