@@ -47,6 +47,17 @@ items:
       attributes:
         assetId: my-rest-thermostat-asset
         assetType: thermostat
+      eventGroups:
+        - name: some_thermostat_event_group
+          defaultDestinations: [
+            {
+              configuration: {
+                "qos": Qos1,
+                "topic": "some/default/mqtt/topic"
+              },
+              target: Mqtt
+            }
+          ] 
       datasets:
         - name: thermostat_status
           dataPoints:
