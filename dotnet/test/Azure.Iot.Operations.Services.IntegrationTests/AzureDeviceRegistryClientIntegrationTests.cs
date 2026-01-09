@@ -363,6 +363,50 @@ public class AzureDeviceRegistryClientIntegrationTests
     }
 
     [Fact]
+    public async Task CanCreateOrUpdateDiscoveredAssetWithDefaultDestinationAsync()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
+        ApplicationContext applicationContext = new();
+        await using AzureDeviceRegistryClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+
+        var request = CreateCreateDetectedAssetRequest();
+        request.DiscoveredAsset.EventGroups ??= new();
+        request.DiscoveredAsset.EventGroups.Add(new DiscoveredAssetEventGroup()
+        {
+            Name = "someEventGroup",
+            DefaultDestinations = new List<EventStreamDestination>
+            {
+                new EventStreamDestination()
+                {
+                    Target = EventStreamTarget.Storage,
+                    Configuration = new DestinationConfiguration()
+                    {
+                        Key = "someKey",
+                    }
+                },
+                new EventStreamDestination()
+                {
+                    Target = EventStreamTarget.Mqtt,
+                    Configuration = new DestinationConfiguration()
+                    {
+                        Qos = QoS.Qos1,
+                        Topic ="some/mqtt/topic"
+                    }
+                }
+            }
+        });
+
+        // Act
+        var result = await client.CreateOrUpdateDiscoveredAssetAsync(TestDevice_1_Name, TestEndpointName, request);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.NotEmpty(result.DiscoveredAssetResponse.DiscoveryId);
+        _output.WriteLine($"Detected asset created with DiscoveryId: {result.DiscoveredAssetResponse.DiscoveryId}");
+    }
+
+    [Fact]
     public async Task CanCreateOrUpdateDiscoveredDeviceAsync()
     {
         // Arrange
@@ -432,7 +476,6 @@ public class AzureDeviceRegistryClientIntegrationTests
         Assert.False(receivedEvents.ContainsKey(TestDevice_2_Name), $"Unexpected device event for test-thermostat received");
     }
 
-
     [Fact]
     public async Task CanClearErrorFromDeviceStatusAsync()
     {
@@ -487,6 +530,7 @@ public class AzureDeviceRegistryClientIntegrationTests
         Assert.NotNull(updatedDevice.Config);
         Assert.Null(updatedDevice.Config.Error);
     }
+
     private CreateOrUpdateDiscoveredAssetRequest CreateCreateDetectedAssetRequest()
     {
         var asset = new CreateOrUpdateDiscoveredAssetRequest
