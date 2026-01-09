@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,6 +15,9 @@
     "displayName": "CtrlResourceType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1002",
+    "propertyTopic": "opcua/X_61131_3/CtrlResourceType/{propertyName}/{action}",
+    "commandTopic": "opcua/X_61131_3/CtrlResourceType/{commandName}",
+    "telemetryTopic": "opcua/X_61131_3/CtrlResourceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -27,7 +30,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -36,6 +39,9 @@
     "displayName": "CtrlProgramOrganizationUnitType",
     "extends": "dtmi:opcua:DI:BlockType;1",
     "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1003",
+    "propertyTopic": "opcua/X_61131_3/CtrlProgramOrganizationUnitType/{propertyName}/{action}",
+    "commandTopic": "opcua/X_61131_3/CtrlProgramOrganizationUnitType/{commandName}",
+    "telemetryTopic": "opcua/X_61131_3/CtrlProgramOrganizationUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -48,7 +54,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -57,6 +63,9 @@
     "displayName": "CtrlProgramType",
     "extends": "dtmi:opcua:X_61131_3:CtrlProgramOrganizationUnitType;1",
     "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1004",
+    "propertyTopic": "opcua/X_61131_3/CtrlProgramType/{propertyName}/{action}",
+    "commandTopic": "opcua/X_61131_3/CtrlProgramType/{commandName}",
+    "telemetryTopic": "opcua/X_61131_3/CtrlProgramType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -69,7 +78,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -78,6 +87,9 @@
     "displayName": "CtrlFunctionBlockType",
     "extends": "dtmi:opcua:X_61131_3:CtrlProgramOrganizationUnitType;1",
     "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1005",
+    "propertyTopic": "opcua/X_61131_3/CtrlFunctionBlockType/{propertyName}/{action}",
+    "commandTopic": "opcua/X_61131_3/CtrlFunctionBlockType/{commandName}",
+    "telemetryTopic": "opcua/X_61131_3/CtrlFunctionBlockType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -90,7 +102,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -100,6 +112,9 @@
     "displayName": "CtrlTaskType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1006",
+    "propertyTopic": "opcua/X_61131_3/CtrlTaskType/{propertyName}/{action}",
+    "commandTopic": "opcua/X_61131_3/CtrlTaskType/{commandName}",
+    "telemetryTopic": "opcua/X_61131_3/CtrlTaskType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -112,7 +127,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -122,6 +137,9 @@
     "displayName": "SFCType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1007",
+    "propertyTopic": "opcua/X_61131_3/SFCType/{propertyName}/{action}",
+    "commandTopic": "opcua/X_61131_3/SFCType/{commandName}",
+    "telemetryTopic": "opcua/X_61131_3/SFCType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -134,7 +152,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -144,6 +162,9 @@
     "displayName": "CtrlConfigurationType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1001",
+    "propertyTopic": "opcua/X_61131_3/CtrlConfigurationType/{propertyName}/{action}",
+    "commandTopic": "opcua/X_61131_3/CtrlConfigurationType/{commandName}",
+    "telemetryTopic": "opcua/X_61131_3/CtrlConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

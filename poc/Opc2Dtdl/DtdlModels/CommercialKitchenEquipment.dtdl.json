@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,7 @@
     "displayName": "BatchInformationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1002",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/BatchInformationType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/BatchInformationType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/BatchInformationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -78,7 +79,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -88,6 +89,7 @@
     "displayName": "KitchenDeviceHAConfigType",
     "extends": "dtmi:opcua:OpcUaCore:HistoricalDataConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1003",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceHAConfigType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceHAConfigType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceHAConfigType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -118,7 +120,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -127,6 +129,8 @@
     "displayName": "KitchenDeviceParameterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1004",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -161,7 +165,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -170,6 +174,8 @@
     "displayName": "ChamberType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1012",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/ChamberType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/ChamberType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/ChamberType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -501,7 +507,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -510,6 +516,8 @@
     "displayName": "CoffeeMachineParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1022",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -635,7 +643,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -644,6 +652,8 @@
     "displayName": "CoffeeMachineRecipeParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1023",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineRecipeParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineRecipeParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineRecipeParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -758,7 +768,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -767,6 +777,8 @@
     "displayName": "CombiSteamerParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1010",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/CombiSteamerParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/CombiSteamerParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CombiSteamerParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1053,7 +1065,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1062,6 +1074,8 @@
     "displayName": "CookingKettleParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1016",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/CookingKettleParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/CookingKettleParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingKettleParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1210,7 +1224,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1219,6 +1233,8 @@
     "displayName": "CookingZoneParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1029",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/CookingZoneParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/CookingZoneParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingZoneParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1325,7 +1341,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1334,6 +1350,7 @@
     "displayName": "DishWashingMachineProgramParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1025",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/DishWashingMachineProgramParameterType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/DishWashingMachineProgramParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/DishWashingMachineProgramParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1762,7 +1779,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1771,6 +1788,8 @@
     "displayName": "FryerParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1006",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/FryerParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/FryerParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryerParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1895,7 +1914,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1904,6 +1923,8 @@
     "displayName": "FryingAndGrillingParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1031",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2087,7 +2108,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2096,6 +2117,8 @@
     "displayName": "FryingPanParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1008",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/FryingPanParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/FryingPanParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingPanParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2263,7 +2286,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2272,6 +2295,8 @@
     "displayName": "IceMachineParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1035",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/IceMachineParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/IceMachineParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/IceMachineParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2420,7 +2445,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2429,6 +2454,8 @@
     "displayName": "MicrowaveCombiOvenParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1033",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/MicrowaveCombiOvenParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/MicrowaveCombiOvenParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/MicrowaveCombiOvenParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2564,7 +2591,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2573,6 +2600,8 @@
     "displayName": "MultiFunctionPanParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1018",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2863,7 +2892,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2872,6 +2901,8 @@
     "displayName": "PastaCookerParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1020",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/PastaCookerParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/PastaCookerParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/PastaCookerParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3000,7 +3031,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3009,6 +3040,8 @@
     "displayName": "PressureCookingKettleParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1014",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3194,7 +3227,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3203,6 +3236,7 @@
     "displayName": "TrayType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1027",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/TrayType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/TrayType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/TrayType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3353,7 +3387,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3362,6 +3396,7 @@
     "displayName": "CommercialKitchenDeviceType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1005",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/CommercialKitchenDeviceType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/CommercialKitchenDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CommercialKitchenDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3416,7 +3451,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3426,6 +3461,9 @@
     "displayName": "CoffeeMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1024",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3453,7 +3491,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3463,6 +3501,7 @@
     "displayName": "CombiSteamerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1011",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/CombiSteamerDeviceType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/CombiSteamerDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CombiSteamerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3546,7 +3585,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3556,6 +3595,7 @@
     "displayName": "CookingKettleDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1017",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/CookingKettleDeviceType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/CookingKettleDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingKettleDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3623,7 +3663,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3633,6 +3673,7 @@
     "displayName": "CookingZoneDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1030",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/CookingZoneDeviceType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/CookingZoneDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingZoneDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3707,7 +3748,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3717,6 +3758,9 @@
     "displayName": "DishWashingMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1026",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/DishWashingMachineDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/DishWashingMachineDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/DishWashingMachineDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3737,7 +3781,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3747,6 +3791,7 @@
     "displayName": "FryerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1007",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/FryerDeviceType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/FryerDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3805,7 +3850,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3815,6 +3860,7 @@
     "displayName": "FryingAndGrillingDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1032",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingDeviceType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3865,7 +3911,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3875,6 +3921,7 @@
     "displayName": "FryingPanDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1009",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/FryingPanDeviceType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/FryingPanDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingPanDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3934,7 +3981,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3944,6 +3991,9 @@
     "displayName": "IceMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1036",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/IceMachineDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/IceMachineDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/IceMachineDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3964,7 +4014,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3974,6 +4024,9 @@
     "displayName": "MicrowaveCombiOvenDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1034",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/MicrowaveCombiOvenDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/MicrowaveCombiOvenDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/MicrowaveCombiOvenDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3994,7 +4047,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4004,6 +4057,7 @@
     "displayName": "MultiFunctionPanDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1019",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanDeviceType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4054,7 +4108,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4064,6 +4118,9 @@
     "displayName": "OvenDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1013",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/OvenDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/OvenDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/OvenDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4083,7 +4140,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4093,6 +4150,7 @@
     "displayName": "PastaCookerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1021",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/PastaCookerDeviceType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/PastaCookerDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/PastaCookerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4152,7 +4210,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4162,6 +4220,7 @@
     "displayName": "PressureCookingKettleDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1015",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleDeviceType/{propertyName}/{action}",
     "commandTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4213,7 +4272,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4223,6 +4282,9 @@
     "displayName": "ServeryCounterDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1028",
+    "propertyTopic": "opcua/CommercialKitchenEquipment/ServeryCounterDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/CommercialKitchenEquipment/ServeryCounterDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CommercialKitchenEquipment/ServeryCounterDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

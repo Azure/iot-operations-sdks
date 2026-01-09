@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,6 +15,9 @@
     "displayName": "BrakeType",
     "extends": "dtmi:opcua:DI:ComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1556",
+    "propertyTopic": "opcua/CranesHoists/BrakeType/{propertyName}/{action}",
+    "commandTopic": "opcua/CranesHoists/BrakeType/{commandName}",
+    "telemetryTopic": "opcua/CranesHoists/BrakeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -27,7 +30,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -37,6 +40,9 @@
     "displayName": "CraneAxisType",
     "extends": "dtmi:opcua:Robotics:AxisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1369",
+    "propertyTopic": "opcua/CranesHoists/CraneAxisType/{propertyName}/{action}",
+    "commandTopic": "opcua/CranesHoists/CraneAxisType/{commandName}",
+    "telemetryTopic": "opcua/CranesHoists/CraneAxisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -49,7 +55,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -59,6 +65,9 @@
     "displayName": "CraneMotionDeviceType",
     "extends": "dtmi:opcua:Robotics:MotionDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1392",
+    "propertyTopic": "opcua/CranesHoists/CraneMotionDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/CranesHoists/CraneMotionDeviceType/{commandName}",
+    "telemetryTopic": "opcua/CranesHoists/CraneMotionDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -71,7 +80,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -81,6 +90,9 @@
     "displayName": "CraneMotionDeviceSystemType",
     "extends": "dtmi:opcua:Robotics:MotionDeviceSystemType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=2112",
+    "propertyTopic": "opcua/CranesHoists/CraneMotionDeviceSystemType/{propertyName}/{action}",
+    "commandTopic": "opcua/CranesHoists/CraneMotionDeviceSystemType/{commandName}",
+    "telemetryTopic": "opcua/CranesHoists/CraneMotionDeviceSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -93,7 +105,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -103,6 +115,9 @@
     "displayName": "CraneMotorType",
     "extends": "dtmi:opcua:Robotics:MotorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1262",
+    "propertyTopic": "opcua/CranesHoists/CraneMotorType/{propertyName}/{action}",
+    "commandTopic": "opcua/CranesHoists/CraneMotorType/{commandName}",
+    "telemetryTopic": "opcua/CranesHoists/CraneMotorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -115,7 +130,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -125,6 +140,9 @@
     "displayName": "ProtectiveFunctionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1462",
+    "propertyTopic": "opcua/CranesHoists/ProtectiveFunctionType/{propertyName}/{action}",
+    "commandTopic": "opcua/CranesHoists/ProtectiveFunctionType/{commandName}",
+    "telemetryTopic": "opcua/CranesHoists/ProtectiveFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

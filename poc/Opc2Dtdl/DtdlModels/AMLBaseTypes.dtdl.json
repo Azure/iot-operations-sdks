@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,6 +15,7 @@
     "displayName": "CAEXBasicObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1006",
+    "propertyTopic": "opcua/AMLBaseTypes/CAEXBasicObjectType/{propertyName}/{action}",
     "commandTopic": "opcua/AMLBaseTypes/CAEXBasicObjectType/{commandName}",
     "telemetryTopic": "opcua/AMLBaseTypes/CAEXBasicObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -37,7 +38,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -47,6 +48,9 @@
     "displayName": "CAEXFileType",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXBasicObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1005",
+    "propertyTopic": "opcua/AMLBaseTypes/CAEXFileType/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLBaseTypes/CAEXFileType/{commandName}",
+    "telemetryTopic": "opcua/AMLBaseTypes/CAEXFileType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -91,7 +95,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -101,6 +105,7 @@
     "displayName": "CAEXObjectType",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXBasicObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1001",
+    "propertyTopic": "opcua/AMLBaseTypes/CAEXObjectType/{propertyName}/{action}",
     "commandTopic": "opcua/AMLBaseTypes/CAEXObjectType/{commandName}",
     "telemetryTopic": "opcua/AMLBaseTypes/CAEXObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -123,7 +128,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -133,6 +138,9 @@
     "displayName": "AutomationMLBaseInterface",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1002",
+    "propertyTopic": "opcua/AMLBaseTypes/AutomationMLBaseInterface/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLBaseTypes/AutomationMLBaseInterface/{commandName}",
+    "telemetryTopic": "opcua/AMLBaseTypes/AutomationMLBaseInterface/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -145,7 +153,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -155,6 +163,9 @@
     "displayName": "AutomationMLBaseRole",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1003",
+    "propertyTopic": "opcua/AMLBaseTypes/AutomationMLBaseRole/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLBaseTypes/AutomationMLBaseRole/{commandName}",
+    "telemetryTopic": "opcua/AMLBaseTypes/AutomationMLBaseRole/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -167,7 +178,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -177,6 +188,9 @@
     "displayName": "AutomationMLBaseSystemUnit",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1004",
+    "propertyTopic": "opcua/AMLBaseTypes/AutomationMLBaseSystemUnit/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLBaseTypes/AutomationMLBaseSystemUnit/{commandName}",
+    "telemetryTopic": "opcua/AMLBaseTypes/AutomationMLBaseSystemUnit/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

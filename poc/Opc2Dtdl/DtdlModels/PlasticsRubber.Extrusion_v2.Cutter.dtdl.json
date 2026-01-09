@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,7 @@
     "displayName": "CutEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Cutter/;i=1002",
+    "propertyTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CutEventType/{propertyName}/{action}",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CutEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CutEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -52,7 +53,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -61,6 +62,8 @@
     "displayName": "CuttingProductsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Cutter/;i=1004",
+    "propertyTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CuttingProductsType/{propertyName}/{action}",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CuttingProductsType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CuttingProductsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -88,7 +91,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -97,6 +100,7 @@
     "displayName": "CuttingProductType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Cutter/;i=1003",
+    "propertyTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CuttingProductType/{propertyName}/{action}",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CuttingProductType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/CuttingProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -200,7 +204,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -210,6 +214,7 @@
     "displayName": "Cutter_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Cutter/;i=1005",
+    "propertyTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/Cutter_InterfaceType/{propertyName}/{action}",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/Cutter_InterfaceType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Cutter/Cutter_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

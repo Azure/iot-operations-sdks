@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,6 +15,7 @@
     "displayName": "AccuracyDomainType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1014",
+    "propertyTopic": "opcua/ECM/AccuracyDomainType/{propertyName}/{action}",
     "commandTopic": "opcua/ECM/AccuracyDomainType/{commandName}",
     "telemetryTopic": "opcua/ECM/AccuracyDomainType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -63,7 +64,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -72,6 +73,8 @@
     "displayName": "IEnergyProfileD0Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1011",
+    "propertyTopic": "opcua/ECM/IEnergyProfileD0Type/{propertyName}/{action}",
+    "commandTopic": "opcua/ECM/IEnergyProfileD0Type/{commandName}",
     "telemetryTopic": "opcua/ECM/IEnergyProfileD0Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -118,7 +121,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -127,6 +130,8 @@
     "displayName": "IEnergyProfileD1Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1015",
+    "propertyTopic": "opcua/ECM/IEnergyProfileD1Type/{propertyName}/{action}",
+    "commandTopic": "opcua/ECM/IEnergyProfileD1Type/{commandName}",
     "telemetryTopic": "opcua/ECM/IEnergyProfileD1Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -239,7 +244,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -248,6 +253,8 @@
     "displayName": "IEnergyProfileE0Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1007",
+    "propertyTopic": "opcua/ECM/IEnergyProfileE0Type/{propertyName}/{action}",
+    "commandTopic": "opcua/ECM/IEnergyProfileE0Type/{commandName}",
     "telemetryTopic": "opcua/ECM/IEnergyProfileE0Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -317,7 +324,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -326,6 +333,8 @@
     "displayName": "IEnergyProfileE1Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1008",
+    "propertyTopic": "opcua/ECM/IEnergyProfileE1Type/{propertyName}/{action}",
+    "commandTopic": "opcua/ECM/IEnergyProfileE1Type/{commandName}",
     "telemetryTopic": "opcua/ECM/IEnergyProfileE1Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -372,7 +381,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -381,6 +390,8 @@
     "displayName": "IEnergyProfileE2Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1009",
+    "propertyTopic": "opcua/ECM/IEnergyProfileE2Type/{propertyName}/{action}",
+    "commandTopic": "opcua/ECM/IEnergyProfileE2Type/{commandName}",
     "telemetryTopic": "opcua/ECM/IEnergyProfileE2Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -427,7 +438,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -436,6 +447,8 @@
     "displayName": "IEnergyProfileE3Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1010",
+    "propertyTopic": "opcua/ECM/IEnergyProfileE3Type/{propertyName}/{action}",
+    "commandTopic": "opcua/ECM/IEnergyProfileE3Type/{commandName}",
     "telemetryTopic": "opcua/ECM/IEnergyProfileE3Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -689,7 +702,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -699,6 +712,7 @@
     "displayName": "EnergyDevicePowerOffType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1012",
+    "propertyTopic": "opcua/ECM/EnergyDevicePowerOffType/{propertyName}/{action}",
     "commandTopic": "opcua/ECM/EnergyDevicePowerOffType/{commandName}",
     "telemetryTopic": "opcua/ECM/EnergyDevicePowerOffType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -782,7 +796,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -792,6 +806,7 @@
     "displayName": "EnergyMeasurementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1006",
+    "propertyTopic": "opcua/ECM/EnergyMeasurementType/{propertyName}/{action}",
     "commandTopic": "opcua/ECM/EnergyMeasurementType/{commandName}",
     "telemetryTopic": "opcua/ECM/EnergyMeasurementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -870,7 +885,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -879,6 +894,9 @@
     "displayName": "EnergySavingModesContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1004",
+    "propertyTopic": "opcua/ECM/EnergySavingModesContainerType/{propertyName}/{action}",
+    "commandTopic": "opcua/ECM/EnergySavingModesContainerType/{commandName}",
+    "telemetryTopic": "opcua/ECM/EnergySavingModesContainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -898,7 +916,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -907,6 +925,8 @@
     "displayName": "EnergySavingModeStatusType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1002",
+    "propertyTopic": "opcua/ECM/EnergySavingModeStatusType/{propertyName}/{action}",
+    "commandTopic": "opcua/ECM/EnergySavingModeStatusType/{commandName}",
     "telemetryTopic": "opcua/ECM/EnergySavingModeStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -992,7 +1012,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1001,6 +1021,7 @@
     "displayName": "EnergySavingModeType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1003",
+    "propertyTopic": "opcua/ECM/EnergySavingModeType/{propertyName}/{action}",
     "commandTopic": "opcua/ECM/EnergySavingModeType/{commandName}",
     "telemetryTopic": "opcua/ECM/EnergySavingModeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1087,7 +1108,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1097,6 +1118,7 @@
     "displayName": "EnergyStandbyManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1005",
+    "propertyTopic": "opcua/ECM/EnergyStandbyManagementType/{propertyName}/{action}",
     "commandTopic": "opcua/ECM/EnergyStandbyManagementType/{commandName}",
     "telemetryTopic": "opcua/ECM/EnergyStandbyManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

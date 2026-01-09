@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,7 @@
     "displayName": "CalibrationZonesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Calibrator/;i=1003",
+    "propertyTopic": "opcua/PlasticsRubber_Extrusion_Calibrator/CalibrationZonesType/{propertyName}/{action}",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Calibrator/CalibrationZonesType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Calibrator/CalibrationZonesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -75,7 +76,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -84,6 +85,7 @@
     "displayName": "CalibrationZoneType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Calibrator/;i=1002",
+    "propertyTopic": "opcua/PlasticsRubber_Extrusion_Calibrator/CalibrationZoneType/{propertyName}/{action}",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Calibrator/CalibrationZoneType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Calibrator/CalibrationZoneType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -186,7 +188,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -196,6 +198,9 @@
     "displayName": "Calibrator_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Calibrator/;i=1004",
+    "propertyTopic": "opcua/PlasticsRubber_Extrusion_Calibrator/Calibrator_InterfaceType/{propertyName}/{action}",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_Calibrator/Calibrator_InterfaceType/{commandName}",
+    "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Calibrator/Calibrator_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

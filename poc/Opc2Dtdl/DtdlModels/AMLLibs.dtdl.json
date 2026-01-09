@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,6 +15,9 @@
     "displayName": "AutomationMLBaseInterface",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=22",
+    "propertyTopic": "opcua/AMLLibs/AutomationMLBaseInterface/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/AutomationMLBaseInterface/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/AutomationMLBaseInterface/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -27,7 +30,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -37,6 +40,8 @@
     "displayName": "Order",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=25",
+    "propertyTopic": "opcua/AMLLibs/Order/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Order/{commandName}",
     "telemetryTopic": "opcua/AMLLibs/Order/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -57,7 +62,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -67,6 +72,9 @@
     "displayName": "PortConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=28",
+    "propertyTopic": "opcua/AMLLibs/PortConnector/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/PortConnector/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/PortConnector/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -79,7 +87,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -89,6 +97,9 @@
     "displayName": "InterlockingConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=31",
+    "propertyTopic": "opcua/AMLLibs/InterlockingConnector/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/InterlockingConnector/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/InterlockingConnector/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -101,7 +112,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -111,6 +122,9 @@
     "displayName": "PPRConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=34",
+    "propertyTopic": "opcua/AMLLibs/PPRConnector/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/PPRConnector/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/PPRConnector/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -123,7 +137,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -133,6 +147,8 @@
     "displayName": "ExternalDataConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=37",
+    "propertyTopic": "opcua/AMLLibs/ExternalDataConnector/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ExternalDataConnector/{commandName}",
     "telemetryTopic": "opcua/AMLLibs/ExternalDataConnector/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -153,7 +169,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -163,6 +179,9 @@
     "displayName": "Communication",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=179",
+    "propertyTopic": "opcua/AMLLibs/Communication/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Communication/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Communication/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -175,7 +194,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -185,6 +204,9 @@
     "displayName": "AttachmentInterface",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=43",
+    "propertyTopic": "opcua/AMLLibs/AttachmentInterface/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/AttachmentInterface/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/AttachmentInterface/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -197,7 +219,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -207,6 +229,9 @@
     "displayName": "COLLADAInterface",
     "extends": "dtmi:opcua:AMLLibs:ExternalDataConnector;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=52",
+    "propertyTopic": "opcua/AMLLibs/COLLADAInterface/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/COLLADAInterface/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/COLLADAInterface/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -219,7 +244,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -229,6 +254,9 @@
     "displayName": "PLCopenXMLInterface",
     "extends": "dtmi:opcua:AMLLibs:ExternalDataConnector;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=55",
+    "propertyTopic": "opcua/AMLLibs/PLCopenXMLInterface/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/PLCopenXMLInterface/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/PLCopenXMLInterface/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -241,7 +269,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -251,6 +279,9 @@
     "displayName": "LogicInterface",
     "extends": "dtmi:opcua:AMLLibs:PLCopenXMLInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=58",
+    "propertyTopic": "opcua/AMLLibs/LogicInterface/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/LogicInterface/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/LogicInterface/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -263,7 +294,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -273,6 +304,9 @@
     "displayName": "VariableInterface",
     "extends": "dtmi:opcua:AMLLibs:PLCopenXMLInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=61",
+    "propertyTopic": "opcua/AMLLibs/VariableInterface/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/VariableInterface/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/VariableInterface/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -285,7 +319,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -295,6 +329,8 @@
     "displayName": "InterlockingVariableInterface",
     "extends": "dtmi:opcua:AMLLibs:VariableInterface;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=64",
+    "propertyTopic": "opcua/AMLLibs/InterlockingVariableInterface/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/InterlockingVariableInterface/{commandName}",
     "telemetryTopic": "opcua/AMLLibs/InterlockingVariableInterface/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -315,7 +351,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -325,6 +361,9 @@
     "displayName": "SignalInterface",
     "extends": "dtmi:opcua:AMLLibs:Communication;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=71",
+    "propertyTopic": "opcua/AMLLibs/SignalInterface/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/SignalInterface/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/SignalInterface/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -337,7 +376,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -347,6 +386,9 @@
     "displayName": "AutomationMLBaseRole",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=74",
+    "propertyTopic": "opcua/AMLLibs/AutomationMLBaseRole/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/AutomationMLBaseRole/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/AutomationMLBaseRole/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -359,7 +401,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -369,6 +411,8 @@
     "displayName": "Group",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=77",
+    "propertyTopic": "opcua/AMLLibs/Group/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Group/{commandName}",
     "telemetryTopic": "opcua/AMLLibs/Group/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -389,7 +433,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -399,6 +443,9 @@
     "displayName": "Facet",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=80",
+    "propertyTopic": "opcua/AMLLibs/Facet/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Facet/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Facet/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -411,7 +458,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -421,6 +468,8 @@
     "displayName": "Port",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=83",
+    "propertyTopic": "opcua/AMLLibs/Port/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Port/{commandName}",
     "telemetryTopic": "opcua/AMLLibs/Port/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -488,7 +537,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -498,6 +547,9 @@
     "displayName": "Resource",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=86",
+    "propertyTopic": "opcua/AMLLibs/Resource/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Resource/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Resource/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -510,7 +562,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -520,6 +572,9 @@
     "displayName": "Product",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=89",
+    "propertyTopic": "opcua/AMLLibs/Product/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Product/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Product/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -532,7 +587,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -542,6 +597,9 @@
     "displayName": "Process",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=92",
+    "propertyTopic": "opcua/AMLLibs/Process/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Process/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Process/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -554,7 +612,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -564,6 +622,9 @@
     "displayName": "Structure",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=95",
+    "propertyTopic": "opcua/AMLLibs/Structure/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Structure/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Structure/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -576,7 +637,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -586,6 +647,9 @@
     "displayName": "PropertySet",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=98",
+    "propertyTopic": "opcua/AMLLibs/PropertySet/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/PropertySet/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/PropertySet/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -598,7 +662,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -608,6 +672,9 @@
     "displayName": "Frame",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=101",
+    "propertyTopic": "opcua/AMLLibs/Frame/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Frame/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Frame/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -620,7 +687,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -630,6 +697,9 @@
     "displayName": "SignalGroup",
     "extends": "dtmi:opcua:AMLLibs:Group;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=107",
+    "propertyTopic": "opcua/AMLLibs/SignalGroup/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/SignalGroup/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/SignalGroup/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -642,7 +712,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -652,6 +722,9 @@
     "displayName": "ComponentGroup",
     "extends": "dtmi:opcua:AMLLibs:Group;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=110",
+    "propertyTopic": "opcua/AMLLibs/ComponentGroup/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ComponentGroup/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ComponentGroup/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -664,7 +737,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -674,6 +747,9 @@
     "displayName": "ProductStructure",
     "extends": "dtmi:opcua:AMLLibs:Structure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=131",
+    "propertyTopic": "opcua/AMLLibs/ProductStructure/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ProductStructure/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ProductStructure/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -686,7 +762,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -696,6 +772,9 @@
     "displayName": "ProcessStructure",
     "extends": "dtmi:opcua:AMLLibs:Structure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=134",
+    "propertyTopic": "opcua/AMLLibs/ProcessStructure/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ProcessStructure/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ProcessStructure/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -708,7 +787,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -718,6 +797,9 @@
     "displayName": "ResourceStructure",
     "extends": "dtmi:opcua:AMLLibs:Structure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=137",
+    "propertyTopic": "opcua/AMLLibs/ResourceStructure/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ResourceStructure/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ResourceStructure/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -730,7 +812,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -740,6 +822,9 @@
     "displayName": "BatchManufacturingEquipment",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=140",
+    "propertyTopic": "opcua/AMLLibs/BatchManufacturingEquipment/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/BatchManufacturingEquipment/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/BatchManufacturingEquipment/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -752,7 +837,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -762,6 +847,9 @@
     "displayName": "ContManufacturingEquipment",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=143",
+    "propertyTopic": "opcua/AMLLibs/ContManufacturingEquipment/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ContManufacturingEquipment/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ContManufacturingEquipment/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -774,7 +862,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -784,6 +872,9 @@
     "displayName": "DiscManufacturingEquipment",
     "extends": "dtmi:opcua:AMLLibs:Resource;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=146",
+    "propertyTopic": "opcua/AMLLibs/DiscManufacturingEquipment/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/DiscManufacturingEquipment/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/DiscManufacturingEquipment/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -796,7 +887,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -806,6 +897,9 @@
     "displayName": "Transport",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=149",
+    "propertyTopic": "opcua/AMLLibs/Transport/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Transport/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Transport/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -818,7 +912,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -828,6 +922,9 @@
     "displayName": "Storage",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=152",
+    "propertyTopic": "opcua/AMLLibs/Storage/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Storage/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Storage/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -840,7 +937,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -850,6 +947,9 @@
     "displayName": "Fixture",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=155",
+    "propertyTopic": "opcua/AMLLibs/Fixture/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Fixture/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Fixture/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -862,7 +962,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -872,6 +972,9 @@
     "displayName": "Gate",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=158",
+    "propertyTopic": "opcua/AMLLibs/Gate/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Gate/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Gate/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -884,7 +987,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -894,6 +997,9 @@
     "displayName": "Robot",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=161",
+    "propertyTopic": "opcua/AMLLibs/Robot/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Robot/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Robot/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -906,7 +1012,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -916,6 +1022,9 @@
     "displayName": "Tool",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=164",
+    "propertyTopic": "opcua/AMLLibs/Tool/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Tool/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Tool/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -928,7 +1037,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -938,6 +1047,9 @@
     "displayName": "Carrier",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=167",
+    "propertyTopic": "opcua/AMLLibs/Carrier/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Carrier/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Carrier/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -950,7 +1062,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -960,6 +1072,9 @@
     "displayName": "Machine",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=170",
+    "propertyTopic": "opcua/AMLLibs/Machine/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Machine/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Machine/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -972,7 +1087,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -982,6 +1097,9 @@
     "displayName": "StaticObject",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=173",
+    "propertyTopic": "opcua/AMLLibs/StaticObject/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/StaticObject/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/StaticObject/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -994,7 +1112,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1004,6 +1122,9 @@
     "displayName": "ControlEquipment",
     "extends": "dtmi:opcua:AMLLibs:Resource;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=176",
+    "propertyTopic": "opcua/AMLLibs/ControlEquipment/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ControlEquipment/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ControlEquipment/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1016,7 +1137,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1026,6 +1147,9 @@
     "displayName": "ControlHardware",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=182",
+    "propertyTopic": "opcua/AMLLibs/ControlHardware/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ControlHardware/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ControlHardware/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1038,7 +1162,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1048,6 +1172,9 @@
     "displayName": "Sensor",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=185",
+    "propertyTopic": "opcua/AMLLibs/Sensor/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Sensor/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Sensor/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1060,7 +1187,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1070,6 +1197,9 @@
     "displayName": "Actuator",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=188",
+    "propertyTopic": "opcua/AMLLibs/Actuator/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Actuator/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Actuator/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1082,7 +1212,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1092,6 +1222,9 @@
     "displayName": "Controller",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=191",
+    "propertyTopic": "opcua/AMLLibs/Controller/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Controller/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Controller/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1104,7 +1237,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1114,6 +1247,9 @@
     "displayName": "PC",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=194",
+    "propertyTopic": "opcua/AMLLibs/PC/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/PC/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/PC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1126,7 +1262,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1136,6 +1272,9 @@
     "displayName": "IPC",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=197",
+    "propertyTopic": "opcua/AMLLibs/IPC/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/IPC/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/IPC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1148,7 +1287,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1158,6 +1297,9 @@
     "displayName": "EmbeddedDevice",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=200",
+    "propertyTopic": "opcua/AMLLibs/EmbeddedDevice/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/EmbeddedDevice/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/EmbeddedDevice/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1170,7 +1312,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1180,6 +1322,9 @@
     "displayName": "Handheld",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=203",
+    "propertyTopic": "opcua/AMLLibs/Handheld/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Handheld/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Handheld/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1192,7 +1337,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1202,6 +1347,9 @@
     "displayName": "PLC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=206",
+    "propertyTopic": "opcua/AMLLibs/PLC/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/PLC/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/PLC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1214,7 +1362,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1224,6 +1372,9 @@
     "displayName": "NC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=209",
+    "propertyTopic": "opcua/AMLLibs/NC/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/NC/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/NC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1236,7 +1387,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1246,6 +1397,9 @@
     "displayName": "RC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=212",
+    "propertyTopic": "opcua/AMLLibs/RC/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/RC/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/RC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1258,7 +1412,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1268,6 +1422,9 @@
     "displayName": "PAC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=215",
+    "propertyTopic": "opcua/AMLLibs/PAC/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/PAC/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/PAC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1280,7 +1437,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1290,6 +1447,9 @@
     "displayName": "PLCFacet",
     "extends": "dtmi:opcua:AMLLibs:Facet;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=218",
+    "propertyTopic": "opcua/AMLLibs/PLCFacet/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/PLCFacet/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/PLCFacet/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1302,7 +1462,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1312,6 +1472,9 @@
     "displayName": "HMIFacet",
     "extends": "dtmi:opcua:AMLLibs:Facet;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=221",
+    "propertyTopic": "opcua/AMLLibs/HMIFacet/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/HMIFacet/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/HMIFacet/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1324,7 +1487,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1334,6 +1497,9 @@
     "displayName": "Enterprise",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=224",
+    "propertyTopic": "opcua/AMLLibs/Enterprise/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Enterprise/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Enterprise/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1346,7 +1512,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1356,6 +1522,9 @@
     "displayName": "Site",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=227",
+    "propertyTopic": "opcua/AMLLibs/Site/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Site/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Site/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1368,7 +1537,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1378,6 +1547,9 @@
     "displayName": "Area",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=230",
+    "propertyTopic": "opcua/AMLLibs/Area/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Area/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Area/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1390,7 +1562,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1400,6 +1572,9 @@
     "displayName": "ProductionLine",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=233",
+    "propertyTopic": "opcua/AMLLibs/ProductionLine/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ProductionLine/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ProductionLine/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1412,7 +1587,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1422,6 +1597,9 @@
     "displayName": "WorkCell",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=236",
+    "propertyTopic": "opcua/AMLLibs/WorkCell/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/WorkCell/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/WorkCell/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1434,7 +1612,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1444,6 +1622,9 @@
     "displayName": "ProcessCell",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=239",
+    "propertyTopic": "opcua/AMLLibs/ProcessCell/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ProcessCell/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ProcessCell/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1456,7 +1637,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1466,6 +1647,9 @@
     "displayName": "Unit",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=242",
+    "propertyTopic": "opcua/AMLLibs/Unit/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Unit/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Unit/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1478,7 +1662,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1488,6 +1672,9 @@
     "displayName": "ProductionUnit",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=245",
+    "propertyTopic": "opcua/AMLLibs/ProductionUnit/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ProductionUnit/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ProductionUnit/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1500,7 +1687,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1510,6 +1697,9 @@
     "displayName": "StorageZone",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=248",
+    "propertyTopic": "opcua/AMLLibs/StorageZone/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/StorageZone/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/StorageZone/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1522,7 +1712,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1532,6 +1722,9 @@
     "displayName": "StorageUnit",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=251",
+    "propertyTopic": "opcua/AMLLibs/StorageUnit/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/StorageUnit/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/StorageUnit/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1544,7 +1737,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1554,6 +1747,9 @@
     "displayName": "Turntable",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=254",
+    "propertyTopic": "opcua/AMLLibs/Turntable/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Turntable/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Turntable/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1566,7 +1762,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1576,6 +1772,9 @@
     "displayName": "Conveyor",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=257",
+    "propertyTopic": "opcua/AMLLibs/Conveyor/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Conveyor/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Conveyor/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1588,7 +1787,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1598,6 +1797,9 @@
     "displayName": "LiftingTable",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=260",
+    "propertyTopic": "opcua/AMLLibs/LiftingTable/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/LiftingTable/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/LiftingTable/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1610,7 +1812,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1620,6 +1822,9 @@
     "displayName": "AGV",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=263",
+    "propertyTopic": "opcua/AMLLibs/AGV/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/AGV/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/AGV/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1632,7 +1837,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1642,6 +1847,9 @@
     "displayName": "Transposer",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=266",
+    "propertyTopic": "opcua/AMLLibs/Transposer/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Transposer/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Transposer/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1654,7 +1862,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1664,6 +1872,9 @@
     "displayName": "CarrierHandlingSystem",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=269",
+    "propertyTopic": "opcua/AMLLibs/CarrierHandlingSystem/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/CarrierHandlingSystem/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/CarrierHandlingSystem/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1676,7 +1887,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1686,6 +1897,9 @@
     "displayName": "BodyStore",
     "extends": "dtmi:opcua:AMLLibs:Storage;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=272",
+    "propertyTopic": "opcua/AMLLibs/BodyStore/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/BodyStore/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/BodyStore/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1698,7 +1912,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1708,6 +1922,9 @@
     "displayName": "Lift",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=275",
+    "propertyTopic": "opcua/AMLLibs/Lift/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Lift/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Lift/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1720,7 +1937,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1730,6 +1947,9 @@
     "displayName": "Rollerbed",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=278",
+    "propertyTopic": "opcua/AMLLibs/Rollerbed/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Rollerbed/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Rollerbed/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1742,7 +1962,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1752,6 +1972,9 @@
     "displayName": "StationaryTool",
     "extends": "dtmi:opcua:AMLLibs:Tool;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=281",
+    "propertyTopic": "opcua/AMLLibs/StationaryTool/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/StationaryTool/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/StationaryTool/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1764,7 +1987,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1774,6 +1997,9 @@
     "displayName": "MovableTool",
     "extends": "dtmi:opcua:AMLLibs:Tool;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=284",
+    "propertyTopic": "opcua/AMLLibs/MovableTool/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/MovableTool/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/MovableTool/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1786,7 +2012,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1796,6 +2022,9 @@
     "displayName": "ControlCabinet",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=287",
+    "propertyTopic": "opcua/AMLLibs/ControlCabinet/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ControlCabinet/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ControlCabinet/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1808,7 +2037,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1818,6 +2047,9 @@
     "displayName": "IODevice",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=290",
+    "propertyTopic": "opcua/AMLLibs/IODevice/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/IODevice/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/IODevice/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1830,7 +2062,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1840,6 +2072,9 @@
     "displayName": "HMI",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=293",
+    "propertyTopic": "opcua/AMLLibs/HMI/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/HMI/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/HMI/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1852,7 +2087,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1862,6 +2097,9 @@
     "displayName": "ActuatingDrive",
     "extends": "dtmi:opcua:AMLLibs:Actuator;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=296",
+    "propertyTopic": "opcua/AMLLibs/ActuatingDrive/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ActuatingDrive/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ActuatingDrive/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1874,7 +2112,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1884,6 +2122,9 @@
     "displayName": "MotionController",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=299",
+    "propertyTopic": "opcua/AMLLibs/MotionController/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/MotionController/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/MotionController/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1896,7 +2137,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1906,6 +2147,9 @@
     "displayName": "Panel",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=302",
+    "propertyTopic": "opcua/AMLLibs/Panel/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Panel/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Panel/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1918,7 +2162,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1928,6 +2172,9 @@
     "displayName": "MeasuringEquipment",
     "extends": "dtmi:opcua:AMLLibs:Resource;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=305",
+    "propertyTopic": "opcua/AMLLibs/MeasuringEquipment/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/MeasuringEquipment/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/MeasuringEquipment/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1940,7 +2187,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1950,6 +2197,9 @@
     "displayName": "Clamp",
     "extends": "dtmi:opcua:AMLLibs:Fixture;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=308",
+    "propertyTopic": "opcua/AMLLibs/Clamp/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Clamp/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Clamp/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1962,7 +2212,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1972,6 +2222,9 @@
     "displayName": "ProcessController",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=311",
+    "propertyTopic": "opcua/AMLLibs/ProcessController/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ProcessController/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ProcessController/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1984,7 +2237,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1994,6 +2247,9 @@
     "displayName": "Loader",
     "extends": "dtmi:opcua:AMLLibs:Storage;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=314",
+    "propertyTopic": "opcua/AMLLibs/Loader/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Loader/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Loader/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2006,7 +2262,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2016,6 +2272,9 @@
     "displayName": "Unloader",
     "extends": "dtmi:opcua:AMLLibs:Storage;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=317",
+    "propertyTopic": "opcua/AMLLibs/Unloader/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/Unloader/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/Unloader/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2028,7 +2287,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2038,6 +2297,9 @@
     "displayName": "BeltConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=320",
+    "propertyTopic": "opcua/AMLLibs/BeltConveyor/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/BeltConveyor/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/BeltConveyor/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2050,7 +2312,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2060,6 +2322,9 @@
     "displayName": "RollConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=323",
+    "propertyTopic": "opcua/AMLLibs/RollConveyor/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/RollConveyor/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/RollConveyor/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2072,7 +2337,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2082,6 +2347,9 @@
     "displayName": "ChainConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=326",
+    "propertyTopic": "opcua/AMLLibs/ChainConveyor/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/ChainConveyor/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/ChainConveyor/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2094,7 +2362,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2104,6 +2372,9 @@
     "displayName": "PalletConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=329",
+    "propertyTopic": "opcua/AMLLibs/PalletConveyor/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/PalletConveyor/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/PalletConveyor/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2116,7 +2387,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2126,6 +2397,9 @@
     "displayName": "OverheadConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=332",
+    "propertyTopic": "opcua/AMLLibs/OverheadConveyor/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/OverheadConveyor/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/OverheadConveyor/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2138,7 +2412,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2148,6 +2422,9 @@
     "displayName": "WarningEquipment",
     "extends": "dtmi:opcua:AMLLibs:HMI;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=335",
+    "propertyTopic": "opcua/AMLLibs/WarningEquipment/{propertyName}/{action}",
+    "commandTopic": "opcua/AMLLibs/WarningEquipment/{commandName}",
+    "telemetryTopic": "opcua/AMLLibs/WarningEquipment/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

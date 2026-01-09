@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,9 @@
     "displayName": "FunctionalGroupType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=6012",
+    "propertyTopic": "opcua/sercos/FunctionalGroupType/{propertyName}/{action}",
+    "commandTopic": "opcua/sercos/FunctionalGroupType/{commandName}",
+    "telemetryTopic": "opcua/sercos/FunctionalGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -26,7 +29,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -35,6 +38,9 @@
     "displayName": "SercosProfileType",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=1002",
+    "propertyTopic": "opcua/sercos/SercosProfileType/{propertyName}/{action}",
+    "commandTopic": "opcua/sercos/SercosProfileType/{commandName}",
+    "telemetryTopic": "opcua/sercos/SercosProfileType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -47,7 +53,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -56,6 +62,9 @@
     "displayName": "SercosClassType",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=1003",
+    "propertyTopic": "opcua/sercos/SercosClassType/{propertyName}/{action}",
+    "commandTopic": "opcua/sercos/SercosClassType/{commandName}",
+    "telemetryTopic": "opcua/sercos/SercosClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -68,7 +77,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -77,6 +86,9 @@
     "displayName": "SercosFunctionGroupType",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=1004",
+    "propertyTopic": "opcua/sercos/SercosFunctionGroupType/{propertyName}/{action}",
+    "commandTopic": "opcua/sercos/SercosFunctionGroupType/{commandName}",
+    "telemetryTopic": "opcua/sercos/SercosFunctionGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -89,7 +101,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -99,6 +111,9 @@
     "displayName": "SercosDeviceType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=1001",
+    "propertyTopic": "opcua/sercos/SercosDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/sercos/SercosDeviceType/{commandName}",
+    "telemetryTopic": "opcua/sercos/SercosDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -135,7 +150,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -145,6 +160,9 @@
     "displayName": "ProfileSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=6075",
+    "propertyTopic": "opcua/sercos/ProfileSet/{propertyName}/{action}",
+    "commandTopic": "opcua/sercos/ProfileSet/{commandName}",
+    "telemetryTopic": "opcua/sercos/ProfileSet/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -164,7 +182,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -174,6 +192,9 @@
     "displayName": "ClassSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=6077",
+    "propertyTopic": "opcua/sercos/ClassSet/{propertyName}/{action}",
+    "commandTopic": "opcua/sercos/ClassSet/{commandName}",
+    "telemetryTopic": "opcua/sercos/ClassSet/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -193,7 +214,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -203,6 +224,9 @@
     "displayName": "FunctionGroupSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=6079",
+    "propertyTopic": "opcua/sercos/FunctionGroupSet/{propertyName}/{action}",
+    "commandTopic": "opcua/sercos/FunctionGroupSet/{commandName}",
+    "telemetryTopic": "opcua/sercos/FunctionGroupSet/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

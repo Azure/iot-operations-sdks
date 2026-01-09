@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,6 +15,7 @@
     "displayName": "HaulageMachineType",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining/TransportDumping/General/;i=1003",
+    "propertyTopic": "opcua/Mining_TransportDumping_General/HaulageMachineType/{propertyName}/{action}",
     "commandTopic": "opcua/Mining_TransportDumping_General/HaulageMachineType/{commandName}",
     "telemetryTopic": "opcua/Mining_TransportDumping_General/HaulageMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,9 @@
     "displayName": "FormingProcessConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:ProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1023",
+    "propertyTopic": "opcua/MetalForming/FormingProcessConditionClassType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/FormingProcessConditionClassType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/FormingProcessConditionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -26,7 +29,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -35,6 +38,9 @@
     "displayName": "AllowableTiltingExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1011",
+    "propertyTopic": "opcua/MetalForming/AllowableTiltingExceededConditionClassType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/AllowableTiltingExceededConditionClassType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/AllowableTiltingExceededConditionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -47,7 +53,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -56,6 +62,9 @@
     "displayName": "BreakthroughTonnageExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1014",
+    "propertyTopic": "opcua/MetalForming/BreakthroughTonnageExceededConditionClassType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/BreakthroughTonnageExceededConditionClassType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/BreakthroughTonnageExceededConditionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -68,7 +77,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -77,6 +86,9 @@
     "displayName": "CorrectionValueOutOfRangeConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1020",
+    "propertyTopic": "opcua/MetalForming/CorrectionValueOutOfRangeConditionClassType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/CorrectionValueOutOfRangeConditionClassType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/CorrectionValueOutOfRangeConditionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -89,7 +101,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -98,6 +110,9 @@
     "displayName": "EccentricLoadExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1006",
+    "propertyTopic": "opcua/MetalForming/EccentricLoadExceededConditionClassType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/EccentricLoadExceededConditionClassType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/EccentricLoadExceededConditionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -110,7 +125,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -119,6 +134,9 @@
     "displayName": "OverloadTriggeredConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1005",
+    "propertyTopic": "opcua/MetalForming/OverloadTriggeredConditionClassType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/OverloadTriggeredConditionClassType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/OverloadTriggeredConditionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -131,7 +149,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -140,6 +158,9 @@
     "displayName": "PositionOutOfRangeConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1017",
+    "propertyTopic": "opcua/MetalForming/PositionOutOfRangeConditionClassType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/PositionOutOfRangeConditionClassType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/PositionOutOfRangeConditionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -152,7 +173,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -161,6 +182,9 @@
     "displayName": "ProcessForceExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1009",
+    "propertyTopic": "opcua/MetalForming/ProcessForceExceededConditionClassType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/ProcessForceExceededConditionClassType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/ProcessForceExceededConditionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -173,7 +197,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -182,6 +206,8 @@
     "displayName": "CyclicEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1016",
+    "propertyTopic": "opcua/MetalForming/CyclicEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/CyclicEventType/{commandName}",
     "telemetryTopic": "opcua/MetalForming/CyclicEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -217,7 +243,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -226,6 +252,9 @@
     "displayName": "FormingToolType",
     "extends": "dtmi:opcua:MachineTool:BaseToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1010",
+    "propertyTopic": "opcua/MetalForming/FormingToolType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/FormingToolType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/FormingToolType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -238,7 +267,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -248,6 +277,9 @@
     "displayName": "FormingMultiToolType",
     "extends": "dtmi:opcua:MachineTool:MultiToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1012",
+    "propertyTopic": "opcua/MetalForming/FormingMultiToolType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/FormingMultiToolType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/FormingMultiToolType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -267,7 +299,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -277,6 +309,9 @@
     "displayName": "ProcessWorkingUnitType",
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1004",
+    "propertyTopic": "opcua/MetalForming/ProcessWorkingUnitType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/ProcessWorkingUnitType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/ProcessWorkingUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -311,7 +346,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -321,6 +356,9 @@
     "displayName": "FormingProcessWorkingUnitType",
     "extends": "dtmi:opcua:MetalForming:ProcessWorkingUnitType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1008",
+    "propertyTopic": "opcua/MetalForming/FormingProcessWorkingUnitType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/FormingProcessWorkingUnitType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/FormingProcessWorkingUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -341,7 +379,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -350,6 +388,9 @@
     "displayName": "FormingPositionsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1003",
+    "propertyTopic": "opcua/MetalForming/FormingPositionsType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/FormingPositionsType/{commandName}",
+    "telemetryTopic": "opcua/MetalForming/FormingPositionsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -402,7 +443,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -411,6 +452,8 @@
     "displayName": "CyclicProcessValueType",
     "extends": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1007",
+    "propertyTopic": "opcua/MetalForming/CyclicProcessValueType/{propertyName}/{action}",
+    "commandTopic": "opcua/MetalForming/CyclicProcessValueType/{commandName}",
     "telemetryTopic": "opcua/MetalForming/CyclicProcessValueType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,6 +15,8 @@
     "displayName": "AssetVerificationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1247",
+    "propertyTopic": "opcua/FX_CM/AssetVerificationType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/AssetVerificationType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/AssetVerificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -246,7 +248,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -256,6 +258,8 @@
     "displayName": "AutomationComponentConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1246",
+    "propertyTopic": "opcua/FX_CM/AutomationComponentConfigurationType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/AutomationComponentConfigurationType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/AutomationComponentConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -387,7 +391,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -396,6 +400,7 @@
     "displayName": "ConnectionConfigurationSetEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1006",
+    "propertyTopic": "opcua/FX_CM/ConnectionConfigurationSetEventType/{propertyName}/{action}",
     "commandTopic": "opcua/FX_CM/ConnectionConfigurationSetEventType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationSetEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -468,7 +473,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -477,6 +482,9 @@
     "displayName": "ConnectionConfigurationSetProcessingFailedEventType",
     "extends": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1009",
+    "propertyTopic": "opcua/FX_CM/ConnectionConfigurationSetProcessingFailedEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/ConnectionConfigurationSetProcessingFailedEventType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationSetProcessingFailedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -489,7 +497,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -498,6 +506,9 @@
     "displayName": "ConnectionConfigurationSetProcessingStartedEventType",
     "extends": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1007",
+    "propertyTopic": "opcua/FX_CM/ConnectionConfigurationSetProcessingStartedEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/ConnectionConfigurationSetProcessingStartedEventType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationSetProcessingStartedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -510,7 +521,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -519,6 +530,9 @@
     "displayName": "ConnectionConfigurationSetProcessingSucceededEventType",
     "extends": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1008",
+    "propertyTopic": "opcua/FX_CM/ConnectionConfigurationSetProcessingSucceededEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/ConnectionConfigurationSetProcessingSucceededEventType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationSetProcessingSucceededEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -531,7 +545,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -541,6 +555,9 @@
     "displayName": "IConnectionManagerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1019",
+    "propertyTopic": "opcua/FX_CM/IConnectionManagerType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/IConnectionManagerType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/IConnectionManagerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -561,7 +578,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -570,6 +587,9 @@
     "displayName": "CommunicationFlowConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1003",
+    "propertyTopic": "opcua/FX_CM/CommunicationFlowConfigurationType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/CommunicationFlowConfigurationType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/CommunicationFlowConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -582,7 +602,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -592,6 +612,8 @@
     "displayName": "PubSubCommunicationFlowConfigurationType",
     "extends": "dtmi:opcua:FX_CM:CommunicationFlowConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1014",
+    "propertyTopic": "opcua/FX_CM/PubSubCommunicationFlowConfigurationType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/PubSubCommunicationFlowConfigurationType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/PubSubCommunicationFlowConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -728,7 +750,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -737,6 +759,9 @@
     "displayName": "CommunicationModelConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1016",
+    "propertyTopic": "opcua/FX_CM/CommunicationModelConfigurationType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/CommunicationModelConfigurationType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/CommunicationModelConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -749,7 +774,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -759,6 +784,8 @@
     "displayName": "PubSubCommunicationModelConfigurationType",
     "extends": "dtmi:opcua:FX_CM:CommunicationModelConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1042",
+    "propertyTopic": "opcua/FX_CM/PubSubCommunicationModelConfigurationType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/PubSubCommunicationModelConfigurationType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/PubSubCommunicationModelConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1717,7 +1744,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1727,6 +1754,7 @@
     "displayName": "ConnectionConfigurationSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1012",
+    "propertyTopic": "opcua/FX_CM/ConnectionConfigurationSetType/{propertyName}/{action}",
     "commandTopic": "opcua/FX_CM/ConnectionConfigurationSetType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2169,7 +2197,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2179,6 +2207,8 @@
     "displayName": "ConnectionConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1013",
+    "propertyTopic": "opcua/FX_CM/ConnectionConfigurationType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/ConnectionConfigurationType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2215,7 +2245,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2224,6 +2254,8 @@
     "displayName": "ConnectionEndpointConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1129",
+    "propertyTopic": "opcua/FX_CM/ConnectionEndpointConfigurationType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/ConnectionEndpointConfigurationType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/ConnectionEndpointConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2411,7 +2443,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2420,6 +2452,8 @@
     "displayName": "ConnectionEndpointParameterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1261",
+    "propertyTopic": "opcua/FX_CM/ConnectionEndpointParameterType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/ConnectionEndpointParameterType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/ConnectionEndpointParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2612,7 +2646,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2622,6 +2656,7 @@
     "displayName": "ConnectionManagerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1002",
+    "propertyTopic": "opcua/FX_CM/ConnectionManagerType/{propertyName}/{action}",
     "commandTopic": "opcua/FX_CM/ConnectionManagerType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/ConnectionManagerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2813,7 +2848,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2822,7 +2857,9 @@
     "displayName": "ConnectionManagerConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:FileType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1011",
+    "propertyTopic": "opcua/FX_CM/ConnectionManagerConfigurationType/{propertyName}/{action}",
     "commandTopic": "opcua/FX_CM/ConnectionManagerConfigurationType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/ConnectionManagerConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2920,7 +2957,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2929,6 +2966,9 @@
     "displayName": "ConnectionManagerCapabilitiesType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1010",
+    "propertyTopic": "opcua/FX_CM/ConnectionManagerCapabilitiesType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/ConnectionManagerCapabilitiesType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/ConnectionManagerCapabilitiesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2941,7 +2981,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2950,6 +2990,9 @@
     "displayName": "ConnectionConfigurationSetStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1018",
+    "propertyTopic": "opcua/FX_CM/ConnectionConfigurationSetStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/ConnectionConfigurationSetStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationSetStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3018,7 +3061,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3027,6 +3070,8 @@
     "displayName": "SubscriberConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=1001",
+    "propertyTopic": "opcua/FX_CM/SubscriberConfigurationType/{propertyName}/{action}",
+    "commandTopic": "opcua/FX_CM/SubscriberConfigurationType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/SubscriberConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

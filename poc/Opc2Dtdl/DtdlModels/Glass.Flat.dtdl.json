@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,7 @@
     "displayName": "GlassEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1030",
+    "propertyTopic": "opcua/Glass_Flat/GlassEventType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/GlassEventType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/GlassEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -60,7 +61,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -69,6 +70,9 @@
     "displayName": "CommunicationErrorEventType",
     "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1040",
+    "propertyTopic": "opcua/Glass_Flat/CommunicationErrorEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/CommunicationErrorEventType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/CommunicationErrorEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -81,7 +85,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -90,6 +94,9 @@
     "displayName": "GlassMaterialEventType",
     "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1031",
+    "propertyTopic": "opcua/Glass_Flat/GlassMaterialEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/GlassMaterialEventType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/GlassMaterialEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -102,7 +109,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -111,6 +118,9 @@
     "displayName": "MaterialExitEventType",
     "extends": "dtmi:opcua:Glass_Flat:GlassMaterialEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1025",
+    "propertyTopic": "opcua/Glass_Flat/MaterialExitEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/MaterialExitEventType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/MaterialExitEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -123,7 +133,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -132,6 +142,9 @@
     "displayName": "MaterialMissingEventType",
     "extends": "dtmi:opcua:Glass_Flat:GlassMaterialEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1027",
+    "propertyTopic": "opcua/Glass_Flat/MaterialMissingEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/MaterialMissingEventType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/MaterialMissingEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -144,7 +157,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -153,6 +166,9 @@
     "displayName": "MaterialReceivedEventType",
     "extends": "dtmi:opcua:Glass_Flat:GlassMaterialEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1026",
+    "propertyTopic": "opcua/Glass_Flat/MaterialReceivedEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/MaterialReceivedEventType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/MaterialReceivedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -165,7 +181,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -174,6 +190,7 @@
     "displayName": "IntermediateStepEvent",
     "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1029",
+    "propertyTopic": "opcua/Glass_Flat/IntermediateStepEvent/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/IntermediateStepEvent/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/IntermediateStepEvent/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -204,7 +221,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -213,6 +230,7 @@
     "displayName": "InterruptedEventType",
     "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1032",
+    "propertyTopic": "opcua/Glass_Flat/InterruptedEventType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/InterruptedEventType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/InterruptedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -235,7 +253,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -244,6 +262,9 @@
     "displayName": "EmergencyButtonPressedEventType",
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1038",
+    "propertyTopic": "opcua/Glass_Flat/EmergencyButtonPressedEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/EmergencyButtonPressedEventType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/EmergencyButtonPressedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -256,7 +277,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -265,6 +286,9 @@
     "displayName": "MotorTemperatureTooHighEventType",
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1039",
+    "propertyTopic": "opcua/Glass_Flat/MotorTemperatureTooHighEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/MotorTemperatureTooHighEventType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/MotorTemperatureTooHighEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -277,7 +301,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -286,6 +310,9 @@
     "displayName": "OpenSecurityFenceType",
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1033",
+    "propertyTopic": "opcua/Glass_Flat/OpenSecurityFenceType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/OpenSecurityFenceType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/OpenSecurityFenceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -298,7 +325,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -307,6 +334,9 @@
     "displayName": "OutOfJobEventType",
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1036",
+    "propertyTopic": "opcua/Glass_Flat/OutOfJobEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/OutOfJobEventType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/OutOfJobEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -319,7 +349,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -328,6 +358,9 @@
     "displayName": "ProcessParameterOutOfRangeType",
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1034",
+    "propertyTopic": "opcua/Glass_Flat/ProcessParameterOutOfRangeType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/ProcessParameterOutOfRangeType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/ProcessParameterOutOfRangeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -340,7 +373,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -349,6 +382,9 @@
     "displayName": "ToolMissingEventType",
     "extends": "dtmi:opcua:Glass_Flat:InterruptedEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1035",
+    "propertyTopic": "opcua/Glass_Flat/ToolMissingEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/ToolMissingEventType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/ToolMissingEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -361,7 +397,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -370,6 +406,7 @@
     "displayName": "JobMovedEventType",
     "extends": "dtmi:opcua:Glass_Flat:GlassEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1037",
+    "propertyTopic": "opcua/Glass_Flat/JobMovedEventType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/JobMovedEventType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/JobMovedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -392,7 +429,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -401,6 +438,7 @@
     "displayName": "BaseMaterialType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1006",
+    "propertyTopic": "opcua/Glass_Flat/BaseMaterialType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/BaseMaterialType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/BaseMaterialType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -475,7 +513,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -484,6 +522,9 @@
     "displayName": "AssemblyType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1002",
+    "propertyTopic": "opcua/Glass_Flat/AssemblyType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/AssemblyType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/AssemblyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -496,7 +537,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -506,6 +547,9 @@
     "displayName": "FoilType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1019",
+    "propertyTopic": "opcua/Glass_Flat/FoilType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/FoilType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/FoilType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -518,7 +562,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -528,6 +572,8 @@
     "displayName": "GasMixType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1010",
+    "propertyTopic": "opcua/Glass_Flat/GasMixType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/GasMixType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/GasMixType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -573,7 +619,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -582,6 +628,7 @@
     "displayName": "GlassType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1011",
+    "propertyTopic": "opcua/Glass_Flat/GlassType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/GlassType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/GlassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -746,7 +793,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -756,6 +803,8 @@
     "displayName": "PackagingType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1017",
+    "propertyTopic": "opcua/Glass_Flat/PackagingType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/PackagingType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/PackagingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -790,7 +839,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -800,6 +849,8 @@
     "displayName": "SealingMaterialType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1018",
+    "propertyTopic": "opcua/Glass_Flat/SealingMaterialType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/SealingMaterialType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/SealingMaterialType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -844,7 +895,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -854,6 +905,7 @@
     "displayName": "SpacerType",
     "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1016",
+    "propertyTopic": "opcua/Glass_Flat/SpacerType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/SpacerType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/SpacerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -945,7 +997,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -954,6 +1006,7 @@
     "displayName": "ConfigurationRulesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1063",
+    "propertyTopic": "opcua/Glass_Flat/ConfigurationRulesType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/ConfigurationRulesType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/ConfigurationRulesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1066,7 +1119,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1076,6 +1129,7 @@
     "displayName": "GlassMachineIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1020",
+    "propertyTopic": "opcua/Glass_Flat/GlassMachineIdentificationType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/GlassMachineIdentificationType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/GlassMachineIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1139,7 +1193,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1148,6 +1202,7 @@
     "displayName": "ManualFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1041",
+    "propertyTopic": "opcua/Glass_Flat/ManualFolderType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/ManualFolderType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/ManualFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1180,7 +1235,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1190,6 +1245,9 @@
     "displayName": "GlassMachineType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1015",
+    "propertyTopic": "opcua/Glass_Flat/GlassMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/GlassMachineType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/GlassMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1234,7 +1292,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1243,6 +1301,7 @@
     "displayName": "InstructionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1003",
+    "propertyTopic": "opcua/Glass_Flat/InstructionType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/InstructionType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/InstructionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1296,7 +1355,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1305,6 +1364,9 @@
     "displayName": "ProductionPlanType",
     "extends": "dtmi:opcua:OpcUaCore:OrderedListType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1023",
+    "propertyTopic": "opcua/Glass_Flat/ProductionPlanType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/ProductionPlanType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/ProductionPlanType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1317,7 +1379,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1327,6 +1389,7 @@
     "displayName": "ProductionJobType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1004",
+    "propertyTopic": "opcua/Glass_Flat/ProductionJobType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/ProductionJobType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/ProductionJobType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1451,7 +1514,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1461,6 +1524,9 @@
     "displayName": "AssemblyJobType",
     "extends": "dtmi:opcua:Glass_Flat:ProductionJobType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1008",
+    "propertyTopic": "opcua/Glass_Flat/AssemblyJobType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/AssemblyJobType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/AssemblyJobType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1487,7 +1553,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1497,6 +1563,9 @@
     "displayName": "CuttingJobType",
     "extends": "dtmi:opcua:Glass_Flat:ProductionJobType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1007",
+    "propertyTopic": "opcua/Glass_Flat/CuttingJobType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/CuttingJobType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/CuttingJobType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1523,7 +1592,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1533,6 +1602,9 @@
     "displayName": "ProcessingJobType",
     "extends": "dtmi:opcua:Glass_Flat:ProductionJobType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1009",
+    "propertyTopic": "opcua/Glass_Flat/ProcessingJobType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/ProcessingJobType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/ProcessingJobType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1559,7 +1631,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1568,6 +1640,7 @@
     "displayName": "ProductionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1021",
+    "propertyTopic": "opcua/Glass_Flat/ProductionType/{propertyName}/{action}",
     "commandTopic": "opcua/Glass_Flat/ProductionType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat/ProductionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1730,7 +1803,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1739,6 +1812,9 @@
     "displayName": "InitializingSubStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1024",
+    "propertyTopic": "opcua/Glass_Flat/InitializingSubStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/InitializingSubStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/InitializingSubStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1807,7 +1883,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1816,6 +1892,9 @@
     "displayName": "ProductionStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1005",
+    "propertyTopic": "opcua/Glass_Flat/ProductionStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/Glass_Flat/ProductionStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/Glass_Flat/ProductionStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

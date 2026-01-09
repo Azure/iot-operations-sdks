@@ -9,7 +9,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -31,12 +31,9 @@
     "extends": [ <#=string.Join(", ", this.supertypeIds.Select(s => $"\"{s};1\""))#> ],
 <# } #>
     "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.specMapper, this.definedType.NodeId)#>",
-<# if (this.dtdlCommands.Count > 0 || this.dtdlProperties.Count > 0) { #>
+    "propertyTopic": "<#=this.topicBase#>/{propertyName}/{action}",
     "commandTopic": "<#=this.topicBase#>/{commandName}",
-<# } #>
-<# if (this.dtdlTelemetries.Count > 0 || this.dtdlProperties.Count > 0) { #>
     "telemetryTopic": "<#=this.topicBase#>/{telemetryName}/{senderId}",
-<# } #>
     "payloadFormat": "Json/ecma/404",
     "schemas": [
 <# ix = 1; foreach (DtdlDataType dtdlDataType in this.dtdlDataTypes) { #>

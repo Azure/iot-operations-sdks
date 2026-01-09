@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,6 +15,9 @@
     "displayName": "HydraulicExcavatorType",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining/Loading/HydraulicExcavator/;i=1002",
+    "propertyTopic": "opcua/Mining_Loading_HydraulicExcavator/HydraulicExcavatorType/{propertyName}/{action}",
+    "commandTopic": "opcua/Mining_Loading_HydraulicExcavator/HydraulicExcavatorType/{commandName}",
+    "telemetryTopic": "opcua/Mining_Loading_HydraulicExcavator/HydraulicExcavatorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

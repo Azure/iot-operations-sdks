@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,9 @@
     "displayName": "ActionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=11",
+    "propertyTopic": "opcua/FDI5/ActionType/{propertyName}/{action}",
+    "commandTopic": "opcua/FDI5/ActionType/{commandName}",
+    "telemetryTopic": "opcua/FDI5/ActionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -26,7 +29,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -36,7 +39,9 @@
     "displayName": "ActionServiceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=21",
+    "propertyTopic": "opcua/FDI5/ActionServiceType/{propertyName}/{action}",
     "commandTopic": "opcua/FDI5/ActionServiceType/{commandName}",
+    "telemetryTopic": "opcua/FDI5/ActionServiceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -173,7 +178,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -183,7 +188,9 @@
     "displayName": "EditContextType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=54",
+    "propertyTopic": "opcua/FDI5/EditContextType/{propertyName}/{action}",
     "commandTopic": "opcua/FDI5/EditContextType/{commandName}",
+    "telemetryTopic": "opcua/FDI5/EditContextType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -563,7 +570,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -573,7 +580,9 @@
     "displayName": "DirectDeviceAccessType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=82",
+    "propertyTopic": "opcua/FDI5/DirectDeviceAccessType/{propertyName}/{action}",
     "commandTopic": "opcua/FDI5/DirectDeviceAccessType/{commandName}",
+    "telemetryTopic": "opcua/FDI5/DirectDeviceAccessType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,8 @@
     "displayName": "IEnergyProfileD0Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1011",
+    "propertyTopic": "opcua/PNEM/IEnergyProfileD0Type/{propertyName}/{action}",
+    "commandTopic": "opcua/PNEM/IEnergyProfileD0Type/{commandName}",
     "telemetryTopic": "opcua/PNEM/IEnergyProfileD0Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -35,7 +37,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -44,6 +46,8 @@
     "displayName": "IEnergyProfileE0Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1007",
+    "propertyTopic": "opcua/PNEM/IEnergyProfileE0Type/{propertyName}/{action}",
+    "commandTopic": "opcua/PNEM/IEnergyProfileE0Type/{commandName}",
     "telemetryTopic": "opcua/PNEM/IEnergyProfileE0Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -87,7 +91,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -96,6 +100,8 @@
     "displayName": "IEnergyProfileE1Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1008",
+    "propertyTopic": "opcua/PNEM/IEnergyProfileE1Type/{propertyName}/{action}",
+    "commandTopic": "opcua/PNEM/IEnergyProfileE1Type/{commandName}",
     "telemetryTopic": "opcua/PNEM/IEnergyProfileE1Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -117,7 +123,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -126,6 +132,8 @@
     "displayName": "IEnergyProfileE2Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1009",
+    "propertyTopic": "opcua/PNEM/IEnergyProfileE2Type/{propertyName}/{action}",
+    "commandTopic": "opcua/PNEM/IEnergyProfileE2Type/{commandName}",
     "telemetryTopic": "opcua/PNEM/IEnergyProfileE2Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -163,7 +171,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -172,6 +180,8 @@
     "displayName": "IEnergyProfileE3Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1010",
+    "propertyTopic": "opcua/PNEM/IEnergyProfileE3Type/{propertyName}/{action}",
+    "commandTopic": "opcua/PNEM/IEnergyProfileE3Type/{commandName}",
     "telemetryTopic": "opcua/PNEM/IEnergyProfileE3Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -303,7 +313,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -313,6 +323,7 @@
     "displayName": "EnergyDevicePowerOffType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1012",
+    "propertyTopic": "opcua/PNEM/EnergyDevicePowerOffType/{propertyName}/{action}",
     "commandTopic": "opcua/PNEM/EnergyDevicePowerOffType/{commandName}",
     "telemetryTopic": "opcua/PNEM/EnergyDevicePowerOffType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -396,7 +407,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -406,6 +417,7 @@
     "displayName": "EnergyMeasurementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1006",
+    "propertyTopic": "opcua/PNEM/EnergyMeasurementType/{propertyName}/{action}",
     "commandTopic": "opcua/PNEM/EnergyMeasurementType/{commandName}",
     "telemetryTopic": "opcua/PNEM/EnergyMeasurementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -451,7 +463,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -460,6 +472,9 @@
     "displayName": "EnergySavingModesContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1004",
+    "propertyTopic": "opcua/PNEM/EnergySavingModesContainerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PNEM/EnergySavingModesContainerType/{commandName}",
+    "telemetryTopic": "opcua/PNEM/EnergySavingModesContainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -479,7 +494,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -488,6 +503,8 @@
     "displayName": "EnergySavingModeStatusType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1002",
+    "propertyTopic": "opcua/PNEM/EnergySavingModeStatusType/{propertyName}/{action}",
+    "commandTopic": "opcua/PNEM/EnergySavingModeStatusType/{commandName}",
     "telemetryTopic": "opcua/PNEM/EnergySavingModeStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -573,7 +590,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -582,6 +599,7 @@
     "displayName": "EnergySavingModeType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1003",
+    "propertyTopic": "opcua/PNEM/EnergySavingModeType/{propertyName}/{action}",
     "commandTopic": "opcua/PNEM/EnergySavingModeType/{commandName}",
     "telemetryTopic": "opcua/PNEM/EnergySavingModeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -668,7 +686,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -678,6 +696,7 @@
     "displayName": "EnergyStandbyManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1005",
+    "propertyTopic": "opcua/PNEM/EnergyStandbyManagementType/{propertyName}/{action}",
     "commandTopic": "opcua/PNEM/EnergyStandbyManagementType/{commandName}",
     "telemetryTopic": "opcua/PNEM/EnergyStandbyManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -863,7 +882,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -873,6 +892,7 @@
     "displayName": "PeServiceAccessPointType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1013",
+    "propertyTopic": "opcua/PNEM/PeServiceAccessPointType/{propertyName}/{action}",
     "commandTopic": "opcua/PNEM/PeServiceAccessPointType/{commandName}",
     "telemetryTopic": "opcua/PNEM/PeServiceAccessPointType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

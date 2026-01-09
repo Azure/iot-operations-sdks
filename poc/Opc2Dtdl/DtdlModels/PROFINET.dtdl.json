@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,7 @@
     "displayName": "PnDiagnosisAlarmType",
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1002",
+    "propertyTopic": "opcua/PROFINET/PnDiagnosisAlarmType/{propertyName}/{action}",
     "commandTopic": "opcua/PROFINET/PnDiagnosisAlarmType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/PnDiagnosisAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -294,7 +295,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -303,6 +304,7 @@
     "displayName": "PnAssetChangedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1003",
+    "propertyTopic": "opcua/PROFINET/PnAssetChangedEventType/{propertyName}/{action}",
     "commandTopic": "opcua/PROFINET/PnAssetChangedEventType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/PnAssetChangedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -381,7 +383,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -390,6 +392,9 @@
     "displayName": "PnTopologyChangedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1004",
+    "propertyTopic": "opcua/PROFINET/PnTopologyChangedEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnTopologyChangedEventType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/PnTopologyChangedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -402,7 +407,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -411,6 +416,9 @@
     "displayName": "IPnDomainType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1031",
+    "propertyTopic": "opcua/PROFINET/IPnDomainType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/IPnDomainType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/IPnDomainType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -431,7 +439,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -440,6 +448,7 @@
     "displayName": "IPnEquipmentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1032",
+    "propertyTopic": "opcua/PROFINET/IPnEquipmentType/{propertyName}/{action}",
     "commandTopic": "opcua/PROFINET/IPnEquipmentType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/IPnEquipmentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -750,7 +759,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -759,6 +768,9 @@
     "displayName": "IPnControllerType",
     "extends": "dtmi:opcua:PROFINET:IPnEquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1035",
+    "propertyTopic": "opcua/PROFINET/IPnControllerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/IPnControllerType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/IPnControllerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -779,7 +791,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -788,6 +800,7 @@
     "displayName": "IPnDeviceType",
     "extends": "dtmi:opcua:PROFINET:IPnEquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1034",
+    "propertyTopic": "opcua/PROFINET/IPnDeviceType/{propertyName}/{action}",
     "commandTopic": "opcua/PROFINET/IPnDeviceType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/IPnDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -843,7 +856,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -852,6 +865,7 @@
     "displayName": "IPnInterfaceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1008",
+    "propertyTopic": "opcua/PROFINET/IPnInterfaceType/{propertyName}/{action}",
     "commandTopic": "opcua/PROFINET/IPnInterfaceType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/IPnInterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -996,7 +1010,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1005,6 +1019,7 @@
     "displayName": "IPnModuleType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1024",
+    "propertyTopic": "opcua/PROFINET/IPnModuleType/{propertyName}/{action}",
     "commandTopic": "opcua/PROFINET/IPnModuleType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/IPnModuleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1051,7 +1066,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1060,6 +1075,8 @@
     "displayName": "IPnExpectedModuleType",
     "extends": "dtmi:opcua:PROFINET:IPnModuleType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1027",
+    "propertyTopic": "opcua/PROFINET/IPnExpectedModuleType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/IPnExpectedModuleType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/IPnExpectedModuleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1118,7 +1135,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1127,6 +1144,8 @@
     "displayName": "IPnRealModuleType",
     "extends": "dtmi:opcua:PROFINET:IPnModuleType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1025",
+    "propertyTopic": "opcua/PROFINET/IPnRealModuleType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/IPnRealModuleType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/IPnRealModuleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1406,7 +1425,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1415,6 +1434,7 @@
     "displayName": "IPnSubmoduleType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1019",
+    "propertyTopic": "opcua/PROFINET/IPnSubmoduleType/{propertyName}/{action}",
     "commandTopic": "opcua/PROFINET/IPnSubmoduleType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/IPnSubmoduleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1469,7 +1489,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1478,6 +1498,9 @@
     "displayName": "IPnExpectedSubmoduleType",
     "extends": "dtmi:opcua:PROFINET:IPnSubmoduleType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1022",
+    "propertyTopic": "opcua/PROFINET/IPnExpectedSubmoduleType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/IPnExpectedSubmoduleType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/IPnExpectedSubmoduleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1498,7 +1521,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1507,6 +1530,8 @@
     "displayName": "IPnRealSubmoduleType",
     "extends": "dtmi:opcua:PROFINET:IPnSubmoduleType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1020",
+    "propertyTopic": "opcua/PROFINET/IPnRealSubmoduleType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/IPnRealSubmoduleType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/IPnRealSubmoduleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1778,7 +1803,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1787,6 +1812,9 @@
     "displayName": "NetworkComponentFeatureType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1016",
+    "propertyTopic": "opcua/PROFINET/NetworkComponentFeatureType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/NetworkComponentFeatureType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/NetworkComponentFeatureType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1799,7 +1827,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1809,6 +1837,8 @@
     "displayName": "IPv4FeatureType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentFeatureType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1017",
+    "propertyTopic": "opcua/PROFINET/IPv4FeatureType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/IPv4FeatureType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/IPv4FeatureType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1859,7 +1889,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1868,6 +1898,8 @@
     "displayName": "NetworkComponentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1013",
+    "propertyTopic": "opcua/PROFINET/NetworkComponentType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/NetworkComponentType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/NetworkComponentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1895,7 +1927,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1905,6 +1937,8 @@
     "displayName": "EthernetInterfaceType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1014",
+    "propertyTopic": "opcua/PROFINET/EthernetInterfaceType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/EthernetInterfaceType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/EthernetInterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1928,7 +1962,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1938,6 +1972,8 @@
     "displayName": "EthernetPortType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1015",
+    "propertyTopic": "opcua/PROFINET/EthernetPortType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/EthernetPortType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/EthernetPortType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1961,7 +1997,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1970,6 +2006,9 @@
     "displayName": "PnApplicationRelationContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1030",
+    "propertyTopic": "opcua/PROFINET/PnApplicationRelationContainerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnApplicationRelationContainerType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/PnApplicationRelationContainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1982,7 +2021,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1992,6 +2031,7 @@
     "displayName": "PnApplicationRelationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1029",
+    "propertyTopic": "opcua/PROFINET/PnApplicationRelationType/{propertyName}/{action}",
     "commandTopic": "opcua/PROFINET/PnApplicationRelationType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/PnApplicationRelationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2117,7 +2157,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2126,6 +2166,9 @@
     "displayName": "PnAssetContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1007",
+    "propertyTopic": "opcua/PROFINET/PnAssetContainerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnAssetContainerType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/PnAssetContainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2138,7 +2181,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2148,6 +2191,7 @@
     "displayName": "PnAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1006",
+    "propertyTopic": "opcua/PROFINET/PnAssetType/{propertyName}/{action}",
     "commandTopic": "opcua/PROFINET/PnAssetType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/PnAssetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2258,7 +2302,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2267,6 +2311,9 @@
     "displayName": "PnEquipmentContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1033",
+    "propertyTopic": "opcua/PROFINET/PnEquipmentContainerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnEquipmentContainerType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/PnEquipmentContainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2286,7 +2333,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2295,6 +2342,9 @@
     "displayName": "PnExpectedModuleContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1028",
+    "propertyTopic": "opcua/PROFINET/PnExpectedModuleContainerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnExpectedModuleContainerType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/PnExpectedModuleContainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2307,7 +2357,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2316,6 +2366,9 @@
     "displayName": "PnExpectedSubmoduleContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1023",
+    "propertyTopic": "opcua/PROFINET/PnExpectedSubmoduleContainerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnExpectedSubmoduleContainerType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/PnExpectedSubmoduleContainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2328,7 +2381,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2337,6 +2390,7 @@
     "displayName": "PnIdentificationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1005",
+    "propertyTopic": "opcua/PROFINET/PnIdentificationType/{propertyName}/{action}",
     "commandTopic": "opcua/PROFINET/PnIdentificationType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/PnIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2612,7 +2666,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2621,6 +2675,9 @@
     "displayName": "PnInterfaceContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1009",
+    "propertyTopic": "opcua/PROFINET/PnInterfaceContainerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnInterfaceContainerType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/PnInterfaceContainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2633,7 +2690,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2642,6 +2699,9 @@
     "displayName": "PnPortContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1011",
+    "propertyTopic": "opcua/PROFINET/PnPortContainerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnPortContainerType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/PnPortContainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2654,7 +2714,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2663,6 +2723,8 @@
     "displayName": "PnPortStatisticType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1012",
+    "propertyTopic": "opcua/PROFINET/PnPortStatisticType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnPortStatisticType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/PnPortStatisticType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2718,7 +2780,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2728,6 +2790,8 @@
     "displayName": "PnPortType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1010",
+    "propertyTopic": "opcua/PROFINET/PnPortType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnPortType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/PnPortType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2867,7 +2931,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2876,6 +2940,9 @@
     "displayName": "PnRealModuleContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1026",
+    "propertyTopic": "opcua/PROFINET/PnRealModuleContainerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnRealModuleContainerType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/PnRealModuleContainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2888,7 +2955,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2897,6 +2964,9 @@
     "displayName": "PnRealSubmoduleContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1021",
+    "propertyTopic": "opcua/PROFINET/PnRealSubmoduleContainerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnRealSubmoduleContainerType/{commandName}",
+    "telemetryTopic": "opcua/PROFINET/PnRealSubmoduleContainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2909,7 +2979,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2918,6 +2988,8 @@
     "displayName": "PnSubmoduleStateType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1018",
+    "propertyTopic": "opcua/PROFINET/PnSubmoduleStateType/{propertyName}/{action}",
+    "commandTopic": "opcua/PROFINET/PnSubmoduleStateType/{commandName}",
     "telemetryTopic": "opcua/PROFINET/PnSubmoduleStateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

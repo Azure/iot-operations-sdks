@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,7 @@
     "displayName": "IPumpVendorNameplateType",
     "extends": "dtmi:opcua:Machinery:IMachineVendorNameplateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1004",
+    "propertyTopic": "opcua/Pumps/IPumpVendorNameplateType/{propertyName}/{action}",
     "commandTopic": "opcua/Pumps/IPumpVendorNameplateType/{commandName}",
     "telemetryTopic": "opcua/Pumps/IPumpVendorNameplateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -157,7 +158,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -166,6 +167,8 @@
     "displayName": "DiscreteObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1029",
+    "propertyTopic": "opcua/Pumps/DiscreteObjectType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/DiscreteObjectType/{commandName}",
     "telemetryTopic": "opcua/Pumps/DiscreteObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -195,7 +198,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -204,6 +207,8 @@
     "displayName": "DiscreteInputObjectType",
     "extends": "dtmi:opcua:Pumps:DiscreteObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1030",
+    "propertyTopic": "opcua/Pumps/DiscreteInputObjectType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/DiscreteInputObjectType/{commandName}",
     "telemetryTopic": "opcua/Pumps/DiscreteInputObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -225,7 +230,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -234,6 +239,8 @@
     "displayName": "DiscreteOutputObjectType",
     "extends": "dtmi:opcua:Pumps:DiscreteObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1031",
+    "propertyTopic": "opcua/Pumps/DiscreteOutputObjectType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/DiscreteOutputObjectType/{commandName}",
     "telemetryTopic": "opcua/Pumps/DiscreteOutputObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -271,7 +278,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -280,6 +287,8 @@
     "displayName": "PumpKickObjectType",
     "extends": "dtmi:opcua:Pumps:DiscreteOutputObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1032",
+    "propertyTopic": "opcua/Pumps/PumpKickObjectType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/PumpKickObjectType/{commandName}",
     "telemetryTopic": "opcua/Pumps/PumpKickObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -340,7 +349,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -349,6 +358,8 @@
     "displayName": "ActuationType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1025",
+    "propertyTopic": "opcua/Pumps/ActuationType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/ActuationType/{commandName}",
     "telemetryTopic": "opcua/Pumps/ActuationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -420,7 +431,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -429,6 +440,8 @@
     "displayName": "PumpActuationType",
     "extends": "dtmi:opcua:Pumps:ActuationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1028",
+    "propertyTopic": "opcua/Pumps/PumpActuationType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/PumpActuationType/{commandName}",
     "telemetryTopic": "opcua/Pumps/PumpActuationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -699,7 +712,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -708,6 +721,8 @@
     "displayName": "BreakdownMaintenanceType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1010",
+    "propertyTopic": "opcua/Pumps/BreakdownMaintenanceType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/BreakdownMaintenanceType/{commandName}",
     "telemetryTopic": "opcua/Pumps/BreakdownMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -762,7 +777,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -771,6 +786,8 @@
     "displayName": "ConditionBasedMaintenanceType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1008",
+    "propertyTopic": "opcua/Pumps/ConditionBasedMaintenanceType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/ConditionBasedMaintenanceType/{commandName}",
     "telemetryTopic": "opcua/Pumps/ConditionBasedMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -883,7 +900,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -892,6 +909,9 @@
     "displayName": "ConfigurationGroupType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1024",
+    "propertyTopic": "opcua/Pumps/ConfigurationGroupType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/ConfigurationGroupType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/ConfigurationGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -931,7 +951,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -940,6 +960,8 @@
     "displayName": "ConnectionDesignType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1040",
+    "propertyTopic": "opcua/Pumps/ConnectionDesignType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/ConnectionDesignType/{commandName}",
     "telemetryTopic": "opcua/Pumps/ConnectionDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -961,7 +983,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -970,6 +992,8 @@
     "displayName": "InletConnectionDesignType",
     "extends": "dtmi:opcua:Pumps:ConnectionDesignType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1041",
+    "propertyTopic": "opcua/Pumps/InletConnectionDesignType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/InletConnectionDesignType/{commandName}",
     "telemetryTopic": "opcua/Pumps/InletConnectionDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1055,7 +1079,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1064,6 +1088,8 @@
     "displayName": "OutletConnectionDesignType",
     "extends": "dtmi:opcua:Pumps:ConnectionDesignType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1042",
+    "propertyTopic": "opcua/Pumps/OutletConnectionDesignType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/OutletConnectionDesignType/{commandName}",
     "telemetryTopic": "opcua/Pumps/OutletConnectionDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1140,7 +1166,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1149,6 +1175,8 @@
     "displayName": "ConnectionImplementationType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1046",
+    "propertyTopic": "opcua/Pumps/ConnectionImplementationType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/ConnectionImplementationType/{commandName}",
     "telemetryTopic": "opcua/Pumps/ConnectionImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1170,7 +1198,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1179,6 +1207,8 @@
     "displayName": "InletConnectionImplementationType",
     "extends": "dtmi:opcua:Pumps:ConnectionImplementationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1047",
+    "propertyTopic": "opcua/Pumps/InletConnectionImplementationType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/InletConnectionImplementationType/{commandName}",
     "telemetryTopic": "opcua/Pumps/InletConnectionImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1228,7 +1258,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1237,6 +1267,8 @@
     "displayName": "OutletConnectionImplementationType",
     "extends": "dtmi:opcua:Pumps:ConnectionImplementationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1048",
+    "propertyTopic": "opcua/Pumps/OutletConnectionImplementationType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/OutletConnectionImplementationType/{commandName}",
     "telemetryTopic": "opcua/Pumps/OutletConnectionImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1286,7 +1318,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1295,6 +1327,8 @@
     "displayName": "ControlType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1021",
+    "propertyTopic": "opcua/Pumps/ControlType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/ControlType/{commandName}",
     "telemetryTopic": "opcua/Pumps/ControlType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1413,7 +1447,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1422,6 +1456,8 @@
     "displayName": "DesignType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1020",
+    "propertyTopic": "opcua/Pumps/DesignType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/DesignType/{commandName}",
     "telemetryTopic": "opcua/Pumps/DesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2538,7 +2574,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2547,6 +2583,8 @@
     "displayName": "DocumentationType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1006",
+    "propertyTopic": "opcua/Pumps/DocumentationType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/DocumentationType/{commandName}",
     "telemetryTopic": "opcua/Pumps/DocumentationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2934,7 +2972,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2943,6 +2981,8 @@
     "displayName": "DriveDesignType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1043",
+    "propertyTopic": "opcua/Pumps/DriveDesignType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/DriveDesignType/{commandName}",
     "telemetryTopic": "opcua/Pumps/DriveDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3062,7 +3102,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3071,6 +3111,8 @@
     "displayName": "DriveMeasurementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1051",
+    "propertyTopic": "opcua/Pumps/DriveMeasurementsType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/DriveMeasurementsType/{commandName}",
     "telemetryTopic": "opcua/Pumps/DriveMeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3200,7 +3242,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3209,6 +3251,8 @@
     "displayName": "GeneralMaintenanceType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1007",
+    "propertyTopic": "opcua/Pumps/GeneralMaintenanceType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/GeneralMaintenanceType/{commandName}",
     "telemetryTopic": "opcua/Pumps/GeneralMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3459,7 +3503,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3468,6 +3512,8 @@
     "displayName": "ImplementationType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1023",
+    "propertyTopic": "opcua/Pumps/ImplementationType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/ImplementationType/{commandName}",
     "telemetryTopic": "opcua/Pumps/ImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3778,7 +3824,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3787,6 +3833,8 @@
     "displayName": "InletConnectionMeasurementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1050",
+    "propertyTopic": "opcua/Pumps/InletConnectionMeasurementsType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/InletConnectionMeasurementsType/{commandName}",
     "telemetryTopic": "opcua/Pumps/InletConnectionMeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3818,7 +3866,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3827,6 +3875,8 @@
     "displayName": "InletConnectionSystemRequirementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1045",
+    "propertyTopic": "opcua/Pumps/InletConnectionSystemRequirementsType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/InletConnectionSystemRequirementsType/{commandName}",
     "telemetryTopic": "opcua/Pumps/InletConnectionSystemRequirementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3849,7 +3899,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3859,6 +3909,7 @@
     "displayName": "PumpIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1005",
+    "propertyTopic": "opcua/Pumps/PumpIdentificationType/{propertyName}/{action}",
     "commandTopic": "opcua/Pumps/PumpIdentificationType/{commandName}",
     "telemetryTopic": "opcua/Pumps/PumpIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4011,7 +4062,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4020,6 +4071,9 @@
     "displayName": "MaintenanceGroupType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1011",
+    "propertyTopic": "opcua/Pumps/MaintenanceGroupType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/MaintenanceGroupType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/MaintenanceGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4068,7 +4122,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4077,6 +4131,8 @@
     "displayName": "MeasurementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1054",
+    "propertyTopic": "opcua/Pumps/MeasurementsType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/MeasurementsType/{commandName}",
     "telemetryTopic": "opcua/Pumps/MeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4546,7 +4602,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4555,6 +4611,8 @@
     "displayName": "MultiPumpType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1039",
+    "propertyTopic": "opcua/Pumps/MultiPumpType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/MultiPumpType/{commandName}",
     "telemetryTopic": "opcua/Pumps/MultiPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4762,7 +4820,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4771,6 +4829,9 @@
     "displayName": "OperationalGroupType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1053",
+    "propertyTopic": "opcua/Pumps/OperationalGroupType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/OperationalGroupType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/OperationalGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4846,7 +4907,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4855,6 +4916,8 @@
     "displayName": "OutletConnectionMeasurementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1049",
+    "propertyTopic": "opcua/Pumps/OutletConnectionMeasurementsType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/OutletConnectionMeasurementsType/{commandName}",
     "telemetryTopic": "opcua/Pumps/OutletConnectionMeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4886,7 +4949,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4895,6 +4958,8 @@
     "displayName": "OutletConnectionSystemRequirementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1044",
+    "propertyTopic": "opcua/Pumps/OutletConnectionSystemRequirementsType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/OutletConnectionSystemRequirementsType/{commandName}",
     "telemetryTopic": "opcua/Pumps/OutletConnectionSystemRequirementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4917,7 +4982,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4926,6 +4991,9 @@
     "displayName": "PortsGroupType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1034",
+    "propertyTopic": "opcua/Pumps/PortsGroupType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/PortsGroupType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/PortsGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4962,7 +5030,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4971,6 +5039,8 @@
     "displayName": "PreventiveMaintenanceType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1009",
+    "propertyTopic": "opcua/Pumps/PreventiveMaintenanceType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/PreventiveMaintenanceType/{commandName}",
     "telemetryTopic": "opcua/Pumps/PreventiveMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5042,7 +5112,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -5051,6 +5121,9 @@
     "displayName": "SignalsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1033",
+    "propertyTopic": "opcua/Pumps/SignalsType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/SignalsType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/SignalsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5252,7 +5325,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -5260,9 +5333,11 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SupervisionAuxiliaryDeviceType",
     "description": "Supervision auxiliary device specifies information for monitoring an additional device.",
-    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1017",
+    "propertyTopic": "opcua/Pumps/SupervisionAuxiliaryDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/SupervisionAuxiliaryDeviceType/{commandName}",
     "telemetryTopic": "opcua/Pumps/SupervisionAuxiliaryDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5556,7 +5631,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -5564,9 +5639,11 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SupervisionElectronicsType",
     "description": "Supervision Electrics specifies information for monitoring the electronics.",
-    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1018",
+    "propertyTopic": "opcua/Pumps/SupervisionElectronicsType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/SupervisionElectronicsType/{commandName}",
     "telemetryTopic": "opcua/Pumps/SupervisionElectronicsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5740,7 +5817,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -5748,9 +5825,11 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SupervisionHardwareType",
     "description": "Supervision hardware specifies supervising information related to device hardware.",
-    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1013",
+    "propertyTopic": "opcua/Pumps/SupervisionHardwareType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/SupervisionHardwareType/{commandName}",
     "telemetryTopic": "opcua/Pumps/SupervisionHardwareType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5860,7 +5939,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -5868,9 +5947,11 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SupervisionMechanicsType",
     "description": "Supervision mechanics specifies supervising information related to device mechanics.",
-    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1012",
+    "propertyTopic": "opcua/Pumps/SupervisionMechanicsType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/SupervisionMechanicsType/{commandName}",
     "telemetryTopic": "opcua/Pumps/SupervisionMechanicsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6012,7 +6093,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -6020,9 +6101,11 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SupervisionProcessFluidType",
     "description": "Supervision process fluid specifies information for monitoring the fluid of a pump.",
-    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1015",
+    "propertyTopic": "opcua/Pumps/SupervisionProcessFluidType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/SupervisionProcessFluidType/{commandName}",
     "telemetryTopic": "opcua/Pumps/SupervisionProcessFluidType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6140,7 +6223,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -6148,9 +6231,11 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SupervisionPumpOperationType",
     "description": "Supervision pump operation specifies information for monitoring the pump operation.",
-    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1016",
+    "propertyTopic": "opcua/Pumps/SupervisionPumpOperationType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/SupervisionPumpOperationType/{commandName}",
     "telemetryTopic": "opcua/Pumps/SupervisionPumpOperationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6460,7 +6545,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -6468,9 +6553,11 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SupervisionSoftwareType",
     "description": "Supervision software specifies supervising information related to device software.",
-    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1014",
+    "propertyTopic": "opcua/Pumps/SupervisionSoftwareType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/SupervisionSoftwareType/{commandName}",
     "telemetryTopic": "opcua/Pumps/SupervisionSoftwareType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6548,7 +6635,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -6557,6 +6644,9 @@
     "displayName": "SupervisionType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1019",
+    "propertyTopic": "opcua/Pumps/SupervisionType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/SupervisionType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/SupervisionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6632,7 +6722,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -6641,6 +6731,8 @@
     "displayName": "SystemRequirementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1022",
+    "propertyTopic": "opcua/Pumps/SystemRequirementsType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/SystemRequirementsType/{commandName}",
     "telemetryTopic": "opcua/Pumps/SystemRequirementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -7304,7 +7396,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -7313,6 +7405,8 @@
     "displayName": "VibrationMeasurementType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1055",
+    "propertyTopic": "opcua/Pumps/VibrationMeasurementType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/VibrationMeasurementType/{commandName}",
     "telemetryTopic": "opcua/Pumps/VibrationMeasurementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -7641,7 +7735,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -7649,9 +7743,12 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MarkingsType",
     "description": "Safety instructions for safe use, e.g. temperature and pressure resistance, electrostatic charge, high voltage, radioactivity, explosive protection.",
-    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1002",
+    "propertyTopic": "opcua/Pumps/MarkingsType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/MarkingsType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/MarkingsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7672,7 +7769,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -7681,6 +7778,8 @@
     "displayName": "PortType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1035",
+    "propertyTopic": "opcua/Pumps/PortType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/PortType/{commandName}",
     "telemetryTopic": "opcua/Pumps/PortType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -7740,7 +7839,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -7749,6 +7848,9 @@
     "displayName": "DrivePortType",
     "extends": "dtmi:opcua:Pumps:PortType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1038",
+    "propertyTopic": "opcua/Pumps/DrivePortType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/DrivePortType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/DrivePortType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7779,7 +7881,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -7788,6 +7890,9 @@
     "displayName": "InletConnectionPortType",
     "extends": "dtmi:opcua:Pumps:PortType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1036",
+    "propertyTopic": "opcua/Pumps/InletConnectionPortType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/InletConnectionPortType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/InletConnectionPortType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7836,7 +7941,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -7845,6 +7950,9 @@
     "displayName": "OutletConnectionPortType",
     "extends": "dtmi:opcua:Pumps:PortType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1037",
+    "propertyTopic": "opcua/Pumps/OutletConnectionPortType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/OutletConnectionPortType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/OutletConnectionPortType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7893,7 +8001,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -7903,6 +8011,9 @@
     "displayName": "PumpType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1052",
+    "propertyTopic": "opcua/Pumps/PumpType/{propertyName}/{action}",
+    "commandTopic": "opcua/Pumps/PumpType/{commandName}",
+    "telemetryTopic": "opcua/Pumps/PumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

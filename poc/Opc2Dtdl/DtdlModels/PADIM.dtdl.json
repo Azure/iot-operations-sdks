@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,6 +15,7 @@
     "displayName": "PADIMType",
     "extends": "dtmi:opcua:DI:ComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1009",
+    "propertyTopic": "opcua/PADIM/PADIMType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/PADIMType/{commandName}",
     "telemetryTopic": "opcua/PADIM/PADIMType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -161,7 +162,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -170,6 +171,9 @@
     "displayName": "SignalSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1021",
+    "propertyTopic": "opcua/PADIM/SignalSetType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/SignalSetType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/SignalSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -189,7 +193,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -198,6 +202,7 @@
     "displayName": "IAdministrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1050",
+    "propertyTopic": "opcua/PADIM/IAdministrationType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/IAdministrationType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IAdministrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -267,7 +272,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -276,6 +281,9 @@
     "displayName": "ISignalSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1052",
+    "propertyTopic": "opcua/PADIM/ISignalSetType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ISignalSetType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/ISignalSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -296,7 +304,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -305,6 +313,7 @@
     "displayName": "SignalType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1008",
+    "propertyTopic": "opcua/PADIM/SignalType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/SignalType/{commandName}",
     "telemetryTopic": "opcua/PADIM/SignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -327,7 +336,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -337,6 +346,7 @@
     "displayName": "AnalogSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1022",
+    "propertyTopic": "opcua/PADIM/AnalogSignalType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/AnalogSignalType/{commandName}",
     "telemetryTopic": "opcua/PADIM/AnalogSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -379,7 +389,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -389,6 +399,7 @@
     "displayName": "ControlSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1023",
+    "propertyTopic": "opcua/PADIM/ControlSignalType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/ControlSignalType/{commandName}",
     "telemetryTopic": "opcua/PADIM/ControlSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -481,7 +492,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -491,6 +502,8 @@
     "displayName": "DiscreteSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1036",
+    "propertyTopic": "opcua/PADIM/DiscreteSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/DiscreteSignalType/{commandName}",
     "telemetryTopic": "opcua/PADIM/DiscreteSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -511,7 +524,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -521,6 +534,8 @@
     "displayName": "TwoStateDiscreteSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1037",
+    "propertyTopic": "opcua/PADIM/TwoStateDiscreteSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/TwoStateDiscreteSignalType/{commandName}",
     "telemetryTopic": "opcua/PADIM/TwoStateDiscreteSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -541,7 +556,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -551,6 +566,8 @@
     "displayName": "MultiStateDiscreteSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1038",
+    "propertyTopic": "opcua/PADIM/MultiStateDiscreteSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/MultiStateDiscreteSignalType/{commandName}",
     "telemetryTopic": "opcua/PADIM/MultiStateDiscreteSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -571,7 +588,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -581,6 +598,8 @@
     "displayName": "TwoStateDiscreteControlSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1223",
+    "propertyTopic": "opcua/PADIM/TwoStateDiscreteControlSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/TwoStateDiscreteControlSignalType/{commandName}",
     "telemetryTopic": "opcua/PADIM/TwoStateDiscreteControlSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -626,7 +645,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -636,6 +655,8 @@
     "displayName": "MultiStateDiscreteControlSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1239",
+    "propertyTopic": "opcua/PADIM/MultiStateDiscreteControlSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/MultiStateDiscreteControlSignalType/{commandName}",
     "telemetryTopic": "opcua/PADIM/MultiStateDiscreteControlSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -674,7 +695,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -683,6 +704,8 @@
     "displayName": "CalibrationPointType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1042",
+    "propertyTopic": "opcua/PADIM/CalibrationPointType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/CalibrationPointType/{commandName}",
     "telemetryTopic": "opcua/PADIM/CalibrationPointType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -710,7 +733,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -719,6 +742,9 @@
     "displayName": "CalibrationPointSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1043",
+    "propertyTopic": "opcua/PADIM/CalibrationPointSetType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/CalibrationPointSetType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/CalibrationPointSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -738,7 +764,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -747,6 +773,7 @@
     "displayName": "GeneralDeviceConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1051",
+    "propertyTopic": "opcua/PADIM/GeneralDeviceConditionSetType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/GeneralDeviceConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/GeneralDeviceConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -804,7 +831,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -813,6 +840,9 @@
     "displayName": "IGeneralDeviceConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1044",
+    "propertyTopic": "opcua/PADIM/IGeneralDeviceConditionSetType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/IGeneralDeviceConditionSetType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/IGeneralDeviceConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -841,7 +871,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -850,6 +880,7 @@
     "displayName": "ICalibrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1045",
+    "propertyTopic": "opcua/PADIM/ICalibrationType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/ICalibrationType/{commandName}",
     "telemetryTopic": "opcua/PADIM/ICalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -887,7 +918,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -896,6 +927,7 @@
     "displayName": "IPhCalibrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1046",
+    "propertyTopic": "opcua/PADIM/IPhCalibrationType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/IPhCalibrationType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IPhCalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -934,7 +966,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -943,6 +975,8 @@
     "displayName": "IConductivityCalibrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1047",
+    "propertyTopic": "opcua/PADIM/IConductivityCalibrationType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/IConductivityCalibrationType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IConductivityCalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -964,7 +998,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -973,6 +1007,7 @@
     "displayName": "IAmperometricCalibrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1048",
+    "propertyTopic": "opcua/PADIM/IAmperometricCalibrationType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/IAmperometricCalibrationType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IAmperometricCalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1018,7 +1053,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1027,6 +1062,7 @@
     "displayName": "IOpticalFluorescenseQuenchingCalibrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1049",
+    "propertyTopic": "opcua/PADIM/IOpticalFluorescenseQuenchingCalibrationType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/IOpticalFluorescenseQuenchingCalibrationType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IOpticalFluorescenseQuenchingCalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1072,7 +1108,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1081,6 +1117,8 @@
     "displayName": "ITocDeviceConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1053",
+    "propertyTopic": "opcua/PADIM/ITocDeviceConditionSetType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ITocDeviceConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/ITocDeviceConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1150,7 +1188,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1159,6 +1197,8 @@
     "displayName": "IFlameIonisationDeviceConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1054",
+    "propertyTopic": "opcua/PADIM/IFlameIonisationDeviceConditionSetType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/IFlameIonisationDeviceConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IFlameIonisationDeviceConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1204,7 +1244,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1213,6 +1253,7 @@
     "displayName": "INonDispersiveInfraredSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1055",
+    "propertyTopic": "opcua/PADIM/INonDispersiveInfraredSignalConditionSetType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/INonDispersiveInfraredSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/INonDispersiveInfraredSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1259,7 +1300,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1268,6 +1309,7 @@
     "displayName": "ITocSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1056",
+    "propertyTopic": "opcua/PADIM/ITocSignalConditionSetType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/ITocSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/ITocSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1338,7 +1380,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1347,6 +1389,8 @@
     "displayName": "IParamagneticSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1057",
+    "propertyTopic": "opcua/PADIM/IParamagneticSignalConditionSetType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/IParamagneticSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IParamagneticSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1376,7 +1420,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1385,6 +1429,8 @@
     "displayName": "IThermalConductivitySignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1058",
+    "propertyTopic": "opcua/PADIM/IThermalConductivitySignalConditionSetType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/IThermalConductivitySignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IThermalConductivitySignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1406,7 +1452,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1415,6 +1461,8 @@
     "displayName": "ITunableDiodeLaserSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1059",
+    "propertyTopic": "opcua/PADIM/ITunableDiodeLaserSignalConditionSetType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ITunableDiodeLaserSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/ITunableDiodeLaserSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1473,7 +1521,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1482,6 +1530,8 @@
     "displayName": "IZirconiumDioxideSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1060",
+    "propertyTopic": "opcua/PADIM/IZirconiumDioxideSignalConditionSetType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/IZirconiumDioxideSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IZirconiumDioxideSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1518,7 +1568,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1527,6 +1577,7 @@
     "displayName": "IPhSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1061",
+    "propertyTopic": "opcua/PADIM/IPhSignalConditionSetType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/IPhSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IPhSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1596,7 +1647,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1605,6 +1656,7 @@
     "displayName": "IConductivitySignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1062",
+    "propertyTopic": "opcua/PADIM/IConductivitySignalConditionSetType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/IConductivitySignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IConductivitySignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1657,7 +1709,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1666,6 +1718,7 @@
     "displayName": "IOpticalFluorescenseQuenchingSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1063",
+    "propertyTopic": "opcua/PADIM/IOpticalFluorescenseQuenchingSignalConditionSetType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/IOpticalFluorescenseQuenchingSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IOpticalFluorescenseQuenchingSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1712,7 +1765,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1721,6 +1774,7 @@
     "displayName": "IAmperometricSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1064",
+    "propertyTopic": "opcua/PADIM/IAmperometricSignalConditionSetType/{propertyName}/{action}",
     "commandTopic": "opcua/PADIM/IAmperometricSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IAmperometricSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1767,7 +1821,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1777,6 +1831,9 @@
     "displayName": "AnalyticalSignalType",
     "extends": "dtmi:opcua:PADIM:AnalogSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1065",
+    "propertyTopic": "opcua/PADIM/AnalyticalSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/AnalyticalSignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/AnalyticalSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1789,7 +1846,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1799,6 +1856,9 @@
     "displayName": "AmperometricSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1066",
+    "propertyTopic": "opcua/PADIM/AmperometricSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/AmperometricSignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/AmperometricSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1811,7 +1871,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1821,6 +1881,9 @@
     "displayName": "ConductivitySignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1067",
+    "propertyTopic": "opcua/PADIM/ConductivitySignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ConductivitySignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/ConductivitySignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1833,7 +1896,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1843,6 +1906,9 @@
     "displayName": "FlameIonisationSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1069",
+    "propertyTopic": "opcua/PADIM/FlameIonisationSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/FlameIonisationSignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/FlameIonisationSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1855,7 +1921,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1865,6 +1931,9 @@
     "displayName": "NonDispersiveInfraredSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1071",
+    "propertyTopic": "opcua/PADIM/NonDispersiveInfraredSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/NonDispersiveInfraredSignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/NonDispersiveInfraredSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1877,7 +1946,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1887,6 +1956,9 @@
     "displayName": "OpticalFluorescenseQuenchingSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1073",
+    "propertyTopic": "opcua/PADIM/OpticalFluorescenseQuenchingSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/OpticalFluorescenseQuenchingSignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/OpticalFluorescenseQuenchingSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1899,7 +1971,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1909,6 +1981,9 @@
     "displayName": "ParamagneticSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1075",
+    "propertyTopic": "opcua/PADIM/ParamagneticSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ParamagneticSignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/ParamagneticSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1921,7 +1996,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1931,6 +2006,9 @@
     "displayName": "PhSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1076",
+    "propertyTopic": "opcua/PADIM/PhSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/PhSignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/PhSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1943,7 +2021,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1953,6 +2031,9 @@
     "displayName": "ThermalConductivitySignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1077",
+    "propertyTopic": "opcua/PADIM/ThermalConductivitySignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ThermalConductivitySignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/ThermalConductivitySignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1965,7 +2046,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1975,6 +2056,9 @@
     "displayName": "TocSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1078",
+    "propertyTopic": "opcua/PADIM/TocSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/TocSignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/TocSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1987,7 +2071,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1997,6 +2081,9 @@
     "displayName": "TunableDiodeLaserSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1079",
+    "propertyTopic": "opcua/PADIM/TunableDiodeLaserSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/TunableDiodeLaserSignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/TunableDiodeLaserSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2009,7 +2096,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2019,6 +2106,9 @@
     "displayName": "ZirconiumDioxideSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1081",
+    "propertyTopic": "opcua/PADIM/ZirconiumDioxideSignalType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ZirconiumDioxideSignalType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/ZirconiumDioxideSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2031,7 +2121,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2041,6 +2131,9 @@
     "displayName": "Process analyser",
     "extends": "dtmi:opcua:PADIM:PADIMType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1082",
+    "propertyTopic": "opcua/PADIM/ProcessAnalyserType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ProcessAnalyserType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/ProcessAnalyserType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2053,7 +2146,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2063,6 +2156,9 @@
     "displayName": "Amperometric analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1083",
+    "propertyTopic": "opcua/PADIM/AmperometricAnalyserType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/AmperometricAnalyserType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/AmperometricAnalyserType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2075,7 +2171,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2085,6 +2181,9 @@
     "displayName": "Conductivity meter",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1084",
+    "propertyTopic": "opcua/PADIM/ConductivityMeterType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ConductivityMeterType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/ConductivityMeterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2097,7 +2196,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2107,6 +2206,9 @@
     "displayName": "Flame ionisation detector",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1085",
+    "propertyTopic": "opcua/PADIM/FlameIonisationDetectorType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/FlameIonisationDetectorType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/FlameIonisationDetectorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2119,7 +2221,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2129,6 +2231,9 @@
     "displayName": "Non-dispersive infrared gas analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1086",
+    "propertyTopic": "opcua/PADIM/NonDispersiveInfraredGasAnalyserType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/NonDispersiveInfraredGasAnalyserType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/NonDispersiveInfraredGasAnalyserType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2141,7 +2246,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2151,6 +2256,9 @@
     "displayName": "Optical fluorescence quenching sensor",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1087",
+    "propertyTopic": "opcua/PADIM/OpticalFluorescenseQuenchingSensorType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/OpticalFluorescenseQuenchingSensorType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/OpticalFluorescenseQuenchingSensorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2163,7 +2271,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2173,6 +2281,9 @@
     "displayName": "Paramagnetic gas analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1088",
+    "propertyTopic": "opcua/PADIM/ParamagneticGasAnalyserType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ParamagneticGasAnalyserType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/ParamagneticGasAnalyserType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2185,7 +2296,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2195,6 +2306,9 @@
     "displayName": "pH meter",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1089",
+    "propertyTopic": "opcua/PADIM/PhMeterType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/PhMeterType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/PhMeterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2207,7 +2321,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2217,6 +2331,9 @@
     "displayName": "Thermal conductivity gas analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1090",
+    "propertyTopic": "opcua/PADIM/ThermalConductivityGasAnalyserType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ThermalConductivityGasAnalyserType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/ThermalConductivityGasAnalyserType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2229,7 +2346,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2239,6 +2356,9 @@
     "displayName": "TOC analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1091",
+    "propertyTopic": "opcua/PADIM/TocAnalyserType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/TocAnalyserType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/TocAnalyserType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2251,7 +2371,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2261,6 +2381,9 @@
     "displayName": "Tunable diode laser spectrometer",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1092",
+    "propertyTopic": "opcua/PADIM/TunableDiodeLaserSpectrometerType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/TunableDiodeLaserSpectrometerType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/TunableDiodeLaserSpectrometerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2273,7 +2396,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2283,6 +2406,9 @@
     "displayName": "Zirconium dioxide analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1093",
+    "propertyTopic": "opcua/PADIM/ZirconiumDioxideAnalyserType/{propertyName}/{action}",
+    "commandTopic": "opcua/PADIM/ZirconiumDioxideAnalyserType/{commandName}",
+    "telemetryTopic": "opcua/PADIM/ZirconiumDioxideAnalyserType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

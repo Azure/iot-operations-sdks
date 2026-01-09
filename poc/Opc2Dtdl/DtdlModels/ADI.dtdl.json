@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,9 @@
     "displayName": "AnalyserDeviceType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1001",
+    "propertyTopic": "opcua/ADI/AnalyserDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AnalyserDeviceType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AnalyserDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -74,7 +77,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -83,6 +86,9 @@
     "displayName": "AnalyserDeviceStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1002",
+    "propertyTopic": "opcua/ADI/AnalyserDeviceStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AnalyserDeviceStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AnalyserDeviceStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -220,7 +226,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -229,6 +235,9 @@
     "displayName": "AnalyserChannelType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1003",
+    "propertyTopic": "opcua/ADI/AnalyserChannelType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AnalyserChannelType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AnalyserChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -281,7 +290,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -290,6 +299,9 @@
     "displayName": "AnalyserChannelOperatingStateType",
     "extends": "dtmi:opcua:OpcUaCore:StateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1004",
+    "propertyTopic": "opcua/ADI/AnalyserChannelOperatingStateType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AnalyserChannelOperatingStateType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AnalyserChannelOperatingStateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -302,7 +314,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -311,6 +323,9 @@
     "displayName": "AnalyserChannelLocalStateType",
     "extends": "dtmi:opcua:OpcUaCore:StateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1005",
+    "propertyTopic": "opcua/ADI/AnalyserChannelLocalStateType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AnalyserChannelLocalStateType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AnalyserChannelLocalStateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -323,7 +338,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -332,6 +347,9 @@
     "displayName": "AnalyserChannelMaintenanceStateType",
     "extends": "dtmi:opcua:OpcUaCore:StateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1006",
+    "propertyTopic": "opcua/ADI/AnalyserChannelMaintenanceStateType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AnalyserChannelMaintenanceStateType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AnalyserChannelMaintenanceStateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -344,7 +362,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -352,9 +370,12 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AnalyserChannelStateMachineType",
     "description": "Contains a nested state model that defines the top level states Operating, Local and Maintenance",
-    "comment": "Model converted from OPC UA spec version 1.01 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.01 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1007",
+    "propertyTopic": "opcua/ADI/AnalyserChannelStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AnalyserChannelStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AnalyserChannelStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -507,7 +528,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -516,6 +537,9 @@
     "displayName": "AnalyserChannelOperatingExecuteStateType",
     "extends": "dtmi:opcua:OpcUaCore:StateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=8964",
+    "propertyTopic": "opcua/ADI/AnalyserChannelOperatingExecuteStateType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AnalyserChannelOperatingExecuteStateType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AnalyserChannelOperatingExecuteStateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -528,7 +552,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -536,9 +560,12 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AnalyserChannel_OperatingModeSubStateMachineType",
     "description": "AnalyserChannel OperatingMode SubStateMachine",
-    "comment": "Model converted from OPC UA spec version 1.01 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.01 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1008",
+    "propertyTopic": "opcua/ADI/AnalyserChannel_OperatingModeSubStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AnalyserChannel_OperatingModeSubStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AnalyserChannel_OperatingModeSubStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1144,7 +1171,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1153,6 +1180,9 @@
     "displayName": "AnalyserChannel_OperatingModeExecuteSubStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1009",
+    "propertyTopic": "opcua/ADI/AnalyserChannel_OperatingModeExecuteSubStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AnalyserChannel_OperatingModeExecuteSubStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AnalyserChannel_OperatingModeExecuteSubStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1649,7 +1679,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1658,6 +1688,9 @@
     "displayName": "StreamType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1010",
+    "propertyTopic": "opcua/ADI/StreamType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/StreamType/{commandName}",
+    "telemetryTopic": "opcua/ADI/StreamType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1726,7 +1759,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1736,6 +1769,9 @@
     "displayName": "SpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1030",
+    "propertyTopic": "opcua/ADI/SpectrometerDeviceStreamType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/SpectrometerDeviceStreamType/{commandName}",
+    "telemetryTopic": "opcua/ADI/SpectrometerDeviceStreamType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1756,7 +1792,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1766,6 +1802,9 @@
     "displayName": "MassSpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1031",
+    "propertyTopic": "opcua/ADI/MassSpectrometerDeviceStreamType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/MassSpectrometerDeviceStreamType/{commandName}",
+    "telemetryTopic": "opcua/ADI/MassSpectrometerDeviceStreamType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1778,7 +1817,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1788,6 +1827,9 @@
     "displayName": "ParticleSizeMonitorDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1032",
+    "propertyTopic": "opcua/ADI/ParticleSizeMonitorDeviceStreamType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/ParticleSizeMonitorDeviceStreamType/{commandName}",
+    "telemetryTopic": "opcua/ADI/ParticleSizeMonitorDeviceStreamType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1800,7 +1842,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1810,6 +1852,9 @@
     "displayName": "AcousticSpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1033",
+    "propertyTopic": "opcua/ADI/AcousticSpectrometerDeviceStreamType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AcousticSpectrometerDeviceStreamType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AcousticSpectrometerDeviceStreamType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1822,7 +1867,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1832,6 +1877,9 @@
     "displayName": "ChromatographDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1034",
+    "propertyTopic": "opcua/ADI/ChromatographDeviceStreamType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/ChromatographDeviceStreamType/{commandName}",
+    "telemetryTopic": "opcua/ADI/ChromatographDeviceStreamType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1844,7 +1892,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1854,6 +1902,9 @@
     "displayName": "MNRDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1035",
+    "propertyTopic": "opcua/ADI/MNRDeviceStreamType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/MNRDeviceStreamType/{commandName}",
+    "telemetryTopic": "opcua/ADI/MNRDeviceStreamType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1866,7 +1917,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1876,6 +1927,9 @@
     "displayName": "SpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1011",
+    "propertyTopic": "opcua/ADI/SpectrometerDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/SpectrometerDeviceType/{commandName}",
+    "telemetryTopic": "opcua/ADI/SpectrometerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1888,7 +1942,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1898,6 +1952,9 @@
     "displayName": "ParticleSizeMonitorDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1012",
+    "propertyTopic": "opcua/ADI/ParticleSizeMonitorDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/ParticleSizeMonitorDeviceType/{commandName}",
+    "telemetryTopic": "opcua/ADI/ParticleSizeMonitorDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1910,7 +1967,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1920,6 +1977,9 @@
     "displayName": "ChromatographDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1013",
+    "propertyTopic": "opcua/ADI/ChromatographDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/ChromatographDeviceType/{commandName}",
+    "telemetryTopic": "opcua/ADI/ChromatographDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1932,7 +1992,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1942,6 +2002,9 @@
     "displayName": "MassSpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1014",
+    "propertyTopic": "opcua/ADI/MassSpectrometerDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/MassSpectrometerDeviceType/{commandName}",
+    "telemetryTopic": "opcua/ADI/MassSpectrometerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1954,7 +2017,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1964,6 +2027,9 @@
     "displayName": "AcousticSpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1015",
+    "propertyTopic": "opcua/ADI/AcousticSpectrometerDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AcousticSpectrometerDeviceType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AcousticSpectrometerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1976,7 +2042,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1986,6 +2052,9 @@
     "displayName": "NMRDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1016",
+    "propertyTopic": "opcua/ADI/NMRDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/NMRDeviceType/{commandName}",
+    "telemetryTopic": "opcua/ADI/NMRDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1998,7 +2067,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2006,9 +2075,10 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AccessorySlotType",
     "description": "Organizes zero or more Accessory objects identified by 'AccessoryIdentifier' which represent Accessories currently being used on that AccessorySlot.",
-    "comment": "Model converted from OPC UA spec version 1.01 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.01 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:DI:ConfigurableObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1017",
+    "propertyTopic": "opcua/ADI/AccessorySlotType/{propertyName}/{action}",
     "commandTopic": "opcua/ADI/AccessorySlotType/{commandName}",
     "telemetryTopic": "opcua/ADI/AccessorySlotType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2057,7 +2127,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2065,9 +2135,12 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AccessorySlotStateMachineType",
     "description": "Describes the behaviour of an AccessorySlot when a physical accessory is inserted or removed.",
-    "comment": "Model converted from OPC UA spec version 1.01 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.01 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1018",
+    "propertyTopic": "opcua/ADI/AccessorySlotStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/AccessorySlotStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/ADI/AccessorySlotStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2230,7 +2303,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2239,6 +2312,7 @@
     "displayName": "AccessoryType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1019",
+    "propertyTopic": "opcua/ADI/AccessoryType/{propertyName}/{action}",
     "commandTopic": "opcua/ADI/AccessoryType/{commandName}",
     "telemetryTopic": "opcua/ADI/AccessoryType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2295,7 +2369,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2305,6 +2379,9 @@
     "displayName": "DetectorType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9350",
+    "propertyTopic": "opcua/ADI/DetectorType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/DetectorType/{commandName}",
+    "telemetryTopic": "opcua/ADI/DetectorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2317,7 +2394,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2327,6 +2404,9 @@
     "displayName": "SmartSamplingSystemType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9359",
+    "propertyTopic": "opcua/ADI/SmartSamplingSystemType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/SmartSamplingSystemType/{commandName}",
+    "telemetryTopic": "opcua/ADI/SmartSamplingSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2339,7 +2419,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2349,6 +2429,9 @@
     "displayName": "SourceType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9368",
+    "propertyTopic": "opcua/ADI/SourceType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/SourceType/{commandName}",
+    "telemetryTopic": "opcua/ADI/SourceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2361,7 +2444,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2371,6 +2454,9 @@
     "displayName": "GcOvenType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1020",
+    "propertyTopic": "opcua/ADI/GcOvenType/{propertyName}/{action}",
+    "commandTopic": "opcua/ADI/GcOvenType/{commandName}",
+    "telemetryTopic": "opcua/ADI/GcOvenType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

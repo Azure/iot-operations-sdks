@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,6 +15,9 @@
     "displayName": "RockCrusherControlType",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining/MineralProcessing/RockCrusher/;i=1003",
+    "propertyTopic": "opcua/Mining_MineralProcessing_RockCrusher/RockCrusherControlType/{propertyName}/{action}",
+    "commandTopic": "opcua/Mining_MineralProcessing_RockCrusher/RockCrusherControlType/{commandName}",
+    "telemetryTopic": "opcua/Mining_MineralProcessing_RockCrusher/RockCrusherControlType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -27,7 +30,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -37,6 +40,9 @@
     "displayName": "RockCrusherType",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining/MineralProcessing/RockCrusher/;i=1002",
+    "propertyTopic": "opcua/Mining_MineralProcessing_RockCrusher/RockCrusherType/{propertyName}/{action}",
+    "commandTopic": "opcua/Mining_MineralProcessing_RockCrusher/RockCrusherType/{commandName}",
+    "telemetryTopic": "opcua/Mining_MineralProcessing_RockCrusher/RockCrusherType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

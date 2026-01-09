@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,9 @@
     "displayName": "IEC61850DOBaseObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=3",
+    "propertyTopic": "opcua/IEC61850_7_3/IEC61850DOBaseObjectType/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/IEC61850DOBaseObjectType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/IEC61850DOBaseObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -26,7 +29,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -35,6 +38,9 @@
     "displayName": "IEC61850LNodeBaseObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=4",
+    "propertyTopic": "opcua/IEC61850_7_3/IEC61850LNodeBaseObjectType/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/IEC61850LNodeBaseObjectType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/IEC61850LNodeBaseObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -47,7 +53,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -57,6 +63,9 @@
     "displayName": "SPS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=177",
+    "propertyTopic": "opcua/IEC61850_7_3/SPS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/SPS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/SPS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -69,7 +78,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -79,6 +88,9 @@
     "displayName": "DPS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=190",
+    "propertyTopic": "opcua/IEC61850_7_3/DPS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/DPS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/DPS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -91,7 +103,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -101,6 +113,9 @@
     "displayName": "INS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=203",
+    "propertyTopic": "opcua/IEC61850_7_3/INS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/INS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/INS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -113,7 +128,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -123,6 +138,9 @@
     "displayName": "ENS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=217",
+    "propertyTopic": "opcua/IEC61850_7_3/ENS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/ENS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/ENS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -135,7 +153,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -145,6 +163,9 @@
     "displayName": "ACT",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=230",
+    "propertyTopic": "opcua/IEC61850_7_3/ACT/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/ACT/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/ACT/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -157,7 +178,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -167,6 +188,9 @@
     "displayName": "ACD",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=246",
+    "propertyTopic": "opcua/IEC61850_7_3/ACD/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/ACD/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/ACD/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -179,7 +203,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -189,6 +213,9 @@
     "displayName": "SEC",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=263",
+    "propertyTopic": "opcua/IEC61850_7_3/SEC/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/SEC/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/SEC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -201,7 +228,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -211,6 +238,9 @@
     "displayName": "BCR",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=273",
+    "propertyTopic": "opcua/IEC61850_7_3/BCR/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/BCR/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/BCR/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -223,7 +253,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -233,6 +263,9 @@
     "displayName": "HST",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=289",
+    "propertyTopic": "opcua/IEC61850_7_3/HST/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/HST/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/HST/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -245,7 +278,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -255,6 +288,9 @@
     "displayName": "VSS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=307",
+    "propertyTopic": "opcua/IEC61850_7_3/VSS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/VSS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/VSS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -267,7 +303,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -277,6 +313,9 @@
     "displayName": "MV",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=315",
+    "propertyTopic": "opcua/IEC61850_7_3/MV/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/MV/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/MV/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -289,7 +328,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -299,6 +338,9 @@
     "displayName": "CMV",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=336",
+    "propertyTopic": "opcua/IEC61850_7_3/CMV/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/CMV/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/CMV/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -311,7 +353,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -321,6 +363,9 @@
     "displayName": "SAV",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=362",
+    "propertyTopic": "opcua/IEC61850_7_3/SAV/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/SAV/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/SAV/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -333,7 +378,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -343,6 +388,9 @@
     "displayName": "WYE",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=374",
+    "propertyTopic": "opcua/IEC61850_7_3/WYE/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/WYE/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/WYE/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -355,7 +403,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -365,6 +413,9 @@
     "displayName": "DEL",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=400",
+    "propertyTopic": "opcua/IEC61850_7_3/DEL/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/DEL/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/DEL/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -377,7 +428,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -387,6 +438,9 @@
     "displayName": "SEQ",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=416",
+    "propertyTopic": "opcua/IEC61850_7_3/SEQ/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/SEQ/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/SEQ/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -399,7 +453,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -409,6 +463,9 @@
     "displayName": "HMV",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=433",
+    "propertyTopic": "opcua/IEC61850_7_3/HMV/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/HMV/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/HMV/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -421,7 +478,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -431,6 +488,9 @@
     "displayName": "HWYE",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=449",
+    "propertyTopic": "opcua/IEC61850_7_3/HWYE/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/HWYE/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/HWYE/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -443,7 +503,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -453,6 +513,9 @@
     "displayName": "HDEL",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=481",
+    "propertyTopic": "opcua/IEC61850_7_3/HDEL/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/HDEL/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/HDEL/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -465,7 +528,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -475,7 +538,9 @@
     "displayName": "SPC",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=504",
+    "propertyTopic": "opcua/IEC61850_7_3/SPC/{propertyName}/{action}",
     "commandTopic": "opcua/IEC61850_7_3/SPC/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/SPC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -857,7 +922,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -867,7 +932,9 @@
     "displayName": "DPC",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=541",
+    "propertyTopic": "opcua/IEC61850_7_3/DPC/{propertyName}/{action}",
     "commandTopic": "opcua/IEC61850_7_3/DPC/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/DPC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1249,7 +1316,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1259,7 +1326,9 @@
     "displayName": "INC",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=578",
+    "propertyTopic": "opcua/IEC61850_7_3/INC/{propertyName}/{action}",
     "commandTopic": "opcua/IEC61850_7_3/INC/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/INC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1641,7 +1710,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1651,7 +1720,9 @@
     "displayName": "ENC",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=618",
+    "propertyTopic": "opcua/IEC61850_7_3/ENC/{propertyName}/{action}",
     "commandTopic": "opcua/IEC61850_7_3/ENC/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/ENC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2033,7 +2104,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2043,7 +2114,9 @@
     "displayName": "BSC",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=654",
+    "propertyTopic": "opcua/IEC61850_7_3/BSC/{propertyName}/{action}",
     "commandTopic": "opcua/IEC61850_7_3/BSC/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/BSC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2450,7 +2523,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2460,7 +2533,9 @@
     "displayName": "ISC",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=693",
+    "propertyTopic": "opcua/IEC61850_7_3/ISC/{propertyName}/{action}",
     "commandTopic": "opcua/IEC61850_7_3/ISC/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/ISC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -2842,7 +2917,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -2852,7 +2927,9 @@
     "displayName": "APC",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=731",
+    "propertyTopic": "opcua/IEC61850_7_3/APC/{propertyName}/{action}",
     "commandTopic": "opcua/IEC61850_7_3/APC/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/APC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3252,7 +3329,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3262,7 +3339,9 @@
     "displayName": "BAC",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=773",
+    "propertyTopic": "opcua/IEC61850_7_3/BAC/{propertyName}/{action}",
     "commandTopic": "opcua/IEC61850_7_3/BAC/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/BAC/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -3669,7 +3748,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3679,6 +3758,9 @@
     "displayName": "SPG",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=816",
+    "propertyTopic": "opcua/IEC61850_7_3/SPG/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/SPG/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/SPG/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3691,7 +3773,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3701,6 +3783,9 @@
     "displayName": "ING",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=823",
+    "propertyTopic": "opcua/IEC61850_7_3/ING/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/ING/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/ING/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3713,7 +3798,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3723,6 +3808,9 @@
     "displayName": "ENG",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=834",
+    "propertyTopic": "opcua/IEC61850_7_3/ENG/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/ENG/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/ENG/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3735,7 +3823,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3745,6 +3833,9 @@
     "displayName": "ORG",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=841",
+    "propertyTopic": "opcua/IEC61850_7_3/ORG/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/ORG/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/ORG/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3757,7 +3848,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3767,6 +3858,9 @@
     "displayName": "TSG",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=854",
+    "propertyTopic": "opcua/IEC61850_7_3/TSG/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/TSG/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/TSG/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3779,7 +3873,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3789,6 +3883,9 @@
     "displayName": "CUG",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=862",
+    "propertyTopic": "opcua/IEC61850_7_3/CUG/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/CUG/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/CUG/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3801,7 +3898,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3811,6 +3908,9 @@
     "displayName": "VSG",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=869",
+    "propertyTopic": "opcua/IEC61850_7_3/VSG/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/VSG/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/VSG/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3823,7 +3923,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3833,6 +3933,9 @@
     "displayName": "ASG",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=876",
+    "propertyTopic": "opcua/IEC61850_7_3/ASG/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/ASG/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/ASG/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3845,7 +3948,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3855,6 +3958,9 @@
     "displayName": "CURVE",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=888",
+    "propertyTopic": "opcua/IEC61850_7_3/CURVE/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/CURVE/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/CURVE/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3867,7 +3973,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3877,6 +3983,9 @@
     "displayName": "CSG",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=901",
+    "propertyTopic": "opcua/IEC61850_7_3/CSG/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/CSG/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/CSG/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3889,7 +3998,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3899,6 +4008,9 @@
     "displayName": "DPL",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=920",
+    "propertyTopic": "opcua/IEC61850_7_3/DPL/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/DPL/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/DPL/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3911,7 +4023,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3921,6 +4033,9 @@
     "displayName": "LPL",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=941",
+    "propertyTopic": "opcua/IEC61850_7_3/LPL/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/LPL/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/LPL/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3933,7 +4048,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3943,6 +4058,9 @@
     "displayName": "CSD",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=954",
+    "propertyTopic": "opcua/IEC61850_7_3/CSD/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/CSD/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/CSD/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3955,7 +4073,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3965,6 +4083,9 @@
     "displayName": "CST",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=971",
+    "propertyTopic": "opcua/IEC61850_7_3/CST/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/CST/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/CST/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3977,7 +4098,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -3987,6 +4108,9 @@
     "displayName": "BTS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=981",
+    "propertyTopic": "opcua/IEC61850_7_3/BTS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/BTS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/BTS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3999,7 +4123,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4009,6 +4133,9 @@
     "displayName": "UTS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1005",
+    "propertyTopic": "opcua/IEC61850_7_3/UTS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/UTS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/UTS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4021,7 +4148,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4031,6 +4158,9 @@
     "displayName": "LTS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1026",
+    "propertyTopic": "opcua/IEC61850_7_3/LTS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/LTS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/LTS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4043,7 +4173,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4053,6 +4183,9 @@
     "displayName": "OTS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1047",
+    "propertyTopic": "opcua/IEC61850_7_3/OTS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/OTS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/OTS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4065,7 +4198,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4075,6 +4208,9 @@
     "displayName": "GTS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1064",
+    "propertyTopic": "opcua/IEC61850_7_3/GTS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/GTS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/GTS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4087,7 +4223,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4097,6 +4233,9 @@
     "displayName": "MTS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1080",
+    "propertyTopic": "opcua/IEC61850_7_3/MTS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/MTS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/MTS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4109,7 +4248,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4119,6 +4258,9 @@
     "displayName": "NTS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1098",
+    "propertyTopic": "opcua/IEC61850_7_3/NTS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/NTS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/NTS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4131,7 +4273,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4141,6 +4283,9 @@
     "displayName": "STS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1117",
+    "propertyTopic": "opcua/IEC61850_7_3/STS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/STS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/STS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4153,7 +4298,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -4163,6 +4308,9 @@
     "displayName": "CTS",
     "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1133",
+    "propertyTopic": "opcua/IEC61850_7_3/CTS/{propertyName}/{action}",
+    "commandTopic": "opcua/IEC61850_7_3/CTS/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_7_3/CTS/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

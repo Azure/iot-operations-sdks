@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,7 +15,9 @@
     "displayName": "WoTAssetConnectionManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=1",
+    "propertyTopic": "opcua/WoT_Con/WoTAssetConnectionManagementType/{propertyName}/{action}",
     "commandTopic": "opcua/WoT_Con/WoTAssetConnectionManagementType/{commandName}",
+    "telemetryTopic": "opcua/WoT_Con/WoTAssetConnectionManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -82,7 +84,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -91,6 +93,9 @@
     "displayName": "IWoTAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=42",
+    "propertyTopic": "opcua/WoT_Con/IWoTAssetType/{propertyName}/{action}",
+    "commandTopic": "opcua/WoT_Con/IWoTAssetType/{commandName}",
+    "telemetryTopic": "opcua/WoT_Con/IWoTAssetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -111,7 +116,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -121,6 +126,9 @@
     "displayName": "WoTAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=115",
+    "propertyTopic": "opcua/WoT_Con/WoTAssetType/{propertyName}/{action}",
+    "commandTopic": "opcua/WoT_Con/WoTAssetType/{commandName}",
+    "telemetryTopic": "opcua/WoT_Con/WoTAssetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -141,7 +149,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -150,7 +158,9 @@
     "displayName": "WoTAssetFileType",
     "extends": "dtmi:opcua:OpcUaCore:FileType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=110",
+    "propertyTopic": "opcua/WoT_Con/WoTAssetFileType/{propertyName}/{action}",
     "commandTopic": "opcua/WoT_Con/WoTAssetFileType/{commandName}",
+    "telemetryTopic": "opcua/WoT_Con/WoTAssetFileType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

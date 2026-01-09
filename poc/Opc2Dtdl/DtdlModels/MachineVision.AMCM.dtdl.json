@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,9 @@
     "displayName": "IVisionInfoType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1002",
+    "propertyTopic": "opcua/MachineVision_AMCM/IVisionInfoType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/IVisionInfoType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/IVisionInfoType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -26,7 +29,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -35,6 +38,9 @@
     "displayName": "ICableType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1018",
+    "propertyTopic": "opcua/MachineVision_AMCM/ICableType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/ICableType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/ICableType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -47,7 +53,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -56,6 +62,9 @@
     "displayName": "IComputingDeviceType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1009",
+    "propertyTopic": "opcua/MachineVision_AMCM/IComputingDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/IComputingDeviceType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/IComputingDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -68,7 +77,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -77,6 +86,9 @@
     "displayName": "IDisplayUnitType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1011",
+    "propertyTopic": "opcua/MachineVision_AMCM/IDisplayUnitType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/IDisplayUnitType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/IDisplayUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -89,7 +101,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -98,6 +110,9 @@
     "displayName": "ILampType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1016",
+    "propertyTopic": "opcua/MachineVision_AMCM/ILampType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/ILampType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/ILampType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -110,7 +125,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -119,6 +134,9 @@
     "displayName": "ILensType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1013",
+    "propertyTopic": "opcua/MachineVision_AMCM/ILensType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/ILensType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/ILensType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -131,7 +149,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -140,6 +158,9 @@
     "displayName": "ILicenseType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1017",
+    "propertyTopic": "opcua/MachineVision_AMCM/ILicenseType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/ILicenseType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/ILicenseType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -152,7 +173,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -161,6 +182,9 @@
     "displayName": "ILightingControllerType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1015",
+    "propertyTopic": "opcua/MachineVision_AMCM/ILightingControllerType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/ILightingControllerType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/ILightingControllerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -173,7 +197,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -182,6 +206,9 @@
     "displayName": "IPhysicalInterfaceType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1012",
+    "propertyTopic": "opcua/MachineVision_AMCM/IPhysicalInterfaceType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/IPhysicalInterfaceType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/IPhysicalInterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -194,7 +221,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -203,6 +230,9 @@
     "displayName": "VisionItemFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1005",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionItemFolderType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionItemFolderType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionItemFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -215,7 +245,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -225,6 +255,7 @@
     "displayName": "VisionMachineIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1006",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionMachineIdentificationType/{propertyName}/{action}",
     "commandTopic": "opcua/MachineVision_AMCM/VisionMachineIdentificationType/{commandName}",
     "telemetryTopic": "opcua/MachineVision_AMCM/VisionMachineIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -248,7 +279,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -258,6 +289,7 @@
     "displayName": "VisionComponentIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineryComponentIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1007",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionComponentIdentificationType/{propertyName}/{action}",
     "commandTopic": "opcua/MachineVision_AMCM/VisionComponentIdentificationType/{commandName}",
     "telemetryTopic": "opcua/MachineVision_AMCM/VisionComponentIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -281,7 +313,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -291,6 +323,8 @@
     "displayName": "VisionHealthInfoType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1004",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionHealthInfoType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionHealthInfoType/{commandName}",
     "telemetryTopic": "opcua/MachineVision_AMCM/VisionHealthInfoType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -393,7 +427,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -403,6 +437,7 @@
     "displayName": "VisionMaintenanceInfoType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1003",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionMaintenanceInfoType/{propertyName}/{action}",
     "commandTopic": "opcua/MachineVision_AMCM/VisionMaintenanceInfoType/{commandName}",
     "telemetryTopic": "opcua/MachineVision_AMCM/VisionMaintenanceInfoType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -497,7 +532,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -507,6 +542,9 @@
     "displayName": "VisionAcquisitionBackgroundType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1032",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionAcquisitionBackgroundType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionAcquisitionBackgroundType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionAcquisitionBackgroundType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -519,7 +557,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -529,6 +567,9 @@
     "displayName": "VisionAspectImageReceiverType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1040",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionAspectImageReceiverType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionAspectImageReceiverType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionAspectImageReceiverType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -541,7 +582,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -551,6 +592,9 @@
     "displayName": "VisionAspectImageTransceiverType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1041",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionAspectImageTransceiverType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionAspectImageTransceiverType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionAspectImageTransceiverType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -563,7 +607,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -573,6 +617,9 @@
     "displayName": "VisionAspectImageTransmitterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1039",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionAspectImageTransmitterType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionAspectImageTransmitterType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionAspectImageTransmitterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -585,7 +632,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -595,6 +642,9 @@
     "displayName": "VisionCableType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1038",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionCableType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionCableType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionCableType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -607,7 +657,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -617,6 +667,9 @@
     "displayName": "VisionClimateControllerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1035",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionClimateControllerType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionClimateControllerType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionClimateControllerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -629,7 +682,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -639,6 +692,9 @@
     "displayName": "VisionComputingDeviceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1010",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionComputingDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionComputingDeviceType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionComputingDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -651,7 +707,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -661,6 +717,9 @@
     "displayName": "VisionDisplayUnitType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1019",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionDisplayUnitType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionDisplayUnitType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionDisplayUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -673,7 +732,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -683,6 +742,9 @@
     "displayName": "VisionFrameGrabberType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1021",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionFrameGrabberType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionFrameGrabberType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionFrameGrabberType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -695,7 +757,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -705,6 +767,9 @@
     "displayName": "VisionHousingType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1034",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionHousingType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionHousingType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionHousingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -717,7 +782,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -727,6 +792,9 @@
     "displayName": "VisionImageSensorType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1020",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionImageSensorType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionImageSensorType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionImageSensorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -739,7 +807,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -749,6 +817,9 @@
     "displayName": "VisionLampType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1028",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionLampType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionLampType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionLampType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -761,7 +832,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -771,6 +842,9 @@
     "displayName": "VisionLensControllerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1023",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionLensControllerType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionLensControllerType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionLensControllerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -783,7 +857,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -793,6 +867,9 @@
     "displayName": "VisionLensType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1022",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionLensType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionLensType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionLensType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -805,7 +882,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -815,6 +892,9 @@
     "displayName": "VisionLicenseType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1036",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionLicenseType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionLicenseType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionLicenseType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -827,7 +907,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -837,6 +917,9 @@
     "displayName": "VisionLightingControllerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1029",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionLightingControllerType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionLightingControllerType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionLightingControllerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -849,7 +932,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -859,6 +942,9 @@
     "displayName": "VisionNetworkDeviceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1037",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionNetworkDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionNetworkDeviceType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionNetworkDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -871,7 +957,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -881,6 +967,9 @@
     "displayName": "VisionOpticalFilterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1024",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionOpticalFilterType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionOpticalFilterType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionOpticalFilterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -893,7 +982,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -903,6 +992,9 @@
     "displayName": "VisionOtherOpticalEquipmentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1025",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionOtherOpticalEquipmentType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionOtherOpticalEquipmentType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionOtherOpticalEquipmentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -915,7 +1007,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -925,6 +1017,9 @@
     "displayName": "VisionPatternGeneratorType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1030",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionPatternGeneratorType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionPatternGeneratorType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionPatternGeneratorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -937,7 +1032,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -947,6 +1042,9 @@
     "displayName": "VisionPhysicalInterfaceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1014",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionPhysicalInterfaceType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionPhysicalInterfaceType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionPhysicalInterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -959,7 +1057,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -969,6 +1067,9 @@
     "displayName": "VisionPowerSupplyType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1031",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionPowerSupplyType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionPowerSupplyType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionPowerSupplyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -981,7 +1082,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -991,6 +1092,9 @@
     "displayName": "VisionSurroundingEnvironmentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1033",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionSurroundingEnvironmentType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionSurroundingEnvironmentType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionSurroundingEnvironmentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1003,7 +1107,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1013,6 +1117,9 @@
     "displayName": "VisionSystemAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1008",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionSystemAssetType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionSystemAssetType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionSystemAssetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1233,7 +1340,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1243,6 +1350,9 @@
     "displayName": "VisionTriggerSensorType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1027",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionTriggerSensorType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionTriggerSensorType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionTriggerSensorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1255,7 +1365,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1265,6 +1375,9 @@
     "displayName": "VisionWayEncoderType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1026",
+    "propertyTopic": "opcua/MachineVision_AMCM/VisionWayEncoderType/{propertyName}/{action}",
+    "commandTopic": "opcua/MachineVision_AMCM/VisionWayEncoderType/{commandName}",
+    "telemetryTopic": "opcua/MachineVision_AMCM/VisionWayEncoderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

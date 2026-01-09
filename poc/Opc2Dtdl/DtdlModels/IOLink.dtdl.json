@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,9 @@
     "displayName": "IOLinkAlarmType",
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1007",
+    "propertyTopic": "opcua/IOLink/IOLinkAlarmType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkAlarmType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -26,7 +29,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -35,6 +38,9 @@
     "displayName": "IOLinkDeviceAlarmType",
     "extends": "dtmi:opcua:IOLink:IOLinkAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1008",
+    "propertyTopic": "opcua/IOLink/IOLinkDeviceAlarmType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkDeviceAlarmType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkDeviceAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -47,7 +53,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -56,6 +62,9 @@
     "displayName": "IOLinkIODDDeviceAlarmType",
     "extends": "dtmi:opcua:IOLink:IOLinkDeviceAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1009",
+    "propertyTopic": "opcua/IOLink/IOLinkIODDDeviceAlarmType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkIODDDeviceAlarmType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkIODDDeviceAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -68,7 +77,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -77,6 +86,9 @@
     "displayName": "IOLinkMasterAlarmType",
     "extends": "dtmi:opcua:IOLink:IOLinkAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1011",
+    "propertyTopic": "opcua/IOLink/IOLinkMasterAlarmType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkMasterAlarmType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkMasterAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -89,7 +101,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -98,6 +110,9 @@
     "displayName": "IOLinkPortAlarmType",
     "extends": "dtmi:opcua:IOLink:IOLinkAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1010",
+    "propertyTopic": "opcua/IOLink/IOLinkPortAlarmType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkPortAlarmType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkPortAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -110,7 +125,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -119,6 +134,9 @@
     "displayName": "IOLinkEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1003",
+    "propertyTopic": "opcua/IOLink/IOLinkEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkEventType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -131,7 +149,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -140,6 +158,9 @@
     "displayName": "IOLinkDeviceEventType",
     "extends": "dtmi:opcua:IOLink:IOLinkEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1004",
+    "propertyTopic": "opcua/IOLink/IOLinkDeviceEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkDeviceEventType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkDeviceEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -152,7 +173,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -161,6 +182,9 @@
     "displayName": "IOLinkIODDDeviceEventType",
     "extends": "dtmi:opcua:IOLink:IOLinkDeviceEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1021",
+    "propertyTopic": "opcua/IOLink/IOLinkIODDDeviceEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkIODDDeviceEventType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkIODDDeviceEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -173,7 +197,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -182,6 +206,9 @@
     "displayName": "IOLinkMasterEventType",
     "extends": "dtmi:opcua:IOLink:IOLinkEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1006",
+    "propertyTopic": "opcua/IOLink/IOLinkMasterEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkMasterEventType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkMasterEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -194,7 +221,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -203,6 +230,9 @@
     "displayName": "IOLinkPortEventType",
     "extends": "dtmi:opcua:IOLink:IOLinkEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1005",
+    "propertyTopic": "opcua/IOLink/IOLinkPortEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkPortEventType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkPortEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -215,7 +245,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -225,6 +255,9 @@
     "displayName": "DeviceVariantType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1013",
+    "propertyTopic": "opcua/IOLink/DeviceVariantType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/DeviceVariantType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/DeviceVariantType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -237,7 +270,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -247,6 +280,9 @@
     "displayName": "IOLinkDeviceType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1002",
+    "propertyTopic": "opcua/IOLink/IOLinkDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkDeviceType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -259,7 +295,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -268,6 +304,9 @@
     "displayName": "IOLinkIODDDeviceType",
     "extends": "dtmi:opcua:IOLink:IOLinkDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1012",
+    "propertyTopic": "opcua/IOLink/IOLinkIODDDeviceType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkIODDDeviceType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkIODDDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -280,7 +319,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -290,6 +329,9 @@
     "displayName": "IOLinkMasterType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1014",
+    "propertyTopic": "opcua/IOLink/IOLinkMasterType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkMasterType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkMasterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -302,7 +344,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -312,6 +354,9 @@
     "displayName": "IOLinkPortType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1015",
+    "propertyTopic": "opcua/IOLink/IOLinkPortType/{propertyName}/{action}",
+    "commandTopic": "opcua/IOLink/IOLinkPortType/{commandName}",
+    "telemetryTopic": "opcua/IOLink/IOLinkPortType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

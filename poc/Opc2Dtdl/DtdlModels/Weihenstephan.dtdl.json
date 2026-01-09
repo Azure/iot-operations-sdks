@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,9 +14,12 @@
     "ontology": "http://opcfoundation.org/UA/Weihenstephan/",
     "displayName": "WSMachineType",
     "description": "Definition of a machine according to the Weihenstephan standards",
-    "comment": "Model converted from OPC UA spec version 1.00.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "comment": "Model converted from OPC UA spec version 1.00.0 by Azure Opc2Dtdl converter v0.1.0.0 at 01/09/2026 15:14:56 UTC",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1000",
+    "propertyTopic": "opcua/Weihenstephan/WSMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/Weihenstephan/WSMachineType/{commandName}",
+    "telemetryTopic": "opcua/Weihenstephan/WSMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -29,7 +32,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -39,6 +42,9 @@
     "displayName": "WSBaseObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1001",
+    "propertyTopic": "opcua/Weihenstephan/WSBaseObjectType/{propertyName}/{action}",
+    "commandTopic": "opcua/Weihenstephan/WSBaseObjectType/{commandName}",
+    "telemetryTopic": "opcua/Weihenstephan/WSBaseObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -51,7 +57,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -61,6 +67,9 @@
     "displayName": "WSAlarmType",
     "extends": "dtmi:opcua:Weihenstephan:WSBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1002",
+    "propertyTopic": "opcua/Weihenstephan/WSAlarmType/{propertyName}/{action}",
+    "commandTopic": "opcua/Weihenstephan/WSAlarmType/{commandName}",
+    "telemetryTopic": "opcua/Weihenstephan/WSAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -73,7 +82,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -83,6 +92,9 @@
     "displayName": "WSWarningType",
     "extends": "dtmi:opcua:Weihenstephan:WSBaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1003",
+    "propertyTopic": "opcua/Weihenstephan/WSWarningType/{propertyName}/{action}",
+    "commandTopic": "opcua/Weihenstephan/WSWarningType/{commandName}",
+    "telemetryTopic": "opcua/Weihenstephan/WSWarningType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -95,7 +107,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -105,6 +117,9 @@
     "displayName": "WSBaseStateMachineType",
     "extends": "dtmi:opcua:PackML:PackMLBaseStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1004",
+    "propertyTopic": "opcua/Weihenstephan/WSBaseStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/Weihenstephan/WSBaseStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/Weihenstephan/WSBaseStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -117,7 +132,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -127,6 +142,9 @@
     "displayName": "WSExecuteStateMachineType",
     "extends": "dtmi:opcua:PackML:PackMLExecuteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1005",
+    "propertyTopic": "opcua/Weihenstephan/WSExecuteStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/Weihenstephan/WSExecuteStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/Weihenstephan/WSExecuteStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -139,7 +157,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -149,6 +167,9 @@
     "displayName": "WSHeldStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1006",
+    "propertyTopic": "opcua/Weihenstephan/WSHeldStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/Weihenstephan/WSHeldStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/Weihenstephan/WSHeldStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -161,7 +182,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -171,6 +192,9 @@
     "displayName": "WSSuspendedStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1007",
+    "propertyTopic": "opcua/Weihenstephan/WSSuspendedStateMachineType/{propertyName}/{action}",
+    "commandTopic": "opcua/Weihenstephan/WSSuspendedStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/Weihenstephan/WSSuspendedStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

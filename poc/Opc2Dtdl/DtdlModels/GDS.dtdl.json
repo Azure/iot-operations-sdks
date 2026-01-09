@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,7 +15,9 @@
     "displayName": "DirectoryType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=13",
+    "propertyTopic": "opcua/GDS/DirectoryType/{propertyName}/{action}",
     "commandTopic": "opcua/GDS/DirectoryType/{commandName}",
+    "telemetryTopic": "opcua/GDS/DirectoryType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -485,7 +487,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -494,6 +496,9 @@
     "displayName": "ApplicationRegistrationChangedAuditEventType",
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=26",
+    "propertyTopic": "opcua/GDS/ApplicationRegistrationChangedAuditEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/GDS/ApplicationRegistrationChangedAuditEventType/{commandName}",
+    "telemetryTopic": "opcua/GDS/ApplicationRegistrationChangedAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -506,7 +511,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -516,7 +521,9 @@
     "displayName": "CertificateDirectoryType",
     "extends": "dtmi:opcua:GDS:DirectoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=63",
+    "propertyTopic": "opcua/GDS/CertificateDirectoryType/{propertyName}/{action}",
     "commandTopic": "opcua/GDS/CertificateDirectoryType/{commandName}",
+    "telemetryTopic": "opcua/GDS/CertificateDirectoryType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -931,7 +938,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -940,6 +947,7 @@
     "displayName": "CertificateRequestedAuditEventType",
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=91",
+    "propertyTopic": "opcua/GDS/CertificateRequestedAuditEventType/{propertyName}/{action}",
     "commandTopic": "opcua/GDS/CertificateRequestedAuditEventType/{commandName}",
     "telemetryTopic": "opcua/GDS/CertificateRequestedAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -970,7 +978,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -979,6 +987,7 @@
     "displayName": "CertificateDeliveredAuditEventType",
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=109",
+    "propertyTopic": "opcua/GDS/CertificateDeliveredAuditEventType/{propertyName}/{action}",
     "commandTopic": "opcua/GDS/CertificateDeliveredAuditEventType/{commandName}",
     "telemetryTopic": "opcua/GDS/CertificateDeliveredAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1009,7 +1018,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1019,6 +1028,9 @@
     "displayName": "KeyCredentialManagementFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=55",
+    "propertyTopic": "opcua/GDS/KeyCredentialManagementFolderType/{propertyName}/{action}",
+    "commandTopic": "opcua/GDS/KeyCredentialManagementFolderType/{commandName}",
+    "telemetryTopic": "opcua/GDS/KeyCredentialManagementFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1038,7 +1050,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1047,6 +1059,7 @@
     "displayName": "KeyCredentialServiceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1020",
+    "propertyTopic": "opcua/GDS/KeyCredentialServiceType/{propertyName}/{action}",
     "commandTopic": "opcua/GDS/KeyCredentialServiceType/{commandName}",
     "telemetryTopic": "opcua/GDS/KeyCredentialServiceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1225,7 +1238,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1234,6 +1247,9 @@
     "displayName": "KeyCredentialRequestedAuditEventType",
     "extends": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1039",
+    "propertyTopic": "opcua/GDS/KeyCredentialRequestedAuditEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/GDS/KeyCredentialRequestedAuditEventType/{commandName}",
+    "telemetryTopic": "opcua/GDS/KeyCredentialRequestedAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1246,7 +1262,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1255,6 +1271,9 @@
     "displayName": "KeyCredentialDeliveredAuditEventType",
     "extends": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1057",
+    "propertyTopic": "opcua/GDS/KeyCredentialDeliveredAuditEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/GDS/KeyCredentialDeliveredAuditEventType/{commandName}",
+    "telemetryTopic": "opcua/GDS/KeyCredentialDeliveredAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1267,7 +1286,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1276,6 +1295,9 @@
     "displayName": "KeyCredentialRevokedAuditEventType",
     "extends": "dtmi:opcua:OpcUaCore:KeyCredentialAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1075",
+    "propertyTopic": "opcua/GDS/KeyCredentialRevokedAuditEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/GDS/KeyCredentialRevokedAuditEventType/{commandName}",
+    "telemetryTopic": "opcua/GDS/KeyCredentialRevokedAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1288,7 +1310,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1298,6 +1320,9 @@
     "displayName": "AuthorizationServicesFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=233",
+    "propertyTopic": "opcua/GDS/AuthorizationServicesFolderType/{propertyName}/{action}",
+    "commandTopic": "opcua/GDS/AuthorizationServicesFolderType/{commandName}",
+    "telemetryTopic": "opcua/GDS/AuthorizationServicesFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1310,7 +1335,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1320,6 +1345,7 @@
     "displayName": "AuthorizationServiceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=966",
+    "propertyTopic": "opcua/GDS/AuthorizationServiceType/{propertyName}/{action}",
     "commandTopic": "opcua/GDS/AuthorizationServiceType/{commandName}",
     "telemetryTopic": "opcua/GDS/AuthorizationServiceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1504,7 +1530,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1513,6 +1539,9 @@
     "displayName": "AccessTokenIssuedAuditEventType",
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=975",
+    "propertyTopic": "opcua/GDS/AccessTokenIssuedAuditEventType/{propertyName}/{action}",
+    "commandTopic": "opcua/GDS/AccessTokenIssuedAuditEventType/{commandName}",
+    "telemetryTopic": "opcua/GDS/AccessTokenIssuedAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

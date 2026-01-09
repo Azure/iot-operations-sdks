@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,7 +14,9 @@
     "displayName": "DeviceRegistrarAdminType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1175",
+    "propertyTopic": "opcua/Onboarding/DeviceRegistrarAdminType/{propertyName}/{action}",
     "commandTopic": "opcua/Onboarding/DeviceRegistrarAdminType/{commandName}",
+    "telemetryTopic": "opcua/Onboarding/DeviceRegistrarAdminType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -123,7 +125,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -133,7 +135,9 @@
     "displayName": "DeviceRegistrarType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1259",
+    "propertyTopic": "opcua/Onboarding/DeviceRegistrarType/{propertyName}/{action}",
     "commandTopic": "opcua/Onboarding/DeviceRegistrarType/{commandName}",
+    "telemetryTopic": "opcua/Onboarding/DeviceRegistrarType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -565,7 +569,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -574,6 +578,7 @@
     "displayName": "DeviceRegistrationAuditEventType",
     "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1517",
+    "propertyTopic": "opcua/Onboarding/DeviceRegistrationAuditEventType/{propertyName}/{action}",
     "commandTopic": "opcua/Onboarding/DeviceRegistrationAuditEventType/{commandName}",
     "telemetryTopic": "opcua/Onboarding/DeviceRegistrationAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -596,7 +601,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -605,6 +610,7 @@
     "displayName": "DeviceIdentityAcceptedAuditEventType",
     "extends": "dtmi:opcua:Onboarding:DeviceRegistrationAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1533",
+    "propertyTopic": "opcua/Onboarding/DeviceIdentityAcceptedAuditEventType/{propertyName}/{action}",
     "commandTopic": "opcua/Onboarding/DeviceIdentityAcceptedAuditEventType/{commandName}",
     "telemetryTopic": "opcua/Onboarding/DeviceIdentityAcceptedAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -643,7 +649,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -652,6 +658,7 @@
     "displayName": "DeviceSoftwareUpdatedAuditEventType",
     "extends": "dtmi:opcua:Onboarding:DeviceRegistrationAuditEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1552",
+    "propertyTopic": "opcua/Onboarding/DeviceSoftwareUpdatedAuditEventType/{propertyName}/{action}",
     "commandTopic": "opcua/Onboarding/DeviceSoftwareUpdatedAuditEventType/{commandName}",
     "telemetryTopic": "opcua/Onboarding/DeviceSoftwareUpdatedAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

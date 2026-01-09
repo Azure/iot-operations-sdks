@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -14,6 +14,8 @@
     "displayName": "PackMLAdminObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=5",
+    "propertyTopic": "opcua/PackML/PackMLAdminObjectType/{propertyName}/{action}",
+    "commandTopic": "opcua/PackML/PackMLAdminObjectType/{commandName}",
     "telemetryTopic": "opcua/PackML/PackMLAdminObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -218,7 +220,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -228,6 +230,7 @@
     "displayName": "PackMLBaseObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=6",
+    "propertyTopic": "opcua/PackML/PackMLBaseObjectType/{propertyName}/{action}",
     "commandTopic": "opcua/PackML/PackMLBaseObjectType/{commandName}",
     "telemetryTopic": "opcua/PackML/PackMLBaseObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -529,7 +532,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -538,6 +541,7 @@
     "displayName": "PackMLStatusObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=4",
+    "propertyTopic": "opcua/PackML/PackMLStatusObjectType/{propertyName}/{action}",
     "commandTopic": "opcua/PackML/PackMLStatusObjectType/{commandName}",
     "telemetryTopic": "opcua/PackML/PackMLStatusObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -773,7 +777,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -782,7 +786,9 @@
     "displayName": "PackMLBaseStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=3",
+    "propertyTopic": "opcua/PackML/PackMLBaseStateMachineType/{propertyName}/{action}",
     "commandTopic": "opcua/PackML/PackMLBaseStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/PackML/PackMLBaseStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -863,7 +869,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -872,7 +878,9 @@
     "displayName": "PackMLExecuteStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=1",
+    "propertyTopic": "opcua/PackML/PackMLExecuteStateMachineType/{propertyName}/{action}",
     "commandTopic": "opcua/PackML/PackMLExecuteStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/PackML/PackMLExecuteStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
       {
@@ -1233,7 +1241,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -1242,7 +1250,9 @@
     "displayName": "PackMLMachineStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=2",
+    "propertyTopic": "opcua/PackML/PackMLMachineStateMachineType/{propertyName}/{action}",
     "commandTopic": "opcua/PackML/PackMLMachineStateMachineType/{commandName}",
+    "telemetryTopic": "opcua/PackML/PackMLMachineStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

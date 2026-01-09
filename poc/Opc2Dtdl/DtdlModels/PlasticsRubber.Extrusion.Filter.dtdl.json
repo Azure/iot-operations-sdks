@@ -5,7 +5,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -15,6 +15,8 @@
     "displayName": "Filter_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1002",
+    "propertyTopic": "opcua/PlasticsRubber_Extrusion_Filter/Filter_InterfaceType/{propertyName}/{action}",
+    "commandTopic": "opcua/PlasticsRubber_Extrusion_Filter/Filter_InterfaceType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Filter/Filter_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -112,7 +114,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -121,6 +123,7 @@
     "displayName": "FilterPackageType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1004",
+    "propertyTopic": "opcua/PlasticsRubber_Extrusion_Filter/FilterPackageType/{propertyName}/{action}",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Filter/FilterPackageType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Filter/FilterPackageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -210,7 +213,7 @@
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
       "dtmi:dtdl:extension:quantitativeTypes;3",
-      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:mqtt;4",
       "dtmi:dtdl:extension:historization;2",
       "dtmi:dtdl:extension:requirement;2"
     ],
@@ -219,6 +222,7 @@
     "displayName": "ScreenPackageType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1003",
+    "propertyTopic": "opcua/PlasticsRubber_Extrusion_Filter/ScreenPackageType/{propertyName}/{action}",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Filter/ScreenPackageType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Filter/ScreenPackageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
