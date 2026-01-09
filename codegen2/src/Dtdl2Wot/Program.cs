@@ -18,6 +18,7 @@
                 Console.WriteLine("Converts a DTDL model file to a WoT Thing Description.");
                 Console.WriteLine("  <inputFilePath>       Path to the input DTDL model file.");
                 Console.WriteLine("  <outputFolderPath>    Path to the output folder for the generated Thing Description.");
+                Console.WriteLine("  [resolverFilePath]    Optional path to a JSON file that defines DTMI resolution rules.");
                 Console.WriteLine("  [schemaNamesFilePath] Optional path to a JSON file that defines schema naming rules.");
                 Console.WriteLine("                        If not specified, default path is 'SchemaNames.json' in the output folder.");
                 Console.WriteLine("                        If file does not exist, one will be created (using specified or default path).");
@@ -26,7 +27,8 @@
 
             FileInfo inputFile = new FileInfo(args[0]);
             DirectoryInfo outputDirectory = new DirectoryInfo(args[1]);
-            FileInfo schemaNamesFile = new FileInfo(args.Length > 2 ? args[2] : Path.Combine(outputDirectory.FullName, "SchemaNames.json"));
+            string resolverFilePath = args.Length > 2 ? args[2] : string.Empty;
+            FileInfo schemaNamesFile = new FileInfo(args.Length > 3 ? args[3] : Path.Combine(outputDirectory.FullName, "SchemaNames.json"));
 
             string modelText = inputFile.OpenText().ReadToEnd();
 
@@ -38,17 +40,29 @@
             };
 
             ParsingOptions parsingOptions = new();
+            if (!string.IsNullOrEmpty(resolverFilePath) && File.Exists(resolverFilePath))
+            {
+                parsingOptions.DtmiResolver = new Resolver(resolverFilePath).Resolve;
+            }
             parsingOptions.ExtensionLimitContexts = new List<Dtmi> { new Dtmi("dtmi:dtdl:limits:onvif"), new Dtmi("dtmi:dtdl:limits:aio") };
 
             var modelParser = new ModelParser(parsingOptions);
 
             IReadOnlyDictionary<Dtmi, DTEntityInfo> model = modelParser.Parse(modelText, parseLocator);
 
-            DTInterfaceInfo dtInterface = (DTInterfaceInfo)model.Values.FirstOrDefault(e => e.EntityKind == DTEntityKind.Interface && e.SupplementalTypes.Any(t => DtdlMqttExtensionValues.MqttAdjunctTypeRegex.IsMatch(t.AbsoluteUri)))!;
-            Dtmi mqttTypeId = dtInterface.SupplementalTypes.First(t => DtdlMqttExtensionValues.MqttAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
-            int mqttVersion = int.Parse(DtdlMqttExtensionValues.MqttAdjunctTypeRegex.Match(mqttTypeId.AbsoluteUri).Groups[1].Captures[0].Value);
+            foreach (DTEntityInfo dtEntity in model.Values)
+            {
+                if (dtEntity.EntityKind == DTEntityKind.Interface && dtEntity.SupplementalTypes.Any(t => DtdlMqttExtensionValues.MqttAdjunctTypeRegex.IsMatch(t.AbsoluteUri)))
+                {
+                    DTInterfaceInfo dtInterface = (DTInterfaceInfo)dtEntity;
+                    Dtmi mqttTypeId = dtInterface.SupplementalTypes.First(t => DtdlMqttExtensionValues.MqttAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
+                    int mqttVersion = int.Parse(DtdlMqttExtensionValues.MqttAdjunctTypeRegex.Match(mqttTypeId.AbsoluteUri).Groups[1].Captures[0].Value);
 
-            ThingGenerator thingGenerator = new ThingGenerator(model, dtInterface.Id, mqttVersion);
+                    ThingGenerator thingGenerator = new ThingGenerator(model, dtInterface.Id, mqttVersion);
+
+                    thingGenerator.GenerateThing(outputDirectory, schemaNamesFile);
+                }
+            }
 
             if (!schemaNamesFile.Exists)
             {
@@ -59,7 +73,7 @@
                 Console.WriteLine($"  generated {schemaNamesFile.FullName}");
             }
 
-            return thingGenerator.GenerateThing(outputDirectory, schemaNamesFile) ? 0 : 1;
+            return 0;
         }
     }
 }

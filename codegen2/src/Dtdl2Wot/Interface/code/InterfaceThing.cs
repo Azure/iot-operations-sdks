@@ -65,7 +65,18 @@ namespace Dtdl2Wot
                 this.errorSchemas[new CodeName(errorField.Schema.Id).AsGiven] = errorField.Schema;
             }
 
-            this.namespacedEnums = modelDict.Values.Where(e => e.EntityKind == DTEntityKind.Enum).Select(e => (DTEnumInfo)e).Where(e => !EnumThingSchema.CanExpressAsEnum(e)).ToDictionary(e => new CodeName(e.Id).AsGiven, e => e);
+            this.namespacedEnums = new();
+            foreach (DTEntityInfo dTEntity in modelDict.Values)
+            {
+                if (dTEntity.EntityKind == DTEntityKind.Enum)
+                {
+                    DTEnumInfo dtEnum = (DTEnumInfo)dTEntity;
+                    if (!EnumThingSchema.CanExpressAsEnum(dtEnum))
+                    {
+                        this.namespacedEnums[new CodeName(dtEnum.Id).AsGiven] = dtEnum;
+                    }
+                }
+            }
 
             this.thingDescriber = new ThingDescriber(mqttVersion);
         }
