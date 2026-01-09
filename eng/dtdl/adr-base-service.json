@@ -2729,60 +2729,47 @@
             "Field",
             "Required"
           ],
-          "name": "healthState",
-          "description": "The current runtime health of the resource.",
+          "name": "status",
+          "description": "The current health status of the resource.",
           "schema": {
-            "@type": "Object",
-            "fields": [
+            "@type": "Enum",
+            "valueSchema": "string",
+            "enumValues": [
               {
-                "@type": [
-                  "Field",
-                  "Required"
-                ],
-                "name": "status",
-                "description": "The current health status of the resource.",
-                "schema": {
-                  "@type": "Enum",
-                  "valueSchema": "string",
-                  "enumValues": [
-                    {
-                      "name": "Available",
-                      "enumValue": "Available"
-                    },
-                    {
-                      "name": "Unavailable",
-                      "enumValue": "Unavailable"
-                    }
-                  ]
-                }
+                "name": "Available",
+                "enumValue": "Available"
               },
               {
-                "@type": [
-                  "Field",
-                  "Required"
-                ],
-                "name": "lastUpdateTime",
-                "description": "The timestamp (RFC3339) when the health status was last updated, even if the status did not change.",
-                "schema": "dateTime"
-              },
-              {
-                "@type": [
-                  "Field"
-                ],
-                "name": "message",
-                "description": "A human-readable message describing the last transition.",
-                "schema": "string"
-              },
-              {
-                "@type": [
-                  "Field"
-                ],
-                "name": "reasonCode",
-                "description": "Unique, CamelCase reason code describing the cause of the last health state transition.",
-                "schema": "string"
+                "name": "Unavailable",
+                "enumValue": "Unavailable"
               }
             ]
           }
+        },
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "lastUpdateTime",
+          "description": "The timestamp (RFC3339) when the health status was last updated, even if the status did not change.",
+          "schema": "dateTime"
+        },
+        {
+          "@type": [
+            "Field"
+          ],
+          "name": "message",
+          "description": "A human-readable message describing the last transition.",
+          "schema": "string"
+        },
+        {
+          "@type": [
+            "Field"
+          ],
+          "name": "reasonCode",
+          "description": "Unique, CamelCase reason code describing the cause of the last health state transition.",
+          "schema": "string"
         }
       ]
     },
