@@ -292,14 +292,12 @@ impl From<base_client_gen::DetailsSchemaElementSchema> for Details {
 impl From<RuntimeHealth> for base_client_gen::RuntimeHealth {
     fn from(value: RuntimeHealth) -> Self {
         base_client_gen::RuntimeHealth {
-            health_state: base_client_gen::HealthStateSchema {
-                last_update_time: value.last_update_time,
-                message: value.message,
-                reason_code: value.reason_code,
-                status: match value.status {
-                    HealthStatus::Available => base_client_gen::StatusSchema::Available,
-                    HealthStatus::Unavailable => base_client_gen::StatusSchema::Unavailable,
-                },
+            last_update_time: value.last_update_time,
+            message: value.message,
+            reason_code: value.reason_code,
+            status: match value.status {
+                HealthStatus::Available => base_client_gen::StatusSchema::Available,
+                HealthStatus::Unavailable => base_client_gen::StatusSchema::Unavailable,
             },
             version: value.version,
         }

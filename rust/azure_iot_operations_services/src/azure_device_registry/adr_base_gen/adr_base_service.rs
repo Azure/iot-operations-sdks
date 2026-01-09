@@ -107,7 +107,6 @@ mod get_device_status_response_payload;
 mod get_device_status_response_payload_serialization;
 mod get_device_status_response_schema;
 mod get_device_status_response_schema_serialization;
-mod health_state_schema;
 mod inbound_schema_map_value_schema;
 mod management_action_runtime_health_event_schema;
 mod management_action_runtime_health_event_telemetry;
@@ -255,7 +254,6 @@ pub mod client {
     pub use super::get_device_status_command_invoker::*;
     pub use super::get_device_status_response_payload::*;
     pub use super::get_device_status_response_schema::*;
-    pub use super::health_state_schema::*;
     pub use super::inbound_schema_map_value_schema::*;
     pub use super::management_action_runtime_health_event_schema::*;
     pub use super::management_action_runtime_health_event_telemetry::*;
@@ -375,7 +373,6 @@ pub mod service {
     pub use super::get_device_status_command_executor::*;
     pub use super::get_device_status_response_payload::*;
     pub use super::get_device_status_response_schema::*;
-    pub use super::health_state_schema::*;
     pub use super::inbound_schema_map_value_schema::*;
     pub use super::management_action_runtime_health_event_schema::*;
     pub use super::management_action_runtime_health_event_telemetry::*;
