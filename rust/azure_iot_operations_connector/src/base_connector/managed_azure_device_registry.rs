@@ -7,7 +7,7 @@ use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Ar
 
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self, RuntimeHealth,
+        self,
         models::{self as adr_models, Asset},
     },
     schema_registry,
@@ -22,10 +22,7 @@ use tokio_util::sync::CancellationToken;
 use crate::{
     AdrConfigError, Data, DataOperationKind, DataOperationName, DataOperationRef, MessageSchema,
     MessageSchemaReference,
-    base_connector::{
-        ConnectorContext,
-        health_status::{self, RuntimeHealthStatus},
-    },
+    base_connector::ConnectorContext,
     deployment_artifacts::{
         self,
         azure_device_registry::{AssetRef, DeviceEndpointRef},
@@ -63,56 +60,10 @@ pub struct DeviceEndpointStatusReporter {
     connector_context: Arc<ConnectorContext>,
     device_endpoint_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     device_endpoint_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
-    health_tx: UnboundedSender<Option<RuntimeHealth>>,
     device_endpoint_ref: DeviceEndpointRef,
 }
 
 impl DeviceEndpointStatusReporter {
-    /// This function is used to report the current runtime health status of the Endpoint.
-    ///
-    /// NOTE: This will only report the health status to the service if needed, so it is
-    /// okay to call this function frequently. It is required to call this function any time
-    /// the health status changes to ensure that the service has the latest information.
-    /// If the health status does not change, the underlying client will report the last known
-    /// health status at the base connector `health_report_interval`'s frequency unless `reset_health_status` is called.
-    pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
-        let version = match self.device_endpoint_specification.read().unwrap().version {
-            Some(v) => v,
-            None => {
-                log::warn!(
-                    "Cannot report health status for {:?} because device specification version is None",
-                    self.device_endpoint_ref
-                );
-                return;
-            }
-        };
-        let runtime_health = RuntimeHealth {
-            last_update_time: Utc::now(),
-            message: health_status.message,
-            reason_code: health_status.reason_code,
-            status: health_status.status,
-            version,
-        };
-        if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
-            // should not be possible unless the device is deleted I think?
-            log::warn!("Health status receiver closed")
-        };
-    }
-
-    /// This function is used to stop background reporting of the health status until a new status is reported.
-    /// This should be called when the component is updated to indicate that the previous health status may no longer be applicable.
-    pub fn reset_health_status(&self) {
-        if let Err(_e) = self.health_tx.send(None) {
-            log::warn!("Health status receiver closed")
-        };
-    }
-
-    // pub fn report_all_children_health_status(&self, health_status: RuntimeHealthStatus) {
-    //     // for all datasets, events, streams, management groups, report this health status
-    //     // TODO: should this be 4 separate functions?
-    //     // TODO: should this be on the asset instead and require the application to do some communication themselves?
-    // }
-
     /// Used to conditionally report the device status and then updates the device with the new status returned.
     ///
     /// The `modify` function is called with the current device status (if any) and should return:
@@ -616,9 +567,6 @@ pub struct DeviceEndpointClient {
     /// Flag to track if asset creation is in progress
     #[getter(skip)]
     pending_asset_creation: bool,
-    /// Channel for sending health status updates
-    #[getter(skip)]
-    health_tx: UnboundedSender<Option<RuntimeHealth>>,
     /// Channels for sending and receiving completed asset clients.
     /// This is used to ensure that we only process one asset creation at a time
     #[getter(skip)]
@@ -640,10 +588,6 @@ impl DeviceEndpointClient {
     ) -> Result<Self, String> {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
 
-        let health_tx = health_status::new_health_sender(
-            connector_context.clone(),
-            device_endpoint_ref.clone(),
-        );
         Ok(DeviceEndpointClient {
             specification: Arc::new(std::sync::RwLock::new(DeviceSpecification::new(
                 device,
@@ -661,7 +605,6 @@ impl DeviceEndpointClient {
             device_update_observation,
             asset_create_observation,
             pending_asset_creation: false,
-            health_tx,
             asset_completion_rx,
             asset_completion_tx,
             connector_context,
@@ -781,7 +724,6 @@ impl DeviceEndpointClient {
             connector_context: self.connector_context.clone(),
             device_endpoint_status: self.status.clone(),
             device_endpoint_specification: self.specification.clone(),
-            health_tx: self.health_tx.clone(),
             device_endpoint_ref: self.device_endpoint_ref.clone(),
         }
     }
@@ -1947,50 +1889,11 @@ pub struct DataOperationStatusReporter {
     connector_context: Arc<ConnectorContext>,
     asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
     asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
-    health_tx: UnboundedSender<Option<RuntimeHealth>>,
     data_operation_ref: DataOperationRef,
     asset_ref: AssetRef,
 }
 
 impl DataOperationStatusReporter {
-    /// This function is used to report the current runtime health status of the data operation.
-    ///
-    /// NOTE: This will only report the health status to the service if needed, so it is
-    /// okay to call this function frequently. It is required to call this function any time
-    /// the health status changes to ensure that the service has the latest information.
-    /// If the health status does not change, the underlying client will report the last known
-    /// health status at the base connector `health_report_interval`'s frequency at minimum unless `reset_health_status` is called.
-    pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
-        let version = match self.asset_specification.read().unwrap().version {
-            Some(v) => v,
-            None => {
-                log::warn!(
-                    "Cannot report health status for {:?} because asset specification version is None",
-                    self.data_operation_ref
-                );
-                return;
-            }
-        };
-        let runtime_health = RuntimeHealth {
-            last_update_time: Utc::now(),
-            message: health_status.message,
-            reason_code: health_status.reason_code,
-            status: health_status.status,
-            version,
-        };
-        if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
-            log::warn!("Health status receiver closed")
-        };
-    }
-
-    /// This function is used to stop background reporting of the health status until a new status is reported.
-    /// This should be called when the component is updated to indicate that the previous health status may no longer be applicable.
-    pub fn reset_health_status(&self) {
-        if let Err(_e) = self.health_tx.send(None) {
-            log::warn!("Health status receiver closed")
-        };
-    }
-
     /// Used to conditionally report the data operation status and then updates the asset with the new status returned.
     ///
     /// The `modify` function is called with the current data operation status (if any) and should return:
@@ -2230,9 +2133,6 @@ pub struct DataOperationClient {
     /// fully processed or not.
     #[getter(skip)]
     data_operation_update_watcher_rx: watch::Receiver<DataOperationUpdateNotification>,
-    /// Channel for sending health status updates
-    #[getter(skip)]
-    health_tx: UnboundedSender<Option<RuntimeHealth>>,
 }
 
 impl DataOperationClient {
@@ -2316,8 +2216,6 @@ impl DataOperationClient {
         .inspect_err(|e| {
             log::error!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
         })?;
-        let health_tx =
-            health_status::new_health_sender(connector_context.clone(), data_operation_ref.clone());
         Ok(Self {
             data_operation_ref,
             definition,
@@ -2329,7 +2227,6 @@ impl DataOperationClient {
             connector_context,
             asset_ref,
             data_operation_update_watcher_rx,
-            health_tx,
         })
     }
 
@@ -2997,7 +2894,6 @@ impl DataOperationClient {
             connector_context: self.connector_context.clone(),
             asset_status: self.asset_status.clone(),
             asset_specification: self.asset_specification.clone(),
-            health_tx: self.health_tx.clone(),
             data_operation_ref: self.data_operation_ref.clone(),
             asset_ref: self.asset_ref.clone(),
         }

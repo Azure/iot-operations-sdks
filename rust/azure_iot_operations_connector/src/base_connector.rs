@@ -16,7 +16,6 @@ use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 use crate::deployment_artifacts::connector::ConnectorArtifacts;
 
 pub mod adr_discovery;
-pub mod health_status;
 pub mod managed_azure_device_registry;
 
 /// Context required to run the base connector operations
@@ -35,8 +34,6 @@ pub(crate) struct ConnectorContext {
     pub(crate) schema_registry_timeout: Duration,
     /// Timeout for State Store operations
     pub(crate) state_store_timeout: Duration,
-    /// Health status reporting interval
-    pub(crate) health_report_interval: Duration,
     /// Clients used to perform connector operations
     azure_device_registry_client: azure_device_registry::Client,
     pub(crate) state_store_client: Arc<state_store::Client>,
@@ -74,10 +71,6 @@ pub struct Options {
     /// Timeout for State Store operations
     #[builder(default = "Duration::from_secs(10)")]
     state_store_timeout: Duration,
-
-    /// Health Status reporting interval
-    #[builder(default = "Duration::from_secs(60)")]
-    health_report_interval: Duration,
 
     /// Debounce duration for filemount operations for the connector
     #[builder(default = "Duration::from_secs(5)")]
@@ -143,7 +136,6 @@ impl BaseConnector {
                 azure_device_registry_timeout: base_connector_options.azure_device_registry_timeout,
                 schema_registry_timeout: base_connector_options.schema_registry_timeout,
                 state_store_timeout: base_connector_options.state_store_timeout,
-                health_report_interval: base_connector_options.health_report_interval,
                 application_context,
                 managed_client: session.create_managed_client(),
                 connector_artifacts,

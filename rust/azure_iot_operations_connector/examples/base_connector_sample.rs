@@ -16,7 +16,6 @@ use azure_iot_operations_connector::{
     AdrConfigError, Data, DataOperationKind,
     base_connector::{
         self, BaseConnector,
-        health_status::RuntimeHealthStatus,
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
             DeviceEndpointClient, DeviceEndpointClientCreationObservation, SchemaModifyResult,
@@ -26,7 +25,7 @@ use azure_iot_operations_connector::{
     deployment_artifacts::connector::ConnectorArtifacts,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::azure_device_registry::{self, HealthStatus};
+use azure_iot_operations_services::azure_device_registry;
 
 /// Only reports status on first time (None) and when changing from OK to Error.
 /// Skips reporting when status has already been reported and hasn't changed.
@@ -165,13 +164,6 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
         log::error!("{log_identifier} Error reporting endpoint status: {e}");
     }
 
-    // TODO: move this to a better place
-    device_endpoint_reporter.report_health_status(RuntimeHealthStatus {
-        message: None,
-        reason_code: None,
-        status: HealthStatus::Available,
-    });
-
     loop {
         match device_endpoint_client.recv_notification().await {
             ClientNotification::Deleted => {
@@ -179,7 +171,6 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                 break;
             }
             ClientNotification::Updated => {
-                device_endpoint_reporter.reset_health_status();
                 log::info!("{log_identifier} Device updated: {device_endpoint_client:?}");
 
                 // Update device status - usually only on first report or error changes
@@ -203,12 +194,6 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                 {
                     log::error!("{log_identifier} Error reporting endpoint status: {e}");
                 }
-                // TODO: move this to a better place
-                device_endpoint_reporter.report_health_status(RuntimeHealthStatus {
-                    message: None,
-                    reason_code: None,
-                    status: HealthStatus::Available,
-                });
             }
             ClientNotification::Created(asset_client) => {
                 let asset_log_identifier =
@@ -331,7 +316,6 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
             biased;
             // Listen for a dataset update notifications
             res = data_operation_client.recv_notification() => {
-                data_operation_reporter.reset_health_status();
                 match res {
                     DataOperationNotification::Updated => {
                         log::info!("{log_identifier} Dataset updated: {data_operation_client:?}");
@@ -396,11 +380,6 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                     }
                     Err(e) => {
                         log::error!("{log_identifier} Error reporting message schema: {e}");
-                        data_operation_reporter.report_health_status(RuntimeHealthStatus {
-                            message: None,
-                            reason_code: Some("SchemaReportErr".to_string()),
-                            status: HealthStatus::Unavailable,
-                        });
                         continue; // Can't forward data without a schema reported
                     }
                 }
@@ -411,20 +390,8 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                             "{log_identifier} data {count} forwarded"
                         );
                         count += 1;
-                        data_operation_reporter.report_health_status(RuntimeHealthStatus {
-                            message: None,
-                            reason_code: None,
-                            status: HealthStatus::Available,
-                        });
                     }
-                    Err(e) => {
-                        log::error!("{log_identifier} error forwarding data: {e}");
-                        data_operation_reporter.report_health_status(RuntimeHealthStatus {
-                            message: None,
-                            reason_code: Some("DataForwardErr".to_string()),
-                            status: HealthStatus::Unavailable,
-                        });
-                    },
+                    Err(e) => log::error!("{log_identifier} error forwarding data: {e}"),
                 }
             }
         }
