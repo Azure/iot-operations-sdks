@@ -310,19 +310,37 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
     let mut count = 0;
     // Timer will trigger the sampling of data
     let mut timer = tokio::time::interval(Duration::from_secs(10));
-    let mut dataset_valid = true;
+    let mut last_reported_dataset_status = Ok(());
+    let mut dataset_valid = last_reported_dataset_status.is_ok();
     loop {
         tokio::select! {
             biased;
             // Listen for a dataset update notifications
             res = data_operation_client.recv_notification() => {
                 match res {
-                    DataOperationNotification::Updated => {
-                        log::info!("{log_identifier} Dataset updated: {data_operation_client:?}");
+                    DataOperationNotification::AssetUpdated(Ok(())) => {
+                        log::info!("{log_identifier} Asset updated for {:?}", data_operation_client.data_operation_ref());
 
                         // now we should update the status of the dataset and report the message schema
                         if let Err(e) = data_operation_reporter
-                            .report_status_if_modified(report_status_if_changed!(&log_identifier, Ok::<(), AdrConfigError>(())))
+                            .report_status_if_modified(report_status_if_changed!(&log_identifier, last_reported_dataset_status))
+                            .await
+                        {
+                            log::error!("{log_identifier} Error reporting dataset status: {e}");
+                        }
+
+                        // Update the local schema reference, since it will have been cleared by the version update
+                        local_schema_reference = data_operation_client.message_schema_reference().await;
+                    },
+                    DataOperationNotification::DataOperationUpdated(Ok(())) => {
+                        log::info!("{log_identifier} Dataset updated: {data_operation_client:?}");
+
+                        last_reported_dataset_status = Ok(());
+                        dataset_valid = last_reported_dataset_status.is_ok();
+
+                        // now we should update t`he status of the dataset and report the message schema
+                        if let Err(e) = data_operation_reporter
+                            .report_status_if_modified(report_status_if_changed!(&log_identifier, last_reported_dataset_status))
                             .await
                         {
                             log::error!("{log_identifier} Error reporting dataset status: {e}");
@@ -330,12 +348,11 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
 
                         // Update the local schema reference
                         local_schema_reference = data_operation_client.message_schema_reference().await;
-
-
-                        dataset_valid = true;
                     },
-                    DataOperationNotification::UpdatedInvalid => {
-                        log::warn!("{log_identifier} Dataset has invalid update. Wait for new dataset update.");
+                    DataOperationNotification::AssetUpdated(Err(e)) |
+                    DataOperationNotification::DataOperationUpdated(Err(e)) => {
+                        log::warn!("{log_identifier} Dataset has invalid update. Wait for new dataset update. {e}");
+                        last_reported_dataset_status = Err(e);
                         dataset_valid = false;
                     },
                     DataOperationNotification::Deleted => {
@@ -431,7 +448,8 @@ async fn handle_unsupported_data_operation(
     // incorrectly updated.
     loop {
         match data_operation_client.recv_notification().await {
-            DataOperationNotification::Updated => {
+            DataOperationNotification::AssetUpdated(Ok(()))
+            | DataOperationNotification::DataOperationUpdated(Ok(())) => {
                 log::warn!(
                     "{log_identifier} update notification received. {data_operation_kind:?} is not supported for the this Connector",
                 );
@@ -453,8 +471,10 @@ async fn handle_unsupported_data_operation(
                     log::error!("{log_identifier} Error reporting status: {e}");
                 }
             }
-            DataOperationNotification::UpdatedInvalid => {
-                log::info!("{log_identifier} update invalid notification received");
+            DataOperationNotification::AssetUpdated(Err(e))
+            | DataOperationNotification::DataOperationUpdated(Err(e)) => {
+                // error status has already been reported, so no need to do anything here
+                log::info!("{log_identifier} update invalid notification received {e}");
             }
             DataOperationNotification::Deleted => {
                 log::info!("{log_identifier} deleted notification received");

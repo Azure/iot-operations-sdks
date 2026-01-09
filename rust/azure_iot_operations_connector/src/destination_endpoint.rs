@@ -53,8 +53,15 @@ pub enum ErrorKind {
     #[error(transparent)]
     MqttTelemetryError(#[from] AIOProtocolError),
     /// Data provided to be forwarded is invalid
-    #[error("Error with contents of Data: {0}")]
+    #[error("Error with Destination or contents of Data: {0}")]
     ValidationError(String),
+}
+
+/// Represents whether there is currently a valid Forwarder or not for a Data Operation
+#[derive(Debug)]
+pub(crate) enum DataOperationForwarder {
+    Forwarder(Forwarder),
+    Error(AdrConfigError),
 }
 
 /// A [`Forwarder`] forwards [`Data`] to a destination defined in a data operation or asset
