@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// that, if the message is successfully delivered to the MQTT broker, the message will be discarded
         /// by the broker if the broker has not managed to start onward delivery to a matching subscriber within
         /// this timeout.
-        /// 
+        ///
         /// If this value is equal to zero seconds, then the message will never expire at the broker.
         /// </remarks>
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
@@ -149,12 +149,20 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     applicationMessage.AioPersistence = true;
                 }
 
+                // If the cloud event subject has not been set by the user, provide the default value
+                if (metadata != null
+                    && metadata.CloudEvent is not null
+                    && metadata.CloudEvent.IsSubjectDefault)
+                {
+                    metadata.CloudEvent.Subject = telemTopic.ToString();
+                }
+
                 if (metadata?.CloudEvent is not null)
                 {
-                    metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
-                    metadata.CloudEvent.Time ??= DateTime.UtcNow;
-                    metadata.CloudEvent.Subject ??= telemTopic.ToString();
-                    metadata.CloudEvent.DataContentType = serializedPayloadContext.ContentType;
+                    if(string.IsNullOrEmpty(metadata.CloudEvent.Type))
+                    {
+                        metadata.CloudEvent.Type = "ms.aio.telemetry";
+                    }
                 }
 
                 // Update HLC and use as the timestamp.

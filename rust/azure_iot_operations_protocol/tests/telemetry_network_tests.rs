@@ -5,11 +5,16 @@ use std::{env, time::Duration};
 
 use env_logger::Builder;
 
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::interface::MqttPubSub;
+use azure_iot_operations_mqtt::{
+    aio::{
+        cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+        connection_settings::MqttConnectionSettingsBuilder,
+    },
+    control_packet::{PublishProperties, TopicName},
+};
 use azure_iot_operations_mqtt::{
     control_packet::QoS,
-    session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
+    session::{Session, SessionExitHandle, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder,
@@ -51,8 +56,8 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
 ) -> Result<
     (
         Session,
-        telemetry::Sender<T, SessionManagedClient>,
-        telemetry::Receiver<T, SessionManagedClient>,
+        telemetry::Sender<T>,
+        telemetry::Receiver<T>,
         SessionExitHandle,
     ),
     (),
@@ -60,7 +65,7 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
     let _ = Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations", log::LevelFilter::Warn)
         .try_init();
     if env::var("ENABLE_NETWORK_TESTS").is_err() {
@@ -89,7 +94,7 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
         .topic_pattern(topic)
         .build()
         .unwrap();
-    let sender: telemetry::Sender<T, _> = telemetry::Sender::new(
+    let sender: telemetry::Sender<T> = telemetry::Sender::new(
         application_context.clone(),
         session.create_managed_client(),
         sender_options,
@@ -101,7 +106,7 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
         .auto_ack(auto_ack)
         .build()
         .unwrap();
-    let receiver: telemetry::Receiver<T, _> = telemetry::Receiver::new(
+    let receiver: telemetry::Receiver<T> = telemetry::Receiver::new(
         application_context,
         session.create_managed_client(),
         receiver_options,
@@ -160,7 +165,7 @@ async fn telemetry_basic_send_receive_network_tests() {
                         assert!(ack_token.is_none());
 
                         // Validate contents of message match expected based on what was sent
-                        assert!(telemetry::receiver::CloudEvent::from_telemetry(&message).is_err());
+                        assert!(telemetry::receiver::cloud_event_from_telemetry(&message).is_err());
                         assert_eq!(message.payload, EmptyPayload::default());
                         assert!(message.custom_user_data.is_empty());
                         assert_eq!(message.sender_id.unwrap(), sender_id);
@@ -203,7 +208,7 @@ async fn telemetry_basic_send_receive_network_tests() {
             // wait for the receive_telemetry_task to finish to ensure any failed asserts are captured.
             assert!(receive_telemetry_task.await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.force_exit();
         }
     });
 
@@ -241,12 +246,12 @@ impl PayloadSerialize for DataPayload {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<DataPayload, DeserializationError<String>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/json" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/json"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+            )));
         }
 
         let payload = match String::from_utf8(payload.to_vec()) {
@@ -338,7 +343,7 @@ async fn telemetry_complex_send_receive_network_tests() {
 
                         // Validate contents of message match expected based on what was sent
                         let cloud_event =
-                            telemetry::receiver::CloudEvent::from_telemetry(&message).unwrap();
+                            telemetry::receiver::cloud_event_from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload1);
                         assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
                             message
@@ -351,13 +356,10 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
                         assert_eq!(cloud_event.source, test_cloud_event_source);
-                        assert_eq!(
-                            cloud_event.spec_version,
-                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION
-                        );
+                        assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(
                             cloud_event.event_type,
-                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_EVENT_TYPE
+                            telemetry::DEFAULT_TELEMETRY_CLOUD_EVENT_EVENT_TYPE
                         );
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
@@ -373,7 +375,7 @@ async fn telemetry_complex_send_receive_network_tests() {
 
                         // Validate contents of message match expected based on what was sent
                         let cloud_event =
-                            telemetry::receiver::CloudEvent::from_telemetry(&message).unwrap();
+                            telemetry::receiver::cloud_event_from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload2);
                         assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
                             message
@@ -386,13 +388,10 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
                         assert_eq!(cloud_event.source, test_cloud_event_source);
-                        assert_eq!(
-                            cloud_event.spec_version,
-                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION
-                        );
+                        assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(
                             cloud_event.event_type,
-                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_EVENT_TYPE
+                            telemetry::DEFAULT_TELEMETRY_CLOUD_EVENT_EVENT_TYPE
                         );
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
@@ -439,7 +438,7 @@ async fn telemetry_complex_send_receive_network_tests() {
             // wait for the receive_telemetry_task to finish to ensure any failed asserts are captured.
             assert!(receive_telemetry_task.await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.force_exit();
         }
     });
 
@@ -458,7 +457,7 @@ fn setup_session_and_handle(client_id: &str) -> (Session, SessionExitHandle) {
     let _ = Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Info)
+        .filter_module("azure_mqtt", log::LevelFilter::Info)
         .filter_module("azure_iot_operations", log::LevelFilter::Info)
         .try_init();
 
@@ -498,7 +497,7 @@ async fn telemetry_retained_message_test() {
     let _ = Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Info)
+        .filter_module("azure_mqtt", log::LevelFilter::Info)
         .filter_module("azure_iot_operations", log::LevelFilter::Info)
         .try_init();
 
@@ -526,7 +525,7 @@ async fn telemetry_retained_message_test() {
     let (publisher_session, pub_session_exit_handle) = setup_session_and_handle(publisher_id);
     let publisher_monitor = publisher_session.create_session_monitor();
 
-    let publisher: telemetry::Sender<DataPayload, _> = telemetry::Sender::new(
+    let publisher: telemetry::Sender<DataPayload> = telemetry::Sender::new(
         application_context.clone(),
         publisher_session.create_managed_client(),
         sender_options.clone(),
@@ -552,7 +551,7 @@ async fn telemetry_retained_message_test() {
         // Give the broker time to store the retained message
         tokio::time::sleep(Duration::from_secs(2)).await;
 
-        pub_session_exit_handle.try_exit().await.unwrap();
+        pub_session_exit_handle.force_exit();
     });
 
     // Run publisher test and session
@@ -567,7 +566,7 @@ async fn telemetry_retained_message_test() {
     // === 2. Subscriber receives the retained message ===
     let (subscriber_session, sub_session_exit_handle) = setup_session_and_handle(subscriber_id);
 
-    let mut subscriber: telemetry::Receiver<DataPayload, _> = telemetry::Receiver::new(
+    let mut subscriber: telemetry::Receiver<DataPayload> = telemetry::Receiver::new(
         application_context.clone(),
         subscriber_session.create_managed_client(),
         receiver_options.clone(),
@@ -609,7 +608,7 @@ async fn telemetry_retained_message_test() {
 
         assert!(receive_telemetry_task.await.is_ok());
 
-        sub_session_exit_handle.try_exit().await.unwrap();
+        sub_session_exit_handle.force_exit();
     });
 
     assert!(
@@ -660,7 +659,7 @@ async fn telemetry_no_message_properties_receive_network_tests() {
                     assert!(ack_token.is_none());
 
                     // Validate contents of message match expected based on what was sent
-                    assert!(telemetry::receiver::CloudEvent::from_telemetry(&message).is_err());
+                    assert!(telemetry::receiver::cloud_event_from_telemetry(&message).is_err());
                     assert_eq!(message.payload, EmptyPayload::default());
                     assert!(message.custom_user_data.is_empty());
                     assert!(message.sender_id.is_none());
@@ -679,11 +678,11 @@ async fn telemetry_no_message_properties_receive_network_tests() {
             // Send QoS 0 message with empty payload using raw MQTT publish (no AIO properties)
             assert!(
                 sender
-                    .publish(
-                        topic,
-                        QoS::AtMostOnce,
+                    .publish_qos0(
+                        TopicName::new(topic).unwrap(),
                         false,
-                        EmptyPayload::default().serialize().unwrap().payload
+                        EmptyPayload::default().serialize().unwrap().payload,
+                        PublishProperties::default()
                     )
                     .await
                     .is_ok()
@@ -692,7 +691,7 @@ async fn telemetry_no_message_properties_receive_network_tests() {
             // wait for the receive_telemetry_task to finish to ensure any failed asserts are captured.
             assert!(receive_telemetry_task.await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            exit_handle.force_exit();
         }
     });
 
