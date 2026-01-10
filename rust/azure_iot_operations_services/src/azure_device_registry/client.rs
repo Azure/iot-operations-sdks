@@ -1148,74 +1148,6 @@ impl Client {
         Ok(response.payload.updated_asset_status.into())
     }
 
-    // /// Reports a Dataset's runtime health status to the Azure Device Registry service.
-    // ///
-    // /// # Arguments
-    // /// * `device_name` - The name of the device.
-    // /// * `inbound_endpoint_name` - The name of the inbound endpoint.
-    // /// * `asset_name` - The name of the asset.
-    // /// * `dataset_name` - The name of the dataset.
-    // /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the dataset.
-    // /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
-    // ///
-    // /// # Errors
-    // /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    // /// if message_expiry is > `u32::max`.
-    // ///
-    // /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
-    // /// - device or inbound endpoint names are invalid.
-    // /// - there are any underlying errors from the AIO Telemetry protocol.
-    // ///
-    // /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    // /// if the asset or dataset name is empty.
-    // pub async fn report_dataset_runtime_health_event(
-    //     &self,
-    //     device_name: String,
-    //     inbound_endpoint_name: String,
-    //     asset_name: String,
-    //     dataset_name: String,
-    //     runtime_health: RuntimeHealth,
-    //     message_expiry: Duration,
-    // ) -> Result<(), Error> {
-    //     if asset_name.trim().is_empty() {
-    //         return Err(Error(ErrorKind::ValidationError(
-    //             "asset_name must not be empty".to_string(),
-    //         )));
-    //     }
-    //     if dataset_name.trim().is_empty() {
-    //         return Err(Error(ErrorKind::ValidationError(
-    //             "dataset_name must not be empty".to_string(),
-    //         )));
-    //     }
-
-    //     let payload = base_service_gen::DatasetRuntimeHealthEventTelemetry {
-    //         dataset_runtime_health_event: base_service_gen::DatasetRuntimeHealthEventSchema {
-    //             asset_name,
-    //             datasets: vec![base_service_gen::DatasetsSchemaElementSchema {
-    //                 dataset_name,
-    //                 runtime_health: runtime_health.into(),
-    //             }],
-    //         },
-    //     };
-
-    //     let health_status_message =
-    //         base_service_gen::DatasetRuntimeHealthEventTelemetryMessageBuilder::default()
-    //             .payload(payload)
-    //             .map_err(ErrorKind::from)?
-    //             .topic_tokens(Self::get_base_service_topic_tokens(
-    //                 device_name,
-    //                 inbound_endpoint_name,
-    //             ))
-    //             .message_expiry(message_expiry)
-    //             .build()
-    //             .map_err(ErrorKind::from)?;
-    //     Ok(self
-    //         .dataset_health_telemetry_sender
-    //         .send(health_status_message)
-    //         .await
-    //         .map_err(ErrorKind::from)?)
-    // }
-
     /// Reports Datasets' runtime health statuses to the Azure Device Registry service.
     /// Note: Reporting multiple dataset statuses in a single call has the same effect
     /// as reporting them individually, but reduced network calls. Duplicate dataset names
@@ -1295,15 +1227,16 @@ impl Client {
             .map_err(ErrorKind::from)?)
     }
 
-    /// Reports an Event's runtime health status to the Azure Device Registry service.
+    /// Reports Events' runtime health statuses to the Azure Device Registry service.
+    /// Note: Reporting multiple event statuses in a single call has the same effect
+    /// as reporting them individually, but reduced network calls. Duplicate event names
+    /// in the `runtime_healths` vector will result in the latest (by version and timestamp) entry being used
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `event_group_name` - The name of the event group.
-    /// * `event_name` - The name of the event.
-    /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the event.
+    /// * `runtime_healths` - A vector of tuples containing event_group_name, event_name and their corresponding [`RuntimeHealth`] containing all runtime health information for the events.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -1315,15 +1248,13 @@ impl Client {
     /// - there are any underlying errors from the AIO Telemetry protocol.
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset, event group, or event name is empty.
-    pub async fn report_event_runtime_health_event(
+    /// if the asset or any event group or event name is empty.
+    pub async fn report_event_runtime_health_events(
         &self,
         device_name: String,
         inbound_endpoint_name: String,
         asset_name: String,
-        event_group_name: String,
-        event_name: String,
-        runtime_health: RuntimeHealth,
+        runtime_healths: Vec<(String, String, RuntimeHealth)>,
         message_expiry: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
@@ -1331,25 +1262,34 @@ impl Client {
                 "asset_name must not be empty".to_string(),
             )));
         }
-        if event_group_name.trim().is_empty() {
-            return Err(Error(ErrorKind::ValidationError(
-                "event_group_name must not be empty".to_string(),
-            )));
+        // If there are no health statuses to report, this is a no-op
+        if runtime_healths.is_empty() {
+            return Ok(());
         }
-        if event_name.trim().is_empty() {
-            return Err(Error(ErrorKind::ValidationError(
-                "event_name must not be empty".to_string(),
-            )));
+
+        let mut event_statuses = Vec::with_capacity(runtime_healths.len());
+        for (event_group_name, event_name, runtime_health) in runtime_healths {
+            if event_group_name.trim().is_empty() {
+                return Err(Error(ErrorKind::ValidationError(
+                    "event_group_name must not be empty".to_string(),
+                )));
+            }
+            if event_name.trim().is_empty() {
+                return Err(Error(ErrorKind::ValidationError(
+                    "event_name must not be empty".to_string(),
+                )));
+            }
+            event_statuses.push(base_service_gen::EventsSchemaElementSchema {
+                event_group_name,
+                event_name,
+                runtime_health: runtime_health.into(),
+            });
         }
 
         let payload = base_service_gen::EventRuntimeHealthEventTelemetry {
             event_runtime_health_event: base_service_gen::EventRuntimeHealthEventSchema {
                 asset_name,
-                events: vec![base_service_gen::EventsSchemaElementSchema {
-                    event_group_name,
-                    event_name,
-                    runtime_health: runtime_health.into(),
-                }],
+                events: event_statuses,
             },
         };
 
@@ -1371,14 +1311,16 @@ impl Client {
             .map_err(ErrorKind::from)?)
     }
 
-    /// Reports a Stream's runtime health status to the Azure Device Registry service.
+    /// Reports Streams' runtime health statuses to the Azure Device Registry service.
+    /// Note: Reporting multiple stream statuses in a single call has the same effect
+    /// as reporting them individually, but reduced network calls. Duplicate stream names
+    /// in the `runtime_healths` vector will result in the latest (by version and timestamp) entry being used
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `stream_name` - The name of the stream.
-    /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the stream.
+    /// * `runtime_healths` - A vector of tuples containing stream names and their corresponding [`RuntimeHealth`] containing all runtime health information for the streams.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -1390,14 +1332,13 @@ impl Client {
     /// - there are any underlying errors from the AIO Telemetry protocol.
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset or stream name is empty.
-    pub async fn report_stream_runtime_health_event(
+    /// if the asset or any stream name is empty.
+    pub async fn report_stream_runtime_health_events(
         &self,
         device_name: String,
         inbound_endpoint_name: String,
         asset_name: String,
-        stream_name: String,
-        runtime_health: RuntimeHealth,
+        runtime_healths: Vec<(String, RuntimeHealth)>,
         message_expiry: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
@@ -1405,19 +1346,28 @@ impl Client {
                 "asset_name must not be empty".to_string(),
             )));
         }
-        if stream_name.trim().is_empty() {
-            return Err(Error(ErrorKind::ValidationError(
-                "stream_name must not be empty".to_string(),
-            )));
+        // If there are no health statuses to report, this is a no-op
+        if runtime_healths.is_empty() {
+            return Ok(());
+        }
+
+        let mut stream_statuses = Vec::with_capacity(runtime_healths.len());
+        for (stream_name, runtime_health) in runtime_healths {
+            if stream_name.trim().is_empty() {
+                return Err(Error(ErrorKind::ValidationError(
+                    "stream_name must not be empty".to_string(),
+                )));
+            }
+            stream_statuses.push(base_service_gen::StreamsSchemaElementSchema {
+                stream_name,
+                runtime_health: runtime_health.into(),
+            });
         }
 
         let payload = base_service_gen::StreamRuntimeHealthEventTelemetry {
             stream_runtime_health_event: base_service_gen::StreamRuntimeHealthEventSchema {
                 asset_name,
-                streams: vec![base_service_gen::StreamsSchemaElementSchema {
-                    stream_name,
-                    runtime_health: runtime_health.into(),
-                }],
+                streams: stream_statuses,
             },
         };
 
@@ -1439,15 +1389,16 @@ impl Client {
             .map_err(ErrorKind::from)?)
     }
 
-    /// Reports a Management Action's runtime health status to the Azure Device Registry service.
+    /// Reports Management Actions' runtime health statuses to the Azure Device Registry service.
+    /// Note: Reporting multiple management action statuses in a single call has the same effect
+    /// as reporting them individually, but reduced network calls. Duplicate management action names
+    /// in the `runtime_healths` vector will result in the latest (by version and timestamp) entry being used
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `management_group_name` - The name of the management group.
-    /// * `management_action_name` - The name of the management action.
-    /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the management action.
+    /// * `runtime_healths` - A vector of tuples containing management_group_name, management_action_name and their corresponding [`RuntimeHealth`] containing all runtime health information for the management actions.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -1459,15 +1410,13 @@ impl Client {
     /// - there are any underlying errors from the AIO Telemetry protocol.
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset, management group, or management action name is empty.
-    pub async fn report_management_action_runtime_health_event(
+    /// if the asset or any management group or management action name is empty.
+    pub async fn report_management_action_runtime_health_events(
         &self,
         device_name: String,
         inbound_endpoint_name: String,
         asset_name: String,
-        management_group_name: String,
-        management_action_name: String,
-        runtime_health: RuntimeHealth,
+        runtime_healths: Vec<(String, String, RuntimeHealth)>,
         message_expiry: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
@@ -1475,28 +1424,37 @@ impl Client {
                 "asset_name must not be empty".to_string(),
             )));
         }
-        if management_group_name.trim().is_empty() {
-            return Err(Error(ErrorKind::ValidationError(
-                "management_group_name must not be empty".to_string(),
-            )));
+        // If there are no health statuses to report, this is a no-op
+        if runtime_healths.is_empty() {
+            return Ok(());
         }
-        if management_action_name.trim().is_empty() {
-            return Err(Error(ErrorKind::ValidationError(
-                "management_action_name must not be empty".to_string(),
-            )));
+
+        let mut management_action_statuses = Vec::with_capacity(runtime_healths.len());
+        for (management_group_name, management_action_name, runtime_health) in runtime_healths {
+            if management_group_name.trim().is_empty() {
+                return Err(Error(ErrorKind::ValidationError(
+                    "management_group_name must not be empty".to_string(),
+                )));
+            }
+            if management_action_name.trim().is_empty() {
+                return Err(Error(ErrorKind::ValidationError(
+                    "management_action_name must not be empty".to_string(),
+                )));
+            }
+            management_action_statuses.push(
+                base_service_gen::ManagementActionsSchemaElementSchema {
+                    management_group_name,
+                    management_action_name,
+                    runtime_health: runtime_health.into(),
+                },
+            );
         }
 
         let payload = base_service_gen::ManagementActionRuntimeHealthEventTelemetry {
             management_action_runtime_health_event:
                 base_service_gen::ManagementActionRuntimeHealthEventSchema {
                     asset_name,
-                    management_actions: vec![
-                        base_service_gen::ManagementActionsSchemaElementSchema {
-                            management_group_name,
-                            management_action_name,
-                            runtime_health: runtime_health.into(),
-                        },
-                    ],
+                    management_actions: management_action_statuses,
                 },
         };
 
