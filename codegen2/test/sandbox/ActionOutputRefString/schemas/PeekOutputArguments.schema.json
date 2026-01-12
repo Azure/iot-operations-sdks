@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "PeekOutputArguments",
+  "type": "object",
+  "$ref": "../../../schemas/json-schemas/AStringSchema.json"
+}

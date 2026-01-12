@@ -14,7 +14,7 @@
 
             foreach (ParsedThing parsedThing in parsedThings)
             {
-                Dictionary<string, SchemaSpec> schemaSpecs = new();
+                Dictionary<string, List<SchemaSpec>> schemaSpecs = new();
                 Dictionary<string, HashSet<SerializationFormat>> referencedSchemas = new();
 
                 PropertySchemaGenerator.GeneratePropertySchemas(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
@@ -50,7 +50,7 @@
             return generatedSchemas;
         }
 
-        private static Dictionary<string, SchemaSpec> ComputeClosedSchemaSpecs(ErrorReporter errorReporter, TDThing thing, SchemaNamer schemaNamer, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        private static Dictionary<string, SchemaSpec> ComputeClosedSchemaSpecs(ErrorReporter errorReporter, TDThing thing, SchemaNamer schemaNamer, Dictionary<string, List<SchemaSpec>> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
             Dictionary<string, SchemaSpec> closedSchemaSpecs = new();
 
@@ -60,20 +60,23 @@
                 {
                     if (thing.SchemaDefinitions?.Entries?.TryGetValue(referencedSchema.Key, out ValueTracker<TDDataSchema>? dataSchema) ?? false)
                     {
-                        ComputeClosureOfDataSchema(errorReporter, schemaNamer, referencedSchema.Key, dataSchema, format, closedSchemaSpecs);
+                        ComputeClosureOfDataSchema(errorReporter, schemaNamer, thing.Title!.Value.Value, referencedSchema.Key, dataSchema, format, closedSchemaSpecs);
                     }
                 }
             }
 
-            foreach (KeyValuePair<string, SchemaSpec> schemaSpec in schemaSpecs)
+            foreach (KeyValuePair<string, List<SchemaSpec>> schemaSpec in schemaSpecs)
             {
-                ComputeClosureOfSchemaSpec(errorReporter, schemaNamer, schemaSpec.Key, schemaSpec.Value, closedSchemaSpecs);
+                foreach (SchemaSpec spec in schemaSpec.Value)
+                {
+                    ComputeClosureOfSchemaSpec(errorReporter, schemaNamer, thing.Title!.Value.Value, schemaSpec.Key, spec, closedSchemaSpecs);
+                }
             }
 
             return closedSchemaSpecs;
         }
 
-        private static void ComputeClosureOfSchemaSpec(ErrorReporter errorReporter, SchemaNamer schemaNamer, string schemaName, SchemaSpec schemaSpec, Dictionary<string, SchemaSpec> closedSchemaSpecs)
+        private static void ComputeClosureOfSchemaSpec(ErrorReporter errorReporter, SchemaNamer schemaNamer, string thingName, string schemaName, SchemaSpec schemaSpec, Dictionary<string, SchemaSpec> closedSchemaSpecs)
         {
             if (IsLocalDuplicate(errorReporter, schemaName, schemaSpec, closedSchemaSpecs))
             {
@@ -81,18 +84,18 @@
             }
 
             closedSchemaSpecs[schemaName] = schemaSpec;
-            errorReporter.RegisterNameInThing(schemaName, schemaSpec.TokenIndex);
+            errorReporter.RegisterNameInThing(schemaName, thingName, schemaSpec.TokenIndex);
 
             if (schemaSpec is ObjectSpec objectSpec)
             {
                 foreach (KeyValuePair<string, FieldSpec> field in objectSpec.Fields)
                 {
-                    ComputeClosureOfDataSchema(errorReporter, schemaNamer, field.Value.BackupSchemaName, field.Value.Schema, schemaSpec.Format, closedSchemaSpecs);
+                    ComputeClosureOfDataSchema(errorReporter, schemaNamer, thingName, field.Value.BackupSchemaName, field.Value.Schema, schemaSpec.Format, closedSchemaSpecs);
                 }
             }
         }
 
-        private static void ComputeClosureOfDataSchema(ErrorReporter errorReporter, SchemaNamer schemaNamer, string backupName, ValueTracker<TDDataSchema> dataSchema, SerializationFormat format, Dictionary<string, SchemaSpec> closedSchemaSpecs)
+        private static void ComputeClosureOfDataSchema(ErrorReporter errorReporter, SchemaNamer schemaNamer, string thingName, string backupName, ValueTracker<TDDataSchema> dataSchema, SerializationFormat format, Dictionary<string, SchemaSpec> closedSchemaSpecs)
         {
             if (IsProxy(dataSchema.Value))
             {
@@ -109,23 +112,23 @@
                 }
 
                 closedSchemaSpecs[schemaName] = schemaSpec;
-                errorReporter.RegisterNameInThing(schemaName, schemaSpec.TokenIndex);
+                errorReporter.RegisterNameInThing(schemaName, thingName, schemaSpec.TokenIndex);
             }
 
             if (dataSchema.Value.Properties?.Entries != null)
             {
                 foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> property in dataSchema.Value.Properties.Entries)
                 {
-                    ComputeClosureOfDataSchema(errorReporter, schemaNamer, schemaNamer.GetBackupSchemaName(schemaName, property.Key), property.Value, format, closedSchemaSpecs);
+                    ComputeClosureOfDataSchema(errorReporter, schemaNamer, thingName, schemaNamer.GetBackupSchemaName(schemaName, property.Key), property.Value, format, closedSchemaSpecs);
                 }
             }
             else if (dataSchema.Value.Items?.Value != null)
             {
-                ComputeClosureOfDataSchema(errorReporter, schemaNamer, backupName, dataSchema.Value.Items, format, closedSchemaSpecs);
+                ComputeClosureOfDataSchema(errorReporter, schemaNamer, thingName, backupName, dataSchema.Value.Items, format, closedSchemaSpecs);
             }
             else if (dataSchema.Value.AdditionalProperties?.Value != null)
             {
-                ComputeClosureOfDataSchema(errorReporter, schemaNamer, backupName, dataSchema.Value.AdditionalProperties, format, closedSchemaSpecs);
+                ComputeClosureOfDataSchema(errorReporter, schemaNamer, thingName, backupName, dataSchema.Value.AdditionalProperties, format, closedSchemaSpecs);
             }
         }
 

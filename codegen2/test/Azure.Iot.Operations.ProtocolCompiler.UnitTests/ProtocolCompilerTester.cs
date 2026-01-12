@@ -9,13 +9,13 @@
 
     public class ProtocolCompilerTester
     {
-        private const string basePath = "../../..";
+        private const string basePath = "../../../..";
         private const string testCasesPath = $"{basePath}/test-cases";
         private const string successCasesPath = $"{testCasesPath}/success";
         private const string failureCasesPath = $"{testCasesPath}/failure";
         private const string tmPath = $"{basePath}/thing-models";
         private const string schemasPath = $"{basePath}/schemas";
-        private const string namerPath = $"{basePath}/name-config";
+        private const string namerPath = $"{basePath}/name-rules";
         private const string sandboxPath = $"{basePath}/sandbox";
 
         static ProtocolCompilerTester()

@@ -34,9 +34,14 @@
             this.errorLog.RegisterTypedReferenceFromThing(refPath, this.filename, GetLineNumber(byteIndex), type, refValue);
         }
 
-        public void RegisterNameInThing(string name, long byteIndex)
+        public void RegisterNameOfThing(string name, long byteIndex)
         {
-            this.errorLog.RegisterNameInThing(name, this.filename, GetLineNumber(byteIndex));
+            this.errorLog.RegisterNameOfThing(name, this.filename, GetLineNumber(byteIndex));
+        }
+
+        public void RegisterNameInThing(string name, string thingName, long byteIndex)
+        {
+            this.errorLog.RegisterNameInThing(name, thingName, this.filename, GetLineNumber(byteIndex));
         }
 
         public void RegisterTopicInThing(string resolvedTopic, long byteIndex, string rawTopic)

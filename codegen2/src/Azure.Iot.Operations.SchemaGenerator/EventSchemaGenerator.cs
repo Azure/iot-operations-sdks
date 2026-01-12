@@ -8,7 +8,7 @@
 
     internal static class EventSchemaGenerator
     {
-        internal static void GenerateEventSchemas(ErrorReporter errorReporter, TDThing tdThing, string dirName, SchemaNamer schemaNamer, string projectName, Dictionary<string, SchemaSpec> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        internal static void GenerateEventSchemas(ErrorReporter errorReporter, TDThing tdThing, string dirName, SchemaNamer schemaNamer, string projectName, Dictionary<string, List<SchemaSpec>> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
             FormInfo? subAllEventsForm = FormInfo.CreateFromForm(errorReporter, tdThing.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpSubAllEvents) ?? false)?.Value, tdThing.SchemaDefinitions?.Entries);
 
@@ -46,7 +46,7 @@
             string projectName,
             string dirName,
             Dictionary<string, ValueTracker<TDDataSchema>>? schemaDefinitions,
-            Dictionary<string, SchemaSpec> schemaSpecs,
+            Dictionary<string, List<SchemaSpec>> schemaSpecs,
             Dictionary<string, FieldSpec> valueFields)
         {
             FormInfo? subEventForm = FormInfo.CreateFromForm(errorReporter, tdEvent.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpSubEvent) ?? false)?.Value, schemaDefinitions);
@@ -70,7 +70,12 @@
                     subEventForm.Format,
                     eventSchemaName,
                     TokenIndex: -1);
-                schemaSpecs[eventSchemaName] = eventObjectSpec;
+                if (!schemaSpecs.TryGetValue(eventSchemaName, out List<SchemaSpec>? eventSpecs))
+                {
+                    eventSpecs = new List<SchemaSpec>();
+                    schemaSpecs[eventSchemaName] = eventSpecs;
+                }
+                eventSpecs.Add(eventObjectSpec);
             }
         }
 
@@ -78,18 +83,23 @@
             SchemaNamer schemaNamer,
             FormInfo? topLevelEventsForm,
             Dictionary<string, FieldSpec> valueFields,
-            Dictionary<string, SchemaSpec> schemaSpecs)
+            Dictionary<string, List<SchemaSpec>> schemaSpecs)
         {
             if (topLevelEventsForm?.TopicPattern != null)
             {
                 if (valueFields.Any())
                 {
-                    schemaSpecs[schemaNamer.AggregateEventSchema] = new ObjectSpec(
+                    if (!schemaSpecs.TryGetValue(schemaNamer.AggregateEventSchema, out List<SchemaSpec>? aggEventSpecs))
+                    {
+                        aggEventSpecs = new List<SchemaSpec>();
+                        schemaSpecs[schemaNamer.AggregateEventSchema] = aggEventSpecs;
+                    }
+                    aggEventSpecs.Add(new ObjectSpec(
                         $"Data values of Events.",
                         valueFields,
                         topLevelEventsForm.Format,
                         schemaNamer.AggregateEventSchema,
-                        TokenIndex: -1);
+                        TokenIndex: -1));
                 }
             }
         }

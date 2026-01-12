@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "PropertyUpdate",
+  "description": "Response to write of multiple Properties",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "_errors": {
+      "description": "Errors when operation fails.",
+      "$ref": "PropertyCollectionWriteError.schema.json"
+    }
+  }
+}

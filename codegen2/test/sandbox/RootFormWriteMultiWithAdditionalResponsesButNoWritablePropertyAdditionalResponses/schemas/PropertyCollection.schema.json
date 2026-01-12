@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "PropertyCollection",
+  "description": "Values of all Properties.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "alpha" ],
+  "properties": {
+    "alpha": {
+      "description": "The 'alpha' Property value.",
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/EventDuplicateSchemaNamesDifferentTypes.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "EventDuplicateSchemaNamesDifferentTypes.TM.json",
+      "line": 14,
+      "cfLine": 32,
+      "crossRef": ""
+    },
+    {
+      "condition": "Duplication",
+      "filename": "EventDuplicateSchemaNamesDifferentTypes.TM.json",
+      "line": 32,
+      "cfLine": 14,
+      "crossRef": ""
+    }
+  ]
+}

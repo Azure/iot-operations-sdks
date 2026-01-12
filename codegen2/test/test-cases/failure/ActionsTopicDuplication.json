@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/ActionsTopicDuplication.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "ActionsTopicDuplication.TM.json",
+      "line": 13,
+      "cfLine": 0,
+      "crossRef": "sample/dup/{executorId}"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "ActionsTopicDuplication.TM.json",
+      "line": 22,
+      "cfLine": 0,
+      "crossRef": "sample/dup/{executorId}"
+    }
+  ]
+}

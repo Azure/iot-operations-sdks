@@ -8,9 +8,10 @@
     {
         private readonly Dictionary<string, List<ValueReference>> referencesFromThings;
         private readonly Dictionary<(string, string), List<ValueReference>> typedReferencesFromThings;
-        private readonly Dictionary<string, Dictionary<string, int>> namesInThings;
+        private readonly Dictionary<string, List<(string, int)>> namesOfThings;
+        private readonly Dictionary<string, Dictionary<string, (string, int)>> namesInThings;
         private readonly Dictionary<string, List<ValueReference>> topicsInThings;
-        private readonly Dictionary<string, List<KeyValuePair<string, int>>> schemaNames;
+        private readonly Dictionary<string, List<(string, int)>> schemaNames;
         private readonly string defaultFolder;
 
         public string Phase { get; set; } = "Initialization";
@@ -27,9 +28,10 @@
         {
             this.referencesFromThings = new Dictionary<string, List<ValueReference>>();
             this.typedReferencesFromThings = new Dictionary<(string, string), List<ValueReference>>();
-            this.namesInThings = new Dictionary<string, Dictionary<string, int>>();
+            this.namesOfThings = new Dictionary<string, List<(string, int)>>();
+            this.namesInThings = new Dictionary<string, Dictionary<string, (string, int)>>();
             this.topicsInThings = new Dictionary<string, List<ValueReference>>();
-            this.schemaNames = new Dictionary<string, List<KeyValuePair<string, int>>>();
+            this.schemaNames = new Dictionary<string, List<(string, int)>>();
             this.defaultFolder = defaultFolder;
 
             Errors = new HashSet<ErrorRecord>();
@@ -39,11 +41,22 @@
 
         public void CheckForDuplicatesInThings()
         {
-            foreach (var (name, nameSites) in namesInThings)
+            foreach (var (name, nameSites) in namesOfThings)
             {
                 if (nameSites.Count > 1)
                 {
                     foreach (var (filename, lineNumber) in nameSites)
+                    {
+                        AddError(ErrorLevel.Error, ErrorCondition.Duplication, $"Duplicate use of Thing name '{name}'.", filename, lineNumber, crossRef: name);
+                    }
+                }
+            }
+
+            foreach (var (name, nameSites) in namesInThings)
+            {
+                if (nameSites.Count > 1)
+                {
+                    foreach (var (thingName, (filename, lineNumber)) in nameSites)
                     {
                         AddError(ErrorLevel.Error, ErrorCondition.Duplication, $"Duplicate use of generated name '{name}' across Thing Descriptions.", filename, lineNumber, crossRef: name);
                     }
@@ -114,17 +127,27 @@
             typedReferences.Add(new ValueReference(filename, lineNumber, refValue));
         }
 
-        public void RegisterNameInThing(string name, string filename, int lineNumber)
+        public void RegisterNameOfThing(string name, string filename, int lineNumber)
         {
-            if (!namesInThings.TryGetValue(name, out Dictionary<string, int>? nameSites))
+            if (!namesOfThings.TryGetValue(name, out List<(string, int)>? nameSites))
+            {
+                nameSites = new();
+                namesOfThings[name] = nameSites;
+            }
+            nameSites.Add((filename, lineNumber));
+        }
+
+        public void RegisterNameInThing(string name, string thingName, string filename, int lineNumber)
+        {
+            if (!namesInThings.TryGetValue(name, out Dictionary<string, (string, int)>? nameSites))
             {
                 nameSites = new();
                 namesInThings[name] = nameSites;
             }
 
-            if (!nameSites.TryGetValue(filename, out int extantLineNumber) || extantLineNumber < 0)
+            if (!nameSites.ContainsKey(thingName))
             {
-                nameSites[filename] = lineNumber;
+                nameSites[thingName] = (filename, lineNumber);
             }
         }
 
@@ -140,22 +163,22 @@
 
         public void RegisterSchemaName(string name, string filename, string dirpath, int lineNumber)
         {
-            if (!schemaNames.TryGetValue(name, out List<KeyValuePair<string, int>>? nameSites))
+            if (!schemaNames.TryGetValue(name, out List<(string, int)>? nameSites))
             {
                 nameSites = new();
                 schemaNames[name] = nameSites;
             }
 
-            if (dirpath.Equals(this.defaultFolder) && namesInThings.TryGetValue(name, out Dictionary<string, int>? thingNameSites))
+            if (dirpath.Equals(this.defaultFolder) && namesInThings.TryGetValue(name, out Dictionary<string, (string, int)>? thingNameSites))
             {
-                foreach (KeyValuePair<string, int> thingNameSite in thingNameSites)
+                foreach (KeyValuePair<string, (string, int)> thingNameSite in thingNameSites)
                 {
-                    nameSites.Add(thingNameSite);
+                    nameSites.Add(thingNameSite.Value);
                 }
             }
             else
             {
-                nameSites.Add(new KeyValuePair<string, int>(filename, lineNumber));
+                nameSites.Add((filename, lineNumber));
             }
         }
 

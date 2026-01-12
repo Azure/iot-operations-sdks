@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/ActionDuplicateSchemaNamesObjectsDifferentFields.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "ActionDuplicateSchemaNamesObjectsDifferentFields.TM.json",
+      "line": 14,
+      "cfLine": 19,
+      "crossRef": ""
+    },
+    {
+      "condition": "Duplication",
+      "filename": "ActionDuplicateSchemaNamesObjectsDifferentFields.TM.json",
+      "line": 23,
+      "cfLine": 10,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "AlphaReadResponseSchema",
+  "description": "Response to a 'alpha' Property read.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [  ],
+  "properties": {
+    "_error": {
+      "description": "Read error for the 'alpha' Property.",
+      "$ref": "Error.schema.json"
+    },
+    "alpha": {
+      "description": "The 'alpha' Property value.",
+      "type": "string"
+    }
+  }
+}

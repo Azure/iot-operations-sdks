@@ -197,6 +197,7 @@
                                 {
                                     thingCount++;
                                     parsedThings.Add(new ParsedThing(thing, thingFile.Name, thingFile.DirectoryName!, schemaNamer, errorReporter));
+                                    errorReporter.RegisterNameOfThing(thing.Title!.Value.Value, thing.Title!.TokenIndex);
                                 }
                             }
                         }
@@ -269,6 +270,10 @@
                     if (item is ValueTracker<TDDataSchema> dataSchema && dataSchema.Value?.Ref != null)
                     {
                         errorReporter.RegisterReferenceFromThing(dataSchema.Value.Ref.TokenIndex, dataSchema.Value.Ref.Value.Value);
+                    }
+                    else if (item is ValueTracker<TDProperty> property && property.Value?.Ref != null)
+                    {
+                        errorReporter.RegisterReferenceFromThing(property.Value.Ref.TokenIndex, property.Value.Ref.Value.Value);
                     }
                 }
             }
