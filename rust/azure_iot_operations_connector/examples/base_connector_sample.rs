@@ -242,7 +242,7 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
                 log::warn!("{asset_log_identifier} Asset has been deleted");
                 break;
             }
-            ClientNotification::Created(data_operation_client) => {
+            ClientNotification::Created((data_operation_client, initial_status)) => {
                 let data_operation_log_identifier = format!(
                     "{asset_log_identifier}[{}]",
                     data_operation_client
@@ -256,6 +256,7 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
                     tokio::task::spawn(run_dataset(
                         data_operation_log_identifier,
                         data_operation_client,
+                        initial_status,
                     ));
                 } else {
                     tokio::task::spawn(handle_unsupported_data_operation(
@@ -270,19 +271,25 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
 
 /// Note, this function takes in a `DataOperationClient`, but we know it is specifically a `Dataset`
 /// because we already filtered out non-dataset `DataOperationClient`s in the `run_asset` function.
-async fn run_dataset(log_identifier: String, mut data_operation_client: DataOperationClient) {
+async fn run_dataset(
+    log_identifier: String,
+    mut data_operation_client: DataOperationClient,
+    initial_status: Result<(), AdrConfigError>,
+) {
     // Get the status reporter for this data operation - create once and reuse
     let data_operation_reporter = data_operation_client.get_status_reporter();
 
-    // now we should update the status of the dataset and report the message schema
-    if let Err(e) = data_operation_reporter
-        .report_status_if_modified(report_status_if_changed!(
-            &log_identifier,
-            Ok::<(), AdrConfigError>(())
-        ))
-        .await
-    {
-        log::error!("{log_identifier} Error reporting dataset status: {e}");
+    // now we should update the status of the dataset (if not already reported) and report the message schema
+    if initial_status.is_ok() {
+        if let Err(e) = data_operation_reporter
+            .report_status_if_modified(report_status_if_changed!(
+                &log_identifier,
+                Ok::<(), AdrConfigError>(())
+            ))
+            .await
+        {
+            log::error!("{log_identifier} Error reporting dataset status: {e}");
+        }
     }
 
     let sample_data = mock_received_data(0);
@@ -310,7 +317,7 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
     let mut count = 0;
     // Timer will trigger the sampling of data
     let mut timer = tokio::time::interval(Duration::from_secs(10));
-    let mut last_reported_dataset_status = Ok(());
+    let mut last_reported_dataset_status = initial_status;
     let mut dataset_valid = last_reported_dataset_status.is_ok();
     loop {
         tokio::select! {

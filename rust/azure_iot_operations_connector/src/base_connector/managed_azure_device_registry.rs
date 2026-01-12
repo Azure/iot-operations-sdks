@@ -1053,7 +1053,7 @@ struct AssetDataOperationUpdates {
         watch::Sender<DataOperationUpdateNotification>,
         DataOperationUpdateNotification,
     )>,
-    new_data_operation_clients: Vec<DataOperationClient>,
+    new_data_operation_clients: Vec<(DataOperationClient, Result<(), AdrConfigError>)>,
 }
 
 /// Azure Device Registry Asset that includes additional functionality
@@ -1090,10 +1090,11 @@ pub struct AssetClient {
     asset_update_watcher_tx: watch::Sender<Asset>,
     /// Internal sender for when new data operations are created
     #[getter(skip)]
-    data_operation_creation_tx: UnboundedSender<DataOperationClient>,
+    data_operation_creation_tx: UnboundedSender<(DataOperationClient, Result<(), AdrConfigError>)>,
     /// Internal channel for receiving notifications about data operation creation events.
     #[getter(skip)]
-    data_operation_creation_rx: UnboundedReceiver<DataOperationClient>,
+    data_operation_creation_rx:
+        UnboundedReceiver<(DataOperationClient, Result<(), AdrConfigError>)>,
     /// Internal watch sender for releasing data operation create/update notifications
     #[getter(skip)]
     release_data_operation_notifications_tx: watch::Sender<()>,
@@ -1427,9 +1428,10 @@ impl AssetClient {
                     data_operation_update_watcher_tx,
                 );
                 // save new data operation client to be sent on self.data_operation_creation_tx after the task can't get cancelled
-                updates
-                    .new_data_operation_clients
-                    .push(new_data_operation_client);
+                updates.new_data_operation_clients.push((
+                    new_data_operation_client,
+                    data_operation_client_result.clone(),
+                ));
 
                 // TODO: this needs to be reported to the application somehow
                 // If there were errors, report them to the status to be sent to ADR
@@ -1477,7 +1479,7 @@ impl AssetClient {
     async fn handle_update(
         &mut self,
         updated_asset: Asset,
-    ) -> ClientNotification<DataOperationClient> {
+    ) -> ClientNotification<(DataOperationClient, Result<(), AdrConfigError>)> {
         // lock the status write guard so that no other threads can modify the status while we update it
         let mut status_write_guard = self.status.write().await;
 
@@ -1601,8 +1603,10 @@ impl AssetClient {
     /// The [`AssetClient`] should not be used after this point, and no more
     /// notifications will be received.
     ///
-    /// Returns [`ClientNotification::Created`] with a new [`DataOperationClient`] if a
-    /// new Data Operation has been created.
+    /// Returns [`ClientNotification::Created`] with a new [`DataOperationClient`] and a [`Result<(), AdrConfigError>`] if a
+    /// new Data Operation has been created. The Result indicates whether a config error was detected for the new Data Operation,
+    /// but it has already been reported. If there was an error detected, the [`DataOperationClient`] should not be used
+    /// until an Ok update is received. The [`DataOperationClient`] can be used to receive updates for the new Data Operation.
     ///
     /// Receiving an update will also trigger update/deletion notifications for data operations that
     /// are linked to this asset. To ensure the asset update is received before data operation notifications,
@@ -1616,7 +1620,9 @@ impl AssetClient {
     ///
     /// # Panics
     /// If the specification mutex has been poisoned, which should not be possible
-    pub async fn recv_notification(&mut self) -> ClientNotification<DataOperationClient> {
+    pub async fn recv_notification(
+        &mut self,
+    ) -> ClientNotification<(DataOperationClient, Result<(), AdrConfigError>)> {
         // release any pending data_operation create/update notifications
         self.release_data_operation_notifications_tx
             .send_modify(|()| ());
@@ -2731,12 +2737,14 @@ impl DataOperationClient {
 
     /// Used to receive notifications about the Data Operation from the Azure Device Registry Service.
     ///
-    /// Returns [`DataOperationNotification::Updated`] if the Data Operation's definition has been updated in place.
+    /// Returns [`DataOperationNotification::DataOperationUpdated`] if the Data Operation's definition has been updated in place.
     ///
-    /// Returns [`DataOperationNotification::UpdatedInvalid`] if the Data Operation received an update, but the update was not valid.
-    /// The definition is still updated in place, but the [`DataOperationClient`] should not be used until
-    /// there is a new update, otherwise the out of date definition will be used for
-    /// sending data to the destination.
+    /// Returns [`DataOperationNotification::AssetUpdated`] if the Asset's definition has been updated in place, but there were no
+    /// changes to the Data Operation's definition.
+    ///
+    /// Returns either of the above with an `Err(AdrConfigError)` if the Data Operation/Asset received an update, but a config error
+    /// for the Data Operation was detected. The definition is still updated in place, but the [`DataOperationClient`] should not be
+    /// used until there is a new update because forwarding the data will not be possible.
     ///
     /// Returns [`DataOperationNotification::Deleted`] if the Data Operation has been deleted. The [`DataOperationClient`]
     /// should not be used after this point, and no more notifications will be received.
