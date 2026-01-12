@@ -721,7 +721,7 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if message_expiry is > `u32::max`.
+    /// if `message_expiry` is > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1164,7 +1164,7 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if message_expiry is > `u32::max`.
+    /// if `message_expiry` is > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1241,7 +1241,7 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if message_expiry is > `u32::max`.
+    /// if `message_expiry` is > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1323,7 +1323,7 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if message_expiry is > `u32::max`.
+    /// if `message_expiry` is > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1400,7 +1400,7 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if message_expiry is > `u32::max`.
+    /// if `message_expiry` is > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
