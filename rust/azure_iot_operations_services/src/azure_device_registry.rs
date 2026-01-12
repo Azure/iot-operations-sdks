@@ -55,12 +55,9 @@ pub enum ErrorKind {
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
     /// An argument provided for a request was invalid.
+    #[deprecated(note = "Use ValidationError instead")]
     #[error(transparent)]
-    InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
-    /// An argument provided for a telemetry message was invalid.
-    #[error(transparent)]
-    // TODO: consider instead combining with InvalidRequestArgument to avoid breaking api change
-    InvalidTelemetryArgument(#[from] telemetry::sender::MessageBuilderError),
+    InvalidRequestArgument(rpc_command::invoker::RequestBuilderError),
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
     ServiceError(base_client_gen::AkriServiceError),
@@ -84,6 +81,18 @@ impl From<rpc_command::invoker::Response<base_client_gen::AkriServiceError>> for
 impl From<rpc_command::invoker::Response<discovery_client_gen::AkriServiceError>> for ErrorKind {
     fn from(value: rpc_command::invoker::Response<discovery_client_gen::AkriServiceError>) -> Self {
         Self::ServiceError(value.payload.into())
+    }
+}
+
+impl From<rpc_command::invoker::RequestBuilderError> for ErrorKind {
+    fn from(e: rpc_command::invoker::RequestBuilderError) -> Self {
+        ErrorKind::ValidationError(e.to_string())
+    }
+}
+
+impl From<telemetry::sender::MessageBuilderError> for ErrorKind {
+    fn from(e: telemetry::sender::MessageBuilderError) -> Self {
+        ErrorKind::ValidationError(e.to_string())
     }
 }
 
