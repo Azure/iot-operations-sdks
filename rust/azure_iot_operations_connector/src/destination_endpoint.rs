@@ -42,6 +42,7 @@ impl Error {
 // NonRetriableError (Invalid data, etc)
 /// Represents the kinds of errors that occur when forwarding data.
 #[derive(Error, Debug)]
+#[non_exhaustive]
 pub enum ErrorKind {
     /// Message Schema must be present before data can be forwarded
     #[error("Message Schema must be reported before data can be forwarded")]
@@ -52,7 +53,7 @@ pub enum ErrorKind {
     /// An error occurred while forwarding data as MQTT Telemetry
     #[error(transparent)]
     MqttTelemetryError(#[from] AIOProtocolError),
-    /// Data provided to be forwarded is invalid
+    /// Data provided to be forwarded is invalid or there is no valid destination
     #[error("Error with Destination or contents of Data: {0}")]
     ValidationError(String),
 }
@@ -62,6 +63,27 @@ pub enum ErrorKind {
 pub(crate) enum DataOperationForwarder {
     Forwarder(Forwarder),
     Error(AdrConfigError),
+}
+
+impl DataOperationForwarder {
+    /// Wrapper to forward [`Data`] to the destination if a valid forwarder exists
+    pub(crate) async fn send_data(
+        &self,
+        data: Data,
+        protocol_specific_identifier: Option<&str>,
+    ) -> Result<(), Error> {
+        match self {
+            DataOperationForwarder::Forwarder(forwarder) => {
+                forwarder
+                    .send_data(data, protocol_specific_identifier)
+                    .await
+            }
+            DataOperationForwarder::Error(_) => Err(ErrorKind::ValidationError(
+                "No valid destination configured for data operation".to_string(),
+            )
+            .into()),
+        }
+    }
 }
 
 /// A [`Forwarder`] forwards [`Data`] to a destination defined in a data operation or asset

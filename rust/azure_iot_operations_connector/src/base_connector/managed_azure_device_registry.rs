@@ -1433,7 +1433,6 @@ impl AssetClient {
                     data_operation_client_result.clone(),
                 ));
 
-                // TODO: this needs to be reported to the application somehow
                 // If there were errors, report them to the status to be sent to ADR
                 if let Err(e) = data_operation_client_result {
                     // Add the error to the status to be reported to ADR, and then continue to process
@@ -2605,7 +2604,8 @@ impl DataOperationClient {
         )
         .await?;
 
-        // TODO: should we do this at the beginning and not allow the message schema reporting if there's no valid destination?
+        // CONSIDERATION: should we do this at the beginning and not allow the message schema reporting if there's no valid destination?
+        // For now, don't block reporting the message schema if there's no valid destination for more flexibility
         match forwarder {
             DataOperationForwarder::Forwarder(forwarder) => {
                 forwarder.update_message_schema_reference(Some(message_schema_reference.clone()))
@@ -2683,17 +2683,7 @@ impl DataOperationClient {
     /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
     /// if the destination is `Mqtt` and there are any errors sending the message to the broker
     pub async fn forward_data(&self, data: Data) -> Result<(), destination_endpoint::Error> {
-        match self.forwarder {
-            DataOperationForwarder::Forwarder(ref forwarder) => {
-                forwarder.send_data(data, None).await
-            }
-            DataOperationForwarder::Error(_) => {
-                Err(destination_endpoint::ErrorKind::ValidationError(
-                    "No valid destination configured for data operation".to_string(),
-                )
-                .into())
-            }
-        }
+        self.forwarder.send_data(data, None).await
     }
 
     /// Used to send transformed data to the destination
@@ -2720,19 +2710,9 @@ impl DataOperationClient {
         data: Data,
         protocol_specific_identifier: &str,
     ) -> Result<(), destination_endpoint::Error> {
-        match self.forwarder {
-            DataOperationForwarder::Forwarder(ref forwarder) => {
-                forwarder
-                    .send_data(data, Some(protocol_specific_identifier))
-                    .await
-            }
-            DataOperationForwarder::Error(_) => {
-                Err(destination_endpoint::ErrorKind::ValidationError(
-                    "No valid destination configured for data operation".to_string(),
-                )
-                .into())
-            }
-        }
+        self.forwarder
+            .send_data(data, Some(protocol_specific_identifier))
+            .await
     }
 
     /// Used to receive notifications about the Data Operation from the Azure Device Registry Service.
@@ -2791,18 +2771,6 @@ impl DataOperationClient {
             };
             return DataOperationNotification::AssetUpdated(res);
         }
-        // if !default_destination_has_changed && updated_data_operation.is_some_and(|new_def| new_def.destination == self.definition.destination) {
-        //     // if the destination hasn't changed, then we don't need to recreate the forwarder, we can just update the definition
-        //     self.definition = updated_data_operation.unwrap();
-        //     // Once the data_operation definition has been updated we can mark the value in the watcher as seen
-        //     self.data_operation_update_watcher_rx.mark_unchanged();
-        // if nothing destination related changed, but there was a destination error before, we need to return that error again since it still applies
-        // let res = match &self.forwarder {
-        //     DataOperationForwarder::Forwarder(_) => Ok(()),
-        //     DataOperationForwarder::Error(e) => Err(e.clone()),
-        // };
-        // return DataOperationNotification::DataOperationUpdated(res);
-        // }
 
         // no await points beyond this point, so this is safe
         self.definition = updated_data_operation;
