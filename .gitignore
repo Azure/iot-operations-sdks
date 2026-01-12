@@ -505,4 +505,4 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-**/NUL
+**/NUL.secrets
