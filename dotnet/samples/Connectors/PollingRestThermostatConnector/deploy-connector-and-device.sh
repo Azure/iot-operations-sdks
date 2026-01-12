@@ -3,7 +3,7 @@
 set -e
 
 # Configuration
-SERVER_IMAGE_NAME=${1:-"rest-server:latest"}
+SERVER_IMAGE_NAME="akribuilds.azurecr.io/rest-test-server:0.3.1"
 
 if [ -z "$1" ]; then
     echo "Usage: $0 <server-image-name>"
