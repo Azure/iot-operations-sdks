@@ -8,8 +8,9 @@ use azure_iot_operations_mqtt::control_packet::QoS as MqttQoS;
 use chrono::{DateTime, Utc};
 
 use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
+use crate::azure_device_registry::adr_base_gen::adr_base_service::service as base_service_gen;
 use crate::azure_device_registry::helper::{ConvertOptionMap, ConvertOptionVec};
-use crate::azure_device_registry::{ConfigError, ConfigStatus};
+use crate::azure_device_registry::{ConfigError, ConfigStatus, RuntimeHealth};
 
 // ~~~~~~~~~~~~~~~~~~~Asset DTDL Equivalent Structs~~~~~~~~~~~~~~
 /// Represents an Asset in the Azure Device Registry service.
@@ -574,6 +575,88 @@ impl From<MessageSchemaReference> for base_client_gen::MessageSchemaReference {
             schema_name: value.name,
             schema_version: value.version,
             schema_registry_namespace: value.registry_namespace,
+        }
+    }
+}
+
+// ~~~~~~~~~~~~~~~~~~~Asset Runtime Health Event Structs~~~~~~~~~
+
+/// Represents the runtime health event for a dataset.
+#[derive(Debug, Clone)]
+pub struct DatasetRuntimeHealthEvent {
+    /// The name of the dataset for which the runtime health is being reported.
+    pub dataset_name: String,
+    /// The runtime health of the specific dataset.
+    pub runtime_health: RuntimeHealth,
+}
+
+/// Represents the runtime health event for an event.
+#[derive(Debug, Clone)]
+pub struct EventRuntimeHealthEvent {
+    /// The name of the event group containing the event for which the runtime health is being reported.
+    pub event_group_name: String,
+    /// The name of the event for which the runtime health is being reported.
+    pub event_name: String,
+    /// The runtime health of the specific event.
+    pub runtime_health: RuntimeHealth,
+}
+
+/// Represents the runtime health event for a stream.
+#[derive(Debug, Clone)]
+pub struct StreamRuntimeHealthEvent {
+    /// The name of the stream for which the runtime health is being reported.
+    pub stream_name: String,
+    /// The runtime health of the specific stream.
+    pub runtime_health: RuntimeHealth,
+}
+
+/// Represents the runtime health event for a management action.
+#[derive(Debug, Clone)]
+pub struct ManagementActionRuntimeHealthEvent {
+    /// The name of the management group for which the runtime health is being reported.
+    pub management_group_name: String,
+    /// The name of the management action for which the runtime health is being reported.
+    pub management_action_name: String,
+    /// The runtime health of the specific management action.
+    pub runtime_health: RuntimeHealth,
+}
+
+impl From<DatasetRuntimeHealthEvent> for base_service_gen::DatasetsSchemaElementSchema {
+    fn from(value: DatasetRuntimeHealthEvent) -> Self {
+        base_service_gen::DatasetsSchemaElementSchema {
+            dataset_name: value.dataset_name,
+            runtime_health: value.runtime_health.into(),
+        }
+    }
+}
+
+impl From<EventRuntimeHealthEvent> for base_service_gen::EventsSchemaElementSchema {
+    fn from(value: EventRuntimeHealthEvent) -> Self {
+        base_service_gen::EventsSchemaElementSchema {
+            event_group_name: value.event_group_name,
+            event_name: value.event_name,
+            runtime_health: value.runtime_health.into(),
+        }
+    }
+}
+
+impl From<StreamRuntimeHealthEvent> for base_service_gen::StreamsSchemaElementSchema {
+    fn from(value: StreamRuntimeHealthEvent) -> Self {
+        base_service_gen::StreamsSchemaElementSchema {
+            stream_name: value.stream_name,
+            runtime_health: value.runtime_health.into(),
+        }
+    }
+}
+
+impl From<ManagementActionRuntimeHealthEvent>
+    for base_service_gen::ManagementActionsSchemaElementSchema
+{
+    fn from(value: ManagementActionRuntimeHealthEvent) -> Self {
+        base_service_gen::ManagementActionsSchemaElementSchema {
+            management_group_name: value.management_group_name,
+            management_action_name: value.management_action_name,
+            runtime_health: value.runtime_health.into(),
         }
     }
 }

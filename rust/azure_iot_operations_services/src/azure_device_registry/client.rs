@@ -13,7 +13,9 @@ use derive_builder::Builder;
 use tokio::sync::Notify;
 
 use crate::azure_device_registry::models::{
-    Asset, AssetStatus, Device, DeviceRef, DeviceStatus, DiscoveredAsset, DiscoveredDevice,
+    Asset, AssetStatus, DatasetRuntimeHealthEvent, Device, DeviceRef, DeviceStatus,
+    DiscoveredAsset, DiscoveredDevice, EventRuntimeHealthEvent, ManagementActionRuntimeHealthEvent,
+    StreamRuntimeHealthEvent,
 };
 use crate::azure_device_registry::{
     AssetRef, AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind, RuntimeHealth,
@@ -1157,7 +1159,7 @@ impl Client {
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `runtime_healths` - A vector of tuples containing dataset names and their corresponding [`RuntimeHealth`] containing all runtime health information for the datasets.
+    /// * `runtime_healths` - A vector of [`DatasetRuntimeHealthEvent`] containing all runtime health information for the datasets.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -1175,7 +1177,7 @@ impl Client {
         device_name: String,
         inbound_endpoint_name: String,
         asset_name: String,
-        runtime_healths: Vec<(String, RuntimeHealth)>,
+        runtime_healths: Vec<DatasetRuntimeHealthEvent>,
         message_expiry: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
@@ -1183,29 +1185,27 @@ impl Client {
                 "asset_name must not be empty".to_string(),
             )));
         }
-        // If there are no health statuses to report, this is a no-op
+        // If there are no health events to report, this is a no-op
         if runtime_healths.is_empty() {
             return Ok(());
         }
 
-        // TODO: can this be optimized?
-        let mut dataset_statuses = Vec::with_capacity(runtime_healths.len());
-        for (dataset_name, runtime_health) in runtime_healths {
-            if dataset_name.trim().is_empty() {
-                return Err(Error(ErrorKind::ValidationError(
-                    "dataset_name must not be empty".to_string(),
-                )));
-            }
-            dataset_statuses.push(base_service_gen::DatasetsSchemaElementSchema {
-                dataset_name: dataset_name,
-                runtime_health: runtime_health.into(),
-            });
-        }
+        let dataset_health_events = runtime_healths
+            .into_iter()
+            .map(|runtime_health_event| {
+                if runtime_health_event.dataset_name.trim().is_empty() {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "dataset_name must not be empty".to_string(),
+                    )));
+                }
+                Ok(runtime_health_event.into())
+            })
+            .collect::<Result<Vec<_>, _>>()?;
 
         let payload = base_service_gen::DatasetRuntimeHealthEventTelemetry {
             dataset_runtime_health_event: base_service_gen::DatasetRuntimeHealthEventSchema {
                 asset_name,
-                datasets: dataset_statuses,
+                datasets: dataset_health_events,
             },
         };
 
@@ -1236,7 +1236,7 @@ impl Client {
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `runtime_healths` - A vector of tuples containing event_group_name, event_name and their corresponding [`RuntimeHealth`] containing all runtime health information for the events.
+    /// * `runtime_healths` - A vector of [`EventRuntimeHealthEvent`] containing all runtime health information for the events.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -1254,7 +1254,7 @@ impl Client {
         device_name: String,
         inbound_endpoint_name: String,
         asset_name: String,
-        runtime_healths: Vec<(String, String, RuntimeHealth)>,
+        runtime_healths: Vec<EventRuntimeHealthEvent>,
         message_expiry: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
@@ -1262,34 +1262,32 @@ impl Client {
                 "asset_name must not be empty".to_string(),
             )));
         }
-        // If there are no health statuses to report, this is a no-op
+        // If there are no health events to report, this is a no-op
         if runtime_healths.is_empty() {
             return Ok(());
         }
 
-        let mut event_statuses = Vec::with_capacity(runtime_healths.len());
-        for (event_group_name, event_name, runtime_health) in runtime_healths {
-            if event_group_name.trim().is_empty() {
-                return Err(Error(ErrorKind::ValidationError(
-                    "event_group_name must not be empty".to_string(),
-                )));
-            }
-            if event_name.trim().is_empty() {
-                return Err(Error(ErrorKind::ValidationError(
-                    "event_name must not be empty".to_string(),
-                )));
-            }
-            event_statuses.push(base_service_gen::EventsSchemaElementSchema {
-                event_group_name,
-                event_name,
-                runtime_health: runtime_health.into(),
-            });
-        }
+        let event_health_events = runtime_healths
+            .into_iter()
+            .map(|runtime_health_event| {
+                if runtime_health_event.event_group_name.trim().is_empty() {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "event_group_name must not be empty".to_string(),
+                    )));
+                }
+                if runtime_health_event.event_name.trim().is_empty() {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "event_name must not be empty".to_string(),
+                    )));
+                }
+                Ok(runtime_health_event.into())
+            })
+            .collect::<Result<Vec<_>, _>>()?;
 
         let payload = base_service_gen::EventRuntimeHealthEventTelemetry {
             event_runtime_health_event: base_service_gen::EventRuntimeHealthEventSchema {
                 asset_name,
-                events: event_statuses,
+                events: event_health_events,
             },
         };
 
@@ -1320,7 +1318,7 @@ impl Client {
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `runtime_healths` - A vector of tuples containing stream names and their corresponding [`RuntimeHealth`] containing all runtime health information for the streams.
+    /// * `runtime_healths` - A vector of [`StreamRuntimeHealthEvent`] containing all runtime health information for the streams.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -1338,7 +1336,7 @@ impl Client {
         device_name: String,
         inbound_endpoint_name: String,
         asset_name: String,
-        runtime_healths: Vec<(String, RuntimeHealth)>,
+        runtime_healths: Vec<StreamRuntimeHealthEvent>,
         message_expiry: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
@@ -1346,28 +1344,27 @@ impl Client {
                 "asset_name must not be empty".to_string(),
             )));
         }
-        // If there are no health statuses to report, this is a no-op
+        // If there are no health events to report, this is a no-op
         if runtime_healths.is_empty() {
             return Ok(());
         }
 
-        let mut stream_statuses = Vec::with_capacity(runtime_healths.len());
-        for (stream_name, runtime_health) in runtime_healths {
-            if stream_name.trim().is_empty() {
-                return Err(Error(ErrorKind::ValidationError(
-                    "stream_name must not be empty".to_string(),
-                )));
-            }
-            stream_statuses.push(base_service_gen::StreamsSchemaElementSchema {
-                stream_name,
-                runtime_health: runtime_health.into(),
-            });
-        }
+        let stream_health_events = runtime_healths
+            .into_iter()
+            .map(|runtime_health_event| {
+                if runtime_health_event.stream_name.trim().is_empty() {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "stream_name must not be empty".to_string(),
+                    )));
+                }
+                Ok(runtime_health_event.into())
+            })
+            .collect::<Result<Vec<_>, _>>()?;
 
         let payload = base_service_gen::StreamRuntimeHealthEventTelemetry {
             stream_runtime_health_event: base_service_gen::StreamRuntimeHealthEventSchema {
                 asset_name,
-                streams: stream_statuses,
+                streams: stream_health_events,
             },
         };
 
@@ -1398,7 +1395,7 @@ impl Client {
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `runtime_healths` - A vector of tuples containing management_group_name, management_action_name and their corresponding [`RuntimeHealth`] containing all runtime health information for the management actions.
+    /// * `runtime_healths` - A vector of [`ManagementActionRuntimeHealthEvent`] containing all runtime health information for the management actions.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -1416,7 +1413,7 @@ impl Client {
         device_name: String,
         inbound_endpoint_name: String,
         asset_name: String,
-        runtime_healths: Vec<(String, String, RuntimeHealth)>,
+        runtime_healths: Vec<ManagementActionRuntimeHealthEvent>,
         message_expiry: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
@@ -1424,37 +1421,37 @@ impl Client {
                 "asset_name must not be empty".to_string(),
             )));
         }
-        // If there are no health statuses to report, this is a no-op
+        // If there are no health events to report, this is a no-op
         if runtime_healths.is_empty() {
             return Ok(());
         }
 
-        let mut management_action_statuses = Vec::with_capacity(runtime_healths.len());
-        for (management_group_name, management_action_name, runtime_health) in runtime_healths {
-            if management_group_name.trim().is_empty() {
-                return Err(Error(ErrorKind::ValidationError(
-                    "management_group_name must not be empty".to_string(),
-                )));
-            }
-            if management_action_name.trim().is_empty() {
-                return Err(Error(ErrorKind::ValidationError(
-                    "management_action_name must not be empty".to_string(),
-                )));
-            }
-            management_action_statuses.push(
-                base_service_gen::ManagementActionsSchemaElementSchema {
-                    management_group_name,
-                    management_action_name,
-                    runtime_health: runtime_health.into(),
-                },
-            );
-        }
+        let management_action_health_events = runtime_healths
+            .into_iter()
+            .map(|runtime_health_event| {
+                if runtime_health_event.management_group_name.trim().is_empty() {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "management_group_name must not be empty".to_string(),
+                    )));
+                }
+                if runtime_health_event
+                    .management_action_name
+                    .trim()
+                    .is_empty()
+                {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "management_action_name must not be empty".to_string(),
+                    )));
+                }
+                Ok(runtime_health_event.into())
+            })
+            .collect::<Result<Vec<_>, _>>()?;
 
         let payload = base_service_gen::ManagementActionRuntimeHealthEventTelemetry {
             management_action_runtime_health_event:
                 base_service_gen::ManagementActionRuntimeHealthEventSchema {
                     asset_name,
-                    management_actions: management_action_statuses,
+                    management_actions: management_action_health_events,
                 },
         };
 
