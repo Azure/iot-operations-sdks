@@ -408,4 +408,143 @@ internal static class ProtocolConverter
             Info = source.Info
         };
     }
+
+    internal static AdrBaseService.DatasetsSchemaElementSchema ToProtocol(this DatasetsSchemaElementSchema source)
+    {
+        return new AdrBaseService.DatasetsSchemaElementSchema
+        {
+            DatasetName = source.DatasetName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static AdrBaseService.EventsSchemaElementSchema ToProtocol(this EventsSchemaElementSchema source)
+    {
+        return new AdrBaseService.EventsSchemaElementSchema
+        {
+            EventGroupName = source.EventGroupName,
+            EventName = source.EventName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static AdrBaseService.ManagementActionsSchemaElementSchema ToProtocol(this ManagementActionsSchemaElementSchema source)
+    {
+        return new AdrBaseService.ManagementActionsSchemaElementSchema
+        {
+            ManagementActionName = source.ManagementActionName,
+            ManagementGroupName = source.ManagementGroupName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static AdrBaseService.StreamsSchemaElementSchema ToProtocol(this StreamsSchemaElementSchema source)
+    {
+        return new AdrBaseService.StreamsSchemaElementSchema
+        {
+            StreamName = source.StreamName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static AdrBaseService.StreamRuntimeHealthEventSchema ToProtocol(this StreamRuntimeHealthEventSchema source)
+    {
+        var streams = source.Streams?.Select(x => x.ToProtocol());
+        return new AdrBaseService.StreamRuntimeHealthEventSchema
+        {
+            AssetName = source.AssetName,
+            Streams = streams != null ?  streams.ToList() : new(),
+        };
+    }
+
+    internal static AdrBaseService.ManagementActionRuntimeHealthEventSchema ToProtocol(this ManagementActionRuntimeHealthEventSchema source)
+    {
+        var managementActions = source.ManagementActions?.Select(x => x.ToProtocol());
+        return new AdrBaseService.ManagementActionRuntimeHealthEventSchema
+        {
+            AssetName = source.AssetName,
+            ManagementActions = managementActions != null ? managementActions.ToList() : new(),
+        };
+    }
+
+    internal static AdrBaseService.EventRuntimeHealthEventSchema ToProtocol(this EventRuntimeHealthEventSchema source)
+    {
+        var events = source.Events?.Select(x => x.ToProtocol());
+        return new AdrBaseService.EventRuntimeHealthEventSchema
+        {
+            AssetName = source.AssetName,
+            Events = events != null ? events.ToList() : new(),
+        };
+    }
+
+    internal static AdrBaseService.DatasetRuntimeHealthEventSchema ToProtocol(this DatasetRuntimeHealthEventSchema source)
+    {
+        var datasets = source.Datasets?.Select(x => x.ToProtocol());
+        return new AdrBaseService.DatasetRuntimeHealthEventSchema
+        {
+            AssetName = source.AssetName,
+            Datasets = datasets != null ? datasets.ToList() : new(),
+        };
+    }
+
+    internal static AdrBaseService.DeviceEndpointRuntimeHealthEventSchema ToProtocol(this DeviceEndpointRuntimeHealthEventSchema source)
+    {
+        return new AdrBaseService.DeviceEndpointRuntimeHealthEventSchema
+        {
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static AdrBaseService.StreamRuntimeHealthEventTelemetry ToProtocol(this StreamRuntimeHealthEventTelemetry source)
+    {
+        return new AdrBaseService.StreamRuntimeHealthEventTelemetry
+        {
+            StreamRuntimeHealthEvent = source.StreamRuntimeHealthEvent.ToProtocol()
+        };
+    }
+
+    internal static AdrBaseService.ManagementActionRuntimeHealthEventTelemetry ToProtocol(this ManagementActionRuntimeHealthEventTelemetry source)
+    {
+        return new AdrBaseService.ManagementActionRuntimeHealthEventTelemetry
+        {
+            ManagementActionRuntimeHealthEvent = source.ManagementActionRuntimeHealthEvent.ToProtocol()
+        };
+    }
+
+    internal static AdrBaseService.EventRuntimeHealthEventTelemetry ToProtocol(this EventRuntimeHealthEventTelemetry source)
+    {
+        return new AdrBaseService.EventRuntimeHealthEventTelemetry
+        {
+            EventRuntimeHealthEvent = source.EventRuntimeHealthEvent.ToProtocol()
+        };
+    }
+
+    internal static AdrBaseService.DatasetRuntimeHealthEventTelemetry ToProtocol(this DatasetRuntimeHealthEventTelemetry source)
+    {
+        return new AdrBaseService.DatasetRuntimeHealthEventTelemetry
+        {
+            DatasetRuntimeHealthEvent = source.DatasetRuntimeHealthEvent.ToProtocol()
+        };
+    }
+
+    internal static AdrBaseService.DeviceEndpointRuntimeHealthEventTelemetry ToProtocol(this DeviceEndpointRuntimeHealthEventTelemetry source)
+    {
+        return new AdrBaseService.DeviceEndpointRuntimeHealthEventTelemetry
+        {
+            DeviceEndpointRuntimeHealthEvent = source.DeviceEndpointRuntimeHealthEvent.ToProtocol()
+        };
+    }
+
+
+    internal static AdrBaseService.RuntimeHealth ToProtocol(this RuntimeHealth source)
+    {
+        return new AdrBaseService.RuntimeHealth
+        {
+            LastUpdateTime = source.LastUpdateTime,
+            Message = source.Message,
+            ReasonCode = source.ReasonCode,
+            Status = (AdrBaseService.StatusSchema) ((int) source.Status),
+            Version = source.Version,
+        };
+    }
 }

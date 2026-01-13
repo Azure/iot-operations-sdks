@@ -3,6 +3,7 @@
 
 using System.Collections.Concurrent;
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Retry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
@@ -26,6 +27,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     private readonly string _connectorClientId;
     private readonly ApplicationContext _applicationContext;
     private readonly IAdrBaseServiceClientStub _adrBaseServiceClient;
+    private readonly IAdrBaseServiceServiceStub _adrBaseServiceService;
     private readonly IDeviceDiscoveryServiceClientStub _deviceDiscoveryServiceClient;
     private readonly ConcurrentDictionary<string, byte> _observedAssets = new();
     private readonly ConcurrentDictionary<string, byte> _observedEndpoints = new();
@@ -47,16 +49,18 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         _connectorClientId = mqttClient.ClientId ?? throw new ArgumentException("Must provide an MQTT client Id in the IMqttPubSubClient");
 
         _adrBaseServiceClient = new AdrBaseServiceClientStub(_applicationContext, mqttClient);
+        _adrBaseServiceService = new AdrBaseServiceServiceStub(_applicationContext, mqttClient);
         _deviceDiscoveryServiceClient = new DeviceDiscoveryServiceClientStub(_applicationContext, mqttClient);
     }
 
     // For unit test purposes only
-    internal AzureDeviceRegistryClient(ApplicationContext applicationContext, string connectorClientId, IAdrBaseServiceClientStub baseServiceClient, IDeviceDiscoveryServiceClientStub deviceDiscoveryServiceClientStub, IRetryPolicy? retryPolicy = null)
+    internal AzureDeviceRegistryClient(ApplicationContext applicationContext, string connectorClientId, IAdrBaseServiceClientStub baseServiceClient, IAdrBaseServiceServiceStub baseServiceService, IDeviceDiscoveryServiceClientStub deviceDiscoveryServiceClientStub, IRetryPolicy? retryPolicy = null)
     {
         _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(3, TimeSpan.FromMilliseconds(5));
         _applicationContext = applicationContext;
         _connectorClientId = connectorClientId;
         _adrBaseServiceClient = baseServiceClient;
+        _adrBaseServiceService = baseServiceService;
         _deviceDiscoveryServiceClient = deviceDiscoveryServiceClientStub;
     }
 
@@ -549,6 +553,216 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
+    public async Task ReportDeviceEndpointRuntimeHealthEvent(string deviceName, string inboundEndpointName, Models.DeviceEndpointRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
+        await RunWithRetryAsync(async () =>
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ObjectDisposedException.ThrowIf(_disposed, this);
+
+            Dictionary<string, string> additionalTopicTokenMap = new()
+            {
+                { _connectorClientIdTokenKey, _connectorClientId },
+                { _deviceNameTokenKey, deviceName },
+                { _endpointNameTokenKey, inboundEndpointName }
+            };
+
+            try
+            {
+                await _adrBaseServiceService.DeviceEndpointRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
+                    telemetry.ToProtocol(),
+                    additionalTopicTokenMap,
+                    qos,
+                    telemetryTimeout ?? _defaultTimeout,
+                    cancellationToken);
+            }
+            catch (AkriServiceErrorException exception)
+            {
+                var error = exception.AkriServiceError.ToModel();
+                throw new Models.AkriServiceErrorException(error);
+            }
+        }, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task ReportDatasetRuntimeHealthEvent(string deviceName, string inboundEndpointName, Models.DatasetRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
+        await RunWithRetryAsync(async () =>
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ObjectDisposedException.ThrowIf(_disposed, this);
+
+            Dictionary<string, string> additionalTopicTokenMap = new()
+            {
+                { _connectorClientIdTokenKey, _connectorClientId },
+                { _deviceNameTokenKey, deviceName },
+                { _endpointNameTokenKey, inboundEndpointName }
+            };
+
+            try
+            {
+                await _adrBaseServiceService.DatasetRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
+                    telemetry.ToProtocol(),
+                    additionalTopicTokenMap,
+                    qos,
+                    telemetryTimeout ?? _defaultTimeout,
+                    cancellationToken);
+            }
+            catch (AkriServiceErrorException exception)
+            {
+                var error = exception.AkriServiceError.ToModel();
+                throw new Models.AkriServiceErrorException(error);
+            }
+        }, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task ReportEventRuntimeHealthEvent(string deviceName, string inboundEndpointName, Models.EventRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
+        await RunWithRetryAsync(async () =>
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ObjectDisposedException.ThrowIf(_disposed, this);
+
+            Dictionary<string, string> additionalTopicTokenMap = new()
+            {
+                { _connectorClientIdTokenKey, _connectorClientId },
+                { _deviceNameTokenKey, deviceName },
+                { _endpointNameTokenKey, inboundEndpointName }
+            };
+
+            try
+            {
+                await _adrBaseServiceService.EventRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
+                    telemetry.ToProtocol(),
+                    additionalTopicTokenMap,
+                    qos,
+                    telemetryTimeout ?? _defaultTimeout,
+                    cancellationToken);
+            }
+            catch (AkriServiceErrorException exception)
+            {
+                var error = exception.AkriServiceError.ToModel();
+                throw new Models.AkriServiceErrorException(error);
+            }
+        }, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task ReportStreamRuntimeHealthEvent(string deviceName, string inboundEndpointName, Models.StreamRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
+        await RunWithRetryAsync(async () =>
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ObjectDisposedException.ThrowIf(_disposed, this);
+
+            Dictionary<string, string> additionalTopicTokenMap = new()
+            {
+                { _connectorClientIdTokenKey, _connectorClientId },
+                { _deviceNameTokenKey, deviceName },
+                { _endpointNameTokenKey, inboundEndpointName }
+            };
+
+            try
+            {
+                await _adrBaseServiceService.StreamRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
+                    telemetry.ToProtocol(),
+                    additionalTopicTokenMap,
+                    qos,
+                    telemetryTimeout ?? _defaultTimeout,
+                    cancellationToken);
+            }
+            catch (AkriServiceErrorException exception)
+            {
+                var error = exception.AkriServiceError.ToModel();
+                throw new Models.AkriServiceErrorException(error);
+            }
+        }, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task ReportManagementActionRuntimeHealthEvent(string deviceName, string inboundEndpointName, Models.ManagementActionRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(deviceName))
+        {
+            throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
+        }
+
+        if (string.IsNullOrWhiteSpace(inboundEndpointName))
+        {
+            throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
+        await RunWithRetryAsync(async () =>
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ObjectDisposedException.ThrowIf(_disposed, this);
+
+            Dictionary<string, string> additionalTopicTokenMap = new()
+            {
+                { _connectorClientIdTokenKey, _connectorClientId },
+                { _deviceNameTokenKey, deviceName },
+                { _endpointNameTokenKey, inboundEndpointName }
+            };
+
+            try
+            {
+                await _adrBaseServiceService.ManagementActionRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
+                    telemetry.ToProtocol(),
+                    additionalTopicTokenMap,
+                    qos,
+                    telemetryTimeout ?? _defaultTimeout,
+                    cancellationToken);
+            }
+            catch (AkriServiceErrorException exception)
+            {
+                var error = exception.AkriServiceError.ToModel();
+                throw new Models.AkriServiceErrorException(error);
+            }
+        }, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public event Func<string, string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry
     {
         add => _adrBaseServiceClient.OnReceiveDeviceUpdateEventTelemetry += value;
@@ -560,6 +774,17 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     {
         add => _adrBaseServiceClient.OnReceiveAssetUpdateEventTelemetry += value;
         remove => _adrBaseServiceClient.OnReceiveAssetUpdateEventTelemetry -= value;
+    }
+
+    internal async Task RunWithRetryAsync(Func<Task> taskFunc, CancellationToken cancellationToken)
+    {
+        await RunWithRetryAsync<bool>(
+            async () =>
+            {
+                await taskFunc.Invoke();
+                return true; // a dummy value/type since the generic method above has to have some return type
+            },
+            cancellationToken);
     }
 
     public async Task<TResult> RunWithRetryAsync<TResult>(Func<Task<TResult>> taskFunc, CancellationToken cancellationToken)

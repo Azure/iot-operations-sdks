@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
@@ -166,6 +167,154 @@ namespace Azure.Iot.Operations.Connector
                 _assetName,
                 commandTimeout,
                 cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset dataset.
+        /// </summary>
+        /// <param name="telemetry">The health status to report.</param>
+        /// <param name="qos">The MQTT quality of service to send this report with.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportDatasetRuntimeHealthEvent(List<DatasetsSchemaElementSchema> telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            await _adrClient.ReportDatasetRuntimeHealthEvent(
+                _deviceName,
+                _inboundEndpointName,
+                new()
+                {
+                    DatasetRuntimeHealthEvent = new()
+                    {
+                        AssetName = _assetName,
+                        Datasets = telemetry,
+                    }
+                },
+                qos,
+                telemetryTimeout,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset dataset.
+        /// </summary>
+        /// <param name="telemetry">The health status to report.</param>
+        /// <param name="qos">The MQTT quality of service to send this report with.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportDatasetRuntimeHealthEvent(DatasetsSchemaElementSchema telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            await ReportDatasetRuntimeHealthEvent(new List<DatasetsSchemaElementSchema>() { telemetry }, qos, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset event.
+        /// </summary>
+        /// <param name="telemetry">The health status to report.</param>
+        /// <param name="qos">The MQTT quality of service to send this report with.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportEventRuntimeHealthEvent(List<EventsSchemaElementSchema> telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            await _adrClient.ReportEventRuntimeHealthEvent(
+                _deviceName,
+                _inboundEndpointName,
+                new()
+                {
+                    EventRuntimeHealthEvent = new()
+                    {
+                        AssetName = _assetName,
+                        Events = telemetry,
+                    }
+                },
+                qos,
+                telemetryTimeout,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset event.
+        /// </summary>
+        /// <param name="telemetry">The health status to report.</param>
+        /// <param name="qos">The MQTT quality of service to send this report with.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportEventRuntimeHealthEvent(EventsSchemaElementSchema telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            await ReportEventRuntimeHealthEvent(new List<EventsSchemaElementSchema>() { telemetry }, qos, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset stream.
+        /// </summary>
+        /// <param name="telemetry">The health status to report.</param>
+        /// <param name="qos">The MQTT quality of service to send this report with.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportStreamRuntimeHealthEvent(List<StreamsSchemaElementSchema> telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            await _adrClient.ReportStreamRuntimeHealthEvent(
+                _deviceName,
+                _inboundEndpointName,
+                new()
+                {
+                    StreamRuntimeHealthEvent = new()
+                    {
+                        AssetName = _assetName,
+                        Streams = telemetry,
+                    }
+                },
+                qos,
+                telemetryTimeout,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset stream.
+        /// </summary>
+        /// <param name="telemetry">The health status to report.</param>
+        /// <param name="qos">The MQTT quality of service to send this report with.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportStreamRuntimeHealthEvent(StreamsSchemaElementSchema telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            await ReportStreamRuntimeHealthEvent(new List<StreamsSchemaElementSchema>() { telemetry }, qos, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given management action.
+        /// </summary>
+        /// <param name="telemetry">The health status to report.</param>
+        /// <param name="qos">The MQTT quality of service to send this report with.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportManagementActionRuntimeHealthEvent(List<ManagementActionsSchemaElementSchema> telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            await _adrClient.ReportManagementActionRuntimeHealthEvent(
+                _deviceName,
+                _inboundEndpointName,
+                new()
+                {
+                    ManagementActionRuntimeHealthEvent = new()
+                    {
+                        AssetName = _assetName,
+                        ManagementActions = telemetry,
+                    }
+                },
+                qos,
+                telemetryTimeout,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given management action.
+        /// </summary>
+        /// <param name="telemetry">The health status to report.</param>
+        /// <param name="qos">The MQTT quality of service to send this report with.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportManagementActionRuntimeHealthEvent(ManagementActionsSchemaElementSchema telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            await ReportManagementActionRuntimeHealthEvent(new List<ManagementActionsSchemaElementSchema>() { telemetry }, qos, telemetryTimeout, cancellationToken);
         }
     }
 }
