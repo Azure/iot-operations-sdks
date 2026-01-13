@@ -13,6 +13,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// <summary>
         /// Array of management action runtime health information.
         /// </summary>
-        public List<ManagementActionsSchemaElementSchema> ManagementActions { get; set; } = default!;
+        public List<ManagementActionsRuntimeHealth> ManagementActions { get; set; } = default!;
     }
 }

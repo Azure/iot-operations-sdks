@@ -2,7 +2,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
     using System;
 
-    public partial class DatasetsSchemaElementSchema
+    public partial class DatasetsRuntimeHealth
     {
         /// <summary>
         /// The name of the dataset for which the runtime health is being reported.

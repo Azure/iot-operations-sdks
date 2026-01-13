@@ -1,6 +1,6 @@
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
-    public partial class ManagementActionsSchemaElementSchema
+    public partial class ManagementActionsRuntimeHealth
     {
         /// <summary>
         /// The name of the management action for which the runtime health is being reported.

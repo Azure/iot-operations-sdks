@@ -13,6 +13,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// <summary>
         /// Array of event runtime health information.
         /// </summary>
-        public List<EventsSchemaElementSchema> Events { get; set; } = default!;
+        public List<EventsRuntimeHealth> Events { get; set; } = default!;
     }
 }

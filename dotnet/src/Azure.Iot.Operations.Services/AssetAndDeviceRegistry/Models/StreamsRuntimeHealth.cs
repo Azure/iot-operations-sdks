@@ -1,6 +1,6 @@
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
-    public partial class StreamsSchemaElementSchema
+    public partial class StreamsRuntimeHealth
     {
         /// <summary>
         /// The runtime health of the specific stream.

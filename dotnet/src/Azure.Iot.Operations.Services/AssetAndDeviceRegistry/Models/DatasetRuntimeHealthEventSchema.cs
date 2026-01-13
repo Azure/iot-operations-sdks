@@ -14,6 +14,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// <summary>
         /// Array of dataset runtime health information.
         /// </summary>
-        public List<DatasetsSchemaElementSchema> Datasets { get; set; } = default!;
+        public List<DatasetsRuntimeHealth> Datasets { get; set; } = default!;
     }
 }

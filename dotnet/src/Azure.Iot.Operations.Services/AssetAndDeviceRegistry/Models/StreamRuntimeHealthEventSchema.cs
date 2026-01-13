@@ -13,6 +13,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// <summary>
         /// Array of stream runtime health information.
         /// </summary>
-        public List<StreamsSchemaElementSchema> Streams { get; set; } = default!;
+        public List<StreamsRuntimeHealth> Streams { get; set; } = default!;
     }
 }
