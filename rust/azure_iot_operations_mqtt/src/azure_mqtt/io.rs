@@ -20,8 +20,6 @@ pub mod tokio_tcp;
 
 pub mod tokio_tls;
 
-pub mod tokio_ws;
-
 mod writer;
 pub use writer::Writer;
 
