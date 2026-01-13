@@ -585,8 +585,8 @@ impl Client {
     /// Returns a [`Device`] if the device was found.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -628,8 +628,8 @@ impl Client {
     /// Returns the [`DeviceStatus`] if the device was found.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -672,8 +672,8 @@ impl Client {
     /// Returns the updated [`DeviceStatus`] once updated.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -766,8 +766,8 @@ impl Client {
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
     /// if the [`Device`] is already being observed.
     ///
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -848,8 +848,8 @@ impl Client {
     /// Returns `Ok(())` if the device updates are no longer being observed.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -916,8 +916,8 @@ impl Client {
     /// Returns tuple containing the discovery ID and version of the discovered device.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - inbound endpoint type is invalid for the topic.
@@ -981,8 +981,8 @@ impl Client {
     /// Returns an [`Asset`] if the the asset was found.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1038,8 +1038,8 @@ impl Client {
     /// Returns an [`AssetStatus`] if the the asset was found.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1097,8 +1097,8 @@ impl Client {
     /// Returns the updated [`AssetStatus`] once updated.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1489,8 +1489,8 @@ impl Client {
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
     /// if the [`Asset`] is already being observed.
     ///
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1590,8 +1590,8 @@ impl Client {
     /// Returns `Ok(())` if the asset updates are no longer being observed.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1679,8 +1679,8 @@ impl Client {
     /// Returns a tuple containing the discovery ID and version of the discovered asset.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -1898,7 +1898,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err(),
-            Error(ErrorKind::InvalidRequestArgument(_))
+            Error(ErrorKind::ValidationError(_))
         ));
     }
 
@@ -1953,7 +1953,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err(),
-            Error(ErrorKind::InvalidRequestArgument(_))
+            Error(ErrorKind::ValidationError(_))
         ));
     }
 
@@ -2011,7 +2011,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -2069,7 +2069,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -2127,7 +2127,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -2189,7 +2189,7 @@ mod tests {
 
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -2221,7 +2221,7 @@ mod tests {
 
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -2253,7 +2253,7 @@ mod tests {
 
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -2294,7 +2294,7 @@ mod tests {
 
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -2329,7 +2329,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -2364,7 +2364,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -2418,7 +2418,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
