@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector.Files;
+using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Moq;
 
@@ -97,6 +98,31 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public Task<CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(CreateOrUpdateDiscoveredDeviceRequestSchema request, string inboundEndpointType, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             return mockClientWrapper.Object.CreateOrUpdateDiscoveredDeviceAsync(request, inboundEndpointType, commandTimeout, cancellationToken);
+        }
+
+        public Task ReportDeviceEndpointRuntimeHealthEvent(string deviceName, string inboundEndpointName, DeviceEndpointRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return mockClientWrapper.Object.ReportDeviceEndpointRuntimeHealthEvent(deviceName, inboundEndpointName, telemetry, qos, telemetryTimeout, cancellationToken);
+        }
+
+        public Task ReportDatasetRuntimeHealthEvent(string deviceName, string inboundEndpointName, DatasetRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return mockClientWrapper.Object.ReportDatasetRuntimeHealthEvent(deviceName, inboundEndpointName, telemetry, qos, telemetryTimeout, cancellationToken);
+        }
+
+        public Task ReportEventRuntimeHealthEvent(string deviceName, string inboundEndpointName, EventRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return mockClientWrapper.Object.ReportEventRuntimeHealthEvent(deviceName, inboundEndpointName, telemetry, qos, telemetryTimeout, cancellationToken);
+        }
+
+        public Task ReportStreamRuntimeHealthEvent(string deviceName, string inboundEndpointName, StreamRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return mockClientWrapper.Object.ReportStreamRuntimeHealthEvent(deviceName, inboundEndpointName, telemetry, qos, telemetryTimeout, cancellationToken);
+        }
+
+        public Task ReportManagementActionRuntimeHealthEvent(string deviceName, string inboundEndpointName, ManagementActionRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            return mockClientWrapper.Object.ReportManagementActionRuntimeHealthEvent(deviceName, inboundEndpointName, telemetry, qos, telemetryTimeout, cancellationToken);
         }
 
         public ValueTask DisposeAsync()

@@ -190,33 +190,33 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <inheritdoc/>
-        public async Task ReportDeviceEndpointRuntimeHealthEvent(string deviceName, string inboundEndpointName, DeviceEndpointRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportDeviceEndpointRuntimeHealthEvent(string deviceName, string inboundEndpointName, DeviceEndpointRuntimeHealthEventTelemetry runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _client.ReportDeviceEndpointRuntimeHealthEvent(deviceName, inboundEndpointName, telemetry, qos, telemetryTimeout, cancellationToken);
+            await _client.ReportDeviceEndpointRuntimeHealthEvent(deviceName, inboundEndpointName, runtimeHealth, qos, telemetryTimeout, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task ReportDatasetRuntimeHealthEvent(string deviceName, string inboundEndpointName, DatasetRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportDatasetRuntimeHealthEvent(string deviceName, string inboundEndpointName, DatasetRuntimeHealthEventTelemetry runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _client.ReportDatasetRuntimeHealthEvent(deviceName, inboundEndpointName, telemetry, qos, telemetryTimeout, cancellationToken);
+            await _client.ReportDatasetRuntimeHealthEvent(deviceName, inboundEndpointName, runtimeHealth, qos, telemetryTimeout, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task ReportEventRuntimeHealthEvent(string deviceName, string inboundEndpointName, EventRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportEventRuntimeHealthEvent(string deviceName, string inboundEndpointName, EventRuntimeHealthEventTelemetry runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _client.ReportEventRuntimeHealthEvent(deviceName, inboundEndpointName, telemetry, qos, telemetryTimeout, cancellationToken);
+            await _client.ReportEventRuntimeHealthEvent(deviceName, inboundEndpointName, runtimeHealth, qos, telemetryTimeout, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task ReportStreamRuntimeHealthEvent(string deviceName, string inboundEndpointName, StreamRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportStreamRuntimeHealthEvent(string deviceName, string inboundEndpointName, StreamRuntimeHealthEventTelemetry runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _client.ReportStreamRuntimeHealthEvent(deviceName, inboundEndpointName, telemetry, qos, telemetryTimeout, cancellationToken);
+            await _client.ReportStreamRuntimeHealthEvent(deviceName, inboundEndpointName, runtimeHealth, qos, telemetryTimeout, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task ReportManagementActionRuntimeHealthEvent(string deviceName, string inboundEndpointName, ManagementActionRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportManagementActionRuntimeHealthEvent(string deviceName, string inboundEndpointName, ManagementActionRuntimeHealthEventTelemetry runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _client.ReportManagementActionRuntimeHealthEvent(deviceName, inboundEndpointName, telemetry, qos, telemetryTimeout, cancellationToken);
+            await _client.ReportManagementActionRuntimeHealthEvent(deviceName, inboundEndpointName, runtimeHealth, qos, telemetryTimeout, cancellationToken);
         }
 
         /// <inheritdoc/>

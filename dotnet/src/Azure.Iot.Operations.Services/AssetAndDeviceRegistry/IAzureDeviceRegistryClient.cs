@@ -165,55 +165,85 @@ public interface IAzureDeviceRegistryClient : IAsyncDisposable
     /// </summary>
     /// <param name="deviceName">The name of the device.</param>
     /// <param name="inboundEndpointName">The name of the endpoint.</param>
-    /// <param name="telemetry">The health status to report.</param>
+    /// <param name="runtimeHealth">The health status to report.</param>
     /// <param name="qos">The MQTT quality of service to send this report with.</param>
     /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    Task ReportDeviceEndpointRuntimeHealthEvent(string deviceName, string inboundEndpointName, DeviceEndpointRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default);
+    Task ReportDeviceEndpointRuntimeHealthEvent(
+        string deviceName,
+        string inboundEndpointName,
+        DeviceEndpointRuntimeHealthEventTelemetry runtimeHealth,
+        MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce,
+        TimeSpan? telemetryTimeout = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Report the health of a given asset dataset.
     /// </summary>
     /// <param name="deviceName">The name of the device.</param>
     /// <param name="inboundEndpointName">The name of the endpoint.</param>
-    /// <param name="telemetry">The health status to report.</param>
+    /// <param name="runtimeHealth">The health status to report.</param>
     /// <param name="qos">The MQTT quality of service to send this report with.</param>
     /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    Task ReportDatasetRuntimeHealthEvent(string deviceName, string inboundEndpointName, DatasetRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default);
+    Task ReportDatasetRuntimeHealthEvent(
+        string deviceName,
+        string inboundEndpointName,
+        DatasetRuntimeHealthEventTelemetry runtimeHealth,
+        MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce,
+        TimeSpan? telemetryTimeout = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Report the health of a given asset event.
     /// </summary>
     /// <param name="deviceName">The name of the device.</param>
     /// <param name="inboundEndpointName">The name of the endpoint.</param>
-    /// <param name="telemetry">The health status to report.</param>
+    /// <param name="runtimeHealth">The health status to report.</param>
     /// <param name="qos">The MQTT quality of service to send this report with.</param>
     /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    Task ReportEventRuntimeHealthEvent(string deviceName, string inboundEndpointName, EventRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default);
+    Task ReportEventRuntimeHealthEvent(
+        string deviceName,
+        string inboundEndpointName,
+        EventRuntimeHealthEventTelemetry runtimeHealth,
+        MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce,
+        TimeSpan? telemetryTimeout = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Report the health of a given asset stream.
     /// </summary>
     /// <param name="deviceName">The name of the device.</param>
     /// <param name="inboundEndpointName">The name of the endpoint.</param>
-    /// <param name="telemetry">The health status to report.</param>
+    /// <param name="runtimeHealth">The health status to report.</param>
     /// <param name="qos">The MQTT quality of service to send this report with.</param>
     /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    Task ReportStreamRuntimeHealthEvent(string deviceName, string inboundEndpointName, StreamRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default);
+    Task ReportStreamRuntimeHealthEvent(
+        string deviceName,
+        string inboundEndpointName,
+        StreamRuntimeHealthEventTelemetry runtimeHealth,
+        MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce,
+        TimeSpan? telemetryTimeout = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Report the health of a given management action.
     /// </summary>
     /// <param name="deviceName">The name of the device.</param>
     /// <param name="inboundEndpointName">The name of the endpoint.</param>
-    /// <param name="telemetry">The health status to report.</param>
+    /// <param name="runtimeHealth">The health status to report.</param>
     /// <param name="qos">The MQTT quality of service to send this report with.</param>
     /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    Task ReportManagementActionRuntimeHealthEvent(string deviceName, string inboundEndpointName, ManagementActionRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default);
+    Task ReportManagementActionRuntimeHealthEvent(
+        string deviceName,
+        string inboundEndpointName,
+        ManagementActionRuntimeHealthEventTelemetry runtimeHealth,
+        MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce,
+        TimeSpan? telemetryTimeout = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Event triggered when a device update telemetry event is received.
