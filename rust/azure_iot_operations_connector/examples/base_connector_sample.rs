@@ -279,44 +279,20 @@ async fn run_dataset(
     // Get the status reporter for this data operation - create once and reuse
     let data_operation_reporter = data_operation_client.get_status_reporter();
 
-    // now we should update the status of the dataset (if not already reported) and report the message schema
-    if initial_status.is_ok() {
-        if let Err(e) = data_operation_reporter
-            .report_status_if_modified(report_status_if_changed!(
-                &log_identifier,
-                Ok::<(), AdrConfigError>(())
-            ))
-            .await
-        {
-            log::error!("{log_identifier} Error reporting dataset status: {e}");
-        }
-    }
-
-    let sample_data = mock_received_data(0);
-
-    let mut local_message_schema = derived_json::create_schema(&sample_data).unwrap();
-    let mut local_schema_reference = match data_operation_client
-        .report_message_schema_if_modified(|_current_schema| Some(local_message_schema.clone()))
+    // now we should update the status of the dataset
+    if let Err(e) = data_operation_reporter
+        .report_status_if_modified(report_status_if_changed!(&log_identifier, initial_status))
         .await
     {
-        Ok(status_reported) => match status_reported {
-            SchemaModifyResult::Reported(schema_ref) => {
-                log::info!("{log_identifier} Message Schema reported successfully: {schema_ref:?}");
-                Some(schema_ref)
-            }
-            SchemaModifyResult::NotModified => {
-                log::info!("{log_identifier} Message Schema already exists, not reporting");
-                unreachable!(); // Always report the first time
-            }
-        },
-        Err(e) => {
-            log::error!("{log_identifier} Error reporting message schema: {e}");
-            None
-        }
-    };
+        log::error!("{log_identifier} Error reporting dataset status: {e}");
+    }
+
+    let mut local_message_schema = None;
+    let mut local_schema_reference = None;
     let mut count = 0;
     // Timer will trigger the sampling of data
     let mut timer = tokio::time::interval(Duration::from_secs(10));
+    let mut is_sdk_error_causing_invalid_state = initial_status.is_err();
     let mut last_reported_dataset_status = initial_status;
     let mut dataset_valid = last_reported_dataset_status.is_ok();
     loop {
@@ -327,6 +303,12 @@ async fn run_dataset(
                 match res {
                     DataOperationNotification::AssetUpdated(Ok(())) => {
                         log::info!("{log_identifier} Asset updated for {:?}", data_operation_client.data_operation_ref());
+                        // If the previous Err was detected by the SDK, then this Asset(Ok()) indicates the invalid state has been resolved
+                        if is_sdk_error_causing_invalid_state {
+                            last_reported_dataset_status = Ok(());
+                            dataset_valid = last_reported_dataset_status.is_ok();
+                            is_sdk_error_causing_invalid_state = false;
+                        }
 
                         // now we should update the status of the dataset and report the message schema
                         if let Err(e) = data_operation_reporter
@@ -342,6 +324,7 @@ async fn run_dataset(
                     DataOperationNotification::DataOperationUpdated(Ok(())) => {
                         log::info!("{log_identifier} Dataset updated: {data_operation_client:?}");
 
+                        is_sdk_error_causing_invalid_state = false;
                         last_reported_dataset_status = Ok(());
                         dataset_valid = last_reported_dataset_status.is_ok();
 
@@ -359,8 +342,13 @@ async fn run_dataset(
                     DataOperationNotification::AssetUpdated(Err(e)) |
                     DataOperationNotification::DataOperationUpdated(Err(e)) => {
                         log::warn!("{log_identifier} Dataset has invalid update. Wait for new dataset update. {e}");
+                        is_sdk_error_causing_invalid_state = true;
                         last_reported_dataset_status = Err(e);
                         dataset_valid = false;
+                        // Report this error data operation status
+                        if let Err(e) =  data_operation_reporter.report_status_if_modified(report_status_if_changed!(&log_identifier, last_reported_dataset_status)).await {
+                            log::error!("{log_identifier} Error reporting dataset status: {e}");
+                        }
                     },
                     DataOperationNotification::Deleted => {
                         log::warn!("{log_identifier} Dataset has been deleted. No more dataset updates will be received");
@@ -372,7 +360,7 @@ async fn run_dataset(
                 let sample_data = mock_received_data(count);
 
                 let current_message_schema =
-                    derived_json::create_schema(&sample_data).unwrap();
+                    derived_json::create_schema(&sample_data).ok();
                 // Report schema only if there isn't already one
                 match data_operation_client
                     .report_message_schema_if_modified(|current_schema_reference| {
@@ -382,7 +370,7 @@ async fn run_dataset(
                             || current_schema_reference != local_schema_reference.as_ref()
                             || current_message_schema != local_message_schema
                         {
-                            Some(current_message_schema.clone())
+                            current_message_schema.clone()
                         } else {
                             None
                         }

@@ -1840,12 +1840,12 @@ type DataOperationUpdateNotification = (
 /// Notifications that can be received for a Data Operation
 pub enum DataOperationNotification {
     /// Indicates that the Asset containing the Data Operation has been updated in place. If this is returned, it indicates that the Data Operation definition has not changed
-    /// If there was an error detected, it is included in the result, but has already been reported.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
     AssetUpdated(Result<(), AdrConfigError>),
     /// Indicates that the Data Operation's definition has been updated in place.
     /// This will only be returned if the Data Operation definition changed. If the default destination or default config on the asset changed, the AssetUpdated variant will be returned.
-    /// If there was an error detected, it is included in the result, but has already been reported.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
     DataOperationUpdated(Result<(), AdrConfigError>),
     /// Indicates that the Data Operation has been deleted.
@@ -2100,7 +2100,7 @@ pub struct DataOperationClient {
     #[getter(skip)]
     device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     // Internally used fields
-    /// Internal [`Forwarder`] that handles forwarding data to the destination defined in the data operation definition
+    /// Internal [`DataOperationForwarder`] that handles forwarding data to the destination defined in the data operation definition if valid
     #[getter(skip)]
     forwarder: DataOperationForwarder,
     #[getter(skip)]
@@ -2115,6 +2115,8 @@ pub struct DataOperationClient {
 }
 
 impl DataOperationClient {
+    /// Data Operation Client will always be created, even if there are configuration errors
+    /// so that updates can be received to fix the configuration errors.
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
         definition: DataOperationDefinition,
@@ -2195,7 +2197,7 @@ impl DataOperationClient {
         let (forwarder, res) = match forwarder_res {
             Ok(forwarder) => (DataOperationForwarder::Forwarder(forwarder), Ok(())),
             Err(e) => {
-                log::error!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
+                log::warn!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
                 (DataOperationForwarder::Error(e.clone()), Err(e))
             }
         };
@@ -2837,61 +2839,11 @@ impl DataOperationClient {
         self.forwarder = match forwarder_result {
             Ok(forwarder) => DataOperationForwarder::Forwarder(forwarder),
             Err(e) => {
-                log::error!(
+                log::warn!(
                     "Invalid data_operation destination for updated data_operation: {:?} {e:?}",
                     self.data_operation_ref
                 );
-
-                tokio::task::spawn({
-                    let asset_status_mutex_clone = self.asset_status.clone();
-                    let asset_specification_mutex_clone = self.asset_specification.clone();
-                    let data_operation_ref_clone = self.data_operation_ref.clone();
-                    let connector_context = self.connector_context.clone();
-                    let asset_ref = self.asset_ref.clone();
-                    let e = e.clone();
-                    async move {
-                        log::debug!(
-                            "Reporting data operation {data_operation_ref_clone:?} status from recv_notification"
-                        );
-                        let mut status_write_guard = asset_status_mutex_clone.write().await;
-                        let adr_version = asset_specification_mutex_clone.read().unwrap().version;
-                        let mut adr_asset_status =
-                            AssetClient::get_current_asset_status(&status_write_guard, adr_version)
-                                .into_owned();
-                        // Update the config status
-                        adr_asset_status.config = match adr_asset_status.config {
-                            Some(mut config) => {
-                                config.last_transition_time = Some(Utc::now());
-                                Some(config)
-                            }
-                            None => {
-                                // If the config is None, we need to create a new one to report along
-                                // with the data operations status
-                                Some(azure_device_registry::ConfigStatus {
-                                    version: adr_version,
-                                    last_transition_time: Some(Utc::now()),
-                                    ..Default::default()
-                                })
-                            }
-                        };
-                        if let Err(e) = DataOperationStatusReporter::internal_report_status(
-                            &connector_context,
-                            &asset_ref,
-                            adr_asset_status,
-                            &mut status_write_guard,
-                            &data_operation_ref_clone,
-                            Err(e),
-                            "DataOperationClient::recv_notification",
-                        )
-                        .await
-                        {
-                            log::error!(
-                                "Failed to report status for updated data_operation {data_operation_ref_clone:?}: {e}"
-                            );
-                        }
-                    }
-                });
-                DataOperationForwarder::Error(e.clone())
+                DataOperationForwarder::Error(e)
             }
         };
         // Once the data_operation definition has been updated we can mark the value in the watcher as seen
