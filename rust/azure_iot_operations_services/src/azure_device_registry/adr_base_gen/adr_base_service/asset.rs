@@ -110,7 +110,7 @@ pub struct Asset {
     #[builder(default = "None")]
     pub enabled: Option<bool>,
 
-    /// Array of events that are part of the asset. Each event can have per-event configuration.
+    /// Array of events groups that are part of the asset. Each event group can have per-event group configuration.
     #[serde(rename = "eventGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
