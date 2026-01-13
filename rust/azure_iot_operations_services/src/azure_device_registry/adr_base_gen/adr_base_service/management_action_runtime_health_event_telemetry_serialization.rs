@@ -5,23 +5,23 @@ use azure_iot_operations_protocol::common::payload_serialize::{
 };
 use serde_json;
 
-use super::get_response_schema::GetResponseSchema;
+use super::management_action_runtime_health_event_telemetry::ManagementActionRuntimeHealthEventTelemetry;
 
-const GET_RESPONSE_SCHEMA_CONTENT_TYPE: &str = "application/json";
+const MANAGEMENT_ACTION_RUNTIME_HEALTH_EVENT_TELEMETRY_CONTENT_TYPE: &str = "application/json";
 
-impl GetResponseSchema {
+impl ManagementActionRuntimeHealthEventTelemetry {
     fn is_content_type(content_type: &str) -> bool {
-        content_type.starts_with(GET_RESPONSE_SCHEMA_CONTENT_TYPE)
+        content_type.starts_with(MANAGEMENT_ACTION_RUNTIME_HEALTH_EVENT_TELEMETRY_CONTENT_TYPE)
             && matches!(
                 content_type
                     .chars()
-                    .nth(GET_RESPONSE_SCHEMA_CONTENT_TYPE.len()),
+                    .nth(MANAGEMENT_ACTION_RUNTIME_HEALTH_EVENT_TELEMETRY_CONTENT_TYPE.len()),
                 None | Some('+' | ';')
             )
     }
 }
 
-impl PayloadSerialize for GetResponseSchema {
+impl PayloadSerialize for ManagementActionRuntimeHealthEventTelemetry {
     type Error = serde_json::Error;
 
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
@@ -39,7 +39,7 @@ impl PayloadSerialize for GetResponseSchema {
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type
-            && !GetResponseSchema::is_content_type(content_type)
+            && !ManagementActionRuntimeHealthEventTelemetry::is_content_type(content_type)
         {
             return Err(DeserializationError::UnsupportedContentType(format!(
                 "Invalid content type: '{content_type}'. Must be 'application/json'"
