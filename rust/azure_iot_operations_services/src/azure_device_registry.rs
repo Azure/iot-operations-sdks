@@ -55,7 +55,7 @@ pub enum ErrorKind {
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
     /// An argument provided for a request was invalid.
-    #[deprecated(note = "Use ValidationError instead")]
+    #[deprecated(note = "ValidationError will be used instead")]
     #[error(transparent)]
     InvalidRequestArgument(rpc_command::invoker::RequestBuilderError),
     /// An error was returned by the Azure Device Registry Service.

@@ -720,7 +720,7 @@ impl Client {
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if `message_expiry` is > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
@@ -744,11 +744,10 @@ impl Client {
                 .message_expiry(message_expiry)
                 .build()
                 .map_err(ErrorKind::from)?;
-        Ok(self
-            .device_endpoint_health_telemetry_sender
+        self.device_endpoint_health_telemetry_sender
             .send(health_status_message)
             .await
-            .map_err(ErrorKind::from)?)
+            .map_err(|e| Error::from(ErrorKind::from(e)))
     }
 
     /// Starts observation of a [`Device`]'s updates from the Azure Device Registry service.
@@ -917,14 +916,11 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
-    /// or > `u32::max`.
+    /// or > `u32::max` or if the device name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - inbound endpoint type is invalid for the topic.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the device name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -982,14 +978,11 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
-    /// or > `u32::max`.
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -1039,14 +1032,11 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
-    /// or > `u32::max`.
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -1098,14 +1088,11 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
-    /// or > `u32::max`.
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -1163,15 +1150,12 @@ impl Client {
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if `message_expiry` is > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if `message_expiry` is > `u32::max` or if the asset or any dataset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO Telemetry protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset or any dataset name is empty.
     pub async fn report_dataset_runtime_health_events(
         &self,
         device_name: String,
@@ -1220,11 +1204,10 @@ impl Client {
                 .message_expiry(message_expiry)
                 .build()
                 .map_err(ErrorKind::from)?;
-        Ok(self
-            .dataset_health_telemetry_sender
+        self.dataset_health_telemetry_sender
             .send(health_status_message)
             .await
-            .map_err(ErrorKind::from)?)
+            .map_err(|e| Error::from(ErrorKind::from(e)))
     }
 
     /// Reports Events' runtime health statuses to the Azure Device Registry service.
@@ -1240,15 +1223,13 @@ impl Client {
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if `message_expiry` is > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if `message_expiry` is > `u32::max` or if the asset or any event group or event name is
+    /// empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO Telemetry protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset or any event group or event name is empty.
     pub async fn report_event_runtime_health_events(
         &self,
         device_name: String,
@@ -1302,11 +1283,10 @@ impl Client {
                 .message_expiry(message_expiry)
                 .build()
                 .map_err(ErrorKind::from)?;
-        Ok(self
-            .event_health_telemetry_sender
+        self.event_health_telemetry_sender
             .send(health_status_message)
             .await
-            .map_err(ErrorKind::from)?)
+            .map_err(|e| Error::from(ErrorKind::from(e)))
     }
 
     /// Reports Streams' runtime health statuses to the Azure Device Registry service.
@@ -1322,15 +1302,12 @@ impl Client {
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if `message_expiry` is > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if `message_expiry` is > `u32::max` or if the asset or any stream name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO Telemetry protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset or any stream name is empty.
     pub async fn report_stream_runtime_health_events(
         &self,
         device_name: String,
@@ -1379,11 +1356,10 @@ impl Client {
                 .message_expiry(message_expiry)
                 .build()
                 .map_err(ErrorKind::from)?;
-        Ok(self
-            .stream_health_telemetry_sender
+        self.stream_health_telemetry_sender
             .send(health_status_message)
             .await
-            .map_err(ErrorKind::from)?)
+            .map_err(|e| Error::from(ErrorKind::from(e)))
     }
 
     /// Reports Management Actions' runtime health statuses to the Azure Device Registry service.
@@ -1399,15 +1375,13 @@ impl Client {
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidTelemetryArgument`](ErrorKind::InvalidTelemetryArgument)
-    /// if `message_expiry` is > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if `message_expiry` is > `u32::max` or if the asset or any management group or management
+    /// action name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO Telemetry protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset or any management group or management action name is empty.
     pub async fn report_management_action_runtime_health_events(
         &self,
         device_name: String,
@@ -1466,11 +1440,10 @@ impl Client {
                 .message_expiry(message_expiry)
                 .build()
                 .map_err(ErrorKind::from)?;
-        Ok(self
-            .management_action_health_telemetry_sender
+        self.management_action_health_telemetry_sender
             .send(health_status_message)
             .await
-            .map_err(ErrorKind::from)?)
+            .map_err(|e| Error::from(ErrorKind::from(e)))
     }
 
     /// Starts observation of an [`Asset`]'s updates from the Azure Device Registry service.
@@ -1490,14 +1463,11 @@ impl Client {
     /// if the [`Asset`] is already being observed.
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
-    /// or > `u32::max`.
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -1591,14 +1561,11 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
-    /// or > `u32::max`.
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -1680,14 +1647,11 @@ impl Client {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
-    /// or > `u32::max`.
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
