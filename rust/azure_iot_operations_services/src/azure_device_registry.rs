@@ -6,7 +6,9 @@
 use core::fmt::Debug;
 
 use azure_iot_operations_mqtt::token::AckToken;
-use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
+use azure_iot_operations_protocol::{
+    common::aio_protocol_error::AIOProtocolError, rpc_command, telemetry,
+};
 use chrono::{DateTime, Utc};
 use thiserror::Error;
 
@@ -53,8 +55,9 @@ pub enum ErrorKind {
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
     /// An argument provided for a request was invalid.
+    #[deprecated(note = "ValidationError will be used instead")]
     #[error(transparent)]
-    InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
+    InvalidRequestArgument(rpc_command::invoker::RequestBuilderError),
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
     ServiceError(base_client_gen::AkriServiceError),
@@ -78,6 +81,18 @@ impl From<rpc_command::invoker::Response<base_client_gen::AkriServiceError>> for
 impl From<rpc_command::invoker::Response<discovery_client_gen::AkriServiceError>> for ErrorKind {
     fn from(value: rpc_command::invoker::Response<discovery_client_gen::AkriServiceError>) -> Self {
         Self::ServiceError(value.payload.into())
+    }
+}
+
+impl From<rpc_command::invoker::RequestBuilderError> for ErrorKind {
+    fn from(e: rpc_command::invoker::RequestBuilderError) -> Self {
+        ErrorKind::ValidationError(e.to_string())
+    }
+}
+
+impl From<telemetry::sender::MessageBuilderError> for ErrorKind {
+    fn from(e: telemetry::sender::MessageBuilderError) -> Self {
+        ErrorKind::ValidationError(e.to_string())
     }
 }
 
@@ -164,6 +179,31 @@ pub struct Details {
     pub info: Option<String>,
     /// Human readable helpful error message to provide additional context for error (ex: “Authentication method not supported”).
     pub message: Option<String>,
+}
+
+/// Represents the runtime health of a resource.
+#[derive(Debug, Clone)]
+pub struct RuntimeHealth {
+    /// The timestamp (RFC3339) when the health status was last updated, even if the status did not change.
+    pub last_update_time: DateTime<Utc>,
+    /// A human-readable message describing the last transition.
+    pub message: Option<String>,
+    /// Unique, CamelCase reason code describing the cause of the last health state transition.
+    pub reason_code: Option<String>,
+    /// The current health status of the resource.
+    pub status: HealthStatus,
+    /// The version of the resource for which the runtime health is being reported.
+    pub version: u64,
+}
+
+/// Represents the health status of a resource.
+#[derive(Debug, Clone, PartialEq, Eq)]
+#[non_exhaustive]
+pub enum HealthStatus {
+    /// The resource is currently available.
+    Available,
+    /// The resource is currently unavailable.
+    Unavailable,
 }
 
 // ~~ From impls ~~
@@ -255,6 +295,21 @@ impl From<base_client_gen::DetailsSchemaElementSchema> for Details {
             correlation_id: value.correlation_id,
             info: value.info,
             message: value.message,
+        }
+    }
+}
+
+impl From<RuntimeHealth> for base_client_gen::RuntimeHealth {
+    fn from(value: RuntimeHealth) -> Self {
+        base_client_gen::RuntimeHealth {
+            last_update_time: value.last_update_time,
+            message: value.message,
+            reason_code: value.reason_code,
+            status: match value.status {
+                HealthStatus::Available => base_client_gen::StatusSchema::Available,
+                HealthStatus::Unavailable => base_client_gen::StatusSchema::Unavailable,
+            },
+            version: value.version,
         }
     }
 }
