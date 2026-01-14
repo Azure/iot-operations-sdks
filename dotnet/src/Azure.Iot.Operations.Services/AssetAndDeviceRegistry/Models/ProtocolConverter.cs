@@ -69,7 +69,7 @@ internal static class ProtocolConverter
         return new AdrBaseService.DiscoveredAssetEventGroup()
         {
             DataSource = source.DataSource,
-            DefaultEventsDestinations = source.DefaultEventsDestinations?.Select(x => x.ToProtocol()).ToList(),
+            DefaultDestinations = source.DefaultDestinations?.Select(x => x.ToProtocol()).ToList(),
             EventGroupConfiguration = source.EventGroupConfiguration,
             Events = source.Events?.Select(x => x.ToProtocol()).ToList(),
             Name = source.Name,
