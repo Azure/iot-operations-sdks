@@ -408,4 +408,54 @@ internal static class ProtocolConverter
             Info = source.Info
         };
     }
+
+    internal static AdrBaseService.DatasetsSchemaElementSchema ToProtocol(this DatasetsRuntimeHealth source)
+    {
+        return new AdrBaseService.DatasetsSchemaElementSchema
+        {
+            DatasetName = source.DatasetName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static AdrBaseService.EventsSchemaElementSchema ToProtocol(this EventsRuntimeHealth source)
+    {
+        return new AdrBaseService.EventsSchemaElementSchema
+        {
+            EventGroupName = source.EventGroupName,
+            EventName = source.EventName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static AdrBaseService.ManagementActionsSchemaElementSchema ToProtocol(this ManagementActionsRuntimeHealth source)
+    {
+        return new AdrBaseService.ManagementActionsSchemaElementSchema
+        {
+            ManagementActionName = source.ManagementActionName,
+            ManagementGroupName = source.ManagementGroupName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static AdrBaseService.StreamsSchemaElementSchema ToProtocol(this StreamsRuntimeHealth source)
+    {
+        return new AdrBaseService.StreamsSchemaElementSchema
+        {
+            StreamName = source.StreamName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static AdrBaseService.RuntimeHealth ToProtocol(this RuntimeHealth source)
+    {
+        return new AdrBaseService.RuntimeHealth
+        {
+            LastUpdateTime = source.LastUpdateTime,
+            Message = source.Message,
+            ReasonCode = source.ReasonCode,
+            Status = (AdrBaseService.StatusSchema) ((int) source.Status),
+            Version = source.Version,
+        };
+    }
 }
