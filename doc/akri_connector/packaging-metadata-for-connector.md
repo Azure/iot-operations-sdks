@@ -8,7 +8,7 @@ oras push --config <path_to_empty_file>:application/vnd.microsoft.akri-connector
 
 where: 
  - <path_to_empty_file> can be any file ("/dev/null" is a good choice for linux) as the contents won't be checked 
- - The connector metadata file is a JSON file that adheres to the schema defined [here](/doc/akri_connector/connector-metadata-schema.json) such as the examples in this folder.
+ - The connector metadata file is a JSON file that adheres to the schema defined [here](https://raw.githubusercontent.com/SchemaStore/schemastore/refs/heads/master/src/schemas/json/aio-connector-metadata-9.0-preview.json) such as the examples in this folder.
 
 
 for example:
