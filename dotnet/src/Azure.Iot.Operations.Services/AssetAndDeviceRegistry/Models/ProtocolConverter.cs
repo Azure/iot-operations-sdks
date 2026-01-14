@@ -409,7 +409,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DatasetsSchemaElementSchema ToProtocol(this DatasetsRuntimeHealth source)
+    internal static AdrBaseService.DatasetsSchemaElementSchema ToProtocol(this DatasetsRuntimeHealthEvent source)
     {
         return new AdrBaseService.DatasetsSchemaElementSchema
         {
@@ -418,7 +418,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.EventsSchemaElementSchema ToProtocol(this EventsRuntimeHealth source)
+    internal static AdrBaseService.EventsSchemaElementSchema ToProtocol(this EventsRuntimeHealthEvent source)
     {
         return new AdrBaseService.EventsSchemaElementSchema
         {
@@ -428,7 +428,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.ManagementActionsSchemaElementSchema ToProtocol(this ManagementActionsRuntimeHealth source)
+    internal static AdrBaseService.ManagementActionsSchemaElementSchema ToProtocol(this ManagementActionsRuntimeHealthEvent source)
     {
         return new AdrBaseService.ManagementActionsSchemaElementSchema
         {
@@ -438,7 +438,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.StreamsSchemaElementSchema ToProtocol(this StreamsRuntimeHealth source)
+    internal static AdrBaseService.StreamsSchemaElementSchema ToProtocol(this StreamsRuntimeHealthEvent source)
     {
         return new AdrBaseService.StreamsSchemaElementSchema
         {

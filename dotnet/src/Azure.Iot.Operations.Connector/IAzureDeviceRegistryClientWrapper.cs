@@ -226,7 +226,7 @@ namespace Azure.Iot.Operations.Connector
             string deviceName,
             string inboundEndpointName,
             string assetName,
-            List<DatasetsRuntimeHealth> datasetsRuntimeHealth,
+            List<DatasetsRuntimeHealthEvent> datasetsRuntimeHealth,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
 
@@ -243,7 +243,7 @@ namespace Azure.Iot.Operations.Connector
             string deviceName,
             string inboundEndpointName,
             string assetName,
-            List<EventsRuntimeHealth> eventsRuntimeHealth,
+            List<EventsRuntimeHealthEvent> eventsRuntimeHealth,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
 
@@ -260,7 +260,7 @@ namespace Azure.Iot.Operations.Connector
             string deviceName,
             string inboundEndpointName,
             string assetName,
-            List<StreamsRuntimeHealth> streamsRuntimeHealth,
+            List<StreamsRuntimeHealthEvent> streamsRuntimeHealth,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
 
@@ -277,7 +277,7 @@ namespace Azure.Iot.Operations.Connector
             string deviceName,
             string inboundEndpointName,
             string assetName,
-            List<ManagementActionsRuntimeHealth> managementActionsRuntimeHealth,
+            List<ManagementActionsRuntimeHealthEvent> managementActionsRuntimeHealth,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
     }

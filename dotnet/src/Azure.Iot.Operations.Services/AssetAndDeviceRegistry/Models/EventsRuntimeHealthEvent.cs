@@ -2,7 +2,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
     using System;
 
-    public partial class EventsRuntimeHealth
+    public partial class EventsRuntimeHealthEvent
     {
         /// <summary>
         /// The name of the event group containing the event for which the runtime health is being reported.

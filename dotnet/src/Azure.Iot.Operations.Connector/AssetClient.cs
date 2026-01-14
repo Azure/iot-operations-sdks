@@ -175,7 +175,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportDatasetRuntimeHealthAsync(List<DatasetsRuntimeHealth> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportDatasetRuntimeHealthAsync(List<DatasetsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
             //actually releasing this feature.
@@ -194,11 +194,11 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportDatasetRuntimeHealthAsync(DatasetsRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportDatasetRuntimeHealthAsync(DatasetsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
             //actually releasing this feature.
-            await ReportDatasetRuntimeHealthAsync(new List<DatasetsRuntimeHealth>() { runtimeHealth }, telemetryTimeout, cancellationToken);
+            await ReportDatasetRuntimeHealthAsync(new List<DatasetsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportEventRuntimeHealthAsync(List<EventsRuntimeHealth> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportEventRuntimeHealthAsync(List<EventsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             await _adrClient.ReportEventRuntimeHealthAsync(
                 _deviceName,
@@ -224,11 +224,11 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportEventRuntimeHealthAsync(EventsRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportEventRuntimeHealthAsync(EventsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
             //actually releasing this feature.
-            await ReportEventRuntimeHealthAsync(new List<EventsRuntimeHealth>() { runtimeHealth }, telemetryTimeout, cancellationToken);
+            await ReportEventRuntimeHealthAsync(new List<EventsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportStreamRuntimeHealthAsync(List<StreamsRuntimeHealth> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportStreamRuntimeHealthAsync(List<StreamsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
             //actually releasing this feature.
@@ -256,11 +256,11 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportStreamRuntimeHealthAsync(StreamsRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportStreamRuntimeHealthAsync(StreamsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
             //actually releasing this feature.
-            await ReportStreamRuntimeHealthAsync(new List<StreamsRuntimeHealth>() { runtimeHealth }, telemetryTimeout, cancellationToken);
+            await ReportStreamRuntimeHealthAsync(new List<StreamsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportManagementActionRuntimeHealthAsync(List<ManagementActionsRuntimeHealth> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportManagementActionRuntimeHealthAsync(List<ManagementActionsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
             //actually releasing this feature.
@@ -288,11 +288,11 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportManagementActionRuntimeHealthAsync(ManagementActionsRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportManagementActionRuntimeHealthAsync(ManagementActionsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
             //actually releasing this feature.
-            await ReportManagementActionRuntimeHealthAsync(new List<ManagementActionsRuntimeHealth>() { runtimeHealth }, telemetryTimeout, cancellationToken);
+            await ReportManagementActionRuntimeHealthAsync(new List<ManagementActionsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
         }
     }
 }
