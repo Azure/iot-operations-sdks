@@ -176,9 +176,9 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportDatasetRuntimeHealthEvent(List<DatasetsRuntimeHealth> runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportDatasetRuntimeHealthAsync(List<DatasetsRuntimeHealth> runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _adrClient.ReportDatasetRuntimeHealthEvent(
+            await _adrClient.ReportDatasetRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
                 new()
@@ -201,9 +201,9 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportDatasetRuntimeHealthEvent(DatasetsRuntimeHealth runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportDatasetRuntimeHealthAsync(DatasetsRuntimeHealth runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await ReportDatasetRuntimeHealthEvent(new List<DatasetsRuntimeHealth>() { runtimeHealth }, qos, telemetryTimeout, cancellationToken);
+            await ReportDatasetRuntimeHealthAsync(new List<DatasetsRuntimeHealth>() { runtimeHealth }, qos, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -213,9 +213,9 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportEventRuntimeHealthEvent(List<EventsRuntimeHealth> runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportEventRuntimeHealthAsync(List<EventsRuntimeHealth> runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _adrClient.ReportEventRuntimeHealthEvent(
+            await _adrClient.ReportEventRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
                 new()
@@ -238,9 +238,9 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportEventRuntimeHealthEvent(EventsRuntimeHealth runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportEventRuntimeHealthAsync(EventsRuntimeHealth runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await ReportEventRuntimeHealthEvent(new List<EventsRuntimeHealth>() { runtimeHealth }, qos, telemetryTimeout, cancellationToken);
+            await ReportEventRuntimeHealthAsync(new List<EventsRuntimeHealth>() { runtimeHealth }, qos, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -250,9 +250,9 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportStreamRuntimeHealthEvent(List<StreamsRuntimeHealth> runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportStreamRuntimeHealthAsync(List<StreamsRuntimeHealth> runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _adrClient.ReportStreamRuntimeHealthEvent(
+            await _adrClient.ReportStreamRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
                 new()
@@ -275,9 +275,9 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportStreamRuntimeHealthEvent(StreamsRuntimeHealth runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportStreamRuntimeHealthAsync(StreamsRuntimeHealth runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await ReportStreamRuntimeHealthEvent(new List<StreamsRuntimeHealth>() { runtimeHealth }, qos, telemetryTimeout, cancellationToken);
+            await ReportStreamRuntimeHealthAsync(new List<StreamsRuntimeHealth>() { runtimeHealth }, qos, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -287,9 +287,9 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportManagementActionRuntimeHealthEvent(List<ManagementActionsRuntimeHealth> runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportManagementActionRuntimeHealthAsync(List<ManagementActionsRuntimeHealth> runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _adrClient.ReportManagementActionRuntimeHealthEvent(
+            await _adrClient.ReportManagementActionRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
                 new()
@@ -312,9 +312,9 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportManagementActionRuntimeHealthEvent(ManagementActionsRuntimeHealth runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportManagementActionRuntimeHealthAsync(ManagementActionsRuntimeHealth runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await ReportManagementActionRuntimeHealthEvent(new List<ManagementActionsRuntimeHealth>() { runtimeHealth }, qos, telemetryTimeout, cancellationToken);
+            await ReportManagementActionRuntimeHealthAsync(new List<ManagementActionsRuntimeHealth>() { runtimeHealth }, qos, telemetryTimeout, cancellationToken);
         }
     }
 }

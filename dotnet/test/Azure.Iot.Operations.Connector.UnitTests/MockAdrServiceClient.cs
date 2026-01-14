@@ -100,27 +100,27 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return Task.FromResult(new DeviceStatus());
         }
 
-        public Task ReportDeviceEndpointRuntimeHealthEvent(string deviceName, string inboundEndpointName, DeviceEndpointRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, DeviceEndpointRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task ReportDatasetRuntimeHealthEvent(string deviceName, string inboundEndpointName, DatasetRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, DatasetRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task ReportEventRuntimeHealthEvent(string deviceName, string inboundEndpointName, EventRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, EventRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task ReportStreamRuntimeHealthEvent(string deviceName, string inboundEndpointName, StreamRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, StreamRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task ReportManagementActionRuntimeHealthEvent(string deviceName, string inboundEndpointName, ManagementActionRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, ManagementActionRuntimeHealthEventTelemetry telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

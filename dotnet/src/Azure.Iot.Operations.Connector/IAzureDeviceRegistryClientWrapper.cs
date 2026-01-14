@@ -208,7 +208,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        Task ReportDeviceEndpointRuntimeHealthEvent(
+        Task ReportDeviceEndpointRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
             DeviceEndpointRuntimeHealthEventTelemetry runtimeHealth,
@@ -224,7 +224,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        Task ReportDatasetRuntimeHealthEvent(
+        Task ReportDatasetRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
             DatasetRuntimeHealthEventTelemetry runtimeHealth,
@@ -241,7 +241,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        Task ReportEventRuntimeHealthEvent(
+        Task ReportEventRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
             EventRuntimeHealthEventTelemetry runtimeHealth,
@@ -258,7 +258,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        Task ReportStreamRuntimeHealthEvent(
+        Task ReportStreamRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
             StreamRuntimeHealthEventTelemetry runtimeHealth,
@@ -275,7 +275,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        Task ReportManagementActionRuntimeHealthEvent(
+        Task ReportManagementActionRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
             ManagementActionRuntimeHealthEventTelemetry runtimeHealth,
