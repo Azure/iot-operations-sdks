@@ -553,7 +553,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
-    public async Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.DeviceEndpointRuntimeHealthEventTelemetry runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    public async Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.DeviceEndpointRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(deviceName))
         {
@@ -582,7 +582,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 await _adrBaseServiceService.DeviceEndpointRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
                     runtimeHealth.ToProtocol(),
                     additionalTopicTokenMap,
-                    qos,
+                    MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
                     cancellationToken);
             }
@@ -595,7 +595,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
-    public async Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.DatasetRuntimeHealthEventTelemetry runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    public async Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.DatasetRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(deviceName))
         {
@@ -624,7 +624,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 await _adrBaseServiceService.DatasetRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
                     runtimeHealth.ToProtocol(),
                     additionalTopicTokenMap,
-                    qos,
+                    MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
                     cancellationToken);
             }
@@ -637,7 +637,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
-    public async Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.EventRuntimeHealthEventTelemetry runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    public async Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.EventRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(deviceName))
         {
@@ -666,7 +666,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 await _adrBaseServiceService.EventRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
                     runtimeHealth.ToProtocol(),
                     additionalTopicTokenMap,
-                    qos,
+                    MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
                     cancellationToken);
             }
@@ -679,7 +679,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
-    public async Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.StreamRuntimeHealthEventTelemetry runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    public async Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.StreamRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(deviceName))
         {
@@ -708,7 +708,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 await _adrBaseServiceService.StreamRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
                     runtimeHealth.ToProtocol(),
                     additionalTopicTokenMap,
-                    qos,
+                    MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
                     cancellationToken);
             }
@@ -721,7 +721,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
-    public async Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.ManagementActionRuntimeHealthEventTelemetry runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    public async Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.ManagementActionRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(deviceName))
         {
@@ -750,7 +750,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 await _adrBaseServiceService.ManagementActionRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
                     runtimeHealth.ToProtocol(),
                     additionalTopicTokenMap,
-                    qos,
+                    MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
                     cancellationToken);
             }

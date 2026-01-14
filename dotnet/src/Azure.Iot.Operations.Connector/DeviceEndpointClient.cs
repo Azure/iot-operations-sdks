@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
@@ -73,10 +72,9 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the endpoint.</param>
         /// <param name="telemetry">The health status to report.</param>
-        /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportRuntimeHealthAsync(RuntimeHealth runtimeHealth, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportRuntimeHealthAsync(RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             await _adrClient.ReportDeviceEndpointRuntimeHealthAsync(
                 _deviceName,
@@ -88,7 +86,6 @@ namespace Azure.Iot.Operations.Connector
                         RuntimeHealth = runtimeHealth,
                     }
                 },
-                qos,
                 telemetryTimeout,
                 cancellationToken);
         }

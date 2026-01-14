@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Reflection;
 using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
@@ -205,14 +204,12 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the endpoint.</param>
         /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         Task ReportDeviceEndpointRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
             DeviceEndpointRuntimeHealthEventTelemetry runtimeHealth,
-            MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce,
             TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -221,14 +218,12 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the endpoint.</param>
         /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         Task ReportDatasetRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
             DatasetRuntimeHealthEventTelemetry runtimeHealth,
-            MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
 
@@ -238,14 +233,12 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the endpoint.</param>
         /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         Task ReportEventRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
             EventRuntimeHealthEventTelemetry runtimeHealth,
-            MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
 
@@ -255,14 +248,12 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the endpoint.</param>
         /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         Task ReportStreamRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
             StreamRuntimeHealthEventTelemetry runtimeHealth,
-            MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
 
@@ -272,14 +263,12 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the endpoint.</param>
         /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="qos">The MQTT quality of service to send this report with.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         Task ReportManagementActionRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
             ManagementActionRuntimeHealthEventTelemetry runtimeHealth,
-            MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
 
