@@ -279,7 +279,7 @@ async fn run_dataset(
     // Get the status reporter for this data operation - create once and reuse
     let data_operation_reporter = data_operation_client.get_status_reporter();
 
-    // now we should update the status of the dataset
+    // now we should update the status of the dataset, using the initial_status since there's nothing else we need to validate ourselves
     if let Err(e) = data_operation_reporter
         .report_status_if_modified(report_status_if_changed!(&log_identifier, initial_status))
         .await
@@ -309,17 +309,8 @@ async fn run_dataset(
                             dataset_valid = last_reported_dataset_status.is_ok();
                             is_sdk_error_causing_invalid_state = false;
                         }
-
-                        // now we should update the status of the dataset and report the message schema
-                        if let Err(e) = data_operation_reporter
-                            .report_status_if_modified(report_status_if_changed!(&log_identifier, last_reported_dataset_status))
-                            .await
-                        {
-                            log::error!("{log_identifier} Error reporting dataset status: {e}");
-                        }
-
                         // Update the local schema reference, since it will have been cleared by the version update
-                        local_schema_reference = data_operation_client.message_schema_reference().await;
+                        local_schema_reference = None;
                     },
                     DataOperationNotification::DataOperationUpdated(Ok(())) => {
                         log::info!("{log_identifier} Dataset updated: {data_operation_client:?}");
@@ -327,17 +318,8 @@ async fn run_dataset(
                         is_sdk_error_causing_invalid_state = false;
                         last_reported_dataset_status = Ok(());
                         dataset_valid = last_reported_dataset_status.is_ok();
-
-                        // now we should update t`he status of the dataset and report the message schema
-                        if let Err(e) = data_operation_reporter
-                            .report_status_if_modified(report_status_if_changed!(&log_identifier, last_reported_dataset_status))
-                            .await
-                        {
-                            log::error!("{log_identifier} Error reporting dataset status: {e}");
-                        }
-
-                        // Update the local schema reference
-                        local_schema_reference = data_operation_client.message_schema_reference().await;
+                        // Update the local schema reference, since it will have been cleared by the version update
+                        local_schema_reference = None;
                     },
                     DataOperationNotification::AssetUpdated(Err(e)) |
                     DataOperationNotification::DataOperationUpdated(Err(e)) => {
@@ -345,15 +327,18 @@ async fn run_dataset(
                         is_sdk_error_causing_invalid_state = true;
                         last_reported_dataset_status = Err(e);
                         dataset_valid = false;
-                        // Report this error data operation status
-                        if let Err(e) =  data_operation_reporter.report_status_if_modified(report_status_if_changed!(&log_identifier, last_reported_dataset_status)).await {
-                            log::error!("{log_identifier} Error reporting dataset status: {e}");
-                        }
                     },
                     DataOperationNotification::Deleted => {
                         log::warn!("{log_identifier} Dataset has been deleted. No more dataset updates will be received");
                         break;
                     }
+                }
+                // Report the new dataset status (needed for all cases other than deletion)
+                if let Err(e) = data_operation_reporter
+                    .report_status_if_modified(report_status_if_changed!(&log_identifier, last_reported_dataset_status))
+                    .await
+                {
+                    log::error!("{log_identifier} Error reporting dataset status: {e}");
                 }
             },
             _ = timer.tick(), if dataset_valid => {
@@ -444,7 +429,10 @@ async fn handle_unsupported_data_operation(
     loop {
         match data_operation_client.recv_notification().await {
             DataOperationNotification::AssetUpdated(Ok(()))
-            | DataOperationNotification::DataOperationUpdated(Ok(())) => {
+            | DataOperationNotification::DataOperationUpdated(Ok(()))
+            // it doesn't matter if the update is Err or Ok, we can always report unsupported
+            | DataOperationNotification::AssetUpdated(Err(_))
+            | DataOperationNotification::DataOperationUpdated(Err(_)) => {
                 log::warn!(
                     "{log_identifier} update notification received. {data_operation_kind:?} is not supported for the this Connector",
                 );
@@ -465,11 +453,6 @@ async fn handle_unsupported_data_operation(
                 {
                     log::error!("{log_identifier} Error reporting status: {e}");
                 }
-            }
-            DataOperationNotification::AssetUpdated(Err(e))
-            | DataOperationNotification::DataOperationUpdated(Err(e)) => {
-                // error status has already been reported, so no need to do anything here
-                log::info!("{log_identifier} update invalid notification received {e}");
             }
             DataOperationNotification::Deleted => {
                 log::info!("{log_identifier} deleted notification received");
