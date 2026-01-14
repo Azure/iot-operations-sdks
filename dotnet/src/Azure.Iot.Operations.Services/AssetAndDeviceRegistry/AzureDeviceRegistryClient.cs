@@ -555,6 +555,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     /// <inheritdoc />
     public async Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.RuntimeHealth deviceEndpointRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
+        //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+        //actually releasing this feature.
         if (string.IsNullOrWhiteSpace(deviceName))
         {
             throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
@@ -603,6 +605,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     /// <inheritdoc />
     public async Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<DatasetsRuntimeHealth> datasetsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
+        //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+        //actually releasing this feature.
         if (string.IsNullOrWhiteSpace(deviceName))
         {
             throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
@@ -654,6 +658,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     /// <inheritdoc />
     public async Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<EventsRuntimeHealth> eventsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
+        //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+        //actually releasing this feature.
         if (string.IsNullOrWhiteSpace(deviceName))
         {
             throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
@@ -705,6 +711,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     /// <inheritdoc />
     public async Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<StreamsRuntimeHealth> streamsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
+        //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+        //actually releasing this feature.
         if (string.IsNullOrWhiteSpace(deviceName))
         {
             throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
@@ -756,6 +764,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     /// <inheritdoc />
     public async Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<ManagementActionsRuntimeHealth> managementActionsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
+        //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+        //actually releasing this feature.
         if (string.IsNullOrWhiteSpace(deviceName))
         {
             throw new ArgumentException("Device name cannot be null or empty", nameof(deviceName));
