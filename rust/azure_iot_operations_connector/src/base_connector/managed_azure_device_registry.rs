@@ -1844,7 +1844,7 @@ pub enum DataOperationNotification {
     /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
     AssetUpdated(Result<(), AdrConfigError>),
     /// Indicates that the Data Operation's definition has been updated in place.
-    /// This will only be returned if the Data Operation definition changed. If the default destination or default config on the asset changed, the AssetUpdated variant will be returned.
+    /// This will only be returned if the Data Operation definition changed. If the default destination or default config on the asset changed, the `AssetUpdated` variant will be returned.
     /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
     DataOperationUpdated(Result<(), AdrConfigError>),
@@ -2195,7 +2195,10 @@ impl DataOperationClient {
             }
         };
         let (forwarder, res) = match forwarder_res {
-            Ok(forwarder) => (DataOperationForwarder::Forwarder(forwarder), Ok(())),
+            Ok(forwarder) => (
+                DataOperationForwarder::Forwarder(Box::new(forwarder)),
+                Ok(()),
+            ),
             Err(e) => {
                 log::warn!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
                 (DataOperationForwarder::Error(e.clone()), Err(e))
@@ -2610,7 +2613,7 @@ impl DataOperationClient {
         // For now, don't block reporting the message schema if there's no valid destination for more flexibility
         match forwarder {
             DataOperationForwarder::Forwarder(forwarder) => {
-                forwarder.update_message_schema_reference(Some(message_schema_reference.clone()))
+                forwarder.update_message_schema_reference(Some(message_schema_reference.clone()));
             }
             DataOperationForwarder::Error(_) => {}
         }
@@ -2837,7 +2840,7 @@ impl DataOperationClient {
             }
         };
         self.forwarder = match forwarder_result {
-            Ok(forwarder) => DataOperationForwarder::Forwarder(forwarder),
+            Ok(forwarder) => DataOperationForwarder::Forwarder(Box::new(forwarder)),
             Err(e) => {
                 log::warn!(
                     "Invalid data_operation destination for updated data_operation: {:?} {e:?}",
