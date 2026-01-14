@@ -44,13 +44,6 @@ namespace EventDrivenTcpThermostatConnector
                     }
                     return currentDeviceStatus;
                 }, true, null, cancellationToken);
-
-                await args.DeviceEndpointClient.ReportRuntimeHealthAsync(
-                    new()
-                    {
-                        LastUpdateTime = DateTime.UtcNow,
-                        Status = HealthStatus.Available,
-                    });
             }
             catch (Exception e)
             {
@@ -192,18 +185,6 @@ namespace EventDrivenTcpThermostatConnector
                             int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024), cancellationToken);
                             Array.Resize(ref buffer, bytesRead);
 
-                            await args.AssetClient.ReportEventRuntimeHealthAsync(
-                                new EventsRuntimeHealth()
-                                {
-                                    EventGroupName =  eventGroupName,
-                                    EventName = assetEvent.Name,
-                                    RuntimeHealth = new()
-                                    {
-                                        LastUpdateTime = DateTime.UtcNow,
-                                        Status = HealthStatus.Available,
-                                    }
-                                });
-
                             _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
                             await args.AssetClient.ForwardReceivedEventAsync(eventGroupName, assetEvent, buffer, null, null, cancellationToken);
 
@@ -258,34 +239,12 @@ namespace EventDrivenTcpThermostatConnector
                     catch (Exception e)
                     {
                         _logger.LogError(e, "Failed to listen on TCP connection");
-                        await args.AssetClient.ReportEventRuntimeHealthAsync(
-                            new EventsRuntimeHealth()
-                            {
-                                EventGroupName = eventGroupName,
-                                EventName = assetEvent.Name,
-                                RuntimeHealth = new()
-                                {
-                                    LastUpdateTime = DateTime.UtcNow,
-                                    Status = HealthStatus.Unavailable,
-                                }
-                            });
                         await Task.Delay(TimeSpan.FromSeconds(10));
                     }
                 }
                 catch (Exception e)
                 {
                     _logger.LogError(e, "Failed to open TCP connection to asset");
-                    await args.AssetClient.ReportEventRuntimeHealthAsync(
-                        new EventsRuntimeHealth()
-                        {
-                            EventGroupName = eventGroupName,
-                            EventName = assetEvent.Name,
-                            RuntimeHealth = new()
-                            {
-                                LastUpdateTime = DateTime.UtcNow,
-                                Status = HealthStatus.Unavailable,
-                            }
-                        });
                 }
 
                 try
