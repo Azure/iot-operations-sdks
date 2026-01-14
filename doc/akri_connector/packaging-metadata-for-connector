@@ -3,7 +3,7 @@
 In order for the user of a connector to access the metadata associated with it, the publisher of a connector must push the metadata using ORAS like:
 
 ```bash
-oras push --config <path_to_empty_file>:application/vnd.microsoft.akri-connector.v1+json <container_registry>/<connector_name>:<connector_version>-metadata <connector_metadata_file>
+oras push --config <path_to_empty_file>:application/vnd.microsoft.akri-connector.v1+json <container_registry>/<connector_name>-metadata:<connector_version> <connector_metadata_file>
 ```
 
 where: 
@@ -14,7 +14,7 @@ where:
 for example:
 
 ```bash
-oras push --config /dev/null:application/vnd.microsoft.akri-connector.v1+json someAcr.azurecr.io/akri-connectors/minimal-example-connector:1.0.0-metadata ./minimal-example-connector-metadata.json
+oras push --config /dev/null:application/vnd.microsoft.akri-connector.v1+json someAcr.azurecr.io/akri-connectors/minimal-example-connector-metadata:1.0.0 ./minimal-example-connector-metadata.json
 ```
 
 See [this doc](https://oras.land/docs/commands/oras_push/) for more options/details when using ORAS to push.
