@@ -7,9 +7,10 @@ use std::collections::HashMap;
 use chrono::{DateTime, Utc};
 
 use crate::azure_device_registry::helper::{ConvertOptionMap, ConvertOptionVec};
-use crate::azure_device_registry::{ConfigError, ConfigStatus};
+use crate::azure_device_registry::{ConfigError, ConfigStatus, RuntimeHealth};
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
+    adr_base_gen::adr_base_service::service as base_service_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
 };
 
@@ -408,6 +409,17 @@ impl From<base_client_gen::DeviceStatus> for DeviceStatus {
         DeviceStatus {
             config: value.config.map(base_client_gen::ConfigStatus::into),
             endpoints,
+        }
+    }
+}
+
+impl From<RuntimeHealth> for base_service_gen::DeviceEndpointRuntimeHealthEventTelemetry {
+    fn from(value: RuntimeHealth) -> Self {
+        base_service_gen::DeviceEndpointRuntimeHealthEventTelemetry {
+            device_endpoint_runtime_health_event:
+                base_service_gen::DeviceEndpointRuntimeHealthEventSchema {
+                    runtime_health: value.into(),
+                },
         }
     }
 }
