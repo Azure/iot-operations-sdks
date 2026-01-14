@@ -732,7 +732,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 var protocolStreamsRuntimeHealth = streamsRuntimeHealth?.Select(x => x.ToProtocol());
 
                 await _adrBaseServiceService.StreamRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    new AdrBaseService.StreamRuntimeHealthEventTelemetry()
+                    new StreamRuntimeHealthEventTelemetry()
                     {
                         StreamRuntimeHealthEvent = new()
                         {
@@ -783,9 +783,9 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 var protocolManagementActionsRuntimeHealth = managementActionsRuntimeHealth?.Select(x => x.ToProtocol());
 
                 await _adrBaseServiceService.ManagementActionRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    new AdrBaseService.ManagementActionRuntimeHealthEventTelemetry()
+                    new ManagementActionRuntimeHealthEventTelemetry()
                     {
-                        ManagementActionRuntimeHealthEvent = new AdrBaseService.ManagementActionRuntimeHealthEventSchema()
+                        ManagementActionRuntimeHealthEvent = new ManagementActionRuntimeHealthEventSchema()
                         {
                             AssetName = assetName,
                             ManagementActions = protocolManagementActionsRuntimeHealth != null ? protocolManagementActionsRuntimeHealth.ToList() : new(),
