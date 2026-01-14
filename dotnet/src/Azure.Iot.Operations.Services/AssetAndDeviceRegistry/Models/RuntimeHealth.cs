@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// <summary>
         /// The current health status of the resource.
         /// </summary>
-        public StatusSchema Status { get; set; } = default!;
+        public HealthStatus Status { get; set; } = default!;
 
         /// <summary>
         /// The version of the resource for which the runtime health is being reported.
