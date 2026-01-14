@@ -177,6 +177,8 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportDatasetRuntimeHealthAsync(List<DatasetsRuntimeHealth> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
             await _adrClient.ReportDatasetRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
@@ -194,6 +196,8 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportDatasetRuntimeHealthAsync(DatasetsRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
             await ReportDatasetRuntimeHealthAsync(new List<DatasetsRuntimeHealth>() { runtimeHealth }, telemetryTimeout, cancellationToken);
         }
 
@@ -222,6 +226,8 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportEventRuntimeHealthAsync(EventsRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
             await ReportEventRuntimeHealthAsync(new List<EventsRuntimeHealth>() { runtimeHealth }, telemetryTimeout, cancellationToken);
         }
 
@@ -233,6 +239,8 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportStreamRuntimeHealthAsync(List<StreamsRuntimeHealth> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
             await _adrClient.ReportStreamRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
@@ -250,6 +258,8 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportStreamRuntimeHealthAsync(StreamsRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
             await ReportStreamRuntimeHealthAsync(new List<StreamsRuntimeHealth>() { runtimeHealth }, telemetryTimeout, cancellationToken);
         }
 
@@ -261,6 +271,8 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportManagementActionRuntimeHealthAsync(List<ManagementActionsRuntimeHealth> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
             await _adrClient.ReportManagementActionRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
@@ -278,6 +290,8 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportManagementActionRuntimeHealthAsync(ManagementActionsRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
             await ReportManagementActionRuntimeHealthAsync(new List<ManagementActionsRuntimeHealth>() { runtimeHealth }, telemetryTimeout, cancellationToken);
         }
     }

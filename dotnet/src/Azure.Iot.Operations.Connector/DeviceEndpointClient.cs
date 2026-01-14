@@ -76,6 +76,8 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportRuntimeHealthAsync(RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
             await _adrClient.ReportDeviceEndpointRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
