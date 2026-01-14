@@ -15,6 +15,8 @@ use thiserror::Error;
 use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use tokio_util::sync::{CancellationToken, DropGuard};
 
+use crate::DataOperationRef;
+
 /// Environment variable name for the mount path of the Azure Device Registry resources.
 const ADR_RESOURCES_NAME_MOUNT_PATH: &str = "ADR_RESOURCES_NAME_MOUNT_PATH";
 
@@ -227,7 +229,6 @@ pub fn get_device_endpoint_names(mount_path: &Path) -> Result<HashSet<DeviceEndp
                     }
                     Err(err) => {
                         log::warn!("Failed to parse device endpoint from file name: {err:?}");
-                        continue;
                     }
                 }
             }
@@ -350,7 +351,7 @@ impl FileMountMap {
                     // 1. The receiver is closed which means the `FileMountMap` is dropped, this should not happen.
                     // 2. The receiver is full which means we are not receiving notifications fast enough or
                     //    are out of space, this should be handled by the caller via a retry.
-                    log::warn!("Failed to send device creation notification");
+                    log::error!("Failed to send device creation notification");
                     panic!("Failed to send device creation notification");
                 }
             }
@@ -407,7 +408,7 @@ impl FileMountMap {
                     // 1. The receiver is closed which means the `FileMountMap` is dropped, this should not happen.
                     // 2. The receiver is full which means we are not receiving notifications fast enough or
                     //    are out of space, this should be handled by the caller via a retry.
-                    log::warn!("Failed to send device creation notification");
+                    log::error!("Failed to send device creation notification");
                     panic!("Failed to send device creation notification");
                 }
             }
@@ -480,6 +481,17 @@ pub struct AssetRef {
     /// The name of the endpoint
     pub inbound_endpoint_name: String,
 }
+
+impl From<&DataOperationRef> for AssetRef {
+    fn from(data_operation_ref: &DataOperationRef) -> Self {
+        AssetRef {
+            name: data_operation_ref.asset_name.clone(),
+            device_name: data_operation_ref.device_name.clone(),
+            inbound_endpoint_name: data_operation_ref.inbound_endpoint_name.clone(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

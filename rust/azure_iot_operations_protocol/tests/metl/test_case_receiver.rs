@@ -36,28 +36,24 @@ pub struct TestCaseReceiver<T: DefaultsType + Default> {
 }
 
 pub fn get_default_telemetry_topic<T: DefaultsType + Default>() -> Option<String> {
-    if let Some(default_test_case) = T::get_defaults() {
-        if let Some(default_prologue) = default_test_case.prologue.as_ref() {
-            if let Some(default_receiver) = default_prologue.receiver.as_ref() {
-                if let Some(default_telemetry_topic) = default_receiver.telemetry_topic.as_ref() {
-                    return Some(default_telemetry_topic.to_string());
-                }
-            }
-        }
+    if let Some(default_test_case) = T::get_defaults()
+        && let Some(default_prologue) = default_test_case.prologue.as_ref()
+        && let Some(default_receiver) = default_prologue.receiver.as_ref()
+        && let Some(default_telemetry_topic) = default_receiver.telemetry_topic.as_ref()
+    {
+        return Some(default_telemetry_topic.clone());
     }
 
     None
 }
 
 pub fn get_default_topic_namespace<T: DefaultsType + Default>() -> Option<String> {
-    if let Some(default_test_case) = T::get_defaults() {
-        if let Some(default_prologue) = default_test_case.prologue.as_ref() {
-            if let Some(default_receiver) = default_prologue.receiver.as_ref() {
-                if let Some(default_topic_namespace) = default_receiver.topic_namespace.as_ref() {
-                    return Some(default_topic_namespace.to_string());
-                }
-            }
-        }
+    if let Some(default_test_case) = T::get_defaults()
+        && let Some(default_prologue) = default_test_case.prologue.as_ref()
+        && let Some(default_receiver) = default_prologue.receiver.as_ref()
+        && let Some(default_topic_namespace) = default_receiver.topic_namespace.as_ref()
+    {
+        return Some(default_topic_namespace.clone());
     }
 
     None

@@ -23,7 +23,7 @@ spec:
       serviceAccountName: passive-replication-service-account
       containers:
         - name: passive-replication-sample
-          image: passivereplicationsample
+          image: ${PASSIVE_REPLICATION_IMAGE_NAME}
           imagePullPolicy: Never
           volumeMounts:
             - name: mqtt-client-token

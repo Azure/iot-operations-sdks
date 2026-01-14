@@ -552,13 +552,13 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 throw new ApplicationException();
             }
 
-            CloudEvent? cloudEvent = null;
+            ExtendedCloudEvent? cloudEvent = null;
             try
             {
-                cloudEvent = metadata.GetCloudEvent();
+                cloudEvent = metadata.CloudEvent;
             }
             catch (Exception)
-            { 
+            {
                 // it wasn't a cloud event, ignore this error
             }
 
@@ -567,7 +567,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private record ReceivedTelemetry
         {
-            public ReceivedTelemetry(string telemetryValue, Dictionary<string, string> metadata, Dictionary<string, string> topicTokens, CloudEvent? cloudEvent, string sourceId)
+            public ReceivedTelemetry(string telemetryValue, Dictionary<string, string> metadata, Dictionary<string, string> topicTokens, ExtendedCloudEvent? cloudEvent, string sourceId)
             {
                 TelemetryValue = telemetryValue;
                 Metadata = metadata;

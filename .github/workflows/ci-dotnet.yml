@@ -146,11 +146,72 @@ jobs:
         cd dotnet/samples/Connectors/SqlConnector
         ./deploy-connector-and-device.sh
 
+    - name: Wait for Polling Rest Connector to be ready
+      run: |
+        echo "Waiting for rest-server-deployment to be ready..."
+        kubectl rollout status deployment/rest-server-deployment -n azure-iot-operations --timeout=120s
+        echo "Waiting for connector pod to appear and be ready..."
+        for i in {1..30}; do
+          if kubectl get pods -n azure-iot-operations | grep -q "rest-ctemplate.*Running"; then
+            echo "Connector pod is running"
+            break
+          fi
+          echo "Waiting for connector pod... ($i/30)"
+          sleep 2
+        done
+        kubectl get pods -n azure-iot-operations | grep rest-ctemplate || echo "No rest-ctemplate pods found"
+
+    - name: Wait for Event Driven TCP Connector to be ready
+      run: |
+        echo "Waiting for tcp-service-deployment to be ready..."
+        kubectl rollout status deployment/tcp-service-deployment -n azure-iot-operations --timeout=120s
+        echo "Waiting for connector pod to appear and be ready..."
+        for i in {1..30}; do
+          if kubectl get pods -n azure-iot-operations | grep -q "tcp-ctemplate.*Running"; then
+            echo "Connector pod is running"
+            break
+          fi
+          echo "Waiting for connector pod... ($i/30)"
+          sleep 2
+        done
+        kubectl get pods -n azure-iot-operations | grep tcp-ctemplate || echo "No tcp-ctemplate pods found"
+
+    - name: Wait for SQL Connector to be ready
+      run: |
+        echo "Waiting for mssql-deployment to be ready..."
+        kubectl rollout status deployment/mssql-deployment -n azure-iot-operations --timeout=180s
+        echo "Waiting for SQL pod to be fully initialized..."
+        kubectl wait --for=condition=ready pod -l app=mssql -n azure-iot-operations --timeout=120s
+        echo "Waiting for connector pod to appear and be ready..."
+        for i in {1..30}; do
+          if kubectl get pods -n azure-iot-operations | grep -q "sql-ctemplate.*Running"; then
+            echo "Connector pod is running"
+            break
+          fi
+          echo "Waiting for connector pod... ($i/30)"
+          sleep 2
+        done
+        kubectl get pods -n azure-iot-operations | grep sql-ctemplate || echo "No sql-ctemplate pods found"
+
+    - name: Verify all connector pods are running
+      run: |
+        echo "=== All Pods in azure-iot-operations namespace ==="
+        kubectl get pods -n azure-iot-operations
+        echo ""
+        echo "=== Connector Pods Status ==="
+        kubectl get pods -n azure-iot-operations | grep ctemplate || echo "No connector pods found"
+        echo ""
+        echo "=== Service Pods Status ==="
+        kubectl get pods -n azure-iot-operations | grep -E "(rest-server|tcp-service|mssql)" || echo "No service pods found"
+        echo ""
+        echo "Giving connectors additional time to stabilize..."
+        sleep 10
+
     - name: Test SDK (TLS + SAT)
       run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false;ClientId=TestClient" --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
 
     - name: Test SDK (TLS + x509)
-      run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
+      run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTest.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
 
     - name: Azure.Iot.Operations.Mqtt.UnitTests Package Code Coverage
       uses: irongut/CodeCoverageSummary@v1.3.0
