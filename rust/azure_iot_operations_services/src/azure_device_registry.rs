@@ -198,6 +198,7 @@ pub struct RuntimeHealth {
 
 /// Represents the health status of a resource.
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[non_exhaustive]
 pub enum HealthStatus {
     /// The resource is currently available.
     Available,
