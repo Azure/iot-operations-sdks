@@ -180,14 +180,8 @@ namespace Azure.Iot.Operations.Connector
             await _adrClient.ReportDatasetRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
-                new()
-                {
-                    DatasetRuntimeHealthEvent = new()
-                    {
-                        AssetName = _assetName,
-                        Datasets = runtimeHealth,
-                    }
-                },
+                _assetName,
+                runtimeHealth,
                 telemetryTimeout,
                 cancellationToken);
         }
@@ -214,14 +208,8 @@ namespace Azure.Iot.Operations.Connector
             await _adrClient.ReportEventRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
-                new()
-                {
-                    EventRuntimeHealthEvent = new()
-                    {
-                        AssetName = _assetName,
-                        Events = runtimeHealth,
-                    }
-                },
+                _assetName,
+                runtimeHealth,
                 telemetryTimeout,
                 cancellationToken);
         }
@@ -248,14 +236,8 @@ namespace Azure.Iot.Operations.Connector
             await _adrClient.ReportStreamRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
-                new()
-                {
-                    StreamRuntimeHealthEvent = new()
-                    {
-                        AssetName = _assetName,
-                        Streams = runtimeHealth,
-                    }
-                },
+                _assetName,
+                runtimeHealth,
                 telemetryTimeout,
                 cancellationToken);
         }
@@ -282,14 +264,8 @@ namespace Azure.Iot.Operations.Connector
             await _adrClient.ReportManagementActionRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
-                new()
-                {
-                    ManagementActionRuntimeHealthEvent = new()
-                    {
-                        AssetName = _assetName,
-                        ManagementActions = runtimeHealth,
-                    }
-                },
+                _assetName,
+                runtimeHealth,
                 telemetryTimeout,
                 cancellationToken);
         }

@@ -100,27 +100,27 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return Task.FromResult(new DeviceStatus());
         }
 
-        public Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, DeviceEndpointRuntimeHealthEventTelemetry telemetry, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, RuntimeHealth deviceEndpointRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, DatasetRuntimeHealthEventTelemetry telemetry, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<DatasetsRuntimeHealth> datasetsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, EventRuntimeHealthEventTelemetry telemetry, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<EventsRuntimeHealth> eventsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, StreamRuntimeHealthEventTelemetry telemetry, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<StreamsRuntimeHealth> streamsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, ManagementActionRuntimeHealthEventTelemetry telemetry, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<ManagementActionsRuntimeHealth> managementActionsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

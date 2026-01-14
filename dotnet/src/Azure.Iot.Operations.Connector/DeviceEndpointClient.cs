@@ -79,13 +79,7 @@ namespace Azure.Iot.Operations.Connector
             await _adrClient.ReportDeviceEndpointRuntimeHealthAsync(
                 _deviceName,
                 _inboundEndpointName,
-                new()
-                {
-                    DeviceEndpointRuntimeHealthEvent = new()
-                    {
-                        RuntimeHealth = runtimeHealth,
-                    }
-                },
+                runtimeHealth,
                 telemetryTimeout,
                 cancellationToken);
         }

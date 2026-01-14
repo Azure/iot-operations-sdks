@@ -553,7 +553,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
-    public async Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.DeviceEndpointRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    public async Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.RuntimeHealth deviceEndpointRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(deviceName))
         {
@@ -580,7 +580,13 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             try
             {
                 await _adrBaseServiceService.DeviceEndpointRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    runtimeHealth.ToProtocol(),
+                    new()
+                    {
+                        DeviceEndpointRuntimeHealthEvent = new()
+                        {
+                            RuntimeHealth = deviceEndpointRuntimeHealth.ToProtocol(),
+                        },
+                    },
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -595,7 +601,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
-    public async Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.DatasetRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    public async Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<DatasetsRuntimeHealth> datasetsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(deviceName))
         {
@@ -621,8 +627,17 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
             try
             {
+                var protocolDatasetsRuntimeHealth = datasetsRuntimeHealth?.Select(x => x.ToProtocol());
+
                 await _adrBaseServiceService.DatasetRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    runtimeHealth.ToProtocol(),
+                    new()
+                    {
+                        DatasetRuntimeHealthEvent = new()
+                        {
+                            AssetName = assetName,
+                            Datasets = protocolDatasetsRuntimeHealth != null ? protocolDatasetsRuntimeHealth.ToList() : new(),
+                        }
+                    },
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -637,7 +652,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
-    public async Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.EventRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    public async Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<EventsRuntimeHealth> eventsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(deviceName))
         {
@@ -663,8 +678,17 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
             try
             {
+                var protocolEventsRuntimeHealth = eventsRuntimeHealth?.Select(x => x.ToProtocol());
+
                 await _adrBaseServiceService.EventRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    runtimeHealth.ToProtocol(),
+                    new()
+                    {
+                        EventRuntimeHealthEvent = new()
+                        {
+                            AssetName = assetName,
+                            Events = protocolEventsRuntimeHealth != null ? protocolEventsRuntimeHealth.ToList() : new(),
+                        }
+                    },
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -679,7 +703,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
-    public async Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.StreamRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    public async Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<StreamsRuntimeHealth> streamsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(deviceName))
         {
@@ -705,8 +729,17 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
             try
             {
+                var protocolStreamsRuntimeHealth = streamsRuntimeHealth?.Select(x => x.ToProtocol());
+
                 await _adrBaseServiceService.StreamRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    runtimeHealth.ToProtocol(),
+                    new AdrBaseService.StreamRuntimeHealthEventTelemetry()
+                    {
+                        StreamRuntimeHealthEvent = new()
+                        {
+                            AssetName = assetName,
+                            Streams = protocolStreamsRuntimeHealth != null ? protocolStreamsRuntimeHealth.ToList() : new(),
+                        }
+                    },
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -721,7 +754,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
     }
 
     /// <inheritdoc />
-    public async Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, Models.ManagementActionRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+    public async Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<ManagementActionsRuntimeHealth> managementActionsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(deviceName))
         {
@@ -747,8 +780,17 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
             try
             {
+                var protocolManagementActionsRuntimeHealth = managementActionsRuntimeHealth?.Select(x => x.ToProtocol());
+
                 await _adrBaseServiceService.ManagementActionRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    runtimeHealth.ToProtocol(),
+                    new AdrBaseService.ManagementActionRuntimeHealthEventTelemetry()
+                    {
+                        ManagementActionRuntimeHealthEvent = new AdrBaseService.ManagementActionRuntimeHealthEventSchema()
+                        {
+                            AssetName = assetName,
+                            ManagementActions = protocolManagementActionsRuntimeHealth != null ? protocolManagementActionsRuntimeHealth.ToList() : new(),
+                        }
+                    },
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,

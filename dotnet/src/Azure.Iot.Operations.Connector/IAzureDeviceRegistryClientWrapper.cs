@@ -203,27 +203,30 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the endpoint.</param>
-        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="deviceEndpointRuntimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         Task ReportDeviceEndpointRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
-            DeviceEndpointRuntimeHealthEventTelemetry runtimeHealth,
-            TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default);
+            RuntimeHealth deviceEndpointRuntimeHealth,
+            TimeSpan? telemetryTimeout = null,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Report the health of a given asset dataset.
         /// </summary>
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the endpoint.</param>
-        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="assetName">The name of the asset this dataset belongs to.</param>
+        /// <param name="datasetsRuntimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         Task ReportDatasetRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
-            DatasetRuntimeHealthEventTelemetry runtimeHealth,
+            string assetName,
+            List<DatasetsRuntimeHealth> datasetsRuntimeHealth,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
 
@@ -232,13 +235,15 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the endpoint.</param>
-        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="assetName">The name of the asset this dataset belongs to.</param>
+        /// <param name="eventsRuntimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         Task ReportEventRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
-            EventRuntimeHealthEventTelemetry runtimeHealth,
+            string assetName,
+            List<EventsRuntimeHealth> eventsRuntimeHealth,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
 
@@ -247,13 +252,15 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the endpoint.</param>
-        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="assetName">The name of the asset this dataset belongs to.</param>
+        /// <param name="streamsRuntimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         Task ReportStreamRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
-            StreamRuntimeHealthEventTelemetry runtimeHealth,
+            string assetName,
+            List<StreamsRuntimeHealth> streamsRuntimeHealth,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
 
@@ -262,15 +269,16 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         /// <param name="deviceName">The name of the device.</param>
         /// <param name="inboundEndpointName">The name of the endpoint.</param>
-        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="assetName">The name of the asset this dataset belongs to.</param>
+        /// <param name="managementActionsRuntimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         Task ReportManagementActionRuntimeHealthAsync(
             string deviceName,
             string inboundEndpointName,
-            ManagementActionRuntimeHealthEventTelemetry runtimeHealth,
+            string assetName,
+            List<ManagementActionsRuntimeHealth> managementActionsRuntimeHealth,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
-
     }
 }

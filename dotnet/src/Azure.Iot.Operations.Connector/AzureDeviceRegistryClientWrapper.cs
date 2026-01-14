@@ -4,7 +4,6 @@
 using System.Collections.Concurrent;
 using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
@@ -190,33 +189,33 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <inheritdoc/>
-        public async Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, DeviceEndpointRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, RuntimeHealth deviceEndpointRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _client.ReportDeviceEndpointRuntimeHealthAsync(deviceName, inboundEndpointName, runtimeHealth, telemetryTimeout, cancellationToken);
+            return _client.ReportDeviceEndpointRuntimeHealthAsync(deviceName, inboundEndpointName, deviceEndpointRuntimeHealth, telemetryTimeout, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, DatasetRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<DatasetsRuntimeHealth> datasetsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _client.ReportDatasetRuntimeHealthAsync(deviceName, inboundEndpointName, runtimeHealth, telemetryTimeout, cancellationToken);
+            return _client.ReportDatasetRuntimeHealthAsync(deviceName, inboundEndpointName, assetName, datasetsRuntimeHealth, telemetryTimeout, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, EventRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<EventsRuntimeHealth> eventsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _client.ReportEventRuntimeHealthAsync(deviceName, inboundEndpointName, runtimeHealth, telemetryTimeout, cancellationToken);
+            return _client.ReportEventRuntimeHealthAsync(deviceName, inboundEndpointName, assetName, eventsRuntimeHealth, telemetryTimeout, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, StreamRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<StreamsRuntimeHealth> streamsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _client.ReportStreamRuntimeHealthAsync(deviceName, inboundEndpointName, runtimeHealth, telemetryTimeout, cancellationToken);
+            return _client.ReportStreamRuntimeHealthAsync(deviceName, inboundEndpointName, assetName, streamsRuntimeHealth, telemetryTimeout, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, ManagementActionRuntimeHealthEventTelemetry runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<ManagementActionsRuntimeHealth> managementActionsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _client.ReportManagementActionRuntimeHealthAsync(deviceName, inboundEndpointName, runtimeHealth, telemetryTimeout, cancellationToken);
+            return _client.ReportManagementActionRuntimeHealthAsync(deviceName, inboundEndpointName, assetName, managementActionsRuntimeHealth, telemetryTimeout, cancellationToken);
         }
 
         /// <inheritdoc/>
