@@ -1388,12 +1388,14 @@ impl AssetClient {
                 // Send an update whether the data operation changed or not, because the client needs to know the asset was updated at minimum
                 updates.data_operation_updates.push((
                     data_operation_update_tx.clone(),
-                    (
-                        received_data_operation.clone().into(),
-                        default_data_operation_destinations.clone(),
-                        default_data_operation_destination_updated,
-                        self.release_data_operation_notifications_tx.subscribe(),
-                    ),
+                    DataOperationUpdateNotification {
+                        definition: received_data_operation.clone().into(),
+                        default_destinations: default_data_operation_destinations.clone(),
+                        default_destination_has_changed: default_data_operation_destination_updated,
+                        release_data_operation_notifications_rx: self
+                            .release_data_operation_notifications_tx
+                            .subscribe(),
+                    },
                 ));
             }
             // it needs to be created
@@ -1404,12 +1406,14 @@ impl AssetClient {
 
                 let data_operation_definition = received_data_operation.clone().into();
                 let (data_operation_update_watcher_tx, data_operation_update_watcher_rx) =
-                    watch::channel((
-                        data_operation_definition.clone(),
-                        default_data_operation_destinations.clone(),
-                        true, // new data operation, so default destination is considered updated
-                        self.release_data_operation_notifications_tx.subscribe(),
-                    ));
+                    watch::channel(DataOperationUpdateNotification {
+                        definition: data_operation_definition.clone(),
+                        default_destinations: default_data_operation_destinations.clone(),
+                        default_destination_has_changed: true,
+                        release_data_operation_notifications_rx: self
+                            .release_data_operation_notifications_tx
+                            .subscribe(),
+                    });
                 let (new_data_operation_client, data_operation_client_result) =
                     DataOperationClient::new(
                         data_operation_definition,
@@ -1571,11 +1575,11 @@ impl AssetClient {
             updates.data_operation_updates
         {
             // send update to the data operation
-            let _ = data_operation_update_tx.send(data_operation_update_notification).inspect_err(|tokio::sync::watch::error::SendError((e_data_operation_definition, _, _,_))| {
+            let _ = data_operation_update_tx.send(data_operation_update_notification).inspect_err(|tokio::sync::watch::error::SendError(DataOperationUpdateNotification {definition, ..})| {
                 // TODO: should this trigger the DataOperationClient create flow, or is this just indicative of an application bug?
                 log::warn!(
                     "Update received for data operation {} on asset {:?}, but DataOperationClient has been dropped",
-                    e_data_operation_definition.name(),
+                    definition.name(),
                     self.asset_ref
                 );
             });
@@ -1830,12 +1834,17 @@ pub enum MessageSchemaError {
     AzureDeviceRegistryError(#[from] azure_device_registry::Error),
 }
 
-type DataOperationUpdateNotification = (
-    DataOperationDefinition,                     // new data operation definition
-    Vec<Arc<destination_endpoint::Destination>>, // new default data operation destinations
-    bool,                                        // whether default destinations have changed or not
-    watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
-);
+#[derive(Debug, Clone)]
+pub(crate) struct DataOperationUpdateNotification {
+    /// new data operation definition
+    definition: DataOperationDefinition,
+    /// new default data operation destinations
+    default_destinations: Vec<Arc<destination_endpoint::Destination>>,
+    /// whether default destinations have changed or not in this update
+    default_destination_has_changed: bool,
+    /// watch receiver for when the update notification should be released to the application
+    release_data_operation_notifications_rx: watch::Receiver<()>,
+}
 
 /// Notifications that can be received for a Data Operation
 pub enum DataOperationNotification {
@@ -2752,20 +2761,20 @@ impl DataOperationClient {
         }
         // In case this function gets cancelled the next time it is called we will process the update again.
         self.data_operation_update_watcher_rx.mark_changed();
-        let (
-            updated_data_operation,
-            default_destinations,
-            default_destination_has_changed,
-            mut watch_receiver,
-        ) = self.data_operation_update_watcher_rx.borrow().clone();
+        let mut update_notification = self.data_operation_update_watcher_rx.borrow().clone();
 
         // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
-        if watch_receiver.changed().await.is_err() {
+        if update_notification
+            .release_data_operation_notifications_rx
+            .changed()
+            .await
+            .is_err()
+        {
             self.data_operation_update_watcher_rx.mark_unchanged();
             return DataOperationNotification::Deleted;
         }
-        let data_operation_changed = updated_data_operation != self.definition;
-        if !data_operation_changed && !default_destination_has_changed {
+        let data_operation_changed = update_notification.definition != self.definition;
+        if !data_operation_changed && !update_notification.default_destination_has_changed {
             // Asset only update, we don't need to recreate the forwarder
             // Once the data_operation update has been processed we can mark the value in the watcher as seen
             self.data_operation_update_watcher_rx.mark_unchanged();
@@ -2778,7 +2787,7 @@ impl DataOperationClient {
         }
 
         // no await points beyond this point, so this is safe
-        self.definition = updated_data_operation;
+        self.definition = update_notification.definition;
 
         // create new forwarder, in case destination has changed
         // technically because these fields are under the lock, if they change, we won't update them unless there's a data operation update
@@ -2801,7 +2810,7 @@ impl DataOperationClient {
             DataOperationDefinition::Dataset(ref updated_dataset) => {
                 destination_endpoint::Forwarder::new_dataset_forwarder(
                     updated_dataset,
-                    &default_destinations,
+                    &update_notification.default_destinations,
                     &self.asset_ref,
                     device_uuid,
                     device_external_device_id,
@@ -2813,7 +2822,7 @@ impl DataOperationClient {
             DataOperationDefinition::Event(ref updated_event) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &updated_event.destinations,
-                    &default_destinations,
+                    &update_notification.default_destinations,
                     &self.data_operation_ref,
                     updated_event.data_source.clone(),
                     updated_event.type_ref.clone(),
@@ -2827,7 +2836,7 @@ impl DataOperationClient {
             DataOperationDefinition::Stream(ref updated_stream) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &updated_stream.destinations,
-                    &default_destinations,
+                    &update_notification.default_destinations,
                     &self.data_operation_ref,
                     None,
                     updated_stream.type_ref.clone(),
