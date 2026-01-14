@@ -613,6 +613,11 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
         }
 
+        if (string.IsNullOrWhiteSpace(assetName))
+        {
+            throw new ArgumentException("asset name cannot be null or empty", nameof(assetName));
+        }
+
         await RunWithRetryAsync(async () =>
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -662,6 +667,11 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         if (string.IsNullOrWhiteSpace(inboundEndpointName))
         {
             throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
+        if (string.IsNullOrWhiteSpace(assetName))
+        {
+            throw new ArgumentException("asset name cannot be null or empty", nameof(assetName));
         }
 
         await RunWithRetryAsync(async () =>
@@ -715,6 +725,11 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
         }
 
+        if (string.IsNullOrWhiteSpace(assetName))
+        {
+            throw new ArgumentException("asset name cannot be null or empty", nameof(assetName));
+        }
+
         await RunWithRetryAsync(async () =>
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -764,6 +779,11 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         if (string.IsNullOrWhiteSpace(inboundEndpointName))
         {
             throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
+        }
+
+        if (string.IsNullOrWhiteSpace(assetName))
+        {
+            throw new ArgumentException("asset name cannot be null or empty", nameof(assetName));
         }
 
         await RunWithRetryAsync(async () =>
