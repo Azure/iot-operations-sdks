@@ -18,11 +18,10 @@ use crate::azure_device_registry::models::{
     StreamRuntimeHealthEvent,
 };
 use crate::azure_device_registry::{
-    AssetRef, AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind, RuntimeHealth,
+    AssetRef, AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
 };
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
-    adr_base_gen::adr_base_service::service as base_service_gen,
     adr_base_gen::common_types::options as base_options_gen,
     device_discovery_gen::common_types::options as discovery_options_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
@@ -53,8 +52,6 @@ pub struct Client {
     get_device_command_invoker: Arc<base_client_gen::GetDeviceCommandInvoker>,
     get_device_status_command_invoker: Arc<base_client_gen::GetDeviceStatusCommandInvoker>,
     update_device_status_command_invoker: Arc<base_client_gen::UpdateDeviceStatusCommandInvoker>,
-    device_endpoint_health_telemetry_sender:
-        Arc<base_service_gen::DeviceEndpointRuntimeHealthEventTelemetrySender>,
     notify_on_device_update_command_invoker:
         Arc<base_client_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker>,
     create_or_update_discovered_device_command_invoker:
@@ -64,12 +61,6 @@ pub struct Client {
     get_asset_command_invoker: Arc<base_client_gen::GetAssetCommandInvoker>,
     get_asset_status_command_invoker: Arc<base_client_gen::GetAssetStatusCommandInvoker>,
     update_asset_status_command_invoker: Arc<base_client_gen::UpdateAssetStatusCommandInvoker>,
-    dataset_health_telemetry_sender:
-        Arc<base_service_gen::DatasetRuntimeHealthEventTelemetrySender>,
-    event_health_telemetry_sender: Arc<base_service_gen::EventRuntimeHealthEventTelemetrySender>,
-    stream_health_telemetry_sender: Arc<base_service_gen::StreamRuntimeHealthEventTelemetrySender>,
-    management_action_health_telemetry_sender:
-        Arc<base_service_gen::ManagementActionRuntimeHealthEventTelemetrySender>,
     notify_on_asset_update_command_invoker:
         Arc<base_client_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker>,
     create_or_update_discovered_asset_command_invoker:
@@ -118,21 +109,12 @@ impl Client {
                 .build()
                 .expect("Builder cannot fail as there is no validation function");
 
-        let telemetry_receiver_options =
-            base_options_gen::TelemetryReceiverOptionsBuilder::default()
-                .topic_token_map(HashMap::from([(
-                    "connectorClientId".to_string(),
-                    client.client_id().to_string(),
-                )]))
-                .auto_ack(options.notification_auto_ack)
-                .build()
-                .expect("Builder cannot fail as there is no validation function");
-
-        let telemetry_sender_options = base_options_gen::TelemetrySenderOptionsBuilder::default()
+        let telemetry_options = base_options_gen::TelemetryReceiverOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
                 "connectorClientId".to_string(),
                 client.client_id().to_string(),
             )]))
+            .auto_ack(options.notification_auto_ack)
             .build()
             .expect("Builder cannot fail as there is no validation function");
 
@@ -157,13 +139,13 @@ impl Client {
                 base_client_gen::DeviceUpdateEventTelemetryReceiver::new(
                     application_context.clone(),
                     client.clone(),
-                    &telemetry_receiver_options,
+                    &telemetry_options,
                 );
             let asset_update_telemetry_receiver =
                 base_client_gen::AssetUpdateEventTelemetryReceiver::new(
                     application_context.clone(),
                     client.clone(),
-                    &telemetry_receiver_options,
+                    &telemetry_options,
                 );
 
             async move {
@@ -199,13 +181,6 @@ impl Client {
                     &command_options_base,
                 ),
             ),
-            device_endpoint_health_telemetry_sender: Arc::new(
-                base_service_gen::DeviceEndpointRuntimeHealthEventTelemetrySender::new(
-                    application_context.clone(),
-                    client.clone(),
-                    &telemetry_sender_options,
-                ),
-            ),
             notify_on_device_update_command_invoker: Arc::new(
                 base_client_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker::new(
                     application_context.clone(),
@@ -238,34 +213,6 @@ impl Client {
                     application_context.clone(),
                     client.clone(),
                     &command_options_base,
-                ),
-            ),
-            dataset_health_telemetry_sender: Arc::new(
-                base_service_gen::DatasetRuntimeHealthEventTelemetrySender::new(
-                    application_context.clone(),
-                    client.clone(),
-                    &telemetry_sender_options,
-                ),
-            ),
-            event_health_telemetry_sender: Arc::new(
-                base_service_gen::EventRuntimeHealthEventTelemetrySender::new(
-                    application_context.clone(),
-                    client.clone(),
-                    &telemetry_sender_options,
-                ),
-            ),
-            stream_health_telemetry_sender: Arc::new(
-                base_service_gen::StreamRuntimeHealthEventTelemetrySender::new(
-                    application_context.clone(),
-                    client.clone(),
-                    &telemetry_sender_options,
-                ),
-            ),
-            management_action_health_telemetry_sender: Arc::new(
-                base_service_gen::ManagementActionRuntimeHealthEventTelemetrySender::new(
-                    application_context.clone(),
-                    client.clone(),
-                    &telemetry_sender_options,
                 ),
             ),
             notify_on_asset_update_command_invoker: Arc::new(
