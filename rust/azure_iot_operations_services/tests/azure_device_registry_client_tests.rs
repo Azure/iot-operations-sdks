@@ -17,7 +17,10 @@ use serde::Deserialize;
 use tokio::sync::Notify;
 use uuid::Uuid;
 
-use azure_iot_operations_services::azure_device_registry::models::{AssetStatus, DeviceStatus};
+use azure_iot_operations_services::azure_device_registry::models::{
+    AssetStatus, DatasetRuntimeHealthEvent, DeviceStatus, EventRuntimeHealthEvent,
+    ManagementActionRuntimeHealthEvent, StreamRuntimeHealthEvent,
+};
 use azure_iot_operations_services::azure_device_registry::{
     self, ConfigError, ConfigStatus, HealthStatus, RuntimeHealth,
 };
@@ -826,6 +829,698 @@ async fn report_device_endpoint_runtime_health_event() {
     });
 
     // Run both sessions
+    let result = tokio::try_join!(
+        async move { receiver_task.await.map_err(|e| e.to_string()) },
+        async move { sender_task.await.map_err(|e| e.to_string()) },
+        async move { receiver_session.run().await.map_err(|e| e.to_string()) },
+        async move { sender_session.run().await.map_err(|e| e.to_string()) }
+    );
+
+    assert!(result.is_ok(), "Test failed: {result:?}");
+}
+
+// ~~~ Dataset Runtime Health Event Test ~~~
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct DatasetRuntimeHealthEventPayload {
+    dataset_runtime_health_event: DatasetRuntimeHealthEventSchemaPayload,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct DatasetRuntimeHealthEventSchemaPayload {
+    asset_name: String,
+    datasets: Vec<DatasetElementPayload>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct DatasetElementPayload {
+    dataset_name: String,
+    runtime_health: RuntimeHealthSchema,
+}
+
+#[tokio::test]
+async fn report_dataset_runtime_health_events() {
+    let log_identifier = "report_dataset_runtime_health_events_network_tests-rust";
+    if !setup_test(log_identifier) {
+        return;
+    }
+
+    let device_name = DEVICE1;
+    let endpoint_name = ENDPOINT1;
+    let asset_name = "test-asset";
+    let sender_client_id = format!("{log_identifier}-sender");
+
+    let subscribe_topic = format!(
+        "akri/connector/resources/telemetry/{}/{}/{}/datasetRuntimeHealthEvent",
+        sender_client_id, device_name, endpoint_name
+    );
+
+    // Create receiver session
+    let receiver_connection_settings = MqttConnectionSettingsBuilder::default()
+        .client_id(format!("{log_identifier}-receiver"))
+        .hostname("localhost")
+        .tcp_port(1883u16)
+        .keep_alive(Duration::from_secs(5))
+        .use_tls(false)
+        .clean_start(true)
+        .build()
+        .unwrap();
+
+    let receiver_session_options = SessionOptionsBuilder::default()
+        .connection_settings(receiver_connection_settings)
+        .build()
+        .unwrap();
+
+    let receiver_session = Session::new(receiver_session_options).unwrap();
+    let receiver_client = receiver_session.create_managed_client();
+    let receiver_exit_handle = receiver_session.create_exit_handle();
+
+    let topic_filter = TopicFilter::new(&subscribe_topic).unwrap();
+    let mut pub_receiver = receiver_client.create_filtered_pub_receiver(topic_filter.clone());
+
+    let (sender_session, adr_client, sender_exit_handle) = initialize_client(&sender_client_id);
+
+    // Test data
+    let test_dataset_name = "test-dataset-1".to_string();
+    let test_version = 100u64;
+
+    let runtime_health_events = vec![DatasetRuntimeHealthEvent {
+        dataset_name: test_dataset_name.clone(),
+        runtime_health: RuntimeHealth {
+            last_update_time: Utc::now(),
+            message: Some("Dataset healthy".to_string()),
+            reason_code: Some("DatasetOK".to_string()),
+            status: HealthStatus::Available,
+            version: test_version,
+        },
+    }];
+
+    let message_received = Arc::new(Notify::new());
+    let message_received_clone = message_received.clone();
+
+    let receiver_task = tokio::task::spawn({
+        let asset_name = asset_name.to_string();
+        async move {
+            receiver_client
+                .subscribe(
+                    topic_filter,
+                    QoS::AtLeastOnce,
+                    false,
+                    azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
+                    SubscribeProperties::default(),
+                )
+                .await
+                .unwrap();
+
+            log::info!("[{log_identifier}] Subscribed to topic: {subscribe_topic}");
+
+            let receive_result =
+                tokio::time::timeout(Duration::from_secs(10), pub_receiver.recv()).await;
+
+            match receive_result {
+                Ok(Some(publish)) => {
+                    log::info!(
+                        "[{log_identifier}] Received message on topic: {}",
+                        publish.topic_name
+                    );
+
+                    assert_eq!(publish.topic_name.as_str(), subscribe_topic);
+
+                    let payload: DatasetRuntimeHealthEventPayload =
+                        serde_json::from_slice(&publish.payload).expect("Failed to parse payload");
+
+                    assert_eq!(payload.dataset_runtime_health_event.asset_name, asset_name);
+                    assert_eq!(payload.dataset_runtime_health_event.datasets.len(), 1);
+
+                    let dataset = &payload.dataset_runtime_health_event.datasets[0];
+                    assert_eq!(dataset.dataset_name, test_dataset_name);
+                    assert_eq!(dataset.runtime_health.status, "Available");
+                    assert_eq!(dataset.runtime_health.version, test_version);
+
+                    log::info!("[{log_identifier}] Payload validated successfully");
+                    message_received_clone.notify_one();
+                }
+                Ok(None) => panic!("[{log_identifier}] Receiver channel closed unexpectedly"),
+                Err(_) => panic!("[{log_identifier}] Timeout waiting for message"),
+            }
+
+            receiver_exit_handle.try_exit().unwrap();
+        }
+    });
+
+    let sender_task = tokio::task::spawn({
+        let asset_name = asset_name.to_string();
+        async move {
+            tokio::time::sleep(Duration::from_millis(500)).await;
+
+            adr_client
+                .report_dataset_runtime_health_events(
+                    device_name.to_string(),
+                    endpoint_name.to_string(),
+                    asset_name,
+                    runtime_health_events,
+                    Duration::from_secs(30),
+                )
+                .await
+                .expect("Failed to send dataset runtime health events");
+
+            log::info!("[{log_identifier}] Sent dataset runtime health events");
+
+            tokio::time::timeout(Duration::from_secs(15), message_received.notified())
+                .await
+                .expect("Timeout waiting for message confirmation");
+
+            adr_client.shutdown().await.unwrap();
+            sender_exit_handle.try_exit().unwrap();
+        }
+    });
+
+    let result = tokio::try_join!(
+        async move { receiver_task.await.map_err(|e| e.to_string()) },
+        async move { sender_task.await.map_err(|e| e.to_string()) },
+        async move { receiver_session.run().await.map_err(|e| e.to_string()) },
+        async move { sender_session.run().await.map_err(|e| e.to_string()) }
+    );
+
+    assert!(result.is_ok(), "Test failed: {result:?}");
+}
+
+// ~~~ Event Runtime Health Event Test ~~~
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct EventRuntimeHealthEventPayload {
+    event_runtime_health_event: EventRuntimeHealthEventSchemaPayload,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct EventRuntimeHealthEventSchemaPayload {
+    asset_name: String,
+    events: Vec<EventElementPayload>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct EventElementPayload {
+    event_group_name: String,
+    event_name: String,
+    runtime_health: RuntimeHealthSchema,
+}
+
+#[tokio::test]
+async fn report_event_runtime_health_events() {
+    let log_identifier = "report_event_runtime_health_events_network_tests-rust";
+    if !setup_test(log_identifier) {
+        return;
+    }
+
+    let device_name = DEVICE1;
+    let endpoint_name = ENDPOINT1;
+    let asset_name = "test-asset";
+    let sender_client_id = format!("{log_identifier}-sender");
+
+    let subscribe_topic = format!(
+        "akri/connector/resources/telemetry/{}/{}/{}/eventRuntimeHealthEvent",
+        sender_client_id, device_name, endpoint_name
+    );
+
+    let receiver_connection_settings = MqttConnectionSettingsBuilder::default()
+        .client_id(format!("{log_identifier}-receiver"))
+        .hostname("localhost")
+        .tcp_port(1883u16)
+        .keep_alive(Duration::from_secs(5))
+        .use_tls(false)
+        .clean_start(true)
+        .build()
+        .unwrap();
+
+    let receiver_session_options = SessionOptionsBuilder::default()
+        .connection_settings(receiver_connection_settings)
+        .build()
+        .unwrap();
+
+    let receiver_session = Session::new(receiver_session_options).unwrap();
+    let receiver_client = receiver_session.create_managed_client();
+    let receiver_exit_handle = receiver_session.create_exit_handle();
+
+    let topic_filter = TopicFilter::new(&subscribe_topic).unwrap();
+    let mut pub_receiver = receiver_client.create_filtered_pub_receiver(topic_filter.clone());
+
+    let (sender_session, adr_client, sender_exit_handle) = initialize_client(&sender_client_id);
+
+    // Test data
+    let test_event_group_name = "test-event-group".to_string();
+    let test_event_name = "test-event-1".to_string();
+    let test_version = 200u64;
+
+    let runtime_health_events = vec![EventRuntimeHealthEvent {
+        event_group_name: test_event_group_name.clone(),
+        event_name: test_event_name.clone(),
+        runtime_health: RuntimeHealth {
+            last_update_time: Utc::now(),
+            message: Some("Event healthy".to_string()),
+            reason_code: Some("EventOK".to_string()),
+            status: HealthStatus::Unavailable,
+            version: test_version,
+        },
+    }];
+
+    let message_received = Arc::new(Notify::new());
+    let message_received_clone = message_received.clone();
+
+    let receiver_task = tokio::task::spawn({
+        let asset_name = asset_name.to_string();
+        async move {
+            receiver_client
+                .subscribe(
+                    topic_filter,
+                    QoS::AtLeastOnce,
+                    false,
+                    azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
+                    SubscribeProperties::default(),
+                )
+                .await
+                .unwrap();
+
+            log::info!("[{log_identifier}] Subscribed to topic: {subscribe_topic}");
+
+            let receive_result =
+                tokio::time::timeout(Duration::from_secs(10), pub_receiver.recv()).await;
+
+            match receive_result {
+                Ok(Some(publish)) => {
+                    log::info!(
+                        "[{log_identifier}] Received message on topic: {}",
+                        publish.topic_name
+                    );
+
+                    assert_eq!(publish.topic_name.as_str(), subscribe_topic);
+
+                    let payload: EventRuntimeHealthEventPayload =
+                        serde_json::from_slice(&publish.payload).expect("Failed to parse payload");
+
+                    assert_eq!(payload.event_runtime_health_event.asset_name, asset_name);
+                    assert_eq!(payload.event_runtime_health_event.events.len(), 1);
+
+                    let event = &payload.event_runtime_health_event.events[0];
+                    assert_eq!(event.event_group_name, test_event_group_name);
+                    assert_eq!(event.event_name, test_event_name);
+                    assert_eq!(event.runtime_health.status, "Unavailable");
+                    assert_eq!(event.runtime_health.version, test_version);
+
+                    log::info!("[{log_identifier}] Payload validated successfully");
+                    message_received_clone.notify_one();
+                }
+                Ok(None) => panic!("[{log_identifier}] Receiver channel closed unexpectedly"),
+                Err(_) => panic!("[{log_identifier}] Timeout waiting for message"),
+            }
+
+            receiver_exit_handle.try_exit().unwrap();
+        }
+    });
+
+    let sender_task = tokio::task::spawn({
+        let asset_name = asset_name.to_string();
+        async move {
+            tokio::time::sleep(Duration::from_millis(500)).await;
+
+            adr_client
+                .report_event_runtime_health_events(
+                    device_name.to_string(),
+                    endpoint_name.to_string(),
+                    asset_name,
+                    runtime_health_events,
+                    Duration::from_secs(30),
+                )
+                .await
+                .expect("Failed to send event runtime health events");
+
+            log::info!("[{log_identifier}] Sent event runtime health events");
+
+            tokio::time::timeout(Duration::from_secs(15), message_received.notified())
+                .await
+                .expect("Timeout waiting for message confirmation");
+
+            adr_client.shutdown().await.unwrap();
+            sender_exit_handle.try_exit().unwrap();
+        }
+    });
+
+    let result = tokio::try_join!(
+        async move { receiver_task.await.map_err(|e| e.to_string()) },
+        async move { sender_task.await.map_err(|e| e.to_string()) },
+        async move { receiver_session.run().await.map_err(|e| e.to_string()) },
+        async move { sender_session.run().await.map_err(|e| e.to_string()) }
+    );
+
+    assert!(result.is_ok(), "Test failed: {result:?}");
+}
+
+// ~~~ Stream Runtime Health Event Test ~~~
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct StreamRuntimeHealthEventPayload {
+    stream_runtime_health_event: StreamRuntimeHealthEventSchemaPayload,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct StreamRuntimeHealthEventSchemaPayload {
+    asset_name: String,
+    streams: Vec<StreamElementPayload>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct StreamElementPayload {
+    stream_name: String,
+    runtime_health: RuntimeHealthSchema,
+}
+
+#[tokio::test]
+async fn report_stream_runtime_health_events() {
+    let log_identifier = "report_stream_runtime_health_events_network_tests-rust";
+    if !setup_test(log_identifier) {
+        return;
+    }
+
+    let device_name = DEVICE1;
+    let endpoint_name = ENDPOINT1;
+    let asset_name = "test-asset";
+    let sender_client_id = format!("{log_identifier}-sender");
+
+    let subscribe_topic = format!(
+        "akri/connector/resources/telemetry/{}/{}/{}/streamRuntimeHealthEvent",
+        sender_client_id, device_name, endpoint_name
+    );
+
+    let receiver_connection_settings = MqttConnectionSettingsBuilder::default()
+        .client_id(format!("{log_identifier}-receiver"))
+        .hostname("localhost")
+        .tcp_port(1883u16)
+        .keep_alive(Duration::from_secs(5))
+        .use_tls(false)
+        .clean_start(true)
+        .build()
+        .unwrap();
+
+    let receiver_session_options = SessionOptionsBuilder::default()
+        .connection_settings(receiver_connection_settings)
+        .build()
+        .unwrap();
+
+    let receiver_session = Session::new(receiver_session_options).unwrap();
+    let receiver_client = receiver_session.create_managed_client();
+    let receiver_exit_handle = receiver_session.create_exit_handle();
+
+    let topic_filter = TopicFilter::new(&subscribe_topic).unwrap();
+    let mut pub_receiver = receiver_client.create_filtered_pub_receiver(topic_filter.clone());
+
+    let (sender_session, adr_client, sender_exit_handle) = initialize_client(&sender_client_id);
+
+    // Test data
+    let test_stream_name = "test-stream-1".to_string();
+    let test_version = 300u64;
+
+    let runtime_health_events = vec![StreamRuntimeHealthEvent {
+        stream_name: test_stream_name.clone(),
+        runtime_health: RuntimeHealth {
+            last_update_time: Utc::now(),
+            message: Some("Stream healthy".to_string()),
+            reason_code: Some("StreamOK".to_string()),
+            status: HealthStatus::Available,
+            version: test_version,
+        },
+    }];
+
+    let message_received = Arc::new(Notify::new());
+    let message_received_clone = message_received.clone();
+
+    let receiver_task = tokio::task::spawn({
+        let asset_name = asset_name.to_string();
+        async move {
+            receiver_client
+                .subscribe(
+                    topic_filter,
+                    QoS::AtLeastOnce,
+                    false,
+                    azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
+                    SubscribeProperties::default(),
+                )
+                .await
+                .unwrap();
+
+            log::info!("[{log_identifier}] Subscribed to topic: {subscribe_topic}");
+
+            let receive_result =
+                tokio::time::timeout(Duration::from_secs(10), pub_receiver.recv()).await;
+
+            match receive_result {
+                Ok(Some(publish)) => {
+                    log::info!(
+                        "[{log_identifier}] Received message on topic: {}",
+                        publish.topic_name
+                    );
+
+                    assert_eq!(publish.topic_name.as_str(), subscribe_topic);
+
+                    let payload: StreamRuntimeHealthEventPayload =
+                        serde_json::from_slice(&publish.payload).expect("Failed to parse payload");
+
+                    assert_eq!(payload.stream_runtime_health_event.asset_name, asset_name);
+                    assert_eq!(payload.stream_runtime_health_event.streams.len(), 1);
+
+                    let stream = &payload.stream_runtime_health_event.streams[0];
+                    assert_eq!(stream.stream_name, test_stream_name);
+                    assert_eq!(stream.runtime_health.status, "Available");
+                    assert_eq!(stream.runtime_health.version, test_version);
+
+                    log::info!("[{log_identifier}] Payload validated successfully");
+                    message_received_clone.notify_one();
+                }
+                Ok(None) => panic!("[{log_identifier}] Receiver channel closed unexpectedly"),
+                Err(_) => panic!("[{log_identifier}] Timeout waiting for message"),
+            }
+
+            receiver_exit_handle.try_exit().unwrap();
+        }
+    });
+
+    let sender_task = tokio::task::spawn({
+        let asset_name = asset_name.to_string();
+        async move {
+            tokio::time::sleep(Duration::from_millis(500)).await;
+
+            adr_client
+                .report_stream_runtime_health_events(
+                    device_name.to_string(),
+                    endpoint_name.to_string(),
+                    asset_name,
+                    runtime_health_events,
+                    Duration::from_secs(30),
+                )
+                .await
+                .expect("Failed to send stream runtime health events");
+
+            log::info!("[{log_identifier}] Sent stream runtime health events");
+
+            tokio::time::timeout(Duration::from_secs(15), message_received.notified())
+                .await
+                .expect("Timeout waiting for message confirmation");
+
+            adr_client.shutdown().await.unwrap();
+            sender_exit_handle.try_exit().unwrap();
+        }
+    });
+
+    let result = tokio::try_join!(
+        async move { receiver_task.await.map_err(|e| e.to_string()) },
+        async move { sender_task.await.map_err(|e| e.to_string()) },
+        async move { receiver_session.run().await.map_err(|e| e.to_string()) },
+        async move { sender_session.run().await.map_err(|e| e.to_string()) }
+    );
+
+    assert!(result.is_ok(), "Test failed: {result:?}");
+}
+
+// ~~~ Management Action Runtime Health Event Test ~~~
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct ManagementActionRuntimeHealthEventPayload {
+    management_action_runtime_health_event: ManagementActionRuntimeHealthEventSchemaPayload,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct ManagementActionRuntimeHealthEventSchemaPayload {
+    asset_name: String,
+    management_actions: Vec<ManagementActionElementPayload>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct ManagementActionElementPayload {
+    management_group_name: String,
+    management_action_name: String,
+    runtime_health: RuntimeHealthSchema,
+}
+
+#[tokio::test]
+async fn report_management_action_runtime_health_events() {
+    let log_identifier = "report_management_action_runtime_health_events_network_tests-rust";
+    if !setup_test(log_identifier) {
+        return;
+    }
+
+    let device_name = DEVICE1;
+    let endpoint_name = ENDPOINT1;
+    let asset_name = "test-asset";
+    let sender_client_id = format!("{log_identifier}-sender");
+
+    let subscribe_topic = format!(
+        "akri/connector/resources/telemetry/{}/{}/{}/managementActionRuntimeHealthEvent",
+        sender_client_id, device_name, endpoint_name
+    );
+
+    let receiver_connection_settings = MqttConnectionSettingsBuilder::default()
+        .client_id(format!("{log_identifier}-receiver"))
+        .hostname("localhost")
+        .tcp_port(1883u16)
+        .keep_alive(Duration::from_secs(5))
+        .use_tls(false)
+        .clean_start(true)
+        .build()
+        .unwrap();
+
+    let receiver_session_options = SessionOptionsBuilder::default()
+        .connection_settings(receiver_connection_settings)
+        .build()
+        .unwrap();
+
+    let receiver_session = Session::new(receiver_session_options).unwrap();
+    let receiver_client = receiver_session.create_managed_client();
+    let receiver_exit_handle = receiver_session.create_exit_handle();
+
+    let topic_filter = TopicFilter::new(&subscribe_topic).unwrap();
+    let mut pub_receiver = receiver_client.create_filtered_pub_receiver(topic_filter.clone());
+
+    let (sender_session, adr_client, sender_exit_handle) = initialize_client(&sender_client_id);
+
+    // Test data
+    let test_management_group_name = "test-management-group".to_string();
+    let test_management_action_name = "test-action-1".to_string();
+    let test_version = 400u64;
+
+    let runtime_health_events = vec![ManagementActionRuntimeHealthEvent {
+        management_group_name: test_management_group_name.clone(),
+        management_action_name: test_management_action_name.clone(),
+        runtime_health: RuntimeHealth {
+            last_update_time: Utc::now(),
+            message: Some("Management action healthy".to_string()),
+            reason_code: Some("ActionOK".to_string()),
+            status: HealthStatus::Unavailable,
+            version: test_version,
+        },
+    }];
+
+    let message_received = Arc::new(Notify::new());
+    let message_received_clone = message_received.clone();
+
+    let receiver_task = tokio::task::spawn({
+        let asset_name = asset_name.to_string();
+        async move {
+            receiver_client
+                .subscribe(
+                    topic_filter,
+                    QoS::AtLeastOnce,
+                    false,
+                    azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
+                    SubscribeProperties::default(),
+                )
+                .await
+                .unwrap();
+
+            log::info!("[{log_identifier}] Subscribed to topic: {subscribe_topic}");
+
+            let receive_result =
+                tokio::time::timeout(Duration::from_secs(10), pub_receiver.recv()).await;
+
+            match receive_result {
+                Ok(Some(publish)) => {
+                    log::info!(
+                        "[{log_identifier}] Received message on topic: {}",
+                        publish.topic_name
+                    );
+
+                    assert_eq!(publish.topic_name.as_str(), subscribe_topic);
+
+                    let payload: ManagementActionRuntimeHealthEventPayload =
+                        serde_json::from_slice(&publish.payload).expect("Failed to parse payload");
+
+                    assert_eq!(
+                        payload.management_action_runtime_health_event.asset_name,
+                        asset_name
+                    );
+                    assert_eq!(
+                        payload
+                            .management_action_runtime_health_event
+                            .management_actions
+                            .len(),
+                        1
+                    );
+
+                    let action = &payload
+                        .management_action_runtime_health_event
+                        .management_actions[0];
+                    assert_eq!(action.management_group_name, test_management_group_name);
+                    assert_eq!(action.management_action_name, test_management_action_name);
+                    assert_eq!(action.runtime_health.status, "Unavailable");
+                    assert_eq!(action.runtime_health.version, test_version);
+
+                    log::info!("[{log_identifier}] Payload validated successfully");
+                    message_received_clone.notify_one();
+                }
+                Ok(None) => panic!("[{log_identifier}] Receiver channel closed unexpectedly"),
+                Err(_) => panic!("[{log_identifier}] Timeout waiting for message"),
+            }
+
+            receiver_exit_handle.try_exit().unwrap();
+        }
+    });
+
+    let sender_task = tokio::task::spawn({
+        let asset_name = asset_name.to_string();
+        async move {
+            tokio::time::sleep(Duration::from_millis(500)).await;
+
+            adr_client
+                .report_management_action_runtime_health_events(
+                    device_name.to_string(),
+                    endpoint_name.to_string(),
+                    asset_name,
+                    runtime_health_events,
+                    Duration::from_secs(30),
+                )
+                .await
+                .expect("Failed to send management action runtime health events");
+
+            log::info!("[{log_identifier}] Sent management action runtime health events");
+
+            tokio::time::timeout(Duration::from_secs(15), message_received.notified())
+                .await
+                .expect("Timeout waiting for message confirmation");
+
+            adr_client.shutdown().await.unwrap();
+            sender_exit_handle.try_exit().unwrap();
+        }
+    });
+
     let result = tokio::try_join!(
         async move { receiver_task.await.map_err(|e| e.to_string()) },
         async move { sender_task.await.map_err(|e| e.to_string()) },
