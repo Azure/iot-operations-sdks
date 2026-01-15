@@ -694,8 +694,7 @@ async fn report_device_endpoint_runtime_health_event() {
     // Expected telemetry topic pattern:
     // akri/connector/resources/telemetry/{connectorClientId}/{deviceName}/{inboundEndpointName}/{telemetryName}
     let subscribe_topic = format!(
-        "akri/connector/resources/telemetry/{}/{}/{}/deviceEndpointRuntimeHealthEvent",
-        sender_client_id, device_name, endpoint_name
+        "akri/connector/resources/telemetry/{sender_client_id}/{device_name}/{endpoint_name}/deviceEndpointRuntimeHealthEvent"
     );
 
     // Create receiver session
@@ -789,8 +788,8 @@ async fn report_device_endpoint_runtime_health_event() {
                 Ok(None) => {
                     panic!("[{log_identifier}] Receiver channel closed unexpectedly");
                 }
-                Err(_) => {
-                    panic!("[{log_identifier}] Timeout waiting for message");
+                Err(e) => {
+                    panic!("[{log_identifier}] Timeout waiting for message: {e}");
                 }
             }
 
@@ -874,8 +873,7 @@ async fn report_dataset_runtime_health_events() {
     let sender_client_id = format!("{log_identifier}-sender");
 
     let subscribe_topic = format!(
-        "akri/connector/resources/telemetry/{}/{}/{}/datasetRuntimeHealthEvent",
-        sender_client_id, device_name, endpoint_name
+        "akri/connector/resources/telemetry/{sender_client_id}/{device_name}/{endpoint_name}/datasetRuntimeHealthEvent"
     );
 
     // Create receiver session
@@ -964,7 +962,7 @@ async fn report_dataset_runtime_health_events() {
                     message_received_clone.notify_one();
                 }
                 Ok(None) => panic!("[{log_identifier}] Receiver channel closed unexpectedly"),
-                Err(_) => panic!("[{log_identifier}] Timeout waiting for message"),
+                Err(e) => panic!("[{log_identifier}] Timeout waiting for message: {e}"),
             }
 
             receiver_exit_handle.try_exit().unwrap();
@@ -1044,8 +1042,7 @@ async fn report_event_runtime_health_events() {
     let sender_client_id = format!("{log_identifier}-sender");
 
     let subscribe_topic = format!(
-        "akri/connector/resources/telemetry/{}/{}/{}/eventRuntimeHealthEvent",
-        sender_client_id, device_name, endpoint_name
+        "akri/connector/resources/telemetry/{sender_client_id}/{device_name}/{endpoint_name}/eventRuntimeHealthEvent"
     );
 
     let receiver_connection_settings = MqttConnectionSettingsBuilder::default()
@@ -1136,7 +1133,7 @@ async fn report_event_runtime_health_events() {
                     message_received_clone.notify_one();
                 }
                 Ok(None) => panic!("[{log_identifier}] Receiver channel closed unexpectedly"),
-                Err(_) => panic!("[{log_identifier}] Timeout waiting for message"),
+                Err(e) => panic!("[{log_identifier}] Timeout waiting for message: {e}"),
             }
 
             receiver_exit_handle.try_exit().unwrap();
@@ -1215,8 +1212,7 @@ async fn report_stream_runtime_health_events() {
     let sender_client_id = format!("{log_identifier}-sender");
 
     let subscribe_topic = format!(
-        "akri/connector/resources/telemetry/{}/{}/{}/streamRuntimeHealthEvent",
-        sender_client_id, device_name, endpoint_name
+        "akri/connector/resources/telemetry/{sender_client_id}/{device_name}/{endpoint_name}/streamRuntimeHealthEvent"
     );
 
     let receiver_connection_settings = MqttConnectionSettingsBuilder::default()
@@ -1304,7 +1300,7 @@ async fn report_stream_runtime_health_events() {
                     message_received_clone.notify_one();
                 }
                 Ok(None) => panic!("[{log_identifier}] Receiver channel closed unexpectedly"),
-                Err(_) => panic!("[{log_identifier}] Timeout waiting for message"),
+                Err(e) => panic!("[{log_identifier}] Timeout waiting for message: {e}"),
             }
 
             receiver_exit_handle.try_exit().unwrap();
@@ -1384,8 +1380,7 @@ async fn report_management_action_runtime_health_events() {
     let sender_client_id = format!("{log_identifier}-sender");
 
     let subscribe_topic = format!(
-        "akri/connector/resources/telemetry/{}/{}/{}/managementActionRuntimeHealthEvent",
-        sender_client_id, device_name, endpoint_name
+        "akri/connector/resources/telemetry/{sender_client_id}/{device_name}/{endpoint_name}/managementActionRuntimeHealthEvent"
     );
 
     let receiver_connection_settings = MqttConnectionSettingsBuilder::default()
@@ -1487,7 +1482,7 @@ async fn report_management_action_runtime_health_events() {
                     message_received_clone.notify_one();
                 }
                 Ok(None) => panic!("[{log_identifier}] Receiver channel closed unexpectedly"),
-                Err(_) => panic!("[{log_identifier}] Timeout waiting for message"),
+                Err(e) => panic!("[{log_identifier}] Timeout waiting for message: {e}"),
             }
 
             receiver_exit_handle.try_exit().unwrap();
