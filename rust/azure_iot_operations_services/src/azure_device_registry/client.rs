@@ -1785,6 +1785,16 @@ mod tests {
         }
     }
 
+    fn create_dummy_runtime_health() -> RuntimeHealth {
+        RuntimeHealth {
+            last_update_time: chrono::Utc::now(),
+            message: None,
+            reason_code: None,
+            status: crate::azure_device_registry::HealthStatus::Available,
+            version: 1,
+        }
+    }
+
     #[test]
     fn invalid_id_new_client() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
@@ -2437,5 +2447,428 @@ mod tests {
             topic_tokens.get(INBOUND_ENDPOINT_TYPE_TOPIC_TOKEN),
             Some(&inbound_endpoint_type)
         );
+    }
+
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
+    #[tokio::test]
+    async fn test_report_device_endpoint_runtime_health_invalid_topic_tokens(
+        device_name: &str,
+        endpoint_name: &str,
+    ) {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_device_endpoint_runtime_health_event(
+                device_name.to_string(),
+                endpoint_name.to_string(),
+                create_dummy_runtime_health(),
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_report_dataset_runtime_health_empty_asset_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_dataset_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                String::new(),
+                vec![DatasetRuntimeHealthEvent {
+                    dataset_name: "test-dataset".to_string(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_report_dataset_runtime_health_empty_dataset_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_dataset_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                vec![DatasetRuntimeHealthEvent {
+                    dataset_name: String::new(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
+    #[tokio::test]
+    async fn test_report_dataset_runtime_health_invalid_topic_tokens(
+        device_name: &str,
+        endpoint_name: &str,
+    ) {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_dataset_runtime_health_events(
+                device_name.to_string(),
+                endpoint_name.to_string(),
+                ASSET_NAME.to_string(),
+                vec![DatasetRuntimeHealthEvent {
+                    dataset_name: "test-dataset".to_string(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_report_dataset_runtime_health_empty_vec_succeeds() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_dataset_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                vec![],
+                DURATION,
+            )
+            .await;
+
+        assert!(result.is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_report_event_runtime_health_empty_asset_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_event_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                String::new(),
+                vec![EventRuntimeHealthEvent {
+                    event_group_name: "test-event-group".to_string(),
+                    event_name: "test-event".to_string(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_report_event_runtime_health_empty_event_group_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_event_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                vec![EventRuntimeHealthEvent {
+                    event_group_name: String::new(),
+                    event_name: "test-event".to_string(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_report_event_runtime_health_empty_event_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_event_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                vec![EventRuntimeHealthEvent {
+                    event_group_name: "test-event-group".to_string(),
+                    event_name: String::new(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
+    #[tokio::test]
+    async fn test_report_event_runtime_health_invalid_topic_tokens(
+        device_name: &str,
+        endpoint_name: &str,
+    ) {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_event_runtime_health_events(
+                device_name.to_string(),
+                endpoint_name.to_string(),
+                ASSET_NAME.to_string(),
+                vec![EventRuntimeHealthEvent {
+                    event_group_name: "test-event-group".to_string(),
+                    event_name: "test-event".to_string(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_report_event_runtime_health_empty_vec_succeeds() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_event_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                vec![],
+                DURATION,
+            )
+            .await;
+
+        assert!(result.is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_report_stream_runtime_health_empty_asset_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_stream_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                String::new(),
+                vec![StreamRuntimeHealthEvent {
+                    stream_name: "test-stream".to_string(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_report_stream_runtime_health_empty_stream_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_stream_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                vec![StreamRuntimeHealthEvent {
+                    stream_name: String::new(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
+    #[tokio::test]
+    async fn test_report_stream_runtime_health_invalid_topic_tokens(
+        device_name: &str,
+        endpoint_name: &str,
+    ) {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_stream_runtime_health_events(
+                device_name.to_string(),
+                endpoint_name.to_string(),
+                ASSET_NAME.to_string(),
+                vec![StreamRuntimeHealthEvent {
+                    stream_name: "test-stream".to_string(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_report_stream_runtime_health_empty_vec_succeeds() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_stream_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                vec![],
+                DURATION,
+            )
+            .await;
+
+        assert!(result.is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_report_management_action_runtime_health_empty_asset_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_management_action_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                String::new(),
+                vec![ManagementActionRuntimeHealthEvent {
+                    management_group_name: "test-management-group".to_string(),
+                    management_action_name: "test-management-action".to_string(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_report_management_action_runtime_health_empty_management_group_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_management_action_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                vec![ManagementActionRuntimeHealthEvent {
+                    management_group_name: String::new(),
+                    management_action_name: "test-management-action".to_string(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_report_management_action_runtime_health_empty_management_action_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_management_action_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                vec![ManagementActionRuntimeHealthEvent {
+                    management_group_name: "test-management-group".to_string(),
+                    management_action_name: String::new(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
+    #[tokio::test]
+    async fn test_report_management_action_runtime_health_invalid_topic_tokens(
+        device_name: &str,
+        endpoint_name: &str,
+    ) {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_management_action_runtime_health_events(
+                device_name.to_string(),
+                endpoint_name.to_string(),
+                ASSET_NAME.to_string(),
+                vec![ManagementActionRuntimeHealthEvent {
+                    management_group_name: "test-management-group".to_string(),
+                    management_action_name: "test-management-action".to_string(),
+                    runtime_health: create_dummy_runtime_health(),
+                }],
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_report_management_action_runtime_health_empty_vec_succeeds() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .report_management_action_runtime_health_events(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                vec![],
+                DURATION,
+            )
+            .await;
+
+        assert!(result.is_ok());
     }
 }
