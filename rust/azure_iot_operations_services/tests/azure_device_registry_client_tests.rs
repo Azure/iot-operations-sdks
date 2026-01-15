@@ -8,14 +8,19 @@ use std::sync::Arc;
 use std::{env, time::Duration};
 
 use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::control_packet::{QoS, SubscribeProperties, TopicFilter};
 use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
+use chrono::{DateTime, Utc};
 use env_logger::Builder;
+use serde::Deserialize;
 use tokio::sync::Notify;
 use uuid::Uuid;
 
 use azure_iot_operations_services::azure_device_registry::models::{AssetStatus, DeviceStatus};
-use azure_iot_operations_services::azure_device_registry::{self, ConfigError, ConfigStatus};
+use azure_iot_operations_services::azure_device_registry::{
+    self, ConfigError, ConfigStatus, HealthStatus, RuntimeHealth,
+};
 
 const DEVICE1: &str = "my-thermostat";
 const DEVICE2: &str = "test-thermostat";
@@ -644,4 +649,189 @@ fn patch_device_specification(
         log::error!("[{log_identifier}] Failed to patch device specification: {error_msg}");
         Err(error_msg.to_string())
     }
+}
+
+// ~~~ Runtime Health Event Tests ~~~
+
+/// Expected JSON structure for device endpoint runtime health event payload
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct DeviceEndpointRuntimeHealthEventPayload {
+    device_endpoint_runtime_health_event: DeviceEndpointRuntimeHealthEventSchema,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct DeviceEndpointRuntimeHealthEventSchema {
+    runtime_health: RuntimeHealthSchema,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct RuntimeHealthSchema {
+    #[allow(dead_code)]
+    last_update_time: DateTime<Utc>,
+    message: Option<String>,
+    reason_code: Option<String>,
+    status: String,
+    version: u64,
+}
+
+#[tokio::test]
+async fn report_device_endpoint_runtime_health_event() {
+    let log_identifier = "report_device_endpoint_runtime_health_event_network_tests-rust";
+    if !setup_test(log_identifier) {
+        return;
+    }
+
+    let device_name = DEVICE1;
+    let endpoint_name = ENDPOINT1;
+    let sender_client_id = format!("{log_identifier}-sender");
+
+    // Expected telemetry topic pattern:
+    // akri/connector/resources/telemetry/{connectorClientId}/{deviceName}/{inboundEndpointName}/{telemetryName}
+    let subscribe_topic = format!(
+        "akri/connector/resources/telemetry/{}/{}/{}/deviceEndpointRuntimeHealthEvent",
+        sender_client_id, device_name, endpoint_name
+    );
+
+    // Create receiver session
+    let receiver_connection_settings = MqttConnectionSettingsBuilder::default()
+        .client_id(format!("{log_identifier}-receiver"))
+        .hostname("localhost")
+        .tcp_port(1883u16)
+        .keep_alive(Duration::from_secs(5))
+        .use_tls(false)
+        .clean_start(true)
+        .build()
+        .unwrap();
+
+    let receiver_session_options = SessionOptionsBuilder::default()
+        .connection_settings(receiver_connection_settings)
+        .build()
+        .unwrap();
+
+    let receiver_session = Session::new(receiver_session_options).unwrap();
+    let receiver_client = receiver_session.create_managed_client();
+    let receiver_exit_handle = receiver_session.create_exit_handle();
+
+    // Create filtered receiver before subscribing
+    let topic_filter = TopicFilter::new(&subscribe_topic).unwrap();
+    let mut pub_receiver = receiver_client.create_filtered_pub_receiver(topic_filter.clone());
+
+    // Create sender session with ADR client
+    let (sender_session, adr_client, sender_exit_handle) = initialize_client(&sender_client_id);
+
+    // Test data
+    let test_timestamp = Utc::now();
+    let test_message = "Test health message".to_string();
+    let test_reason_code = "TestReason".to_string();
+    let test_version = 1u64;
+
+    let runtime_health = RuntimeHealth {
+        last_update_time: test_timestamp,
+        message: Some(test_message.clone()),
+        reason_code: Some(test_reason_code.clone()),
+        status: HealthStatus::Available,
+        version: test_version,
+    };
+
+    let message_received = Arc::new(Notify::new());
+    let message_received_clone = message_received.clone();
+
+    // Receiver task
+    let receiver_task = tokio::task::spawn({
+        async move {
+            // Subscribe to the topic
+            receiver_client
+                .subscribe(
+                    topic_filter,
+                    QoS::AtLeastOnce,
+                    false,
+                    azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
+                    SubscribeProperties::default(),
+                )
+                .await
+                .unwrap();
+
+            log::info!("[{log_identifier}] Subscribed to topic: {subscribe_topic}");
+
+            // Wait for message with timeout
+            let receive_result =
+                tokio::time::timeout(Duration::from_secs(10), pub_receiver.recv()).await;
+
+            match receive_result {
+                Ok(Some(publish)) => {
+                    log::info!(
+                        "[{log_identifier}] Received message on topic: {}",
+                        publish.topic_name
+                    );
+
+                    // Validate topic
+                    assert_eq!(publish.topic_name.as_str(), subscribe_topic);
+
+                    // Parse and validate payload
+                    let payload: DeviceEndpointRuntimeHealthEventPayload =
+                        serde_json::from_slice(&publish.payload).expect("Failed to parse payload");
+
+                    let health = &payload.device_endpoint_runtime_health_event.runtime_health;
+                    assert_eq!(health.status, "Available");
+                    assert_eq!(health.version, test_version);
+                    assert_eq!(health.message, Some(test_message));
+                    assert_eq!(health.reason_code, Some(test_reason_code));
+
+                    log::info!("[{log_identifier}] Payload validated successfully");
+                    message_received_clone.notify_one();
+                }
+                Ok(None) => {
+                    panic!("[{log_identifier}] Receiver channel closed unexpectedly");
+                }
+                Err(_) => {
+                    panic!("[{log_identifier}] Timeout waiting for message");
+                }
+            }
+
+            receiver_exit_handle.try_exit().unwrap();
+        }
+    });
+
+    // Sender task
+    let sender_task = tokio::task::spawn({
+        async move {
+            // Give receiver time to subscribe
+            tokio::time::sleep(Duration::from_millis(500)).await;
+
+            // Send the health event
+            adr_client
+                .report_device_endpoint_runtime_health_event(
+                    device_name.to_string(),
+                    endpoint_name.to_string(),
+                    runtime_health,
+                    Duration::from_secs(30),
+                )
+                .await
+                .expect("Failed to send device endpoint runtime health event");
+
+            log::info!("[{log_identifier}] Sent device endpoint runtime health event");
+
+            // Wait for message to be received before shutdown
+            tokio::time::timeout(Duration::from_secs(15), message_received.notified())
+                .await
+                .expect("Timeout waiting for message confirmation");
+
+            // Shutdown
+            adr_client.shutdown().await.unwrap();
+            sender_exit_handle.try_exit().unwrap();
+        }
+    });
+
+    // Run both sessions
+    let result = tokio::try_join!(
+        async move { receiver_task.await.map_err(|e| e.to_string()) },
+        async move { sender_task.await.map_err(|e| e.to_string()) },
+        async move { receiver_session.run().await.map_err(|e| e.to_string()) },
+        async move { sender_session.run().await.map_err(|e| e.to_string()) }
+    );
+
+    assert!(result.is_ok(), "Test failed: {result:?}");
 }
