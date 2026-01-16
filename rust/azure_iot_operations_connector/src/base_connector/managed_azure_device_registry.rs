@@ -58,6 +58,8 @@ pub enum ModifyResult {
 /// A cloneable status reporter for Device and Endpoint status reporting.
 ///
 /// This provides a way to report Device and Endpoint status changes from outside the [`DeviceEndpointClient`].
+/// Each clone maintains its own independent version snapshot, allowing different tasks to work with
+/// different versions of the device specification.
 #[derive(Clone, Debug)]
 pub struct DeviceEndpointStatusReporter {
     connector_context: Arc<ConnectorContext>,
@@ -65,6 +67,7 @@ pub struct DeviceEndpointStatusReporter {
     device_endpoint_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
     health_tx: UnboundedSender<Option<RuntimeHealth>>,
     device_endpoint_ref: DeviceEndpointRef,
+    snapshotted_version: u64,
 }
 
 impl DeviceEndpointStatusReporter {
@@ -75,23 +78,16 @@ impl DeviceEndpointStatusReporter {
     /// the health status changes to ensure that the service has the latest information.
     /// If the health status does not change, the underlying client will report the last known
     /// health status at the base connector `health_report_interval`'s frequency unless `reset_health_status` is called.
+    ///
+    /// The version used for reporting is the snapshotted version from the last call to
+    /// `align_health_version()` or `reset_and_align_health_version()`, not the current specification version.
     pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
-        let version = match self.device_endpoint_specification.read().unwrap().version {
-            Some(v) => v,
-            None => {
-                log::warn!(
-                    "Cannot report health status for {:?} because device specification version is None",
-                    self.device_endpoint_ref
-                );
-                return;
-            }
-        };
         let runtime_health = RuntimeHealth {
             last_update_time: Utc::now(),
             message: health_status.message,
             reason_code: health_status.reason_code,
             status: health_status.status,
-            version,
+            version: self.snapshotted_version,
         };
         if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
             // should not be possible unless the device is deleted I think?
@@ -105,6 +101,24 @@ impl DeviceEndpointStatusReporter {
         if let Err(_e) = self.health_tx.send(None) {
             log::warn!("Health status receiver closed")
         };
+    }
+
+    /// Snapshots the current specification version for use in future health reports.
+    pub fn align_health_version(&mut self) {
+        self.snapshotted_version = self
+            .device_endpoint_specification
+            .read()
+            .unwrap()
+            .version
+            .unwrap_or(0);
+    }
+
+    /// Combines `reset_health_status()` and `align_health_version()`.
+    /// Stops background reporting AND snapshots the current specification version.
+    /// Useful when receiving an update in the same task that handles notifications.
+    pub fn reset_and_align_health_version(&mut self) {
+        self.reset_health_status();
+        self.align_health_version();
     }
 
     // pub fn report_all_children_health_status(&self, health_status: RuntimeHealthStatus) {
@@ -789,14 +803,17 @@ impl DeviceEndpointClient {
     }
 
     /// Creates a new status reporter for this [`DeviceEndpointClient`].
+    /// The reporter's version snapshot is initialized to the current specification version.
     #[must_use]
     pub fn get_status_reporter(&self) -> DeviceEndpointStatusReporter {
+        let snapshotted_version = self.specification.read().unwrap().version.unwrap_or(0);
         DeviceEndpointStatusReporter {
             connector_context: self.connector_context.clone(),
             device_endpoint_status: self.status.clone(),
             device_endpoint_specification: self.specification.clone(),
             health_tx: self.health_tx.clone(),
             device_endpoint_ref: self.device_endpoint_ref.clone(),
+            snapshotted_version,
         }
     }
 
@@ -1956,6 +1973,8 @@ pub enum SchemaModifyResult {
 /// A cloneable status reporter for Data Operation status reporting.
 ///
 /// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
+/// Each clone maintains its own independent version snapshot, allowing different tasks to work with
+/// different versions of the asset specification.
 #[derive(Debug, Clone)]
 pub struct DataOperationStatusReporter {
     connector_context: Arc<ConnectorContext>,
@@ -1964,6 +1983,7 @@ pub struct DataOperationStatusReporter {
     health_tx: UnboundedSender<Option<RuntimeHealth>>,
     data_operation_ref: DataOperationRef,
     asset_ref: AssetRef,
+    snapshotted_version: u64,
 }
 
 impl DataOperationStatusReporter {
@@ -1974,23 +1994,16 @@ impl DataOperationStatusReporter {
     /// the health status changes to ensure that the service has the latest information.
     /// If the health status does not change, the underlying client will report the last known
     /// health status at the base connector `health_report_interval`'s frequency at minimum unless `reset_health_status` is called.
+    ///
+    /// The version used for reporting is the snapshotted version from the last call to
+    /// `align_health_version()` or `reset_and_align_health_version()`, not the current specification version.
     pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
-        let version = match self.asset_specification.read().unwrap().version {
-            Some(v) => v,
-            None => {
-                log::warn!(
-                    "Cannot report health status for {:?} because asset specification version is None",
-                    self.data_operation_ref
-                );
-                return;
-            }
-        };
         let runtime_health = RuntimeHealth {
             last_update_time: Utc::now(),
             message: health_status.message,
             reason_code: health_status.reason_code,
             status: health_status.status,
-            version,
+            version: self.snapshotted_version,
         };
         if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
             log::warn!("Health status receiver closed")
@@ -2003,6 +2016,24 @@ impl DataOperationStatusReporter {
         if let Err(_e) = self.health_tx.send(None) {
             log::warn!("Health status receiver closed")
         };
+    }
+
+    /// Snapshots the current asset specification version for use in future health reports.
+    pub fn align_health_version(&mut self) {
+        self.snapshotted_version = self
+            .asset_specification
+            .read()
+            .unwrap()
+            .version
+            .unwrap_or(0);
+    }
+
+    /// Combines `reset_health_status()` and `align_health_version()`.
+    /// Stops background reporting AND snapshots the current asset specification version.
+    /// Useful when receiving an update in the same task that handles notifications.
+    pub fn reset_and_align_health_version(&mut self) {
+        self.reset_health_status();
+        self.align_health_version();
     }
 
     /// Used to conditionally report the data operation status and then updates the asset with the new status returned.
@@ -3021,8 +3052,15 @@ impl DataOperationClient {
     }
 
     /// Creates a new status reporter for this [`DataOperationClient`]
+    /// The reporter's version snapshot is initialized to the current asset specification version.
     #[must_use]
     pub fn get_status_reporter(&self) -> DataOperationStatusReporter {
+        let snapshotted_version = self
+            .asset_specification
+            .read()
+            .unwrap()
+            .version
+            .unwrap_or(0);
         DataOperationStatusReporter {
             connector_context: self.connector_context.clone(),
             asset_status: self.asset_status.clone(),
@@ -3030,6 +3068,7 @@ impl DataOperationClient {
             health_tx: self.health_tx.clone(),
             data_operation_ref: self.data_operation_ref.clone(),
             asset_ref: self.asset_ref.clone(),
+            snapshotted_version,
         }
     }
 
