@@ -57,8 +57,7 @@ async fn health_sender_run<T: HealthComponent>(
     cancellation_token: CancellationToken,
 ) {
     // Latest status from the application (whether reported or not). None if background reporting
-    // shouldn't be happening. None also means the next status should always be reported, even if
-    // it's equivalent to the previous one. (TODO: is that second part of the behavior desired?)
+    // shouldn't be happening.
     let mut current_status = None;
     // Time of the last successfully reported status, or None if background reporting is disabled
     let mut last_reported_time = None;
@@ -77,7 +76,7 @@ async fn health_sender_run<T: HealthComponent>(
                     Some(new_status) => current_status = new_status,
                 }
             }
-            _ = tokio::time::sleep(connector_context.health_report_interval) => {
+            () = tokio::time::sleep(connector_context.health_report_interval) => {
                 // if current_status is None, it means that background reporting shouldn't happen
                 if let Some(curr_status) = &mut current_status {
                     // update time to report updated steady state
@@ -86,7 +85,6 @@ async fn health_sender_run<T: HealthComponent>(
             }
         }
         // report current or new status
-        // TODO: tokio::task to avoid backing up the rx?
         if let Some(ref curr_status) = current_status {
             match component
                 .report_health_status(&connector_context, curr_status.clone())
@@ -124,13 +122,11 @@ async fn health_recv(
             Err(tokio::sync::mpsc::error::TryRecvError::Empty) => health_rx.recv().await?,
             Err(tokio::sync::mpsc::error::TryRecvError::Disconnected) => return None,
         };
-        let new_status = match new_status {
-            Some(status) => status,
-            // If the application sent None, propagate that to indicate background reporting should stop
-            None => return Some(None),
+        // If the application sent None, propagate that to indicate background reporting should stop
+        let Some(new_status) = new_status else {
+            return Some(None);
         };
         // If background reporting is on, check if this new status is more recent/different than the current status
-        // If background reporting is off, then we should always report the new status (TODO: could altering this prevent duplicate reports on the data operation when it's status gets reset at times that it hasn't had a version update?)
         if let Some(existing_status) = curr_status {
             // if new status is more stale than the current status, ignore it
             if new_status.version < existing_status.version

@@ -91,20 +91,23 @@ impl DeviceEndpointStatusReporter {
         };
         if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
             // should not be possible unless the device is deleted I think?
-            log::warn!("Health status receiver closed")
-        };
+            log::warn!("Health status receiver closed");
+        }
     }
 
     /// Pauses background health status reporting until a new status is reported.
     /// This should be called when the component is updated to indicate that the previous health status may no longer be applicable.
     pub fn pause_health_reporting(&self) {
         if let Err(_e) = self.health_tx.send(None) {
-            log::warn!("Health status receiver closed")
-        };
+            log::warn!("Health status receiver closed");
+        }
     }
 
     /// Snapshots the current specification version for use in future health reports.
     /// Call this when starting a new operation to "lock in" the version you're working with.
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
     pub fn refresh_health_version(&mut self) {
         self.snapshotted_version = self
             .device_endpoint_specification
@@ -805,6 +808,9 @@ impl DeviceEndpointClient {
 
     /// Creates a new status reporter for this [`DeviceEndpointClient`].
     /// The reporter's version snapshot is initialized to the current specification version.
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
     #[must_use]
     pub fn get_status_reporter(&self) -> DeviceEndpointStatusReporter {
         let snapshotted_version = self.specification.read().unwrap().version.unwrap_or(0);
@@ -2007,20 +2013,23 @@ impl DataOperationStatusReporter {
             version: self.snapshotted_version,
         };
         if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
-            log::warn!("Health status receiver closed")
-        };
+            log::warn!("Health status receiver closed");
+        }
     }
 
     /// Pauses background health status reporting until a new status is reported.
     /// This should be called when the component is updated to indicate that the previous health status may no longer be applicable.
     pub fn pause_health_reporting(&self) {
         if let Err(_e) = self.health_tx.send(None) {
-            log::warn!("Health status receiver closed")
-        };
+            log::warn!("Health status receiver closed");
+        }
     }
 
     /// Snapshots the current asset specification version for use in future health reports.
     /// Call this when starting a new operation to "lock in" the version you're working with.
+    ///
+    /// # Panics
+    /// if the asset specification mutex has been poisoned, which should not be possible
     pub fn refresh_health_version(&mut self) {
         self.snapshotted_version = self
             .asset_specification
@@ -3055,6 +3064,9 @@ impl DataOperationClient {
 
     /// Creates a new status reporter for this [`DataOperationClient`]
     /// The reporter's version snapshot is initialized to the current asset specification version.
+    ///
+    /// # Panics
+    /// if the asset specification mutex has been poisoned, which should not be possible
     #[must_use]
     pub fn get_status_reporter(&self) -> DataOperationStatusReporter {
         let snapshotted_version = self
