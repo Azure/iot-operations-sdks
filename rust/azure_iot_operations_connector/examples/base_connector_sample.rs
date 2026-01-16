@@ -16,7 +16,7 @@ use azure_iot_operations_connector::{
     AdrConfigError, Data, DataOperationKind,
     base_connector::{
         self, BaseConnector,
-        health_status::RuntimeHealthStatus,
+        health_event::RuntimeHealthEvent,
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
             DeviceEndpointClient, DeviceEndpointClientCreationObservation, SchemaModifyResult,
@@ -166,7 +166,7 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
     }
 
     // Report initial health status after successfully validating and reporting endpoint status
-    device_endpoint_reporter.report_health_status(RuntimeHealthStatus {
+    device_endpoint_reporter.report_health_event(RuntimeHealthEvent {
         message: None,
         reason_code: None,
         status: HealthStatus::Available,
@@ -205,7 +205,7 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                     log::error!("{log_identifier} Error reporting endpoint status: {e}");
                 }
                 // Report health status after successfully processing the update
-                device_endpoint_reporter.report_health_status(RuntimeHealthStatus {
+                device_endpoint_reporter.report_health_event(RuntimeHealthEvent {
                     message: None,
                     reason_code: None,
                     status: HealthStatus::Available,
@@ -398,7 +398,7 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                     }
                     Err(e) => {
                         log::error!("{log_identifier} Error reporting message schema: {e}");
-                        data_operation_reporter.report_health_status(RuntimeHealthStatus {
+                        data_operation_reporter.report_health_event(RuntimeHealthEvent {
                             message: None,
                             reason_code: Some("SchemaReportErr".to_string()),
                             status: HealthStatus::Unavailable,
@@ -413,7 +413,7 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                             "{log_identifier} data {count} forwarded"
                         );
                         count += 1;
-                        data_operation_reporter.report_health_status(RuntimeHealthStatus {
+                        data_operation_reporter.report_health_event(RuntimeHealthEvent {
                             message: None,
                             reason_code: None,
                             status: HealthStatus::Available,
@@ -421,7 +421,7 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                     }
                     Err(e) => {
                         log::error!("{log_identifier} error forwarding data: {e}");
-                        data_operation_reporter.report_health_status(RuntimeHealthStatus {
+                        data_operation_reporter.report_health_event(RuntimeHealthEvent {
                             message: None,
                             reason_code: Some("DataForwardErr".to_string()),
                             status: HealthStatus::Unavailable,

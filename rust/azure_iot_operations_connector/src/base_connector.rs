@@ -16,7 +16,7 @@ use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 use crate::deployment_artifacts::connector::ConnectorArtifacts;
 
 pub mod adr_discovery;
-pub mod health_status;
+pub mod health_event;
 pub mod managed_azure_device_registry;
 
 /// Context required to run the base connector operations

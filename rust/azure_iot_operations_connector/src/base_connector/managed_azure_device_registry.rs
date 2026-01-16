@@ -24,7 +24,7 @@ use crate::{
     MessageSchemaReference,
     base_connector::{
         ConnectorContext,
-        health_status::{self, RuntimeHealthStatus},
+        health_event::{self, RuntimeHealthEvent},
     },
     deployment_artifacts::{
         self,
@@ -71,39 +71,39 @@ pub struct DeviceEndpointStatusReporter {
 }
 
 impl DeviceEndpointStatusReporter {
-    /// This function is used to report the current runtime health status of the Endpoint.
+    /// This function is used to report the current runtime health event for the Endpoint.
     ///
-    /// NOTE: This will only report the health status to the service if needed, so it is
+    /// NOTE: This will only report the health event to the service if needed, so it is
     /// okay to call this function frequently. It is required to call this function any time
     /// the health status changes to ensure that the service has the latest information.
     /// If the health status does not change, the underlying client will report the last known
-    /// health status at the base connector `health_report_interval`'s frequency unless `pause_health_reporting` is called.
+    /// health event at the base connector `health_report_interval`'s frequency unless `pause_health_reporting` is called.
     ///
     /// The version used for reporting is the snapshotted version from the last call to
     /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not the current specification version.
-    pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
+    pub fn report_health_event(&self, health_event: RuntimeHealthEvent) {
         let runtime_health = RuntimeHealth {
             last_update_time: Utc::now(),
-            message: health_status.message,
-            reason_code: health_status.reason_code,
-            status: health_status.status,
+            message: health_event.message,
+            reason_code: health_event.reason_code,
+            status: health_event.status,
             version: self.snapshotted_version,
         };
         if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
             // should not be possible unless the device is deleted I think?
-            log::warn!("Health status receiver closed");
+            log::warn!("Health event receiver closed");
         }
     }
 
-    /// Pauses background health status reporting until a new status is reported.
-    /// This should be called when the component is updated to indicate that the previous health status may no longer be applicable.
+    /// Pauses background health event reporting until a new event is reported.
+    /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
     pub fn pause_health_reporting(&self) {
         if let Err(_e) = self.health_tx.send(None) {
-            log::warn!("Health status receiver closed");
+            log::warn!("Health event receiver closed");
         }
     }
 
-    /// Snapshots the current specification version for use in future health reports.
+    /// Snapshots the current specification version for use in future health events.
     /// Call this when starting a new operation to "lock in" the version you're working with.
     ///
     /// # Panics
@@ -124,12 +124,6 @@ impl DeviceEndpointStatusReporter {
         self.pause_health_reporting();
         self.refresh_health_version();
     }
-
-    // pub fn report_all_children_health_status(&self, health_status: RuntimeHealthStatus) {
-    //     // for all datasets, events, streams, management groups, report this health status
-    //     // TODO: should this be 4 separate functions?
-    //     // TODO: should this be on the asset instead and require the application to do some communication themselves?
-    // }
 
     /// Used to conditionally report the device status and then updates the device with the new status returned.
     ///
@@ -634,7 +628,7 @@ pub struct DeviceEndpointClient {
     /// Flag to track if asset creation is in progress
     #[getter(skip)]
     pending_asset_creation: bool,
-    /// Channel for sending health status updates
+    /// Channel for sending health event updates
     #[getter(skip)]
     health_tx: UnboundedSender<Option<RuntimeHealth>>,
     /// Cancellation token for health reporting task - cancelled on deletion
@@ -665,7 +659,7 @@ impl DeviceEndpointClient {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
 
         let health_cancellation_token = CancellationToken::new();
-        let health_tx = health_status::new_health_sender(
+        let health_tx = health_event::new_health_sender(
             connector_context.clone(),
             device_endpoint_ref.clone(),
             health_cancellation_token.clone(),
@@ -1994,38 +1988,38 @@ pub struct DataOperationStatusReporter {
 }
 
 impl DataOperationStatusReporter {
-    /// This function is used to report the current runtime health status of the data operation.
+    /// This function is used to report the current runtime health event for the data operation.
     ///
-    /// NOTE: This will only report the health status to the service if needed, so it is
+    /// NOTE: This will only report the health event to the service if needed, so it is
     /// okay to call this function frequently. It is required to call this function any time
     /// the health status changes to ensure that the service has the latest information.
     /// If the health status does not change, the underlying client will report the last known
-    /// health status at the base connector `health_report_interval`'s frequency at minimum unless `pause_health_reporting` is called.
+    /// health event at the base connector `health_report_interval`'s frequency at minimum unless `pause_health_reporting` is called.
     ///
     /// The version used for reporting is the snapshotted version from the last call to
     /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not the current specification version.
-    pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
+    pub fn report_health_event(&self, health_event: RuntimeHealthEvent) {
         let runtime_health = RuntimeHealth {
             last_update_time: Utc::now(),
-            message: health_status.message,
-            reason_code: health_status.reason_code,
-            status: health_status.status,
+            message: health_event.message,
+            reason_code: health_event.reason_code,
+            status: health_event.status,
             version: self.snapshotted_version,
         };
         if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
-            log::warn!("Health status receiver closed");
+            log::warn!("Health event receiver closed");
         }
     }
 
-    /// Pauses background health status reporting until a new status is reported.
-    /// This should be called when the component is updated to indicate that the previous health status may no longer be applicable.
+    /// Pauses background health event reporting until a new event is reported.
+    /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
     pub fn pause_health_reporting(&self) {
         if let Err(_e) = self.health_tx.send(None) {
-            log::warn!("Health status receiver closed");
+            log::warn!("Health event receiver closed");
         }
     }
 
-    /// Snapshots the current asset specification version for use in future health reports.
+    /// Snapshots the current asset specification version for use in future health events.
     /// Call this when starting a new operation to "lock in" the version you're working with.
     ///
     /// # Panics
@@ -2286,7 +2280,7 @@ pub struct DataOperationClient {
     /// fully processed or not.
     #[getter(skip)]
     data_operation_update_watcher_rx: watch::Receiver<DataOperationUpdateNotification>,
-    /// Channel for sending health status updates
+    /// Channel for sending health event updates
     #[getter(skip)]
     health_tx: UnboundedSender<Option<RuntimeHealth>>,
     /// Cancellation token for health reporting task - cancelled on deletion
@@ -2379,7 +2373,7 @@ impl DataOperationClient {
             log::error!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
         })?;
         let health_cancellation_token = CancellationToken::new();
-        let health_tx = health_status::new_health_sender(
+        let health_tx = health_event::new_health_sender(
             connector_context.clone(),
             data_operation_ref.clone(),
             health_cancellation_token.clone(),

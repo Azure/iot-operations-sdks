@@ -21,7 +21,7 @@ use crate::{
 
 /// Represents the runtime health of a resource.
 #[derive(Debug, Clone)]
-pub struct RuntimeHealthStatus {
+pub struct RuntimeHealthEvent {
     /// A human-readable message describing the last transition.
     pub message: Option<String>,
     /// Unique, CamelCase reason code describing the cause of the last health state transition.
@@ -30,18 +30,18 @@ pub struct RuntimeHealthStatus {
     pub status: HealthStatus,
 }
 
-/// Trait for how each component reports health status to the ADR service
+/// Trait for how each component reports health events to the ADR service
 /// General practice is to implement this trait for the `*Ref` types
 pub(crate) trait HealthComponent: Clone + Send + Sync + 'static {
-    fn report_health_status(
+    fn report_health_event(
         &self,
         connector_context: &Arc<ConnectorContext>,
         status: RuntimeHealth,
     ) -> impl std::future::Future<Output = Result<(), azure_device_registry::Error>> + std::marker::Send;
 }
 
-/// Creates the Unbounded Sender to report health status for the given component
-/// and spawns the task to handle sending the health status reports.
+/// Creates the Unbounded Sender to report health events for the given component
+/// and spawns the task to handle sending the health event reports.
 ///
 /// The `cancellation_token` is used to stop the background task when the component is deleted
 /// or when the parent connector shuts down.
@@ -98,18 +98,18 @@ async fn health_sender_run<T: HealthComponent>(
         // report current or new status
         if let Some(ref curr_status) = current_status {
             match component
-                .report_health_status(&connector_context, curr_status.clone())
+                .report_health_event(&connector_context, curr_status.clone())
                 .await
             {
                 Ok(()) => {
-                    log::debug!("Reported health status: {curr_status:?}");
+                    log::debug!("Reported health event: {curr_status:?}");
                     // Setting to current time rather than current_status time in case the
                     // receiver is backed up - if we set to current_status time,
                     // the next report might trigger sooner than the health interval requires, causing the backup to worsen
                     last_reported_time = Some(chrono::Utc::now());
                 }
                 Err(e) => {
-                    log::warn!("Failed to report health status: {e:?}");
+                    log::warn!("Failed to report health event: {e:?}");
                 }
             }
         } else {
@@ -166,7 +166,7 @@ async fn health_recv(
 }
 
 impl HealthComponent for DeviceEndpointRef {
-    async fn report_health_status(
+    async fn report_health_event(
         &self,
         connector_context: &Arc<ConnectorContext>,
         status: RuntimeHealth,
@@ -184,7 +184,7 @@ impl HealthComponent for DeviceEndpointRef {
 }
 
 impl HealthComponent for DataOperationRef {
-    async fn report_health_status(
+    async fn report_health_event(
         &self,
         connector_context: &Arc<ConnectorContext>,
         status: RuntimeHealth,
