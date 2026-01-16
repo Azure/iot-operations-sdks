@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Utilities to handle health status reporting logic for Azure Device Registry components.
+//! Utilities to handle health event reporting logic for Azure Device Registry components.
 
 use std::ops::Add;
 use std::sync::Arc;

@@ -165,7 +165,7 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
         log::error!("{log_identifier} Error reporting endpoint status: {e}");
     }
 
-    // Report initial health status after successfully validating and reporting endpoint status
+    // Report initial health event after successfully validating and reporting endpoint status
     device_endpoint_reporter.report_health_event(RuntimeHealthEvent {
         message: None,
         reason_code: None,
@@ -204,7 +204,7 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                 {
                     log::error!("{log_identifier} Error reporting endpoint status: {e}");
                 }
-                // Report health status after successfully processing the update
+                // Report health event after successfully processing the update
                 device_endpoint_reporter.report_health_event(RuntimeHealthEvent {
                     message: None,
                     reason_code: None,
