@@ -7,9 +7,8 @@ use std::ops::Add;
 use std::sync::Arc;
 
 use azure_iot_operations_services::azure_device_registry::{
-    self,
+    self, HealthStatus, RuntimeHealth,
     models::{DatasetRuntimeHealthEvent, EventRuntimeHealthEvent, StreamRuntimeHealthEvent},
-    HealthStatus, RuntimeHealth,
 };
 use chrono::{DateTime, Utc};
 use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender};
