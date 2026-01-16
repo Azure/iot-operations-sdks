@@ -19,6 +19,17 @@ use crate::{
     deployment_artifacts::azure_device_registry::DeviceEndpointRef,
 };
 
+/// Represents the runtime health of a resource.
+#[derive(Debug, Clone)]
+pub struct RuntimeHealthStatus {
+    /// A human-readable message describing the last transition.
+    pub message: Option<String>,
+    /// Unique, CamelCase reason code describing the cause of the last health state transition.
+    pub reason_code: Option<String>,
+    /// The current health status of the resource.
+    pub status: HealthStatus,
+}
+
 /// Trait for how each component reports health status to the ADR service
 /// General practice is to implement this trait for the `*Ref` types
 pub(crate) trait HealthComponent: Clone + Send + Sync + 'static {
@@ -107,6 +118,7 @@ async fn health_sender_run<T: HealthComponent>(
         }
     }
 }
+
 async fn health_recv(
     health_rx: &mut UnboundedReceiver<Option<RuntimeHealth>>,
     curr_status: &mut Option<RuntimeHealth>,
@@ -229,15 +241,4 @@ impl HealthComponent for DataOperationRef {
             }
         }
     }
-}
-
-/// Represents the runtime health of a resource.
-#[derive(Debug, Clone)]
-pub struct RuntimeHealthStatus {
-    /// A human-readable message describing the last transition.
-    pub message: Option<String>,
-    /// Unique, CamelCase reason code describing the cause of the last health state transition.
-    pub reason_code: Option<String>,
-    /// The current health status of the resource.
-    pub status: HealthStatus,
 }
