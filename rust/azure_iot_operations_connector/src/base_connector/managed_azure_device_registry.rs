@@ -7,7 +7,7 @@ use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Ar
 
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self,
+        self, RuntimeHealth,
         models::{self as adr_models, Asset},
     },
     schema_registry,
@@ -17,12 +17,15 @@ use thiserror::Error;
 use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use tokio::sync::watch;
 use tokio_retry2::{Retry, RetryError};
-use tokio_util::sync::CancellationToken;
+use tokio_util::sync::{CancellationToken, DropGuard};
 
 use crate::{
     AdrConfigError, Data, DataOperationKind, DataOperationName, DataOperationRef, MessageSchema,
     MessageSchemaReference,
-    base_connector::ConnectorContext,
+    base_connector::{
+        ConnectorContext,
+        health_event::{self, RuntimeHealthEvent},
+    },
     deployment_artifacts::{
         self,
         azure_device_registry::{AssetRef, DeviceEndpointRef},
@@ -55,15 +58,73 @@ pub enum ModifyResult {
 /// A cloneable status reporter for Device and Endpoint status reporting.
 ///
 /// This provides a way to report Device and Endpoint status changes from outside the [`DeviceEndpointClient`].
+/// Each clone maintains its own independent version snapshot, allowing different tasks to work with
+/// different versions of the device specification.
 #[derive(Clone, Debug)]
 pub struct DeviceEndpointStatusReporter {
     connector_context: Arc<ConnectorContext>,
     device_endpoint_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     device_endpoint_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
+    health_tx: UnboundedSender<Option<RuntimeHealth>>,
     device_endpoint_ref: DeviceEndpointRef,
+    snapshotted_version: u64,
 }
 
 impl DeviceEndpointStatusReporter {
+    /// This function is used to report the current runtime health event for the Endpoint.
+    ///
+    /// NOTE: This will only report the health event to the service if needed, so it is
+    /// okay to call this function frequently. It is required to call this function any time
+    /// the health status changes to ensure that the service has the latest information.
+    /// If the health status does not change, the underlying client will report the last known
+    /// health event at the base connector `health_report_interval`'s frequency unless `pause_health_reporting` is called.
+    ///
+    /// The version used for reporting is the snapshotted version from the last call to
+    /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not the current specification version.
+    pub fn report_health_event(&self, health_event: RuntimeHealthEvent) {
+        let runtime_health = RuntimeHealth {
+            last_update_time: Utc::now(),
+            message: health_event.message,
+            reason_code: health_event.reason_code,
+            status: health_event.status,
+            version: self.snapshotted_version,
+        };
+        if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
+            // should not be possible unless the device is deleted I think?
+            log::warn!("Health event receiver closed");
+        }
+    }
+
+    /// Pauses background health event reporting until a new event is reported.
+    /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
+    pub fn pause_health_reporting(&self) {
+        if let Err(_e) = self.health_tx.send(None) {
+            log::warn!("Health event receiver closed");
+        }
+    }
+
+    /// Snapshots the current specification version for use in future health events.
+    /// Call this when starting a new operation to "lock in" the version you're working with.
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
+    pub fn refresh_health_version(&mut self) {
+        self.snapshotted_version = self
+            .device_endpoint_specification
+            .read()
+            .unwrap()
+            .version
+            .unwrap_or(0);
+    }
+
+    /// Combines `pause_health_reporting()` and `refresh_health_version()`.
+    /// Pauses background reporting AND snapshots the current specification version.
+    /// Useful when receiving an update in the same task that handles notifications.
+    pub fn pause_and_refresh_health_version(&mut self) {
+        self.pause_health_reporting();
+        self.refresh_health_version();
+    }
+
     /// Used to conditionally report the device status and then updates the device with the new status returned.
     ///
     /// The `modify` function is called with the current device status (if any) and should return:
@@ -567,6 +628,15 @@ pub struct DeviceEndpointClient {
     /// Flag to track if asset creation is in progress
     #[getter(skip)]
     pending_asset_creation: bool,
+    /// Channel for sending health event updates
+    #[getter(skip)]
+    health_tx: UnboundedSender<Option<RuntimeHealth>>,
+    /// Cancellation token for health reporting task - cancelled on deletion
+    #[getter(skip)]
+    health_cancellation_token: CancellationToken,
+    /// Drop guard that cancels the health reporting task when this client is dropped
+    #[getter(skip)]
+    _health_cancellation_guard: DropGuard,
     /// Channels for sending and receiving completed asset clients.
     /// This is used to ensure that we only process one asset creation at a time
     #[getter(skip)]
@@ -588,6 +658,12 @@ impl DeviceEndpointClient {
     ) -> Result<Self, String> {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
 
+        let health_cancellation_token = CancellationToken::new();
+        let health_tx = health_event::new_health_sender(
+            connector_context.clone(),
+            device_endpoint_ref.clone(),
+            health_cancellation_token.clone(),
+        );
         Ok(DeviceEndpointClient {
             specification: Arc::new(std::sync::RwLock::new(DeviceSpecification::new(
                 device,
@@ -605,6 +681,9 @@ impl DeviceEndpointClient {
             device_update_observation,
             asset_create_observation,
             pending_asset_creation: false,
+            health_tx,
+            _health_cancellation_guard: health_cancellation_token.clone().drop_guard(),
+            health_cancellation_token,
             asset_completion_rx,
             asset_completion_tx,
             connector_context,
@@ -639,6 +718,8 @@ impl DeviceEndpointClient {
                     // the notification again.
                     let Some((updated_device, _)) = update else {
                         // if the update notification is None, then the device endpoint has been deleted
+                        // Cancel health reporting task
+                        self.health_cancellation_token.cancel();
                         // unobserve as cleanup
                         // Spawn a new task to prevent a possible cancellation and ensure the deleted
                         // notification reaches the application.
@@ -678,6 +759,8 @@ impl DeviceEndpointClient {
                     let Some((asset_ref, asset_deletion_token)) = create_notification else {
                         // if the create notification is None, then the device endpoint has been deleted
                         log::info!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
+                        // Cancel health reporting task
+                        self.health_cancellation_token.cancel();
                         // unobserve as cleanup
                         // Spawn a new task to prevent a possible cancellation and ensure the deleted
                         // notification reaches the application.
@@ -718,13 +801,20 @@ impl DeviceEndpointClient {
     }
 
     /// Creates a new status reporter for this [`DeviceEndpointClient`].
+    /// The reporter's version snapshot is initialized to the current specification version.
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
     #[must_use]
     pub fn get_status_reporter(&self) -> DeviceEndpointStatusReporter {
+        let snapshotted_version = self.specification.read().unwrap().version.unwrap_or(0);
         DeviceEndpointStatusReporter {
             connector_context: self.connector_context.clone(),
             device_endpoint_status: self.status.clone(),
             device_endpoint_specification: self.specification.clone(),
+            health_tx: self.health_tx.clone(),
             device_endpoint_ref: self.device_endpoint_ref.clone(),
+            snapshotted_version,
         }
     }
 
@@ -1884,16 +1974,73 @@ pub enum SchemaModifyResult {
 /// A cloneable status reporter for Data Operation status reporting.
 ///
 /// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
+/// Each clone maintains its own independent version snapshot, allowing different tasks to work with
+/// different versions of the asset specification.
 #[derive(Debug, Clone)]
 pub struct DataOperationStatusReporter {
     connector_context: Arc<ConnectorContext>,
     asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
     asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
+    health_tx: UnboundedSender<Option<RuntimeHealth>>,
     data_operation_ref: DataOperationRef,
     asset_ref: AssetRef,
+    snapshotted_version: u64,
 }
 
 impl DataOperationStatusReporter {
+    /// This function is used to report the current runtime health event for the data operation.
+    ///
+    /// NOTE: This will only report the health event to the service if needed, so it is
+    /// okay to call this function frequently. It is required to call this function any time
+    /// the health status changes to ensure that the service has the latest information.
+    /// If the health status does not change, the underlying client will report the last known
+    /// health event at the base connector `health_report_interval`'s frequency at minimum unless `pause_health_reporting` is called.
+    ///
+    /// The version used for reporting is the snapshotted version from the last call to
+    /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not the current specification version.
+    pub fn report_health_event(&self, health_event: RuntimeHealthEvent) {
+        let runtime_health = RuntimeHealth {
+            last_update_time: Utc::now(),
+            message: health_event.message,
+            reason_code: health_event.reason_code,
+            status: health_event.status,
+            version: self.snapshotted_version,
+        };
+        if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
+            log::warn!("Health event receiver closed");
+        }
+    }
+
+    /// Pauses background health event reporting until a new event is reported.
+    /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
+    pub fn pause_health_reporting(&self) {
+        if let Err(_e) = self.health_tx.send(None) {
+            log::warn!("Health event receiver closed");
+        }
+    }
+
+    /// Snapshots the current asset specification version for use in future health events.
+    /// Call this when starting a new operation to "lock in" the version you're working with.
+    ///
+    /// # Panics
+    /// if the asset specification mutex has been poisoned, which should not be possible
+    pub fn refresh_health_version(&mut self) {
+        self.snapshotted_version = self
+            .asset_specification
+            .read()
+            .unwrap()
+            .version
+            .unwrap_or(0);
+    }
+
+    /// Combines `pause_health_reporting()` and `refresh_health_version()`.
+    /// Pauses background reporting AND snapshots the current asset specification version.
+    /// Useful when receiving an update in the same task that handles notifications.
+    pub fn pause_and_refresh_health_version(&mut self) {
+        self.pause_health_reporting();
+        self.refresh_health_version();
+    }
+
     /// Used to conditionally report the data operation status and then updates the asset with the new status returned.
     ///
     /// The `modify` function is called with the current data operation status (if any) and should return:
@@ -2133,6 +2280,15 @@ pub struct DataOperationClient {
     /// fully processed or not.
     #[getter(skip)]
     data_operation_update_watcher_rx: watch::Receiver<DataOperationUpdateNotification>,
+    /// Channel for sending health event updates
+    #[getter(skip)]
+    health_tx: UnboundedSender<Option<RuntimeHealth>>,
+    /// Cancellation token for health reporting task - cancelled on deletion
+    #[getter(skip)]
+    health_cancellation_token: CancellationToken,
+    /// Drop guard that cancels the health reporting task when this client is dropped
+    #[getter(skip)]
+    _health_cancellation_guard: DropGuard,
 }
 
 impl DataOperationClient {
@@ -2216,6 +2372,12 @@ impl DataOperationClient {
         .inspect_err(|e| {
             log::error!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
         })?;
+        let health_cancellation_token = CancellationToken::new();
+        let health_tx = health_event::new_health_sender(
+            connector_context.clone(),
+            data_operation_ref.clone(),
+            health_cancellation_token.clone(),
+        );
         Ok(Self {
             data_operation_ref,
             definition,
@@ -2227,6 +2389,9 @@ impl DataOperationClient {
             connector_context,
             asset_ref,
             data_operation_update_watcher_rx,
+            health_tx,
+            _health_cancellation_guard: health_cancellation_token.clone().drop_guard(),
+            health_cancellation_token,
         })
     }
 
@@ -2748,6 +2913,8 @@ impl DataOperationClient {
             .await
             .is_err()
         {
+            // Cancel health reporting task on deletion
+            self.health_cancellation_token.cancel();
             return DataOperationNotification::Deleted;
         }
         // In case this function gets cancelled the next time it is called we will process the update again.
@@ -2758,6 +2925,8 @@ impl DataOperationClient {
         // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
         if watch_receiver.changed().await.is_err() {
             self.data_operation_update_watcher_rx.mark_unchanged();
+            // Cancel health reporting task on deletion
+            self.health_cancellation_token.cancel();
             return DataOperationNotification::Deleted;
         }
         // create new forwarder, in case destination has changed
@@ -2888,14 +3057,26 @@ impl DataOperationClient {
     }
 
     /// Creates a new status reporter for this [`DataOperationClient`]
+    /// The reporter's version snapshot is initialized to the current asset specification version.
+    ///
+    /// # Panics
+    /// if the asset specification mutex has been poisoned, which should not be possible
     #[must_use]
     pub fn get_status_reporter(&self) -> DataOperationStatusReporter {
+        let snapshotted_version = self
+            .asset_specification
+            .read()
+            .unwrap()
+            .version
+            .unwrap_or(0);
         DataOperationStatusReporter {
             connector_context: self.connector_context.clone(),
             asset_status: self.asset_status.clone(),
             asset_specification: self.asset_specification.clone(),
+            health_tx: self.health_tx.clone(),
             data_operation_ref: self.data_operation_ref.clone(),
             asset_ref: self.asset_ref.clone(),
+            snapshotted_version,
         }
     }
 
