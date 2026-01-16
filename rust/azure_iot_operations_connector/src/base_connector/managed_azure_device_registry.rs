@@ -1433,8 +1433,8 @@ impl AssetClient {
                         definition: received_data_operation.clone().into(),
                         default_destinations: default_data_operation_destinations.clone(),
                         default_destination_has_changed: default_data_operation_destination_updated,
-                        release_data_operation_notifications_rx: self
-                            .release_data_operation_notifications_tx
+                        release_asset_component_notifications_rx: self
+                            .release_asset_component_notifications_tx
                             .subscribe(),
                     },
                 ));
@@ -1451,8 +1451,8 @@ impl AssetClient {
                         definition: data_operation_definition.clone(),
                         default_destinations: default_data_operation_destinations.clone(),
                         default_destination_has_changed: true,
-                        release_data_operation_notifications_rx: self
-                            .release_data_operation_notifications_tx
+                        release_asset_component_notifications_rx: self
+                            .release_asset_component_notifications_tx
                             .subscribe(),
                     });
                 let (new_data_operation_client, data_operation_client_result) =
@@ -1637,7 +1637,7 @@ impl AssetClient {
             updates.management_action_updates
         {
             // send update to the management action
-            let _ = management_action_update_tx.send(management_action_update_notification).inspect_err(|tokio::sync::watch::error::SendError((e_management_action_definition, _))| {
+            let _ = management_action_update_tx.send(management_action_update_notification).inspect_err(|tokio::sync::watch::error::SendError(ManagementActionUpdateNotification {definition, ..})| {
                 // TODO: should this trigger the ManagementActionClient create flow, or is this just indicative of an application bug?
                 log::warn!(
                     "Update received for management action on asset {:?}, but ManagementActionClient has been dropped",
@@ -1910,14 +1910,17 @@ pub(crate) struct DataOperationUpdateNotification {
     /// whether default destinations have changed or not in this update
     default_destination_has_changed: bool,
     /// watch receiver for when the update notification should be released to the application
-    release_data_operation_notifications_rx: watch::Receiver<()>,
+    release_asset_component_notifications_rx: watch::Receiver<()>,
 }
 
 // TODO: some enum indicating the lowest level of change (asset, group, action)
-type ManagementActionUpdateNotification = (
-    adr_models::ManagementGroupAction, // new management action definition
-    watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
-);
+#[derive(Debug)]
+pub(crate) struct ManagementActionUpdateNotification {
+    /// new management action definition
+    definition: adr_models::ManagementGroupAction,
+    /// watch receiver for when the update notification should be released to the application
+    release_asset_component_notifications_rx: watch::Receiver<()>,
+}
 
 /// Notifications that can be received for a Management Action
 pub enum ManagementActionNotification {
@@ -2945,7 +2948,7 @@ impl DataOperationClient {
 
         // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
         if update_notification
-            .release_data_operation_notifications_rx
+            .release_asset_component_notifications_rx
             .changed()
             .await
             .is_err()
@@ -3258,7 +3261,7 @@ enum ActionSchema {
 
 /// Represents whether there is currently a valid Forwarder or not for a Data Operation
 pub(crate) enum ManagementActionExecutor {
-    Executor(rpc_command::Executor<BypassPayload, BypassPayload>),
+    Executor(rpc_command::Executor<BypassPayload, BypassPayload>), // TODO: probably Box this?
     Error(AdrConfigError),
 }
 
