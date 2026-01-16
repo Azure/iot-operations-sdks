@@ -17,7 +17,7 @@ use thiserror::Error;
 use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use tokio::sync::watch;
 use tokio_retry2::{Retry, RetryError};
-use tokio_util::sync::CancellationToken;
+use tokio_util::sync::{CancellationToken, DropGuard};
 
 use crate::{
     AdrConfigError, Data, DataOperationKind, DataOperationName, DataOperationRef, MessageSchema,
@@ -619,6 +619,12 @@ pub struct DeviceEndpointClient {
     /// Channel for sending health status updates
     #[getter(skip)]
     health_tx: UnboundedSender<Option<RuntimeHealth>>,
+    /// Cancellation token for health reporting task - cancelled on deletion
+    #[getter(skip)]
+    health_cancellation_token: CancellationToken,
+    /// Drop guard that cancels the health reporting task when this client is dropped
+    #[getter(skip)]
+    _health_cancellation_guard: DropGuard,
     /// Channels for sending and receiving completed asset clients.
     /// This is used to ensure that we only process one asset creation at a time
     #[getter(skip)]
@@ -640,9 +646,11 @@ impl DeviceEndpointClient {
     ) -> Result<Self, String> {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
 
+        let health_cancellation_token = CancellationToken::new();
         let health_tx = health_status::new_health_sender(
             connector_context.clone(),
             device_endpoint_ref.clone(),
+            health_cancellation_token.clone(),
         );
         Ok(DeviceEndpointClient {
             specification: Arc::new(std::sync::RwLock::new(DeviceSpecification::new(
@@ -662,6 +670,8 @@ impl DeviceEndpointClient {
             asset_create_observation,
             pending_asset_creation: false,
             health_tx,
+            _health_cancellation_guard: health_cancellation_token.clone().drop_guard(),
+            health_cancellation_token,
             asset_completion_rx,
             asset_completion_tx,
             connector_context,
@@ -696,6 +706,8 @@ impl DeviceEndpointClient {
                     // the notification again.
                     let Some((updated_device, _)) = update else {
                         // if the update notification is None, then the device endpoint has been deleted
+                        // Cancel health reporting task
+                        self.health_cancellation_token.cancel();
                         // unobserve as cleanup
                         // Spawn a new task to prevent a possible cancellation and ensure the deleted
                         // notification reaches the application.
@@ -735,6 +747,8 @@ impl DeviceEndpointClient {
                     let Some((asset_ref, asset_deletion_token)) = create_notification else {
                         // if the create notification is None, then the device endpoint has been deleted
                         log::info!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
+                        // Cancel health reporting task
+                        self.health_cancellation_token.cancel();
                         // unobserve as cleanup
                         // Spawn a new task to prevent a possible cancellation and ensure the deleted
                         // notification reaches the application.
@@ -2233,6 +2247,12 @@ pub struct DataOperationClient {
     /// Channel for sending health status updates
     #[getter(skip)]
     health_tx: UnboundedSender<Option<RuntimeHealth>>,
+    /// Cancellation token for health reporting task - cancelled on deletion
+    #[getter(skip)]
+    health_cancellation_token: CancellationToken,
+    /// Drop guard that cancels the health reporting task when this client is dropped
+    #[getter(skip)]
+    _health_cancellation_guard: DropGuard,
 }
 
 impl DataOperationClient {
@@ -2316,8 +2336,12 @@ impl DataOperationClient {
         .inspect_err(|e| {
             log::error!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
         })?;
-        let health_tx =
-            health_status::new_health_sender(connector_context.clone(), data_operation_ref.clone());
+        let health_cancellation_token = CancellationToken::new();
+        let health_tx = health_status::new_health_sender(
+            connector_context.clone(),
+            data_operation_ref.clone(),
+            health_cancellation_token.clone(),
+        );
         Ok(Self {
             data_operation_ref,
             definition,
@@ -2330,6 +2354,8 @@ impl DataOperationClient {
             asset_ref,
             data_operation_update_watcher_rx,
             health_tx,
+            _health_cancellation_guard: health_cancellation_token.clone().drop_guard(),
+            health_cancellation_token,
         })
     }
 
@@ -2851,6 +2877,8 @@ impl DataOperationClient {
             .await
             .is_err()
         {
+            // Cancel health reporting task on deletion
+            self.health_cancellation_token.cancel();
             return DataOperationNotification::Deleted;
         }
         // In case this function gets cancelled the next time it is called we will process the update again.
@@ -2861,6 +2889,8 @@ impl DataOperationClient {
         // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
         if watch_receiver.changed().await.is_err() {
             self.data_operation_update_watcher_rx.mark_unchanged();
+            // Cancel health reporting task on deletion
+            self.health_cancellation_token.cancel();
             return DataOperationNotification::Deleted;
         }
         // create new forwarder, in case destination has changed

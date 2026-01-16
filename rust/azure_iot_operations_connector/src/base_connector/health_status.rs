@@ -6,9 +6,14 @@
 use std::ops::Add;
 use std::sync::Arc;
 
-use azure_iot_operations_services::azure_device_registry::{self, HealthStatus, RuntimeHealth};
+use azure_iot_operations_services::azure_device_registry::{
+    self,
+    models::{DatasetRuntimeHealthEvent, EventRuntimeHealthEvent, StreamRuntimeHealthEvent},
+    HealthStatus, RuntimeHealth,
+};
 use chrono::{DateTime, Utc};
 use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender};
+use tokio_util::sync::CancellationToken;
 
 use crate::{
     DataOperationName, DataOperationRef, base_connector::ConnectorContext,
@@ -27,21 +32,30 @@ pub(crate) trait HealthComponent: Clone + Send + Sync + 'static {
 
 /// Creates the Unbounded Sender to report health status for the given component
 /// and spawns the task to handle sending the health status reports.
+///
+/// The `cancellation_token` is used to stop the background task when the component is deleted
+/// or when the parent connector shuts down.
 pub(crate) fn new_health_sender<T: HealthComponent>(
     connector_context: Arc<ConnectorContext>,
     component: T,
+    cancellation_token: CancellationToken,
 ) -> UnboundedSender<Option<RuntimeHealth>> {
     let (health_tx, health_rx) = tokio::sync::mpsc::unbounded_channel();
 
-    // TODO: need cancellation token for when component is deleted
-    tokio::task::spawn(health_sender_run(connector_context, health_rx, component));
+    tokio::task::spawn(health_sender_run(
+        connector_context,
+        health_rx,
+        component,
+        cancellation_token,
+    ));
     health_tx
 }
-// TODO: Any way to link this to baseConnector::run()?
+
 async fn health_sender_run<T: HealthComponent>(
     connector_context: Arc<ConnectorContext>,
     mut health_rx: UnboundedReceiver<Option<RuntimeHealth>>,
     component: T,
+    cancellation_token: CancellationToken,
 ) {
     // Latest status from the application (whether reported or not). None if background reporting
     // shouldn't be happening. None also means the next status should always be reported, even if
@@ -52,11 +66,15 @@ async fn health_sender_run<T: HealthComponent>(
     loop {
         tokio::select! {
             biased;
+            // Check for cancellation first (highest priority)
+            () = cancellation_token.cancelled() => {
+                log::debug!("Health sender task cancelled for component");
+                break;
+            }
             // passes in the next time that a report should happen in case this doesn't free up to allow the sleep branch to complete
             recv_result = health_recv(&mut health_rx, &mut current_status, last_reported_time.map(|t: DateTime<Utc>| t.add(connector_context.health_report_interval))) => {
                 match recv_result {
-                    // TODO: need another way to end this task when the component is deleted as well
-                    None => break, // Channel closed, TODO: handle this case properly
+                    None => break, // Channel closed
                     Some(new_status) => current_status = new_status,
                 }
             }
@@ -174,7 +192,10 @@ impl HealthComponent for DataOperationRef {
                         self.device_name.clone(),
                         self.inbound_endpoint_name.clone(),
                         self.asset_name.clone(),
-                        vec![(name.clone(), status)],
+                        vec![DatasetRuntimeHealthEvent {
+                            dataset_name: name.clone(),
+                            runtime_health: status,
+                        }],
                         connector_context.azure_device_registry_timeout,
                     )
                     .await
@@ -185,13 +206,15 @@ impl HealthComponent for DataOperationRef {
             } => {
                 connector_context
                     .azure_device_registry_client
-                    .report_event_runtime_health_event(
+                    .report_event_runtime_health_events(
                         self.device_name.clone(),
                         self.inbound_endpoint_name.clone(),
                         self.asset_name.clone(),
-                        event_group_name.clone(),
-                        name.clone(),
-                        status,
+                        vec![EventRuntimeHealthEvent {
+                            event_group_name: event_group_name.clone(),
+                            event_name: name.clone(),
+                            runtime_health: status,
+                        }],
                         connector_context.azure_device_registry_timeout,
                     )
                     .await
@@ -199,12 +222,14 @@ impl HealthComponent for DataOperationRef {
             DataOperationName::Stream { name } => {
                 connector_context
                     .azure_device_registry_client
-                    .report_stream_runtime_health_event(
+                    .report_stream_runtime_health_events(
                         self.device_name.clone(),
                         self.inbound_endpoint_name.clone(),
                         self.asset_name.clone(),
-                        name.clone(),
-                        status,
+                        vec![StreamRuntimeHealthEvent {
+                            stream_name: name.clone(),
+                            runtime_health: status,
+                        }],
                         connector_context.azure_device_registry_timeout,
                     )
                     .await
