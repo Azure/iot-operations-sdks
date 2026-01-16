@@ -16,6 +16,6 @@ $conv ./dtdl/test/TelemetryAndCommand.json ./conv
 
 $conv ./dtdl/test/TelemetryComplexSchemas.json ./conv
 
-$conv ./dtdl/test/TelemetryPrimitiveSchemas.json ./conv
+$conv ./dtdl/test/TelemetryPrimitiveSchemas.json ./conv ./dtdl/test/resolver.json
 
 $conv ./dtdl/test/TelemetryRawSeparate.json ./conv

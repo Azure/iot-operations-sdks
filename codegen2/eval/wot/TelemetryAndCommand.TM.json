@@ -3,19 +3,10 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
-  "id": "dtmi:jsonTest:TelemetryAndCommand;1",
+  "@type": "tm:ThingModel",
   "title": "TelemetryAndCommand",
-  "securityDefinitions": {
-    "nosec_sc": {
-      "scheme": "nosec"
-    }
-  },
-  "security": [
-    "nosec_sc"
-  ],
   "forms": [
     {
-      "href": "dtmi:jsonTest:TelemetryAndCommand;1",
       "contentType": "application/json",
       "dtv:topic": "sample/{modelId}/{senderId}/telemetry",
       "op": "subscribeallevents"
@@ -43,7 +34,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:TelemetryAndCommand:_contents:__setColor;1",
           "contentType": "application/json",
           "dtv:serviceGroupId": "MyCommandGroup",
           "dtv:topic": "sample/{modelId}/command/setColor",
@@ -77,7 +67,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:TelemetryAndCommand:_contents:__distance;1",
           "contentType": "application/json",
           "dtv:serviceGroupId": "MyTelemetryGroup",
           "op": "subscribeevent"
@@ -93,7 +82,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:TelemetryAndCommand:_contents:__color;1",
           "contentType": "application/json",
           "dtv:serviceGroupId": "MyTelemetryGroup",
           "op": "subscribeevent"

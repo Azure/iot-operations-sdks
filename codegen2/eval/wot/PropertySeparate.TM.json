@@ -3,19 +3,11 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
-  "id": "dtmi:test:PropertySeparate;1",
+  "@type": "tm:ThingModel",
   "title": "PropertySeparate",
-  "securityDefinitions": {
-    "nosec_sc": {
-      "scheme": "nosec"
-    }
-  },
-  "security": [
-    "nosec_sc"
-  ],
   "links": [
     {
-      "rel": "service-desc",
+      "rel": "dtv:naming",
       "href": "./PropertySeparate.SchemaNames.json",
       "type": "application/json"
     }
@@ -64,7 +56,6 @@
       "readOnly": true,
       "forms": [
         {
-          "href": "dtmi:test:PropertySeparate:_contents:__Alpha;1",
           "contentType": "application/json",
           "dtv:topic": "test/PropertySeparate/Alpha/read",
           "op": "readproperty"
@@ -78,13 +69,11 @@
       "readOnly": false,
       "forms": [
         {
-          "href": "dtmi:test:PropertySeparate:_contents:__Beta;1",
           "contentType": "application/json",
           "dtv:topic": "test/PropertySeparate/Beta/write",
           "op": "writeproperty"
         },
         {
-          "href": "dtmi:test:PropertySeparate:_contents:__Beta;1",
           "contentType": "application/json",
           "dtv:topic": "test/PropertySeparate/Beta/read",
           "op": "readproperty"
@@ -98,7 +87,6 @@
       "readOnly": true,
       "forms": [
         {
-          "href": "dtmi:test:PropertySeparate:_contents:__Gamma;1",
           "contentType": "application/json",
           "additionalResponses": [
             {
@@ -118,7 +106,6 @@
       "readOnly": false,
       "forms": [
         {
-          "href": "dtmi:test:PropertySeparate:_contents:__Delta;1",
           "contentType": "application/json",
           "additionalResponses": [
             {
@@ -130,7 +117,6 @@
           "op": "writeproperty"
         },
         {
-          "href": "dtmi:test:PropertySeparate:_contents:__Delta;1",
           "contentType": "application/json",
           "additionalResponses": [
             {
@@ -151,13 +137,11 @@
       "dtv:placeholder": true,
       "forms": [
         {
-          "href": "dtmi:test:PropertySeparate:_contents:__Zeta;1",
           "contentType": "application/json",
           "dtv:topic": "test/PropertySeparate/Zeta/write",
           "op": "writeproperty"
         },
         {
-          "href": "dtmi:test:PropertySeparate:_contents:__Zeta;1",
           "contentType": "application/json",
           "dtv:topic": "test/PropertySeparate/Zeta/read",
           "op": "readproperty"
@@ -172,7 +156,6 @@
       "dtv:placeholder": true,
       "forms": [
         {
-          "href": "dtmi:test:PropertySeparate:_contents:__Eta;1",
           "contentType": "application/json",
           "additionalResponses": [
             {
@@ -184,7 +167,6 @@
           "op": "writeproperty"
         },
         {
-          "href": "dtmi:test:PropertySeparate:_contents:__Eta;1",
           "contentType": "application/json",
           "additionalResponses": [
             {

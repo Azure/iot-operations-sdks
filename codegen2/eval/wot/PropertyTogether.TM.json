@@ -3,19 +3,11 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
-  "id": "dtmi:test:PropertyTogether;1",
+  "@type": "tm:ThingModel",
   "title": "PropertyTogether",
-  "securityDefinitions": {
-    "nosec_sc": {
-      "scheme": "nosec"
-    }
-  },
-  "security": [
-    "nosec_sc"
-  ],
   "links": [
     {
-      "rel": "service-desc",
+      "rel": "dtv:naming",
       "href": "./PropertyTogether.SchemaNames.json",
       "type": "application/json"
     }
@@ -58,7 +50,6 @@
   },
   "forms": [
     {
-      "href": "dtmi:test:PropertyTogether;1",
       "contentType": "application/json",
       "additionalResponses": [
         {
@@ -69,7 +60,6 @@
       "op": "writemultipleproperties"
     },
     {
-      "href": "dtmi:test:PropertyTogether;1",
       "contentType": "application/json",
       "additionalResponses": [
         {
@@ -88,7 +78,6 @@
       "readOnly": true,
       "forms": [
         {
-          "href": "dtmi:test:PropertyTogether:_contents:__Alpha;1",
           "op": "readproperty"
         }
       ]
@@ -100,11 +89,9 @@
       "readOnly": false,
       "forms": [
         {
-          "href": "dtmi:test:PropertyTogether:_contents:__Beta;1",
           "op": "writeproperty"
         },
         {
-          "href": "dtmi:test:PropertyTogether:_contents:__Beta;1",
           "op": "readproperty"
         }
       ]
@@ -116,7 +103,6 @@
       "readOnly": true,
       "forms": [
         {
-          "href": "dtmi:test:PropertyTogether:_contents:__Gamma;1",
           "additionalResponses": [
             {
               "success": false,
@@ -134,7 +120,6 @@
       "readOnly": false,
       "forms": [
         {
-          "href": "dtmi:test:PropertyTogether:_contents:__Delta;1",
           "additionalResponses": [
             {
               "success": false,
@@ -144,7 +129,6 @@
           "op": "writeproperty"
         },
         {
-          "href": "dtmi:test:PropertyTogether:_contents:__Delta;1",
           "additionalResponses": [
             {
               "success": false,
@@ -163,11 +147,9 @@
       "dtv:placeholder": true,
       "forms": [
         {
-          "href": "dtmi:test:PropertyTogether:_contents:__Zeta;1",
           "op": "writeproperty"
         },
         {
-          "href": "dtmi:test:PropertyTogether:_contents:__Zeta;1",
           "op": "readproperty"
         }
       ]
@@ -180,7 +162,6 @@
       "dtv:placeholder": true,
       "forms": [
         {
-          "href": "dtmi:test:PropertyTogether:_contents:__Eta;1",
           "additionalResponses": [
             {
               "success": false,
@@ -190,7 +171,6 @@
           "op": "writeproperty"
         },
         {
-          "href": "dtmi:test:PropertyTogether:_contents:__Eta;1",
           "additionalResponses": [
             {
               "success": false,

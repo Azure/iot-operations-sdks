@@ -3,19 +3,11 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
-  "id": "dtmi:jsonTest:CommandComplexSchemas;1",
+  "@type": "tm:ThingModel",
   "title": "CommandComplexSchemas",
-  "securityDefinitions": {
-    "nosec_sc": {
-      "scheme": "nosec"
-    }
-  },
-  "security": [
-    "nosec_sc"
-  ],
   "links": [
     {
-      "rel": "service-desc",
+      "rel": "dtv:naming",
       "href": "./CommandComplexSchemas.SchemaNames.json",
       "type": "application/json"
     }
@@ -102,7 +94,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:CommandComplexSchemas:_contents:__doSomething;1",
           "contentType": "application/json",
           "dtv:topic": "samples/command/doSomething",
           "op": "invokeaction"

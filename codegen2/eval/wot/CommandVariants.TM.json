@@ -3,19 +3,11 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
-  "id": "dtmi:jsonTest:CommandVariants;1",
+  "@type": "tm:ThingModel",
   "title": "CommandVariants",
-  "securityDefinitions": {
-    "nosec_sc": {
-      "scheme": "nosec"
-    }
-  },
-  "security": [
-    "nosec_sc"
-  ],
   "links": [
     {
-      "rel": "service-desc",
+      "rel": "dtv:naming",
       "href": "./CommandVariants.SchemaNames.json",
       "type": "application/json"
     }
@@ -25,7 +17,6 @@
       "idempotent": true,
       "forms": [
         {
-          "href": "dtmi:jsonTest:CommandVariants:_contents:__noop;1",
           "contentType": "application/json",
           "dtv:topic": "samples/command/noop/{executorId}",
           "op": "invokeaction"
@@ -47,7 +38,6 @@
       "idempotent": true,
       "forms": [
         {
-          "href": "dtmi:jsonTest:CommandVariants:_contents:__peek;1",
           "contentType": "application/json",
           "dtv:topic": "samples/command/peek/{executorId}",
           "dtv:serviceGroupId": "PeekCmdGroup",
@@ -69,7 +59,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:CommandVariants:_contents:__poke;1",
           "contentType": "application/json",
           "dtv:topic": "samples/command/poke/{executorId}",
           "dtv:serviceGroupId": "PokeCmdGroup",
@@ -98,7 +87,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:CommandVariants:_contents:__setColor;1",
           "contentType": "application/json",
           "dtv:topic": "samples/command/setColor/{executorId}",
           "op": "invokeaction"

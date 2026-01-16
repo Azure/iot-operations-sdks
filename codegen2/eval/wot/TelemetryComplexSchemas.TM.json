@@ -3,19 +3,11 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
-  "id": "dtmi:jsonTest:TelemetryComplexSchemas;1",
+  "@type": "tm:ThingModel",
   "title": "TelemetryComplexSchemas",
-  "securityDefinitions": {
-    "nosec_sc": {
-      "scheme": "nosec"
-    }
-  },
-  "security": [
-    "nosec_sc"
-  ],
   "links": [
     {
-      "rel": "service-desc",
+      "rel": "dtv:naming",
       "href": "./TelemetryComplexSchemas.SchemaNames.json",
       "type": "application/json"
     }
@@ -32,7 +24,6 @@
   },
   "forms": [
     {
-      "href": "dtmi:jsonTest:TelemetryComplexSchemas;1",
       "contentType": "application/json",
       "dtv:topic": "sample/{senderId}/telemetry",
       "dtv:serviceGroupId": "AggregTelemGroup",
@@ -62,7 +53,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__coordinates;1",
           "op": "subscribeevent"
         }
       ]
@@ -81,7 +71,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__doubleArray2D;1",
           "op": "subscribeevent"
         }
       ]
@@ -97,7 +86,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__doubleMap;1",
           "op": "subscribeevent"
         }
       ]
@@ -116,7 +104,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__doubleMapArray;1",
           "op": "subscribeevent"
         }
       ]
@@ -130,7 +117,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__proximity;1",
           "op": "subscribeevent"
         }
       ]
@@ -149,7 +135,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__resultArray;1",
           "op": "subscribeevent"
         }
       ]
@@ -164,7 +149,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:TelemetryComplexSchemas:_contents:__speed;1",
           "op": "subscribeevent"
         }
       ]

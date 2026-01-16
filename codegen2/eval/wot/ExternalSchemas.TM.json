@@ -3,16 +3,8 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
-  "id": "dtmi:jsonTest:ExternalSchemas;1",
+  "@type": "tm:ThingModel",
   "title": "ExternalSchemas",
-  "securityDefinitions": {
-    "nosec_sc": {
-      "scheme": "nosec"
-    }
-  },
-  "security": [
-    "nosec_sc"
-  ],
   "schemaDefinitions": {
     "Foo": {
       "description": "The requested property read/write could not be completed.",
@@ -43,7 +35,6 @@
   },
   "forms": [
     {
-      "href": "dtmi:test:PropertyTogether;1",
       "contentType": "application/json",
       "dtv:topic": "test/PropertyTogether/read",
           "additionalResponses": [
@@ -54,7 +45,6 @@
       "op": [ "readallproperties" ]
     },
     {
-      "href": "dtmi:test:PropertyTogether;1",
       "contentType": "application/json",
       "dtv:topic": "test/PropertyTogether/write",
           "additionalResponses": [
@@ -75,9 +65,8 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__doSomething;1",
           "contentType": "application/json",
-          "dtv:topic": "sample/{modelId}/command/doSomething",
+          "dtv:topic": "sample/command/doSomething",
           "op": "invokeaction"
         }
       ]
@@ -89,9 +78,8 @@
       "readOnly": false,
       "forms": [
         {
-          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Aleph;1",
           "contentType": "application/json",
-          "dtv:topic": "sample/{modelId}/property/Alpha/{action}",
+          "dtv:topic": "sample/property/Alpha/{action}",
           "additionalResponses": [
             {
               "success": false,
@@ -101,9 +89,8 @@
           "op": [ "readproperty" ]
         },
         {
-          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Aleph;1",
           "contentType": "application/json",
-          "dtv:topic": "sample/{modelId}/property/Alpha/{action}",
+          "dtv:topic": "sample/property/Alpha/{action}",
           "additionalResponses": [
             {
               "success": false,
@@ -122,9 +109,8 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Beth;1",
           "contentType": "application/json",
-          "dtv:topic": "sample/{modelId}/{senderId}/telemetry/Beth",
+          "dtv:topic": "sample/{senderId}/telemetry/Beth",
           "op": "subscribeevent"
         }
       ]
@@ -135,9 +121,8 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Gimel;1",
           "contentType": "application/json",
-          "dtv:topic": "sample/{modelId}/{senderId}/telemetry/Gimel",
+          "dtv:topic": "sample/{senderId}/telemetry/Gimel",
           "op": "subscribeevent"
         }
       ]
@@ -148,9 +133,8 @@
       },
       "forms": [
         {
-          "href": "dtmi:jsonTest:ExternalSchemas:_contents:__Dalet;1",
           "contentType": "application/json",
-          "dtv:topic": "sample/{modelId}/{senderId}/telemetry/Dalet",
+          "dtv:topic": "sample/{senderId}/telemetry/Dalet",
           "op": "subscribeevent"
         }
       ]

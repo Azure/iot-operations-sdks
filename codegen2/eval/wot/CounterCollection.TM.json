@@ -3,19 +3,11 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
-  "id": "dtmi:codegen:communicationTest:counterCollection;1",
+  "@type": "tm:ThingModel",
   "title": "CounterCollection",
-  "securityDefinitions": {
-    "nosec_sc": {
-      "scheme": "nosec"
-    }
-  },
-  "security": [
-    "nosec_sc"
-  ],
   "links": [
     {
-      "rel": "service-desc",
+      "rel": "dtv:naming",
       "href": "./CounterCollection.SchemaNames.json",
       "type": "application/json"
     }
@@ -97,7 +89,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:codegen:communicationTest:counterCollection:_contents:__increment;1",
           "contentType": "application/json",
           "dtv:headerInfo": [
             {
@@ -147,7 +138,6 @@
       },
       "forms": [
         {
-          "href": "dtmi:codegen:communicationTest:counterCollection:_contents:__getLocation;1",
           "contentType": "application/json",
           "additionalResponses": [
             {

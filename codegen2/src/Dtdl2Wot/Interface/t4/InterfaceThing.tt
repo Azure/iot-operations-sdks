@@ -41,10 +41,10 @@
       "properties": {
 <# ix2 = 1; foreach (DTEnumValueInfo enumValue in namespacedEnum.Value.EnumValues) { #>
         "<#=enumValue.Name#>": {
-          "type": "<#=ThingDescriber.GetPrimitiveType(namespacedEnum.Value.ValueSchema.Id)#>",
 <# if (enumValue.Description.Any()) { #>
-          "description": "<#=enumValue.Description.First().Value#>"
+          "description": "<#=enumValue.Description.First().Value#>",
 <# } #>
+          "type": "<#=ThingDescriber.GetPrimitiveType(namespacedEnum.Value.ValueSchema.Id)#>"
         }<#=ix2 < namespacedEnum.Value.EnumValues.Count ? "," : ""#>
 <# ix2++; } #>
       }

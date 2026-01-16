@@ -4,26 +4,17 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
     ],
-    "id": "dtmi:jsonTest:ThingOne;1",
+    "@type": "tm:ThingModel",
     "title": "ThingOne",
-    "securityDefinitions": {
-      "nosec_sc": {
-        "scheme": "nosec"
-      }
-    },
-    "security": [
-      "nosec_sc"
-    ],
     "links": [
       {
-        "rel": "service-desc",
+        "rel": "dtv:naming",
         "href": "./ThingOne.SchemaNames.json",
         "type": "application/json"
       }
     ],
     "forms": [
       {
-        "href": "dtmi:jsonTest:ThingOne;1",
         "contentType": "application/json",
         "dtv:topic": "sample/{senderId}/telemetry1",
         "op": "subscribeallevents"
@@ -40,7 +31,6 @@
         },
         "forms": [
           {
-            "href": "dtmi:jsonTest:ThingOne;1",
             "op": "subscribeevent"
           }
         ]
@@ -51,7 +41,6 @@
         },
         "forms": [
           {
-            "href": "dtmi:jsonTest:ThingOne;1",
             "op": "subscribeevent"
           }
         ]
@@ -63,26 +52,17 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
     ],
-    "id": "dtmi:jsonTest:ThingTwo;1",
+    "@type": "tm:ThingModel",
     "title": "ThingTwo",
-    "securityDefinitions": {
-      "nosec_sc": {
-        "scheme": "nosec"
-      }
-    },
-    "security": [
-      "nosec_sc"
-    ],
     "links": [
       {
-        "rel": "service-desc",
+        "rel": "dtv:naming",
         "href": "./ThingTwo.SchemaNames.json",
         "type": "application/json"
       }
     ],
     "forms": [
       {
-        "href": "dtmi:jsonTest:ThingTwo;1",
         "contentType": "application/json",
         "dtv:topic": "sample/{senderId}/telemetry2",
         "op": "subscribeallevents"
@@ -99,7 +79,6 @@
         },
         "forms": [
           {
-            "href": "dtmi:jsonTest:ThingTwo;1",
             "op": "subscribeevent"
           }
         ]
@@ -110,7 +89,6 @@
         },
         "forms": [
           {
-            "href": "dtmi:jsonTest:ThingTwo;1",
             "op": "subscribeevent"
           }
         ]
