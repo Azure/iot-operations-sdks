@@ -3,7 +3,7 @@
   "json.schemas": [
     {
       "fileMatch": [ "**/*.TM.json" ],
-      "url": "../../../schema/aio-tm-json-schema.json"
+      "url": "../../schema/aio-tm-json-schema.json"
     }
   ]
 }

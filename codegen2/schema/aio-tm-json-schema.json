@@ -3,7 +3,6 @@
   "title": "Thing Description with AIO Protocol Binding",
   "version": "0.1",
   "description": "JSON Schema for validating TD instances that employ the AIO WoT Protocol Binding",
-  "type": "object",
   "definitions": {
     "title": {
       "type": "string",
@@ -15,6 +14,9 @@
       "properties": {
         "title": {
           "$ref": "#/definitions/title"
+        },
+        "aov:namespace": {
+          "type": "string"
         },
         "type": {
           "type": "string",
@@ -31,11 +33,22 @@
         "title": {
           "$ref": "#/definitions/title"
         },
+        "aov:namespace": {
+          "type": "string"
+        },
         "type": {
           "type": "string",
           "const": "integer"
         },
         "const": {
+          "type": "integer"
+        },
+        "aov:scaleFactor": {
+          "description": "scale factor to apply to instance values",
+          "type": "integer"
+        },
+        "aov:decimalPlaces": {
+          "description": "number of decimal places of significant precision of instance values",
           "type": "integer"
         },
         "minimum": {
@@ -110,12 +123,23 @@
         "title": {
           "$ref": "#/definitions/title"
         },
+        "aov:namespace": {
+          "type": "string"
+        },
         "type": {
           "type": "string",
           "const": "number"
         },
         "const": {
           "type": "number"
+        },
+        "aov:scaleFactor": {
+          "description": "scale factor to apply to instance values",
+          "type": "number"
+        },
+        "aov:decimalPlaces": {
+          "description": "number of decimal places of significant precision of instance values",
+          "type": "integer"
         },
         "minimum": {
           "type": "number",
@@ -153,9 +177,16 @@
         "title": {
           "$ref": "#/definitions/title"
         },
+        "aov:namespace": {
+          "type": "string"
+        },
         "type": {
           "type": "string",
           "const": "string"
+        },
+        "aov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this definition",
+          "type": "string"
         },
         "enum": {
           "type": "array",
@@ -190,6 +221,9 @@
         "const": {
           "type": "string"
         }
+      },
+      "dependentRequired": {
+        "aov:typeRef": [ "enum" ]
       }
     },
     "dataSchema_object": {
@@ -199,9 +233,16 @@
         "title": {
           "$ref": "#/definitions/title"
         },
+        "aov:namespace": {
+          "type": "string"
+        },
         "type": {
           "type": "string",
           "const": "object"
+        },
+        "aov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this structured object definition",
+          "type": "string"
         },
         "properties": {
           "description": "use 'properties' to indicate an object type and define fields for the object",
@@ -232,9 +273,16 @@
         "title": {
           "$ref": "#/definitions/title"
         },
+        "aov:namespace": {
+          "type": "string"
+        },
         "type": {
           "type": "string",
           "const": "object"
+        },
+        "aov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this map definition",
+          "type": "string"
         },
         "dtv:additionalProperties": {
           "description": "use 'dtv:additionalProperties' to indicate a map type and specify the data schema for the values therein",
@@ -259,9 +307,16 @@
         "title": {
           "$ref": "#/definitions/title"
         },
+        "aov:namespace": {
+          "type": "string"
+        },
         "type": {
           "type": "string",
           "const": "array"
+        },
+        "aov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this array definition",
+          "type": "string"
         },
         "items": {
           "description": "use 'items' to specify the data schema for the values in the array",
@@ -575,9 +630,6 @@
     "form_element_base": {
       "type": "object",
       "properties": {
-        "href": {
-          "description": "an 'href' property is required by WoT TD schema, but not processed by AIO ProtocolCompiler"
-        },
         "contentType": {
           "type": "string",
           "description": "content type for communicated values, only 'application/json' supported at present",
@@ -777,387 +829,510 @@
         ],
         "description": "dtv:headerCode and dtv:headerInfo are not allowed in root forms"
       }
-    }
-  },
-  "allOf": [
-    {
-      "$ref": "./tm-json-schema-validation.json"
     },
-    {
-      "properties": {
-        "@context": {
-          "type": "array",
-          "contains": {
-            "type": "object",
-            "required": [ "dtv" ],
-            "properties": {
-              "dtv": {
-                "type": "string",
-                "const": "http://azure.com/DigitalTwins/dtmi#"
-              }
-            }
-          },
-          "description": "Must include WoT TD context string \"https://www.w3.org/2022/wot/td/v1.1\" and local context object with key \"dtv\" and value \"http://azure.com/DigitalTwins/dtmi#\""
+    "aioThingModel": {
+      "allOf": [
+        {
+          "$ref": "./tm-json-schema-validation.json"
         },
-        "title": {
-          "$ref": "#/definitions/title"
-        },
-        "schemaDefinitions": {
+        {
           "type": "object",
-          "description": "definitions of schemas that can be referenced via 'additionalResponses', 'dtv:headerCode', and 'dtv:headerInfo' properties in 'forms' elements",
-          "additionalProperties": {
-            "allOf": [ { "$ref": "#/definitions/dataSchema_base" } ],
-            "type": "object",
-            "required": [ "type" ],
-            "properties": {
-              "dtv:errorMessage": {
-                "type": "string",
-                "description": "name of a property whose value will hold an error message when this object is used as an error value"
+          "properties": {
+            "@context": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "dtv": {
+                        "type": "string",
+                        "const": "http://azure.com/DigitalTwins/dtmi#"
+                      },
+                      "aov": {
+                        "type": "string",
+                        "const": "http://azure.com/IoT/operations/tm#"
+                      }
+                    },
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              },
+              "contains": {
+                "type": "object",
+                "required": [ "dtv" ]
+              },
+              "description": "Must include WoT TD context string \"https://www.w3.org/2022/wot/td/v1.1\" and local context object with key \"dtv\" and value \"http://azure.com/DigitalTwins/dtmi#\""
+            },
+            "title": {
+              "$ref": "#/definitions/title"
+            },
+            "aov:typeRef": {
+              "description": "opaque reference to another definition (not necessarily in WoT) that is congruent to this Thing Model definition",
+              "type": "string"
+            },
+            "aov:isComposite": {
+              "description": "true if the Thing Model represents a composite type",
+              "type": "boolean"
+            },
+            "aov:isEvent": {
+              "description": "true if the Thing Model represents an event type",
+              "type": "boolean"
+            },
+            "schemaDefinitions": {
+              "type": "object",
+              "description": "definitions of schemas that can be referenced via 'additionalResponses', 'dtv:headerCode', and 'dtv:headerInfo' properties in 'forms' elements",
+              "additionalProperties": {
+                "allOf": [ { "$ref": "#/definitions/dataSchema_base" } ],
+                "type": "object",
+                "required": [ "type" ],
+                "properties": {
+                  "dtv:errorMessage": {
+                    "type": "string",
+                    "description": "name of a property whose value will hold an error message when this object is used as an error value"
+                  }
+                },
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [ "dtv:ref" ]
+                    }
+                  ]
+                }
               }
             },
-            "not": {
-              "anyOf": [
+            "links": {
+              "type": "array",
+              "description": "links to other JSON files that can be either Thing Models or naming rules",
+              "items": {
+                "type": "object",
+                "required": [ "rel", "href", "type" ],
+                "properties": {
+                  "rel": {
+                    "type": "string",
+                    "enum": [
+                      "tm:extends",
+                      "aov:reference",
+                      "aov:typedReference",
+                      "aov:capability",
+                      "aov:component",
+                      "dtv:naming"
+                    ]
+                  },
+                  "aov:refType": {
+                    "type": "string",
+                    "description": "custom reference type name, needed when 'rel' is 'aov:typedReference'"
+                  },
+                  "href": {
+                    "type": "string",
+                    "description": "path to linked JSON file"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "rel": {
+                          "const": "aov:typedReference"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [ "aov:refType" ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [ "aov:refType" ]
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "rel": {
+                          "const": "dtv:naming"
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "type": {
+                          "description": "naming rules must be written in JSON format",
+                          "const": "application/json"
+                        }
+                      }
+                    },
+                    "else": {
+                      "properties": {
+                        "type": {
+                          "description": "Thing Models must be written in JSON format",
+                          "const": "application/tm+json"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "defaultSnippets": [
                 {
-                  "required": [ "dtv:ref" ]
+                  "description": "example naming 'links' value -- replace './EXAMPLE.SchemaNames.json' with path to your own schema names declaration file",
+                  "body": [
+                    {
+                      "rel": "dtv:naming",
+                      "href": "./EXAMPLE.SchemaNames.json",
+                      "type": "application/json"
+                    }
+                  ]
+                },
+                {
+                  "description": "example extends 'links' value -- replace './EXAMPLE.ParentThingModel.TM.json' with path to a real Thing Model that is to be extended",
+                  "body": [
+                    {
+                      "rel": "tm:extends",
+                      "href": "./EXAMPLE.ParentThingModel.TM.json",
+                      "type": "application/tm+json"
+                    }
+                  ]
+                }
+              ]
+            },
+            "forms": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/form_element_root"
+              },
+              "defaultSnippets": [
+                {
+                  "description": "example root-level 'forms' values for interacting with all properties and events",
+                  "body": [
+                    {
+                      "contentType": "application/json",
+                      "dtv:topic": "example/SomeTopic/write",
+                      "op": "writemultipleproperties"
+                    },
+                    {
+                      "contentType": "application/json",
+                      "dtv:topic": "example/SomeTopic/read",
+                      "op": "readallproperties"
+                    },
+                    {
+                      "contentType": "application/json",
+                      "dtv:topic": "example/SomeTopic/AllEvents",
+                      "op": "subscribeallevents"
+                    }
+                  ]
+                }
+              ]
+            },
+            "properties": {
+              "type": "object",
+              "description": "properties are values stored on a server that can be read or written by clients",
+              "additionalProperties": {
+                "allOf": [ { "$ref": "#/definitions/dataSchema_affordance" } ],
+                "type": "object",
+                "properties": {
+                  "readOnly": {
+                    "type": "boolean",
+                    "description": "true if the property is read-only"
+                  },
+                  "aov:namespace": {
+                    "type": "string"
+                  },
+                  "aov:contains": {
+                    "description": "list of names of other property affordances that this property logically contains",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "aov:containedIn": {
+                    "description": "name of another property affordance in which this property is logically contained",
+                    "type": "string"
+                  },
+                  "dtv:placeholder": {
+                    "type": "boolean",
+                    "description": "true if the property is a placeholder for a dynamic collection of properties"
+                  },
+                  "forms": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "$ref": "#/definitions/form_element_property"
+                    },
+                    "defaultSnippets": [
+                      {
+                        "description": "example 'forms' values for properties",
+                        "body": [
+                          {
+                            "contentType": "application/json",
+                            "dtv:topic": "example/SomeTopic/MyProp1/write",
+                            "op": "writeproperty"
+                          },
+                          {
+                            "contentType": "application/json",
+                            "dtv:topic": "example/SomeTopic/MyProp1/read",
+                            "op": "readproperty"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "defaultSnippets": [
+                {
+                  "description": "example 'properties' value",
+                  "body": {
+                    "MyProperty": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647,
+                      "readOnly": false,
+                      "forms": [
+                        {
+                          "contentType": "application/json",
+                          "dtv:topic": "example/SomeTopic/MyProp1/write",
+                          "op": "writeproperty"
+                        },
+                        {
+                          "contentType": "application/json",
+                          "dtv:topic": "example/SomeTopic/MyProp1/read",
+                          "op": "readproperty"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "actions": {
+              "type": "object",
+              "description": "actions are round-trip messages initiated by clients to request a server to perform an operation and return the result to the client",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "aov:namespace": {
+                    "type": "string"
+                  },
+                  "input": {
+                    "description": "input arguments as properties in object type",
+                    "$ref": "#/definitions/dataSchema_action",
+                    "defaultSnippets": [
+                      {
+                        "body": {
+                          "type": "object",
+                          "properties": {
+                            "arg1": {
+                              "type": "string"
+                            },
+                            "arg2": {
+                              "type": "integer",
+                              "minimum": -2147483648,
+                              "maximum": 2147483647
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "description": "reference to an external schema definition (must be an object)",
+                        "body": { "dtv:ref": "./EXAMPLESCHEMA.json" }
+                      }
+                    ]
+                  },
+                  "output": {
+                    "description": "output values as properties in object type",
+                    "$ref": "#/definitions/dataSchema_action",
+                    "defaultSnippets": [
+                      {
+                        "body": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "string"
+                            },
+                            "result": {
+                              "type": "integer",
+                              "minimum": -2147483648,
+                              "maximum": 2147483647
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "description": "reference to an external schema definition (must be an object)",
+                        "body": { "dtv:ref": "./EXAMPLESCHEMA.json" }
+                      }
+                    ]
+                  },
+                  "idempotent": {
+                    "type": "boolean",
+                    "description": "true if the action is idempotent"
+                  },
+                  "safe": {
+                    "type": "boolean",
+                    "description": "true if caching the action's output is safe"
+                  },
+                  "aov:memberOf": {
+                    "description": "name of a group of actions to which this action belongs",
+                    "type": "string"
+                  },
+                  "forms": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "$ref": "#/definitions/form_element_action"
+                    },
+                    "defaultSnippets": [
+                      {
+                        "description": "example 'forms' value for actions",
+                        "body": [
+                          {
+                            "contentType": "application/json",
+                            "dtv:topic": "example/SomeTopic/DoSomething",
+                            "op": "invokeaction"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "defaultSnippets": [
+                {
+                  "description": "example 'actions' value",
+                  "body": {
+                    "MyAction": {
+                      "input": {
+                        "type": "object",
+                        "properties": {
+                          "arg1": {
+                            "type": "string"
+                          },
+                          "arg2": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "output": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "forms": [
+                        {
+                          "contentType": "application/json",
+                          "dtv:topic": "example/SomeTopic/DoSomething",
+                          "op": "invokeaction"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "events": {
+              "type": "object",
+              "description": "events are one-way messages sent from servers to clients to indicate occurrences and status changes",
+              "additionalProperties": {
+                "type": "object",
+                "required": [ "data" ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/definitions/dataSchema_affordance",
+                    "description": "the data schema of the event"
+                  },
+                  "aov:namespace": {
+                    "type": "string"
+                  },
+                  "aov:contains": {
+                    "description": "list of names of other event affordances that this event logically contains",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "aov:containedIn": {
+                    "description": "name of another event affordance in which this event is logically contained",
+                    "type": "string"
+                  },
+                  "dtv:placeholder": {
+                    "type": "boolean",
+                    "description": "true if the event is a placeholder for a dynamic collection of events"
+                  },
+                  "forms": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "$ref": "#/definitions/form_element_event"
+                    },
+                    "defaultSnippets": [
+                      {
+                        "description": "example 'forms' value for events",
+                        "body": [
+                          {
+                            "contentType": "application/json",
+                            "dtv:topic": "example/SomeTopic/MyEvent",
+                            "op": "subscribeevent"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "defaultSnippets": [
+                {
+                  "description": "example 'events' value",
+                  "body": {
+                    "MyEvent": {
+                      "data": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "forms": [
+                        {
+                          "contentType": "application/json",
+                          "dtv:topic": "example/SomeTopic/MyEvent",
+                          "op": "subscribeevent"
+                        }
+                      ]
+                    }
+                  }
                 }
               ]
             }
           }
-        },
-        "securityDefinitions": {
-          "description": "a 'securityDefinitions' property is required by WoT TD schema, but not processed by AIO ProtocolCompiler"
-        },
-        "security": {
-          "description": "a 'security' property is required by WoT TD schema, but not processed by AIO ProtocolCompiler"
-        },
-        "links": {
-          "type": "array",
-          "description": "Use a value with \"rel\": \"service-desc\" to specify a JSON file of rules for generating schema names",
-          "items": {
-            "type": "object",
-            "required": [ "rel", "href", "type" ],
-            "properties": {
-              "rel": {
-                "type": "string",
-                "description": "A 'rel' value of 'service-desc' indicates that the target file contains rules for generating schema names",
-                "const": "service-desc"
-              },
-              "href": {
-                "type": "string",
-                "description": "path to a JSON file that specifies rules for generating schema names"
-              },
-              "type": {
-                "type": "string",
-                "description": "schema definition rules must be written in JSON format",
-                "const": "application/json"
-              }
-            }
-          },
-          "defaultSnippets": [
-            {
-              "description": "example 'links' value -- replace './EXAMPLE.SchemaNames.json' with path to your own schema names declaration file",
-              "body": [
-                {
-                  "rel": "service-desc",
-                  "href": "./EXAMPLE.SchemaNames.json",
-                  "type": "application/json"
-                }
-              ]
-            }
-          ]
-        },
-        "forms": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/form_element_root"
-          },
-          "defaultSnippets": [
-            {
-              "description": "example root-level 'forms' values for interacting with all properties and events",
-              "body": [
-                {
-                  "href": "dtmi:test:SomeURI;1",
-                  "contentType": "application/json",
-                  "dtv:topic": "example/SomeTopic/write",
-                  "op": "writemultipleproperties"
-                },
-                {
-                  "href": "dtmi:test:SomeURI;1",
-                  "contentType": "application/json",
-                  "dtv:topic": "example/SomeTopic/read",
-                  "op": "readallproperties"
-                },
-                {
-                  "href": "dtmi:test:SomeURI;1",
-                  "contentType": "application/json",
-                  "dtv:topic": "example/SomeTopic/AllEvents",
-                  "op": "subscribeallevents"
-                }
-              ]
-            }
-          ]
-        },
-        "properties": {
-          "type": "object",
-          "description": "properties are values stored on a server that can be read or written by clients",
-          "additionalProperties": {
-            "allOf": [ { "$ref": "#/definitions/dataSchema_affordance" } ],
-            "type": "object",
-            "properties": {
-              "readOnly": {
-                "type": "boolean",
-                "description": "true if the property is read-only"
-              },
-              "dtv:placeholder": {
-                "type": "boolean",
-                "description": "true if the property is a placeholder for a dynamic collection of properties"
-              },
-              "forms": {
-                "type": "array",
-                "minItems": 1,
-                "items": {
-                  "$ref": "#/definitions/form_element_property"
-                },
-                "defaultSnippets": [
-                  {
-                    "description": "example 'forms' values for properties",
-                    "body": [
-                      {
-                        "href": "dtmi:test:SomeURI;1",
-                        "contentType": "application/json",
-                        "dtv:topic": "example/SomeTopic/MyProp1/write",
-                        "op": "writeproperty"
-                      },
-                      {
-                        "href": "dtmi:test:SomeURI;1",
-                        "contentType": "application/json",
-                        "dtv:topic": "example/SomeTopic/MyProp1/read",
-                        "op": "readproperty"
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          },
-          "defaultSnippets": [
-            {
-              "description": "example 'properties' value",
-              "body": {
-                "MyProperty": {
-                  "type": "integer",
-                  "minimum": -2147483648,
-                  "maximum": 2147483647,
-                  "readOnly": false,
-                  "forms": [
-                    {
-                      "href": "dtmi:test:SomeURI;1",
-                      "contentType": "application/json",
-                      "dtv:topic": "example/SomeTopic/MyProp1/write",
-                      "op": "writeproperty"
-                    },
-                    {
-                      "href": "dtmi:test:SomeURI;1",
-                      "contentType": "application/json",
-                      "dtv:topic": "example/SomeTopic/MyProp1/read",
-                      "op": "readproperty"
-                    }
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        "actions": {
-          "type": "object",
-          "description": "actions are round-trip messages initiated by clients to request a server to perform an operation and return the result to the client",
-          "additionalProperties": {
-            "type": "object",
-            "properties": {
-              "input": {
-                "description": "input arguments as properties in object type",
-                "$ref": "#/definitions/dataSchema_action",
-                "defaultSnippets": [
-                  {
-                    "body": {
-                      "type": "object",
-                      "properties": {
-                        "arg1": {
-                          "type": "string"
-                        },
-                        "arg2": {
-                          "type": "integer",
-                          "minimum": -2147483648,
-                          "maximum": 2147483647
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "description": "reference to an external schema definition (must be an object)",
-                    "body": { "dtv:ref": "./EXAMPLESCHEMA.json" }
-                  }
-                ]
-              },
-              "output": {
-                "description": "output values as properties in object type",
-                "$ref": "#/definitions/dataSchema_action",
-                "defaultSnippets": [
-                  {
-                    "body": {
-                      "type": "object",
-                      "properties": {
-                        "status": {
-                          "type": "string"
-                        },
-                        "result": {
-                          "type": "integer",
-                          "minimum": -2147483648,
-                          "maximum": 2147483647
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "description": "reference to an external schema definition (must be an object)",
-                    "body": { "dtv:ref": "./EXAMPLESCHEMA.json" }
-                  }
-                ]
-              },
-              "idempotent": {
-                "type": "boolean",
-                "description": "true if the action is idempotent"
-              },
-              "safe": {
-                "type": "boolean",
-                "description": "true if caching the action's output is safe"
-              },
-              "forms": {
-                "type": "array",
-                "minItems": 1,
-                "items": {
-                  "$ref": "#/definitions/form_element_action"
-                },
-                "defaultSnippets": [
-                  {
-                    "description": "example 'forms' value for actions",
-                    "body": [
-                      {
-                        "href": "dtmi:test:SomeURI;1",
-                        "contentType": "application/json",
-                        "dtv:topic": "example/SomeTopic/DoSomething",
-                        "op": "invokeaction"
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          },
-          "defaultSnippets": [
-            {
-              "description": "example 'actions' value",
-              "body": {
-                "MyAction": {
-                  "input": {
-                    "type": "object",
-                    "properties": {
-                      "arg1": {
-                        "type": "string"
-                      },
-                      "arg2": {
-                        "type": "integer",
-                        "minimum": -2147483648,
-                        "maximum": 2147483647
-                      }
-                    }
-                  },
-                  "output": {
-                    "type": "object",
-                    "properties": {
-                      "status": {
-                        "type": "string"
-                      },
-                      "result": {
-                        "type": "integer",
-                        "minimum": -2147483648,
-                        "maximum": 2147483647
-                      }
-                    }
-                  },
-                  "forms": [
-                    {
-                      "href": "dtmi:test:SomeURI;1",
-                      "contentType": "application/json",
-                      "dtv:topic": "example/SomeTopic/DoSomething",
-                      "op": "invokeaction"
-                    }
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        "events": {
-          "type": "object",
-          "description": "events are one-way messages sent from servers to clients to indicate occurrences and status changes",
-          "additionalProperties": {
-            "type": "object",
-            "required": [ "data" ],
-            "properties": {
-              "data": {
-                "$ref": "#/definitions/dataSchema_affordance",
-                "description": "the data schema of the event"
-              },
-              "dtv:placeholder": {
-                "type": "boolean",
-                "description": "true if the event is a placeholder for a dynamic collection of events"
-              },
-              "forms": {
-                "type": "array",
-                "minItems": 1,
-                "items": {
-                  "$ref": "#/definitions/form_element_event"
-                },
-                "defaultSnippets": [
-                  {
-                    "description": "example 'forms' value for events",
-                    "body": [
-                      {
-                        "href": "dtmi:test:SomeURI;1",
-                        "contentType": "application/json",
-                        "dtv:topic": "example/SomeTopic/MyEvent",
-                        "op": "subscribeevent"
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          },
-          "defaultSnippets": [
-            {
-              "description": "example 'events' value",
-              "body": {
-                "MyEvent": {
-                  "data": {
-                    "type": "integer",
-                    "minimum": -2147483648,
-                    "maximum": 2147483647
-                  },
-                  "forms": [
-                    {
-                      "href": "dtmi:test:SomeURI;1",
-                      "contentType": "application/json",
-                      "dtv:topic": "example/SomeTopic/MyEvent",
-                      "op": "subscribeevent"
-                    }
-                  ]
-                }
-              }
-            }
-          ]
         }
+      ]
+    }
+  },
+  "anyOf": [
+    {
+      "$ref": "#/definitions/aioThingModel"
+    },
+    {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/aioThingModel"
       }
     }
   ]
