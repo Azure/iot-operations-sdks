@@ -92,17 +92,15 @@ async fn health_sender_run<T: HealthComponent>(
                 .report_health_status(&connector_context, curr_status.clone())
                 .await
             {
-                Ok(_) => {
-                    // TODO: move this log to debug once this is ready for PR
-                    log::info!("Reported health status: {:?}", curr_status);
+                Ok(()) => {
+                    log::debug!("Reported health status: {curr_status:?}");
                     // Setting to current time rather than current_status time in case the
                     // receiver is backed up - if we set to current_status time,
                     // the next report might trigger sooner than the health interval requires, causing the backup to worsen
                     last_reported_time = Some(chrono::Utc::now());
                 }
                 Err(e) => {
-                    log::warn!("Failed to report health status: {:?}", e);
-                    // TODO: retry? Retries kinda done by not saving this as the last_reported_time, but that only applies if the application reports again - should this factor into the sleep time?
+                    log::warn!("Failed to report health status: {e:?}");
                 }
             }
         } else {

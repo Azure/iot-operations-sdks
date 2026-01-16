@@ -77,10 +77,10 @@ impl DeviceEndpointStatusReporter {
     /// okay to call this function frequently. It is required to call this function any time
     /// the health status changes to ensure that the service has the latest information.
     /// If the health status does not change, the underlying client will report the last known
-    /// health status at the base connector `health_report_interval`'s frequency unless `reset_health_status` is called.
+    /// health status at the base connector `health_report_interval`'s frequency unless `pause_health_reporting` is called.
     ///
     /// The version used for reporting is the snapshotted version from the last call to
-    /// `align_health_version()` or `reset_and_align_health_version()`, not the current specification version.
+    /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not the current specification version.
     pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
         let runtime_health = RuntimeHealth {
             last_update_time: Utc::now(),
@@ -95,16 +95,17 @@ impl DeviceEndpointStatusReporter {
         };
     }
 
-    /// This function is used to stop background reporting of the health status until a new status is reported.
+    /// Pauses background health status reporting until a new status is reported.
     /// This should be called when the component is updated to indicate that the previous health status may no longer be applicable.
-    pub fn reset_health_status(&self) {
+    pub fn pause_health_reporting(&self) {
         if let Err(_e) = self.health_tx.send(None) {
             log::warn!("Health status receiver closed")
         };
     }
 
     /// Snapshots the current specification version for use in future health reports.
-    pub fn align_health_version(&mut self) {
+    /// Call this when starting a new operation to "lock in" the version you're working with.
+    pub fn refresh_health_version(&mut self) {
         self.snapshotted_version = self
             .device_endpoint_specification
             .read()
@@ -113,12 +114,12 @@ impl DeviceEndpointStatusReporter {
             .unwrap_or(0);
     }
 
-    /// Combines `reset_health_status()` and `align_health_version()`.
-    /// Stops background reporting AND snapshots the current specification version.
+    /// Combines `pause_health_reporting()` and `refresh_health_version()`.
+    /// Pauses background reporting AND snapshots the current specification version.
     /// Useful when receiving an update in the same task that handles notifications.
-    pub fn reset_and_align_health_version(&mut self) {
-        self.reset_health_status();
-        self.align_health_version();
+    pub fn pause_and_refresh_health_version(&mut self) {
+        self.pause_health_reporting();
+        self.refresh_health_version();
     }
 
     // pub fn report_all_children_health_status(&self, health_status: RuntimeHealthStatus) {
@@ -1993,10 +1994,10 @@ impl DataOperationStatusReporter {
     /// okay to call this function frequently. It is required to call this function any time
     /// the health status changes to ensure that the service has the latest information.
     /// If the health status does not change, the underlying client will report the last known
-    /// health status at the base connector `health_report_interval`'s frequency at minimum unless `reset_health_status` is called.
+    /// health status at the base connector `health_report_interval`'s frequency at minimum unless `pause_health_reporting` is called.
     ///
     /// The version used for reporting is the snapshotted version from the last call to
-    /// `align_health_version()` or `reset_and_align_health_version()`, not the current specification version.
+    /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not the current specification version.
     pub fn report_health_status(&self, health_status: RuntimeHealthStatus) {
         let runtime_health = RuntimeHealth {
             last_update_time: Utc::now(),
@@ -2010,16 +2011,17 @@ impl DataOperationStatusReporter {
         };
     }
 
-    /// This function is used to stop background reporting of the health status until a new status is reported.
+    /// Pauses background health status reporting until a new status is reported.
     /// This should be called when the component is updated to indicate that the previous health status may no longer be applicable.
-    pub fn reset_health_status(&self) {
+    pub fn pause_health_reporting(&self) {
         if let Err(_e) = self.health_tx.send(None) {
             log::warn!("Health status receiver closed")
         };
     }
 
     /// Snapshots the current asset specification version for use in future health reports.
-    pub fn align_health_version(&mut self) {
+    /// Call this when starting a new operation to "lock in" the version you're working with.
+    pub fn refresh_health_version(&mut self) {
         self.snapshotted_version = self
             .asset_specification
             .read()
@@ -2028,12 +2030,12 @@ impl DataOperationStatusReporter {
             .unwrap_or(0);
     }
 
-    /// Combines `reset_health_status()` and `align_health_version()`.
-    /// Stops background reporting AND snapshots the current asset specification version.
+    /// Combines `pause_health_reporting()` and `refresh_health_version()`.
+    /// Pauses background reporting AND snapshots the current asset specification version.
     /// Useful when receiving an update in the same task that handles notifications.
-    pub fn reset_and_align_health_version(&mut self) {
-        self.reset_health_status();
-        self.align_health_version();
+    pub fn pause_and_refresh_health_version(&mut self) {
+        self.pause_health_reporting();
+        self.refresh_health_version();
     }
 
     /// Used to conditionally report the data operation status and then updates the asset with the new status returned.
