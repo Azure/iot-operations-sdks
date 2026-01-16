@@ -1,0 +1,16 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "<#=this.schemaName#>",
+  "type": "string",
+<# if (this.enumSpec.Description != null) { #>
+  "description": "<#=this.enumSpec.Description#>",
+<# } #>
+  "enum": [
+<# int ix = 1; foreach (string value in this.enumSpec.Values) { #>
+    "<#=value#>"<#=ix < this.enumSpec.Values.Count ? "," : ""#>
+<# ix++; } #>
+  ]
+}

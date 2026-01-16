@@ -1,0 +1,23 @@
+namespace Azure.Iot.Operations.TypeGenerator
+{
+    using System.IO;
+    using Azure.Iot.Operations.CodeGeneration;
+
+    public partial class RustAlias : ITypeTemplateTransform
+    {
+        private readonly CodeName genNamespace;
+        private readonly AliasType aliasType;
+        private readonly string srcSubdir;
+
+        internal RustAlias(CodeName genNamespace, AliasType aliasType, string srcSubdir)
+        {
+            this.genNamespace = genNamespace;
+            this.aliasType = aliasType;
+            this.srcSubdir = srcSubdir;
+        }
+
+        public string FileName { get => $"{this.aliasType.SchemaName.GetFileName(TargetLanguage.Rust)}.rs"; }
+
+        public string FolderPath { get => Path.Combine(this.srcSubdir, this.genNamespace.GetFolderName(TargetLanguage.Rust)); }
+    }
+}

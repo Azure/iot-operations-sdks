@@ -1,0 +1,29 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "schemaDefinitions": {
+    "Condition": {
+      "type": "string"
+    }
+  },
+  "actions": {
+    "noop": {
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/noop/{executorId}",
+          "op": "invokeaction",
+          "dtv:headerCode": "Condition"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

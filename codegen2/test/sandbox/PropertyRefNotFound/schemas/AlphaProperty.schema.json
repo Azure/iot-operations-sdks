@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "AlphaProperty",
+  "description": "Container for the 'alpha' Property.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "alpha" ],
+  "properties": {
+    "alpha": {
+      "description": "The 'alpha' Property value.",
+      "$ref": "../../../schemas/json-schemas/Nonexistent.json"
+    }
+  }
+}

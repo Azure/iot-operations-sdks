@@ -1,0 +1,35 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Doit",
+  "actions": {
+    "doit": {
+      "input": {
+        "dtv:ref": "../../schemas/json-schemas/AnObjectSchema.json"
+      },
+      "output": {
+        "title": "AnObjectSchema",
+        "type": "object",
+        "properties": {
+          "outVal": {
+            "type": "string"
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/doit/{executorId}",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

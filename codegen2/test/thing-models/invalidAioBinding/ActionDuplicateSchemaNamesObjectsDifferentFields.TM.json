@@ -1,0 +1,41 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Echo",
+  "actions": {
+    "echo": {
+      "input": {
+        "title": "MyActionSchema",
+        "type": "object",
+        "properties": {
+          "inVal": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "title": "MyActionSchema",
+        "type": "object",
+        "properties": {
+          "outVal": {
+            "type": "string"
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/poke/{executorId}",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "TelemetryComplexSchemas",
+  "links": [
+    {
+      "rel": "dtv:naming",
+      "href": "./TelemetryComplexSchemas.SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
+  "schemaDefinitions": {
+    "near": {
+      "type": "integer",
+      "const": 1
+    },
+    "far": {
+      "type": "integer",
+      "const": 2
+    }
+  },
+  "forms": [
+    {
+      "contentType": "application/json",
+      "dtv:topic": "sample/{senderId}/telemetry",
+      "dtv:serviceGroupId": "AggregTelemGroup",
+      "op": "subscribeallevents"
+    }
+  ],
+  "actions": {
+  },
+  "properties": {
+  },
+  "events": {
+    "coordinates": {
+      "data": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "longitude": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "forms": [
+        {
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "doubleArray2D": {
+      "data": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "forms": [
+        {
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "doubleMap": {
+      "data": {
+        "type": "object",
+        "dtv:additionalProperties": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        }
+      },
+      "forms": [
+        {
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "doubleMapArray": {
+      "data": {
+        "type": "object",
+        "dtv:additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "forms": [
+        {
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "proximity": {
+      "data": {
+        "description": "An enumerated value for expressing qualitative distance.",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647
+      },
+      "forms": [
+        {
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "resultArray": {
+      "data": {
+        "type": "array",
+        "items": {
+          "title": "Results",
+          "type": "string",
+          "enum": [
+            "success",
+            "failure"
+          ]
+        }
+      },
+      "forms": [
+        {
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "speed": {
+      "data": {
+        "type": "string",
+        "enum": [
+          "slow",
+          "fast"
+        ]
+      },
+      "forms": [
+        {
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}

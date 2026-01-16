@@ -1,0 +1,27 @@
+{
+  "actionInSchema": {
+    "in": [ "actionName" ],
+    "out": "{actionName}RequestPayload",
+    "capitalize": true
+  },
+  "actionOutSchema": {
+    "in": [ "actionName" ],
+    "out": "{actionName}ResponsePayload",
+    "capitalize": true
+  },
+  "actionExecutorBinder": {
+    "in": [ "actionName" ],
+    "out": "{actionName}CommandExecutor",
+    "capitalize": true
+  },
+  "actionInvokerBinder": {
+    "in": [ "actionName" ],
+    "out": "{actionName}CommandInvoker",
+    "capitalize": true
+  },
+  "actionRespErrorField": {
+    "in": [ "actionName", "errorSchemaName" ],
+    "out": "{errorSchemaName}",
+    "capitalize": false
+  }
+}

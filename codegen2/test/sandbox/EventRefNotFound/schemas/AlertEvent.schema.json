@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "AlertEvent",
+  "description": "Container for the 'alert' Event data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "alert" ],
+  "properties": {
+    "alert": {
+      "description": "The 'alert' Event data value.",
+      "$ref": "../../../schemas/json-schemas/Nonexistent.json"
+    }
+  }
+}

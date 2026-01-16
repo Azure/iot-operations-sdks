@@ -1,0 +1,24 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/DuplicatedGeneratedNameBetweenThingAndJsonSchema.TM.json" ],
+    "schemas": [ "../schemas/json-schemas/AnObjectSchema.json" ],
+    "lang": "csharp"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "DuplicatedGeneratedNameBetweenThingAndJsonSchema.TM.json",
+      "line": 13,
+      "cfLine": 0,
+      "crossRef": "AnObjectSchema"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "AnObjectSchema.json",
+      "line": 1,
+      "cfLine": 0,
+      "crossRef": "AnObjectSchema"
+    }
+  ]
+}

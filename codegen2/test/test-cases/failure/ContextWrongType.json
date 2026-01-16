@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidThing/ContextWrongType.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "JsonInvalid",
+      "filename": "ContextWrongType.TM.json",
+      "line": 2,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

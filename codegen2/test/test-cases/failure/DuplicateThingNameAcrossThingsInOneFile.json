@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/DuplicateThingNameAcrossThingsInOneFile.TM.json" ],
+    "lang": "csharp"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "DuplicateThingNameAcrossThingsInOneFile.TM.json",
+      "line": 8,
+      "cfLine": 0,
+      "crossRef": "MyThing"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "DuplicateThingNameAcrossThingsInOneFile.TM.json",
+      "line": 30,
+      "cfLine": 0,
+      "crossRef": "MyThing"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "actions": {
+    "peek": {
+      "output": {
+        "type": "object",
+        "properties": {
+          "outVal": {
+            "type": "string"
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "",
+          "dtv:topic": "sample/peek/{executorId}",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

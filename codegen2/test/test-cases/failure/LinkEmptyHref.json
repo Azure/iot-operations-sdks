@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/LinkEmptyHref.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyEmpty",
+      "filename": "LinkEmptyHref.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

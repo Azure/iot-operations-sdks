@@ -1,0 +1,92 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "TelemetryAndCommand",
+  "forms": [
+    {
+      "contentType": "application/json",
+      "dtv:topic": "sample/{modelId}/{senderId}/telemetry",
+      "op": "subscribeallevents"
+    }
+  ],
+  "actions": {
+    "setColor": {
+      "input": {
+        "type": "object",
+        "required": [ "newColor" ],
+        "properties": {
+          "newColor": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "required": [ "oldColor" ],
+        "properties": {
+          "oldColor": {
+            "type": "string"
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:serviceGroupId": "MyCommandGroup",
+          "dtv:topic": "sample/{modelId}/command/setColor",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+    "distance": {
+      "descriptions": {
+        "en": "The total distance from the origin."
+      },
+      "data": {
+        "title": "Example",
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "longitude": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:serviceGroupId": "MyTelemetryGroup",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "color": {
+      "descriptions": {
+        "en": "The color currently being applied."
+      },
+      "data": {
+        "dtv:ref": "Example1.json"
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:serviceGroupId": "MyTelemetryGroup",
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}

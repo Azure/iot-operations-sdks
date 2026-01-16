@@ -1,0 +1,6 @@
+**/*.cs
+**/*.csproj
+**/*.rs
+**/Cargo.toml
+**/*.json
+!wot/**/*.json

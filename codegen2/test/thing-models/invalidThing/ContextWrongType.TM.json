@@ -1,0 +1,20 @@
+{
+  "@context": 404,
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "actions": {
+    "noop": {
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/TestThing/command/noop",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}
