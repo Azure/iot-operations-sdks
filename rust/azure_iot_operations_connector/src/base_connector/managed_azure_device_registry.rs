@@ -5,9 +5,10 @@
 
 use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Arc};
 
+use azure_iot_operations_protocol::{common::payload_serialize::BypassPayload, rpc_command};
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self,
+        self, Details,
         models::{self as adr_models, Asset},
     },
     schema_registry,
@@ -20,8 +21,8 @@ use tokio_retry2::{Retry, RetryError};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    AdrConfigError, Data, DataOperationKind, DataOperationName, DataOperationRef, MessageSchema,
-    MessageSchemaReference,
+    AdrConfigError, Data, DataOperationKind, DataOperationName, DataOperationRef,
+    ManagementActionRef, MessageSchema, MessageSchemaReference,
     base_connector::ConnectorContext,
     deployment_artifacts::{
         self,
@@ -1046,16 +1047,21 @@ impl AssetStatusReporter {
 /// until all data operation kinds have been processed and the function
 /// using this struct is beyond the point where it needs to worry about
 /// cancel safety.
-struct AssetDataOperationUpdates {
+struct AssetComponentUpdates {
     new_status: adr_models::AssetStatus,
     status_updated: bool,
     data_operation_updates: Vec<(
         watch::Sender<DataOperationUpdateNotification>,
         DataOperationUpdateNotification,
     )>,
-    new_data_operation_clients: Vec<(DataOperationClient, Result<(), AdrConfigError>)>,
+    new_asset_component_clients: Vec<(AssetComponentClient, Result<(), AdrConfigError>)>,
+    management_action_updates: Vec<(
+        watch::Sender<ManagementActionUpdateNotification>,
+        ManagementActionUpdateNotification,
+    )>,
 }
 
+// MARK: Asset
 /// Azure Device Registry Asset that includes additional functionality
 /// to report status and receive Asset updates
 #[derive(Debug, Getters)]
@@ -1090,14 +1096,15 @@ pub struct AssetClient {
     asset_update_watcher_tx: watch::Sender<Asset>,
     /// Internal sender for when new data operations are created
     #[getter(skip)]
-    data_operation_creation_tx: UnboundedSender<(DataOperationClient, Result<(), AdrConfigError>)>,
+    asset_component_creation_tx:
+        UnboundedSender<(AssetComponentClient, Result<(), AdrConfigError>)>,
     /// Internal channel for receiving notifications about data operation creation events.
     #[getter(skip)]
-    data_operation_creation_rx:
-        UnboundedReceiver<(DataOperationClient, Result<(), AdrConfigError>)>,
+    asset_component_creation_rx:
+        UnboundedReceiver<(AssetComponentClient, Result<(), AdrConfigError>)>,
     /// Internal watch sender for releasing data operation create/update notifications
     #[getter(skip)]
-    release_data_operation_notifications_tx: watch::Sender<()>,
+    release_asset_component_notifications_tx: watch::Sender<()>,
     /// hashmap of current dataset names to their sender to send dataset updates
     #[getter(skip)]
     dataset_hashmap: HashMap<String, watch::Sender<DataOperationUpdateNotification>>,
@@ -1110,6 +1117,15 @@ pub struct AssetClient {
     /// hashmap of current stream names to their sender to send stream updates
     #[getter(skip)]
     stream_hashmap: HashMap<String, watch::Sender<DataOperationUpdateNotification>>,
+    /// hashmap of current management action/management group names to their current definitions and a sender to send action updates
+    #[getter(skip)]
+    management_action_hashmap: HashMap<
+        String, // ManagementGroup name
+        HashMap<
+            String,                                            // ManagementAction name
+            watch::Sender<ManagementActionUpdateNotification>, // change to ManagementActionUpdateNotification
+        >,
+    >,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
@@ -1129,7 +1145,7 @@ impl AssetClient {
         let (asset_update_watcher_tx, asset_update_watcher_rx) = watch::channel(asset.clone());
         let specification = AssetSpecification::from(asset.clone());
         let specification_version = specification.version;
-        let (data_operation_creation_tx, data_operation_creation_rx) = mpsc::unbounded_channel();
+        let (asset_component_creation_tx, asset_component_creation_rx) = mpsc::unbounded_channel();
 
         // Create the AssetClient so that we can use the same helper functions for processing the data_operations as we do during the update flow
         let mut asset_client = AssetClient {
@@ -1141,13 +1157,14 @@ impl AssetClient {
             asset_update_observation,
             asset_update_watcher_rx,
             asset_update_watcher_tx,
-            data_operation_creation_tx,
-            data_operation_creation_rx,
+            asset_component_creation_tx,
+            asset_component_creation_rx,
             dataset_hashmap: HashMap::new(),
             event_hashmap: HashMap::new(),
             stream_hashmap: HashMap::new(),
+            management_action_hashmap: HashMap::new(),
             connector_context,
-            release_data_operation_notifications_tx: watch::Sender::new(()),
+            release_asset_component_notifications_tx: watch::Sender::new(()),
             asset_deletion_token,
         };
 
@@ -1156,7 +1173,7 @@ impl AssetClient {
             // (not possible in new, but allows use of Self:: helper fns)
             let mut status_write_guard = asset_client.status.write().await;
             // if there are any config errors when parsing the asset, collect them all so we can report them at once
-            let mut updates = AssetDataOperationUpdates {
+            let mut updates = AssetComponentUpdates {
                 new_status: Self::get_current_asset_status(
                     &status_write_guard,
                     specification_version,
@@ -1164,7 +1181,8 @@ impl AssetClient {
                 .into_owned(),
                 status_updated: false,
                 data_operation_updates: Vec::new(),
-                new_data_operation_clients: Vec::new(),
+                new_asset_component_clients: Vec::new(),
+                management_action_updates: Vec::new(),
             };
             // Handle "updates" for each type of data operation. Since we don't currently have any data
             // operations tracked yet, everything in the definition will be treated as a new data operation.
@@ -1197,6 +1215,14 @@ impl AssetClient {
             );
             asset_client.stream_hashmap = temp_stream_hashmap;
 
+            let mut temp_management_action_hashmap = asset_client.management_action_hashmap.clone();
+            asset_client.handle_management_action_updates(
+                &mut temp_management_action_hashmap,
+                &asset,
+                &mut updates,
+            );
+            asset_client.management_action_hashmap = temp_management_action_hashmap;
+
             // if there were any config errors, report them to the ADR service together
             if updates.status_updated {
                 log::debug!(
@@ -1220,16 +1246,31 @@ impl AssetClient {
             }
 
             // Send all new data operation create notifications
-            for new_data_operation_client in updates.new_data_operation_clients {
+            for new_asset_component_client in updates.new_asset_component_clients {
                 // error is not possible since the receiving side of the channel is owned by the AssetClient
                 let _ = asset_client
-                    .data_operation_creation_tx
-                    .send(new_data_operation_client);
+                    .asset_component_creation_tx
+                    .send(new_asset_component_client);
             }
             // Note, updates.data_operation_updates is not used because there will be no updates on new
         }
 
         asset_client
+    }
+
+    fn handle_management_action_updates(
+        &self,
+        management_action_hashmap: &mut HashMap<
+            String, // ManagementGroup name
+            HashMap<
+                String,                                            // ManagementAction name
+                watch::Sender<ManagementActionUpdateNotification>, // change to ManagementActionUpdateNotification
+            >,
+        >,
+        updated_asset: &Asset,
+        updates: &mut AssetComponentUpdates,
+    ) {
+        unimplemented!();
     }
 
     /// Helper function to handle updates for event groups on an Asset
@@ -1243,7 +1284,7 @@ impl AssetClient {
         >,
         updated_asset: &Asset,
         updated_asset_event_groups: &[adr_models::EventGroup],
-        updates: &mut AssetDataOperationUpdates,
+        updates: &mut AssetComponentUpdates,
     ) {
         let mut updated_asset_events: Vec<EventSpecification> = Vec::new();
         for event_group in updated_asset_event_groups {
@@ -1281,7 +1322,7 @@ impl AssetClient {
         >,
         updated_asset: &Asset,
         updated_asset_data_operations: &[T],
-        updates: &mut AssetDataOperationUpdates,
+        updates: &mut AssetComponentUpdates,
     ) {
         // remove the data operations that are no longer present in the new asset definition.
         // This triggers deletion notification since this drops the update sender.
@@ -1392,7 +1433,7 @@ impl AssetClient {
                         received_data_operation.clone().into(),
                         default_data_operation_destinations.clone(),
                         default_data_operation_destination_updated,
-                        self.release_data_operation_notifications_tx.subscribe(),
+                        self.release_asset_component_notifications_tx.subscribe(),
                     ),
                 ));
             }
@@ -1408,7 +1449,7 @@ impl AssetClient {
                         data_operation_definition.clone(),
                         default_data_operation_destinations.clone(),
                         true, // new data operation, so default destination is considered updated
-                        self.release_data_operation_notifications_tx.subscribe(),
+                        self.release_asset_component_notifications_tx.subscribe(),
                     ));
                 let (new_data_operation_client, data_operation_client_result) =
                     DataOperationClient::new(
@@ -1428,8 +1469,8 @@ impl AssetClient {
                     data_operation_update_watcher_tx,
                 );
                 // save new data operation client to be sent on self.data_operation_creation_tx after the task can't get cancelled
-                updates.new_data_operation_clients.push((
-                    new_data_operation_client,
+                updates.new_asset_component_clients.push((
+                    AssetComponentClient::DataOperation(new_data_operation_client),
                     data_operation_client_result.clone(),
                 ));
 
@@ -1478,7 +1519,7 @@ impl AssetClient {
     async fn handle_update(
         &mut self,
         updated_asset: Asset,
-    ) -> ClientNotification<(DataOperationClient, Result<(), AdrConfigError>)> {
+    ) -> ClientNotification<(AssetComponentClient, Result<(), AdrConfigError>)> {
         // lock the status write guard so that no other threads can modify the status while we update it
         let mut status_write_guard = self.status.write().await;
 
@@ -1504,11 +1545,12 @@ impl AssetClient {
 
         // if there are any config errors when parsing the asset, collect them all so we can report them at once
         // track all data_operations to update and save notifications for once the task can't be cancelled
-        let mut updates = AssetDataOperationUpdates {
+        let mut updates = AssetComponentUpdates {
             new_status: adr_asset_status,
             status_updated: false,
             data_operation_updates: Vec::new(),
-            new_data_operation_clients: Vec::new(),
+            new_asset_component_clients: Vec::new(),
+            management_action_updates: Vec::new(),
         };
 
         // Handle updates for each type of data operation
@@ -1532,6 +1574,12 @@ impl AssetClient {
             &mut temp_stream_hashmap,
             &updated_asset,
             &updated_asset.streams,
+            &mut updates,
+        );
+        let mut temp_management_action_hashmap = self.management_action_hashmap.clone();
+        self.handle_management_action_updates(
+            &mut temp_management_action_hashmap,
+            &updated_asset,
             &mut updates,
         );
 
@@ -1561,10 +1609,11 @@ impl AssetClient {
         let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
         *unlocked_specification = AssetSpecification::from(updated_asset);
 
-        // update data operation hashmaps now that this task can't be cancelled
+        // update asset component hashmaps now that this task can't be cancelled
         self.dataset_hashmap = temp_dataset_hashmap;
         self.event_hashmap = temp_event_hashmap;
         self.stream_hashmap = temp_stream_hashmap;
+        self.management_action_hashmap = temp_management_action_hashmap;
 
         // send all notifications associated with this asset update
         for (data_operation_update_tx, data_operation_update_notification) in
@@ -1580,11 +1629,24 @@ impl AssetClient {
                 );
             });
         }
-        for new_data_operation_client in updates.new_data_operation_clients {
+        for (management_action_update_tx, management_action_update_notification) in
+            updates.management_action_updates
+        {
+            // send update to the management action
+            let _ = management_action_update_tx.send(management_action_update_notification).inspect_err(|tokio::sync::watch::error::SendError((e_management_action_definition, _))| {
+                // TODO: should this trigger the ManagementActionClient create flow, or is this just indicative of an application bug?
+                log::warn!(
+                    "Update received for management action on asset {:?}, but ManagementActionClient has been dropped",
+                    // e_management_action_definition.name(),
+                    self.asset_ref
+                );
+            });
+        }
+        for new_asset_component_client in updates.new_asset_component_clients {
             // error is not possible since the receiving side of the channel is owned by the AssetClient
             let _ = self
-                .data_operation_creation_tx
-                .send(new_data_operation_client);
+                .asset_component_creation_tx
+                .send(new_asset_component_client);
         }
 
         // Asset update has been fully processed, mark as seen.
@@ -1621,9 +1683,9 @@ impl AssetClient {
     /// If the specification mutex has been poisoned, which should not be possible
     pub async fn recv_notification(
         &mut self,
-    ) -> ClientNotification<(DataOperationClient, Result<(), AdrConfigError>)> {
+    ) -> ClientNotification<(AssetComponentClient, Result<(), AdrConfigError>)> {
         // release any pending data_operation create/update notifications
-        self.release_data_operation_notifications_tx
+        self.release_asset_component_notifications_tx
             .send_modify(|()| ());
         tokio::select! {
             biased;
@@ -1680,8 +1742,8 @@ impl AssetClient {
 
                 self.handle_update(updated_asset).await
             }
-            create_notification = self.data_operation_creation_rx.recv() => {
-                let Some(data_operation_client) = create_notification else {
+            create_notification = self.asset_component_creation_rx.recv() => {
+                let Some(asset_component_client) = create_notification else {
                     // unobserve as cleanup
                     // Spawn a new task to prevent a possible cancellation and ensure the deleted
                     // notification reaches the application.
@@ -1696,7 +1758,7 @@ impl AssetClient {
                     );
                     return ClientNotification::Deleted;
                 };
-                ClientNotification::Created(data_operation_client)
+                ClientNotification::Created(asset_component_client)
             },
         }
     }
@@ -1819,6 +1881,11 @@ impl AssetClient {
     }
 }
 
+pub enum AssetComponentClient {
+    DataOperation(DataOperationClient),
+    ManagementAction(ManagementActionClient),
+}
+
 /// Errors that can be returned when reporting a message schema for a data operation
 #[derive(Error, Debug)]
 pub enum MessageSchemaError {
@@ -1836,6 +1903,32 @@ type DataOperationUpdateNotification = (
     bool,                                        // whether default destinations have changed or not
     watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
 );
+
+// TODO: some enum indicating the lowest level of change (asset, group, action)
+type ManagementActionUpdateNotification = (
+    adr_models::ManagementGroupAction, // new management action definition
+    watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
+);
+
+/// Notifications that can be received for a Management Action
+pub enum ManagementActionNotification {
+    /// Indicates that the Asset containing the Management Action has been updated in place. If this is returned, it indicates that the Management Group/Action definition has not changed
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
+    AssetUpdated(Result<(), AdrConfigError>),
+    /// Indicates that the Management Group containing the Management Action has been updated in place.
+    /// If this is returned, it indicates that the Management Action definition has not changed.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
+    ManagementGroupUpdated(Result<(), AdrConfigError>),
+    /// Indicates that the Management Action's definition has been updated in place.
+    /// This will only be returned if the Management Action definition changed. If the default config on the asset changed, the AssetUpdated variant will be returned.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
+    ManagementActionUpdated(Result<(), AdrConfigError>),
+    /// Indicates that the Management Action has been deleted.
+    Deleted,
+}
 
 /// Notifications that can be received for a Data Operation
 pub enum DataOperationNotification {
@@ -1860,133 +1953,29 @@ pub enum SchemaModifyResult {
     NotModified,
 }
 
-/// A cloneable status reporter for Data Operation status reporting.
-///
-/// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
-#[derive(Debug, Clone)]
-pub struct DataOperationStatusReporter {
-    connector_context: Arc<ConnectorContext>,
-    asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
-    asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
-    data_operation_ref: DataOperationRef,
-    asset_ref: AssetRef,
+trait AssetComponentRef: std::fmt::Debug {
+    fn get_modify_input<'a>(
+        &self,
+        current_status: &'a adr_models::AssetStatus,
+    ) -> Option<Result<(), &'a AdrConfigError>>;
+
+    async fn internal_report_status(
+        &self,
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        adr_asset_status: adr_models::AssetStatus,
+        asset_status_write_guard: &mut adr_models::AssetStatus,
+        desired_asset_component_status: Result<(), AdrConfigError>,
+        log_identifier: &str,
+    ) -> Result<(), azure_device_registry::Error>;
 }
 
-impl DataOperationStatusReporter {
-    /// Used to conditionally report the data operation status and then updates the asset with the new status returned.
-    ///
-    /// The `modify` function is called with the current data operation status (if any) and should return:
-    /// - `Some(new_status)` if the status should be updated and reported
-    /// - `None` if no update is needed
-    ///
-    /// # Returns
-    /// - [`ModifyResult::Reported`] if the status was updated and successfully reported
-    /// - [`ModifyResult::NotModified`] if no modification was needed or the version changed during processing
-    ///
-    /// # Errors
-    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
-    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
-    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
-    ///
-    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
-    /// by the Azure Device Registry service.
-    ///
-    /// # Panics
-    /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_status_if_modified<F>(
-        &self,
-        modify: F,
-    ) -> Result<ModifyResult, azure_device_registry::Error>
-    where
-        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
-    {
-        // Get the current version of the asset specification
-        let cached_version = self.asset_specification.read().unwrap().version;
-
-        {
-            // Get the current asset status
-            let status_read_guard = self.asset_status.read().await;
-            let current_asset_status =
-                AssetClient::get_current_asset_status(&status_read_guard, cached_version);
-
-            let modify_input = self.get_modify_input(&current_asset_status);
-
-            // We do not use the result since the status once we acquire the read lock might change
-            // and we will have to re-evaluate
-            let Some(_modify_result) = modify(modify_input) else {
-                // If no modification is needed, return Ok
-                return Ok(ModifyResult::NotModified);
-            };
-        }
-
-        // To modify, we need to acquire the write lock
-        let mut status_write_guard = self.asset_status.write().await;
-
-        if cached_version != self.asset_specification.read().unwrap().version {
-            // Our modify is no longer valid
-            log::debug!(
-                "Asset specification is out-of-date for data operation {:?}; skipping modification",
-                self.data_operation_ref
-            );
-            return Ok(ModifyResult::NotModified);
-        }
-
-        // We can continue here because the asset status will not change. The specification might
-        // update but we will be reporting for an old version.
-
-        // Get the current asset status in case it has changed
-        let current_asset_status =
-            AssetClient::get_current_asset_status(&status_write_guard, cached_version);
-
-        let modify_result = {
-            let modify_input = self.get_modify_input(&current_asset_status);
-
-            let Some(modify_result) = modify(modify_input) else {
-                // If no modification is needed, return Ok
-                return Ok(ModifyResult::NotModified);
-            };
-
-            modify_result
-        };
-
-        let mut asset_status_to_report = current_asset_status.into_owned();
-
-        // Update the config status
-        asset_status_to_report.config = match asset_status_to_report.config {
-            Some(mut config) => {
-                config.last_transition_time = Some(Utc::now());
-                Some(config)
-            }
-            None => {
-                // If the config is None, we need to create a new one to report along with the
-                // data operations status
-                Some(azure_device_registry::ConfigStatus {
-                    version: cached_version,
-                    last_transition_time: Some(Utc::now()),
-                    ..Default::default()
-                })
-            }
-        };
-
-        Self::internal_report_status(
-            &self.connector_context,
-            &self.asset_ref,
-            asset_status_to_report,
-            &mut status_write_guard,
-            &self.data_operation_ref,
-            modify_result,
-            "DataOperationStatusReporter::report_data_operation_status_if_modified",
-        )
-        .await?;
-
-        Ok(ModifyResult::Reported)
-    }
-
+impl AssetComponentRef for DataOperationRef {
     fn get_modify_input<'a>(
         &self,
         current_status: &'a adr_models::AssetStatus,
     ) -> Option<Result<(), &'a AdrConfigError>> {
-        match self.data_operation_ref.data_operation_name {
+        match self.data_operation_name {
             DataOperationName::Dataset {
                 name: ref dataset_name,
             } => current_status
@@ -2030,21 +2019,21 @@ impl DataOperationStatusReporter {
     }
 
     async fn internal_report_status(
+        &self,
         connector_context: &Arc<ConnectorContext>,
         asset_ref: &AssetRef,
         mut adr_asset_status: adr_models::AssetStatus,
         asset_status_write_guard: &mut adr_models::AssetStatus,
-        data_operation_ref: &DataOperationRef,
-        desired_data_operation_status: Result<(), AdrConfigError>,
+        desired_asset_component_status: Result<(), AdrConfigError>,
         log_identifier: &str,
     ) -> Result<(), azure_device_registry::Error> {
-        match data_operation_ref.data_operation_name {
+        match self.data_operation_name {
             DataOperationName::Dataset {
                 name: ref dataset_name,
             } => DataOperationClient::update_dataset_status(
                 &mut adr_asset_status,
                 dataset_name,
-                desired_data_operation_status,
+                desired_asset_component_status,
             ),
             DataOperationName::Event {
                 name: ref event_name,
@@ -2053,18 +2042,18 @@ impl DataOperationStatusReporter {
                 &mut adr_asset_status,
                 event_group_name,
                 event_name,
-                desired_data_operation_status,
+                desired_asset_component_status,
             ),
             DataOperationName::Stream {
                 name: ref stream_name,
             } => DataOperationClient::update_stream_status(
                 &mut adr_asset_status,
                 stream_name,
-                desired_data_operation_status,
+                desired_asset_component_status,
             ),
         }
 
-        log::debug!("Reporting data operation {data_operation_ref:?} status from app");
+        log::debug!("Reporting data operation {:?} status from app", self);
 
         AssetStatusReporter::internal_report_status(
             adr_asset_status,
@@ -2077,6 +2066,197 @@ impl DataOperationStatusReporter {
     }
 }
 
+impl AssetComponentRef for ManagementActionRef {
+    fn get_modify_input<'a>(
+        &self,
+        current_status: &'a adr_models::AssetStatus,
+    ) -> Option<Result<(), &'a AdrConfigError>> {
+        current_status
+            .management_groups
+            .as_ref()
+            .and_then(|management_groups| {
+                management_groups
+                    .iter()
+                    .find(|mg_status| mg_status.name == *self.management_group_name)
+            })
+            .and_then(|mg_status| {
+                mg_status.actions.as_ref().and_then(|actions| {
+                    actions
+                        .iter()
+                        .find(|a_status| a_status.name == *self.management_action_name)
+                })
+            })
+            .map(|a_status| a_status.error.as_ref().map_or(Ok(()), Err))
+    }
+
+    async fn internal_report_status(
+        &self,
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        mut adr_asset_status: adr_models::AssetStatus,
+        asset_status_write_guard: &mut adr_models::AssetStatus,
+        desired_asset_component_status: Result<(), AdrConfigError>,
+        log_identifier: &str,
+    ) -> Result<(), azure_device_registry::Error> {
+        ManagementActionClient::update_action_status(
+            &mut adr_asset_status,
+            &self.management_group_name,
+            &self.management_action_name,
+            desired_asset_component_status,
+        );
+
+        log::debug!("Reporting management action {:?} status from app", self);
+
+        AssetStatusReporter::internal_report_status(
+            adr_asset_status,
+            connector_context,
+            asset_ref,
+            asset_status_write_guard,
+            log_identifier,
+        )
+        .await
+    }
+}
+
+/// A cloneable status reporter for Data Operation status reporting.
+///
+/// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
+pub type DataOperationStatusReporter = AssetComponentStatusReporter<DataOperationRef>;
+
+/// A cloneable status reporter for Management Action status reporting.
+///
+/// This provides a way to report Management Action status changes from outside the [`ManagementActionClient`].
+pub type ManagementActionStatusReporter = AssetComponentStatusReporter<ManagementActionRef>;
+
+/// A cloneable status reporter for Data Operation status reporting.
+///
+/// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
+#[derive(Debug, Clone)]
+pub struct AssetComponentStatusReporter<T: AssetComponentRef> {
+    connector_context: Arc<ConnectorContext>,
+    asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
+    asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
+    asset_component_ref: T,
+    asset_ref: AssetRef,
+}
+
+impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
+    /// Used to conditionally report the data operation status and then updates the asset with the new status returned.
+    ///
+    /// The `modify` function is called with the current data operation status (if any) and should return:
+    /// - `Some(new_status)` if the status should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`ModifyResult::Reported`] if the status was updated and successfully reported
+    /// - [`ModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
+    pub async fn report_status_if_modified<F>(
+        &self,
+        modify: F,
+    ) -> Result<ModifyResult, azure_device_registry::Error>
+    where
+        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
+    {
+        // Get the current version of the asset specification
+        let cached_version = self.asset_specification.read().unwrap().version;
+
+        {
+            // Get the current asset status
+            let status_read_guard = self.asset_status.read().await;
+            let current_asset_status =
+                AssetClient::get_current_asset_status(&status_read_guard, cached_version);
+
+            let modify_input = self
+                .asset_component_ref
+                .get_modify_input(&current_asset_status);
+
+            // We do not use the result since the status once we acquire the read lock might change
+            // and we will have to re-evaluate
+            let Some(_modify_result) = modify(modify_input) else {
+                // If no modification is needed, return Ok
+                return Ok(ModifyResult::NotModified);
+            };
+        }
+
+        // To modify, we need to acquire the write lock
+        let mut status_write_guard = self.asset_status.write().await;
+
+        if cached_version != self.asset_specification.read().unwrap().version {
+            // Our modify is no longer valid
+            log::debug!(
+                "Asset specification is out-of-date for component {:?}; skipping modification",
+                self.asset_component_ref
+            );
+            return Ok(ModifyResult::NotModified);
+        }
+
+        // We can continue here because the asset status will not change. The specification might
+        // update but we will be reporting for an old version.
+
+        // Get the current asset status in case it has changed
+        let current_asset_status =
+            AssetClient::get_current_asset_status(&status_write_guard, cached_version);
+
+        let modify_result = {
+            let modify_input = self
+                .asset_component_ref
+                .get_modify_input(&current_asset_status);
+
+            let Some(modify_result) = modify(modify_input) else {
+                // If no modification is needed, return Ok
+                return Ok(ModifyResult::NotModified);
+            };
+
+            modify_result
+        };
+
+        let mut asset_status_to_report = current_asset_status.into_owned();
+
+        // Update the config status
+        asset_status_to_report.config = match asset_status_to_report.config {
+            Some(mut config) => {
+                config.last_transition_time = Some(Utc::now());
+                Some(config)
+            }
+            None => {
+                // If the config is None, we need to create a new one to report along with the
+                // data operations status
+                Some(azure_device_registry::ConfigStatus {
+                    version: cached_version,
+                    last_transition_time: Some(Utc::now()),
+                    ..Default::default()
+                })
+            }
+        };
+
+        self.asset_component_ref
+            .internal_report_status(
+                &self.connector_context,
+                &self.asset_ref,
+                asset_status_to_report,
+                &mut status_write_guard,
+                // &self.asset_component_ref,
+                modify_result,
+                "AssetComponentStatusReporter::report_asset_component_status_if_modified",
+            )
+            .await?;
+
+        Ok(ModifyResult::Reported)
+    }
+}
+
+// MARK: DataOperation
 /// Azure Device Registry Data Operation Client represents either a Dataset, Event,
 /// or Stream and includes additional functionality
 /// to report status, report message schema, receive updates,
@@ -2866,7 +3046,7 @@ impl DataOperationClient {
             connector_context: self.connector_context.clone(),
             asset_status: self.asset_status.clone(),
             asset_specification: self.asset_specification.clone(),
-            data_operation_ref: self.data_operation_ref.clone(),
+            asset_component_ref: self.data_operation_ref.clone(),
             asset_ref: self.asset_ref.clone(),
         }
     }
@@ -3056,6 +3236,858 @@ impl DataOperationClient {
                     error: stream_status.err(),
                 });
         }
+    }
+}
+
+enum ActionSchema {
+    Request,
+    Response,
+}
+
+/// Represents whether there is currently a valid Forwarder or not for a Data Operation
+pub(crate) enum ManagementActionExecutor {
+    Executor(rpc_command::Executor<BypassPayload, BypassPayload>),
+    Error(AdrConfigError),
+}
+
+pub struct ManagementActionClient {
+    /// Management action, management group, asset, device, and inbound endpoint names
+    management_action_ref: ManagementActionRef,
+    // Management Action Definition
+    definition: ManagementActionSpecification,
+    /// Current status for the Asset
+    asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
+    /// Current specification for the Asset
+    asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
+    /// Specification of the device that this data operation is tied to
+    device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
+    /// Status of the device that this data operation is tied to
+    device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
+    // Internally used fields
+    executor: ManagementActionExecutor,
+    connector_context: Arc<ConnectorContext>,
+    /// Asset reference for internal use
+    asset_ref: AssetRef,
+    /// Internal watcher receiver that holds a snapshot of the latest update and whether it has been
+    /// fully processed or not.
+    management_action_update_watcher_rx: watch::Receiver<ManagementActionUpdateNotification>,
+}
+
+impl ManagementActionClient {
+    pub(crate) fn new(
+        definition: ManagementActionSpecification,
+        management_action_update_watcher_rx: watch::Receiver<ManagementActionUpdateNotification>,
+        asset_ref: AssetRef,
+        asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
+        asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
+        device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
+        device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
+        connector_context: Arc<ConnectorContext>,
+    ) -> (Self, Result<(), AdrConfigError>) {
+        // Create a new management_action
+        let management_action_ref = ManagementActionRef {
+            management_action_name: definition.name.clone(),
+            management_group_name: definition.management_group.name.clone(),
+            asset_name: asset_ref.name.clone(),
+            device_name: asset_ref.device_name.clone(),
+            inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
+        };
+        // technically because these fields are under the lock, if they change, we won't update them unless there's a data operation update
+        // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
+        let (device_uuid, device_external_device_id) = {
+            let device_spec = device_specification.read().unwrap();
+            (
+                device_spec.uuid.clone(),
+                device_spec.external_device_id.clone(),
+            )
+        };
+        let (asset_uuid, asset_external_asset_id) = {
+            let asset_spec = asset_specification.read().unwrap();
+            (
+                asset_spec.uuid.clone(),
+                asset_spec.external_asset_id.clone(),
+            )
+        };
+        // create executor
+        let (executor, res) = Self::create_executor(
+            &definition,
+            &management_action_ref,
+            connector_context.clone(),
+        );
+
+        (
+            Self {
+                management_action_ref,
+                definition,
+                asset_status,
+                asset_specification,
+                device_specification,
+                device_status,
+                executor,
+                connector_context,
+                asset_ref,
+                management_action_update_watcher_rx,
+            },
+            res,
+        )
+    }
+
+    pub async fn recv_request(&mut self) -> Option<()> {
+        // TODO: do we need to be able to share executors for multiple actions if they use the default topic?
+        // and then it's the application's responsibility to route to the correct action and only respond once?!?!
+        // if recv() returns none, this indicates that the management action was deleted
+
+        // I could have a watcher, and then all management actions can peek it, but only one should take it out
+
+        // or, it could be a management group client, which provides the request with the relevant action name(s), and then the
+        // application can deal with it how they want to? Not sure what that means for the error story
+
+        loop {
+            match &mut self.executor {
+                ManagementActionExecutor::Error(e) => {
+                    log::error!(
+                        "Management action executor in error state for management action {:?}: {:?}",
+                        self.management_action_ref,
+                        e
+                    );
+                    // continue waiting for the next request after a delay
+                    tokio::time::sleep(std::time::Duration::from_secs(5)).await;
+                    continue;
+                    // Return None? Indicating no more requests will be received until there's a definition update
+                }
+                ManagementActionExecutor::Executor(executor) => {
+                    match executor.recv().await? {
+                        Ok(request) => {}
+                        Err(e) => {
+                            log::error!("Error receiving management action request: {:?}", e);
+                            // continue waiting for the next request after a delay
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // Will have some way to send response
+    // on .complete(), we need to also include a Result, which we turn into `application_error_headers` on the response, to be
+    // consistent for all connectors and the cloud. The application should still be able to send a custom payload with
+    // full error details, this is just additional
+    // we can have custom builder wrapper that allows default cloud event or a custom one if the customer wants to override it.
+
+    /// Used to conditionally report the request message schema of a management action as an existing schema reference
+    ///
+    /// The `modify` function is called with the current message schema reference (if any) and should return:
+    /// - `Some(new_message_schema_reference)` if the schema should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_request_message_schema_reference_if_modified<F>(
+        &mut self,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchemaReference>,
+    {
+        self.report_message_schema_reference_if_modified(ActionSchema::Request, modify)
+            .await
+    }
+
+    /// Used to conditionally report the response message schema of a management action as an existing schema reference
+    ///
+    /// The `modify` function is called with the current message schema reference (if any) and should return:
+    /// - `Some(new_message_schema_reference)` if the schema should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_response_message_schema_reference_if_modified<F>(
+        &mut self,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchemaReference>,
+    {
+        self.report_message_schema_reference_if_modified(ActionSchema::Response, modify)
+            .await
+    }
+
+    /// Used to conditionally report the request message schema of a management action
+    ///
+    /// The `modify` function is called with the current message schema reference (if any) and should return:
+    /// - `Some(new_message_schema)` if the schema should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::InvalidRequestArgument`](schema_registry::ErrorKind::InvalidRequestArgument)
+    /// if the content of the [`MessageSchema`] is empty or there is an error building the request
+    ///
+    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::ServiceError`](schema_registry::ErrorKind::ServiceError)
+    /// if there is an error returned by the Schema Registry Service. This error will be retried 10
+    /// times with exponential backoff and jitter if it is an internal error and only returned if
+    /// it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if
+    /// an error is returned by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_request_message_schema_if_modified<F>(
+        &mut self,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
+    {
+        self.report_message_schema_if_modified(ActionSchema::Request, modify)
+            .await
+    }
+
+    /// Used to conditionally report the response message schema of a management action
+    ///
+    /// The `modify` function is called with the current message schema reference (if any) and should return:
+    /// - `Some(new_message_schema)` if the schema should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::InvalidRequestArgument`](schema_registry::ErrorKind::InvalidRequestArgument)
+    /// if the content of the [`MessageSchema`] is empty or there is an error building the request
+    ///
+    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::ServiceError`](schema_registry::ErrorKind::ServiceError)
+    /// if there is an error returned by the Schema Registry Service. This error will be retried 10
+    /// times with exponential backoff and jitter if it is an internal error and only returned if
+    /// it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if
+    /// an error is returned by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_response_message_schema_if_modified<F>(
+        &mut self,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
+    {
+        self.report_message_schema_if_modified(ActionSchema::Response, modify)
+            .await
+    }
+
+    pub async fn recv_notification(&mut self) -> DataOperationNotification {
+        unimplemented!()
+    }
+
+    /// Creates a new status reporter for this [`DataOperationClient`]
+    #[must_use]
+    pub fn get_status_reporter(&self) -> ManagementActionStatusReporter {
+        ManagementActionStatusReporter {
+            connector_context: self.connector_context.clone(),
+            asset_status: self.asset_status.clone(),
+            asset_specification: self.asset_specification.clone(),
+            asset_component_ref: self.management_action_ref.clone(),
+            asset_ref: self.asset_ref.clone(),
+        }
+    }
+
+    // ~~~~~~~ fns to get various fields ~~~~~~~
+
+    /// Returns a clone of this Management Action's Request [`MessageSchemaReference`] from
+    /// the `AssetStatus`, if it exists
+    #[must_use]
+    pub async fn request_message_schema_reference(&self) -> Option<MessageSchemaReference> {
+        self.asset_status
+            .read()
+            .await
+            .management_groups
+            .as_ref()?
+            .iter()
+            .find(|management_group| {
+                management_group.name == *self.management_action_ref.management_group_name
+            })?
+            .actions
+            .as_ref()?
+            .iter()
+            .find(|action| action.name == *self.management_action_ref.management_action_name)?
+            .request_message_schema_reference
+            .clone()
+    }
+
+    /// Returns a clone of this Management Action's Response [`MessageSchemaReference`] from
+    /// the `AssetStatus`, if it exists
+    #[must_use]
+    pub async fn response_message_schema_reference(&self) -> Option<MessageSchemaReference> {
+        self.asset_status
+            .read()
+            .await
+            .management_groups
+            .as_ref()?
+            .iter()
+            .find(|management_group| {
+                management_group.name == *self.management_action_ref.management_group_name
+            })?
+            .actions
+            .as_ref()?
+            .iter()
+            .find(|action| action.name == *self.management_action_ref.management_action_name)?
+            .response_message_schema_reference
+            .clone()
+    }
+
+    /// Management action, management group, asset, device, and inbound endpoint names
+    pub fn management_action_ref(&self) -> &ManagementActionRef {
+        &self.management_action_ref
+    }
+
+    /// Management Action and Group Definitions
+    pub fn definition(&self) -> &ManagementActionSpecification {
+        &self.definition
+    }
+
+    /// Returns a clone of the current asset specification
+    /// # Panics
+    /// if the asset specification mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn asset_specification(&self) -> AssetSpecification {
+        (*self.asset_specification.read().unwrap()).clone()
+    }
+
+    /// Returns a clone of the current asset status, if it exists
+    #[must_use]
+    pub async fn asset_status(&self) -> adr_models::AssetStatus {
+        (*self.asset_status.read().await).clone()
+    }
+
+    // Returns a clone of the current device specification
+    /// # Panics
+    /// if the device specification mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn device_specification(&self) -> DeviceSpecification {
+        (*self.device_specification.read().unwrap()).clone()
+    }
+
+    // Returns a clone of the current device status
+    /// # Panics
+    /// if the device status mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub async fn device_status(&self) -> DeviceEndpointStatus {
+        (*self.device_status.read().await).clone()
+    }
+
+    // ~~~~~~ Internal fns ~~~~~~~
+
+    fn create_executor(
+        definition: &ManagementActionSpecification,
+        management_action_ref: &ManagementActionRef,
+        connector_context: Arc<ConnectorContext>,
+    ) -> (ManagementActionExecutor, Result<(), AdrConfigError>) {
+        let request_topic_pattern = if let Some(ref action_topic) = definition.topic {
+            action_topic.clone()
+        } else if let Some(ref default_group_topic) = definition.management_group.default_topic {
+            default_group_topic.clone()
+        } else {
+            let err = AdrConfigError {
+                code: None,
+                details: None,
+                message: Some("Management Group must have default topic if Management Action doesn't have a topic".to_string()),
+            };
+            return (ManagementActionExecutor::Error(err.clone()), Err(err));
+        };
+        let executor_options = rpc_command::executor::OptionsBuilder::default()
+            .request_topic_pattern(request_topic_pattern)
+            // TODO: handle topic tokens
+            .command_name(definition.command_name())
+            .build()
+            .expect("Options can't fail if request topic pattern and command name are provided");
+        //  {
+        //     Ok(options) => options,
+        //     Err(e) => {
+        //         let err = AdrConfigError {
+        //             code: None,
+        //             details: Some(vec![Details { info: Some(e.to_string()), ..Default::default()}]),
+        //             message: Some(format!("Invalid topic or name for management action")),
+        //         };
+        //         return (ManagementActionExecutor::Error(err.clone()), Err(err));
+        //     }
+        // };
+        match rpc_command::Executor::new(
+            connector_context.application_context.clone(),
+            connector_context.managed_client.clone(),
+            executor_options,
+        ) {
+            Ok(executor) => (ManagementActionExecutor::Executor(executor), Ok(())),
+            Err(e) => {
+                log::warn!(
+                    "Invalid definition for management action: {:?} {e:?}",
+                    management_action_ref
+                );
+                let err = AdrConfigError {
+                    code: None,
+                    details: Some(vec![Details {
+                        info: Some(e.to_string()),
+                        ..Default::default()
+                    }]),
+                    message: Some(format!("Invalid topic or name for management action")),
+                };
+                (ManagementActionExecutor::Error(err.clone()), Err(err))
+            }
+        }
+    }
+
+    /// Helper function to update the specific event status within the asset status
+    fn update_action_status(
+        asset_status_to_update: &mut adr_models::AssetStatus,
+        management_group_name: &str,
+        action_name: &str,
+        action_status: Result<(), AdrConfigError>,
+    ) {
+        if let Some(curr_management_group_status) = asset_status_to_update
+            .management_groups
+            .as_mut()
+            .and_then(|management_groups| {
+                management_groups
+                    .iter_mut()
+                    .find(|management_group| management_group.name == management_group_name)
+            })
+        {
+            if let Some(curr_action_status) = curr_management_group_status
+                .actions
+                .as_mut()
+                .and_then(|actions| actions.iter_mut().find(|action| action.name == action_name))
+            {
+                // If the action already has a status, update the existing action with the new error
+                curr_action_status.error = action_status.err();
+            } else {
+                // If the action doesn't exist in the current management group status, then add it
+                curr_management_group_status
+                    .actions
+                    .get_or_insert_with(Vec::new)
+                    .push(adr_models::ActionStatus {
+                        name: action_name.to_string(),
+                        request_message_schema_reference: None,
+                        response_message_schema_reference: None,
+                        error: action_status.err(),
+                    });
+            }
+        } else {
+            // If the management group doesn't exist in the current status, then add it
+            asset_status_to_update
+                .management_groups
+                .get_or_insert_with(Vec::new)
+                .push(adr_models::ManagementGroupStatus {
+                    name: management_group_name.to_string(),
+                    actions: Some(vec![adr_models::ActionStatus {
+                        name: action_name.to_string(),
+                        request_message_schema_reference: None,
+                        response_message_schema_reference: None,
+                        error: action_status.err(),
+                    }]),
+                });
+        }
+    }
+
+    async fn report_message_schema_reference_if_modified<F>(
+        &mut self,
+        schema_side: ActionSchema,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchemaReference>,
+    {
+        // Get the current version of the asset specification
+        let cached_version = self.asset_specification.read().unwrap().version;
+
+        {
+            // Get the current asset status
+            let status_read_guard = self.asset_status.read().await;
+            let current_asset_status =
+                AssetClient::get_current_asset_status(&status_read_guard, cached_version);
+
+            let modify_input =
+                self.get_schema_reference_modify_input(&current_asset_status, &schema_side);
+
+            match modify(modify_input) {
+                Some(_) => {
+                    // A modification was made, we proceed to report schema
+                }
+                None => {
+                    // No modification was made, so no need to report schema
+                    return Ok(SchemaModifyResult::NotModified);
+                }
+            }
+        };
+
+        // To modify, we need to acquire the write lock
+        let mut status_write_guard = self.asset_status.write().await;
+
+        // We can continue here because the asset status will not change. The specification might
+        // update but we will be reporting for an old version.
+
+        if cached_version != self.asset_specification.read().unwrap().version {
+            // Our modify is no longer valid
+            log::debug!(
+                "Reporting for an out-of-date asset specification from a Management Action client, will not modify"
+            );
+            return Ok(SchemaModifyResult::NotModified);
+        }
+
+        // Get the current asset status in case it has changed
+        let current_asset_status =
+            AssetClient::get_current_asset_status(&status_write_guard, cached_version);
+
+        let modify_input =
+            self.get_schema_reference_modify_input(&current_asset_status, &schema_side);
+
+        let Some(new_message_schema_reference) = modify(modify_input) else {
+            // No modification was made, so no need to report schema
+            return Ok(SchemaModifyResult::NotModified);
+        };
+
+        let mut asset_status_to_report = current_asset_status.into_owned();
+
+        asset_status_to_report.config = match asset_status_to_report.config {
+            Some(mut config) => {
+                config.last_transition_time = Some(Utc::now());
+                Some(config)
+            }
+            None => {
+                // If the config is None, we need to create a new one to report along with the asset status
+                Some(azure_device_registry::ConfigStatus {
+                    version: cached_version,
+                    last_transition_time: Some(Utc::now()),
+                    ..Default::default()
+                })
+            }
+        };
+
+        Self::internal_report_message_schema_reference(
+            &self.connector_context,
+            &self.asset_ref,
+            &self.management_action_ref,
+            // &mut self.forwarder,
+            asset_status_to_report,
+            &mut status_write_guard,
+            &new_message_schema_reference,
+            &schema_side,
+            "ManagementActionClient::report_message_schema_reference_if_modified",
+        )
+        .await?;
+
+        Ok(SchemaModifyResult::Reported(new_message_schema_reference))
+    }
+
+    async fn report_message_schema_if_modified<F>(
+        &mut self,
+        schema_side: ActionSchema,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
+    {
+        // Get the current version of the asset specification
+        let cached_version = self.asset_specification.read().unwrap().version;
+
+        {
+            // Get the current asset status
+            let status_read_guard = self.asset_status.read().await;
+            let current_asset_status =
+                AssetClient::get_current_asset_status(&status_read_guard, cached_version);
+
+            let modify_input =
+                self.get_schema_reference_modify_input(&current_asset_status, &schema_side);
+
+            if modify(modify_input).is_some() {
+                // A modification was made, we proceed to report schema
+            } else {
+                // No modification was made, so no need to report schema
+                return Ok(SchemaModifyResult::NotModified);
+            }
+        };
+
+        // To modify, we need to acquire the write lock
+        let mut status_write_guard = self.asset_status.write().await;
+
+        // We can continue here because the asset status will not change. The specification might
+        // update but we will be reporting for an old version.
+
+        if cached_version != self.asset_specification.read().unwrap().version {
+            // Our modify is no longer valid
+            log::debug!(
+                "Reporting for an out-of-date asset specification from a Management Action client, will not modify"
+            );
+            return Ok(SchemaModifyResult::NotModified);
+        }
+
+        // Get the current asset status in case it has changed
+        let current_asset_status =
+            AssetClient::get_current_asset_status(&status_write_guard, cached_version);
+
+        let modify_input =
+            self.get_schema_reference_modify_input(&current_asset_status, &schema_side);
+
+        let Some(new_message_schema) = modify(modify_input) else {
+            // No modification was made, so no need to report schema
+            return Ok(SchemaModifyResult::NotModified);
+        };
+
+        let mut asset_status_to_report = current_asset_status.into_owned();
+
+        asset_status_to_report.config = match asset_status_to_report.config {
+            Some(mut config) => {
+                config.last_transition_time = Some(Utc::now());
+                Some(config)
+            }
+            None => {
+                // If the config is None, we need to create a new one to report along with the asset status
+                Some(azure_device_registry::ConfigStatus {
+                    version: cached_version,
+                    last_transition_time: Some(Utc::now()),
+                    ..Default::default()
+                })
+            }
+        };
+
+        // First put the schema in the schema registry
+        let message_schema_reference = Retry::spawn(
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
+            async || -> Result<schema_registry::Schema, RetryError<schema_registry::Error>> {
+                self.connector_context
+                    .schema_registry_client
+                    .put(
+                        new_message_schema.clone(),
+                        self.connector_context.schema_registry_timeout,
+                    )
+                    .await
+                    .map_err(|e| {
+                        match e.kind() {
+                            // network/retriable
+                            schema_registry::ErrorKind::AIOProtocolError(_) => {
+                                log::warn!(
+                                    "Reporting message schema failed for {:?}. Retrying: {e}",
+                                    self.management_action_ref
+                                );
+                                RetryError::transient(e)
+                            }
+                            schema_registry::ErrorKind::ServiceError(service_error) => {
+                                if let schema_registry::ErrorCode::InternalError =
+                                    service_error.code
+                                {
+                                    log::warn!(
+                                        "Reporting message schema failed for {:?}. Retrying: {e}",
+                                        self.management_action_ref
+                                    );
+                                    RetryError::transient(e)
+                                } else {
+                                    RetryError::permanent(e)
+                                }
+                            }
+                            // indicates an error in the provided message schema, return to caller so they can fix
+                            schema_registry::ErrorKind::InvalidRequestArgument(_) => {
+                                RetryError::permanent(e)
+                            }
+                        }
+                    })
+            },
+        )
+        .await
+        .map(|schema| MessageSchemaReference {
+            name: schema.name,
+            version: schema.version,
+            registry_namespace: schema.namespace,
+        })?;
+
+        Self::internal_report_message_schema_reference(
+            &self.connector_context,
+            &self.asset_ref,
+            &self.management_action_ref,
+            // &mut self.forwarder,
+            asset_status_to_report,
+            &mut status_write_guard,
+            &message_schema_reference,
+            &schema_side,
+            "ManagementActionClient::report_message_schema_if_modified",
+        )
+        .await?;
+
+        Ok(SchemaModifyResult::Reported(message_schema_reference))
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    async fn internal_report_message_schema_reference(
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        management_action_ref: &ManagementActionRef,
+        // forwarder: &mut DataOperationForwarder,
+        asset_status_to_report: adr_models::AssetStatus,
+        status_write_guard: &mut adr_models::AssetStatus,
+        message_schema_reference: &MessageSchemaReference,
+        schema_side: &ActionSchema,
+        log_identifier: &str,
+    ) -> Result<(), MessageSchemaError> {
+        // Use the provided asset_status_to_report instead of creating a new one
+        let mut new_status = asset_status_to_report;
+
+        // if management action is already in the current status, then update the existing management action with the new message schema
+        // Otherwise if the management action isn't present, or no management actions have been reported yet, then add it with the new message schema
+        if let Some(management_group_status) =
+            new_status
+                .management_groups
+                .as_mut()
+                .and_then(|management_groups| {
+                    management_groups.iter_mut().find(|management_group| {
+                        management_group.name == *management_action_ref.management_group_name
+                    })
+                })
+        {
+            if let Some(action_status) =
+                management_group_status
+                    .actions
+                    .as_mut()
+                    .and_then(|actions| {
+                        actions.iter_mut().find(|action| {
+                            action.name == *management_action_ref.management_action_name
+                        })
+                    })
+            {
+                // If the action already has a status, update the existing action with the new message schema
+                match schema_side {
+                    ActionSchema::Request => {
+                        action_status.request_message_schema_reference =
+                            Some(message_schema_reference.clone());
+                    }
+                    ActionSchema::Response => {
+                        action_status.response_message_schema_reference =
+                            Some(message_schema_reference.clone());
+                    }
+                }
+            } else {
+                // If the action doesn't exist in the current status, then add it
+                management_group_status
+                    .actions
+                    .get_or_insert_with(Vec::new)
+                    .push(adr_models::ActionStatus {
+                        name: management_action_ref.management_action_name.to_string(),
+                        request_message_schema_reference: match schema_side {
+                            ActionSchema::Request => Some(message_schema_reference.clone()),
+                            ActionSchema::Response => None,
+                        },
+                        response_message_schema_reference: match schema_side {
+                            ActionSchema::Request => None,
+                            ActionSchema::Response => Some(message_schema_reference.clone()),
+                        },
+                        error: None,
+                    });
+            }
+        } else {
+            // If the management group doesn't exist in the current status, then add it
+            new_status
+                .management_groups
+                .get_or_insert_with(Vec::new)
+                .push(adr_models::ManagementGroupStatus {
+                    name: management_action_ref.management_group_name.clone(),
+                    actions: Some(vec![adr_models::ActionStatus {
+                        name: management_action_ref.management_action_name.to_string(),
+                        request_message_schema_reference: match schema_side {
+                            ActionSchema::Request => Some(message_schema_reference.clone()),
+                            ActionSchema::Response => None,
+                        },
+                        response_message_schema_reference: match schema_side {
+                            ActionSchema::Request => None,
+                            ActionSchema::Response => Some(message_schema_reference.clone()),
+                        },
+                        error: None,
+                    }]),
+                });
+        }
+
+        // send status update to the service
+        log::debug!(
+            "Reporting management action {management_action_ref:?} message schema from app"
+        );
+        AssetStatusReporter::internal_report_status(
+            new_status,
+            connector_context,
+            asset_ref,
+            status_write_guard,
+            log_identifier,
+        )
+        .await?;
+
+        // // CONSIDERATION: should we do this at the beginning and not allow the message schema reporting if there's no valid destination?
+        // // For now, don't block reporting the message schema if there's no valid destination for more flexibility
+        // match forwarder {
+        //     DataOperationForwarder::Forwarder(forwarder) => {
+        //         forwarder.update_message_schema_reference(Some(message_schema_reference.clone()))
+        //     }
+        //     DataOperationForwarder::Error(_) => {}
+        // }
+
+        Ok(())
+    }
+
+    fn get_schema_reference_modify_input<'a>(
+        &self,
+        asset_status: &'a adr_models::AssetStatus,
+        schema_side: &ActionSchema,
+    ) -> Option<&'a adr_models::MessageSchemaReference> {
+        asset_status
+            .management_groups
+            .as_ref()
+            .and_then(|management_groups| {
+                management_groups.iter().find(|mg_status| {
+                    mg_status.name == *self.management_action_ref.management_group_name
+                })
+            })
+            .and_then(|mg_status| {
+                mg_status.actions.as_ref().and_then(|actions| {
+                    actions.iter().find(|a_status| {
+                        a_status.name == *self.management_action_ref.management_action_name
+                    })
+                })
+            })
+            .and_then(|a_status| match schema_side {
+                ActionSchema::Request => a_status.request_message_schema_reference.as_ref(),
+                ActionSchema::Response => a_status.response_message_schema_reference.as_ref(),
+            })
     }
 }
 
@@ -3361,6 +4393,87 @@ impl From<adr_models::Asset> for AssetSpecification {
             version: value.version,
         }
     }
+}
+
+/// Represents the specification of a Management Action and its Management Group in the Azure Device Registry service.
+#[derive(Debug, Clone, PartialEq)]
+pub struct ManagementActionSpecification {
+    /// Configuration for the action.
+    pub action_configuration: Option<String>,
+    /// Type of the action.
+    pub action_type: adr_models::ActionType,
+    /// Name of the action.
+    pub name: String,
+    /// The target URI on which a client can invoke the specific action.
+    pub target_uri: String,
+    /// Response timeout for the action.
+    pub timeout_in_seconds: Option<u64>,
+    /// The MQTT topic path on which a client will receive the request for the action.
+    pub topic: Option<String>,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
+    /// The Management Group this action belongs to.
+    pub management_group: ManagementGroupSpecification,
+    name_tuple: (String, String),
+}
+
+impl ManagementActionSpecification {
+    pub(crate) fn hash_name(&self) -> &(String, String) {
+        &self.name_tuple
+    }
+    pub(crate) fn command_name(&self) -> String {
+        format!("{}::{}", self.management_group.name, self.name)
+    }
+}
+
+impl
+    From<(
+        adr_models::ManagementGroup,
+        adr_models::ManagementGroupAction,
+    )> for ManagementActionSpecification
+{
+    fn from(
+        val: (
+            adr_models::ManagementGroup,
+            adr_models::ManagementGroupAction,
+        ),
+    ) -> Self {
+        ManagementActionSpecification {
+            name_tuple: (val.0.name.clone(), val.1.name.clone()),
+            action_configuration: val.1.action_configuration,
+            action_type: val.1.action_type,
+            target_uri: val.1.target_uri,
+            timeout_in_seconds: val.1.timeout_in_seconds,
+            topic: val.1.topic,
+            name: val.1.name,
+            type_ref: val.1.type_ref,
+            management_group: ManagementGroupSpecification {
+                default_timeout_in_seconds: val.0.default_timeout_in_seconds,
+                default_topic: val.0.default_topic,
+                management_group_configuration: val.0.management_group_configuration,
+                data_source: val.0.data_source,
+                name: val.0.name,
+                type_ref: val.0.type_ref,
+            },
+        }
+    }
+}
+
+/// Represents the specification of a Management Group in the Azure Device Registry service.
+#[derive(Debug, Clone, PartialEq)]
+pub struct ManagementGroupSpecification {
+    /// Reference to a data source for a given management group.
+    pub data_source: Option<String>,
+    /// Default response timeout for all actions that are part of the management group.
+    pub default_timeout_in_seconds: Option<u64>,
+    /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
+    pub default_topic: Option<String>,
+    /// Stringified JSON that contains connector-specific configuration for the management group.
+    pub management_group_configuration: Option<String>,
+    /// Name of the management group.
+    pub name: String,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
 }
 
 /// Represents the specification of an Event and its Event Group in the Azure Device Registry service.
