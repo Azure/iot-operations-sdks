@@ -61,7 +61,7 @@ pub enum ErrorKind {
 /// Represents whether there is currently a valid Forwarder or not for a Data Operation
 #[derive(Debug)]
 pub(crate) enum DataOperationForwarder {
-    Forwarder(Forwarder),
+    Forwarder(Box<Forwarder>),
     Error(AdrConfigError),
 }
 

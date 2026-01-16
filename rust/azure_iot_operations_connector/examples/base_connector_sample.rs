@@ -428,11 +428,9 @@ async fn handle_unsupported_data_operation(
     // incorrectly updated.
     loop {
         match data_operation_client.recv_notification().await {
-            DataOperationNotification::AssetUpdated(Ok(()))
-            | DataOperationNotification::DataOperationUpdated(Ok(()))
             // it doesn't matter if the update is Err or Ok, we can always report unsupported
-            | DataOperationNotification::AssetUpdated(Err(_))
-            | DataOperationNotification::DataOperationUpdated(Err(_)) => {
+            DataOperationNotification::AssetUpdated(_)
+            | DataOperationNotification::DataOperationUpdated(_) => {
                 log::warn!(
                     "{log_identifier} update notification received. {data_operation_kind:?} is not supported for the this Connector",
                 );
