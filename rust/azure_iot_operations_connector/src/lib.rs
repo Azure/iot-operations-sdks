@@ -104,3 +104,18 @@ pub struct DataOperationRef {
     /// The name of the endpoint
     pub inbound_endpoint_name: String,
 }
+
+/// Represents a `ManagementAction` associated with a specific device, endpoint, asset, and management group.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct ManagementActionRef {
+    /// The name of the management action
+    pub management_action_name: String,
+    /// The name of the management group
+    pub management_group_name: String,
+    /// The name of the asset
+    pub asset_name: String,
+    /// The name of the device
+    pub device_name: String,
+    /// The name of the endpoint
+    pub inbound_endpoint_name: String,
+}
