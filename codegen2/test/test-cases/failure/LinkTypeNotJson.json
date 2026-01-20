@@ -9,7 +9,7 @@
       "condition": "PropertyUnsupportedValue",
       "filename": "LinkTypeNotJson.TM.json",
       "line": 12,
-      "cfLine": 0,
+      "cfLine": 10,
       "crossRef": ""
     }
   ]

@@ -6,10 +6,13 @@
 
     public class TDEvent : IEquatable<TDEvent>, IDeserializable<TDEvent>
     {
-        public const string DescriptionName = "description";
+        public const string DescriptionName = TDCommon.DescriptionName;
         public const string DataName = "data";
         public const string PlaceholderName = "dtv:placeholder";
-        public const string FormsName = "forms";
+        public const string FormsName = TDCommon.FormsName;
+        public const string ContainsName = TDCommon.ContainsName;
+        public const string ContainedInName = TDCommon.ContainedInName;
+        public const string NamespaceName = TDCommon.NamespaceName;
 
         public ValueTracker<StringHolder>? Description { get; set; }
 
@@ -20,6 +23,12 @@
         public ArrayTracker<TDForm>? Forms { get; set; }
 
         public Dictionary<string, long> PropertyNames { get; set; } = new();
+
+        public ArrayTracker<StringHolder>? Contains { get; set; }
+
+        public ValueTracker<StringHolder>? ContainedIn { get; set; }
+
+        public ValueTracker<StringHolder>? Namespace { get; set; }
 
         public virtual bool Equals(TDEvent? other)
         {
@@ -32,13 +41,16 @@
                 return Description == other.Description &&
                        Data == other.Data &&
                        Placeholder == other.Placeholder &&
-                       Forms == other.Forms;
+                       Forms == other.Forms &&
+                       Contains == other.Contains &&
+                       ContainedIn == other.ContainedIn &&
+                       Namespace == other.Namespace;
             }
         }
 
         public override int GetHashCode()
         {
-            return (Description, Data, Placeholder, Forms).GetHashCode();
+            return (Description, Data, Placeholder, Forms, Contains, ContainedIn, Namespace).GetHashCode();
         }
 
         public static bool operator ==(TDEvent? left, TDEvent? right)
@@ -108,6 +120,27 @@
                     yield return item;
                 }
             }
+            if (Contains != null)
+            {
+                foreach (ITraversable item in Contains.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (ContainedIn != null)
+            {
+                foreach (ITraversable item in ContainedIn.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (Namespace != null)
+            {
+                foreach (ITraversable item in Namespace.Traverse())
+                {
+                    yield return item;
+                }
+            }
         }
 
         public static TDEvent Deserialize(ref Utf8JsonReader reader)
@@ -140,6 +173,15 @@
                         break;
                     case FormsName:
                         evt.Forms = ArrayTracker<TDForm>.Deserialize(ref reader, FormsName);
+                        break;
+                    case ContainsName:
+                        evt.Contains = ArrayTracker<StringHolder>.Deserialize(ref reader, ContainsName);
+                        break;
+                    case ContainedInName:
+                        evt.ContainedIn = ValueTracker<StringHolder>.Deserialize(ref reader, ContainedInName);
+                        break;
+                    case NamespaceName:
+                        evt.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
                         break;
                     default:
                         reader.Skip();

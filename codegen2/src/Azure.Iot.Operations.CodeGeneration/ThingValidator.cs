@@ -9,10 +9,6 @@
 
     public class ThingValidator
     {
-        private const string TdContextUri = "https://www.w3.org/2022/wot/td/v1.1";
-        private const string AioContextUriBase = "http://azure.com/DigitalTwins/dtmi#";
-        private const string AioContextPrefix = "dtv";
-
         private const string Iso8601DurationExample = "P3Y6M4DT12H30M5S";
         private const string DecimalExample = "1234567890.0987654321";
         private const string AnArbitraryString = "Pretty12345Tricky67890";
@@ -32,10 +28,11 @@
         {
             bool hasError = false;
 
-            if (!TryValidateContext(thing.Context))
+            if (!TryValidateContext(thing.Context, out bool platContextPresent))
             {
                 hasError = true;
             }
+            long contextTokenIndex = thing.Context?.TokenIndex ?? -1;
 
             if (!TryValidateType(thing.Type))
             {
@@ -47,12 +44,22 @@
                 hasError = true;
             }
 
-            if (!TryValidateLinks(thing.Links))
+            if (!TryValidateCompositeAndEvent(thing.IsComposite, thing.IsEvent, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
 
-            if (!TryValidateSchemaDefinitions(thing.SchemaDefinitions))
+            if (!TryValidateTypeRef(thing.TypeRef, platContextPresent, contextTokenIndex))
+            {
+                hasError = true;
+            }
+
+            if (!TryValidateLinks(thing.Links, platContextPresent, contextTokenIndex))
+            {
+                hasError = true;
+            }
+
+            if (!TryValidateSchemaDefinitions(thing.SchemaDefinitions, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
@@ -62,17 +69,17 @@
                 hasError = true;
             }
 
-            if (!TryValidateActions(thing.Actions, thing.SchemaDefinitions, serializationFormats))
+            if (!TryValidateActions(thing.Actions, thing.SchemaDefinitions, serializationFormats, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
 
-            if (!TryValidateProperties(thing.Properties, thing.SchemaDefinitions, serializationFormats))
+            if (!TryValidateProperties(thing.Properties, thing.SchemaDefinitions, serializationFormats, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
 
-            if (!TryValidateEvents(thing.Events, thing.SchemaDefinitions, serializationFormats))
+            if (!TryValidateEvents(thing.Events, thing.SchemaDefinitions, serializationFormats, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
@@ -106,7 +113,7 @@
 
             if ((thing.Actions?.Entries?.Count ?? 0) == 0 && (thing.Properties?.Entries?.Count ?? 0) == 0 && (thing.Events?.Entries?.Count ?? 0) == 0)
             {
-                errorReporter.ReportWarning("Thing Description has no actions, properties, or events defined.", -1);
+                errorReporter.ReportWarning("Thing Model has no actions, properties, or events defined.", -1);
             }
 
             return !hasError;
@@ -128,9 +135,12 @@
                     propertyName.Key != TDThing.OptionalName &&
                     propertyName.Key != TDThing.ActionsName &&
                     propertyName.Key != TDThing.PropertiesName &&
-                    propertyName.Key != TDThing.EventsName)
+                    propertyName.Key != TDThing.EventsName &&
+                    propertyName.Key != TDThing.IsCompositeName &&
+                    propertyName.Key != TDThing.IsEventName &&
+                    propertyName.Key != TDThing.TypeRefName)
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Thing has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -264,7 +274,7 @@
             {
                 if (properties?.Entries == null || properties.Entries.Count == 0)
                 {
-                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}' to read the aggregation of all properties, but Thing Description has no properties defined.",
+                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}' to read the aggregation of all properties, but Thing Model has no properties defined.",
                         readAllForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpReadAllProps).TokenIndex,
                         properties?.TokenIndex ?? -1);
                     hasError = true;
@@ -281,7 +291,7 @@
             {
                 if (properties?.Entries == null || properties.Entries.Count(p => p.Value.Value.ReadOnly?.Value.Value != true && (p.Value.Value.Forms?.Elements?.Any(f => f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true) ?? true)) == 0)
                 {
-                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' to write a selected aggregation of writable properties, but Thing Description has no writable properties.",
+                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' to write a selected aggregation of writable properties, but Thing Model has no writable properties.",
                         writeMultiForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpWriteMultProps).TokenIndex,
                         properties?.TokenIndex ?? -1);
                     hasError = true;
@@ -388,7 +398,7 @@
             {
                 if (subAllForm != null)
                 {
-                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpSubAllEvents}' to subscribe to the aggregation of all events, but Thing Description has no events defined.",
+                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpSubAllEvents}' to subscribe to the aggregation of all events, but Thing Model has no events defined.",
                         subAllForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpSubAllEvents).TokenIndex,
                         events?.TokenIndex ?? -1);
                     hasError = true;
@@ -411,25 +421,25 @@
             return !hasError;
         }
 
-        private bool TryValidateContext(ArrayTracker<TDContextSpecifier>? context)
+        private bool TryValidateContext(ArrayTracker<TDContextSpecifier>? context, out bool platContextPresent)
         {
+            platContextPresent = false;
+            bool protContextPresent = false;
+            bool tdContextPresent = false;
             bool hasError = false;
 
             if (context?.Elements == null)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.ContextName}' property.", -1);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Model is missing required '{TDThing.ContextName}' property.", -1);
                 return false;
             }
-
-            bool tdContextPresent = false;
-            bool aioContextPresent = false;
 
             foreach (ValueTracker<TDContextSpecifier> contextSpecifier in context.Elements)
             {
                 if (contextSpecifier.Value?.Remote?.Value != null)
                 {
                     string remoteContext = contextSpecifier.Value.Remote.Value.Value;
-                    if (remoteContext != TdContextUri)
+                    if (remoteContext != TDValues.ContextUriWotTd)
                     {
                         errorReporter.ReportWarning($"Unrecognized remote {TDThing.ContextName} \"{remoteContext}\"; value will be ignored.", contextSpecifier.TokenIndex);
                     }
@@ -442,19 +452,27 @@
                 {
                     foreach (KeyValuePair<string, ValueTracker<StringHolder>> localContext in contextSpecifier.Value.Local.Entries)
                     {
-                        string prefix = localContext.Key;
-                        if (localContext.Key != AioContextPrefix)
+                        switch (localContext.Key)
                         {
-                            errorReporter.ReportWarning($"Unrecognized local {TDThing.ContextName} term \"{localContext.Key}\"; value will be ignored.", contextSpecifier.TokenIndex);
-                        }
-                        else if (localContext.Value.Value.Value != AioContextUriBase)
-                        {
-                            errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Local {TDThing.ContextName} term \"{localContext.Key}\" has incorrect URI value \"{localContext.Value.Value.Value}\".", contextSpecifier.TokenIndex);
-                            hasError = true;
-                        }
-                        else
-                        {
-                            aioContextPresent = true;
+                            case TDValues.ContextPrefixAioProtocol:
+                                protContextPresent = true;
+                                if (localContext.Value.Value.Value != TDValues.ContextUriAioProtocol)
+                                {
+                                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Local {TDThing.ContextName} term \"{localContext.Key}\" has incorrect URI value \"{localContext.Value.Value.Value}\"; value must be \"{TDValues.ContextUriAioProtocol}\".", contextSpecifier.TokenIndex);
+                                    hasError = true;
+                                }
+                                break;
+                            case TDValues.ContextPrefixAioPlatform:
+                                platContextPresent = true;
+                                if (localContext.Value.Value.Value != TDValues.ContextUriAioPlatform)
+                                {
+                                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Local {TDThing.ContextName} term \"{localContext.Key}\" has incorrect URI value \"{localContext.Value.Value.Value}\"; value must be \"{TDValues.ContextUriAioPlatform}\".", contextSpecifier.TokenIndex);
+                                    hasError = true;
+                                }
+                                break;
+                            default:
+                                errorReporter.ReportWarning($"Unrecognized local {TDThing.ContextName} term \"{localContext.Key}\"; value will be ignored.", contextSpecifier.TokenIndex);
+                                break;
                         }
                     }
                 }
@@ -462,13 +480,13 @@
 
             if (!tdContextPresent)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.ContextName}' remote URI \"{TdContextUri}\".", context.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Model is missing required '{TDThing.ContextName}' remote URI \"{TDValues.ContextUriWotTd}\".", context.TokenIndex);
                 hasError = true;
             }
 
-            if (!aioContextPresent)
+            if (!protContextPresent)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.ContextName}' local term \"{AioContextPrefix}\" with URI value \"{AioContextUriBase}\".", context.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Model is missing required '{TDThing.ContextName}' local term \"{TDValues.ContextPrefixAioProtocol}\" with URI value \"{TDValues.ContextUriAioProtocol}\".", context.TokenIndex);
                 hasError = true;
             }
 
@@ -479,19 +497,19 @@
         {
             if (type == null)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.TypeName}' property.", -1);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Model is missing required '{TDThing.TypeName}' property.", -1);
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(type.Value.Value))
             {
-                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Description '{TDThing.TypeName}' property has empty value.", type.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Model '{TDThing.TypeName}' property has empty value.", type.TokenIndex);
                 return false;
             }
 
             if (type.Value.Value != TDValues.TypeThingModel)
             {
-                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Description '{TDThing.TypeName}' property value '{type.Value.Value}' is not correct; value must be `{TDValues.TypeThingModel}`.", type.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.TypeName}' property value '{type.Value.Value}' is not correct; value must be `{TDValues.TypeThingModel}`.", type.TokenIndex);
                 return false;
             }
 
@@ -502,26 +520,79 @@
         {
             if (title == null)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.TitleName}' property.", -1);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Model is missing required '{TDThing.TitleName}' property.", -1);
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(title.Value.Value))
             {
-                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Description '{TDThing.TitleName}' property has empty value.", title.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Model '{TDThing.TitleName}' property has empty value.", title.TokenIndex);
                 return false;
             }
 
             if (!TitleRegex.IsMatch(title.Value.Value))
             {
-                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Description '{TDThing.TitleName}' property value \"{title.Value.Value}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters", title.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.TitleName}' property value \"{title.Value.Value}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters", title.TokenIndex);
                 return false;
             }
 
             return true;
         }
 
-        private bool TryValidateLinks(ArrayTracker<TDLink>? links)
+        private bool TryValidateCompositeAndEvent(ValueTracker<BoolHolder>? isComposite, ValueTracker<BoolHolder>? isEvent, bool platContextPresent, long contextTokenIndex)
+        {
+            bool hasError = false;
+
+            if (isComposite != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.IsCompositeName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", isComposite.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+            }
+
+            if (isEvent != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.IsEventName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", isEvent.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+            }
+
+            if (isComposite?.Value.Value == true && isEvent?.Value.Value == true)
+            {
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Thing Model '{TDThing.IsCompositeName}' property cannot be true if '{TDThing.IsEventName}' property is true.", isComposite.TokenIndex, isEvent.TokenIndex);
+                hasError = true;
+            }
+
+            return !hasError;
+        }
+
+        private bool TryValidateTypeRef(ValueTracker<StringHolder>? typeRef, bool platContextPresent, long contextTokenIndex)
+        {
+            if (typeRef == null)
+            {
+                return true;
+            }
+
+            if (!platContextPresent)
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.TypeRefName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", typeRef.TokenIndex, contextTokenIndex);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(typeRef.Value.Value))
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Model '{TDThing.TypeRefName}' property has empty value.", typeRef.TokenIndex);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool TryValidateLinks(ArrayTracker<TDLink>? links, bool platContextPresent, long contextTokenIndex)
         {
             if (links?.Elements == null)
             {
@@ -538,46 +609,94 @@
                     errorReporter.ReportWarning($"Link element is missing '{TDLink.RelName}' property; element will be ignored.", link.TokenIndex);
                     continue;
                 }
-                if (link.Value.Rel.Value.Value != TDValues.RelationSchemaNaming)
+
+                if (link.Value.Rel.Value.Value != TDValues.RelationExtends &&
+                    link.Value.Rel.Value.Value != TDValues.RelationReference &&
+                    link.Value.Rel.Value.Value != TDValues.RelationTypedReference &&
+                    link.Value.Rel.Value.Value != TDValues.RelationCapability &&
+                    link.Value.Rel.Value.Value != TDValues.RelationComponent &&
+                    link.Value.Rel.Value.Value != TDValues.RelationSchemaNaming)
                 {
-                    errorReporter.ReportWarning($"Link element {TDLink.RelName} property has unrecognized value '{link.Value.Rel.Value.Value}'; element will be ignored.", link.Value.Rel.TokenIndex);
+                    errorReporter.ReportWarning($"Link element '{TDLink.RelName}' property has unrecognized value '{link.Value.Rel.Value.Value}'; element will be ignored.", link.Value.Rel.TokenIndex);
                     continue;
                 }
 
-                relSchemaNamerCount++;
+                if (link.Value.Rel.Value.Value.StartsWith($"{TDValues.ContextPrefixAioPlatform}:") && !platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Link element '{TDLink.RelName}' property has value '{link.Value.Rel.Value.Value}', which requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", link.Value.Rel.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (link.Value.Rel.Value.Value == TDValues.RelationSchemaNaming)
+                {
+                    relSchemaNamerCount++;
+                }
+
+                string requiredContentType = link.Value.Rel.Value.Value switch
+                {
+                    TDValues.RelationExtends => TDValues.ContentTypeTmJson,
+                    TDValues.RelationReference => TDValues.ContentTypeTmJson,
+                    TDValues.RelationTypedReference => TDValues.ContentTypeTmJson,
+                    TDValues.RelationCapability => TDValues.ContentTypeTmJson,
+                    TDValues.RelationComponent => TDValues.ContentTypeTmJson,
+                    TDValues.RelationSchemaNaming => TDValues.ContentTypeJson,
+                    _ => throw new NotSupportedException($"Unsupported '{TDLink.RelName}' property value '{link.Value.Rel.Value.Value}'"),
+                };
+
+                if (link.Value.RefType == null)
+                {
+                    if (link.Value.Rel.Value.Value == TDValues.RelationTypedReference)
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' is missing required '{TDLink.RefTypeName}' property.", link.TokenIndex);
+                        hasError = true;
+                    }
+                }
+                else
+                {
+                    if (link.Value.Rel.Value.Value != TDValues.RelationTypedReference)
+                    {
+                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' does not support '{TDLink.RefTypeName}' property.", link.TokenIndex);
+                        hasError = true;
+                    }
+                    else if (string.IsNullOrWhiteSpace(link.Value.RefType.Value.Value))
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' has empty '{TDLink.RefTypeName}' property value.", link.Value.RefType.TokenIndex);
+                        hasError = true;
+                    }
+                }
 
                 if (link.Value.Href == null)
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{TDValues.RelationSchemaNaming}' is missing required '{TDLink.HrefName}' property.", link.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' is missing required '{TDLink.HrefName}' property.", link.TokenIndex);
                     hasError = true;
                 }
                 else if (string.IsNullOrWhiteSpace(link.Value.Href.Value.Value))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{TDValues.RelationSchemaNaming}' has empty '{TDLink.HrefName}' property value.", link.Value.Href.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' has empty '{TDLink.HrefName}' property value.", link.Value.Href.TokenIndex);
                     hasError = true;
                 }
 
                 if (link.Value.Type == null)
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{TDValues.RelationSchemaNaming}' is missing required '{TDLink.TypeName}' property.", link.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' is missing required '{TDLink.TypeName}' property.", link.TokenIndex);
                     hasError = true;
                 }
                 else if (string.IsNullOrWhiteSpace(link.Value.Type.Value.Value))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{TDValues.RelationSchemaNaming}' has empty '{TDLink.TypeName}' property value.", link.Value.Type.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' has empty '{TDLink.TypeName}' property value.", link.Value.Type.TokenIndex);
                     hasError = true;
                 }
-                else if (link.Value.Type.Value.Value != TDValues.ContentTypeJson)
+                else if (link.Value.Type.Value.Value != requiredContentType)
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Link element with {TDLink.RelName}='{TDValues.RelationSchemaNaming}' has '{TDLink.TypeName}' property with unsupported value '{link.Value.Type.Value.Value}'.", link.Value.Type.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' has '{TDLink.TypeName}' property with unsupported value '{link.Value.Type.Value.Value}'; expected '{requiredContentType}'.", link.Value.Type.TokenIndex, link.Value.Rel.TokenIndex);
                     hasError = true;
                 }
 
                 foreach (KeyValuePair<string, long> propertyName in link.Value.PropertyNames)
                 {
-                    if (propertyName.Key != TDLink.HrefName && propertyName.Key != TDLink.TypeName && propertyName.Key != TDLink.RelName)
+                    if (propertyName.Key != TDLink.HrefName && propertyName.Key != TDLink.TypeName && propertyName.Key != TDLink.RelName && propertyName.Key != TDLink.RefTypeName)
                     {
-                        if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
+                        if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
                         {
                             errorReporter.ReportWarning($"Link has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                         }
@@ -592,14 +711,14 @@
 
             if (relSchemaNamerCount > 1)
             {
-                errorReporter.ReportError(ErrorCondition.Duplication, $"Thing Description has multiple links with '{TDLink.RelName}' property value '{TDValues.RelationSchemaNaming}'; only one is allowed.", links.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.Duplication, $"Thing Model has multiple links with '{TDLink.RelName}' property value '{TDValues.RelationSchemaNaming}'; only one is allowed.", links.TokenIndex);
                 hasError = true;
             }
 
             return !hasError;
         }
 
-        private bool TryValidateSchemaDefinitions(MapTracker<TDDataSchema>? schemaDefinitions)
+        private bool TryValidateSchemaDefinitions(MapTracker<TDDataSchema>? schemaDefinitions, bool platContextPresent, long contextTokenIndex)
         {
             if (schemaDefinitions?.Entries == null)
             {
@@ -610,7 +729,7 @@
 
             foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> schemaDefinition in schemaDefinitions.Entries)
             {
-                if (!TryValidateDataSchema(schemaDefinition.Value, null, DataSchemaKind.SchemaDefinition))
+                if (!TryValidateDataSchema(schemaDefinition.Value, null, platContextPresent, contextTokenIndex, DataSchemaKind.SchemaDefinition))
                 {
                     hasError = true;
                 }
@@ -619,7 +738,7 @@
             return !hasError;
         }
 
-        private bool TryValidateActions(MapTracker<TDAction>? actions, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
+        private bool TryValidateActions(MapTracker<TDAction>? actions, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool platContextPresent, long contextTokenIndex)
         {
             if (actions?.Entries == null)
             {
@@ -630,7 +749,7 @@
 
             foreach (KeyValuePair<string, ValueTracker<TDAction>> action in actions.Entries)
             {
-                if (!TryValidateAction(action.Key, action.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
+                if (!TryValidateAction(action.Key, action.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType, platContextPresent, contextTokenIndex))
                 {
                     hasError = true;
                 }
@@ -643,7 +762,7 @@
             return !hasError;
         }
 
-        private bool TryValidateAction(string name, ValueTracker<TDAction> action, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
+        private bool TryValidateAction(string name, ValueTracker<TDAction> action, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool platContextPresent, long contextTokenIndex)
         {
             if (!TryValidateForms(action.Value.Forms, FormsKind.Action, schemaDefinitions, out contentType))
             {
@@ -652,21 +771,51 @@
 
             bool hasError = false;
 
-            if (action.Value.Input != null && !TryValidateActionDataSchema(action.Value.Input, TDAction.InputName, contentType))
+            if (action.Value.Namespace != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Action element '{TDAction.NamespaceName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", action.Value.Namespace.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (string.IsNullOrWhiteSpace(action.Value.Namespace.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Action element '{TDAction.NamespaceName}' property has empty value.", action.Value.Namespace.TokenIndex);
+                    hasError = true;
+                }
+            }
+
+            if (action.Value.MemberOf != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Action element '{TDAction.MemberOfName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", action.Value.MemberOf.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (string.IsNullOrWhiteSpace(action.Value.MemberOf.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Action element '{TDAction.MemberOfName}' property has empty value.", action.Value.MemberOf.TokenIndex);
+                    hasError = true;
+                }
+            }
+
+            if (action.Value.Input != null && !TryValidateActionDataSchema(action.Value.Input, TDAction.InputName, contentType, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
 
-            if (action.Value.Output != null && !TryValidateActionDataSchema(action.Value.Output, TDAction.OutputName, contentType))
+            if (action.Value.Output != null && !TryValidateActionDataSchema(action.Value.Output, TDAction.OutputName, contentType, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
 
             foreach (KeyValuePair<string, long> propertyName in action.Value.PropertyNames)
             {
-                if (propertyName.Key != TDAction.DescriptionName && propertyName.Key != TDAction.InputName && propertyName.Key != TDAction.OutputName && propertyName.Key != TDAction.IdempotentName && propertyName.Key != TDAction.SafeName && propertyName.Key != TDAction.FormsName)
+                if (propertyName.Key != TDAction.DescriptionName && propertyName.Key != TDAction.InputName && propertyName.Key != TDAction.OutputName && propertyName.Key != TDAction.IdempotentName && propertyName.Key != TDAction.SafeName && propertyName.Key != TDAction.FormsName && propertyName.Key != TDAction.NamespaceName && propertyName.Key != TDAction.MemberOfName)
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
                     {
                         errorReporter.ReportWarning($"Action '{name}' has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -681,7 +830,7 @@
             return !hasError;
         }
 
-        private bool TryValidateActionDataSchema<T>(ValueTracker<T> dataSchema, string propertyName, ValueTracker<StringHolder>? contentType)
+        private bool TryValidateActionDataSchema<T>(ValueTracker<T> dataSchema, string propertyName, ValueTracker<StringHolder>? contentType, bool platContextPresent, long contextTokenIndex)
             where T : TDDataSchema, IDeserializable<T>
         {
             bool isStructuredObject = dataSchema.Value.Type?.Value.Value == TDValues.TypeObject && dataSchema.Value.Properties != null;
@@ -693,10 +842,10 @@
                 return false;
             }
 
-            return TryValidateDataSchema(dataSchema, null, DataSchemaKind.Action, contentType);
+            return TryValidateDataSchema(dataSchema, null, platContextPresent, contextTokenIndex, DataSchemaKind.Action, contentType);
         }
 
-        private bool TryValidateProperties(MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
+        private bool TryValidateProperties(MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool platContextPresent, long contextTokenIndex)
         {
             if (properties?.Entries == null)
             {
@@ -707,7 +856,7 @@
 
             foreach (KeyValuePair<string, ValueTracker<TDProperty>> property in properties.Entries)
             {
-                if (!TryValidateProperty(property.Key, property.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
+                if (!TryValidateProperty(property.Key, property.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType, platContextPresent, contextTokenIndex))
                 {
                     hasError = true;
                 }
@@ -717,22 +866,80 @@
                 }
             }
 
+            if (!hasError)
+            {
+                Dictionary<string, ArrayTracker<StringHolder>> containsMap = properties.Entries.Where(e => e.Value.Value.Contains != null).ToDictionary(e => e.Key, e => e.Value.Value.Contains!);
+                Dictionary<string, ValueTracker<StringHolder>> containedInMap = properties.Entries.Where(e => e.Value.Value.ContainedIn != null).ToDictionary(e => e.Key, e => e.Value.Value.ContainedIn!);
+
+                if (!TryValidateContainmentConsistency("Property", containsMap, containedInMap, properties.Entries.Keys, properties.TokenIndex))
+                {
+                    hasError = true;
+                }
+            }
+
             return !hasError;
         }
 
-        private bool TryValidateProperty(string name, ValueTracker<TDProperty> property, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
+        private bool TryValidateProperty(string name, ValueTracker<TDProperty> property, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool platContextPresent, long contextTokenIndex)
         {
             if (!TryValidatePropertyForms(name, property.Value.Forms, schemaDefinitions, property.Value.ReadOnly, out contentType))
             {
                 return false;
             }
 
-            if (!TryValidateDataSchema(property, (propName) => propName == TDProperty.ReadOnlyName || propName == TDProperty.PlaceholderName || propName == TDProperty.FormsName, DataSchemaKind.Property, contentType))
+            bool hasError = false;
+
+            if (property.Value.Namespace != null)
             {
-                return false;
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Property element '{TDProperty.NamespaceName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", property.Value.Namespace.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (string.IsNullOrWhiteSpace(property.Value.Namespace.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Property element '{TDProperty.NamespaceName}' property has empty value.", property.Value.Namespace.TokenIndex);
+                    hasError = true;
+                }
             }
 
-            return true;
+            if (property.Value.Contains?.Elements != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Property element '{TDProperty.ContainsName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", property.Value.Contains.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (property.Value.Contains.Elements.Count == 0)
+                {
+                    errorReporter.ReportError(ErrorCondition.ElementMissing, $"Property element '{TDProperty.ContainsName}' array value contains no elements.", property.Value.Contains.TokenIndex);
+                    hasError = true;
+                }
+            }
+
+            if (property.Value.ContainedIn != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Property element '{TDProperty.ContainedInName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", property.Value.ContainedIn.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (string.IsNullOrWhiteSpace(property.Value.ContainedIn.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Property element '{TDProperty.ContainedInName}' property has empty value.", property.Value.ContainedIn.TokenIndex);
+                    hasError = true;
+                }
+            }
+
+            if (!TryValidateDataSchema(property, (propName) => propName == TDProperty.ReadOnlyName || propName == TDProperty.PlaceholderName || propName == TDProperty.FormsName || propName == TDProperty.ContainsName || propName == TDProperty.ContainedInName || propName == TDProperty.NamespaceName, platContextPresent, contextTokenIndex, DataSchemaKind.Property, contentType))
+            {
+                hasError = true;
+            }
+
+            return !hasError;
         }
 
         private bool TryValidatePropertyForms(string name, ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<BoolHolder>? readOnly, out ValueTracker<StringHolder>? contentType)
@@ -789,7 +996,7 @@
             return !hasError;
         }
 
-        private bool TryValidateEvents(MapTracker<TDEvent>? evts, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
+        private bool TryValidateEvents(MapTracker<TDEvent>? evts, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool platContextPresent, long contextTokenIndex)
         {
             if (evts?.Entries == null)
             {
@@ -800,7 +1007,7 @@
 
             foreach (KeyValuePair<string, ValueTracker<TDEvent>> evt in evts.Entries)
             {
-                if (!TryValidateEvent(evt.Key, evt.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
+                if (!TryValidateEvent(evt.Key, evt.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType, platContextPresent, contextTokenIndex))
                 {
                     hasError = true;
                 }
@@ -810,10 +1017,21 @@
                 }
             }
 
+            if (!hasError)
+            {
+                Dictionary<string, ArrayTracker<StringHolder>> containsMap = evts.Entries.Where(e => e.Value.Value.Contains != null).ToDictionary(e => e.Key, e => e.Value.Value.Contains!);
+                Dictionary<string, ValueTracker<StringHolder>> containedInMap = evts.Entries.Where(e => e.Value.Value.ContainedIn != null).ToDictionary(e => e.Key, e => e.Value.Value.ContainedIn!);
+
+                if (!TryValidateContainmentConsistency("Property", containsMap, containedInMap, evts.Entries.Keys, evts.TokenIndex))
+                {
+                    hasError = true;
+                }
+            }
+
             return !hasError;
         }
 
-        private bool TryValidateEvent(string name, ValueTracker<TDEvent> evt, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType)
+        private bool TryValidateEvent(string name, ValueTracker<TDEvent> evt, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool platContextPresent, long contextTokenIndex)
         {
             if (!TryValidateForms(evt.Value.Forms, FormsKind.Event, schemaDefinitions, out contentType))
             {
@@ -822,16 +1040,55 @@
 
             bool hasError = false;
 
-            if (evt.Value.Data != null && !TryValidateDataSchema(evt.Value.Data, null, DataSchemaKind.Event, contentType))
+            if (evt.Value.Namespace != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Event element '{TDEvent.NamespaceName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", evt.Value.Namespace.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+            }
+
+            if (evt.Value.Contains?.Elements != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Event element '{TDEvent.ContainsName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", evt.Value.Contains.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (evt.Value.Contains.Elements.Count == 0)
+                {
+                    errorReporter.ReportError(ErrorCondition.ElementMissing, $"Event element '{TDEvent.ContainsName}' array value contains no elements.", evt.Value.Contains.TokenIndex);
+                    hasError = true;
+                }
+            }
+
+            if (evt.Value.ContainedIn != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Event element '{TDEvent.ContainedInName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", evt.Value.ContainedIn.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (string.IsNullOrWhiteSpace(evt.Value.ContainedIn.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Event element '{TDEvent.ContainedInName}' property has empty value.", evt.Value.ContainedIn.TokenIndex);
+                    hasError = true;
+                }
+            }
+
+            if (evt.Value.Data != null && !TryValidateDataSchema(evt.Value.Data, null, platContextPresent, contextTokenIndex, DataSchemaKind.Event, contentType))
             {
                 hasError = true;
             }
 
             foreach (KeyValuePair<string, long> propertyName in evt.Value.PropertyNames)
             {
-                if (propertyName.Key != TDEvent.DescriptionName && propertyName.Key != TDEvent.DataName && propertyName.Key != TDEvent.PlaceholderName && propertyName.Key != TDEvent.FormsName)
+                if (propertyName.Key != TDEvent.DescriptionName && propertyName.Key != TDEvent.DataName && propertyName.Key != TDEvent.PlaceholderName && propertyName.Key != TDEvent.FormsName && propertyName.Key != TDEvent.ContainsName && propertyName.Key != TDEvent.ContainedInName && propertyName.Key != TDEvent.NamespaceName)
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
                     {
                         errorReporter.ReportWarning($"Event '{name}' has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -855,7 +1112,7 @@
                 return true;
             }
 
-            if (forms.Elements!.Count == 0)
+            if (forms.Elements.Count == 0)
             {
                 errorReporter.ReportError(ErrorCondition.ElementMissing, $"Property '{TDEvent.FormsName}' array value contains no elements; at least one form is required.", forms.TokenIndex);
                 return false;
@@ -875,7 +1132,7 @@
                     {
                         if (formContentType.Value.Value != contentType.Value.Value)
                         {
-                            errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDThing.FormsName}' array contains forms with different '{TDForm.ContentTypeName}' property values '{contentType.Value.Value}' and '{formContentType.Value.Value}'.", contentType.TokenIndex, formContentType.TokenIndex);
+                            errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDCommon.FormsName}' array contains forms with different '{TDForm.ContentTypeName}' property values '{contentType.Value.Value}' and '{formContentType.Value.Value}'.", contentType.TokenIndex, formContentType.TokenIndex);
                             hasError = true;
                         }
                     }
@@ -894,7 +1151,7 @@
             ValueTracker<TDForm>? oplessForm = forms.Elements.FirstOrDefault(f => f.Value.Op == null);
             if (oplessForm != null && forms.Elements.Count > 1)
             {
-                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDThing.FormsName}' array contains a form with no '{TDForm.OpName}' property, so it must be the only form in the array.", oplessForm.TokenIndex, forms.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDCommon.FormsName}' array contains a form with no '{TDForm.OpName}' property, so it must be the only form in the array.", oplessForm.TokenIndex, forms.TokenIndex);
                 return false;
             }
 
@@ -902,7 +1159,7 @@
 
             foreach (IGrouping<string, ValueTracker<StringHolder>> dupOpGroup in aggregateOps.GroupBy(op => op.Value.Value).Where(g => g.Count() > 1))
             {
-                errorReporter.ReportError(ErrorCondition.Duplication, $"'{TDThing.FormsName}' array contains '{TDForm.OpName}' properties that duplicate value '{dupOpGroup.Key}'.", dupOpGroup.First().TokenIndex, dupOpGroup.Skip(1).First().TokenIndex);
+                errorReporter.ReportError(ErrorCondition.Duplication, $"'{TDCommon.FormsName}' array contains '{TDForm.OpName}' properties that duplicate value '{dupOpGroup.Key}'.", dupOpGroup.First().TokenIndex, dupOpGroup.Skip(1).First().TokenIndex);
                 hasError = true;
             }
 
@@ -952,7 +1209,7 @@
             {
                 if (formsKind == FormsKind.Root && !(form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpSubAllEvents) ?? false))
                 {
-                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDForm.ServiceGroupIdName}' property is not allowed in root-level '{TDThing.FormsName}' property without an '{TDForm.OpName}' property value of '{TDValues.OpSubAllEvents}'.", form.Value.ServiceGroupId.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDForm.ServiceGroupIdName}' property is not allowed in root-level '{TDCommon.FormsName}' property without an '{TDForm.OpName}' property value of '{TDValues.OpSubAllEvents}'.", form.Value.ServiceGroupId.TokenIndex);
                     hasError = true;
                 }
                 else if (formsKind == FormsKind.Property)
@@ -1134,7 +1391,7 @@
             {
                 if (propertyName.Key != TDForm.ContentTypeName && propertyName.Key != TDForm.AdditionalResponsesName && propertyName.Key != TDForm.HeaderInfoName && propertyName.Key != TDForm.HeaderCodeName && propertyName.Key != TDForm.ServiceGroupIdName && propertyName.Key != TDForm.TopicName && propertyName.Key != TDForm.OpName)
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
                     {
                         errorReporter.ReportWarning($"Form has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -1147,6 +1404,50 @@
             }
 
             contentType = form.Value.ContentType;
+            return !hasError;
+        }
+
+        private bool TryValidateContainmentConsistency(string affordanceType, Dictionary<string, ArrayTracker<StringHolder>> containsMap, Dictionary<string, ValueTracker<StringHolder>> containedInMap, ICollection<string> affordanceKeys, long affordanceTokenIndex)
+        {
+            bool hasError = false;
+
+            foreach (KeyValuePair<string, ArrayTracker<StringHolder>> containsEntry in containsMap)
+            {
+                foreach (ValueTracker<StringHolder> containedKey in containsEntry.Value.Elements ?? [])
+                {
+                    if (!affordanceKeys.Contains(containedKey.Value.Value))
+                    {
+                        errorReporter.ReportError(ErrorCondition.ItemNotFound, $"{affordanceType} '{containsEntry.Key}' declares it contains {affordanceType} '{containedKey.Value.Value}', but no such {affordanceType} in model.", containedKey.TokenIndex, affordanceTokenIndex);
+                        hasError = true;
+                    }
+                    else if (containedInMap.TryGetValue(containedKey.Value.Value, out ValueTracker<StringHolder>? container))
+                    {
+                        if (container.Value.Value != containsEntry.Key)
+                        {
+                            errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"{affordanceType} '{containsEntry.Key}' declares it contains {affordanceType} '{containedKey.Value.Value}', but that {affordanceType} declares it is contained in '{container.Value.Value}'.", containedKey.TokenIndex, container.TokenIndex);
+                            hasError = true;
+                        }
+                    }
+                }
+            }
+
+            foreach (KeyValuePair<string, ValueTracker<StringHolder>> containedInEntry in containedInMap)
+            {
+                if (!affordanceKeys.Contains(containedInEntry.Value.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.ItemNotFound, $"{affordanceType} '{containedInEntry.Key}' declares it is contained in {affordanceType} '{containedInEntry.Value.Value.Value}', but no such {affordanceType} in model.", containedInEntry.Value.TokenIndex, affordanceTokenIndex);
+                    hasError = true;
+                }
+                else if (containsMap.TryGetValue(containedInEntry.Value.Value.Value, out ArrayTracker<StringHolder>? contains))
+                {
+                    if (!(contains.Elements?.Any(e => e.Value.Value == containedInEntry.Key) ?? false))
+                    {
+                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"{affordanceType} '{containedInEntry.Key}' declares it is contained in {affordanceType} '{containedInEntry.Value.Value.Value}', but that {affordanceType} declares a contained set that does not include '{containedInEntry.Key}'.", containedInEntry.Value.TokenIndex, contains.TokenIndex);
+                        hasError = true;
+                    }
+                }
+            }
+
             return !hasError;
         }
 
@@ -1396,7 +1697,7 @@
             {
                 if (propertyName.Key != TDSchemaReference.SuccessName && propertyName.Key != TDSchemaReference.ContentTypeName && propertyName.Key != TDSchemaReference.SchemaName)
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
                     {
                         errorReporter.ReportWarning($"Schema reference has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -1411,7 +1712,7 @@
             return !hasError;
         }
 
-        private bool TryValidateDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover, DataSchemaKind dataSchemaKind = DataSchemaKind.Undistinguished, ValueTracker<StringHolder>? contentType = null)
+        private bool TryValidateDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex, DataSchemaKind dataSchemaKind = DataSchemaKind.Undistinguished, ValueTracker<StringHolder>? contentType = null)
             where T : TDDataSchema, IDeserializable<T>
         {
             if (dataSchema.Value.Ref != null && dataSchemaKind != DataSchemaKind.Action && dataSchemaKind != DataSchemaKind.Property && dataSchemaKind != DataSchemaKind.Event)
@@ -1430,6 +1731,21 @@
             {
                 errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema cannot have both '{TDDataSchema.RefName}' and '{TDDataSchema.TypeName}' properties.", dataSchema.Value.Ref.TokenIndex, dataSchema.Value.Type.TokenIndex);
                 return false;
+            }
+
+            if (dataSchema.Value.TypeRef != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Data schema '{TDDataSchema.TypeRefName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", dataSchema.Value.TypeRef.TokenIndex, contextTokenIndex);
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(dataSchema.Value.TypeRef.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Data schema '{TDThing.TypeRefName}' property has empty value.", dataSchema.Value.TypeRef.TokenIndex);
+                    return false;
+                }
             }
 
             bool contentTypeIsRawOrCustom = contentType?.Value.Value == TDValues.ContentTypeRaw || contentType?.Value.Value == TDValues.ContentTypeCustom;
@@ -1456,15 +1772,15 @@
             switch (dataSchema.Value.Type!.Value.Value)
             {
                 case TDValues.TypeObject:
-                    return TryValidateObjectDataSchema(dataSchema, dataSchemaKind, propertyApprover);
+                    return TryValidateObjectDataSchema(dataSchema, dataSchemaKind, propertyApprover, platContextPresent, contextTokenIndex);
                 case TDValues.TypeArray:
-                    return TryValidateArrayDataSchema(dataSchema, propertyApprover);
+                    return TryValidateArrayDataSchema(dataSchema, propertyApprover, platContextPresent, contextTokenIndex);
                 case TDValues.TypeString:
-                    return TryValidateStringDataSchema(dataSchema, dataSchemaKind, propertyApprover);
+                    return TryValidateStringDataSchema(dataSchema, dataSchemaKind, propertyApprover, platContextPresent, contextTokenIndex);
                 case TDValues.TypeNumber:
-                    return TryValidateNumberDataSchema(dataSchema, dataSchemaKind, propertyApprover);
+                    return TryValidateNumberDataSchema(dataSchema, dataSchemaKind, propertyApprover, platContextPresent, contextTokenIndex);
                 case TDValues.TypeInteger:
-                    return TryValidateIntegerDataSchema(dataSchema, dataSchemaKind, propertyApprover);
+                    return TryValidateIntegerDataSchema(dataSchema, dataSchemaKind, propertyApprover, platContextPresent, contextTokenIndex);
                 case TDValues.TypeBoolean:
                     return TryValidateBooleanDataSchema(dataSchema, dataSchemaKind, propertyApprover);
                 case TDValues.TypeNull:
@@ -1514,6 +1830,7 @@
                 TDDataSchema.RefName,
                 TDDataSchema.TitleName,
                 TDDataSchema.DescriptionName,
+                TDDataSchema.TypeRefName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a schema via a reference", tokenIndex))
             {
@@ -1545,6 +1862,7 @@
                 TDDataSchema.TitleName,
                 TDDataSchema.DescriptionName,
                 TDDataSchema.ConstName,
+                TDDataSchema.TypeRefName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant string schema", constProperty.TokenIndex))
             {
@@ -1591,6 +1909,7 @@
                 TDDataSchema.MinimumName,
                 TDDataSchema.MaximumName,
                 TDDataSchema.ConstName,
+                TDDataSchema.TypeRefName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant number schema", constProperty.TokenIndex))
             {
@@ -1637,6 +1956,7 @@
                 TDDataSchema.MinimumName,
                 TDDataSchema.MaximumName,
                 TDDataSchema.ConstName,
+                TDDataSchema.TypeRefName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant integer schema", constProperty.TokenIndex))
             {
@@ -1668,6 +1988,7 @@
                 TDDataSchema.TitleName,
                 TDDataSchema.DescriptionName,
                 TDDataSchema.ConstName,
+                TDDataSchema.TypeRefName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant boolean schema", constProperty.TokenIndex))
             {
@@ -1685,7 +2006,7 @@
             {
                 if (propertyApprover?.Invoke(propertyName.Key) != true && !supportedProperties.Contains(propertyName.Key))
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{AioContextPrefix}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
                     {
                         errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -1700,18 +2021,18 @@
             return !hasError;
         }
 
-        private bool TryValidateObjectDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover)
+        private bool TryValidateObjectDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex)
              where T : TDDataSchema, IDeserializable<T>
         {
             if (dataSchema.Value.Properties?.Entries == null && dataSchema.Value.AdditionalProperties == null)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeObject}' must have either '{TDDataSchema.PropertiesName}' or 'dtv:additionalProperties' property.", dataSchema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeObject}' must have either '{TDDataSchema.PropertiesName}' or '{TDDataSchema.AdditionalPropertiesName}' property.", dataSchema.TokenIndex);
                 return false;
             }
 
             if (dataSchema.Value.Properties?.Entries != null && dataSchema.Value.AdditionalProperties != null)
             {
-                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeObject}' cannot have both '{TDDataSchema.PropertiesName}' and 'dtv:additionalProperties' properties.", dataSchema.Value.Properties.TokenIndex, dataSchema.Value.AdditionalProperties.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema with '{TDDataSchema.TypeName}' of '{TDValues.TypeObject}' cannot have both '{TDDataSchema.PropertiesName}' and '{TDDataSchema.AdditionalPropertiesName}' properties.", dataSchema.Value.Properties.TokenIndex, dataSchema.Value.AdditionalProperties.TokenIndex);
                 return false;
             }
 
@@ -1807,6 +2128,7 @@
                         TDDataSchema.DescriptionName,
                         TDDataSchema.PropertiesName,
                         TDDataSchema.ConstName,
+                        TDDataSchema.TypeRefName,
                     };
                     if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a constant object", dataSchema.Value.Const.TokenIndex))
                     {
@@ -1817,7 +2139,22 @@
                 {
                     foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> property in dataSchema.Value.Properties.Entries)
                     {
-                        if (!TryValidateDataSchema(property.Value, null))
+                        if (property.Value.Value.Namespace != null)
+                        {
+                            if (!platContextPresent)
+                            {
+                                errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Data schema '{TDDataSchema.NamespaceName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", property.Value.Value.Namespace.TokenIndex, contextTokenIndex);
+                                hasError = true;
+                            }
+
+                            if (string.IsNullOrWhiteSpace(property.Value.Value.Namespace.Value.Value))
+                            {
+                                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Data schema '{TDDataSchema.NamespaceName}' property has empty value.", property.Value.Value.Namespace.TokenIndex);
+                                hasError = true;
+                            }
+                        }
+
+                        if (!TryValidateDataSchema(property.Value, (propName) => propName == TDDataSchema.NamespaceName, platContextPresent, contextTokenIndex))
                         {
                             hasError = true;
                         }
@@ -1862,6 +2199,7 @@
                         TDDataSchema.PropertiesName,
                         TDDataSchema.RequiredName,
                         TDDataSchema.ErrorMessageName,
+                        TDDataSchema.TypeRefName,
                     };
                     if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a structured object", dataSchema.Value.Properties.TokenIndex))
                     {
@@ -1876,7 +2214,7 @@
             }
             else
             {
-                if (!TryValidateDataSchema(dataSchema.Value.AdditionalProperties!, null))
+                if (!TryValidateDataSchema(dataSchema.Value.AdditionalProperties!, null, platContextPresent, contextTokenIndex))
                 {
                     hasError = true;
                 }
@@ -1887,6 +2225,7 @@
                     TDDataSchema.TitleName,
                     TDDataSchema.DescriptionName,
                     TDDataSchema.AdditionalPropertiesName,
+                    TDDataSchema.TypeRefName,
                 };
                 if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a map", dataSchema.Value.AdditionalProperties!.TokenIndex))
                 {
@@ -1897,7 +2236,7 @@
             return !hasError;
         }
 
-        private bool TryValidateArrayDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover)
+        private bool TryValidateArrayDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex)
              where T : TDDataSchema, IDeserializable<T>
         {
             if (dataSchema.Value.Items == null)
@@ -1908,7 +2247,7 @@
 
             bool hasError = false;
 
-            if (!TryValidateDataSchema(dataSchema.Value.Items!, null))
+            if (!TryValidateDataSchema(dataSchema.Value.Items!, null, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
@@ -1919,6 +2258,7 @@
                 TDDataSchema.TitleName,
                 TDDataSchema.DescriptionName,
                 TDDataSchema.ItemsName,
+                TDDataSchema.TypeRefName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "an array", dataSchema.Value.Type!.TokenIndex))
             {
@@ -1928,7 +2268,7 @@
             return !hasError;
         }
 
-        private bool TryValidateStringDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover)
+        private bool TryValidateStringDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex)
              where T : TDDataSchema, IDeserializable<T>
         {
             bool hasError = false;
@@ -1955,6 +2295,7 @@
                     TDDataSchema.TitleName,
                     TDDataSchema.DescriptionName,
                     TDDataSchema.EnumName,
+                    TDDataSchema.TypeRefName,
                 };
                 if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "an enumerated string", dataSchema.Value.Enum.TokenIndex))
                 {
@@ -2049,6 +2390,7 @@
                         TDDataSchema.FormatName,
                         TDDataSchema.ContentEncodingName,
                         TDDataSchema.PatternName,
+                        TDDataSchema.TypeRefName,
                     };
                     if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a string schema"))
                     {
@@ -2060,7 +2402,7 @@
             return !hasError;
         }
 
-        private bool TryValidateNumberDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover)
+        private bool TryValidateNumberDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex)
              where T : TDDataSchema, IDeserializable<T>
         {
             bool hasError = false;
@@ -2085,6 +2427,30 @@
             }
             else
             {
+                if (dataSchema.Value.ScaleFactor != null)
+                {
+                    if (!platContextPresent)
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"The '{TDDataSchema.ScaleFactorName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", dataSchema.Value.ScaleFactor.TokenIndex, contextTokenIndex);
+                        hasError = true;
+                    }
+                }
+
+                if (dataSchema.Value.DecimalPlaces != null)
+                {
+                    if (!platContextPresent)
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"The '{TDDataSchema.DecimalPlacesName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", dataSchema.Value.DecimalPlaces.TokenIndex, contextTokenIndex);
+                        hasError = true;
+                    }
+
+                    if (!double.IsInteger(dataSchema.Value.DecimalPlaces.Value.Value))
+                    {
+                        errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The '{TDDataSchema.DecimalPlacesName}' property value must be an integer.", dataSchema.Value.DecimalPlaces.TokenIndex);
+                        hasError = true;
+                    }
+                }
+
                 HashSet<string> supportedProperties = new()
                 {
                     TDDataSchema.TypeName,
@@ -2092,6 +2458,9 @@
                     TDDataSchema.DescriptionName,
                     TDDataSchema.MinimumName,
                     TDDataSchema.MaximumName,
+                    TDDataSchema.ScaleFactorName,
+                    TDDataSchema.DecimalPlacesName,
+                    TDDataSchema.TypeRefName,
                 };
                 if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a number schema"))
                 {
@@ -2102,19 +2471,19 @@
             return !hasError;
         }
 
-        private bool TryValidateIntegerDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover)
+        private bool TryValidateIntegerDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex)
              where T : TDDataSchema, IDeserializable<T>
         {
             bool hasError = false;
 
             if (dataSchema.Value.Minimum?.Value.Value != null && !double.IsInteger(dataSchema.Value.Minimum.Value.Value))
             {
-                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The '{TDDataSchema.MinimumName}' property value must be an integer.", dataSchema.Value.Minimum.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The '{TDDataSchema.MinimumName}' property value must be an integer.", dataSchema.Value.Minimum.TokenIndex, dataSchema.Value.Type!.TokenIndex);
                 hasError = true;
             }
             if (dataSchema.Value.Maximum?.Value.Value != null && !double.IsInteger(dataSchema.Value.Maximum.Value.Value))
             {
-                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The '{TDDataSchema.MaximumName}' property value must be an integer.", dataSchema.Value.Maximum.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The '{TDDataSchema.MaximumName}' property value must be an integer.", dataSchema.Value.Maximum.TokenIndex, dataSchema.Value.Type!.TokenIndex);
                 hasError = true;
             }
 
@@ -2143,6 +2512,36 @@
             }
             else
             {
+                if (dataSchema.Value.ScaleFactor != null)
+                {
+                    if (!platContextPresent)
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"The '{TDDataSchema.ScaleFactorName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", dataSchema.Value.ScaleFactor.TokenIndex, contextTokenIndex);
+                        hasError = true;
+                    }
+
+                    if (!double.IsInteger(dataSchema.Value.ScaleFactor.Value.Value))
+                    {
+                        errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The '{TDDataSchema.ScaleFactorName}' property value must be an integer.", dataSchema.Value.ScaleFactor.TokenIndex, dataSchema.Value.Type!.TokenIndex);
+                        hasError = true;
+                    }
+                }
+
+                if (dataSchema.Value.DecimalPlaces != null)
+                {
+                    if (!platContextPresent)
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"The '{TDDataSchema.DecimalPlacesName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", dataSchema.Value.DecimalPlaces.TokenIndex, contextTokenIndex);
+                        hasError = true;
+                    }
+
+                    if (!double.IsInteger(dataSchema.Value.DecimalPlaces.Value.Value))
+                    {
+                        errorReporter.ReportError(ErrorCondition.TypeMismatch, $"The '{TDDataSchema.DecimalPlacesName}' property value must be an integer.", dataSchema.Value.DecimalPlaces.TokenIndex);
+                        hasError = true;
+                    }
+                }
+
                 HashSet<string> supportedProperties = new()
                 {
                     TDDataSchema.TypeName,
@@ -2150,6 +2549,9 @@
                     TDDataSchema.DescriptionName,
                     TDDataSchema.MinimumName,
                     TDDataSchema.MaximumName,
+                    TDDataSchema.ScaleFactorName,
+                    TDDataSchema.DecimalPlacesName,
+                    TDDataSchema.TypeRefName,
                 };
                 if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "an integer schema"))
                 {
@@ -2184,6 +2586,7 @@
                     TDDataSchema.TypeName,
                     TDDataSchema.TitleName,
                     TDDataSchema.DescriptionName,
+                    TDDataSchema.TypeRefName,
                 };
                 if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a Boolean schema"))
                 {
@@ -2213,6 +2616,7 @@
                 TDDataSchema.TypeName,
                 TDDataSchema.TitleName,
                 TDDataSchema.DescriptionName,
+                TDDataSchema.TypeRefName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a null schema"))
             {

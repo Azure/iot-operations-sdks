@@ -7,7 +7,7 @@
     public class TDSchemaReference : IEquatable<TDSchemaReference>, IDeserializable<TDSchemaReference>
     {
         public const string SuccessName = "success";
-        public const string ContentTypeName = "contentType";
+        public const string ContentTypeName = TDCommon.ContentTypeName;
         public const string SchemaName = "schema";
 
         public ValueTracker<BoolHolder>? Success { get; set; }

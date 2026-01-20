@@ -9,12 +9,15 @@
         public const string HrefName = "href";
         public const string TypeName = "type";
         public const string RelName = "rel";
+        public const string RefTypeName = "aov:refType";
 
         public ValueTracker<StringHolder>? Href { get; set; }
 
         public ValueTracker<StringHolder>? Type { get; set; }
 
         public ValueTracker<StringHolder>? Rel { get; set; }
+
+        public ValueTracker<StringHolder>? RefType { get; set; }
 
         public Dictionary<string, long> PropertyNames { get; set; } = new();
 
@@ -26,13 +29,13 @@
             }
             else
             {
-                return Href == other.Href && Type == other.Type && Rel == other.Rel;
+                return Href == other.Href && Type == other.Type && Rel == other.Rel && RefType == other.RefType;
             }
         }
 
         public override int GetHashCode()
         {
-            return (Href, Type, Rel).GetHashCode();
+            return (Href, Type, Rel, RefType).GetHashCode();
         }
 
         public static bool operator ==(TDLink? left, TDLink? right)
@@ -95,6 +98,13 @@
                     yield return item;
                 }
             }
+            if (RefType != null)
+            {
+                foreach (ITraversable item in RefType.Traverse())
+                {
+                    yield return item;
+                }
+            }
         }
 
         public static TDLink Deserialize(ref Utf8JsonReader reader)
@@ -124,6 +134,9 @@
                         break;
                     case RelName:
                         link.Rel = ValueTracker<StringHolder>.Deserialize(ref reader, RelName);
+                        break;
+                    case RefTypeName:
+                        link.RefType = ValueTracker<StringHolder>.Deserialize(ref reader, RefTypeName);
                         break;
                     default:
                         reader.Skip();

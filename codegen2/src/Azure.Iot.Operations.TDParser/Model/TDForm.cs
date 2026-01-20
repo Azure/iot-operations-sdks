@@ -6,7 +6,7 @@
 
     public class TDForm : IEquatable<TDForm>, IDeserializable<TDForm>
     {
-        public const string ContentTypeName = "contentType";
+        public const string ContentTypeName = TDCommon.ContentTypeName;
         public const string AdditionalResponsesName = "additionalResponses";
         public const string HeaderInfoName = "dtv:headerInfo";
         public const string HeaderCodeName = "dtv:headerCode";

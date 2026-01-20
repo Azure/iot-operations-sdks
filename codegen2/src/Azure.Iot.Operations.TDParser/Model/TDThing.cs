@@ -8,15 +8,18 @@
     {
         public const string ContextName = "@context";
         public const string TypeName = "@type";
-        public const string TitleName = "title";
-        public const string DescriptionName = "description";
+        public const string TitleName = TDCommon.TitleName;
+        public const string DescriptionName = TDCommon.DescriptionName;
         public const string LinksName = "links";
         public const string SchemaDefinitionsName = "schemaDefinitions";
-        public const string FormsName = "forms";
+        public const string FormsName = TDCommon.FormsName;
         public const string OptionalName = "tm:optional";
         public const string ActionsName = "actions";
         public const string PropertiesName = "properties";
         public const string EventsName = "events";
+        public const string IsCompositeName = "aov:isComposite";
+        public const string IsEventName = "aov:isEvent";
+        public const string TypeRefName = "aov:typeRef";
 
         public ArrayTracker<TDContextSpecifier>? Context { get; set; }
 
@@ -40,6 +43,12 @@
 
         public MapTracker<TDEvent>? Events { get; set; }
 
+        public ValueTracker<BoolHolder>? IsComposite { get; set; }
+
+        public ValueTracker<BoolHolder>? IsEvent { get; set; }
+
+        public ValueTracker<StringHolder>? TypeRef { get; set; }
+
         public Dictionary<string, long> PropertyNames { get; set; } = new();
 
         public virtual bool Equals(TDThing? other)
@@ -60,13 +69,16 @@
                        Optional == other.Optional &&
                        Actions == other.Actions &&
                        Properties == other.Properties &&
-                       Events == other.Events;
+                       Events == other.Events &&
+                       IsComposite == other.IsComposite &&
+                       IsEvent == other.IsEvent &&
+                       TypeRef == other.TypeRef;
             }
         }
 
         public override int GetHashCode()
         {
-            return (Context, Type, Title, Description, Links, SchemaDefinitions, Forms, Optional, Actions, Properties, Events).GetHashCode();
+            return (Context, Type, Title, Description, Links, SchemaDefinitions, Forms, Optional, Actions, Properties, Events, IsComposite, IsEvent, TypeRef).GetHashCode();
         }
 
         public static bool operator ==(TDThing? left, TDThing? right)
@@ -185,6 +197,27 @@
                     yield return item;
                 }
             }
+            if (IsComposite != null)
+            {
+                foreach (ITraversable item in IsComposite.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (IsEvent != null)
+            {
+                foreach (ITraversable item in IsEvent.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (TypeRef != null)
+            {
+                foreach (ITraversable item in TypeRef.Traverse())
+                {
+                    yield return item;
+                }
+            }
         }
 
         public static TDThing Deserialize(ref Utf8JsonReader reader)
@@ -238,6 +271,15 @@
                         break;
                     case EventsName:
                         thing.Events = MapTracker<TDEvent>.Deserialize(ref reader, EventsName);
+                        break;
+                    case IsCompositeName:
+                        thing.IsComposite = ValueTracker<BoolHolder>.Deserialize(ref reader, IsCompositeName);
+                        break;
+                    case IsEventName:
+                        thing.IsEvent = ValueTracker<BoolHolder>.Deserialize(ref reader, IsEventName);
+                        break;
+                    case TypeRefName:
+                        thing.TypeRef = ValueTracker<StringHolder>.Deserialize(ref reader, TypeRefName);
                         break;
                     default:
                         reader.Skip();

@@ -8,12 +8,14 @@
     public class TDDataSchema : IEquatable<TDDataSchema>, IDeserializable<TDDataSchema>
     {
         public const string RefName = "dtv:ref";
-        public const string TitleName = "title";
-        public const string DescriptionName = "description";
+        public const string TitleName = TDCommon.TitleName;
+        public const string DescriptionName = TDCommon.DescriptionName;
         public const string TypeName = "type";
         public const string ConstName = "const";
         public const string MinimumName = "minimum";
         public const string MaximumName = "maximum";
+        public const string ScaleFactorName = "aov:scaleFactor";
+        public const string DecimalPlacesName = "aov:decimalPlaces";
         public const string FormatName = "format";
         public const string PatternName = "pattern";
         public const string ContentEncodingName = "contentEncoding";
@@ -23,6 +25,8 @@
         public const string ErrorMessageName = "dtv:errorMessage";
         public const string PropertiesName = "properties";
         public const string ItemsName = "items";
+        public const string TypeRefName = "aov:typeRef";
+        public const string NamespaceName = TDCommon.NamespaceName;
 
         public ValueTracker<StringHolder>? Ref { get; set; }
 
@@ -37,6 +41,10 @@
         public ValueTracker<NumberHolder>? Minimum { get; set; }
 
         public ValueTracker<NumberHolder>? Maximum { get; set; }
+
+        public ValueTracker<NumberHolder>? ScaleFactor { get; set; }
+
+        public ValueTracker<NumberHolder>? DecimalPlaces { get; set; }
 
         public ValueTracker<StringHolder>? Format { get; set; }
 
@@ -56,11 +64,15 @@
 
         public ValueTracker<TDDataSchema>? Items { get; set; }
 
+        public ValueTracker<StringHolder>? TypeRef { get; set; }
+
+        public ValueTracker<StringHolder>? Namespace { get; set; }
+
         public Dictionary<string, long> PropertyNames { get; set; } = new();
 
         public override int GetHashCode()
         {
-            return (Title, Description, Type, Const, Minimum, Maximum, Format, Pattern, ContentEncoding, AdditionalProperties, Enum, Required, ErrorMessage, Properties, Items).GetHashCode();
+            return (Title, Description, Type, Const, Minimum, Maximum, ScaleFactor, DecimalPlaces, Format, Pattern, ContentEncoding, AdditionalProperties, Enum, Required, ErrorMessage, Properties, Items, TypeRef, Namespace).GetHashCode();
         }
 
         public virtual bool Equals(TDDataSchema? other)
@@ -78,6 +90,8 @@
                     Const == other.Const &&
                     Minimum == other.Minimum &&
                     Maximum == other.Maximum &&
+                    ScaleFactor == other.ScaleFactor &&
+                    DecimalPlaces == other.DecimalPlaces &&
                     Format == other.Format &&
                     Pattern == other.Pattern &&
                     ContentEncoding == other.ContentEncoding &&
@@ -86,7 +100,9 @@
                     ((Required == null && other.Required == null) || (Required?.Elements != null && other.Required?.Elements != null && Required.Elements.SequenceEqual(other.Required.Elements))) &&
                     ErrorMessage == other.ErrorMessage &&
                     Properties?.Entries?.Count == other.Properties?.Entries?.Count && (Properties == null || Properties!.Entries!.OrderBy(kv => kv.Key).SequenceEqual(other.Properties!.Entries!.OrderBy(kv => kv.Key))) &&
-                    ((Items == null && other.Items == null) || (Items?.Equals(other.Items) ?? false));
+                    ((Items == null && other.Items == null) || (Items?.Equals(other.Items) ?? false)) &&
+                    TypeRef == other.TypeRef &&
+                    Namespace == other.Namespace;
             }
         }
 
@@ -206,6 +222,20 @@
                     yield return item;
                 }
             }
+            if (ScaleFactor != null)
+            {
+                foreach (ITraversable item in ScaleFactor.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (DecimalPlaces != null)
+            {
+                foreach (ITraversable item in DecimalPlaces.Traverse())
+                {
+                    yield return item;
+                }
+            }
             if (Format != null)
             {
                 foreach (ITraversable item in Format.Traverse())
@@ -269,6 +299,20 @@
                     yield return item;
                 }
             }
+            if (TypeRef != null)
+            {
+                foreach (ITraversable item in TypeRef.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (Namespace != null)
+            {
+                foreach (ITraversable item in Namespace.Traverse())
+                {
+                    yield return item;
+                }
+            }
         }
 
         protected static bool TryLoadPropertyValues(TDDataSchema dataSchema, string propertyName, ref Utf8JsonReader reader)
@@ -296,6 +340,12 @@
                 case MaximumName:
                     dataSchema.Maximum = ValueTracker<NumberHolder>.Deserialize(ref reader, MaximumName);
                     return true;
+                case ScaleFactorName:
+                    dataSchema.ScaleFactor = ValueTracker<NumberHolder>.Deserialize(ref reader, ScaleFactorName);
+                    return true;
+                case DecimalPlacesName:
+                    dataSchema.DecimalPlaces = ValueTracker<NumberHolder>.Deserialize(ref reader, DecimalPlacesName);
+                    return true;
                 case FormatName:
                     dataSchema.Format = ValueTracker<StringHolder>.Deserialize(ref reader, FormatName);
                     return true;
@@ -322,6 +372,12 @@
                     return true;
                 case ItemsName:
                     dataSchema.Items = ValueTracker<TDDataSchema>.Deserialize(ref reader, ItemsName);
+                    return true;
+                case TypeRefName:
+                    dataSchema.TypeRef = ValueTracker<StringHolder>.Deserialize(ref reader, TypeRefName);
+                    return true;
+                case NamespaceName:
+                    dataSchema.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
                     return true;
                 default:
                     return false;

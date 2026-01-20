@@ -8,13 +8,21 @@
     {
         public const string ReadOnlyName = "readOnly";
         public const string PlaceholderName = "dtv:placeholder";
-        public const string FormsName = "forms";
+        public const string FormsName = TDCommon.FormsName;
+        public const string ContainsName = TDCommon.ContainsName;
+        public const string ContainedInName = TDCommon.ContainedInName;
 
         public ValueTracker<BoolHolder>? ReadOnly { get; set; }
 
         public ValueTracker<BoolHolder>? Placeholder { get; set; }
 
         public ArrayTracker<TDForm>? Forms { get; set; }
+
+        public ArrayTracker<StringHolder>? Contains { get; set; }
+
+        public ValueTracker<StringHolder>? ContainedIn { get; set; }
+
+        public ValueTracker<StringHolder>? Namespace { get; set; }
 
         public virtual bool Equals(TDProperty? other)
         {
@@ -27,13 +35,16 @@
                 return base.Equals(other) &&
                        ReadOnly == other.ReadOnly &&
                        Placeholder == other.Placeholder &&
-                       Forms == other.Forms;
+                       Forms == other.Forms &&
+                       Contains == other.Contains &&
+                       ContainedIn == other.ContainedIn &&
+                       Namespace == other.Namespace;
             }
         }
 
         public override int GetHashCode()
         {
-            return (base.GetHashCode(), ReadOnly, Placeholder, Forms).GetHashCode();
+            return (base.GetHashCode(), ReadOnly, Placeholder, Forms, Contains, ContainedIn, Namespace).GetHashCode();
         }
 
         public static bool operator ==(TDProperty? left, TDProperty? right)
@@ -101,6 +112,27 @@
                     yield return item;
                 }
             }
+            if (Contains != null)
+            {
+                foreach (ITraversable item in Contains.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (ContainedIn != null)
+            {
+                foreach (ITraversable item in ContainedIn.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (Namespace != null)
+            {
+                foreach (ITraversable item in Namespace.Traverse())
+                {
+                    yield return item;
+                }
+            }
         }
 
         public static new TDProperty Deserialize(ref Utf8JsonReader reader)
@@ -132,6 +164,12 @@
                             break;
                         case FormsName:
                             prop.Forms = ArrayTracker<TDForm>.Deserialize(ref reader, FormsName);
+                            break;
+                        case ContainsName:
+                            prop.Contains = ArrayTracker<StringHolder>.Deserialize(ref reader, ContainsName);
+                            break;
+                        case ContainedInName:
+                            prop.ContainedIn = ValueTracker<StringHolder>.Deserialize(ref reader, ContainedInName);
                             break;
                         default:
                             reader.Skip();

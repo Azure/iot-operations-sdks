@@ -6,12 +6,14 @@
 
     public class TDAction : IEquatable<TDAction>, IDeserializable<TDAction>
     {
-        public const string DescriptionName = "description";
+        public const string DescriptionName = TDCommon.DescriptionName;
         public const string InputName = "input";
         public const string OutputName = "output";
         public const string IdempotentName = "idempotent";
         public const string SafeName = "safe";
-        public const string FormsName = "forms";
+        public const string FormsName = TDCommon.FormsName;
+        public const string NamespaceName = TDCommon.NamespaceName;
+        public const string MemberOfName = "aov:memberOf";
 
         public ValueTracker<StringHolder>? Description { get; set; }
 
@@ -24,6 +26,10 @@
         public ValueTracker<BoolHolder>? Safe { get; set; }
 
         public ArrayTracker<TDForm>? Forms { get; set; }
+
+        public ValueTracker<StringHolder>? Namespace { get; set; }
+
+        public ValueTracker<StringHolder>? MemberOf { get; set; }
 
         public Dictionary<string, long> PropertyNames { get; set; } = new();
 
@@ -40,13 +46,15 @@
                        Output == other.Output &&
                        Idempotent == other.Idempotent &&
                        Safe == other.Safe &&
-                       Forms == other.Forms;
+                       Forms == other.Forms &&
+                       Namespace == other.Namespace &&
+                       MemberOf == other.MemberOf;
             }
         }
 
         public override int GetHashCode()
         {
-            return (Description, Input, Output, Idempotent, Safe, Forms).GetHashCode();
+            return (Description, Input, Output, Idempotent, Safe, Forms, Namespace, MemberOf).GetHashCode();
         }
 
         public static bool operator ==(TDAction? left, TDAction? right)
@@ -130,6 +138,20 @@
                     yield return item;
                 }
             }
+            if (Namespace != null)
+            {
+                foreach (ITraversable item in Namespace.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (MemberOf != null)
+            {
+                foreach (ITraversable item in MemberOf.Traverse())
+                {
+                    yield return item;
+                }
+            }
         }
 
         public static TDAction Deserialize(ref Utf8JsonReader reader)
@@ -168,6 +190,12 @@
                         break;
                     case FormsName:
                         action.Forms = ArrayTracker<TDForm>.Deserialize(ref reader, FormsName);
+                        break;
+                    case NamespaceName:
+                        action.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
+                        break;
+                    case MemberOfName:
+                        action.MemberOf = ValueTracker<StringHolder>.Deserialize(ref reader, MemberOfName);
                         break;
                     default:
                         reader.Skip();

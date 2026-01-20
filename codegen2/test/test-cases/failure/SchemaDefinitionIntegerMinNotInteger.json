@@ -9,7 +9,7 @@
       "condition": "TypeMismatch",
       "filename": "SchemaDefinitionIntegerMinNotInteger.TM.json",
       "line": 11,
-      "cfLine": 0,
+      "cfLine": 10,
       "crossRef": ""
     }
   ]
