@@ -671,7 +671,7 @@ mod tests {
         sender.report(status1);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
-        // Send event with new version
+        // Send same event with new version
         let status2 = create_test_health_status(2);
         sender.report(status2);
         tokio::time::sleep(Duration::from_millis(50)).await;

@@ -1710,7 +1710,7 @@ impl Client {
     /// * `device_ref` - Reference to the device and endpoint.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
-    /// * `cancellation_token` - Token to signal cancellation of the background task.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on device endpoint deletion.
     ///
     /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
     #[must_use]
@@ -1736,7 +1736,7 @@ impl Client {
     /// * `dataset_name` - The name of the dataset.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
-    /// * `cancellation_token` - Token to signal cancellation of the background task.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on dataset deletion.
     ///
     /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
     #[must_use]
@@ -1768,7 +1768,7 @@ impl Client {
     /// * `event_name` - The name of the event.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
-    /// * `cancellation_token` - Token to signal cancellation of the background task.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on event deletion.
     ///
     /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
     #[must_use]
@@ -1801,7 +1801,7 @@ impl Client {
     /// * `stream_name` - The name of the stream.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
-    /// * `cancellation_token` - Token to signal cancellation of the background task.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on stream deletion.
     ///
     /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
     #[must_use]
@@ -1833,7 +1833,7 @@ impl Client {
     /// * `management_action_name` - The name of the management action.
     /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
-    /// * `cancellation_token` - Token to signal cancellation of the background task.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on management action deletion.
     ///
     /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
     #[must_use]
