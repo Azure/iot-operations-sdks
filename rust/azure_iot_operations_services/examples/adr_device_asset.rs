@@ -8,7 +8,14 @@ use azure_iot_operations_mqtt::{
     session::{Session, SessionExitHandle, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::azure_device_registry::{self, models};
+use azure_iot_operations_services::azure_device_registry::{
+    self, models,
+    health_reporter::{
+        new_health_reporter, DeviceEndpointHealthReporter, HealthReporterOptions,
+    },
+    RuntimeHealth, HealthStatus,
+};
+use tokio_util::sync::CancellationToken;
 
 // Replace these values with the actual values for your device, inbound endpoint, and asset.
 // They must be present in the Azure Device Registry Service for the example to work correctly.
@@ -64,6 +71,24 @@ async fn azure_device_registry_operations(
     azure_device_registry_client: azure_device_registry::Client,
     exit_handle: SessionExitHandle,
 ) {
+    // Create a cancellation token for health reporting
+    let health_cancellation = CancellationToken::new();
+
+    // Create a background health reporter for the device endpoint
+    let endpoint_reporter = DeviceEndpointHealthReporter::new(
+        azure_device_registry_client.clone(),
+        DEVICE_NAME.to_string(),
+        INBOUND_ENDPOINT_NAME.to_string(),
+        TIMEOUT,
+    );
+    let health_sender = new_health_reporter(
+        endpoint_reporter,
+        HealthReporterOptions {
+            report_interval: Duration::from_secs(60),
+        },
+        health_cancellation.clone(),
+    );
+
     // observe for updates for our Device + Inbound Endpoint
     match azure_device_registry_client
         .observe_device_update_notifications(
@@ -116,7 +141,7 @@ async fn azure_device_registry_operations(
     }
 
     // run device operations and log any errors
-    match device_operations(&azure_device_registry_client).await {
+    match device_operations(&azure_device_registry_client, &health_sender).await {
         Ok(()) => {
             log::info!("Device operations completed successfully");
         }
@@ -170,6 +195,10 @@ async fn azure_device_registry_operations(
         }
     }
 
+    // Cancel health reporting before shutdown
+    log::info!("Cancelling health reporter");
+    health_cancellation.cancel();
+
     match azure_device_registry_client.shutdown().await {
         Ok(()) => {
             log::info!("azure_device_registry_client shutdown successfully");
@@ -194,6 +223,7 @@ async fn azure_device_registry_operations(
 
 async fn device_operations(
     azure_device_registry_client: &azure_device_registry::Client,
+    health_sender: &azure_device_registry::health_reporter::HealthReporterSender,
 ) -> Result<(), Box<dyn std::error::Error>> {
     // Get Device + Inbound Endpoint details and send status update
     let device = azure_device_registry_client
@@ -204,6 +234,17 @@ async fn device_operations(
         )
         .await?;
     log::info!("Device details: {device:?}");
+
+    // Report healthy status for the device endpoint
+    // The background task handles deduplication and periodic re-reporting
+    health_sender.report(RuntimeHealth {
+        version: device.version.unwrap_or(0),
+        status: HealthStatus::Available,
+        message: Some("Connected and operational".to_string()),
+        reason_code: None,
+        last_update_time: chrono::Utc::now(),
+    });
+    log::info!("Reported healthy status for device endpoint");
 
     // get the current status so that we can update it in place
     let mut device_status = azure_device_registry_client

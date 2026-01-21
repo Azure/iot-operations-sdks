@@ -19,6 +19,7 @@ use crate::azure_device_registry::models::{
 };
 use crate::azure_device_registry::{
     AssetRef, AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind, RuntimeHealth,
+    health_reporter,
 };
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
@@ -1696,6 +1697,121 @@ impl Client {
         let discovery_id = response.payload.discovered_asset_response.discovery_id;
         let version = response.payload.discovered_asset_response.version;
         Ok((discovery_id, version))
+    }
+
+    // ============= Health Reporter Convenience Methods =============
+
+    /// Creates a new background health reporter for a device endpoint.
+    ///
+    /// Returns a [`HealthReporterSender`] that can be used to send health events.
+    /// The background task handles deduplication and periodic re-reporting.
+    pub fn new_device_endpoint_health_reporter(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        options: health_reporter::HealthReporterOptions,
+        timeout: Duration,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::DeviceEndpointHealthReporter::new(
+            self.clone(),
+            device_name,
+            inbound_endpoint_name,
+            timeout,
+        );
+        health_reporter::new_health_reporter(reporter, options, cancellation_token)
+    }
+
+    /// Creates a new background health reporter for a dataset.
+    pub fn new_dataset_health_reporter(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        dataset_name: String,
+        options: health_reporter::HealthReporterOptions,
+        timeout: Duration,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::DatasetHealthReporter::new(
+            self.clone(),
+            device_name,
+            inbound_endpoint_name,
+            asset_name,
+            dataset_name,
+            timeout,
+        );
+        health_reporter::new_health_reporter(reporter, options, cancellation_token)
+    }
+
+    /// Creates a new background health reporter for an event.
+    pub fn new_event_health_reporter(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        event_group_name: String,
+        event_name: String,
+        options: health_reporter::HealthReporterOptions,
+        timeout: Duration,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::EventHealthReporter::new(
+            self.clone(),
+            device_name,
+            inbound_endpoint_name,
+            asset_name,
+            event_group_name,
+            event_name,
+            timeout,
+        );
+        health_reporter::new_health_reporter(reporter, options, cancellation_token)
+    }
+
+    /// Creates a new background health reporter for a stream.
+    pub fn new_stream_health_reporter(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        stream_name: String,
+        options: health_reporter::HealthReporterOptions,
+        timeout: Duration,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::StreamHealthReporter::new(
+            self.clone(),
+            device_name,
+            inbound_endpoint_name,
+            asset_name,
+            stream_name,
+            timeout,
+        );
+        health_reporter::new_health_reporter(reporter, options, cancellation_token)
+    }
+
+    /// Creates a new background health reporter for a management action.
+    pub fn new_management_action_health_reporter(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        management_group_name: String,
+        management_action_name: String,
+        options: health_reporter::HealthReporterOptions,
+        timeout: Duration,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::ManagementActionHealthReporter::new(
+            self.clone(),
+            device_name,
+            inbound_endpoint_name,
+            asset_name,
+            management_group_name,
+            management_action_name,
+            timeout,
+        );
+        health_reporter::new_health_reporter(reporter, options, cancellation_token)
     }
 }
 
