@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "thingFiles": [ "valid/LinkOtherAovRel.TM.json" ],
+    "lang": "none"
+  }
+}

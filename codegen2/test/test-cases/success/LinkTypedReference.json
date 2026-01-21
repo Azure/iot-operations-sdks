@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "thingFiles": [ "valid/LinkTypedReference.TM.json" ],
+    "lang": "none"
+  }
+}

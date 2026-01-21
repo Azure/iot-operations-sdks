@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/ActionMemberOfWithoutAovContext.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "ActionMemberOfWithoutAovContext.TM.json",
+      "line": 10,
+      "cfLine": 2,
+      "crossRef": ""
+    }
+  ]
+}

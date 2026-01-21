@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/PropertyContainsNoProperty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "PropertyContainsNoProperty.TM.json",
+      "line": 14,
+      "cfLine": 11,
+      "crossRef": ""
+    }
+  ]
+}

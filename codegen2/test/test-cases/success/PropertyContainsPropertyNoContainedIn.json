@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "thingFiles": [ "valid/PropertyContainsPropertyNoContainedIn.TM.json" ],
+    "lang": "none"
+  }
+}

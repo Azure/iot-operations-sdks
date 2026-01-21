@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/LinkTypedReferenceNoRefType.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyMissing",
+      "filename": "LinkTypedReferenceNoRefType.TM.json",
+      "line": 10,
+      "cfLine": 11,
+      "crossRef": ""
+    }
+  ]
+}

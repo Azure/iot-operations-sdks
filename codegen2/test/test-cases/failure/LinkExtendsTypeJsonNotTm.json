@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/LinkExtendsTypeJsonNotTm.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "LinkExtendsTypeJsonNotTm.TM.json",
+      "line": 12,
+      "cfLine": 10,
+      "crossRef": ""
+    }
+  ]
+}

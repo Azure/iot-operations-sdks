@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/PropertyContainsPropertyContainedInOther.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "PropertyContainsPropertyContainedInOther.TM.json",
+      "line": 14,
+      "cfLine": 25,
+      "crossRef": ""
+    }
+  ]
+}

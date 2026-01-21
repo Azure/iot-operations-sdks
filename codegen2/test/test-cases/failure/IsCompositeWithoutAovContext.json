@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/IsCompositeWithoutAovContext.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "IsCompositeWithoutAovContext.TM.json",
+      "line": 8,
+      "cfLine": 2,
+      "crossRef": ""
+    }
+  ]
+}

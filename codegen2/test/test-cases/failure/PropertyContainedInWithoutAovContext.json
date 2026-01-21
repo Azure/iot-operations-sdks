@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/PropertyContainedInWithoutAovContext.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "PropertyContainedInWithoutAovContext.TM.json",
+      "line": 23,
+      "cfLine": 2,
+      "crossRef": ""
+    }
+  ]
+}

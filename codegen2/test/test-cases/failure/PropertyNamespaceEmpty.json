@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/PropertyNamespaceEmpty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyEmpty",
+      "filename": "PropertyNamespaceEmpty.TM.json",
+      "line": 14,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

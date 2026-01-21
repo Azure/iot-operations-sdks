@@ -22,8 +22,6 @@
 
         public ValueTracker<StringHolder>? ContainedIn { get; set; }
 
-        public ValueTracker<StringHolder>? Namespace { get; set; }
-
         public virtual bool Equals(TDProperty? other)
         {
             if (other == null)
@@ -37,14 +35,13 @@
                        Placeholder == other.Placeholder &&
                        Forms == other.Forms &&
                        Contains == other.Contains &&
-                       ContainedIn == other.ContainedIn &&
-                       Namespace == other.Namespace;
+                       ContainedIn == other.ContainedIn;
             }
         }
 
         public override int GetHashCode()
         {
-            return (base.GetHashCode(), ReadOnly, Placeholder, Forms, Contains, ContainedIn, Namespace).GetHashCode();
+            return (base.GetHashCode(), ReadOnly, Placeholder, Forms, Contains, ContainedIn).GetHashCode();
         }
 
         public static bool operator ==(TDProperty? left, TDProperty? right)
@@ -122,13 +119,6 @@
             if (ContainedIn != null)
             {
                 foreach (ITraversable item in ContainedIn.Traverse())
-                {
-                    yield return item;
-                }
-            }
-            if (Namespace != null)
-            {
-                foreach (ITraversable item in Namespace.Traverse())
                 {
                     yield return item;
                 }

@@ -647,7 +647,7 @@
                 {
                     if (link.Value.Rel.Value.Value == TDValues.RelationTypedReference)
                     {
-                        errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' is missing required '{TDLink.RefTypeName}' property.", link.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' is missing required '{TDLink.RefTypeName}' property.", link.TokenIndex, link.Value.Rel.TokenIndex);
                         hasError = true;
                     }
                 }
@@ -655,7 +655,7 @@
                 {
                     if (link.Value.Rel.Value.Value != TDValues.RelationTypedReference)
                     {
-                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' does not support '{TDLink.RefTypeName}' property.", link.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' does not support '{TDLink.RefTypeName}' property.", link.Value.RefType.TokenIndex, link.Value.Rel.TokenIndex);
                         hasError = true;
                     }
                     else if (string.IsNullOrWhiteSpace(link.Value.RefType.Value.Value))
@@ -696,7 +696,7 @@
                 {
                     if (propertyName.Key != TDLink.HrefName && propertyName.Key != TDLink.TypeName && propertyName.Key != TDLink.RelName && propertyName.Key != TDLink.RefTypeName)
                     {
-                        if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
+                        if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                         {
                             errorReporter.ReportWarning($"Link has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                         }
@@ -815,7 +815,7 @@
             {
                 if (propertyName.Key != TDAction.DescriptionName && propertyName.Key != TDAction.InputName && propertyName.Key != TDAction.OutputName && propertyName.Key != TDAction.IdempotentName && propertyName.Key != TDAction.SafeName && propertyName.Key != TDAction.FormsName && propertyName.Key != TDAction.NamespaceName && propertyName.Key != TDAction.MemberOfName)
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Action '{name}' has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -1047,6 +1047,12 @@
                     errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Event element '{TDEvent.NamespaceName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", evt.Value.Namespace.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
+
+                if (string.IsNullOrWhiteSpace(evt.Value.Namespace.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Event element '{TDProperty.NamespaceName}' property has empty value.", evt.Value.Namespace.TokenIndex);
+                    hasError = true;
+                }
             }
 
             if (evt.Value.Contains?.Elements != null)
@@ -1088,7 +1094,7 @@
             {
                 if (propertyName.Key != TDEvent.DescriptionName && propertyName.Key != TDEvent.DataName && propertyName.Key != TDEvent.PlaceholderName && propertyName.Key != TDEvent.FormsName && propertyName.Key != TDEvent.ContainsName && propertyName.Key != TDEvent.ContainedInName && propertyName.Key != TDEvent.NamespaceName)
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Event '{name}' has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -1391,7 +1397,7 @@
             {
                 if (propertyName.Key != TDForm.ContentTypeName && propertyName.Key != TDForm.AdditionalResponsesName && propertyName.Key != TDForm.HeaderInfoName && propertyName.Key != TDForm.HeaderCodeName && propertyName.Key != TDForm.ServiceGroupIdName && propertyName.Key != TDForm.TopicName && propertyName.Key != TDForm.OpName)
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Form has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -1697,7 +1703,7 @@
             {
                 if (propertyName.Key != TDSchemaReference.SuccessName && propertyName.Key != TDSchemaReference.ContentTypeName && propertyName.Key != TDSchemaReference.SchemaName)
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Schema reference has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -2006,7 +2012,7 @@
             {
                 if (propertyApprover?.Invoke(propertyName.Key) != true && !supportedProperties.Contains(propertyName.Key))
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
