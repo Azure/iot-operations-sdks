@@ -24,19 +24,19 @@
 //!
 //! ```ignore
 //! use azure_iot_operations_services::azure_device_registry::health_reporter::{
-//!     DeviceEndpointHealthReporter, HealthReporterOptions, new_health_reporter,
+//!     DeviceEndpointHealthReporter, new_health_reporter,
 //! };
 //!
 //! let reporter = DeviceEndpointHealthReporter::new(
 //!     client.clone(),
 //!     "device-name".to_string(),
 //!     "endpoint-name".to_string(),
-//!     Duration::from_secs(30),
+//!     Duration::from_secs(30), // timeout
 //! );
 //!
 //! let sender = new_health_reporter(
 //!     reporter,
-//!     HealthReporterOptions { report_interval: Duration::from_secs(60) },
+//!     Duration::from_secs(60), // report_interval
 //!     cancellation_token,
 //! );
 //!
@@ -79,13 +79,6 @@ pub trait HealthReporter: Send + Sync + 'static {
     fn report(&self, status: RuntimeHealth) -> impl Future<Output = Result<(), Error>> + Send;
 }
 
-/// Configuration options for the health reporter background task.
-#[derive(Clone, Debug)]
-pub struct HealthReporterOptions {
-    /// Interval for re-reporting steady-state health when no changes occur.
-    pub report_interval: Duration,
-}
-
 /// Handle to send health events to the background reporter task.
 ///
 /// This handle is cloneable, allowing multiple tasks to share the same reporter.
@@ -126,7 +119,7 @@ impl HealthReporterSender {
 ///
 /// # Arguments
 /// * `reporter` - The health reporter implementation to use.
-/// * `options` - Configuration options for the background task.
+/// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
 /// * `cancellation_token` - Token to signal cancellation of the background task.
 ///
 /// Returns a [`HealthReporterSender`] handle. The background task runs until:
@@ -135,14 +128,14 @@ impl HealthReporterSender {
 #[must_use]
 pub fn new_health_reporter<R: HealthReporter>(
     reporter: R,
-    options: HealthReporterOptions,
+    report_interval: Duration,
     cancellation_token: CancellationToken,
 ) -> HealthReporterSender {
     let (tx, rx) = tokio::sync::mpsc::unbounded_channel();
 
     tokio::spawn(health_reporter_task(
         reporter,
-        options,
+        report_interval,
         rx,
         cancellation_token,
     ));
@@ -153,7 +146,7 @@ pub fn new_health_reporter<R: HealthReporter>(
 /// The background task that handles health reporting.
 async fn health_reporter_task<R: HealthReporter>(
     reporter: R,
-    options: HealthReporterOptions,
+    report_interval: Duration,
     mut rx: UnboundedReceiver<Option<RuntimeHealth>>,
     cancellation_token: CancellationToken,
 ) {
@@ -171,7 +164,7 @@ async fn health_reporter_task<R: HealthReporter>(
                 &mut rx,
                 &mut current_status,
                 last_reported_time.map(|t| t.add(
-                    chrono::Duration::from_std(options.report_interval)
+                    chrono::Duration::from_std(report_interval)
                         .unwrap_or(chrono::Duration::seconds(60))
                 ))
             ) => {
@@ -180,7 +173,7 @@ async fn health_reporter_task<R: HealthReporter>(
                     Some(new_status) => current_status = new_status,
                 }
             }
-            () = tokio::time::sleep(options.report_interval) => {
+            () = tokio::time::sleep(report_interval) => {
                 // Update timestamp for steady-state re-reporting
                 if let Some(ref mut status) = current_status {
                     status.last_update_time = Utc::now();

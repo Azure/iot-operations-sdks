@@ -10,7 +10,7 @@ use azure_iot_operations_mqtt::{
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{
     self, HealthStatus, RuntimeHealth,
-    health_reporter::{DeviceEndpointHealthReporter, HealthReporterOptions, new_health_reporter},
+    health_reporter::{DeviceEndpointHealthReporter, new_health_reporter},
     models,
 };
 use tokio_util::sync::CancellationToken;
@@ -81,9 +81,7 @@ async fn azure_device_registry_operations(
     );
     let health_sender = new_health_reporter(
         endpoint_reporter,
-        HealthReporterOptions {
-            report_interval: Duration::from_secs(60),
-        },
+        Duration::from_secs(60), // report_interval
         health_cancellation.clone(),
     );
 

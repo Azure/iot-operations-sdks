@@ -1703,15 +1703,24 @@ impl Client {
 
     /// Creates a new background health reporter for a device endpoint.
     ///
-    /// Returns a [`HealthReporterSender`] that can be used to send health events.
-    /// The background task handles deduplication and periodic re-reporting.
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified device endpoint.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
     #[must_use]
     pub fn new_device_endpoint_health_reporter(
         &self,
         device_name: String,
         inbound_endpoint_name: String,
-        options: health_reporter::HealthReporterOptions,
         timeout: Duration,
+        report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
         let reporter = health_reporter::DeviceEndpointHealthReporter::new(
@@ -1720,10 +1729,24 @@ impl Client {
             inbound_endpoint_name,
             timeout,
         );
-        health_reporter::new_health_reporter(reporter, options, cancellation_token)
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 
     /// Creates a new background health reporter for a dataset.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified dataset within an asset.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset containing the dataset.
+    /// * `dataset_name` - The name of the dataset.
+    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
     #[must_use]
     pub fn new_dataset_health_reporter(
         &self,
@@ -1731,8 +1754,8 @@ impl Client {
         inbound_endpoint_name: String,
         asset_name: String,
         dataset_name: String,
-        options: health_reporter::HealthReporterOptions,
         timeout: Duration,
+        report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
         let reporter = health_reporter::DatasetHealthReporter::new(
@@ -1743,10 +1766,25 @@ impl Client {
             dataset_name,
             timeout,
         );
-        health_reporter::new_health_reporter(reporter, options, cancellation_token)
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 
     /// Creates a new background health reporter for an event.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified event within an asset.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset containing the event.
+    /// * `event_group_name` - The name of the event group.
+    /// * `event_name` - The name of the event.
+    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
     #[must_use]
     pub fn new_event_health_reporter(
         &self,
@@ -1755,8 +1793,8 @@ impl Client {
         asset_name: String,
         event_group_name: String,
         event_name: String,
-        options: health_reporter::HealthReporterOptions,
         timeout: Duration,
+        report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
         let reporter = health_reporter::EventHealthReporter::new(
@@ -1768,10 +1806,24 @@ impl Client {
             event_name,
             timeout,
         );
-        health_reporter::new_health_reporter(reporter, options, cancellation_token)
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 
     /// Creates a new background health reporter for a stream.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified stream within an asset.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset containing the stream.
+    /// * `stream_name` - The name of the stream.
+    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
     #[must_use]
     pub fn new_stream_health_reporter(
         &self,
@@ -1779,8 +1831,8 @@ impl Client {
         inbound_endpoint_name: String,
         asset_name: String,
         stream_name: String,
-        options: health_reporter::HealthReporterOptions,
         timeout: Duration,
+        report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
         let reporter = health_reporter::StreamHealthReporter::new(
@@ -1791,10 +1843,25 @@ impl Client {
             stream_name,
             timeout,
         );
-        health_reporter::new_health_reporter(reporter, options, cancellation_token)
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 
     /// Creates a new background health reporter for a management action.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified management action within an asset.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset containing the management action.
+    /// * `management_group_name` - The name of the management group.
+    /// * `management_action_name` - The name of the management action.
+    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
     #[must_use]
     pub fn new_management_action_health_reporter(
         &self,
@@ -1803,8 +1870,8 @@ impl Client {
         asset_name: String,
         management_group_name: String,
         management_action_name: String,
-        options: health_reporter::HealthReporterOptions,
         timeout: Duration,
+        report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
         let reporter = health_reporter::ManagementActionHealthReporter::new(
@@ -1816,7 +1883,7 @@ impl Client {
             management_action_name,
             timeout,
         );
-        health_reporter::new_health_reporter(reporter, options, cancellation_token)
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 }
 
