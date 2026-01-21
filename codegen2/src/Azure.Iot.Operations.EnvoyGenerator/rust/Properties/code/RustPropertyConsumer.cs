@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         public RustPropertyConsumer(
             string propertyName,
             CodeName propSchema,
-            string compnentName,
+            string componentName,
             string readCommandName,
             string writeCommandName,
             CodeName genNamespace,
@@ -54,7 +54,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         {
             this.propertyName = new CodeName(propertyName);
             this.propSchema = propSchema;
-            this.componentName = new CodeName(compnentName);
+            this.componentName = new CodeName(componentName);
             this.readCommandName = readCommandName;
             this.writeCommandName = writeCommandName;
             this.genNamespace = genNamespace;

@@ -6,7 +6,7 @@
     using Azure.Iot.Operations.ProtocolCompilerLib;
 
     /// <summary>
-    /// Custom arguemnt binder for CLI.
+    /// Custom argument binder for CLI.
     /// </summary>
     public class ArgBinder : BinderBase<OptionContainer>
     {
