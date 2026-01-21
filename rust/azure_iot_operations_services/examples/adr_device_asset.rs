@@ -10,7 +10,6 @@ use azure_iot_operations_mqtt::{
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{
     self, HealthStatus, RuntimeHealth,
-    health_reporter::{DeviceEndpointHealthReporter, new_health_reporter},
     models,
     models::DeviceRef,
 };
@@ -79,14 +78,10 @@ async fn azure_device_registry_operations(
         device_name: DEVICE_NAME.to_string(),
         endpoint_name: INBOUND_ENDPOINT_NAME.to_string(),
     };
-    let endpoint_reporter = DeviceEndpointHealthReporter::new(
-        azure_device_registry_client.clone(),
+    let endpoint_reporter = azure_device_registry_client.new_device_endpoint_health_reporter(
         device_ref,
         TIMEOUT,
-    );
-    let health_sender = new_health_reporter(
-        endpoint_reporter,
-        HEALTH_REPORTING_INTERVAL, // report_interval
+        HEALTH_REPORTING_INTERVAL,
         health_cancellation.clone(),
     );
 
@@ -142,7 +137,7 @@ async fn azure_device_registry_operations(
     }
 
     // run device operations and log any errors
-    match device_operations(&azure_device_registry_client, &health_sender).await {
+    match device_operations(&azure_device_registry_client, &endpoint_reporter).await {
         Ok(()) => {
             log::info!("Device operations completed successfully");
         }

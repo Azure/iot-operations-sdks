@@ -13,34 +13,34 @@
 //! - [`HealthReporter`] trait - Implement this for custom health reporting components.
 //! - [`new_health_reporter`] - Spawns a background task that handles health reporting.
 //! - [`HealthReporterSender`] - Handle to send health events to the background task.
-//! - Convenience reporters for common components:
-//!   - [`DeviceEndpointHealthReporter`]
-//!   - [`DatasetHealthReporter`]
-//!   - [`EventHealthReporter`]
-//!   - [`StreamHealthReporter`]
-//!   - [`ManagementActionHealthReporter`]
+//! - Convenience methods on [`Client`](super::Client) for creating health reporters:
+//!   - [`Client::new_device_endpoint_health_reporter`](super::Client::new_device_endpoint_health_reporter)
+//!   - [`Client::new_dataset_health_reporter`](super::Client::new_dataset_health_reporter)
+//!   - [`Client::new_event_health_reporter`](super::Client::new_event_health_reporter)
+//!   - [`Client::new_stream_health_reporter`](super::Client::new_stream_health_reporter)
+//!   - [`Client::new_management_action_health_reporter`](super::Client::new_management_action_health_reporter)
 //!
 //! # Example
 //!
 //! ```ignore
 //! use azure_iot_operations_services::azure_device_registry::{
-//!     health_reporter::{DeviceEndpointHealthReporter, new_health_reporter},
+//!     Client, HealthStatus, RuntimeHealth,
 //!     models::DeviceRef,
 //! };
+//! use tokio_util::sync::CancellationToken;
+//! use std::time::Duration;
 //!
 //! let device_ref = DeviceRef {
 //!     device_name: "device-name".to_string(),
 //!     endpoint_name: "endpoint-name".to_string(),
 //! };
 //!
-//! let reporter = DeviceEndpointHealthReporter::new(
-//!     client.clone(),
-//!     device_ref,
-//!     Duration::from_secs(30), // message expiry
-//! );
+//! let cancellation_token = CancellationToken::new();
 //!
-//! let sender = new_health_reporter(
-//!     reporter,
+//! // Create a background health reporter using the Client convenience method
+//! let sender = client.new_device_endpoint_health_reporter(
+//!     device_ref,
+//!     Duration::from_secs(30), // message_expiry
 //!     Duration::from_secs(60), // report_interval
 //!     cancellation_token,
 //! );
@@ -264,28 +264,14 @@ async fn health_recv(
 ///
 /// Reports runtime health status for a specific device endpoint to the
 /// Azure Device Registry service.
+///
+/// Use [`Client::new_device_endpoint_health_reporter`](super::Client::new_device_endpoint_health_reporter)
+/// to create instances.
 #[derive(Clone)]
-pub struct DeviceEndpointHealthReporter {
-    client: Client,
-    device_ref: DeviceRef,
-    message_expiry: Duration,
-}
-
-impl DeviceEndpointHealthReporter {
-    /// Creates a new [`DeviceEndpointHealthReporter`].
-    ///
-    /// # Arguments
-    /// * `client` - The Azure Device Registry client.
-    /// * `device_ref` - Reference to the device and endpoint.
-    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
-    #[must_use]
-    pub fn new(client: Client, device_ref: DeviceRef, message_expiry: Duration) -> Self {
-        Self {
-            client,
-            device_ref,
-            message_expiry,
-        }
-    }
+pub(super) struct DeviceEndpointHealthReporter {
+    pub(super) client: Client,
+    pub(super) device_ref: DeviceRef,
+    pub(super) message_expiry: Duration,
 }
 
 impl HealthReporter for DeviceEndpointHealthReporter {
@@ -305,36 +291,15 @@ impl HealthReporter for DeviceEndpointHealthReporter {
 ///
 /// Reports runtime health status for a specific dataset within an asset to the
 /// Azure Device Registry service.
+///
+/// Use [`Client::new_dataset_health_reporter`](super::Client::new_dataset_health_reporter)
+/// to create instances.
 #[derive(Clone)]
-pub struct DatasetHealthReporter {
-    client: Client,
-    asset_ref: AssetRef,
-    dataset_name: String,
-    message_expiry: Duration,
-}
-
-impl DatasetHealthReporter {
-    /// Creates a new [`DatasetHealthReporter`].
-    ///
-    /// # Arguments
-    /// * `client` - The Azure Device Registry client.
-    /// * `asset_ref` - Reference to the asset containing the dataset.
-    /// * `dataset_name` - The name of the dataset.
-    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
-    #[must_use]
-    pub fn new(
-        client: Client,
-        asset_ref: AssetRef,
-        dataset_name: String,
-        message_expiry: Duration,
-    ) -> Self {
-        Self {
-            client,
-            asset_ref,
-            dataset_name,
-            message_expiry,
-        }
-    }
+pub(super) struct DatasetHealthReporter {
+    pub(super) client: Client,
+    pub(super) asset_ref: AssetRef,
+    pub(super) dataset_name: String,
+    pub(super) message_expiry: Duration,
 }
 
 impl HealthReporter for DatasetHealthReporter {
@@ -358,40 +323,16 @@ impl HealthReporter for DatasetHealthReporter {
 ///
 /// Reports runtime health status for a specific event within an asset to the
 /// Azure Device Registry service.
+///
+/// Use [`Client::new_event_health_reporter`](super::Client::new_event_health_reporter)
+/// to create instances.
 #[derive(Clone)]
-pub struct EventHealthReporter {
-    client: Client,
-    asset_ref: AssetRef,
-    event_group_name: String,
-    event_name: String,
-    message_expiry: Duration,
-}
-
-impl EventHealthReporter {
-    /// Creates a new [`EventHealthReporter`].
-    ///
-    /// # Arguments
-    /// * `client` - The Azure Device Registry client.
-    /// * `asset_ref` - Reference to the asset containing the event.
-    /// * `event_group_name` - The name of the event group.
-    /// * `event_name` - The name of the event.
-    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
-    #[must_use]
-    pub fn new(
-        client: Client,
-        asset_ref: AssetRef,
-        event_group_name: String,
-        event_name: String,
-        message_expiry: Duration,
-    ) -> Self {
-        Self {
-            client,
-            asset_ref,
-            event_group_name,
-            event_name,
-            message_expiry,
-        }
-    }
+pub(super) struct EventHealthReporter {
+    pub(super) client: Client,
+    pub(super) asset_ref: AssetRef,
+    pub(super) event_group_name: String,
+    pub(super) event_name: String,
+    pub(super) message_expiry: Duration,
 }
 
 impl HealthReporter for EventHealthReporter {
@@ -416,36 +357,15 @@ impl HealthReporter for EventHealthReporter {
 ///
 /// Reports runtime health status for a specific stream within an asset to the
 /// Azure Device Registry service.
+///
+/// Use [`Client::new_stream_health_reporter`](super::Client::new_stream_health_reporter)
+/// to create instances.
 #[derive(Clone)]
-pub struct StreamHealthReporter {
-    client: Client,
-    asset_ref: AssetRef,
-    stream_name: String,
-    message_expiry: Duration,
-}
-
-impl StreamHealthReporter {
-    /// Creates a new [`StreamHealthReporter`].
-    ///
-    /// # Arguments
-    /// * `client` - The Azure Device Registry client.
-    /// * `asset_ref` - Reference to the asset containing the stream.
-    /// * `stream_name` - The name of the stream.
-    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
-    #[must_use]
-    pub fn new(
-        client: Client,
-        asset_ref: AssetRef,
-        stream_name: String,
-        message_expiry: Duration,
-    ) -> Self {
-        Self {
-            client,
-            asset_ref,
-            stream_name,
-            message_expiry,
-        }
-    }
+pub(super) struct StreamHealthReporter {
+    pub(super) client: Client,
+    pub(super) asset_ref: AssetRef,
+    pub(super) stream_name: String,
+    pub(super) message_expiry: Duration,
 }
 
 impl HealthReporter for StreamHealthReporter {
@@ -469,40 +389,16 @@ impl HealthReporter for StreamHealthReporter {
 ///
 /// Reports runtime health status for a specific management action within an asset to the
 /// Azure Device Registry service.
+///
+/// Use [`Client::new_management_action_health_reporter`](super::Client::new_management_action_health_reporter)
+/// to create instances.
 #[derive(Clone)]
-pub struct ManagementActionHealthReporter {
-    client: Client,
-    asset_ref: AssetRef,
-    management_group_name: String,
-    management_action_name: String,
-    message_expiry: Duration,
-}
-
-impl ManagementActionHealthReporter {
-    /// Creates a new [`ManagementActionHealthReporter`].
-    ///
-    /// # Arguments
-    /// * `client` - The Azure Device Registry client.
-    /// * `asset_ref` - Reference to the asset containing the management action.
-    /// * `management_group_name` - The name of the management group.
-    /// * `management_action_name` - The name of the management action.
-    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
-    #[must_use]
-    pub fn new(
-        client: Client,
-        asset_ref: AssetRef,
-        management_group_name: String,
-        management_action_name: String,
-        message_expiry: Duration,
-    ) -> Self {
-        Self {
-            client,
-            asset_ref,
-            management_group_name,
-            management_action_name,
-            message_expiry,
-        }
-    }
+pub(super) struct ManagementActionHealthReporter {
+    pub(super) client: Client,
+    pub(super) asset_ref: AssetRef,
+    pub(super) management_group_name: String,
+    pub(super) management_action_name: String,
+    pub(super) message_expiry: Duration,
 }
 
 impl HealthReporter for ManagementActionHealthReporter {

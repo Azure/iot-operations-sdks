@@ -1721,8 +1721,11 @@ impl Client {
         report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
-        let reporter =
-            health_reporter::DeviceEndpointHealthReporter::new(self.clone(), device_ref, message_expiry);
+        let reporter = health_reporter::DeviceEndpointHealthReporter {
+            client: self.clone(),
+            device_ref,
+            message_expiry,
+        };
         health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 
@@ -1748,12 +1751,12 @@ impl Client {
         report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
-        let reporter = health_reporter::DatasetHealthReporter::new(
-            self.clone(),
+        let reporter = health_reporter::DatasetHealthReporter {
+            client: self.clone(),
             asset_ref,
             dataset_name,
             message_expiry,
-        );
+        };
         health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 
@@ -1781,13 +1784,13 @@ impl Client {
         report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
-        let reporter = health_reporter::EventHealthReporter::new(
-            self.clone(),
+        let reporter = health_reporter::EventHealthReporter {
+            client: self.clone(),
             asset_ref,
             event_group_name,
             event_name,
             message_expiry,
-        );
+        };
         health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 
@@ -1813,12 +1816,12 @@ impl Client {
         report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
-        let reporter = health_reporter::StreamHealthReporter::new(
-            self.clone(),
+        let reporter = health_reporter::StreamHealthReporter {
+            client: self.clone(),
             asset_ref,
             stream_name,
             message_expiry,
-        );
+        };
         health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 
@@ -1846,13 +1849,13 @@ impl Client {
         report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
-        let reporter = health_reporter::ManagementActionHealthReporter::new(
-            self.clone(),
+        let reporter = health_reporter::ManagementActionHealthReporter {
+            client: self.clone(),
             asset_ref,
             management_group_name,
             management_action_name,
             message_expiry,
-        );
+        };
         health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 }
