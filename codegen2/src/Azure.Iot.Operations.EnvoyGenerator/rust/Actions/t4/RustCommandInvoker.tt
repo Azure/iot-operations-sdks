@@ -201,7 +201,7 @@ impl <#=this.componentName.GetTypeName(TargetLanguage.Rust)#>
                         payload: <#=this.normalResultSchema.GetTypeName(TargetLanguage.Rust)#> {
 <# foreach (CodeName normalResultField in this.normalResultFields) { #>
 <# if (this.normalRequiredFields.Contains(normalResultField)) { #>
-                            <#=normalResultField.GetFieldName(TargetLanguage.Rust)#>: response.payload.<#=normalResultField.GetFieldName(TargetLanguage.Rust)#>.ok_or(<#=this.componentName.GetTypeName(TargetLanguage.Rust)#>::<C>::get_err("<#=normalResultField.AsGiven#>"))?,
+                            <#=normalResultField.GetFieldName(TargetLanguage.Rust)#>: response.payload.<#=normalResultField.GetFieldName(TargetLanguage.Rust)#>.ok_or(<#=this.componentName.GetTypeName(TargetLanguage.Rust)#>::get_err("<#=normalResultField.AsGiven#>"))?,
 <# } else { #>
                             <#=normalResultField.GetFieldName(TargetLanguage.Rust)#>: response.payload.<#=normalResultField.GetFieldName(TargetLanguage.Rust)#>,
 <# } #>
