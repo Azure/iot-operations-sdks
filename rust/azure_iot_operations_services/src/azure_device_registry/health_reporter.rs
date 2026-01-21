@@ -673,19 +673,27 @@ mod tests {
 
         // Send initial event
         let status = create_available_health_status(1);
+        let mut last_reported_time = status.last_update_time;
         sender.report(status);
 
         // Wait for initial report
         tokio::time::sleep(Duration::from_millis(50)).await;
         assert_eq!(mock_reporter.get_call_count(), 1);
+        assert_eq!(
+            mock_reporter.get_reported_events()[0].last_update_time,
+            last_reported_time
+        );
 
         // Wait past first interval - should re-report
         tokio::time::sleep(report_interval + Duration::from_millis(50)).await;
         assert!(mock_reporter.get_call_count() >= 2);
+        assert!(mock_reporter.get_reported_events()[1].last_update_time > last_reported_time);
+        last_reported_time = mock_reporter.get_reported_events()[1].last_update_time;
 
         // Wait past second interval - should re-report again
         tokio::time::sleep(report_interval + Duration::from_millis(50)).await;
         assert!(mock_reporter.get_call_count() >= 3);
+        assert!(mock_reporter.get_reported_events()[2].last_update_time > last_reported_time);
 
         // Cleanup
         cancellation_token.cancel();
@@ -729,7 +737,7 @@ mod tests {
 
         let sender = new_health_reporter(
             mock_reporter.clone(),
-            Duration::from_secs(60),
+            Duration::from_millis(100), // Short interval for testing
             cancellation_token.clone(),
         );
 
@@ -740,13 +748,17 @@ mod tests {
 
         assert_eq!(mock_reporter.get_call_count(), 1);
 
+        // Wait for one interval to ensure background reporting is working
+        tokio::time::sleep(Duration::from_millis(100)).await;
+        assert!(mock_reporter.get_call_count() > 1);
+
         // Drop the sender
         drop(sender);
-        tokio::time::sleep(Duration::from_millis(50)).await;
+        tokio::time::sleep(Duration::from_millis(100)).await;
 
         // Task should have stopped - verify by checking it doesn't panic
         // and the call count remains the same
-        assert_eq!(mock_reporter.get_call_count(), 1);
+        assert_eq!(mock_reporter.get_call_count(), 2);
 
         // Cleanup
         cancellation_token.cancel();
@@ -786,7 +798,11 @@ mod tests {
         tokio::time::sleep(Duration::from_millis(50)).await;
 
         // Verify reporting resumed
-        assert!(mock_reporter.get_call_count() > count_after_pause);
+        assert!(mock_reporter.get_call_count() == count_after_pause + 1);
+
+        // Verify periodic reporting resumes
+        tokio::time::sleep(Duration::from_millis(150)).await;
+        assert!(mock_reporter.get_call_count() > count_after_pause + 1);
 
         // Cleanup
         cancellation_token.cancel();
