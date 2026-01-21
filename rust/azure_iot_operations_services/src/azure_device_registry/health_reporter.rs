@@ -453,12 +453,22 @@ mod tests {
         }
     }
 
-    fn create_test_health_status(version: u64) -> RuntimeHealth {
+    fn create_available_health_status(version: u64) -> RuntimeHealth {
         RuntimeHealth {
             version,
             status: super::super::HealthStatus::Available,
-            message: Some("test".to_string()),
+            message: None,
             reason_code: None,
+            last_update_time: chrono::Utc::now(),
+        }
+    }
+
+    fn create_unavailable_health_status(version: u64) -> RuntimeHealth {
+        RuntimeHealth {
+            version,
+            status: super::super::HealthStatus::Unavailable,
+            message: Some("Unavailable".to_string()),
+            reason_code: Some("UNAVAIL".to_string()),
             last_update_time: chrono::Utc::now(),
         }
     }
@@ -475,7 +485,7 @@ mod tests {
         );
 
         // Send a health event
-        let status = create_test_health_status(1);
+        let status = create_available_health_status(1);
         sender.report(status.clone());
 
         // Give the background task time to process
@@ -502,11 +512,15 @@ mod tests {
             cancellation_token.clone(),
         );
 
-        // Send the same health event multiple times rapidly
-        let status = create_test_health_status(1);
+        // Send the same health event multiple times rapidly, with only the timestamp changing
+        let mut status = create_available_health_status(1);
         sender.report(status.clone());
+        tokio::time::sleep(Duration::from_millis(10)).await;
+        status.last_update_time = Utc::now();
         sender.report(status.clone());
-        sender.report(status.clone());
+        tokio::time::sleep(Duration::from_millis(10)).await;
+        status.last_update_time = Utc::now();
+        sender.report(status);
 
         // Give the background task time to process
         tokio::time::sleep(Duration::from_millis(100)).await;
@@ -519,7 +533,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn test_background_task_reports_changed_status() {
+    async fn test_background_task_reports_changed_status_to_unavailable() {
         let mock_reporter = MockHealthReporter::new();
         let cancellation_token = CancellationToken::new();
 
@@ -529,15 +543,13 @@ mod tests {
             cancellation_token.clone(),
         );
 
-        // Send initial event
-        let mut status1 = create_test_health_status(1);
-        status1.status = super::super::HealthStatus::Available;
+        // Send initial event available
+        let status1 = create_available_health_status(1);
         sender.report(status1);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
-        // Send event with changed status (same version)
-        let mut status2 = create_test_health_status(1);
-        status2.status = super::super::HealthStatus::Unavailable;
+        // Send event with changed status to unavailable (same version)
+        let status2 = create_unavailable_health_status(1);
         sender.report(status2);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
@@ -546,6 +558,37 @@ mod tests {
         assert_eq!(events.len(), 2);
         assert_eq!(events[0].status, super::super::HealthStatus::Available);
         assert_eq!(events[1].status, super::super::HealthStatus::Unavailable);
+
+        // Cleanup
+        cancellation_token.cancel();
+    }
+
+    #[tokio::test]
+    async fn test_background_task_reports_changed_status_to_available() {
+        let mock_reporter = MockHealthReporter::new();
+        let cancellation_token = CancellationToken::new();
+
+        let sender = new_health_reporter(
+            mock_reporter.clone(),
+            Duration::from_secs(60),
+            cancellation_token.clone(),
+        );
+
+        // Send initial event unavailable
+        let status1 = create_unavailable_health_status(1);
+        sender.report(status1);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Send event with changed status to available (same version)
+        let status2 = create_available_health_status(1);
+        sender.report(status2);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Verify both events were reported
+        let events = mock_reporter.get_reported_events();
+        assert_eq!(events.len(), 2);
+        assert_eq!(events[0].status, super::super::HealthStatus::Unavailable);
+        assert_eq!(events[1].status, super::super::HealthStatus::Available);
 
         // Cleanup
         cancellation_token.cancel();
@@ -563,12 +606,12 @@ mod tests {
         );
 
         // Send initial event
-        let status1 = create_test_health_status(1);
+        let status1 = create_available_health_status(1);
         sender.report(status1);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
         // Send same event with new version
-        let status2 = create_test_health_status(2);
+        let status2 = create_available_health_status(2);
         sender.report(status2);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
@@ -594,13 +637,13 @@ mod tests {
         );
 
         // Send initial event
-        let mut status1 = create_test_health_status(1);
+        let mut status1 = create_unavailable_health_status(1);
         status1.message = Some("message1".to_string());
         sender.report(status1);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
         // Send event with changed message (same version)
-        let mut status2 = create_test_health_status(1);
+        let mut status2 = create_unavailable_health_status(1);
         status2.message = Some("message2".to_string());
         sender.report(status2);
         tokio::time::sleep(Duration::from_millis(50)).await;
@@ -629,7 +672,7 @@ mod tests {
         );
 
         // Send initial event
-        let status = create_test_health_status(1);
+        let status = create_available_health_status(1);
         sender.report(status);
 
         // Wait for initial report
@@ -660,7 +703,7 @@ mod tests {
         );
 
         // Send initial event
-        let status = create_test_health_status(1);
+        let status = create_available_health_status(1);
         sender.report(status);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
@@ -671,7 +714,7 @@ mod tests {
         tokio::time::sleep(Duration::from_millis(50)).await;
 
         // Send another event - should not be reported since task is cancelled
-        let status2 = create_test_health_status(2);
+        let status2 = create_available_health_status(2);
         sender.report(status2);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
@@ -691,7 +734,7 @@ mod tests {
         );
 
         // Send initial event
-        let status = create_test_health_status(1);
+        let status = create_available_health_status(1);
         sender.report(status);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
@@ -721,7 +764,7 @@ mod tests {
         );
 
         // Send initial event
-        let status = create_test_health_status(1);
+        let status = create_available_health_status(1);
         sender.report(status);
         tokio::time::sleep(Duration::from_millis(50)).await;
         assert_eq!(mock_reporter.get_call_count(), 1);
@@ -738,7 +781,7 @@ mod tests {
         assert_eq!(mock_reporter.get_call_count(), count_after_pause);
 
         // Resume by sending a new event
-        let status2 = create_test_health_status(2);
+        let status2 = create_available_health_status(2);
         sender.report(status2);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
@@ -761,12 +804,12 @@ mod tests {
         );
 
         // Send event with version 2 first
-        let status2 = create_test_health_status(2);
+        let status2 = create_available_health_status(2);
         sender.report(status2);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
         // Send stale event with version 1 - should be skipped
-        let status1 = create_test_health_status(1);
+        let status1 = create_available_health_status(1);
         sender.report(status1);
         tokio::time::sleep(Duration::from_millis(50)).await;
 
