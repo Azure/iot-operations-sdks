@@ -4,7 +4,7 @@
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 <# if (this.readRespSchema != null || this.writeRespSchema != null) { #>
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
@@ -137,23 +137,17 @@ impl <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "response", 
 <# } else { #>
 /// Read responder for a Property collection
 <# } #>
-pub struct <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "read", "responder")#><C>(
-    rpc_command::Executor<<#=this.readSerializerEmptyType.GetTypeName(TargetLanguage.Rust)#>, <#=this.readRespSchema.GetTypeName(TargetLanguage.Rust)#>, C>,
-)
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static;
+pub struct <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "read", "responder")#>(
+    rpc_command::Executor<<#=this.readSerializerEmptyType.GetTypeName(TargetLanguage.Rust)#>, <#=this.readRespSchema.GetTypeName(TargetLanguage.Rust)#>>,
+);
 
-impl<C> <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "read", "responder")#><C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
+impl <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "read", "responder")#>
 {
     /// Creates a new [`<#=this.propertyName.GetTypeName(TargetLanguage.Rust, "read", "responder")#>`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandExecutorOptions) -> Self {
+    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandExecutorOptions) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
@@ -207,23 +201,17 @@ where
 <# } else { #>
 /// Write responder for a Property collection
 <# } #>
-pub struct <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "responder")#><C>(
-    rpc_command::Executor<<#=this.writeReqSchema.GetTypeName(TargetLanguage.Rust)#>, <#=((ITypeName)this.writeRespSchema ?? this.writeSerializerEmptyType).GetTypeName(TargetLanguage.Rust)#>, C>,
-)
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static;
+pub struct <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "responder")#>(
+    rpc_command::Executor<<#=this.writeReqSchema.GetTypeName(TargetLanguage.Rust)#>, <#=((ITypeName)this.writeRespSchema ?? this.writeSerializerEmptyType).GetTypeName(TargetLanguage.Rust)#>>,
+);
 
-impl<C> <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "responder")#><C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
+impl <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "responder")#>
 {
     /// Creates a new [`<#=this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "responder")#>`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandExecutorOptions) -> Self {
+    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandExecutorOptions) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
