@@ -8,6 +8,7 @@ use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Ar
 use azure_iot_operations_services::{
     azure_device_registry::{
         self, RuntimeHealth,
+        health_reporter::HealthReporterSender,
         models::{self as adr_models, Asset},
     },
     schema_registry,
@@ -65,7 +66,7 @@ pub struct DeviceEndpointStatusReporter {
     connector_context: Arc<ConnectorContext>,
     device_endpoint_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     device_endpoint_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
-    health_tx: UnboundedSender<Option<RuntimeHealth>>,
+    health_sender: HealthReporterSender,
     device_endpoint_ref: DeviceEndpointRef,
     snapshotted_version: u64,
 }
@@ -89,18 +90,13 @@ impl DeviceEndpointStatusReporter {
             status: health_event.status,
             version: self.snapshotted_version,
         };
-        if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
-            // should not be possible unless the device is deleted I think?
-            log::warn!("Health event receiver closed");
-        }
+        self.health_sender.report(runtime_health);
     }
 
     /// Pauses background health event reporting until a new event is reported.
     /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
     pub fn pause_health_reporting(&self) {
-        if let Err(_e) = self.health_tx.send(None) {
-            log::warn!("Health event receiver closed");
-        }
+        self.health_sender.pause();
     }
 
     /// Snapshots the current specification version for use in future health events.
@@ -628,9 +624,9 @@ pub struct DeviceEndpointClient {
     /// Flag to track if asset creation is in progress
     #[getter(skip)]
     pending_asset_creation: bool,
-    /// Channel for sending health event updates
+    /// Health reporter sender for sending health events
     #[getter(skip)]
-    health_tx: UnboundedSender<Option<RuntimeHealth>>,
+    health_sender: HealthReporterSender,
     /// Cancellation token for health reporting task - cancelled on deletion
     #[getter(skip)]
     health_cancellation_token: CancellationToken,
@@ -659,9 +655,9 @@ impl DeviceEndpointClient {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
 
         let health_cancellation_token = CancellationToken::new();
-        let health_tx = health_event::new_health_sender(
-            connector_context.clone(),
-            device_endpoint_ref.clone(),
+        let health_sender = health_event::new_device_endpoint_health_sender(
+            &connector_context,
+            &device_endpoint_ref,
             health_cancellation_token.clone(),
         );
         Ok(DeviceEndpointClient {
@@ -681,7 +677,7 @@ impl DeviceEndpointClient {
             device_update_observation,
             asset_create_observation,
             pending_asset_creation: false,
-            health_tx,
+            health_sender,
             _health_cancellation_guard: health_cancellation_token.clone().drop_guard(),
             health_cancellation_token,
             asset_completion_rx,
@@ -812,7 +808,7 @@ impl DeviceEndpointClient {
             connector_context: self.connector_context.clone(),
             device_endpoint_status: self.status.clone(),
             device_endpoint_specification: self.specification.clone(),
-            health_tx: self.health_tx.clone(),
+            health_sender: self.health_sender.clone(),
             device_endpoint_ref: self.device_endpoint_ref.clone(),
             snapshotted_version,
         }
@@ -1981,7 +1977,7 @@ pub struct DataOperationStatusReporter {
     connector_context: Arc<ConnectorContext>,
     asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
     asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
-    health_tx: UnboundedSender<Option<RuntimeHealth>>,
+    health_sender: HealthReporterSender,
     data_operation_ref: DataOperationRef,
     asset_ref: AssetRef,
     snapshotted_version: u64,
@@ -2006,17 +2002,13 @@ impl DataOperationStatusReporter {
             status: health_event.status,
             version: self.snapshotted_version,
         };
-        if let Err(_e) = self.health_tx.send(Some(runtime_health)) {
-            log::warn!("Health event receiver closed");
-        }
+        self.health_sender.report(runtime_health);
     }
 
     /// Pauses background health event reporting until a new event is reported.
     /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
     pub fn pause_health_reporting(&self) {
-        if let Err(_e) = self.health_tx.send(None) {
-            log::warn!("Health event receiver closed");
-        }
+        self.health_sender.pause();
     }
 
     /// Snapshots the current asset specification version for use in future health events.
@@ -2280,9 +2272,9 @@ pub struct DataOperationClient {
     /// fully processed or not.
     #[getter(skip)]
     data_operation_update_watcher_rx: watch::Receiver<DataOperationUpdateNotification>,
-    /// Channel for sending health event updates
+    /// Health reporter sender for sending health events
     #[getter(skip)]
-    health_tx: UnboundedSender<Option<RuntimeHealth>>,
+    health_sender: HealthReporterSender,
     /// Cancellation token for health reporting task - cancelled on deletion
     #[getter(skip)]
     health_cancellation_token: CancellationToken,
@@ -2373,9 +2365,9 @@ impl DataOperationClient {
             log::error!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
         })?;
         let health_cancellation_token = CancellationToken::new();
-        let health_tx = health_event::new_health_sender(
-            connector_context.clone(),
-            data_operation_ref.clone(),
+        let health_sender = health_event::new_data_operation_health_sender(
+            &connector_context,
+            &data_operation_ref,
             health_cancellation_token.clone(),
         );
         Ok(Self {
@@ -2389,7 +2381,7 @@ impl DataOperationClient {
             connector_context,
             asset_ref,
             data_operation_update_watcher_rx,
-            health_tx,
+            health_sender,
             _health_cancellation_guard: health_cancellation_token.clone().drop_guard(),
             health_cancellation_token,
         })
@@ -3073,7 +3065,7 @@ impl DataOperationClient {
             connector_context: self.connector_context.clone(),
             asset_status: self.asset_status.clone(),
             asset_specification: self.asset_specification.clone(),
-            health_tx: self.health_tx.clone(),
+            health_sender: self.health_sender.clone(),
             data_operation_ref: self.data_operation_ref.clone(),
             asset_ref: self.asset_ref.clone(),
             snapshotted_version,
