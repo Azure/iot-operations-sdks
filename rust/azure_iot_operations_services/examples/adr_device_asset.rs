@@ -12,6 +12,7 @@ use azure_iot_operations_services::azure_device_registry::{
     self, HealthStatus, RuntimeHealth,
     health_reporter::{DeviceEndpointHealthReporter, new_health_reporter},
     models,
+    models::DeviceRef,
 };
 use tokio_util::sync::CancellationToken;
 
@@ -73,10 +74,13 @@ async fn azure_device_registry_operations(
     let health_cancellation = CancellationToken::new();
 
     // Create a background health reporter for the device endpoint
+    let device_ref = DeviceRef {
+        device_name: DEVICE_NAME.to_string(),
+        endpoint_name: INBOUND_ENDPOINT_NAME.to_string(),
+    };
     let endpoint_reporter = DeviceEndpointHealthReporter::new(
         azure_device_registry_client.clone(),
-        DEVICE_NAME.to_string(),
-        INBOUND_ENDPOINT_NAME.to_string(),
+        device_ref,
         TIMEOUT,
     );
     let health_sender = new_health_reporter(

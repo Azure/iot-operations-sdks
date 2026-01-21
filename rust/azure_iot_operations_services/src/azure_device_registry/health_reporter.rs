@@ -23,14 +23,19 @@
 //! # Example
 //!
 //! ```ignore
-//! use azure_iot_operations_services::azure_device_registry::health_reporter::{
-//!     DeviceEndpointHealthReporter, new_health_reporter,
+//! use azure_iot_operations_services::azure_device_registry::{
+//!     health_reporter::{DeviceEndpointHealthReporter, new_health_reporter},
+//!     models::DeviceRef,
+//! };
+//!
+//! let device_ref = DeviceRef {
+//!     device_name: "device-name".to_string(),
+//!     endpoint_name: "endpoint-name".to_string(),
 //! };
 //!
 //! let reporter = DeviceEndpointHealthReporter::new(
 //!     client.clone(),
-//!     "device-name".to_string(),
-//!     "endpoint-name".to_string(),
+//!     device_ref,
 //!     Duration::from_secs(30), // timeout
 //! );
 //!
@@ -59,10 +64,10 @@ use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender};
 use tokio_util::sync::CancellationToken;
 
 use super::models::{
-    DatasetRuntimeHealthEvent, EventRuntimeHealthEvent, ManagementActionRuntimeHealthEvent,
-    StreamRuntimeHealthEvent,
+    DatasetRuntimeHealthEvent, DeviceRef, EventRuntimeHealthEvent,
+    ManagementActionRuntimeHealthEvent, StreamRuntimeHealthEvent,
 };
-use super::{Client, Error, RuntimeHealth};
+use super::{AssetRef, Client, Error, RuntimeHealth};
 
 /// Trait for components that can report health events to the Azure Device Registry service.
 ///
@@ -252,8 +257,7 @@ async fn health_recv(
 #[derive(Clone)]
 pub struct DeviceEndpointHealthReporter {
     client: Client,
-    device_name: String,
-    inbound_endpoint_name: String,
+    device_ref: DeviceRef,
     timeout: Duration,
 }
 
@@ -262,20 +266,13 @@ impl DeviceEndpointHealthReporter {
     ///
     /// # Arguments
     /// * `client` - The Azure Device Registry client.
-    /// * `device_name` - The name of the device.
-    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `device_ref` - Reference to the device and endpoint.
     /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
     #[must_use]
-    pub fn new(
-        client: Client,
-        device_name: String,
-        inbound_endpoint_name: String,
-        timeout: Duration,
-    ) -> Self {
+    pub fn new(client: Client, device_ref: DeviceRef, timeout: Duration) -> Self {
         Self {
             client,
-            device_name,
-            inbound_endpoint_name,
+            device_ref,
             timeout,
         }
     }
@@ -285,8 +282,8 @@ impl HealthReporter for DeviceEndpointHealthReporter {
     async fn report(&self, status: RuntimeHealth) -> Result<(), Error> {
         self.client
             .report_device_endpoint_runtime_health_event(
-                self.device_name.clone(),
-                self.inbound_endpoint_name.clone(),
+                self.device_ref.device_name.clone(),
+                self.device_ref.endpoint_name.clone(),
                 status,
                 self.timeout,
             )
@@ -301,9 +298,7 @@ impl HealthReporter for DeviceEndpointHealthReporter {
 #[derive(Clone)]
 pub struct DatasetHealthReporter {
     client: Client,
-    device_name: String,
-    inbound_endpoint_name: String,
-    asset_name: String,
+    asset_ref: AssetRef,
     dataset_name: String,
     timeout: Duration,
 }
@@ -313,25 +308,19 @@ impl DatasetHealthReporter {
     ///
     /// # Arguments
     /// * `client` - The Azure Device Registry client.
-    /// * `device_name` - The name of the device.
-    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
-    /// * `asset_name` - The name of the asset containing the dataset.
+    /// * `asset_ref` - Reference to the asset containing the dataset.
     /// * `dataset_name` - The name of the dataset.
     /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
     #[must_use]
     pub fn new(
         client: Client,
-        device_name: String,
-        inbound_endpoint_name: String,
-        asset_name: String,
+        asset_ref: AssetRef,
         dataset_name: String,
         timeout: Duration,
     ) -> Self {
         Self {
             client,
-            device_name,
-            inbound_endpoint_name,
-            asset_name,
+            asset_ref,
             dataset_name,
             timeout,
         }
@@ -342,9 +331,9 @@ impl HealthReporter for DatasetHealthReporter {
     async fn report(&self, status: RuntimeHealth) -> Result<(), Error> {
         self.client
             .report_dataset_runtime_health_events(
-                self.device_name.clone(),
-                self.inbound_endpoint_name.clone(),
-                self.asset_name.clone(),
+                self.asset_ref.device_name.clone(),
+                self.asset_ref.inbound_endpoint_name.clone(),
+                self.asset_ref.name.clone(),
                 vec![DatasetRuntimeHealthEvent {
                     dataset_name: self.dataset_name.clone(),
                     runtime_health: status,
@@ -362,9 +351,7 @@ impl HealthReporter for DatasetHealthReporter {
 #[derive(Clone)]
 pub struct EventHealthReporter {
     client: Client,
-    device_name: String,
-    inbound_endpoint_name: String,
-    asset_name: String,
+    asset_ref: AssetRef,
     event_group_name: String,
     event_name: String,
     timeout: Duration,
@@ -375,27 +362,21 @@ impl EventHealthReporter {
     ///
     /// # Arguments
     /// * `client` - The Azure Device Registry client.
-    /// * `device_name` - The name of the device.
-    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
-    /// * `asset_name` - The name of the asset containing the event.
+    /// * `asset_ref` - Reference to the asset containing the event.
     /// * `event_group_name` - The name of the event group.
     /// * `event_name` - The name of the event.
     /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
     #[must_use]
     pub fn new(
         client: Client,
-        device_name: String,
-        inbound_endpoint_name: String,
-        asset_name: String,
+        asset_ref: AssetRef,
         event_group_name: String,
         event_name: String,
         timeout: Duration,
     ) -> Self {
         Self {
             client,
-            device_name,
-            inbound_endpoint_name,
-            asset_name,
+            asset_ref,
             event_group_name,
             event_name,
             timeout,
@@ -407,9 +388,9 @@ impl HealthReporter for EventHealthReporter {
     async fn report(&self, status: RuntimeHealth) -> Result<(), Error> {
         self.client
             .report_event_runtime_health_events(
-                self.device_name.clone(),
-                self.inbound_endpoint_name.clone(),
-                self.asset_name.clone(),
+                self.asset_ref.device_name.clone(),
+                self.asset_ref.inbound_endpoint_name.clone(),
+                self.asset_ref.name.clone(),
                 vec![EventRuntimeHealthEvent {
                     event_group_name: self.event_group_name.clone(),
                     event_name: self.event_name.clone(),
@@ -428,9 +409,7 @@ impl HealthReporter for EventHealthReporter {
 #[derive(Clone)]
 pub struct StreamHealthReporter {
     client: Client,
-    device_name: String,
-    inbound_endpoint_name: String,
-    asset_name: String,
+    asset_ref: AssetRef,
     stream_name: String,
     timeout: Duration,
 }
@@ -440,25 +419,19 @@ impl StreamHealthReporter {
     ///
     /// # Arguments
     /// * `client` - The Azure Device Registry client.
-    /// * `device_name` - The name of the device.
-    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
-    /// * `asset_name` - The name of the asset containing the stream.
+    /// * `asset_ref` - Reference to the asset containing the stream.
     /// * `stream_name` - The name of the stream.
     /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
     #[must_use]
     pub fn new(
         client: Client,
-        device_name: String,
-        inbound_endpoint_name: String,
-        asset_name: String,
+        asset_ref: AssetRef,
         stream_name: String,
         timeout: Duration,
     ) -> Self {
         Self {
             client,
-            device_name,
-            inbound_endpoint_name,
-            asset_name,
+            asset_ref,
             stream_name,
             timeout,
         }
@@ -469,9 +442,9 @@ impl HealthReporter for StreamHealthReporter {
     async fn report(&self, status: RuntimeHealth) -> Result<(), Error> {
         self.client
             .report_stream_runtime_health_events(
-                self.device_name.clone(),
-                self.inbound_endpoint_name.clone(),
-                self.asset_name.clone(),
+                self.asset_ref.device_name.clone(),
+                self.asset_ref.inbound_endpoint_name.clone(),
+                self.asset_ref.name.clone(),
                 vec![StreamRuntimeHealthEvent {
                     stream_name: self.stream_name.clone(),
                     runtime_health: status,
@@ -489,9 +462,7 @@ impl HealthReporter for StreamHealthReporter {
 #[derive(Clone)]
 pub struct ManagementActionHealthReporter {
     client: Client,
-    device_name: String,
-    inbound_endpoint_name: String,
-    asset_name: String,
+    asset_ref: AssetRef,
     management_group_name: String,
     management_action_name: String,
     timeout: Duration,
@@ -502,27 +473,21 @@ impl ManagementActionHealthReporter {
     ///
     /// # Arguments
     /// * `client` - The Azure Device Registry client.
-    /// * `device_name` - The name of the device.
-    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
-    /// * `asset_name` - The name of the asset containing the management action.
+    /// * `asset_ref` - Reference to the asset containing the management action.
     /// * `management_group_name` - The name of the management group.
     /// * `management_action_name` - The name of the management action.
     /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
     #[must_use]
     pub fn new(
         client: Client,
-        device_name: String,
-        inbound_endpoint_name: String,
-        asset_name: String,
+        asset_ref: AssetRef,
         management_group_name: String,
         management_action_name: String,
         timeout: Duration,
     ) -> Self {
         Self {
             client,
-            device_name,
-            inbound_endpoint_name,
-            asset_name,
+            asset_ref,
             management_group_name,
             management_action_name,
             timeout,
@@ -534,9 +499,9 @@ impl HealthReporter for ManagementActionHealthReporter {
     async fn report(&self, status: RuntimeHealth) -> Result<(), Error> {
         self.client
             .report_management_action_runtime_health_events(
-                self.device_name.clone(),
-                self.inbound_endpoint_name.clone(),
-                self.asset_name.clone(),
+                self.asset_ref.device_name.clone(),
+                self.asset_ref.inbound_endpoint_name.clone(),
+                self.asset_ref.name.clone(),
                 vec![ManagementActionRuntimeHealthEvent {
                     management_group_name: self.management_group_name.clone(),
                     management_action_name: self.management_action_name.clone(),
