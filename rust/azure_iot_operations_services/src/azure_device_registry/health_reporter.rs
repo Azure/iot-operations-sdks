@@ -95,7 +95,7 @@ impl HealthReporterSender {
     ///
     /// The background task will handle deduplication and periodic re-reporting.
     /// Duplicate events (same version, status, message, and reason code) are
-    /// coalesced until the next reporting interval.
+    /// skipped until the next reporting interval.
     ///
     /// # Arguments
     /// * `status` - The runtime health status to report.
@@ -117,7 +117,6 @@ impl HealthReporterSender {
 /// The background task handles:
 /// - Deduplication of identical health events
 /// - Periodic re-reporting at the configured interval
-/// - Coalescing rapid updates
 ///
 /// # Arguments
 /// * `reporter` - The health reporter implementation to use.
@@ -521,5 +520,371 @@ impl HealthReporter for ManagementActionHealthReporter {
                 self.timeout,
             )
             .await
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::sync::Arc;
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    use tokio::sync::Mutex;
+
+    /// A mock health reporter that records all reported health events.
+    #[derive(Clone)]
+    struct MockHealthReporter {
+        reported_events: Arc<Mutex<Vec<RuntimeHealth>>>,
+        call_count: Arc<AtomicUsize>,
+    }
+
+    impl MockHealthReporter {
+        fn new() -> Self {
+            Self {
+                reported_events: Arc::new(Mutex::new(Vec::new())),
+                call_count: Arc::new(AtomicUsize::new(0)),
+            }
+        }
+
+        async fn get_reported_events(&self) -> Vec<RuntimeHealth> {
+            self.reported_events.lock().await.clone()
+        }
+
+        fn get_call_count(&self) -> usize {
+            self.call_count.load(Ordering::SeqCst)
+        }
+    }
+
+    impl HealthReporter for MockHealthReporter {
+        async fn report(&self, status: RuntimeHealth) -> Result<(), Error> {
+            self.call_count.fetch_add(1, Ordering::SeqCst);
+            self.reported_events.lock().await.push(status);
+            Ok(())
+        }
+    }
+
+    fn create_test_health_status(version: u64) -> RuntimeHealth {
+        RuntimeHealth {
+            version,
+            status: super::super::HealthStatus::Available,
+            message: Some("test".to_string()),
+            reason_code: None,
+            last_update_time: chrono::Utc::now(),
+        }
+    }
+
+    #[tokio::test]
+    async fn test_background_task_reports_initial_event() {
+        let mock_reporter = MockHealthReporter::new();
+        let cancellation_token = CancellationToken::new();
+
+        let sender = new_health_reporter(
+            mock_reporter.clone(),
+            Duration::from_secs(60),
+            cancellation_token.clone(),
+        );
+
+        // Send a health event
+        let status = create_test_health_status(1);
+        sender.report(status.clone());
+
+        // Give the background task time to process
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Verify the event was reported
+        let events = mock_reporter.get_reported_events().await;
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0].version, 1);
+        assert_eq!(mock_reporter.get_call_count(), 1);
+
+        // Cleanup
+        cancellation_token.cancel();
+    }
+
+    #[tokio::test]
+    async fn test_background_task_deduplicates_identical_events() {
+        let mock_reporter = MockHealthReporter::new();
+        let cancellation_token = CancellationToken::new();
+
+        let sender = new_health_reporter(
+            mock_reporter.clone(),
+            Duration::from_secs(60), // Long interval so no periodic re-report
+            cancellation_token.clone(),
+        );
+
+        // Send the same health event multiple times rapidly
+        let status = create_test_health_status(1);
+        sender.report(status.clone());
+        sender.report(status.clone());
+        sender.report(status.clone());
+
+        // Give the background task time to process
+        tokio::time::sleep(Duration::from_millis(100)).await;
+
+        // Verify only one event was reported (duplicates were deduplicated)
+        assert_eq!(mock_reporter.get_call_count(), 1);
+
+        // Cleanup
+        cancellation_token.cancel();
+    }
+
+    #[tokio::test]
+    async fn test_background_task_reports_changed_status() {
+        let mock_reporter = MockHealthReporter::new();
+        let cancellation_token = CancellationToken::new();
+
+        let sender = new_health_reporter(
+            mock_reporter.clone(),
+            Duration::from_secs(60),
+            cancellation_token.clone(),
+        );
+
+        // Send initial event
+        let mut status1 = create_test_health_status(1);
+        status1.status = super::super::HealthStatus::Available;
+        sender.report(status1);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Send event with changed status (same version)
+        let mut status2 = create_test_health_status(1);
+        status2.status = super::super::HealthStatus::Unavailable;
+        sender.report(status2);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Verify both events were reported
+        let events = mock_reporter.get_reported_events().await;
+        assert_eq!(events.len(), 2);
+        assert_eq!(events[0].status, super::super::HealthStatus::Available);
+        assert_eq!(events[1].status, super::super::HealthStatus::Unavailable);
+
+        // Cleanup
+        cancellation_token.cancel();
+    }
+
+    #[tokio::test]
+    async fn test_background_task_reports_changed_version() {
+        let mock_reporter = MockHealthReporter::new();
+        let cancellation_token = CancellationToken::new();
+
+        let sender = new_health_reporter(
+            mock_reporter.clone(),
+            Duration::from_secs(60),
+            cancellation_token.clone(),
+        );
+
+        // Send initial event
+        let status1 = create_test_health_status(1);
+        sender.report(status1);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Send event with new version
+        let status2 = create_test_health_status(2);
+        sender.report(status2);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Verify both events were reported
+        let events = mock_reporter.get_reported_events().await;
+        assert_eq!(events.len(), 2);
+        assert_eq!(events[0].version, 1);
+        assert_eq!(events[1].version, 2);
+
+        // Cleanup
+        cancellation_token.cancel();
+    }
+
+    #[tokio::test]
+    async fn test_background_task_reports_changed_message() {
+        let mock_reporter = MockHealthReporter::new();
+        let cancellation_token = CancellationToken::new();
+
+        let sender = new_health_reporter(
+            mock_reporter.clone(),
+            Duration::from_secs(60),
+            cancellation_token.clone(),
+        );
+
+        // Send initial event
+        let mut status1 = create_test_health_status(1);
+        status1.message = Some("message1".to_string());
+        sender.report(status1);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Send event with changed message (same version)
+        let mut status2 = create_test_health_status(1);
+        status2.message = Some("message2".to_string());
+        sender.report(status2);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Verify both events were reported
+        let events = mock_reporter.get_reported_events().await;
+        assert_eq!(events.len(), 2);
+        assert_eq!(events[0].message, Some("message1".to_string()));
+        assert_eq!(events[1].message, Some("message2".to_string()));
+
+        // Cleanup
+        cancellation_token.cancel();
+    }
+
+    #[tokio::test]
+    async fn test_background_task_periodic_rereporting() {
+        let mock_reporter = MockHealthReporter::new();
+        let cancellation_token = CancellationToken::new();
+
+        // Use a short interval for testing
+        let report_interval = Duration::from_millis(100);
+        let sender = new_health_reporter(
+            mock_reporter.clone(),
+            report_interval,
+            cancellation_token.clone(),
+        );
+
+        // Send initial event
+        let status = create_test_health_status(1);
+        sender.report(status);
+
+        // Wait for initial report
+        tokio::time::sleep(Duration::from_millis(50)).await;
+        assert_eq!(mock_reporter.get_call_count(), 1);
+
+        // Wait past first interval - should re-report
+        tokio::time::sleep(report_interval + Duration::from_millis(50)).await;
+        assert!(mock_reporter.get_call_count() >= 2);
+
+        // Wait past second interval - should re-report again
+        tokio::time::sleep(report_interval + Duration::from_millis(50)).await;
+        assert!(mock_reporter.get_call_count() >= 3);
+
+        // Cleanup
+        cancellation_token.cancel();
+    }
+
+    #[tokio::test]
+    async fn test_background_task_stops_on_cancellation() {
+        let mock_reporter = MockHealthReporter::new();
+        let cancellation_token = CancellationToken::new();
+
+        let sender = new_health_reporter(
+            mock_reporter.clone(),
+            Duration::from_secs(60),
+            cancellation_token.clone(),
+        );
+
+        // Send initial event
+        let status = create_test_health_status(1);
+        sender.report(status);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        assert_eq!(mock_reporter.get_call_count(), 1);
+
+        // Cancel the token
+        cancellation_token.cancel();
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Send another event - should not be reported since task is cancelled
+        let status2 = create_test_health_status(2);
+        sender.report(status2);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Verify no additional events were reported
+        assert_eq!(mock_reporter.get_call_count(), 1);
+    }
+
+    #[tokio::test]
+    async fn test_background_task_stops_on_sender_drop() {
+        let mock_reporter = MockHealthReporter::new();
+        let cancellation_token = CancellationToken::new();
+
+        let sender = new_health_reporter(
+            mock_reporter.clone(),
+            Duration::from_secs(60),
+            cancellation_token.clone(),
+        );
+
+        // Send initial event
+        let status = create_test_health_status(1);
+        sender.report(status);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        assert_eq!(mock_reporter.get_call_count(), 1);
+
+        // Drop the sender
+        drop(sender);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Task should have stopped - verify by checking it doesn't panic
+        // and the call count remains the same
+        assert_eq!(mock_reporter.get_call_count(), 1);
+
+        // Cleanup
+        cancellation_token.cancel();
+    }
+
+    #[tokio::test]
+    async fn test_background_task_pause_stops_reporting() {
+        let mock_reporter = MockHealthReporter::new();
+        let cancellation_token = CancellationToken::new();
+
+        let sender = new_health_reporter(
+            mock_reporter.clone(),
+            Duration::from_millis(100), // Short interval for testing
+            cancellation_token.clone(),
+        );
+
+        // Send initial event
+        let status = create_test_health_status(1);
+        sender.report(status);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+        assert_eq!(mock_reporter.get_call_count(), 1);
+
+        // Pause reporting
+        sender.pause();
+        tokio::time::sleep(Duration::from_millis(150)).await;
+
+        // Verify no periodic re-reporting happened while paused
+        let count_after_pause = mock_reporter.get_call_count();
+
+        // Wait another interval - should still not report
+        tokio::time::sleep(Duration::from_millis(150)).await;
+        assert_eq!(mock_reporter.get_call_count(), count_after_pause);
+
+        // Resume by sending a new event
+        let status2 = create_test_health_status(2);
+        sender.report(status2);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Verify reporting resumed
+        assert!(mock_reporter.get_call_count() > count_after_pause);
+
+        // Cleanup
+        cancellation_token.cancel();
+    }
+
+    #[tokio::test]
+    async fn test_background_task_skips_stale_events() {
+        let mock_reporter = MockHealthReporter::new();
+        let cancellation_token = CancellationToken::new();
+
+        let sender = new_health_reporter(
+            mock_reporter.clone(),
+            Duration::from_secs(60),
+            cancellation_token.clone(),
+        );
+
+        // Send event with version 2 first
+        let status2 = create_test_health_status(2);
+        sender.report(status2);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Send stale event with version 1 - should be skipped
+        let status1 = create_test_health_status(1);
+        sender.report(status1);
+        tokio::time::sleep(Duration::from_millis(50)).await;
+
+        // Verify only one event was reported (the stale one was skipped)
+        let events = mock_reporter.get_reported_events().await;
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0].version, 2);
+
+        // Cleanup
+        cancellation_token.cancel();
     }
 }
