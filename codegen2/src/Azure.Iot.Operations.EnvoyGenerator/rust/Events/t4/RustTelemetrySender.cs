@@ -106,7 +106,7 @@ use azure_iot_operations_protocol::application::ApplicationContext;
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &TelemetrySenderOptions) -> Self {
+    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &TelemetrySenderOptions) -> Self {
         let mut sender_options_builder = telemetry::sender::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             sender_options_builder.topic_namespace(topic_namespace.clone());

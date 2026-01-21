@@ -272,7 +272,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(normalResultField.GetFieldName(TargetLanguage.Rust)));
             this.Write(".ok_or(");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
-            this.Write("::<C>::get_err(\"");
+            this.Write("::get_err(\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(normalResultField.AsGiven));
             this.Write("\"))?,\r\n");
  } else { 

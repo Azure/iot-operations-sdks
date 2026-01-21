@@ -69,7 +69,7 @@ use azure_iot_operations_protocol::application::ApplicationContext;
             receiver_options_builder.topic_namespace(topic_namespace.clone());
         }
 
-        let mut topic_token_map: HashMap<String, String> = options
+        let topic_token_map: HashMap<String, String> = options
             .topic_token_map
             .clone()
             .into_iter()
