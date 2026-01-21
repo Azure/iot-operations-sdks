@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
+use azure_iot_operations_mqtt::{session::SessionManagedClient, token::AckToken};
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry;
 use azure_iot_operations_protocol::application::ApplicationContext;
@@ -53,19 +53,17 @@ use azure_iot_operations_protocol::application::ApplicationContext;
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaType.GetTypeName(TargetLanguage.Rust)));
             this.Write("`\r\npub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
-            this.Write("<C>(\r\n    telemetry::Receiver<");
+            this.Write("(\r\n    telemetry::Receiver<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaType.GetTypeName(TargetLanguage.Rust)));
-            this.Write(", C>,\r\n)\r\nwhere\r\n    C: ManagedClient + Clone + Send + Sync + \'static,\r\n    C::Pu" +
-                    "bReceiver: Send + Sync + \'static;\r\n\r\nimpl<C> ");
+            this.Write(">,\r\n);\r\n\r\nimpl ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
-            this.Write("<C>\r\nwhere\r\n    C: ManagedClient + Clone + Send + Sync + \'static,\r\n    C::PubRece" +
-                    "iver: Send + Sync + \'static,\r\n{\r\n    /// Creates a new [`");
+            this.Write("\r\n{\r\n    /// Creates a new [`");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
             this.Write(@"`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &TelemetryReceiverOptions) -> Self {
+    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &TelemetryReceiverOptions) -> Self {
         let mut receiver_options_builder = telemetry::receiver::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             receiver_options_builder.topic_namespace(topic_namespace.clone());

@@ -97,14 +97,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
-        if let Some(content_type) = content_type {
-            if !");
+        if let Some(content_type) = content_type
+            && !");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName.GetTypeName(TargetLanguage.Rust)));
-            this.Write("::is_content_type(content_type) {\r\n                return Err(DeserializationErro" +
-                    "r::UnsupportedContentType(format!(\r\n                    \"Invalid content type: \'" +
-                    "{content_type}\'. Must be \'");
+            this.Write("::is_content_type(content_type)\r\n        {\r\n            return Err(Deserializatio" +
+                    "nError::UnsupportedContentType(format!(\r\n                \"Invalid content type: " +
+                    "\'{content_type}\'. Must be \'");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.contentType));
-            this.Write("\'\"\r\n                )));\r\n            }\r\n        }\r\n");
+            this.Write("\'\"\r\n            )));\r\n        }\r\n");
  ix = 1; foreach (string deserializeLine in this.deserializeCode) { 
             this.Write("        ");
             this.Write(this.ToStringHelper.ToStringWithCulture(deserializeLine));
