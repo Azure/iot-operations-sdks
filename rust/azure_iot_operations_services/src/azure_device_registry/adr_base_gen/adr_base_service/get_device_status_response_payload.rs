@@ -12,9 +12,10 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::device_status::DeviceStatus;
 
+/// Response containing the device status or error details if the status could not be retrieved.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetDeviceStatusResponsePayload {
-    /// The Command response argument.
+    /// The device status, containing the specific inbound endpoint status as specified by the request.
     #[serde(rename = "deviceStatus")]
     pub device_status: DeviceStatus,
 }

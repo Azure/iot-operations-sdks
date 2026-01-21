@@ -12,6 +12,7 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::discovered_device_endpoints::DiscoveredDeviceEndpoints;
 
+/// The discovered device resource to create or update. Fields omitted in the request will be removed. The specified inbound endpoint will be added or updated in the inbound endpoints map.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredDevice {
     /// A set of key-value pairs that contain custom attributes set by the customer.

@@ -11,7 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
-/// Additional details about an error
+/// Additional details about the error, if available.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct SchemaRegistryErrorDetails {
     /// Multi-part error code for classification and root causing of errors (e.g., '400.200').

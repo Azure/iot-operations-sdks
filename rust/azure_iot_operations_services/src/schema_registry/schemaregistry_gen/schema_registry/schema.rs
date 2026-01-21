@@ -10,10 +10,9 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::format::Format;
 use super::schema_type::SchemaType;
 
-/// Schema object
+/// Schema object that was created.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct Schema {
     /// Human-readable description of the schema.
@@ -28,7 +27,7 @@ pub struct Schema {
     pub display_name: Option<String>,
 
     /// Format of the schema.
-    pub format: Format,
+    pub format: String,
 
     /// Hash of the schema content.
     #[serde(skip_serializing_if = "Option::is_none")]

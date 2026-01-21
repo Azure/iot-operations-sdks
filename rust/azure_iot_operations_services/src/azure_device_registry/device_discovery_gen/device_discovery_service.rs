@@ -23,10 +23,6 @@ pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolEr
 
 pub use super::common_types::options::{CommandInvokerOptions, TelemetryReceiverOptions};
 
-pub const MODEL_ID: &str = "dtmi:com:microsoft:akri:DeviceDiscoveryService;1";
-pub const REQUEST_TOPIC_PATTERN: &str =
-    "akri/discovery/resources/{ex:discoveryClientId}/{ex:inboundEndpointType}/{commandName}";
-
 pub mod client {
     pub use super::akri_service_error::*;
     pub use super::akri_service_error_error::*;

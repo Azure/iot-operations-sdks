@@ -12,9 +12,10 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::notification_preference::NotificationPreference;
 
+/// The request to set the notification preference for device updates.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct SetNotificationPreferenceForDeviceUpdatesRequestPayload {
-    /// The Command request argument.
+    /// The 'notificationPreferenceRequest' Field.
     #[serde(rename = "notificationPreferenceRequest")]
     pub notification_preference_request: NotificationPreference,
 }

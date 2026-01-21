@@ -12,7 +12,7 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::device_endpoints_schema::DeviceEndpointsSchema;
 
-/// Represents a Device resource, modeled after the devices.namespaces.deviceregistry.microsoft.com CRD in Kubernetes.
+/// The device resource, containing the specific inbound endpoint details as specified by the request.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct Device {
     /// A set of key-value pairs that contain custom attributes set by the customer.

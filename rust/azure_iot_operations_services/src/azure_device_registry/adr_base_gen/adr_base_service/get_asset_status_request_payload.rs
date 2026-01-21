@@ -11,9 +11,10 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
+/// The name of the asset to retrieve the status for.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetAssetStatusRequestPayload {
-    /// The Command request argument.
+    /// The 'assetName' Field.
     #[serde(rename = "assetName")]
     pub asset_name: String,
 }

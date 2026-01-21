@@ -11,6 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
+/// Defines server trust settings for the endpoint.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct TrustSettingsSchema {
     /// Secret reference to certificates list to trust.

@@ -2,12 +2,10 @@
 
 use serde::{Deserialize, Serialize};
 
+/// Type of the action.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum AssetManagementGroupActionType {
-    #[serde(rename = "Call")]
     Call,
-    #[serde(rename = "Read")]
     Read,
-    #[serde(rename = "Write")]
     Write,
 }

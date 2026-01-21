@@ -12,8 +12,9 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::asset::Asset;
 
+/// Response containing the asset resource or error details if the asset could not be retrieved.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetAssetResponsePayload {
-    /// The Command response argument.
+    /// The asset resource
     pub asset: Asset,
 }

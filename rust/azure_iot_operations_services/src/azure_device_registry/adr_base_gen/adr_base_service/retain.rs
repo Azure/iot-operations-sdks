@@ -2,10 +2,9 @@
 
 use serde::{Deserialize, Serialize};
 
+/// When set to 'Keep', messages published to an MQTT broker will have the retain flag set.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Retain {
-    #[serde(rename = "Keep")]
     Keep,
-    #[serde(rename = "Never")]
     Never,
 }

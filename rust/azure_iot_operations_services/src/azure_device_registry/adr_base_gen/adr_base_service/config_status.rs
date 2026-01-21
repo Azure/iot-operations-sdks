@@ -12,6 +12,7 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::config_error::ConfigError;
 
+/// The configuration status of the device.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ConfigStatus {
     /// The last error that occurred while processing the configuration.

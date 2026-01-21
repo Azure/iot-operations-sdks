@@ -14,6 +14,7 @@ use super::method_schema::MethodSchema;
 use super::username_password_credentials_schema::UsernamePasswordCredentialsSchema;
 use super::x509credentials_schema::X509credentialsSchema;
 
+/// Defines the client authentication mechanism to the server.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AuthenticationSchema {
     /// Defines the method to authenticate the user of the client at the server.

@@ -12,9 +12,10 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::discovered_device_response_schema::DiscoveredDeviceResponseSchema;
 
+/// Response containing the discovered device response or error details if the operation failed.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredDeviceResponsePayload {
-    /// The Command response argument.
+    /// The discovered device response.
     #[serde(rename = "discoveredDeviceResponse")]
     pub discovered_device_response: DiscoveredDeviceResponseSchema,
 }

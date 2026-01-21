@@ -28,10 +28,6 @@ pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolEr
 
 pub use super::common_types::options::{CommandInvokerOptions, TelemetryReceiverOptions};
 
-pub const MODEL_ID: &str = "dtmi:ms:adr:SchemaRegistry;2";
-pub const REQUEST_TOPIC_PATTERN: &str = "adr/{modelId}/{commandName}";
-pub const COMMAND_SERVICE_GROUP_ID: &str = "schema-registry-edge";
-
 pub mod client {
     pub use super::format::*;
     pub use super::get_command_invoker::*;

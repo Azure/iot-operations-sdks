@@ -12,8 +12,9 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::device::Device;
 
+/// Response containing the device resource or error details if the device could not be retrieved.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetDeviceResponsePayload {
-    /// The Command response argument.
+    /// The device resource, containing the specific inbound endpoint details as specified by the request.
     pub device: Device,
 }

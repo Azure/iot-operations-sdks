@@ -13,12 +13,14 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 use super::schema::Schema;
 use super::schema_registry_error::SchemaRegistryError;
 
+/// GET Schema response object
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetResponseSchema {
-    /// Error object in case of failure.
+    /// Read error for the 'get' Action.
+    #[serde(rename = "getError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub error: Option<SchemaRegistryError>,
+    pub get_error: Option<SchemaRegistryError>,
 
     /// The requested schema object.
     #[serde(skip_serializing_if = "Option::is_none")]

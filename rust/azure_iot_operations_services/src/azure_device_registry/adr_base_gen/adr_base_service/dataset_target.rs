@@ -2,12 +2,10 @@
 
 use serde::{Deserialize, Serialize};
 
+/// The target destination.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum DatasetTarget {
-    #[serde(rename = "BrokerStateStore")]
     BrokerStateStore,
-    #[serde(rename = "Mqtt")]
     Mqtt,
-    #[serde(rename = "Storage")]
     Storage,
 }

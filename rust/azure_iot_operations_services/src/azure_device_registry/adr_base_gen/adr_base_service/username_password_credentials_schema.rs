@@ -11,6 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
+/// The credentials for authentication mode UsernamePassword.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UsernamePasswordCredentialsSchema {
     /// The name of the secret containing the password.

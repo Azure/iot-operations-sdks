@@ -13,6 +13,7 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 use super::discovered_device_inbound_endpoint_schema::DiscoveredDeviceInboundEndpointSchema;
 use super::discovered_device_outbound_endpoints_schema::DiscoveredDeviceOutboundEndpointsSchema;
 
+/// Connection endpoint URL a device can use to connect to a service.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredDeviceEndpoints {
     /// Set of endpoints to connect to the device.

@@ -13,6 +13,7 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 use super::qos::Qos;
 use super::retain::Retain;
 
+/// The destination configuration.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DestinationConfiguration {
     /// The BrokerStateStore destination configuration key.

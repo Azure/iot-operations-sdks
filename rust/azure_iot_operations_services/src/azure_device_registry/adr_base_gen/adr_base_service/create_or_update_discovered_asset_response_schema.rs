@@ -13,9 +13,10 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 use super::akri_service_error::AkriServiceError;
 use super::discovered_asset_response_schema::DiscoveredAssetResponseSchema;
 
+/// Response containing the discovered asset response or error details if the operation failed.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredAssetResponseSchema {
-    /// Error details, if the discovered asset creation or update failed.
+    /// Read error for the 'createOrUpdateDiscoveredAsset' Action.
     #[serde(rename = "createOrUpdateDiscoveredAssetError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

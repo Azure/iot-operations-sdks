@@ -12,6 +12,7 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::device_update_event_schema::DeviceUpdateEventSchema;
 
+/// Telemetry event emitted when a device is updated, containing the relevant inbound endpoint details as specified in the topic.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceUpdateEventTelemetry {
     /// Telemetry event emitted when a device is updated, containing the relevant inbound endpoint details as specified in the topic.

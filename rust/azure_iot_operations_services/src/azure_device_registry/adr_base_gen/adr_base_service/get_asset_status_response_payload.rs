@@ -12,9 +12,10 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::asset_status::AssetStatus;
 
+/// Response containing the asset status or error details if the status could not be retrieved.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetAssetStatusResponsePayload {
-    /// The Command response argument.
+    /// The asset status
     #[serde(rename = "assetStatus")]
     pub asset_status: AssetStatus,
 }

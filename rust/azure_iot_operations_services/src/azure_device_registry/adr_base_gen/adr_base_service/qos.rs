@@ -2,10 +2,9 @@
 
 use serde::{Deserialize, Serialize};
 
+/// The MQTT QoS setting.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Qos {
-    #[serde(rename = "Qos0")]
     Qos0,
-    #[serde(rename = "Qos1")]
     Qos1,
 }

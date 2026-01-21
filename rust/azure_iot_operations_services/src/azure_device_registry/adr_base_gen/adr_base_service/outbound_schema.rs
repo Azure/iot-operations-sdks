@@ -12,6 +12,7 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::device_outbound_endpoint::DeviceOutboundEndpoint;
 
+/// Set of endpoints for device to connect to.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct OutboundSchema {
     /// Device messaging endpoint model.

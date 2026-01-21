@@ -2,10 +2,9 @@
 
 use serde::{Deserialize, Serialize};
 
+/// The target destination.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum EventStreamTarget {
-    #[serde(rename = "Mqtt")]
     Mqtt,
-    #[serde(rename = "Storage")]
     Storage,
 }

@@ -2,16 +2,12 @@
 
 use serde::{Deserialize, Serialize};
 
+/// The error code that identifies the error.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum CodeSchema {
-    #[serde(rename = "BadRequest")]
     BadRequest,
-    #[serde(rename = "InternalError")]
     InternalError,
-    #[serde(rename = "KubeError")]
     KubeError,
-    #[serde(rename = "SerializationError")]
     SerializationError,
-    #[serde(rename = "Unauthorized")]
     Unauthorized,
 }

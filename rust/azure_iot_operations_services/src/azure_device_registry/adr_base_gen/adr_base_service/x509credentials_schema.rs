@@ -11,6 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
+/// The x509 certificate for authentication mode Certificate.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct X509credentialsSchema {
     /// The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).

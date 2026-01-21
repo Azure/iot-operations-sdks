@@ -12,9 +12,10 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::discovered_asset_response_schema::DiscoveredAssetResponseSchema;
 
+/// Response containing the discovered asset response or error details if the operation failed.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredAssetResponsePayload {
-    /// The Command response argument.
+    /// The discovered asset response.
     #[serde(rename = "discoveredAssetResponse")]
     pub discovered_asset_response: DiscoveredAssetResponseSchema,
 }

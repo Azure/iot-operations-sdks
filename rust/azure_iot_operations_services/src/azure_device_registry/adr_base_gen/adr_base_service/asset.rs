@@ -18,6 +18,7 @@ use super::asset_stream_schema_element_schema::AssetStreamSchemaElementSchema;
 use super::dataset_destination::DatasetDestination;
 use super::event_stream_destination::EventStreamDestination;
 
+/// The asset resource
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct Asset {
     /// URIs or type definition IDs.

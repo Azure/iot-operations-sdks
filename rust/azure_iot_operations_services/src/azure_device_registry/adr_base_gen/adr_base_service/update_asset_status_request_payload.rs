@@ -12,9 +12,10 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::update_asset_status_request_schema::UpdateAssetStatusRequestSchema;
 
+/// The asset status update request.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UpdateAssetStatusRequestPayload {
-    /// The Command request argument.
+    /// The 'assetStatusUpdate' Field.
     #[serde(rename = "assetStatusUpdate")]
     pub asset_status_update: UpdateAssetStatusRequestSchema,
 }

@@ -2,12 +2,10 @@
 
 use serde::{Deserialize, Serialize};
 
+/// Defines the method to authenticate the user of the client at the server.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum MethodSchema {
-    #[serde(rename = "Anonymous")]
     Anonymous,
-    #[serde(rename = "Certificate")]
     Certificate,
-    #[serde(rename = "UsernamePassword")]
     UsernamePassword,
 }

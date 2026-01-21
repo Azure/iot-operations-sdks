@@ -12,9 +12,10 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::create_or_update_discovered_device_request_schema::CreateOrUpdateDiscoveredDeviceRequestSchema;
 
+/// The request to create or update a discovered device.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredDeviceRequestPayload {
-    /// The Command request argument.
+    /// The 'discoveredDeviceRequest' Field.
     #[serde(rename = "discoveredDeviceRequest")]
     pub discovered_device_request: CreateOrUpdateDiscoveredDeviceRequestSchema,
 }

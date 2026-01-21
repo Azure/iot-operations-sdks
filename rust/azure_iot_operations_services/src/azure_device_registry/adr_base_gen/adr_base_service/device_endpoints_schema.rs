@@ -13,6 +13,7 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 use super::inbound_schema_map_value_schema::InboundSchemaMapValueSchema;
 use super::outbound_schema::OutboundSchema;
 
+/// Connection endpoint url a device can use to connect to a service.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceEndpointsSchema {
     /// The 'inbound' Field.

@@ -12,6 +12,7 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::device_outbound_endpoint::DeviceOutboundEndpoint;
 
+/// Property bag contains the device's outbound endpoints
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredDeviceOutboundEndpointsSchema {
     /// Endpoints the device can connect to.

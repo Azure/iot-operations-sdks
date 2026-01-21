@@ -12,9 +12,10 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::device_status::DeviceStatus;
 
+/// The device status to update. Fields omitted in the request will be removed. The specified inbound endpoint status will be added or updated in the inbound endpoints map.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UpdateDeviceStatusRequestPayload {
-    /// The Command request argument.
+    /// The 'deviceStatusUpdate' Field.
     #[serde(rename = "deviceStatusUpdate")]
     pub device_status_update: DeviceStatus,
 }

@@ -18,6 +18,7 @@ use super::discovered_asset_management_group::DiscoveredAssetManagementGroup;
 use super::discovered_asset_stream::DiscoveredAssetStream;
 use super::event_stream_destination::EventStreamDestination;
 
+/// The discovered asset resource to create or update. Fields omitted in the request will be removed.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredAsset {
     /// URIs or type definition IDs for the asset type.

@@ -12,9 +12,10 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::create_or_update_discovered_asset_request_schema::CreateOrUpdateDiscoveredAssetRequestSchema;
 
+/// The request to create or update a discovered asset.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredAssetRequestPayload {
-    /// The Command request argument.
+    /// The 'discoveredAssetRequest' Field.
     #[serde(rename = "discoveredAssetRequest")]
     pub discovered_asset_request: CreateOrUpdateDiscoveredAssetRequestSchema,
 }

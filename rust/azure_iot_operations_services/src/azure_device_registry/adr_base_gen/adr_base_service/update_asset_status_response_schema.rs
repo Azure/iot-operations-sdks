@@ -13,9 +13,10 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 use super::akri_service_error::AkriServiceError;
 use super::asset_status::AssetStatus;
 
+/// Response containing the updated asset status or error details if the update failed.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UpdateAssetStatusResponseSchema {
-    /// Error details, if the asset status update failed.
+    /// Read error for the 'updateAssetStatus' Action.
     #[serde(rename = "updateAssetStatusError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

@@ -11,9 +11,10 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
+/// Response containing the result of setting the notification preference for asset updates or error details if the operation failed.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct SetNotificationPreferenceForAssetUpdatesResponsePayload {
-    /// The Command response argument.
+    /// The response payload indicating that the operation was successful.
     #[serde(rename = "responsePayload")]
     pub response_payload: String,
 }

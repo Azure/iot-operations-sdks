@@ -12,8 +12,9 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::schema::Schema;
 
+/// PUT Schema response object
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct PutResponsePayload {
-    /// The Command response argument.
+    /// Schema object that was created.
     pub schema: Schema,
 }

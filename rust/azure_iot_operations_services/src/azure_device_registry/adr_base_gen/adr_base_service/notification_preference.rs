@@ -4,8 +4,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum NotificationPreference {
-    #[serde(rename = "Off")]
     Off,
-    #[serde(rename = "On")]
     On,
 }

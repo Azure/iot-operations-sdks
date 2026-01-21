@@ -15,6 +15,7 @@ use super::asset_event_group_status_schema_element_schema::AssetEventGroupStatus
 use super::asset_management_group_status_schema_element_schema::AssetManagementGroupStatusSchemaElementSchema;
 use super::config_status::ConfigStatus;
 
+/// The asset status
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetStatus {
     /// The configuration status of the asset.
