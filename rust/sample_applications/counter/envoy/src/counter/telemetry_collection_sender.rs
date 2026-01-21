@@ -11,21 +11,19 @@ use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry;
 
 use super::super::common_types::options::TelemetrySenderOptions;
-use super::MODEL_ID;
-use super::TELEMETRY_TOPIC_PATTERN;
 use super::telemetry_collection::TelemetryCollection;
 
-pub type TelemetryMessage = telemetry::sender::Message<TelemetryCollection>;
-pub type TelemetryMessageBuilderError = telemetry::sender::MessageBuilderError;
+pub type TelemetryCollectionMessage = telemetry::sender::Message<TelemetryCollection>;
+pub type TelemetryCollectionMessageBuilderError = telemetry::sender::MessageBuilderError;
 
-/// Builder for [`TelemetryMessage`]
+/// Builder for [`TelemetryCollectionMessage`]
 #[derive(Default)]
-pub struct TelemetryMessageBuilder {
+pub struct TelemetryCollectionMessageBuilder {
     inner_builder: telemetry::sender::MessageBuilder<TelemetryCollection>,
     topic_tokens: HashMap<String, String>,
 }
 
-impl TelemetryMessageBuilder {
+impl TelemetryCollectionMessageBuilder {
     /// Quality of Service of the telemetry message. Can only be `AtMostOnce` or `AtLeastOnce`.
     pub fn qos(&mut self, qos: QoS) -> &mut Self {
         self.inner_builder.qos(qos);
@@ -69,11 +67,13 @@ impl TelemetryMessageBuilder {
         Ok(self)
     }
 
-    /// Builds a new `TelemetryMessage`
+    /// Builds a new `TelemetryCollectionMessage`
     ///
     /// # Errors
     /// If a required field has not been initialized
-    pub fn build(&mut self) -> Result<TelemetryMessage, TelemetryMessageBuilderError> {
+    pub fn build(
+        &mut self,
+    ) -> Result<TelemetryCollectionMessage, TelemetryCollectionMessageBuilderError> {
         self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
         self.inner_builder.build()
@@ -81,10 +81,10 @@ impl TelemetryMessageBuilder {
 }
 
 /// Telemetry Sender for `TelemetryCollection`
-pub struct TelemetrySender(telemetry::Sender<TelemetryCollection>);
+pub struct TelemetryCollectionSender(telemetry::Sender<TelemetryCollection>);
 
-impl TelemetrySender {
-    /// Creates a new [`TelemetrySender`]
+impl TelemetryCollectionSender {
+    /// Creates a new [`TelemetryCollectionSender`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
@@ -105,11 +105,10 @@ impl TelemetrySender {
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
         topic_token_map.insert("senderId".to_string(), client.client_id().to_string());
 
         let sender_options = sender_options_builder
-            .topic_pattern(TELEMETRY_TOPIC_PATTERN)
+            .topic_pattern("telemetry/telemetry-samples/counterValue")
             .topic_token_map(topic_token_map)
             .build()
             .expect("DTDL schema generated invalid arguments");
@@ -120,11 +119,11 @@ impl TelemetrySender {
         )
     }
 
-    /// Sends a [`TelemetryMessage`]
+    /// Sends a [`TelemetryCollectionMessage`]
     ///
     /// # Error
     /// [`AIOProtocolError`] if there is a failure sending the message
-    pub async fn send(&self, message: TelemetryMessage) -> Result<(), AIOProtocolError> {
+    pub async fn send(&self, message: TelemetryCollectionMessage) -> Result<(), AIOProtocolError> {
         self.0.send(message).await
     }
 }

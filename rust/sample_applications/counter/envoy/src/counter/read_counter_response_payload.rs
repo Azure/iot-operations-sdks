@@ -11,9 +11,10 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
+/// Output arguments for action 'readCounter'
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ReadCounterResponsePayload {
-    /// The Command response argument.
+    /// The 'CounterResponse' Field.
     #[serde(rename = "CounterResponse")]
     pub counter_response: i32,
 }

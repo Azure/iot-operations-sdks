@@ -9,8 +9,6 @@ use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandExecutorOptions;
-use super::MODEL_ID;
-use super::REQUEST_TOPIC_PATTERN;
 
 pub type ResetRequest = rpc_command::executor::Request<EmptyJson, EmptyJson>;
 pub type ResetResponse = rpc_command::executor::Response<EmptyJson>;
@@ -75,12 +73,10 @@ impl ResetCommandExecutor {
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
         topic_token_map.insert("executorId".to_string(), client.client_id().to_string());
-        topic_token_map.insert("commandName".to_string(), "reset".to_string());
 
         let executor_options = executor_options_builder
-            .request_topic_pattern(REQUEST_TOPIC_PATTERN)
+            .request_topic_pattern("rpc/command-samples/{executorId}/reset")
             .command_name("reset")
             .is_idempotent(false)
             .topic_token_map(topic_token_map)

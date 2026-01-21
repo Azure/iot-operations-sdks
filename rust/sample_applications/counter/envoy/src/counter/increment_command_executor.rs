@@ -9,8 +9,6 @@ use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::options::CommandExecutorOptions;
-use super::MODEL_ID;
-use super::REQUEST_TOPIC_PATTERN;
 use super::increment_request_payload::IncrementRequestPayload;
 use super::increment_response_payload::IncrementResponsePayload;
 
@@ -90,12 +88,10 @@ impl IncrementCommandExecutor {
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
         topic_token_map.insert("executorId".to_string(), client.client_id().to_string());
-        topic_token_map.insert("commandName".to_string(), "increment".to_string());
 
         let executor_options = executor_options_builder
-            .request_topic_pattern(REQUEST_TOPIC_PATTERN)
+            .request_topic_pattern("rpc/command-samples/{executorId}/increment")
             .command_name("increment")
             .is_idempotent(false)
             .topic_token_map(topic_token_map)

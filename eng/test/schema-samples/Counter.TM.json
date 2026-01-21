@@ -1,0 +1,102 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Counter",
+  "links": [
+    {
+      "rel": "dtv:naming",
+      "href": "SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
+  "forms": [
+    {
+      "contentType": "application/json",
+      "dtv:topic": "telemetry/telemetry-samples/counterValue",
+      "op": "subscribeallevents"
+    }
+  ],
+  "actions": {
+    "readCounter": {
+      "output": {
+        "type": "object",
+        "required": [ "CounterResponse" ],
+        "properties": {
+          "CounterResponse": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "rpc/command-samples/{executorId}/readCounter",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "increment": {
+      "input": {
+        "type": "object",
+        "required": [ "incrementValue" ],
+        "properties": {
+          "incrementValue": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "required": [ "CounterResponse" ],
+        "properties": {
+          "CounterResponse": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "rpc/command-samples/{executorId}/increment",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "reset": {
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "rpc/command-samples/{executorId}/reset",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+    "CounterValue": {
+      "description": "The current value of the counter.",
+      "data": {
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}

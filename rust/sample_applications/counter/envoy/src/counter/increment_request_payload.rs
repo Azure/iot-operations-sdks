@@ -11,9 +11,10 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
+/// Input arguments for action 'increment'
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct IncrementRequestPayload {
-    /// The Command request argument.
+    /// The 'incrementValue' Field.
     #[serde(rename = "incrementValue")]
     pub increment_value: i32,
 }

@@ -10,8 +10,6 @@ use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandExecutorOptions;
-use super::MODEL_ID;
-use super::REQUEST_TOPIC_PATTERN;
 use super::read_counter_response_payload::ReadCounterResponsePayload;
 
 pub type ReadCounterRequest = rpc_command::executor::Request<EmptyJson, ReadCounterResponsePayload>;
@@ -87,12 +85,10 @@ impl ReadCounterCommandExecutor {
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
         topic_token_map.insert("executorId".to_string(), client.client_id().to_string());
-        topic_token_map.insert("commandName".to_string(), "readCounter".to_string());
 
         let executor_options = executor_options_builder
-            .request_topic_pattern(REQUEST_TOPIC_PATTERN)
+            .request_topic_pattern("rpc/command-samples/{executorId}/readCounter")
             .command_name("readCounter")
             .is_idempotent(false)
             .topic_token_map(topic_token_map)

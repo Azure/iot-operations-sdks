@@ -10,8 +10,6 @@ use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandInvokerOptions;
-use super::MODEL_ID;
-use super::REQUEST_TOPIC_PATTERN;
 
 pub type ResetRequest = rpc_command::invoker::Request<EmptyJson>;
 pub type ResetResponse = rpc_command::invoker::Response<EmptyJson>;
@@ -108,15 +106,13 @@ impl ResetCommandInvoker {
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
         topic_token_map.insert(
             "invokerClientId".to_string(),
             client.client_id().to_string(),
         );
-        topic_token_map.insert("commandName".to_string(), "reset".to_string());
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern(REQUEST_TOPIC_PATTERN)
+            .request_topic_pattern("rpc/command-samples/{executorId}/reset")
             .command_name("reset")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

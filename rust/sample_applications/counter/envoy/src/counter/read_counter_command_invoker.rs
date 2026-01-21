@@ -10,8 +10,6 @@ use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandInvokerOptions;
-use super::MODEL_ID;
-use super::REQUEST_TOPIC_PATTERN;
 use super::read_counter_response_payload::ReadCounterResponsePayload;
 
 pub type ReadCounterRequest = rpc_command::invoker::Request<EmptyJson>;
@@ -111,15 +109,13 @@ impl ReadCounterCommandInvoker {
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
         topic_token_map.insert(
             "invokerClientId".to_string(),
             client.client_id().to_string(),
         );
-        topic_token_map.insert("commandName".to_string(), "readCounter".to_string());
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern(REQUEST_TOPIC_PATTERN)
+            .request_topic_pattern("rpc/command-samples/{executorId}/readCounter")
             .command_name("readCounter")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

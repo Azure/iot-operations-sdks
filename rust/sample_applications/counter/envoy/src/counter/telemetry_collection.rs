@@ -11,6 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
+/// Data values of Events.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct TelemetryCollection {
     /// The current value of the counter.
