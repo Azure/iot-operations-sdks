@@ -526,38 +526,33 @@ impl HealthReporter for ManagementActionHealthReporter {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::sync::Arc;
-    use std::sync::atomic::{AtomicUsize, Ordering};
-    use tokio::sync::Mutex;
+    use std::sync::{Arc, Mutex};
 
     /// A mock health reporter that records all reported health events.
     #[derive(Clone)]
     struct MockHealthReporter {
         reported_events: Arc<Mutex<Vec<RuntimeHealth>>>,
-        call_count: Arc<AtomicUsize>,
     }
 
     impl MockHealthReporter {
         fn new() -> Self {
             Self {
                 reported_events: Arc::new(Mutex::new(Vec::new())),
-                call_count: Arc::new(AtomicUsize::new(0)),
             }
         }
 
-        async fn get_reported_events(&self) -> Vec<RuntimeHealth> {
-            self.reported_events.lock().await.clone()
+        fn get_reported_events(&self) -> Vec<RuntimeHealth> {
+            self.reported_events.lock().unwrap().clone()
         }
 
         fn get_call_count(&self) -> usize {
-            self.call_count.load(Ordering::SeqCst)
+            self.reported_events.lock().unwrap().len()
         }
     }
 
     impl HealthReporter for MockHealthReporter {
         async fn report(&self, status: RuntimeHealth) -> Result<(), Error> {
-            self.call_count.fetch_add(1, Ordering::SeqCst);
-            self.reported_events.lock().await.push(status);
+            self.reported_events.lock().unwrap().push(status);
             Ok(())
         }
     }
@@ -591,7 +586,7 @@ mod tests {
         tokio::time::sleep(Duration::from_millis(50)).await;
 
         // Verify the event was reported
-        let events = mock_reporter.get_reported_events().await;
+        let events = mock_reporter.get_reported_events();
         assert_eq!(events.len(), 1);
         assert_eq!(events[0].version, 1);
         assert_eq!(mock_reporter.get_call_count(), 1);
@@ -651,7 +646,7 @@ mod tests {
         tokio::time::sleep(Duration::from_millis(50)).await;
 
         // Verify both events were reported
-        let events = mock_reporter.get_reported_events().await;
+        let events = mock_reporter.get_reported_events();
         assert_eq!(events.len(), 2);
         assert_eq!(events[0].status, super::super::HealthStatus::Available);
         assert_eq!(events[1].status, super::super::HealthStatus::Unavailable);
@@ -682,7 +677,7 @@ mod tests {
         tokio::time::sleep(Duration::from_millis(50)).await;
 
         // Verify both events were reported
-        let events = mock_reporter.get_reported_events().await;
+        let events = mock_reporter.get_reported_events();
         assert_eq!(events.len(), 2);
         assert_eq!(events[0].version, 1);
         assert_eq!(events[1].version, 2);
@@ -715,7 +710,7 @@ mod tests {
         tokio::time::sleep(Duration::from_millis(50)).await;
 
         // Verify both events were reported
-        let events = mock_reporter.get_reported_events().await;
+        let events = mock_reporter.get_reported_events();
         assert_eq!(events.len(), 2);
         assert_eq!(events[0].message, Some("message1".to_string()));
         assert_eq!(events[1].message, Some("message2".to_string()));
@@ -880,7 +875,7 @@ mod tests {
         tokio::time::sleep(Duration::from_millis(50)).await;
 
         // Verify only one event was reported (the stale one was skipped)
-        let events = mock_reporter.get_reported_events().await;
+        let events = mock_reporter.get_reported_events();
         assert_eq!(events.len(), 1);
         assert_eq!(events[0].version, 2);
 
