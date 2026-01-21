@@ -1705,6 +1705,7 @@ impl Client {
     ///
     /// Returns a [`HealthReporterSender`] that can be used to send health events.
     /// The background task handles deduplication and periodic re-reporting.
+    #[must_use]
     pub fn new_device_endpoint_health_reporter(
         &self,
         device_name: String,
@@ -1723,6 +1724,7 @@ impl Client {
     }
 
     /// Creates a new background health reporter for a dataset.
+    #[must_use]
     pub fn new_dataset_health_reporter(
         &self,
         device_name: String,
@@ -1745,6 +1747,7 @@ impl Client {
     }
 
     /// Creates a new background health reporter for an event.
+    #[must_use]
     pub fn new_event_health_reporter(
         &self,
         device_name: String,
@@ -1769,6 +1772,7 @@ impl Client {
     }
 
     /// Creates a new background health reporter for a stream.
+    #[must_use]
     pub fn new_stream_health_reporter(
         &self,
         device_name: String,
@@ -1791,6 +1795,7 @@ impl Client {
     }
 
     /// Creates a new background health reporter for a management action.
+    #[must_use]
     pub fn new_management_action_health_reporter(
         &self,
         device_name: String,

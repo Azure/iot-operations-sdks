@@ -9,11 +9,9 @@ use azure_iot_operations_mqtt::{
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{
-    self, models,
-    health_reporter::{
-        new_health_reporter, DeviceEndpointHealthReporter, HealthReporterOptions,
-    },
-    RuntimeHealth, HealthStatus,
+    self, HealthStatus, RuntimeHealth,
+    health_reporter::{DeviceEndpointHealthReporter, HealthReporterOptions, new_health_reporter},
+    models,
 };
 use tokio_util::sync::CancellationToken;
 

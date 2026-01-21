@@ -2,6 +2,53 @@
 // Licensed under the MIT License.
 
 //! Background health reporting for Azure Device Registry components.
+//!
+//! This module provides infrastructure for reporting runtime health status of various
+//! Azure Device Registry components (device endpoints, datasets, events, streams, and
+//! management actions) with automatic deduplication and periodic re-reporting.
+//!
+//! # Overview
+//!
+//! The health reporting system consists of:
+//! - [`HealthReporter`] trait - Implement this for custom health reporting components.
+//! - [`new_health_reporter`] - Spawns a background task that handles health reporting.
+//! - [`HealthReporterSender`] - Handle to send health events to the background task.
+//! - Convenience reporters for common components:
+//!   - [`DeviceEndpointHealthReporter`]
+//!   - [`DatasetHealthReporter`]
+//!   - [`EventHealthReporter`]
+//!   - [`StreamHealthReporter`]
+//!   - [`ManagementActionHealthReporter`]
+//!
+//! # Example
+//!
+//! ```ignore
+//! use azure_iot_operations_services::azure_device_registry::health_reporter::{
+//!     DeviceEndpointHealthReporter, HealthReporterOptions, new_health_reporter,
+//! };
+//!
+//! let reporter = DeviceEndpointHealthReporter::new(
+//!     client.clone(),
+//!     "device-name".to_string(),
+//!     "endpoint-name".to_string(),
+//!     Duration::from_secs(30),
+//! );
+//!
+//! let sender = new_health_reporter(
+//!     reporter,
+//!     HealthReporterOptions { report_interval: Duration::from_secs(60) },
+//!     cancellation_token,
+//! );
+//!
+//! // Report health status - the background task handles deduplication
+//! sender.report(RuntimeHealth {
+//!     version: 1,
+//!     status: HealthStatus::Available,
+//!     message: Some("Connected".to_string()),
+//!     reason_code: None,
+//!     last_update_time: chrono::Utc::now(),
+//! });
+//! ```
 
 use std::future::Future;
 use std::ops::Add;
@@ -11,48 +58,60 @@ use chrono::{DateTime, Utc};
 use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender};
 use tokio_util::sync::CancellationToken;
 
-use super::{Client, Error, RuntimeHealth};
 use super::models::{
-    DatasetRuntimeHealthEvent, EventRuntimeHealthEvent, 
-    ManagementActionRuntimeHealthEvent, StreamRuntimeHealthEvent,
+    DatasetRuntimeHealthEvent, EventRuntimeHealthEvent, ManagementActionRuntimeHealthEvent,
+    StreamRuntimeHealthEvent,
 };
+use super::{Client, Error, RuntimeHealth};
 
-/// Trait for components that can report health events to the ADR service.
+/// Trait for components that can report health events to the Azure Device Registry service.
 ///
 /// Implement this trait for your component type, then use [`new_health_reporter`]
 /// to create a background task that handles periodic re-reporting and deduplication.
 pub trait HealthReporter: Send + Sync + 'static {
-    /// Reports a health status to the ADR service.
-    fn report(
-        &self,
-        status: RuntimeHealth,
-    ) -> impl Future<Output = Result<(), Error>> + Send;
+    /// Reports a health status to the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `status` - The runtime health status to report.
+    ///
+    /// # Errors
+    /// Returns an error if the health report fails to be sent.
+    fn report(&self, status: RuntimeHealth) -> impl Future<Output = Result<(), Error>> + Send;
 }
 
-/// Configuration for the health reporter background task.
+/// Configuration options for the health reporter background task.
 #[derive(Clone, Debug)]
 pub struct HealthReporterOptions {
-    /// Interval for re-reporting steady-state health.
+    /// Interval for re-reporting steady-state health when no changes occur.
     pub report_interval: Duration,
 }
 
-/// Handle to send health events to the background reporter.
-/// 
-/// Cloneable so multiple tasks can share it.
+/// Handle to send health events to the background reporter task.
+///
+/// This handle is cloneable, allowing multiple tasks to share the same reporter.
+/// The background task handles deduplication and periodic re-reporting automatically.
 #[derive(Clone, Debug)]
 pub struct HealthReporterSender {
     tx: UnboundedSender<Option<RuntimeHealth>>,
 }
 
 impl HealthReporterSender {
-    /// Send a health event to be reported.
+    /// Sends a health event to be reported.
+    ///
     /// The background task will handle deduplication and periodic re-reporting.
+    /// Duplicate events (same version, status, message, and reason code) are
+    /// coalesced until the next reporting interval.
+    ///
+    /// # Arguments
+    /// * `status` - The runtime health status to report.
     pub fn report(&self, status: RuntimeHealth) {
         let _ = self.tx.send(Some(status));
     }
 
-    /// Pause background reporting until a new event is reported.
-    /// Use this during reconfiguration when the previous health state may no longer be valid.
+    /// Pauses background reporting until a new event is reported.
+    ///
+    /// Use this during reconfiguration when the previous health state may no longer
+    /// be valid. The background task will not re-report until a new status is sent.
     pub fn pause(&self) {
         let _ = self.tx.send(None);
     }
@@ -65,9 +124,15 @@ impl HealthReporterSender {
 /// - Periodic re-reporting at the configured interval
 /// - Coalescing rapid updates
 ///
+/// # Arguments
+/// * `reporter` - The health reporter implementation to use.
+/// * `options` - Configuration options for the background task.
+/// * `cancellation_token` - Token to signal cancellation of the background task.
+///
 /// Returns a [`HealthReporterSender`] handle. The background task runs until:
 /// - The cancellation token is cancelled, OR
 /// - All senders are dropped (channel closes)
+#[must_use]
 pub fn new_health_reporter<R: HealthReporter>(
     reporter: R,
     options: HealthReporterOptions,
@@ -187,7 +252,10 @@ async fn health_recv(
 
 // ============= Convenience Reporter Implementations =============
 
-/// Reports health for a device endpoint.
+/// Health reporter for a device endpoint.
+///
+/// Reports runtime health status for a specific device endpoint to the
+/// Azure Device Registry service.
 #[derive(Clone)]
 pub struct DeviceEndpointHealthReporter {
     client: Client,
@@ -197,6 +265,14 @@ pub struct DeviceEndpointHealthReporter {
 }
 
 impl DeviceEndpointHealthReporter {
+    /// Creates a new [`DeviceEndpointHealthReporter`].
+    ///
+    /// # Arguments
+    /// * `client` - The Azure Device Registry client.
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    #[must_use]
     pub fn new(
         client: Client,
         device_name: String,
@@ -225,7 +301,10 @@ impl HealthReporter for DeviceEndpointHealthReporter {
     }
 }
 
-/// Reports health for a dataset.
+/// Health reporter for a dataset.
+///
+/// Reports runtime health status for a specific dataset within an asset to the
+/// Azure Device Registry service.
 #[derive(Clone)]
 pub struct DatasetHealthReporter {
     client: Client,
@@ -237,6 +316,16 @@ pub struct DatasetHealthReporter {
 }
 
 impl DatasetHealthReporter {
+    /// Creates a new [`DatasetHealthReporter`].
+    ///
+    /// # Arguments
+    /// * `client` - The Azure Device Registry client.
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset containing the dataset.
+    /// * `dataset_name` - The name of the dataset.
+    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    #[must_use]
     pub fn new(
         client: Client,
         device_name: String,
@@ -273,7 +362,10 @@ impl HealthReporter for DatasetHealthReporter {
     }
 }
 
-/// Reports health for an event.
+/// Health reporter for an event.
+///
+/// Reports runtime health status for a specific event within an asset to the
+/// Azure Device Registry service.
 #[derive(Clone)]
 pub struct EventHealthReporter {
     client: Client,
@@ -286,6 +378,17 @@ pub struct EventHealthReporter {
 }
 
 impl EventHealthReporter {
+    /// Creates a new [`EventHealthReporter`].
+    ///
+    /// # Arguments
+    /// * `client` - The Azure Device Registry client.
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset containing the event.
+    /// * `event_group_name` - The name of the event group.
+    /// * `event_name` - The name of the event.
+    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    #[must_use]
     pub fn new(
         client: Client,
         device_name: String,
@@ -325,7 +428,10 @@ impl HealthReporter for EventHealthReporter {
     }
 }
 
-/// Reports health for a stream.
+/// Health reporter for a stream.
+///
+/// Reports runtime health status for a specific stream within an asset to the
+/// Azure Device Registry service.
 #[derive(Clone)]
 pub struct StreamHealthReporter {
     client: Client,
@@ -337,6 +443,16 @@ pub struct StreamHealthReporter {
 }
 
 impl StreamHealthReporter {
+    /// Creates a new [`StreamHealthReporter`].
+    ///
+    /// # Arguments
+    /// * `client` - The Azure Device Registry client.
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset containing the stream.
+    /// * `stream_name` - The name of the stream.
+    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    #[must_use]
     pub fn new(
         client: Client,
         device_name: String,
@@ -373,7 +489,10 @@ impl HealthReporter for StreamHealthReporter {
     }
 }
 
-/// Reports health for a management action.
+/// Health reporter for a management action.
+///
+/// Reports runtime health status for a specific management action within an asset to the
+/// Azure Device Registry service.
 #[derive(Clone)]
 pub struct ManagementActionHealthReporter {
     client: Client,
@@ -386,6 +505,17 @@ pub struct ManagementActionHealthReporter {
 }
 
 impl ManagementActionHealthReporter {
+    /// Creates a new [`ManagementActionHealthReporter`].
+    ///
+    /// # Arguments
+    /// * `client` - The Azure Device Registry client.
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset containing the management action.
+    /// * `management_group_name` - The name of the management group.
+    /// * `management_action_name` - The name of the management action.
+    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    #[must_use]
     pub fn new(
         client: Client,
         device_name: String,
