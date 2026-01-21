@@ -85,9 +85,6 @@ pub trait HealthReporter: Send + Sync + 'static {
 }
 
 /// Handle to send health events to the background reporter task.
-///
-/// This handle is cloneable, allowing multiple tasks to share the same reporter.
-/// The background task handles deduplication and periodic re-reporting automatically.
 #[derive(Clone, Debug)]
 pub struct HealthReporterSender {
     tx: UnboundedSender<Option<RuntimeHealth>>,
@@ -155,16 +152,22 @@ async fn health_reporter_task<R: HealthReporter>(
     mut rx: UnboundedReceiver<Option<RuntimeHealth>>,
     cancellation_token: CancellationToken,
 ) {
+    // Latest status from the application (whether reported or not). None if background reporting
+    // shouldn't be happening
     let mut current_status: Option<RuntimeHealth> = None;
+    // Time of the last successfully reported status, or None if background reporting is paused
     let mut last_reported_time: Option<DateTime<Utc>> = None;
 
     loop {
         tokio::select! {
             biased;
+            // Check for cancellation first (highest priority)
             () = cancellation_token.cancelled() => {
                 log::debug!("Health reporter task cancelled");
                 break;
             }
+            // passes in the next time that a report should happen in case this doesn't free up to
+            // allow the sleep branch to complete
             recv_result = health_recv(
                 &mut rx,
                 &mut current_status,
@@ -179,8 +182,9 @@ async fn health_reporter_task<R: HealthReporter>(
                 }
             }
             () = tokio::time::sleep(report_interval) => {
-                // Update timestamp for steady-state re-reporting
+                // if current_status is None, it means the background reporting shouldn't happen
                 if let Some(ref mut status) = current_status {
+                    // update time to report updated steady state
                     status.last_update_time = Utc::now();
                 }
             }
@@ -191,6 +195,9 @@ async fn health_reporter_task<R: HealthReporter>(
             match reporter.report(status.clone()).await {
                 Ok(()) => {
                     log::debug!("Reported health event: {status:?}");
+                    // Setting to current time rather than current_status time in case the receiver
+                    // is backed up - if we set to current_status time, the next report might trigger
+                    // sooner than the health interval requires, causing the backup to worsen
                     last_reported_time = Some(Utc::now());
                 }
                 Err(e) => {
@@ -211,35 +218,39 @@ async fn health_recv(
     next_fallback_report_time: Option<DateTime<Utc>>,
 ) -> Option<Option<RuntimeHealth>> {
     loop {
-        let msg = match rx.try_recv() {
-            Ok(msg) => msg,
+        // use try_recv to avoid an await point if there are pending messages.
+        // Any actual message from the application should be prioritized over the last cached message that
+        // would be reported from the timeout branch of the select.
+        let new_status = match rx.try_recv() {
+            Ok(status) => status,
+            // If there aren't any pending messages, it's okay if the timeout branch of the select completes
             Err(tokio::sync::mpsc::error::TryRecvError::Empty) => rx.recv().await?,
             Err(tokio::sync::mpsc::error::TryRecvError::Disconnected) => return None,
         };
 
-        // Pause signal
-        let Some(new_status) = msg else {
+        // If the application sent None, propagate that to indicate background reporting should stop
+        let Some(new_status) = new_status else {
             return Some(None);
         };
 
-        // Check against existing status for deduplication
-        if let Some(existing) = curr_status {
-            // Skip stale messages
-            if new_status.version < existing.version
-                || new_status.last_update_time < existing.last_update_time
+        // If background reporting is on, check if this new status is more recent/different than the current status
+        if let Some(existing_status) = curr_status {
+            // if new status is more stale than the current status, ignore it
+            if new_status.version < existing_status.version
+                || new_status.last_update_time < existing_status.last_update_time
             {
                 continue;
             }
 
-            // Skip duplicates unless we need to report for steady-state
-            if new_status.version == existing.version
-                && new_status.status == existing.status
-                && new_status.message == existing.message
-                && new_status.reason_code == existing.reason_code
+            // if status is exactly the same other than the timestamp, don't report, but update curr_status
+            if new_status.version == existing_status.version
+                && new_status.status == existing_status.status
+                && new_status.message == existing_status.message
+                && new_status.reason_code == existing_status.reason_code
                 && next_fallback_report_time.is_some_and(|t| new_status.last_update_time < t)
             {
-                // Update timestamp but don't trigger report
-                *existing = new_status;
+                // Override the existing_status to have the latest timestamp
+                *existing_status = new_status;
                 continue;
             }
         }
