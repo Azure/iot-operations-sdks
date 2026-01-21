@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/NumberConstScaleFactor.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "NumberConstScaleFactor.TM.json",
+      "line": 13,
+      "cfLine": 12,
+      "crossRef": ""
+    }
+  ]
+}

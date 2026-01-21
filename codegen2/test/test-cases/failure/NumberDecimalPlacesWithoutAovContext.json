@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/NumberDecimalPlacesWithoutAovContext.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "NumberDecimalPlacesWithoutAovContext.TM.json",
+      "line": 13,
+      "cfLine": 2,
+      "crossRef": ""
+    }
+  ]
+}

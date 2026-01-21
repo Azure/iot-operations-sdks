@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "thingFiles": [ "invalidAioBinding/IntegerConstDecimalPlaces.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "IntegerConstDecimalPlaces.TM.json",
+      "line": 13,
+      "cfLine": 12,
+      "crossRef": ""
+    }
+  ]
+}
