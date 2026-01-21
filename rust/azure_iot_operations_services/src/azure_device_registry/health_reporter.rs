@@ -36,7 +36,7 @@
 //! let reporter = DeviceEndpointHealthReporter::new(
 //!     client.clone(),
 //!     device_ref,
-//!     Duration::from_secs(30), // timeout
+//!     Duration::from_secs(30), // message expiry
 //! );
 //!
 //! let sender = new_health_reporter(
@@ -268,7 +268,7 @@ async fn health_recv(
 pub struct DeviceEndpointHealthReporter {
     client: Client,
     device_ref: DeviceRef,
-    timeout: Duration,
+    message_expiry: Duration,
 }
 
 impl DeviceEndpointHealthReporter {
@@ -277,13 +277,13 @@ impl DeviceEndpointHealthReporter {
     /// # Arguments
     /// * `client` - The Azure Device Registry client.
     /// * `device_ref` - Reference to the device and endpoint.
-    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     #[must_use]
-    pub fn new(client: Client, device_ref: DeviceRef, timeout: Duration) -> Self {
+    pub fn new(client: Client, device_ref: DeviceRef, message_expiry: Duration) -> Self {
         Self {
             client,
             device_ref,
-            timeout,
+            message_expiry,
         }
     }
 }
@@ -295,7 +295,7 @@ impl HealthReporter for DeviceEndpointHealthReporter {
                 self.device_ref.device_name.clone(),
                 self.device_ref.endpoint_name.clone(),
                 status,
-                self.timeout,
+                self.message_expiry,
             )
             .await
     }
@@ -310,7 +310,7 @@ pub struct DatasetHealthReporter {
     client: Client,
     asset_ref: AssetRef,
     dataset_name: String,
-    timeout: Duration,
+    message_expiry: Duration,
 }
 
 impl DatasetHealthReporter {
@@ -320,19 +320,19 @@ impl DatasetHealthReporter {
     /// * `client` - The Azure Device Registry client.
     /// * `asset_ref` - Reference to the asset containing the dataset.
     /// * `dataset_name` - The name of the dataset.
-    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     #[must_use]
     pub fn new(
         client: Client,
         asset_ref: AssetRef,
         dataset_name: String,
-        timeout: Duration,
+        message_expiry: Duration,
     ) -> Self {
         Self {
             client,
             asset_ref,
             dataset_name,
-            timeout,
+            message_expiry,
         }
     }
 }
@@ -348,7 +348,7 @@ impl HealthReporter for DatasetHealthReporter {
                     dataset_name: self.dataset_name.clone(),
                     runtime_health: status,
                 }],
-                self.timeout,
+                self.message_expiry,
             )
             .await
     }
@@ -364,7 +364,7 @@ pub struct EventHealthReporter {
     asset_ref: AssetRef,
     event_group_name: String,
     event_name: String,
-    timeout: Duration,
+    message_expiry: Duration,
 }
 
 impl EventHealthReporter {
@@ -375,21 +375,21 @@ impl EventHealthReporter {
     /// * `asset_ref` - Reference to the asset containing the event.
     /// * `event_group_name` - The name of the event group.
     /// * `event_name` - The name of the event.
-    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     #[must_use]
     pub fn new(
         client: Client,
         asset_ref: AssetRef,
         event_group_name: String,
         event_name: String,
-        timeout: Duration,
+        message_expiry: Duration,
     ) -> Self {
         Self {
             client,
             asset_ref,
             event_group_name,
             event_name,
-            timeout,
+            message_expiry,
         }
     }
 }
@@ -406,7 +406,7 @@ impl HealthReporter for EventHealthReporter {
                     event_name: self.event_name.clone(),
                     runtime_health: status,
                 }],
-                self.timeout,
+                self.message_expiry,
             )
             .await
     }
@@ -421,7 +421,7 @@ pub struct StreamHealthReporter {
     client: Client,
     asset_ref: AssetRef,
     stream_name: String,
-    timeout: Duration,
+    message_expiry: Duration,
 }
 
 impl StreamHealthReporter {
@@ -431,19 +431,19 @@ impl StreamHealthReporter {
     /// * `client` - The Azure Device Registry client.
     /// * `asset_ref` - Reference to the asset containing the stream.
     /// * `stream_name` - The name of the stream.
-    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     #[must_use]
     pub fn new(
         client: Client,
         asset_ref: AssetRef,
         stream_name: String,
-        timeout: Duration,
+        message_expiry: Duration,
     ) -> Self {
         Self {
             client,
             asset_ref,
             stream_name,
-            timeout,
+            message_expiry,
         }
     }
 }
@@ -459,7 +459,7 @@ impl HealthReporter for StreamHealthReporter {
                     stream_name: self.stream_name.clone(),
                     runtime_health: status,
                 }],
-                self.timeout,
+                self.message_expiry,
             )
             .await
     }
@@ -475,7 +475,7 @@ pub struct ManagementActionHealthReporter {
     asset_ref: AssetRef,
     management_group_name: String,
     management_action_name: String,
-    timeout: Duration,
+    message_expiry: Duration,
 }
 
 impl ManagementActionHealthReporter {
@@ -486,21 +486,21 @@ impl ManagementActionHealthReporter {
     /// * `asset_ref` - Reference to the asset containing the management action.
     /// * `management_group_name` - The name of the management group.
     /// * `management_action_name` - The name of the management action.
-    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     #[must_use]
     pub fn new(
         client: Client,
         asset_ref: AssetRef,
         management_group_name: String,
         management_action_name: String,
-        timeout: Duration,
+        message_expiry: Duration,
     ) -> Self {
         Self {
             client,
             asset_ref,
             management_group_name,
             management_action_name,
-            timeout,
+            message_expiry,
         }
     }
 }
@@ -517,7 +517,7 @@ impl HealthReporter for ManagementActionHealthReporter {
                     management_action_name: self.management_action_name.clone(),
                     runtime_health: status,
                 }],
-                self.timeout,
+                self.message_expiry,
             )
             .await
     }

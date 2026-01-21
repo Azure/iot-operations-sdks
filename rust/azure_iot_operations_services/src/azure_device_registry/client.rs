@@ -1708,7 +1708,7 @@ impl Client {
     ///
     /// # Arguments
     /// * `device_ref` - Reference to the device and endpoint.
-    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
     /// * `cancellation_token` - Token to signal cancellation of the background task.
     ///
@@ -1717,12 +1717,12 @@ impl Client {
     pub fn new_device_endpoint_health_reporter(
         &self,
         device_ref: DeviceRef,
-        timeout: Duration,
+        message_expiry: Duration,
         report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
         let reporter =
-            health_reporter::DeviceEndpointHealthReporter::new(self.clone(), device_ref, timeout);
+            health_reporter::DeviceEndpointHealthReporter::new(self.clone(), device_ref, message_expiry);
         health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 
@@ -1734,7 +1734,7 @@ impl Client {
     /// # Arguments
     /// * `asset_ref` - Reference to the asset containing the dataset.
     /// * `dataset_name` - The name of the dataset.
-    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
     /// * `cancellation_token` - Token to signal cancellation of the background task.
     ///
@@ -1744,7 +1744,7 @@ impl Client {
         &self,
         asset_ref: AssetRef,
         dataset_name: String,
-        timeout: Duration,
+        message_expiry: Duration,
         report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
@@ -1752,7 +1752,7 @@ impl Client {
             self.clone(),
             asset_ref,
             dataset_name,
-            timeout,
+            message_expiry,
         );
         health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
@@ -1766,7 +1766,7 @@ impl Client {
     /// * `asset_ref` - Reference to the asset containing the event.
     /// * `event_group_name` - The name of the event group.
     /// * `event_name` - The name of the event.
-    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
     /// * `cancellation_token` - Token to signal cancellation of the background task.
     ///
@@ -1777,7 +1777,7 @@ impl Client {
         asset_ref: AssetRef,
         event_group_name: String,
         event_name: String,
-        timeout: Duration,
+        message_expiry: Duration,
         report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
@@ -1786,7 +1786,7 @@ impl Client {
             asset_ref,
             event_group_name,
             event_name,
-            timeout,
+            message_expiry,
         );
         health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
@@ -1799,7 +1799,7 @@ impl Client {
     /// # Arguments
     /// * `asset_ref` - Reference to the asset containing the stream.
     /// * `stream_name` - The name of the stream.
-    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
     /// * `cancellation_token` - Token to signal cancellation of the background task.
     ///
@@ -1809,7 +1809,7 @@ impl Client {
         &self,
         asset_ref: AssetRef,
         stream_name: String,
-        timeout: Duration,
+        message_expiry: Duration,
         report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
@@ -1817,7 +1817,7 @@ impl Client {
             self.clone(),
             asset_ref,
             stream_name,
-            timeout,
+            message_expiry,
         );
         health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
@@ -1831,7 +1831,7 @@ impl Client {
     /// * `asset_ref` - Reference to the asset containing the management action.
     /// * `management_group_name` - The name of the management group.
     /// * `management_action_name` - The name of the management action.
-    /// * `timeout` - The duration until the client stops waiting for a response, rounded up to the nearest second.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
     /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
     /// * `cancellation_token` - Token to signal cancellation of the background task.
     ///
@@ -1842,7 +1842,7 @@ impl Client {
         asset_ref: AssetRef,
         management_group_name: String,
         management_action_name: String,
-        timeout: Duration,
+        message_expiry: Duration,
         report_interval: Duration,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
@@ -1851,7 +1851,7 @@ impl Client {
             asset_ref,
             management_group_name,
             management_action_name,
-            timeout,
+            message_expiry,
         );
         health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }

@@ -23,6 +23,7 @@ const INBOUND_ENDPOINT_NAME: &str = "my-rest-endpoint";
 const ASSET_NAME: &str = "my-rest-thermostat-asset";
 const VALID_ENDPOINT_TYPE: &str = "rest-thermostat";
 const TIMEOUT: Duration = Duration::from_secs(10);
+const HEALTH_REPORTING_INTERVAL: Duration = Duration::from_secs(60);
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -85,7 +86,7 @@ async fn azure_device_registry_operations(
     );
     let health_sender = new_health_reporter(
         endpoint_reporter,
-        Duration::from_secs(60), // report_interval
+        HEALTH_REPORTING_INTERVAL, // report_interval
         health_cancellation.clone(),
     );
 
