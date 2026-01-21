@@ -29,17 +29,13 @@ Internal logic:
 - If the application calls to pause background reporting, the cached status is cleared (so any new status reported will always be != and get reported). If there is no cached status, then the timer doesn't have anything to report if it lapses (implementation on this can vary). Once a new status is reported, there is now a cached status again, so background reporting can work again. On new, there's no cached status, so background reporting is off by default until the first status is reported
 
 Connector SDK:
+
 Fns to report the health status for the relevant components on their status reporter:
 - `report_health_event(PartialRuntimeHealth)` - this takes the message, reason code and status, but the status reporter internally populates the timestamp and version. The version is cached and can be refreshed by calling the refresh APIs (see below). This ensures that reported health events have the correct version.
 - `pause_health_reporting()` - same as underlying component
 - `refresh_health_version()` -  updates the cached version for use in future health events. Should be called when an update is received to lock in the new version.
 - `pause_and_refresh_health_version()` - Combines the functionality of the pause and refresh APIs for convenience.
-Logic:
-- There is a health reporter created for each component (e.g. each dataset, stream, endpoint, and event).
-- The cancellation token for the health reporter is called if the component is deleted
-Fns to report the health status for the relevant components on their status reporter:
-- `report(PartialRuntimeHealth)` - this takes the message, reason code and status, but the status reporter internally populates the timestamp and version
-- `pause()` - same as underlying component
+
 Logic:
 - There is a health reporter created for each component (e.g. each dataset, stream, endpoint, and event).
 - The cancellation token for the health reporter is called if the component is deleted
