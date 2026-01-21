@@ -47,6 +47,11 @@
                 string projectName = LegalizeProjectName(options.OutputDir.Name);
                 (TargetLanguage targetLanguage, string srcSubdir) = LanguageMap[options.Language.ToLowerInvariant()];
 
+                if (options.NoProj)
+                {
+                    srcSubdir = string.Empty;
+                }
+
                 errorLog.Phase = "Parsing";
                 List<ParsedThing> parsedThings = ParseThings(options.ThingFiles, errorLog, out HashSet<SerializationFormat> serializationFormats, statusReceiver);
 
