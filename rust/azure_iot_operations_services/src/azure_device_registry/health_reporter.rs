@@ -176,6 +176,9 @@ pub trait HealthReporter: Send + Sync + 'static {
     /// # Errors
     /// Returns an error if the health report fails to be sent.
     fn report(&self, status: RuntimeHealth) -> impl Future<Output = Result<(), Error>> + Send;
+
+    /// Returns a descriptive name for this component, used in log messages.
+    fn component_name(&self) -> String;
 }
 
 /// Handle to send health events to the background reporter task.
@@ -262,7 +265,7 @@ async fn health_reporter_task<R: HealthReporter>(
             biased;
             // Check for cancellation first (highest priority)
             () = cancellation_token.cancelled() => {
-                log::debug!("Health reporter task cancelled");
+                log::debug!("Health reporter task cancelled for {}", reporter.component_name());
                 break;
             }
             // passes in the next time that a report should happen in case this doesn't free up to
@@ -293,14 +296,20 @@ async fn health_reporter_task<R: HealthReporter>(
         if let Some(ref status) = current_status {
             match reporter.report(status.clone()).await {
                 Ok(()) => {
-                    log::debug!("Reported health event: {status:?}");
+                    log::debug!(
+                        "Reported health event for {}: {status:?}",
+                        reporter.component_name()
+                    );
                     // Setting to current time rather than current_status time in case the receiver
                     // is backed up - if we set to current_status time, the next report might trigger
                     // sooner than the health interval requires, causing the backup to worsen
                     last_reported_time = Some(Utc::now());
                 }
                 Err(e) => {
-                    log::warn!("Failed to report health event: {e:?}");
+                    log::warn!(
+                        "Failed to report health event for {}: {e:?}",
+                        reporter.component_name()
+                    );
                 }
             }
         } else {
@@ -385,6 +394,13 @@ impl HealthReporter for DeviceEndpointHealthReporter {
             )
             .await
     }
+
+    fn component_name(&self) -> String {
+        format!(
+            "device endpoint {}/{}",
+            self.device_ref.device_name, self.device_ref.endpoint_name
+        )
+    }
 }
 
 /// Health reporter for a dataset.
@@ -416,6 +432,16 @@ impl HealthReporter for DatasetHealthReporter {
                 self.message_expiry,
             )
             .await
+    }
+
+    fn component_name(&self) -> String {
+        format!(
+            "dataset {}/{}/{}/{}",
+            self.asset_ref.device_name,
+            self.asset_ref.inbound_endpoint_name,
+            self.asset_ref.name,
+            self.dataset_name
+        )
     }
 }
 
@@ -451,6 +477,17 @@ impl HealthReporter for EventHealthReporter {
             )
             .await
     }
+
+    fn component_name(&self) -> String {
+        format!(
+            "event {}/{}/{}/{}/{}",
+            self.asset_ref.device_name,
+            self.asset_ref.inbound_endpoint_name,
+            self.asset_ref.name,
+            self.event_group_name,
+            self.event_name
+        )
+    }
 }
 
 /// Health reporter for a stream.
@@ -482,6 +519,16 @@ impl HealthReporter for StreamHealthReporter {
                 self.message_expiry,
             )
             .await
+    }
+
+    fn component_name(&self) -> String {
+        format!(
+            "stream {}/{}/{}/{}",
+            self.asset_ref.device_name,
+            self.asset_ref.inbound_endpoint_name,
+            self.asset_ref.name,
+            self.stream_name
+        )
     }
 }
 
@@ -517,6 +564,17 @@ impl HealthReporter for ManagementActionHealthReporter {
             )
             .await
     }
+
+    fn component_name(&self) -> String {
+        format!(
+            "management action {}/{}/{}/{}/{}",
+            self.asset_ref.device_name,
+            self.asset_ref.inbound_endpoint_name,
+            self.asset_ref.name,
+            self.management_group_name,
+            self.management_action_name
+        )
+    }
 }
 
 #[cfg(test)]
@@ -550,6 +608,10 @@ mod tests {
         async fn report(&self, status: RuntimeHealth) -> Result<(), Error> {
             self.reported_events.lock().unwrap().push(status);
             Ok(())
+        }
+
+        fn component_name(&self) -> String {
+            "mock component".to_string()
         }
     }
 
