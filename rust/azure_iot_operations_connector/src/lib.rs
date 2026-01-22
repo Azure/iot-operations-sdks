@@ -17,6 +17,7 @@ pub mod base_connector;
 pub mod data_processor;
 pub mod deployment_artifacts;
 pub mod destination_endpoint;
+pub mod management_action_executor;
 
 #[macro_use]
 extern crate derive_getters;
@@ -118,4 +119,14 @@ pub struct ManagementActionRef {
     pub device_name: String,
     /// The name of the endpoint
     pub inbound_endpoint_name: String,
+}
+
+impl ManagementActionRef {
+    /// Gets the command name for this management action
+    pub(crate) fn command_name(&self) -> String {
+        format!(
+            "{}::{}",
+            self.management_group_name, self.management_action_name
+        )
+    }
 }

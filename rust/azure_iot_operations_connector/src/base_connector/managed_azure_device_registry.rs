@@ -29,6 +29,7 @@ use crate::{
         azure_device_registry::{AssetRef, DeviceEndpointRef},
     },
     destination_endpoint::{self, DataOperationForwarder},
+    management_action_executor::{ManagementActionExecutor, ManagementActionRequest},
 };
 
 /// Used as the strategy when using [`tokio_retry2::Retry`]
@@ -1054,7 +1055,7 @@ struct AssetComponentUpdates {
         watch::Sender<DataOperationUpdateNotification>,
         DataOperationUpdateNotification,
     )>,
-    new_asset_component_clients: Vec<(AssetComponentClient, Result<(), AdrConfigError>)>,
+    new_asset_component_clients: Vec<(AssetComponentClient)>,
     management_action_updates: Vec<(
         watch::Sender<ManagementActionUpdateNotification>,
         ManagementActionUpdateNotification,
@@ -1096,12 +1097,10 @@ pub struct AssetClient {
     asset_update_watcher_tx: watch::Sender<Asset>,
     /// Internal sender for when new data operations are created
     #[getter(skip)]
-    asset_component_creation_tx:
-        UnboundedSender<(AssetComponentClient, Result<(), AdrConfigError>)>,
+    asset_component_creation_tx: UnboundedSender<AssetComponentClient>,
     /// Internal channel for receiving notifications about data operation creation events.
     #[getter(skip)]
-    asset_component_creation_rx:
-        UnboundedReceiver<(AssetComponentClient, Result<(), AdrConfigError>)>,
+    asset_component_creation_rx: UnboundedReceiver<AssetComponentClient>,
     /// Internal watch sender for releasing data operation create/update notifications
     #[getter(skip)]
     release_asset_component_notifications_tx: watch::Sender<()>,
@@ -1270,7 +1269,131 @@ impl AssetClient {
         updated_asset: &Asset,
         updates: &mut AssetComponentUpdates,
     ) {
-        unimplemented!();
+        // let mut updated_asset_management_actions: Vec<ManagementActionSpecification> = Vec::new();
+        // for management_group in &updated_asset.management_groups {
+        //     // Creates a [`ManagementActionSpecification`] for each management action in the management group
+        //     for management_action in &management_group.actions {
+        //         updated_asset_management_actions.push((
+        //             management_group.clone(),
+        //             management_action.clone(),
+        //         ).into());
+        //     }
+        // }
+
+        // remove the management actions that are no longer present in the new asset definition.
+        // This triggers deletion notification since this drops the update sender.
+        management_action_hashmap.retain(|management_group_name, action_map| {
+            if let Some(updated_management_group) = updated_asset
+                .management_groups
+                .iter()
+                .find(|management_group| management_group.name == *management_group_name)
+            {
+                action_map.retain(|action_name, _| {
+                    updated_management_group
+                        .actions
+                        .iter()
+                        .any(|updated_action| updated_action.name == *action_name)
+                });
+                true
+            } else {
+                false
+            }
+        });
+
+        // For all received actions, check if the existing action needs to be updated or if a new one needs to be created
+        for received_management_group in &updated_asset.management_groups {
+            // Creates a [`ManagementActionSpecification`] for each management action in the management group
+            for received_management_action in &received_management_group.actions {
+                // let received_management_specification = (
+                //     received_management_group.clone(),
+                //     received_management_action.clone(),
+                // ).into();
+                let update_notification = ManagementActionUpdateNotification {
+                    definition: (
+                        received_management_group.clone(),
+                        received_management_action.clone(),
+                    )
+                        .into(),
+                    release_asset_component_notifications_rx: self
+                        .release_asset_component_notifications_tx
+                        .subscribe(),
+                };
+                // if it already exists
+                if let Some(management_action_update_tx) = management_action_hashmap
+                    .get_mut(&received_management_group.name)
+                    .and_then(|action_map| action_map.get_mut(&received_management_action.name))
+                {
+                    // save update to send to the action after the task can't get cancelled
+                    // Send an update whether the action changed or not, because the client needs to know the asset was updated at minimum
+                    updates.management_action_updates.push((
+                        management_action_update_tx.clone(),
+                        update_notification, // ManagementActionUpdateNotification {
+                                             //     definition: (
+                                             //         received_management_group.clone(),
+                                             //         received_management_action.clone(),
+                                             //     ).into(),
+                                             //     release_asset_component_notifications_rx: self
+                                             //         .release_asset_component_notifications_tx
+                                             //         .subscribe(),
+                                             // },
+                    ));
+                }
+                // it needs to be created
+                else {
+                    let received_management_specification = (
+                        received_management_group.clone(),
+                        received_management_action.clone(),
+                    )
+                        .into();
+                    let (management_action_update_watcher_tx, management_action_update_watcher_rx) =
+                        watch::channel(update_notification);
+                    // ManagementActionUpdateNotification {
+                    //     definition: received_management_specification.clone(),
+                    //     release_asset_component_notifications_rx: self
+                    //         .release_asset_component_notifications_tx
+                    //         .subscribe(),
+                    // });
+                    let (new_management_action_client, new_executor_res) =
+                        ManagementActionClient::new(
+                            received_management_specification,
+                            management_action_update_watcher_rx,
+                            self.asset_ref.clone(),
+                            self.status.clone(),
+                            self.specification.clone(),
+                            self.device_specification.clone(),
+                            self.device_status.clone(),
+                            self.connector_context.clone(),
+                        );
+                    // if there were errors, report them to the status to be send to ADR
+                    if let Err(e) = &new_executor_res {
+                        // add the error to the status to be reported to ADR, and then continue to process
+                        // other actions
+                        ManagementActionClient::update_action_status(
+                            &mut updates.new_status,
+                            &received_management_group.name,
+                            &received_management_action.name,
+                            Err(e.clone()),
+                        );
+                        updates.status_updated = true;
+                    }
+                    // insert the management action into the hashmap so we can handle updates
+                    management_action_hashmap
+                        .entry(received_management_group.name.clone())
+                        .or_insert_with(HashMap::new)
+                        .insert(
+                            received_management_action.name.clone(),
+                            management_action_update_watcher_tx,
+                        );
+                    // save the new management action client to be sent on self.asset_component_creation_tx after the task can't get cancelled
+                    updates.new_asset_component_clients.push(
+                        AssetComponentClient::ManagementAction((
+                            new_management_action_client,
+                            new_executor_res,
+                        )),
+                    );
+                }
+            }
+        }
     }
 
     /// Helper function to handle updates for event groups on an Asset
@@ -1473,10 +1596,12 @@ impl AssetClient {
                     data_operation_update_watcher_tx,
                 );
                 // save new data operation client to be sent on self.data_operation_creation_tx after the task can't get cancelled
-                updates.new_asset_component_clients.push((
-                    AssetComponentClient::DataOperation(new_data_operation_client),
-                    data_operation_client_result.clone(),
-                ));
+                updates
+                    .new_asset_component_clients
+                    .push(AssetComponentClient::DataOperation((
+                        new_data_operation_client,
+                        data_operation_client_result.clone(),
+                    )));
 
                 // If there were errors, report them to the status to be sent to ADR
                 if let Err(e) = data_operation_client_result {
@@ -1523,7 +1648,7 @@ impl AssetClient {
     async fn handle_update(
         &mut self,
         updated_asset: Asset,
-    ) -> ClientNotification<(AssetComponentClient, Result<(), AdrConfigError>)> {
+    ) -> ClientNotification<AssetComponentClient> {
         // lock the status write guard so that no other threads can modify the status while we update it
         let mut status_write_guard = self.status.write().await;
 
@@ -1685,9 +1810,7 @@ impl AssetClient {
     ///
     /// # Panics
     /// If the specification mutex has been poisoned, which should not be possible
-    pub async fn recv_notification(
-        &mut self,
-    ) -> ClientNotification<(AssetComponentClient, Result<(), AdrConfigError>)> {
+    pub async fn recv_notification(&mut self) -> ClientNotification<AssetComponentClient> {
         // release any pending data_operation create/update notifications
         self.release_asset_component_notifications_tx
             .send_modify(|()| ());
@@ -1886,8 +2009,13 @@ impl AssetClient {
 }
 
 pub enum AssetComponentClient {
-    DataOperation(DataOperationClient),
-    ManagementAction(ManagementActionClient),
+    DataOperation((DataOperationClient, Result<(), AdrConfigError>)),
+    ManagementAction(
+        (
+            ManagementActionClient,
+            Result<ManagementActionExecutor, AdrConfigError>,
+        ),
+    ),
 }
 
 /// Errors that can be returned when reporting a message schema for a data operation
@@ -1913,11 +2041,10 @@ pub(crate) struct DataOperationUpdateNotification {
     release_asset_component_notifications_rx: watch::Receiver<()>,
 }
 
-// TODO: some enum indicating the lowest level of change (asset, group, action)
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub(crate) struct ManagementActionUpdateNotification {
     /// new management action definition
-    definition: adr_models::ManagementGroupAction,
+    definition: ManagementActionSpecification,
     /// watch receiver for when the update notification should be released to the application
     release_asset_component_notifications_rx: watch::Receiver<()>,
 }
@@ -1932,12 +2059,13 @@ pub enum ManagementActionNotification {
     /// If this is returned, it indicates that the Management Action definition has not changed.
     /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
-    ManagementGroupUpdated(Result<(), AdrConfigError>),
+    // ManagementGroupUpdated(Result<(), AdrConfigError>),
     /// Indicates that the Management Action's definition has been updated in place.
     /// This will only be returned if the Management Action definition changed. If the default config on the asset changed, the AssetUpdated variant will be returned.
     /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
     ManagementActionUpdated(Result<(), AdrConfigError>),
+    ManagementActionNewExecutor(Result<ManagementActionExecutor, AdrConfigError>),
     /// Indicates that the Management Action has been deleted.
     Deleted,
 }
@@ -3259,12 +3387,6 @@ enum ActionSchema {
     Response,
 }
 
-/// Represents whether there is currently a valid Forwarder or not for a Data Operation
-pub(crate) enum ManagementActionExecutor {
-    Executor(rpc_command::Executor<BypassPayload, BypassPayload>), // TODO: probably Box this?
-    Error(AdrConfigError),
-}
-
 pub struct ManagementActionClient {
     /// Management action, management group, asset, device, and inbound endpoint names
     management_action_ref: ManagementActionRef,
@@ -3279,7 +3401,8 @@ pub struct ManagementActionClient {
     /// Status of the device that this data operation is tied to
     device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     // Internally used fields
-    executor: ManagementActionExecutor,
+    // executor: ManagementActionExecutor,
+    previous_detected_status: Result<(), AdrConfigError>,
     connector_context: Arc<ConnectorContext>,
     /// Asset reference for internal use
     asset_ref: AssetRef,
@@ -3298,7 +3421,7 @@ impl ManagementActionClient {
         device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
         device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
         connector_context: Arc<ConnectorContext>,
-    ) -> (Self, Result<(), AdrConfigError>) {
+    ) -> (Self, Result<ManagementActionExecutor, AdrConfigError>) {
         // Create a new management_action
         let management_action_ref = ManagementActionRef {
             management_action_name: definition.name.clone(),
@@ -3324,8 +3447,9 @@ impl ManagementActionClient {
             )
         };
         // create executor
-        let (executor, res) = Self::create_executor(
-            &definition,
+        let executor_res = ManagementActionExecutor::new(
+            &definition.topic,
+            &definition.management_group.default_topic,
             &management_action_ref,
             connector_context.clone(),
         );
@@ -3338,50 +3462,56 @@ impl ManagementActionClient {
                 asset_specification,
                 device_specification,
                 device_status,
-                executor,
+                // executor,
                 connector_context,
                 asset_ref,
                 management_action_update_watcher_rx,
+                previous_detected_status: executor_res.as_ref().map(|_| ()).map_err(|e| e.clone()),
             },
-            res,
+            executor_res,
         )
     }
 
-    pub async fn recv_request(&mut self) -> Option<()> {
-        // TODO: do we need to be able to share executors for multiple actions if they use the default topic?
-        // and then it's the application's responsibility to route to the correct action and only respond once?!?!
-        // if recv() returns none, this indicates that the management action was deleted
+    // pub async fn recv_request(&mut self) -> Option<ManagementActionRequest> {
+    //     // TODO: need to sort out how to handle changing executors on updates - allow existing commands to drain still? This means we can't
+    //     // drop the old executor until all of these complete though. Looks like we can shut it down to prevent more requests,
+    //     // but we need to make sure not to drop it to be able to complete in flight requests
 
-        // I could have a watcher, and then all management actions can peek it, but only one should take it out
+    //     // maybe have the new and update return the ManagementActionExecutor and then we shut it down, but
+    //     // it's the application's responsibility to drain it before polling the new one? And then the cloud event
+    //     // headers would be locked to when the executor was created
 
-        // or, it could be a management group client, which provides the request with the relevant action name(s), and then the
-        // application can deal with it how they want to? Not sure what that means for the error story
+    //     // and actually, this simplifies a lot since recv_request and recv_notification both take &mut self
+    //     // although you wouldn't/couldn't really have two recv_requests be draining/calling at the same time on your select
+    //     // but also you only need a new executor if the topic/default topic has changed, so you'd only return it sometimes?
 
-        loop {
-            match &mut self.executor {
-                ManagementActionExecutor::Error(e) => {
-                    log::error!(
-                        "Management action executor in error state for management action {:?}: {:?}",
-                        self.management_action_ref,
-                        e
-                    );
-                    // continue waiting for the next request after a delay
-                    tokio::time::sleep(std::time::Duration::from_secs(5)).await;
-                    continue;
-                    // Return None? Indicating no more requests will be received until there's a definition update
-                }
-                ManagementActionExecutor::Executor(executor) => {
-                    match executor.recv().await? {
-                        Ok(request) => {}
-                        Err(e) => {
-                            log::error!("Error receiving management action request: {:?}", e);
-                            // continue waiting for the next request after a delay
-                        }
-                    }
-                }
-            }
-        }
-    }
+    //     // if recv() returns none, this indicates that the management action was deleted
+
+    //     loop {
+    //         match &mut self.executor {
+    //             ManagementActionExecutor::Error(e) => {
+    //                 log::error!(
+    //                     "Management action executor in error state for management action {:?}: {:?}",
+    //                     self.management_action_ref,
+    //                     e
+    //                 );
+    //                 // continue waiting for the next request after a delay
+    //                 tokio::time::sleep(std::time::Duration::from_secs(5)).await;
+    //                 continue;
+    //                 // Return None? Indicating no more requests will be received until there's a definition update
+    //             }
+    //             ManagementActionExecutor::Executor(executor) => {
+    //                 match executor.recv().await? {
+    //                     Ok(request) => { return Some(ManagementActionRequest { request: request })}
+    //                     Err(e) => {
+    //                         log::error!("Error receiving management action request: {:?}", e);
+    //                         // continue waiting for the next request after a delay
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
     // Will have some way to send response
     // on .complete(), we need to also include a Result, which we turn into `application_error_headers` on the response, to be
     // consistent for all connectors and the cloud. The application should still be able to send a custom payload with
@@ -3528,8 +3658,98 @@ impl ManagementActionClient {
             .await
     }
 
-    pub async fn recv_notification(&mut self) -> DataOperationNotification {
-        unimplemented!()
+    pub async fn recv_notification(&mut self) -> ManagementActionNotification {
+        if self
+            .management_action_update_watcher_rx
+            .changed()
+            .await
+            .is_err()
+        {
+            return ManagementActionNotification::Deleted;
+        }
+        // In case this function gets cancelled the next time it is called we will process the update again.
+        self.management_action_update_watcher_rx.mark_changed();
+        let mut update_notification = self.management_action_update_watcher_rx.borrow().clone();
+
+        // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
+        if update_notification
+            .release_asset_component_notifications_rx
+            .changed()
+            .await
+            .is_err()
+        {
+            self.management_action_update_watcher_rx.mark_unchanged();
+            return ManagementActionNotification::Deleted;
+        }
+        // let management_action_changed = update_notification.definition != self.definition;
+        if update_notification.definition == self.definition {
+            // Asset only update, we don't need to recreate the executor
+            // Once the action update has been processed we can mark the value in the watcher as seen
+            self.management_action_update_watcher_rx.mark_unchanged();
+            // if nothing changed, but there was an executor error before, we need to return that error again since it still applies
+            return ManagementActionNotification::AssetUpdated(
+                self.previous_detected_status.clone(),
+            );
+        }
+
+        let new_topic = update_notification
+            .definition
+            .topic
+            .as_ref()
+            .or(update_notification
+                .definition
+                .management_group
+                .default_topic
+                .as_ref());
+        let old_topic = self.definition.topic.as_ref().or(self
+            .definition
+            .management_group
+            .default_topic
+            .as_ref());
+        if new_topic == old_topic {
+            // topic won't be changed, we don't need to recreate the executor
+            // update the definition in place
+            self.definition = update_notification.definition;
+            // Once the action update has been processed we can mark the value in the watcher as seen
+            self.management_action_update_watcher_rx.mark_unchanged();
+            // if nothing changed, but there was an executor error before, we need to return that error again since it still applies
+            return ManagementActionNotification::ManagementActionUpdated(
+                self.previous_detected_status.clone(),
+            );
+        }
+
+        // no await points beyond this point, so this is safe
+        self.definition = update_notification.definition;
+
+        // create new executor, in case topics have changed
+        // TODO: only do this if topics have actually changed because churn is high?
+        // technically because these fields are under the lock, if they change, we won't update them unless there's an action update
+        // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
+        let (device_uuid, device_external_device_id) = {
+            let device_spec = self.device_specification.read().unwrap();
+            (
+                device_spec.uuid.clone(),
+                device_spec.external_device_id.clone(),
+            )
+        };
+        let (asset_uuid, asset_external_asset_id) = {
+            let asset_spec = self.asset_specification.read().unwrap();
+            (
+                asset_spec.uuid.clone(),
+                asset_spec.external_asset_id.clone(),
+            )
+        };
+        let executor = ManagementActionExecutor::new(
+            &self.definition.topic,
+            &self.definition.management_group.default_topic,
+            &self.management_action_ref,
+            self.connector_context.clone(),
+        );
+        self.previous_detected_status = executor.as_ref().map(|_| ()).map_err(|e| e.clone());
+
+        // Once the action definition has been updated we can mark the value in the watcher as seen
+        self.management_action_update_watcher_rx.mark_unchanged();
+        ManagementActionNotification::ManagementActionNewExecutor(executor)
     }
 
     /// Creates a new status reporter for this [`DataOperationClient`]
@@ -3630,63 +3850,63 @@ impl ManagementActionClient {
 
     // ~~~~~~ Internal fns ~~~~~~~
 
-    fn create_executor(
-        definition: &ManagementActionSpecification,
-        management_action_ref: &ManagementActionRef,
-        connector_context: Arc<ConnectorContext>,
-    ) -> (ManagementActionExecutor, Result<(), AdrConfigError>) {
-        let request_topic_pattern = if let Some(ref action_topic) = definition.topic {
-            action_topic.clone()
-        } else if let Some(ref default_group_topic) = definition.management_group.default_topic {
-            default_group_topic.clone()
-        } else {
-            let err = AdrConfigError {
-                code: None,
-                details: None,
-                message: Some("Management Group must have default topic if Management Action doesn't have a topic".to_string()),
-            };
-            return (ManagementActionExecutor::Error(err.clone()), Err(err));
-        };
-        let executor_options = rpc_command::executor::OptionsBuilder::default()
-            .request_topic_pattern(request_topic_pattern)
-            // TODO: handle topic tokens
-            .command_name(definition.command_name())
-            .build()
-            .expect("Options can't fail if request topic pattern and command name are provided");
-        //  {
-        //     Ok(options) => options,
-        //     Err(e) => {
-        //         let err = AdrConfigError {
-        //             code: None,
-        //             details: Some(vec![Details { info: Some(e.to_string()), ..Default::default()}]),
-        //             message: Some(format!("Invalid topic or name for management action")),
-        //         };
-        //         return (ManagementActionExecutor::Error(err.clone()), Err(err));
-        //     }
-        // };
-        match rpc_command::Executor::new(
-            connector_context.application_context.clone(),
-            connector_context.managed_client.clone(),
-            executor_options,
-        ) {
-            Ok(executor) => (ManagementActionExecutor::Executor(executor), Ok(())),
-            Err(e) => {
-                log::warn!(
-                    "Invalid definition for management action: {:?} {e:?}",
-                    management_action_ref
-                );
-                let err = AdrConfigError {
-                    code: None,
-                    details: Some(vec![Details {
-                        info: Some(e.to_string()),
-                        ..Default::default()
-                    }]),
-                    message: Some(format!("Invalid topic or name for management action")),
-                };
-                (ManagementActionExecutor::Error(err.clone()), Err(err))
-            }
-        }
-    }
+    // fn create_executor(
+    //     definition: &ManagementActionSpecification,
+    //     management_action_ref: &ManagementActionRef,
+    //     connector_context: Arc<ConnectorContext>,
+    // ) -> (ManagementActionExecutor, Result<(), AdrConfigError>) {
+    //     let request_topic_pattern = if let Some(ref action_topic) = definition.topic {
+    //         action_topic.clone()
+    //     } else if let Some(ref default_group_topic) = definition.management_group.default_topic {
+    //         default_group_topic.clone()
+    //     } else {
+    //         let err = AdrConfigError {
+    //             code: None,
+    //             details: None,
+    //             message: Some("Management Group must have default topic if Management Action doesn't have a topic".to_string()),
+    //         };
+    //         return (ManagementActionExecutor::Error(err.clone()), Err(err));
+    //     };
+    //     let executor_options = rpc_command::executor::OptionsBuilder::default()
+    //         .request_topic_pattern(request_topic_pattern)
+    //         // TODO: handle topic tokens
+    //         .command_name(definition.command_name())
+    //         .build()
+    //         .expect("Options can't fail if request topic pattern and command name are provided");
+    //     //  {
+    //     //     Ok(options) => options,
+    //     //     Err(e) => {
+    //     //         let err = AdrConfigError {
+    //     //             code: None,
+    //     //             details: Some(vec![Details { info: Some(e.to_string()), ..Default::default()}]),
+    //     //             message: Some(format!("Invalid topic or name for management action")),
+    //     //         };
+    //     //         return (ManagementActionExecutor::Error(err.clone()), Err(err));
+    //     //     }
+    //     // };
+    //     match rpc_command::Executor::new(
+    //         connector_context.application_context.clone(),
+    //         connector_context.managed_client.clone(),
+    //         executor_options,
+    //     ) {
+    //         Ok(executor) => (ManagementActionExecutor::Executor(executor), Ok(())),
+    //         Err(e) => {
+    //             log::warn!(
+    //                 "Invalid definition for management action: {:?} {e:?}",
+    //                 management_action_ref
+    //             );
+    //             let err = AdrConfigError {
+    //                 code: None,
+    //                 details: Some(vec![Details {
+    //                     info: Some(e.to_string()),
+    //                     ..Default::default()
+    //                 }]),
+    //                 message: Some(format!("Invalid topic or name for management action")),
+    //             };
+    //             (ManagementActionExecutor::Error(err.clone()), Err(err))
+    //         }
+    //     }
+    // }
 
     /// Helper function to update the specific event status within the asset status
     fn update_action_status(
