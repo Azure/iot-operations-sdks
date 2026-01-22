@@ -7,8 +7,14 @@
     /// </summary>
     public class OptionContainer
     {
-        /// <summary>Gets or sets the file(s) containing WoT Thing Description(s) to process.</summary>
+        /// <summary>Gets or sets the file(s) containing WoT Thing Description(s) to process for client-side and server-side generation.</summary>
         public required FileInfo[] ThingFiles { get; set; }
+
+        /// <summary>Gets or sets the file(s) containing WoT Thing Description(s) to process for client-side generation.</summary>
+        public required FileInfo[] ClientThingFiles { get; set; }
+
+        /// <summary>Gets or sets the file(s) containing WoT Thing Description(s) to process for server-side generation.</summary>
+        public required FileInfo[] ServerThingFiles { get; set; }
 
         /// <summary>Gets or sets the filespec(s) of files containing schema definitions.</summary>
         public required string[] SchemaFiles { get; set; }
@@ -30,12 +36,6 @@
 
         /// <summary>Gets or sets the programming language for generated code.</summary>
         public required string Language { get; set; }
-
-        /// <summary>Gets or sets an indication of whether to generate only client-side code.</summary>
-        public bool ClientOnly { get; set; }
-
-        /// <summary>Gets or sets an indication of whether to generate only server-side code.</summary>
-        public bool ServerOnly { get; set; }
 
         /// <summary>Gets or sets an indication of whether to suppress generation of a project.</summary>
         public bool NoProj { get; set; }

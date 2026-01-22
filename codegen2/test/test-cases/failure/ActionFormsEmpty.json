@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/ActionFormsEmpty.TM.json" ],
+    "things": [ "invalidThing/ActionFormsEmpty.TM.json" ],
     "lang": "none"
   },
   "errors": [

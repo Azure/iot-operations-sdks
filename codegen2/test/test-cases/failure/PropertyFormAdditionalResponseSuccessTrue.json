@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormAdditionalResponseSuccessTrue.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyFormAdditionalResponseSuccessTrue.TM.json" ],
     "lang": "none"
   },
   "errors": [

@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/ContextMissingWot.TM.json" ],
+    "things": [ "invalidThing/ContextMissingWot.TM.json" ],
     "lang": "none"
   },
   "errors": [

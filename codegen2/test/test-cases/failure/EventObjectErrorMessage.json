@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventObjectErrorMessage.TM.json" ],
+    "things": [ "invalidAioBinding/EventObjectErrorMessage.TM.json" ],
     "lang": "none"
   },
   "errors": [

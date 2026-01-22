@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/SchemaDefinitionArrayItemsTypeNotString.TM.json" ],
+    "things": [ "invalidThing/SchemaDefinitionArrayItemsTypeNotString.TM.json" ],
     "lang": "none"
   },
   "errors": [

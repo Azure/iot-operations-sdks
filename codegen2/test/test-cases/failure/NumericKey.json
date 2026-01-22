@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidJson/NumericKey.TM.json" ],
+    "things": [ "invalidJson/NumericKey.TM.json" ],
     "lang": "none"
   },
   "errors": [

@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/EventFormOpRead.TM.json" ],
+    "things": [ "invalidThing/EventFormOpRead.TM.json" ],
     "lang": "none"
   },
   "errors": [

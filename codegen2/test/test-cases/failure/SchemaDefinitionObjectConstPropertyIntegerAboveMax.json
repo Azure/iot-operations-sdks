@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyIntegerAboveMax.TM.json" ],
+    "things": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyIntegerAboveMax.TM.json" ],
     "lang": "none"
   },
   "errors": [

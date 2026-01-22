@@ -1,15 +1,15 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "valid/OneAction.TM.json" ],
+    "things": [ "valid/OneAction.TM.json" ],
+    "clientThings": [ "valid/OneAction.TM.json" ],
+    "serverThings": [],
     "schemas": [],
-    "lang": "none",
-    "clientOnly": true,
-    "serverOnly": true
+    "lang": "none"
   },
   "errors": [
     {
-      "condition": "ValuesInconsistent",
+      "condition": "Duplication",
       "filename": "",
       "line": 0,
       "cfLine": 0,

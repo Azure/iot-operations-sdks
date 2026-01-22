@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyTypeNull.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyTypeNull.TM.json" ],
     "lang": "none"
   },
   "errors": [

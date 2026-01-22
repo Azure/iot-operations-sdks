@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionInputRefNotFound.TM.json" ],
+    "things": [ "invalidAioBinding/ActionInputRefNotFound.TM.json" ],
     "lang": "csharp"
   },
   "errors": [

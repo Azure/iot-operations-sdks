@@ -191,6 +191,8 @@
             }
 
             FileInfo[] thingFiles = commandLine.ThingFiles.Select(tf => new FileInfo(Path.GetFullPath($"{tmPath}/{tf}"))).ToArray();
+            FileInfo[] clientThingFiles = commandLine.ClientThingFiles.Select(tf => new FileInfo(Path.GetFullPath($"{tmPath}/{tf}"))).ToArray();
+            FileInfo[] serverThingFiles = commandLine.ServerThingFiles.Select(tf => new FileInfo(Path.GetFullPath($"{tmPath}/{tf}"))).ToArray();
             string[] schemaFiles = commandLine.SchemaFiles.Select(tf => Path.GetFullPath($"{schemasPath}/{tf}")).ToArray();
             FileInfo? typeNamerFile = commandLine.TypeNamerFile != null ? new FileInfo(Path.GetFullPath($"{namerPath}/{commandLine.TypeNamerFile}")) : null;
             DirectoryInfo outputDir = new DirectoryInfo(commandLine.OutputDir != null ? Path.GetFullPath($"{testCaseSandboxPath}/{commandLine.OutputDir}") : $"{testCaseSandboxPath}/{CommandPerformer.DefaultOutDir}");
@@ -200,6 +202,8 @@
             return new OptionContainer
             {
                 ThingFiles = thingFiles,
+                ClientThingFiles = clientThingFiles,
+                ServerThingFiles = serverThingFiles,
                 SchemaFiles = schemaFiles,
                 TypeNamerFile = typeNamerFile,
                 OutputDir = outputDir,
@@ -207,8 +211,6 @@
                 GenNamespace = genNamespace,
                 SdkPath = commandLine.SdkPath,
                 Language = commandLine.Language ?? "none",
-                ClientOnly = commandLine.ClientOnly,
-                ServerOnly = commandLine.ServerOnly,
                 NoProj = commandLine.NoProj,
                 DefaultImpl = commandLine.DefaultImpl
             };

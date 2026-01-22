@@ -5,8 +5,14 @@
 
     public class TestCommandLine
     {
-        [JsonPropertyName("thingFiles")]
+        [JsonPropertyName("things")]
         public string[] ThingFiles { get; set; } = [];
+
+        [JsonPropertyName("clientThings")]
+        public string[] ClientThingFiles { get; set; } = [];
+
+        [JsonPropertyName("serverThings")]
+        public string[] ServerThingFiles { get; set; } = [];
 
         [JsonPropertyName("schemas")]
         public string[] SchemaFiles { get; set; } = [];
@@ -28,12 +34,6 @@
 
         [JsonPropertyName("lang")]
         public string? Language { get; set; }
-
-        [JsonPropertyName("clientOnly")]
-        public bool ClientOnly { get; set; }
-
-        [JsonPropertyName("serverOnly")]
-        public bool ServerOnly { get; set; }
 
         [JsonPropertyName("noProj")]
         public bool NoProj { get; set; }

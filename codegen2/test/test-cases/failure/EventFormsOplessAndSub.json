@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventFormsOplessAndSub.TM.json" ],
+    "things": [ "invalidAioBinding/EventFormsOplessAndSub.TM.json" ],
     "lang": "none"
   },
   "errors": [

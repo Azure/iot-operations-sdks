@@ -1,7 +1,7 @@
 {
   "success": true,
   "commandLine": {
-    "thingFiles": [ "valid/LinkComponent.TM.json" ],
+    "things": [ "valid/LinkComponent.TM.json" ],
     "lang": "none"
   }
 }

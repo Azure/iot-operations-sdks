@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormOplessAdditionalResponsesNoTopicAndRootFormReadAllWithoutAdditionalResponses.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyFormOplessAdditionalResponsesNoTopicAndRootFormReadAllWithoutAdditionalResponses.TM.json" ],
     "lang": "none"
   },
   "errors": [

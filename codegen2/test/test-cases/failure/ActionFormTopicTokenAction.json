@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormTopicTokenAction.TM.json" ],
+    "things": [ "invalidAioBinding/ActionFormTopicTokenAction.TM.json" ],
     "lang": "none"
   },
   "errors": [

@@ -53,7 +53,11 @@
                 }
 
                 errorLog.Phase = "Parsing";
-                List<ParsedThing> parsedThings = ParseThings(options.ThingFiles, errorLog, out HashSet<SerializationFormat> serializationFormats, statusReceiver, generateClient: !options.ServerOnly, generateServer: !options.ClientOnly);
+                List<ParsedThing> parsedThings = new();
+                HashSet<SerializationFormat> serializationFormats = new();
+                ParseThings(options.ThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, forClient: true, forServer: true);
+                ParseThings(options.ClientThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, forClient: true, forServer: false);
+                ParseThings(options.ServerThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, forClient: false, forServer: true);
 
                 if (errorLog.HasErrors)
                 {
@@ -172,14 +176,11 @@
             }
         }
 
-        private static List<ParsedThing> ParseThings(FileInfo[] thingFiles, ErrorLog errorLog, out HashSet<SerializationFormat> serializationFormats, Action<string, bool> statusReceiver, bool generateClient, bool generateServer)
+        private static void ParseThings(FileInfo[] thingFiles, ErrorLog errorLog, Action<string, bool> statusReceiver, List<ParsedThing> parsedThings, HashSet<SerializationFormat> serializationFormats, bool forClient, bool forServer)
         {
-            List<ParsedThing> parsedThings = new();
-            serializationFormats = new HashSet<SerializationFormat>();
-
             foreach (FileInfo thingFile in thingFiles)
             {
-                statusReceiver.Invoke($"Parsing thing description file: {thingFile.Name} ...", true);
+                statusReceiver.Invoke($"Parsing Thing Model file: {thingFile.Name} ...", true);
 
                 using (StreamReader thingReader = thingFile.OpenText())
                 {
@@ -199,7 +200,7 @@
                                 if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, out SchemaNamer? schemaNamer))
                                 {
                                     thingCount++;
-                                    parsedThings.Add(new ParsedThing(thing, thingFile.Name, thingFile.DirectoryName!, schemaNamer, errorReporter, generateClient, generateServer));
+                                    parsedThings.Add(new ParsedThing(thing, thingFile.Name, thingFile.DirectoryName!, schemaNamer, errorReporter, forClient, forServer));
                                     errorReporter.RegisterNameOfThing(thing.Title!.Value.Value, thing.Title!.TokenIndex);
                                 }
                             }
@@ -209,8 +210,6 @@
                     }
                 }
             }
-
-            return parsedThings;
         }
 
         private static bool TryGetSchemaNamer(ErrorReporter errorReporter, string folderPath, ValueTracker<StringHolder>? namerFilename, [NotNullWhen(true)] out SchemaNamer? schemaNamer)
@@ -327,12 +326,12 @@
 
         private static void ValidateOptions(OptionContainer options, ErrorLog errorLog)
         {
-            bool anyThingFiles = options.ThingFiles.Length > 0;
+            bool anyThingFiles = options.ThingFiles.Length + options.ClientThingFiles.Length + options.ServerThingFiles.Length > 0;
             bool anySchemaFiles = options.SchemaFiles.Any(fs => Directory.GetFiles(Path.GetDirectoryName(fs) ?? string.Empty, Path.GetFileName(fs)).Any());
 
             if (!anyThingFiles && !anySchemaFiles)
             {
-                AddUnlocatableError(ErrorCondition.ElementMissing, $"No Thing Description files specified, and no schema files {(options.SchemaFiles.Length > 0 ? "found" : "specified")}.  Use option --help for CLI usage and options.", errorLog);
+                AddUnlocatableError(ErrorCondition.ElementMissing, $"no Thing Model files specified, and no schema files {(options.SchemaFiles.Length > 0 ? "found" : "specified")}.  Use option --help for CLI usage and options.", errorLog);
                 return;
             }
 
@@ -343,17 +342,49 @@
                 return;
             }
 
-            if (options.ClientOnly && options.ServerOnly)
+            bool filesOverlap = false;
+            foreach (FileInfo cf in options.ClientThingFiles)
             {
-                AddUnlocatableError(ErrorCondition.ValuesInconsistent, "options --clientOnly and --serverOnly are mutually exclusive", errorLog);
+                if (options.ThingFiles.Any(tf => tf.FullName == cf.FullName))
+                {
+                    AddUnlocatableError(ErrorCondition.Duplication, $"Thing Model file '{cf.FullName}' in common thing list is duplicated in client thing list; remove file from --clientThings", errorLog);
+                    filesOverlap = true;
+                }
+            }
+            foreach (FileInfo sf in options.ServerThingFiles)
+            {
+                if (options.ThingFiles.Any(tf => tf.FullName == sf.FullName))
+                {
+                    AddUnlocatableError(ErrorCondition.Duplication, $"Thing Model file '{sf.FullName}' in common thing list is duplicated in server thing list; remove file from --serverThings", errorLog);
+                    filesOverlap = true;
+                }
+            }
+            foreach (FileInfo cf in options.ClientThingFiles)
+            {
+                if (options.ServerThingFiles.Any(sf => sf.FullName == cf.FullName))
+                {
+                    AddUnlocatableError(ErrorCondition.ValuesInconsistent, $"Thing Model file '{cf.FullName}' is in both client and server thing lists; for full generation, relocate file to --things", errorLog);
+                    filesOverlap = true;
+                }
+            }
+            if (filesOverlap)
+            {
                 return;
             }
 
-            if (options.ThingFiles.Any(mf => !mf.Exists))
+            if (options.ThingFiles.Any(mf => !mf.Exists) || options.ClientThingFiles.Any(mf => !mf.Exists) || options.ServerThingFiles.Any(mf => !mf.Exists))
             {
                 foreach (FileInfo f in options.ThingFiles.Where(tf => !tf.Exists))
                 {
-                    AddUnlocatableError(ErrorCondition.ItemNotFound, $"Non-existent Thing Description file: {f.FullName}", errorLog);
+                    AddUnlocatableError(ErrorCondition.ItemNotFound, $"non-existent Thing Model file: {f.FullName}", errorLog);
+                }
+                foreach (FileInfo f in options.ClientThingFiles.Where(tf => !tf.Exists))
+                {
+                    AddUnlocatableError(ErrorCondition.ItemNotFound, $"non-existent client Thing Model file: {f.FullName}", errorLog);
+                }
+                foreach (FileInfo f in options.ServerThingFiles.Where(tf => !tf.Exists))
+                {
+                    AddUnlocatableError(ErrorCondition.ItemNotFound, $"non-existent server Thing Model file: {f.FullName}", errorLog);
                 }
                 return;
             }

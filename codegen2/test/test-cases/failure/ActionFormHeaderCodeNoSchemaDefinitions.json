@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormHeaderCodeNoSchemaDefinitions.TM.json" ],
+    "things": [ "invalidAioBinding/ActionFormHeaderCodeNoSchemaDefinitions.TM.json" ],
     "lang": "none"
   },
   "errors": [

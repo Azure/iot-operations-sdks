@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventFormOpSubDuplicate.TM.json" ],
+    "things": [ "invalidAioBinding/EventFormOpSubDuplicate.TM.json" ],
     "lang": "none"
   },
   "errors": [

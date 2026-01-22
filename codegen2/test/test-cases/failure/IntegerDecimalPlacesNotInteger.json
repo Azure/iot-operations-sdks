@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/IntegerDecimalPlacesNotInteger.TM.json" ],
+    "things": [ "invalidAioBinding/IntegerDecimalPlacesNotInteger.TM.json" ],
     "lang": "none"
   },
   "errors": [

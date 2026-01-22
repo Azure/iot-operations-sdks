@@ -1,7 +1,7 @@
 {
   "success": true,
   "commandLine": {
-    "thingFiles": [ "valid/ObjectTypeRef.TM.json" ],
+    "things": [ "valid/ObjectTypeRef.TM.json" ],
     "lang": "none"
   }
 }

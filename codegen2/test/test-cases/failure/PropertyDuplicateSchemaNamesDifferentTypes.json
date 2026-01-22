@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyDuplicateSchemaNamesDifferentTypes.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyDuplicateSchemaNamesDifferentTypes.TM.json" ],
     "lang": "none"
   },
   "errors": [

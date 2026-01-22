@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidJson/MissingComma.TM.json" ],
+    "things": [ "invalidJson/MissingComma.TM.json" ],
     "lang": "none"
   },
   "errors": [

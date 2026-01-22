@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ContextMissingDtv.TM.json" ],
+    "things": [ "invalidAioBinding/ContextMissingDtv.TM.json" ],
     "lang": "none"
   },
   "errors": [

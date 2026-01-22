@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/NoType.TM.json" ],
+    "things": [ "invalidThing/NoType.TM.json" ],
     "lang": "none"
   },
   "errors": [

@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/PropertyFormOpReadAll.TM.json" ],
+    "things": [ "invalidThing/PropertyFormOpReadAll.TM.json" ],
     "lang": "none"
   },
   "errors": [

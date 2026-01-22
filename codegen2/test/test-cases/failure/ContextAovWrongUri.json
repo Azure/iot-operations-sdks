@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ContextAovWrongUri.TM.json" ],
+    "things": [ "invalidAioBinding/ContextAovWrongUri.TM.json" ],
     "lang": "none"
   },
   "errors": [

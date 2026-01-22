@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/IntegerScaleFactorNotInteger.TM.json" ],
+    "things": [ "invalidAioBinding/IntegerScaleFactorNotInteger.TM.json" ],
     "lang": "none"
   },
   "errors": [

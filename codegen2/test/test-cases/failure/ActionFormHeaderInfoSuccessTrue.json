@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormHeaderInfoSuccessTrue.TM.json" ],
+    "things": [ "invalidAioBinding/ActionFormHeaderInfoSuccessTrue.TM.json" ],
     "lang": "none"
   },
   "errors": [

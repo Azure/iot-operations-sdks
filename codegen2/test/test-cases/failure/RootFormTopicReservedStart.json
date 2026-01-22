@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormTopicReservedStart.TM.json" ],
+    "things": [ "invalidAioBinding/RootFormTopicReservedStart.TM.json" ],
     "lang": "none"
   },
   "errors": [

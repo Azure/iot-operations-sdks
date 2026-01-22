@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/LinkNamingUnsupportedProperty.TM.json" ],
+    "things": [ "invalidAioBinding/LinkNamingUnsupportedProperty.TM.json" ],
     "lang": "none"
   },
   "errors": [

@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormAdditionalResponsesMultiple.TM.json" ],
+    "things": [ "invalidAioBinding/ActionFormAdditionalResponsesMultiple.TM.json" ],
     "lang": "none"
   },
   "errors": [

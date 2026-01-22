@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "valid/ThingOneWithGeneratedNameMyPropSchema.TM.json", "valid/ThingTwoWithGeneratedNameMyPropSchema.TM.json" ],
+    "things": [ "valid/ThingOneWithGeneratedNameMyPropSchema.TM.json", "valid/ThingTwoWithGeneratedNameMyPropSchema.TM.json" ],
     "lang": "csharp"
   },
   "errors": [

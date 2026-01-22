@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormOpWriteDuplicate.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyFormOpWriteDuplicate.TM.json" ],
     "lang": "none"
   },
   "errors": [

@@ -9,9 +9,19 @@
     {
         static void Main(string[] args)
         {
-            var thingFilesOption = new Option<FileInfo[]>(
-                name: "--thingFiles",
-                description: "File(s) containing WoT Thing Description(s) to process")
+            var thingsOption = new Option<FileInfo[]>(
+                name: "--things",
+                description: "File(s) containing WoT Thing Model(s) to process for full generation")
+            { ArgumentHelpName = "FILEPATH ...", AllowMultipleArgumentsPerToken = true };
+
+            var clientThingsOption = new Option<FileInfo[]>(
+                name: "--clientThings",
+                description: "File(s) containing WoT Thing Model(s) to process for client-side generation")
+            { ArgumentHelpName = "FILEPATH ...", AllowMultipleArgumentsPerToken = true };
+
+            var serverThingsOption = new Option<FileInfo[]>(
+                name: "--serverThings",
+                description: "File(s) containing WoT Thing Model(s) to process for server-side generation")
             { ArgumentHelpName = "FILEPATH ...", AllowMultipleArgumentsPerToken = true };
 
             var schemasOption = new Option<string[]>(
@@ -52,14 +62,6 @@
                 description: "Programming language for generated code")
             { ArgumentHelpName = string.Join('|', CommandHandler.SupportedLanguages) };
 
-            var clientOnlyOption = new Option<bool>(
-                name: "--clientOnly",
-                description: "Generate only client-side code");
-
-            var serverOnlyOption = new Option<bool>(
-                name: "--serverOnly",
-                description: "Generate only server-side code");
-
             var noProjOption = new Option<bool>(
                 name: "--noProj",
                 description: "Do not generate code in a project");
@@ -68,9 +70,11 @@
                 name: "--defaultImpl",
                 description: "Generate default implementations of user-level callbacks");
 
-            var rootCommand = new RootCommand("Akri MQTT code generation tool for WoT Thing Descriptions")
+            var rootCommand = new RootCommand("Akri MQTT code generation tool for WoT Thing Models")
         {
-            thingFilesOption,
+            thingsOption,
+            clientThingsOption,
+            serverThingsOption,
             schemasOption,
             typeNamerOption,
             outDirOption,
@@ -78,14 +82,14 @@
             namespaceOption,
             sdkPathOption,
             langOption,
-            clientOnlyOption,
-            serverOnlyOption,
             noProjOption,
             defaultImplOption,
         };
 
             ArgBinder argBinder = new ArgBinder(
-                thingFilesOption,
+                thingsOption,
+                clientThingsOption,
+                serverThingsOption,
                 schemasOption,
                 typeNamerOption,
                 outDirOption,
@@ -93,8 +97,6 @@
                 namespaceOption,
                 sdkPathOption,
                 langOption,
-                clientOnlyOption,
-                serverOnlyOption,
                 noProjOption,
                 defaultImplOption);
 

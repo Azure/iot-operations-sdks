@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormReadWithoutTopicWriteWithTopicAndRootFormReadAll.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyFormReadWithoutTopicWriteWithTopicAndRootFormReadAll.TM.json" ],
     "lang": "none"
   },
   "errors": [

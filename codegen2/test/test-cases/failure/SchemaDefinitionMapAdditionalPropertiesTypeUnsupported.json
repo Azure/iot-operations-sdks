@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/SchemaDefinitionMapAdditionalPropertiesTypeUnsupported.TM.json" ],
+    "things": [ "invalidThing/SchemaDefinitionMapAdditionalPropertiesTypeUnsupported.TM.json" ],
     "lang": "none"
   },
   "errors": [

@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormTopicTokenNoActionWhenNoOpAndNoReadOnly.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyFormTopicTokenNoActionWhenNoOpAndNoReadOnly.TM.json" ],
     "lang": "none"
   },
   "errors": [

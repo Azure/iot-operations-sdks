@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormOpReadAllAndSubAll.TM.json" ],
+    "things": [ "invalidAioBinding/RootFormOpReadAllAndSubAll.TM.json" ],
     "lang": "none"
   },
   "errors": [

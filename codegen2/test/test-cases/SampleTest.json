@@ -1,16 +1,16 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "valid/Noop.TM.json" ],
-    "schemas": [ ],
+    "things": [ "valid/Noop.TM.json" ],
+    "clientThings": [],
+    "serverThings": [],
+    "schemas": [],
     "typeNamer": null,
     "outDir": "",
     "workingDir": "",
     "namespaace": "",
     "sdkPath": null,
     "lang": "none",
-    "clientOnly": false,
-    "serverOnly": false,
     "noProj": false,
     "defaultImpl": false
   },

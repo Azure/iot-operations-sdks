@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidJson/MissingValue.TM.json" ],
+    "things": [ "invalidJson/MissingValue.TM.json" ],
     "lang": "none"
   },
   "errors": [

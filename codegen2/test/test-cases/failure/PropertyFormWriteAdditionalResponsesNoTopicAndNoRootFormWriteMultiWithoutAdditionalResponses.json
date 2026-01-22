@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormWriteAdditionalResponsesNoTopicAndNoRootFormWriteMultiWithoutAdditionalResponses.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyFormWriteAdditionalResponsesNoTopicAndNoRootFormWriteMultiWithoutAdditionalResponses.TM.json" ],
     "lang": "none"
   },
   "errors": [

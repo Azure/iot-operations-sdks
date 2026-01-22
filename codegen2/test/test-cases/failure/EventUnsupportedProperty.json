@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventUnsupportedProperty.TM.json" ],
+    "things": [ "invalidAioBinding/EventUnsupportedProperty.TM.json" ],
     "lang": "none"
   },
   "errors": [

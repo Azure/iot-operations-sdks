@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "valid/ThingOneNamedMyThing.TM.json", "valid/ThingTwoNamedMyThing.TM.json" ],
+    "things": [ "valid/ThingOneNamedMyThing.TM.json", "valid/ThingTwoNamedMyThing.TM.json" ],
     "lang": "csharp"
   },
   "errors": [

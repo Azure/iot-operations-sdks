@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/EventNoFormsWithTopicAndNoRootFormSubAll.TM.json" ],
+    "things": [ "invalidAioBinding/EventNoFormsWithTopicAndNoRootFormSubAll.TM.json" ],
     "lang": "none"
   },
   "errors": [

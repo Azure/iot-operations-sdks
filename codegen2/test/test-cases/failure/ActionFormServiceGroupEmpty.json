@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormServiceGroupEmpty.TM.json" ],
+    "things": [ "invalidAioBinding/ActionFormServiceGroupEmpty.TM.json" ],
     "lang": "none"
   },
   "errors": [

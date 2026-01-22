@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyNamespaceWithoutAovContext.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyNamespaceWithoutAovContext.TM.json" ],
     "lang": "none"
   },
   "errors": [

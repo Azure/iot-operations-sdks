@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidThing/RootFormOpReadOne.TM.json" ],
+    "things": [ "invalidThing/RootFormOpReadOne.TM.json" ],
     "lang": "none"
   },
   "errors": [

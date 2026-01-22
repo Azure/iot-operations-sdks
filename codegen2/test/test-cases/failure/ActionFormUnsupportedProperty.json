@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionFormUnsupportedProperty.TM.json" ],
+    "things": [ "invalidAioBinding/ActionFormUnsupportedProperty.TM.json" ],
     "lang": "none"
   },
   "errors": [

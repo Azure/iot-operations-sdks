@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ContextDtvWrongPrefix.TM.json" ],
+    "things": [ "invalidAioBinding/ContextDtvWrongPrefix.TM.json" ],
     "lang": "none"
   },
   "errors": [

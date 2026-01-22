@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormTopicTokenInvokerId.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyFormTopicTokenInvokerId.TM.json" ],
     "lang": "none"
   },
   "errors": [

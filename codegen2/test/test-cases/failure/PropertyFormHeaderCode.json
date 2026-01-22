@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertyFormHeaderCode.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyFormHeaderCode.TM.json" ],
     "lang": "none"
   },
   "errors": [

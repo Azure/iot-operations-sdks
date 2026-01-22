@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidJson/UnclosedObject.TM.json" ],
+    "things": [ "invalidJson/UnclosedObject.TM.json" ],
     "lang": "none"
   },
   "errors": [

@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/LinkTypedReferenceNoRefType.TM.json" ],
+    "things": [ "invalidAioBinding/LinkTypedReferenceNoRefType.TM.json" ],
     "lang": "none"
   },
   "errors": [

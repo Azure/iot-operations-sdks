@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormNoContentType.TM.json" ],
+    "things": [ "invalidAioBinding/RootFormNoContentType.TM.json" ],
     "lang": "none"
   },
   "errors": [

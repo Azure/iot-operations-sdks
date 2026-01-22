@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/PropertiesReadTopicDuplication.TM.json" ],
+    "things": [ "invalidAioBinding/PropertiesReadTopicDuplication.TM.json" ],
     "lang": "none"
   },
   "errors": [

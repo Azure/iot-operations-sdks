@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionNumberReadOnly.TM.json" ],
+    "things": [ "invalidAioBinding/SchemaDefinitionNumberReadOnly.TM.json" ],
     "lang": "none"
   },
   "errors": [

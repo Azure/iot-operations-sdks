@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormsOpWriteMultiNoReadAll.TM.json" ],
+    "things": [ "invalidAioBinding/RootFormsOpWriteMultiNoReadAll.TM.json" ],
     "lang": "none"
   },
   "errors": [

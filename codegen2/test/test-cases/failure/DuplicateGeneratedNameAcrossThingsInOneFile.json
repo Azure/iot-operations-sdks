@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/DuplicateGeneratedNameAcrossThingsInOneFile.TM.json" ],
+    "things": [ "invalidAioBinding/DuplicateGeneratedNameAcrossThingsInOneFile.TM.json" ],
     "lang": "csharp"
   },
   "errors": [

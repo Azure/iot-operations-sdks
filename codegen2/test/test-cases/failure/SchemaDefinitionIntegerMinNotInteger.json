@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerMinNotInteger.TM.json" ],
+    "things": [ "invalidAioBinding/SchemaDefinitionIntegerMinNotInteger.TM.json" ],
     "lang": "none"
   },
   "errors": [

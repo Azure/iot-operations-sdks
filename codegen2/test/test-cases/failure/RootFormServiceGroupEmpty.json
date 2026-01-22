@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/RootFormServiceGroupEmpty.TM.json" ],
+    "things": [ "invalidAioBinding/RootFormServiceGroupEmpty.TM.json" ],
     "lang": "none"
   },
   "errors": [

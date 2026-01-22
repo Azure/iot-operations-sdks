@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "nothing/Nonexistent.TM.json" ],
+    "things": [ "nothing/Nonexistent.TM.json" ],
     "schemas": [],
     "lang": "none"
   },

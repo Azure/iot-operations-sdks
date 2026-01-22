@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/SchemaDefinitionIntegerMinAboveMax.TM.json" ],
+    "things": [ "invalidAioBinding/SchemaDefinitionIntegerMinAboveMax.TM.json" ],
     "lang": "none"
   },
   "errors": [

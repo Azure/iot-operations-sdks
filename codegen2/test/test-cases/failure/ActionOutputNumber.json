@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "thingFiles": [ "invalidAioBinding/ActionOutputNumber.TM.json" ],
+    "things": [ "invalidAioBinding/ActionOutputNumber.TM.json" ],
     "lang": "none"
   },
   "errors": [
