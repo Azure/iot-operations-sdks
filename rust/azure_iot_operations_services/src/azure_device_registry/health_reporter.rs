@@ -92,7 +92,7 @@ use super::{AssetRef, Client, Error, RuntimeHealth};
 /// let interval = ReportInterval::new_unchecked(Duration::from_secs(120));
 /// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct ReportInterval(pub(super) Duration);
+pub struct ReportInterval(Duration);
 
 impl ReportInterval {
     /// Minimum allowed interval (1 minute).
