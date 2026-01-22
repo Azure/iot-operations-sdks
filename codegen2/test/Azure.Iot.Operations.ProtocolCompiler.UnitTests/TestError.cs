@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests
 {
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.CodeGeneration;

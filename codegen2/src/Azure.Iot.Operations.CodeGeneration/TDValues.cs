@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.CodeGeneration
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace Azure.Iot.Operations.CodeGeneration
 {
     using System.Collections.Generic;
 

@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.SchemaGenerator
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace Azure.Iot.Operations.SchemaGenerator
 {
     using System.Collections.Generic;
     using System.IO;

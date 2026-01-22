@@ -26,6 +26,8 @@ namespace Dtdl2Wot
         /// </summary>
         public virtual string TransformText()
         {
+ // Copyright (c) Microsoft Corporation. 
+ // Licensed under the MIT License 
             this.Write("{\r\n  \"@context\": [\r\n    \"https://www.w3.org/2022/wot/td/v1.1\",\r\n    { \"dtv\": \"htt" +
                     "p://azure.com/DigitalTwins/dtmi#\" }\r\n  ],\r\n  \"@type\": \"tm:ThingModel\",\r\n  \"title" +
                     "\": \"");

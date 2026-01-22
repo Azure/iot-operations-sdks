@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.TDParser
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace Azure.Iot.Operations.TDParser
 {
     public interface ISourceTracker : ITraversable
     {

@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.ProtocolCompiler
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace Azure.Iot.Operations.ProtocolCompiler
 {
     using System.CommandLine;
     using System.CommandLine.Binding;

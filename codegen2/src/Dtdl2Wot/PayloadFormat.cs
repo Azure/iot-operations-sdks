@@ -1,4 +1,7 @@
-﻿namespace Dtdl2Wot
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace Dtdl2Wot
 {
     using System.Linq;
 

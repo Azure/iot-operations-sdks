@@ -1,4 +1,6 @@
 <#@ template language="C#" linePragmas="false" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>

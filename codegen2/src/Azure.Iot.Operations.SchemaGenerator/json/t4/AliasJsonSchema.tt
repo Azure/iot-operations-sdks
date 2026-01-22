@@ -1,4 +1,6 @@
 <#@ template language="C#" linePragmas="false" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "title": "<#=this.schemaName#>",

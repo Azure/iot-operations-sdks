@@ -22,6 +22,8 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         /// </summary>
         public virtual string TransformText()
         {
+ // Copyright (c) Microsoft Corporation. 
+ // Licensed under the MIT License 
             this.Write("<Project Sdk=\"Microsoft.NET.Sdk\">\r\n\r\n  <PropertyGroup>\r\n    <TargetFramework>");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.targetFramework));
             this.Write("</TargetFramework>\r\n    <AnalysisLevel>latest-recommended</AnalysisLevel>\r\n    <N" +

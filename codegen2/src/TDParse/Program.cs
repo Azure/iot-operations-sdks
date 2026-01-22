@@ -1,4 +1,7 @@
-﻿namespace TDParse
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace TDParse
 {
     using System;
     using System.Collections.Generic;

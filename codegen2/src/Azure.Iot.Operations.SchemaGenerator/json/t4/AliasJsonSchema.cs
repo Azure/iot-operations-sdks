@@ -22,6 +22,8 @@ namespace Azure.Iot.Operations.SchemaGenerator
         /// </summary>
         public virtual string TransformText()
         {
+ // Copyright (c) Microsoft Corporation. 
+ // Licensed under the MIT License 
             this.Write("{\r\n  \"$schema\": \"https://json-schema.org/draft-07/schema\",\r\n  \"title\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaName));
             this.Write("\",\r\n");

@@ -26,6 +26,8 @@ namespace Dtdl2Wot
         /// </summary>
         public virtual string TransformText()
         {
+ // Copyright (c) Microsoft Corporation. 
+ // Licensed under the MIT License 
             this.Write("    \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.dtTelemetry.Name));
             this.Write("\": {\r\n");

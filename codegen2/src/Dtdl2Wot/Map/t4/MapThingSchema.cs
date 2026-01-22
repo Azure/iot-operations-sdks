@@ -25,6 +25,8 @@ namespace Dtdl2Wot
         /// </summary>
         public virtual string TransformText()
         {
+ // Copyright (c) Microsoft Corporation. 
+ // Licensed under the MIT License 
  this.PushIndent(new string(' ', this.indent)); 
             this.Write("\"type\": \"object\",\r\n\"dtv:additionalProperties\": {\r\n");
  if (this.dtMap.Description.Any()) { 

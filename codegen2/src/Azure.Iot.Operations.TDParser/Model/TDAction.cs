@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.TDParser.Model
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace Azure.Iot.Operations.TDParser.Model
 {
     using System;
     using System.Collections.Generic;

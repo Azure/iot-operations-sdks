@@ -2,6 +2,8 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="DTDLParser.Models" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
 <# this.PushIndent(new string(' ', this.indent)); #>
 "type": "object",
 "dtv:additionalProperties": {

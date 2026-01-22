@@ -25,6 +25,8 @@ namespace Dtdl2Wot
         /// </summary>
         public virtual string TransformText()
         {
+ // Copyright (c) Microsoft Corporation. 
+ // Licensed under the MIT License 
  this.PushIndent(new string(' ', this.indent)); 
             this.Write("\"type\": \"array\",\r\n\"items\": {\r\n");
  if (this.dtArray.Description.Any()) { 

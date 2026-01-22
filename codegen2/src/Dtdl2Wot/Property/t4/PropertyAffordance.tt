@@ -3,6 +3,8 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="DTDLParser" #>
 <#@ import namespace="DTDLParser.Models" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
     "<#=this.dtProperty.Name#>": {
 <# if (this.dtProperty.Description.Any()) { #>
       "description": "<#=this.dtProperty.Description.First().Value#>",

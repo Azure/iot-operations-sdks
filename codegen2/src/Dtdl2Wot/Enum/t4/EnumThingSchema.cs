@@ -25,6 +25,8 @@ namespace Dtdl2Wot
         /// </summary>
         public virtual string TransformText()
         {
+ // Copyright (c) Microsoft Corporation. 
+ // Licensed under the MIT License 
  this.PushIndent(new string(' ', this.indent)); 
  if (CanExpressAsEnum(this.dtEnum)) { 
             this.Write("\"title\": \"");
