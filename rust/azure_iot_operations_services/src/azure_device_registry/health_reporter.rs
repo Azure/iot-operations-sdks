@@ -567,7 +567,7 @@ mod tests {
             version,
             status: super::super::HealthStatus::Unavailable,
             message: Some("Unavailable".to_string()),
-            reason_code: Some("UNAVAIL".to_string()),
+            reason_code: Some("UnavailableResource".to_string()),
             last_update_time: chrono::Utc::now(),
         }
     }
