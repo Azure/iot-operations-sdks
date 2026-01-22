@@ -61,8 +61,8 @@ derive_builder = ""0.20""
             this.Write(this.ToStringHelper.ToStringWithCulture(this.IfLocal("/azure_iot_operations_protocol")));
             this.Write("\" }\r\n");
  } else { 
-            this.Write("azure_iot_operations_mqtt = { version = \"0.11.0\", registry = \"aio-sdks\" }\r\nazure_" +
-                    "iot_operations_protocol = { version = \"0.12.0\", registry = \"aio-sdks\" }\r\n");
+            this.Write("azure_iot_operations_mqtt = { version = \"1.0\", registry = \"aio-sdks\" }\r\nazure_iot" +
+                    "_operations_protocol = { version = \"1.0\", registry = \"aio-sdks\" }\r\n");
  } 
  if (!this.generateProject) { 
             this.Write("```\r\n");
