@@ -46,11 +46,12 @@
 //!     cancellation_token,
 //! );
 //!
-//! // Report health status - the background task handles deduplication
+//! // Report health status - the background task handles deduplication.
+//! // When available, neither message nor reason_code should be set.
 //! sender.report(RuntimeHealth {
 //!     version: 1,
 //!     status: HealthStatus::Available,
-//!     message: Some("Connected".to_string()),
+//!     message: None,
 //!     reason_code: None,
 //!     last_update_time: chrono::Utc::now(),
 //! });
