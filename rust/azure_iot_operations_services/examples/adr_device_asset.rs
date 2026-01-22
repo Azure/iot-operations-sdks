@@ -9,7 +9,7 @@ use azure_iot_operations_mqtt::{
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{
-    self, HealthStatus, RuntimeHealth, models, models::DeviceRef,
+    self, HealthStatus, RuntimeHealth, health_reporter::ReportInterval, models, models::DeviceRef,
 };
 use tokio_util::sync::CancellationToken;
 
@@ -20,7 +20,6 @@ const INBOUND_ENDPOINT_NAME: &str = "my-rest-endpoint";
 const ASSET_NAME: &str = "my-rest-thermostat-asset";
 const VALID_ENDPOINT_TYPE: &str = "rest-thermostat";
 const TIMEOUT: Duration = Duration::from_secs(10);
-const HEALTH_REPORTING_INTERVAL: Duration = Duration::from_secs(60);
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -79,7 +78,7 @@ async fn azure_device_registry_operations(
     let endpoint_reporter = azure_device_registry_client.new_device_endpoint_health_reporter(
         device_ref,
         TIMEOUT,
-        HEALTH_REPORTING_INTERVAL,
+        ReportInterval::default(),
         health_cancellation.clone(),
     );
 

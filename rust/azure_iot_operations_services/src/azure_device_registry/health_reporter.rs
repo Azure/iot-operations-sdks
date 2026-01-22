@@ -25,6 +25,7 @@
 //! ```ignore
 //! use azure_iot_operations_services::azure_device_registry::{
 //!     Client, HealthStatus, RuntimeHealth,
+//!     health_reporter::ReportInterval,
 //!     models::DeviceRef,
 //! };
 //! use tokio_util::sync::CancellationToken;
@@ -41,7 +42,7 @@
 //! let sender = client.new_device_endpoint_health_reporter(
 //!     device_ref,
 //!     Duration::from_secs(30), // message_expiry
-//!     Duration::from_secs(60), // report_interval
+//!     ReportInterval::default(), // report_interval (10 minutes)
 //!     cancellation_token,
 //! );
 //!
@@ -68,6 +69,77 @@ use super::models::{
     ManagementActionRuntimeHealthEvent, StreamRuntimeHealthEvent,
 };
 use super::{AssetRef, Client, Error, RuntimeHealth};
+
+// ============= ReportInterval Type =============
+
+/// Interval for periodic health re-reporting.
+///
+/// Must be at least 1 minute ([`ReportInterval::MIN`]). Defaults to 10 minutes.
+///
+/// # Example
+///
+/// ```
+/// use std::time::Duration;
+/// use azure_iot_operations_services::azure_device_registry::health_reporter::ReportInterval;
+///
+/// // Use the default (10 minutes)
+/// let interval = ReportInterval::default();
+///
+/// // Create a custom interval (must be >= 1 minute)
+/// let interval = ReportInterval::new(Duration::from_secs(120)).unwrap();
+///
+/// // Panics if interval is below minimum
+/// let interval = ReportInterval::new_unchecked(Duration::from_secs(120));
+/// ```
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ReportInterval(pub(super) Duration);
+
+impl ReportInterval {
+    /// Minimum allowed interval (1 minute).
+    pub const MIN: Duration = Duration::from_secs(60);
+
+    /// Default interval (10 minutes).
+    const DEFAULT: Duration = Duration::from_secs(600);
+
+    /// Creates a new [`ReportInterval`] with the specified duration.
+    ///
+    /// Returns `None` if duration is less than [`Self::MIN`].
+    ///
+    /// # Arguments
+    /// * `duration` - The interval duration.
+    #[must_use]
+    pub fn new(duration: Duration) -> Option<Self> {
+        if duration < Self::MIN {
+            None
+        } else {
+            Some(Self(duration))
+        }
+    }
+
+    /// Creates a new [`ReportInterval`] with the specified duration, panicking if invalid.
+    ///
+    /// # Panics
+    /// Panics if duration is less than [`Self::MIN`].
+    ///
+    /// # Arguments
+    /// * `duration` - The interval duration.
+    #[must_use]
+    pub fn new_unchecked(duration: Duration) -> Self {
+        Self::new(duration).expect("report interval must be at least 1 minute")
+    }
+}
+
+impl Default for ReportInterval {
+    fn default() -> Self {
+        Self(Self::DEFAULT)
+    }
+}
+
+impl From<ReportInterval> for Duration {
+    fn from(interval: ReportInterval) -> Duration {
+        interval.0
+    }
+}
 
 /// Trait for components that can report health events to the Azure Device Registry service.
 ///
@@ -129,14 +201,14 @@ impl HealthReporterSender {
 #[must_use]
 pub fn new_health_reporter<R: HealthReporter>(
     reporter: R,
-    report_interval: Duration,
+    report_interval: ReportInterval,
     cancellation_token: CancellationToken,
 ) -> HealthReporterSender {
     let (tx, rx) = tokio::sync::mpsc::unbounded_channel();
 
     tokio::spawn(health_reporter_task(
         reporter,
-        report_interval,
+        report_interval.into(),
         rx,
         cancellation_token,
     ));
@@ -480,7 +552,7 @@ mod tests {
 
         let sender = new_health_reporter(
             mock_reporter.clone(),
-            Duration::from_secs(60),
+            ReportInterval::default(),
             cancellation_token.clone(),
         );
 
@@ -508,7 +580,7 @@ mod tests {
 
         let sender = new_health_reporter(
             mock_reporter.clone(),
-            Duration::from_secs(60), // Long interval so no periodic re-report
+            ReportInterval::default(), // Long interval so no periodic re-report
             cancellation_token.clone(),
         );
 
@@ -539,7 +611,7 @@ mod tests {
 
         let sender = new_health_reporter(
             mock_reporter.clone(),
-            Duration::from_secs(60),
+            ReportInterval::default(),
             cancellation_token.clone(),
         );
 
@@ -570,7 +642,7 @@ mod tests {
 
         let sender = new_health_reporter(
             mock_reporter.clone(),
-            Duration::from_secs(60),
+            ReportInterval::default(),
             cancellation_token.clone(),
         );
 
@@ -601,7 +673,7 @@ mod tests {
 
         let sender = new_health_reporter(
             mock_reporter.clone(),
-            Duration::from_secs(60),
+            ReportInterval::default(),
             cancellation_token.clone(),
         );
 
@@ -632,7 +704,7 @@ mod tests {
 
         let sender = new_health_reporter(
             mock_reporter.clone(),
-            Duration::from_secs(60),
+            ReportInterval::default(),
             cancellation_token.clone(),
         );
 
@@ -663,8 +735,8 @@ mod tests {
         let mock_reporter = MockHealthReporter::new();
         let cancellation_token = CancellationToken::new();
 
-        // Use a short interval for testing
-        let report_interval = Duration::from_millis(100);
+        // Use a short interval for testing (bypass validation via direct construction)
+        let report_interval = ReportInterval(Duration::from_millis(100));
         let sender = new_health_reporter(
             mock_reporter.clone(),
             report_interval,
@@ -685,13 +757,13 @@ mod tests {
         );
 
         // Wait past first interval - should re-report
-        tokio::time::sleep(report_interval + Duration::from_millis(50)).await;
+        tokio::time::sleep(Duration::from(report_interval) + Duration::from_millis(50)).await;
         assert!(mock_reporter.get_call_count() >= 2);
         assert!(mock_reporter.get_reported_events()[1].last_update_time > last_reported_time);
         last_reported_time = mock_reporter.get_reported_events()[1].last_update_time;
 
         // Wait past second interval - should re-report again
-        tokio::time::sleep(report_interval + Duration::from_millis(50)).await;
+        tokio::time::sleep(Duration::from(report_interval) + Duration::from_millis(50)).await;
         assert!(mock_reporter.get_call_count() >= 3);
         assert!(mock_reporter.get_reported_events()[2].last_update_time > last_reported_time);
 
@@ -706,7 +778,7 @@ mod tests {
 
         let sender = new_health_reporter(
             mock_reporter.clone(),
-            Duration::from_secs(60),
+            ReportInterval::default(),
             cancellation_token.clone(),
         );
 
@@ -737,7 +809,7 @@ mod tests {
 
         let sender = new_health_reporter(
             mock_reporter.clone(),
-            Duration::from_millis(100), // Short interval for testing
+            ReportInterval(Duration::from_millis(100)), // Short interval for testing
             cancellation_token.clone(),
         );
 
@@ -771,7 +843,7 @@ mod tests {
 
         let sender = new_health_reporter(
             mock_reporter.clone(),
-            Duration::from_millis(100), // Short interval for testing
+            ReportInterval(Duration::from_millis(100)), // Short interval for testing
             cancellation_token.clone(),
         );
 
@@ -815,7 +887,7 @@ mod tests {
 
         let sender = new_health_reporter(
             mock_reporter.clone(),
-            Duration::from_secs(60),
+            ReportInterval::default(),
             cancellation_token.clone(),
         );
 

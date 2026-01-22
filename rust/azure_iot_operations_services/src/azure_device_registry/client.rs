@@ -1718,7 +1718,7 @@ impl Client {
         &self,
         device_ref: DeviceRef,
         message_expiry: Duration,
-        report_interval: Duration,
+        report_interval: health_reporter::ReportInterval,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
         let reporter = health_reporter::DeviceEndpointHealthReporter {
@@ -1748,7 +1748,7 @@ impl Client {
         asset_ref: AssetRef,
         dataset_name: String,
         message_expiry: Duration,
-        report_interval: Duration,
+        report_interval: health_reporter::ReportInterval,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
         let reporter = health_reporter::DatasetHealthReporter {
@@ -1781,7 +1781,7 @@ impl Client {
         event_group_name: String,
         event_name: String,
         message_expiry: Duration,
-        report_interval: Duration,
+        report_interval: health_reporter::ReportInterval,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
         let reporter = health_reporter::EventHealthReporter {
@@ -1813,7 +1813,7 @@ impl Client {
         asset_ref: AssetRef,
         stream_name: String,
         message_expiry: Duration,
-        report_interval: Duration,
+        report_interval: health_reporter::ReportInterval,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
         let reporter = health_reporter::StreamHealthReporter {
@@ -1846,7 +1846,7 @@ impl Client {
         management_group_name: String,
         management_action_name: String,
         message_expiry: Duration,
-        report_interval: Duration,
+        report_interval: health_reporter::ReportInterval,
         cancellation_token: tokio_util::sync::CancellationToken,
     ) -> health_reporter::HealthReporterSender {
         let reporter = health_reporter::ManagementActionHealthReporter {
