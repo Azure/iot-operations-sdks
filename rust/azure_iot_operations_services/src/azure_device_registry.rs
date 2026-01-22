@@ -27,6 +27,7 @@ mod adr_base_gen;
 mod device_discovery_gen;
 
 pub mod client;
+pub mod health_reporter;
 mod helper;
 pub mod models;
 
