@@ -29,9 +29,9 @@ namespace Azure.Iot.Operations.EnvoyGenerator
  if (this.readErrorName != null) { 
             this.Write("use std::error::Error;\r\n");
  } 
-            this.Write("use std::time::Duration;\r\n\r\nuse azure_iot_operations_mqtt::interface::ManagedClie" +
-                    "nt;\r\nuse azure_iot_operations_protocol::common::aio_protocol_error::{\r\n    AIOPr" +
-                    "otocolError,\r\n");
+            this.Write("use std::time::Duration;\r\n\r\nuse azure_iot_operations_mqtt::session::SessionManage" +
+                    "dClient;\r\nuse azure_iot_operations_protocol::common::aio_protocol_error::{\r\n    " +
+                    "AIOProtocolError,\r\n");
  if (this.readErrorName != null) { 
             this.Write("    AIOProtocolErrorKind,\r\n");
  } 
@@ -285,21 +285,19 @@ namespace Azure.Iot.Operations.EnvoyGenerator
  } 
             this.Write("pub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.propertyName.GetTypeName(TargetLanguage.Rust, "read", "requester")));
-            this.Write("<C>(\r\n    rpc_command::Invoker<");
+            this.Write("(\r\n    rpc_command::Invoker<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.readSerializerEmptyType.GetTypeName(TargetLanguage.Rust)));
             this.Write(", ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.readRespSchema.GetTypeName(TargetLanguage.Rust)));
-            this.Write(", C>,\r\n)\r\nwhere\r\n    C: ManagedClient + Clone + Send + Sync + \'static,\r\n    C::Pu" +
-                    "bReceiver: Send + Sync + \'static;\r\n\r\nimpl<C> ");
+            this.Write(">,\r\n);\r\n\r\nimpl ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.propertyName.GetTypeName(TargetLanguage.Rust, "read", "requester")));
-            this.Write("<C>\r\nwhere\r\n    C: ManagedClient + Clone + Send + Sync + \'static,\r\n    C::PubRece" +
-                    "iver: Send + Sync + \'static,\r\n{\r\n    /// Creates a new [`");
+            this.Write("\r\n{\r\n    /// Creates a new [`");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.propertyName.GetTypeName(TargetLanguage.Rust, "read", "requester")));
             this.Write(@"`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandInvokerOptions) -> Self {
+    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandInvokerOptions) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -441,21 +439,19 @@ namespace Azure.Iot.Operations.EnvoyGenerator
  } 
             this.Write("pub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "requester")));
-            this.Write("<C>(\r\n    rpc_command::Invoker<");
+            this.Write("(\r\n    rpc_command::Invoker<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.writeReqSchema.GetTypeName(TargetLanguage.Rust)));
             this.Write(", ");
             this.Write(this.ToStringHelper.ToStringWithCulture(((ITypeName)this.writeRespSchema ?? this.writeSerializerEmptyType).GetTypeName(TargetLanguage.Rust)));
-            this.Write(", C>,\r\n)\r\nwhere\r\n    C: ManagedClient + Clone + Send + Sync + \'static,\r\n    C::Pu" +
-                    "bReceiver: Send + Sync + \'static;\r\n\r\nimpl<C> ");
+            this.Write(">,\r\n);\r\n\r\nimpl ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "requester")));
-            this.Write("<C>\r\nwhere\r\n    C: ManagedClient + Clone + Send + Sync + \'static,\r\n    C::PubRece" +
-                    "iver: Send + Sync + \'static,\r\n{\r\n    /// Creates a new [`");
+            this.Write("\r\n{\r\n    /// Creates a new [`");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "requester")));
             this.Write(@"`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandInvokerOptions) -> Self {
+    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandInvokerOptions) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());

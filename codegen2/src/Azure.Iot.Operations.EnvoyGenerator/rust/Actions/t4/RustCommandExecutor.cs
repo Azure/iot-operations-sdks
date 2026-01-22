@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 ");
@@ -94,9 +94,20 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ResponseType()));
             this.Write(">,\r\n}\r\n\r\nimpl ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder")));
-            this.Write(" {\r\n    /// Custom user data to set on the response\r\n    pub fn custom_user_data(" +
-                    "&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {\r\n        self" +
-                    ".inner_builder.custom_user_data(custom_user_data);\r\n        self\r\n    }\r\n\r\n");
+            this.Write(@" {
+    /// Custom user data to set on the response
+    pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
+        self.inner_builder.custom_user_data(custom_user_data);
+        self
+    }
+
+    /// Cloud event for the response
+    pub fn cloud_event(&mut self, cloud_event: Option<rpc_command::executor::ResponseCloudEvent>) -> &mut Self {
+        self.inner_builder.cloud_event(cloud_event);
+        self
+    }
+
+");
  if (this.respSchema != null) { 
             this.Write("    /// Payload of the response\r\n    ///\r\n    /// # Errors\r\n    /// If the payloa" +
                     "d cannot be serialized\r\n    pub fn payload(\r\n        &mut self,\r\n        payload" +
@@ -155,21 +166,19 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commandName.AsGiven));
             this.Write("`\r\npub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
-            this.Write("<C>(\r\n    rpc_command::Executor<");
+            this.Write("(\r\n    rpc_command::Executor<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.RequestType()));
             this.Write(", ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ResponseType()));
-            this.Write(", C>,\r\n)\r\nwhere\r\n    C: ManagedClient + Clone + Send + Sync + \'static,\r\n    C::Pu" +
-                    "bReceiver: Send + Sync + \'static;\r\n\r\nimpl<C> ");
+            this.Write(">,\r\n);\r\n\r\nimpl ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
-            this.Write("<C>\r\nwhere\r\n    C: ManagedClient + Clone + Send + Sync + \'static,\r\n    C::PubRece" +
-                    "iver: Send + Sync + \'static,\r\n{\r\n    /// Creates a new [`");
+            this.Write("\r\n{\r\n    /// Creates a new [`");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
             this.Write(@"`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandExecutorOptions) -> Self {
+    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandExecutorOptions) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());

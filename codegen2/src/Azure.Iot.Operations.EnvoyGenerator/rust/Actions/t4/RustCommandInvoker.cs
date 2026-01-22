@@ -30,10 +30,10 @@ namespace Azure.Iot.Operations.EnvoyGenerator
  if (this.errorResultName != null) { 
             this.Write("use std::error::Error;\r\n");
  } 
-            this.Write("use std::time::Duration;\r\n\r\nuse azure_iot_operations_mqtt::interface::ManagedClie" +
-                    "nt;\r\nuse azure_iot_operations_protocol::application::ApplicationContext;\r\nuse az" +
-                    "ure_iot_operations_protocol::common::aio_protocol_error::{\r\n    AIOProtocolError" +
-                    ",\r\n");
+            this.Write("use std::time::Duration;\r\n\r\nuse azure_iot_operations_mqtt::session::SessionManage" +
+                    "dClient;\r\nuse azure_iot_operations_protocol::application::ApplicationContext;\r\nu" +
+                    "se azure_iot_operations_protocol::common::aio_protocol_error::{\r\n    AIOProtocol" +
+                    "Error,\r\n");
  if (this.errorResultName != null) { 
             this.Write("    AIOProtocolErrorKind,\r\n");
  } 
@@ -117,6 +117,12 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         self
     }
 
+    /// Cloud event for the request
+    pub fn cloud_event(&mut self, cloud_event: Option<rpc_command::invoker::RequestCloudEvent>) -> &mut Self {
+        self.inner_builder.cloud_event(cloud_event);
+        self
+    }
+
     /// Topic token keys/values to be replaced into the publish topic of the request message.
     /// A prefix of ""ex:"" will be prepended to each key before scanning the topic pattern.
     /// Thus, only tokens of the form `{ex:SOMEKEY}` will be replaced.
@@ -178,21 +184,19 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commandName.AsGiven));
             this.Write("`\r\npub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
-            this.Write("<C>(\r\n    rpc_command::Invoker<");
+            this.Write("(\r\n    rpc_command::Invoker<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.RequestType()));
             this.Write(", ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ExternalResponseType()));
-            this.Write(", C>,\r\n)\r\nwhere\r\n    C: ManagedClient + Clone + Send + Sync + \'static,\r\n    C::Pu" +
-                    "bReceiver: Send + Sync + \'static;\r\n\r\nimpl<C> ");
+            this.Write(">,\r\n);\r\n\r\nimpl ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
-            this.Write("<C>\r\nwhere\r\n    C: ManagedClient + Clone + Send + Sync + \'static,\r\n    C::PubRece" +
-                    "iver: Send + Sync + \'static,\r\n{\r\n    /// Creates a new [`");
+            this.Write("\r\n{\r\n    /// Creates a new [`");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
             this.Write(@"`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandInvokerOptions) -> Self {
+    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandInvokerOptions) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -268,7 +272,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(normalResultField.GetFieldName(TargetLanguage.Rust)));
             this.Write(".ok_or(");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
-            this.Write("::<C>::get_err(\"");
+            this.Write("::get_err(\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(normalResultField.AsGiven));
             this.Write("\"))?,\r\n");
  } else { 

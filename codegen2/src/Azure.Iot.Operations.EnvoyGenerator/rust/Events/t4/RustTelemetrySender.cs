@@ -31,7 +31,7 @@ use std::collections::HashMap;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry;
@@ -96,18 +96,17 @@ use azure_iot_operations_protocol::application::ApplicationContext;
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaType.GetTypeName(TargetLanguage.Rust)));
             this.Write("`\r\npub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
-            this.Write("<C>(\r\n    telemetry::Sender<");
+            this.Write("(\r\n    telemetry::Sender<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaType.GetTypeName(TargetLanguage.Rust)));
-            this.Write(", C>,\r\n)\r\nwhere\r\n    C: ManagedClient + Send + Sync + \'static;\r\n\r\nimpl<C> ");
+            this.Write(">,\r\n);\r\n\r\nimpl ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
-            this.Write("<C>\r\nwhere\r\n    C: ManagedClient + Send + Sync + \'static,\r\n{\r\n    /// Creates a n" +
-                    "ew [`");
+            this.Write("\r\n{\r\n    /// Creates a new [`");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
             this.Write(@"`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &TelemetrySenderOptions) -> Self {
+    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &TelemetrySenderOptions) -> Self {
         let mut sender_options_builder = telemetry::sender::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             sender_options_builder.topic_namespace(topic_namespace.clone());
