@@ -16,10 +16,10 @@ use azure_iot_operations_connector::{
     AdrConfigError, Data, DataOperationKind,
     base_connector::{
         self, BaseConnector,
-        health_event::RuntimeHealthEvent,
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
-            DeviceEndpointClient, DeviceEndpointClientCreationObservation, SchemaModifyResult,
+            DeviceEndpointClient, DeviceEndpointClientCreationObservation, RuntimeHealthEvent,
+            SchemaModifyResult,
         },
     },
     data_processor::derived_json,

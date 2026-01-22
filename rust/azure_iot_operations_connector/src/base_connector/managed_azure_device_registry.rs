@@ -7,9 +7,9 @@ use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Ar
 
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self, RuntimeHealth,
+        self, HealthStatus, RuntimeHealth,
         health_reporter::HealthReporterSender,
-        models::{self as adr_models, Asset},
+        models::{self as adr_models, Asset, DeviceRef},
     },
     schema_registry,
 };
@@ -18,15 +18,12 @@ use thiserror::Error;
 use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use tokio::sync::watch;
 use tokio_retry2::{Retry, RetryError};
-use tokio_util::sync::{CancellationToken, DropGuard};
+use tokio_util::sync::CancellationToken;
 
 use crate::{
     AdrConfigError, Data, DataOperationKind, DataOperationName, DataOperationRef, MessageSchema,
     MessageSchemaReference,
-    base_connector::{
-        ConnectorContext,
-        health_event::{self, RuntimeHealthEvent},
-    },
+    base_connector::ConnectorContext,
     deployment_artifacts::{
         self,
         azure_device_registry::{AssetRef, DeviceEndpointRef},
@@ -37,6 +34,17 @@ use crate::{
 /// Used as the strategy when using [`tokio_retry2::Retry`]
 const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialFactorBackoff =
     tokio_retry2::strategy::ExponentialFactorBackoff::from_millis(500, 2.0);
+
+/// Represents the runtime health of a resource.
+#[derive(Debug, Clone)]
+pub struct RuntimeHealthEvent {
+    /// A human-readable message describing the last transition.
+    pub message: Option<String>,
+    /// Unique, CamelCase reason code describing the cause of the last health state transition.
+    pub reason_code: Option<String>,
+    /// The current health status of the resource.
+    pub status: HealthStatus,
+}
 
 /// Notifications that can be received for a Client
 pub enum ClientNotification<T> {
@@ -81,7 +89,7 @@ impl DeviceEndpointStatusReporter {
     /// health event at the base connector `health_report_interval`'s frequency unless `pause_health_reporting` is called.
     ///
     /// The version used for reporting is the snapshotted version from the last call to
-    /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not the current specification version.
+    /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not necessarily the current specification version.
     pub fn report_health_event(&self, health_event: RuntimeHealthEvent) {
         let runtime_health = RuntimeHealth {
             last_update_time: Utc::now(),
@@ -634,9 +642,6 @@ pub struct DeviceEndpointClient {
     /// Cancellation token for health reporting task - cancelled on deletion
     #[getter(skip)]
     health_cancellation_token: CancellationToken,
-    /// Drop guard that cancels the health reporting task when this client is dropped
-    #[getter(skip)]
-    _health_cancellation_guard: DropGuard,
     /// Channels for sending and receiving completed asset clients.
     /// This is used to ensure that we only process one asset creation at a time
     #[getter(skip)]
@@ -659,11 +664,18 @@ impl DeviceEndpointClient {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
 
         let health_cancellation_token = CancellationToken::new();
-        let health_sender = health_event::new_device_endpoint_health_sender(
-            &connector_context,
-            &device_endpoint_ref,
-            health_cancellation_token.clone(),
-        );
+        let device_ref = DeviceRef {
+            device_name: device_endpoint_ref.device_name.clone(),
+            endpoint_name: device_endpoint_ref.inbound_endpoint_name.clone(),
+        };
+        let health_sender = connector_context
+            .azure_device_registry_client
+            .new_device_endpoint_health_reporter(
+                device_ref,
+                connector_context.azure_device_registry_timeout,
+                connector_context.health_report_interval,
+                health_cancellation_token.clone(),
+            );
         Ok(DeviceEndpointClient {
             specification: Arc::new(std::sync::RwLock::new(DeviceSpecification::new(
                 device,
@@ -682,7 +694,6 @@ impl DeviceEndpointClient {
             asset_create_observation,
             pending_asset_creation: false,
             health_sender,
-            _health_cancellation_guard: health_cancellation_token.clone().drop_guard(),
             health_cancellation_token,
             asset_completion_rx,
             asset_completion_tx,
@@ -975,6 +986,12 @@ impl DeviceEndpointClient {
                 log::error!("Failed to unobserve device update notifications for {device_endpoint_ref:?} after retries. If error indicates that the device/endpoint is not found, this may be expected and not a true error: {e}");
             }
         });
+    }
+}
+
+impl Drop for DeviceEndpointClient {
+    fn drop(&mut self) {
+        self.health_cancellation_token.cancel();
     }
 }
 
@@ -1997,7 +2014,7 @@ impl DataOperationStatusReporter {
     /// health event at the base connector `health_report_interval`'s frequency at minimum unless `pause_health_reporting` is called.
     ///
     /// The version used for reporting is the snapshotted version from the last call to
-    /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not the current specification version.
+    /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not necessarily the current specification version.
     pub fn report_health_event(&self, health_event: RuntimeHealthEvent) {
         let runtime_health = RuntimeHealth {
             last_update_time: Utc::now(),
@@ -2286,9 +2303,52 @@ pub struct DataOperationClient {
     /// Cancellation token for health reporting task - cancelled on deletion
     #[getter(skip)]
     health_cancellation_token: CancellationToken,
-    /// Drop guard that cancels the health reporting task when this client is dropped
-    #[getter(skip)]
-    _health_cancellation_guard: DropGuard,
+}
+
+/// Creates a health reporter sender for a data operation.
+fn new_data_operation_health_sender(
+    connector_context: &Arc<ConnectorContext>,
+    data_operation_ref: &DataOperationRef,
+    cancellation_token: CancellationToken,
+) -> HealthReporterSender {
+    let asset_ref = azure_device_registry::AssetRef {
+        device_name: data_operation_ref.device_name.clone(),
+        inbound_endpoint_name: data_operation_ref.inbound_endpoint_name.clone(),
+        name: data_operation_ref.asset_name.clone(),
+    };
+    match &data_operation_ref.data_operation_name {
+        DataOperationName::Dataset { name } => connector_context
+            .azure_device_registry_client
+            .new_dataset_health_reporter(
+                asset_ref,
+                name.clone(),
+                connector_context.azure_device_registry_timeout,
+                connector_context.health_report_interval,
+                cancellation_token,
+            ),
+        DataOperationName::Event {
+            name,
+            event_group_name,
+        } => connector_context
+            .azure_device_registry_client
+            .new_event_health_reporter(
+                asset_ref,
+                event_group_name.clone(),
+                name.clone(),
+                connector_context.azure_device_registry_timeout,
+                connector_context.health_report_interval,
+                cancellation_token,
+            ),
+        DataOperationName::Stream { name } => connector_context
+            .azure_device_registry_client
+            .new_stream_health_reporter(
+                asset_ref,
+                name.clone(),
+                connector_context.azure_device_registry_timeout,
+                connector_context.health_report_interval,
+                cancellation_token,
+            ),
+    }
 }
 
 impl DataOperationClient {
@@ -2373,7 +2433,7 @@ impl DataOperationClient {
             log::error!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
         })?;
         let health_cancellation_token = CancellationToken::new();
-        let health_sender = health_event::new_data_operation_health_sender(
+        let health_sender = new_data_operation_health_sender(
             &connector_context,
             &data_operation_ref,
             health_cancellation_token.clone(),
@@ -2390,7 +2450,6 @@ impl DataOperationClient {
             asset_ref,
             data_operation_update_watcher_rx,
             health_sender,
-            _health_cancellation_guard: health_cancellation_token.clone().drop_guard(),
             health_cancellation_token,
         })
     }
@@ -3265,6 +3324,12 @@ impl DataOperationClient {
                     error: stream_status.err(),
                 });
         }
+    }
+}
+
+impl Drop for DataOperationClient {
+    fn drop(&mut self) {
+        self.health_cancellation_token.cancel();
     }
 }
 
