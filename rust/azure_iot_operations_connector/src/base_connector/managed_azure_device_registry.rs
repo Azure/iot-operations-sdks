@@ -90,13 +90,17 @@ impl DeviceEndpointStatusReporter {
             status: health_event.status,
             version: self.snapshotted_version,
         };
-        self.health_sender.report(runtime_health);
+        if let Err(e) = self.health_sender.report(runtime_health) {
+            log::warn!("Failed to send health event: {e}");
+        }
     }
 
     /// Pauses background health event reporting until a new event is reported.
     /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
     pub fn pause_health_reporting(&self) {
-        self.health_sender.pause();
+        if let Err(e) = self.health_sender.pause() {
+            log::warn!("Failed to pause health reporting: {e}");
+        }
     }
 
     /// Snapshots the current specification version for use in future health events.
@@ -2002,13 +2006,17 @@ impl DataOperationStatusReporter {
             status: health_event.status,
             version: self.snapshotted_version,
         };
-        self.health_sender.report(runtime_health);
+        if let Err(e) = self.health_sender.report(runtime_health) {
+            log::warn!("Failed to send health event: {e}");
+        }
     }
 
     /// Pauses background health event reporting until a new event is reported.
     /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
     pub fn pause_health_reporting(&self) {
-        self.health_sender.pause();
+        if let Err(e) = self.health_sender.pause() {
+            log::warn!("Failed to pause health reporting: {e}");
+        }
     }
 
     /// Snapshots the current asset specification version for use in future health events.

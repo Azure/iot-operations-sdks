@@ -6,9 +6,7 @@
 use std::sync::Arc;
 
 use azure_iot_operations_services::azure_device_registry::{
-    HealthStatus,
-    health_reporter::HealthReporterSender,
-    models::DeviceRef,
+    HealthStatus, health_reporter::HealthReporterSender, models::DeviceRef,
 };
 use tokio_util::sync::CancellationToken;
 

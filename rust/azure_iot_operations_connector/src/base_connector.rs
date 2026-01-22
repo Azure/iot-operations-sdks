@@ -9,7 +9,10 @@ use azure_iot_operations_mqtt::session::{
     SessionError, SessionManagedClient, {Session, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
-use azure_iot_operations_services::{azure_device_registry, schema_registry, state_store};
+use azure_iot_operations_services::{
+    azure_device_registry::{self, health_reporter::ReportInterval},
+    schema_registry, state_store,
+};
 use derive_builder::Builder;
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 
@@ -36,7 +39,7 @@ pub(crate) struct ConnectorContext {
     /// Timeout for State Store operations
     pub(crate) state_store_timeout: Duration,
     /// Health status reporting interval
-    pub(crate) health_report_interval: Duration,
+    pub(crate) health_report_interval: ReportInterval,
     /// Clients used to perform connector operations
     azure_device_registry_client: azure_device_registry::Client,
     pub(crate) state_store_client: Arc<state_store::Client>,
@@ -76,8 +79,8 @@ pub struct Options {
     state_store_timeout: Duration,
 
     /// Health Status reporting interval
-    #[builder(default = "Duration::from_secs(60)")]
-    health_report_interval: Duration,
+    #[builder(default = "ReportInterval::default()")]
+    health_report_interval: ReportInterval,
 
     /// Debounce duration for filemount operations for the connector
     #[builder(default = "Duration::from_secs(5)")]
