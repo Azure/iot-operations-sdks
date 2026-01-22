@@ -965,6 +965,34 @@ impl Client {
         Ok((discovery_id, version))
     }
 
+    /// Creates a new background health reporter for a device endpoint.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified device endpoint.
+    ///
+    /// # Arguments
+    /// * `device_ref` - Reference to the device and endpoint.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on device endpoint deletion.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
+    #[must_use]
+    pub fn new_device_endpoint_health_reporter(
+        &self,
+        device_ref: DeviceRef,
+        message_expiry: Duration,
+        report_interval: health_reporter::ReportInterval,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::DeviceEndpointHealthReporter {
+            client: self.clone(),
+            device_ref,
+            message_expiry,
+        };
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
+    }
+
     // ~~~~~~~~~~~~~~~~~ Asset APIs ~~~~~~~~~~~~~~~~~~~~~
 
     /// Retrieves an [`Asset`] from the Azure Device Registry service.
@@ -1697,36 +1725,6 @@ impl Client {
         let discovery_id = response.payload.discovered_asset_response.discovery_id;
         let version = response.payload.discovered_asset_response.version;
         Ok((discovery_id, version))
-    }
-
-    // ============= Health Reporter Convenience Methods =============
-
-    /// Creates a new background health reporter for a device endpoint.
-    ///
-    /// Spawns a background task that handles deduplication and periodic re-reporting
-    /// of health status for the specified device endpoint.
-    ///
-    /// # Arguments
-    /// * `device_ref` - Reference to the device and endpoint.
-    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
-    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
-    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on device endpoint deletion.
-    ///
-    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
-    #[must_use]
-    pub fn new_device_endpoint_health_reporter(
-        &self,
-        device_ref: DeviceRef,
-        message_expiry: Duration,
-        report_interval: health_reporter::ReportInterval,
-        cancellation_token: tokio_util::sync::CancellationToken,
-    ) -> health_reporter::HealthReporterSender {
-        let reporter = health_reporter::DeviceEndpointHealthReporter {
-            client: self.clone(),
-            device_ref,
-            message_expiry,
-        };
-        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 
     /// Creates a new background health reporter for a dataset.
