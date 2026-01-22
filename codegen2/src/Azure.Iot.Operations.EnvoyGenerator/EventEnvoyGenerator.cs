@@ -8,7 +8,16 @@
 
     internal static class EventEnvoyGenerator
     {
-        internal static List<EventSpec> GenerateEventEnvoys(ErrorReporter errorReporter, TDThing tdThing, SchemaNamer schemaNamer, CodeName serviceName, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms, Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize)
+        internal static List<EventSpec> GenerateEventEnvoys(
+            ErrorReporter errorReporter,
+            TDThing tdThing,
+            SchemaNamer schemaNamer,
+            CodeName serviceName,
+            EnvoyTransformFactory envoyFactory,
+            Dictionary<string, IEnvoyTemplateTransform> transforms,
+            Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize,
+            bool generateClient,
+            bool generateServer)
         {
             List<EventSpec> eventSpecs = new();
 
@@ -23,7 +32,7 @@
                     string schemaType = schemaNamer.GetEventSchema(eventKvp.Key);
                     formattedTypesToSerialize[subEventForm.Format].Add(schemaType);
                     eventSpecs.Add(new EventSpec(schemaNamer, eventKvp.Key, schemaType, subEventForm.Format));
-                    foreach (IEnvoyTemplateTransform transform in envoyFactory.GetEventTransforms(schemaNamer, serviceName, eventKvp.Key, schemaType, subEventForm.Format, subEventForm.ServiceGroupId, subEventForm.TopicPattern))
+                    foreach (IEnvoyTemplateTransform transform in envoyFactory.GetEventTransforms(schemaNamer, serviceName, eventKvp.Key, schemaType, subEventForm.Format, subEventForm.ServiceGroupId, subEventForm.TopicPattern, generateClient, generateServer))
                     {
                         transforms[transform.FileName] = transform;
                     }
@@ -35,7 +44,7 @@
             {
                 formattedTypesToSerialize[subAllEventsForm.Format].Add(schemaNamer.AggregateEventSchema);
                 eventSpecs.Add(new EventSpec(schemaNamer, schemaNamer.AggregateEventName, schemaNamer.AggregateEventSchema, subAllEventsForm.Format));
-                foreach (IEnvoyTemplateTransform transform in envoyFactory.GetEventTransforms(schemaNamer, serviceName, schemaNamer.AggregateEventName, schemaNamer.AggregateEventSchema, subAllEventsForm.Format, subAllEventsForm.ServiceGroupId, subAllEventsForm.TopicPattern))
+                foreach (IEnvoyTemplateTransform transform in envoyFactory.GetEventTransforms(schemaNamer, serviceName, schemaNamer.AggregateEventName, schemaNamer.AggregateEventSchema, subAllEventsForm.Format, subAllEventsForm.ServiceGroupId, subAllEventsForm.TopicPattern, generateClient, generateServer))
                 {
                     transforms[transform.FileName] = transform;
                 }

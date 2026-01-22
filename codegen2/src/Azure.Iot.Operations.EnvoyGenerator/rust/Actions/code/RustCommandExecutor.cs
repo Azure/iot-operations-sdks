@@ -59,5 +59,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         public string FileName { get => $"{this.componentName.GetFileName(TargetLanguage.Rust)}.rs"; }
 
         public string FolderPath { get => Path.Combine(this.srcSubdir, this.genNamespace.GetFolderName(TargetLanguage.Rust)); }
+
+        public EndpointTarget EndpointTarget { get => EndpointTarget.Server; }
     }
 }

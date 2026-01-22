@@ -38,6 +38,18 @@ $gen --thingFiles conv/TelemetryAndCommand.TM.json --outDir dotnet/TelemetryAndC
 [[ -d rust/telemetry_and_command_gen ]] && rm -r rust/telemetry_and_command_gen
 $gen --thingFiles conv/TelemetryAndCommand.TM.json --outDir rust/telemetry_and_command_gen --lang rust --namespace TelemetryAndCommand --sdkPath ../../rust
 
+[[ -d dotnet/TelemetryAndCommandSampleClientOnly ]] && rm -r dotnet/TelemetryAndCommandSampleClientOnly
+$gen --thingFiles conv/TelemetryAndCommand.TM.json --outDir dotnet/TelemetryAndCommandSampleClientOnly --lang csharp --namespace TelemetryAndCommand --sdkPath ../../dotnet/src/Azure.Iot.Operations.Protocol --clientOnly
+
+[[ -d rust/telemetry_and_command_gen_client_only ]] && rm -r rust/telemetry_and_command_gen_client_only
+$gen --thingFiles conv/TelemetryAndCommand.TM.json --outDir rust/telemetry_and_command_gen_client_only --lang rust --namespace TelemetryAndCommand --sdkPath ../../rust --clientOnly
+
+[[ -d dotnet/TelemetryAndCommandSampleServerOnly ]] && rm -r dotnet/TelemetryAndCommandSampleServerOnly
+$gen --thingFiles conv/TelemetryAndCommand.TM.json --outDir dotnet/TelemetryAndCommandSampleServerOnly --lang csharp --namespace TelemetryAndCommand --sdkPath ../../dotnet/src/Azure.Iot.Operations.Protocol --serverOnly
+
+[[ -d rust/telemetry_and_command_gen_server_only ]] && rm -r rust/telemetry_and_command_gen_server_only
+$gen --thingFiles conv/TelemetryAndCommand.TM.json --outDir rust/telemetry_and_command_gen_server_only --lang rust --namespace TelemetryAndCommand --sdkPath ../../rust --serverOnly
+
 [[ -d dotnet/TelemetryComplexSchemasSample ]] && rm -r dotnet/TelemetryComplexSchemasSample
 $gen --thingFiles conv/TelemetryComplexSchemas.TM.json --outDir dotnet/TelemetryComplexSchemasSample --lang csharp --namespace TelemetryComplexSchemas --sdkPath ../../dotnet/src/Azure.Iot.Operations.Protocol
 

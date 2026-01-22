@@ -17,12 +17,10 @@
             string? sdkPath,
             List<string> typeFileNames,
             string srcSubdir,
-            bool generateClient,
-            bool generateServer,
             bool generateProject,
             bool defaultImpl)
         {
-            EnvoyTransformFactory envoyFactory = new(targetLanguage, new CodeName(genNamespace), projectName, srcSubdir, generateClient, generateServer, defaultImpl);
+            EnvoyTransformFactory envoyFactory = new(targetLanguage, new CodeName(genNamespace), projectName, srcSubdir, defaultImpl);
 
             Dictionary<string, IEnvoyTemplateTransform> transforms = new();
             Dictionary<string, ErrorSpec> errorSpecs = new();
@@ -39,10 +37,10 @@
 
                 CodeName serviceName = new CodeName(parsedThing.Thing.Title.Value.Value);
 
-                List<ActionSpec> actionSpecs = ActionEnvoyGenerator.GenerateActionEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, formattedTypesToSerialize);
-                List<EventSpec> eventSpecs = EventEnvoyGenerator.GenerateEventEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, formattedTypesToSerialize);
-                List<PropertySpec> propSpecs = PropertyEnvoyGenerator.GeneratePropertyEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, aggErrorSpecs, formattedTypesToSerialize);
-                GenerateServiceEnvoys(parsedThing.SchemaNamer, serviceName, actionSpecs, propSpecs, eventSpecs, envoyFactory, transforms);
+                List<ActionSpec> actionSpecs = ActionEnvoyGenerator.GenerateActionEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, formattedTypesToSerialize, parsedThing.ForClient, parsedThing.ForServer);
+                List<EventSpec> eventSpecs = EventEnvoyGenerator.GenerateEventEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, formattedTypesToSerialize, parsedThing.ForClient, parsedThing.ForServer);
+                List<PropertySpec> propSpecs = PropertyEnvoyGenerator.GeneratePropertyEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, aggErrorSpecs, formattedTypesToSerialize, parsedThing.ForClient, parsedThing.ForServer);
+                GenerateServiceEnvoys(parsedThing.SchemaNamer, serviceName, actionSpecs, propSpecs, eventSpecs, envoyFactory, transforms, parsedThing.ForClient, parsedThing.ForServer);
                 CollectNamedConstants(parsedThing.Thing, parsedThing.SchemaNamer, schemaConstants);
             }
 
@@ -58,7 +56,12 @@
                 generatedEnvoys.Add(new GeneratedItem(transform.Value.TransformText(), transform.Key, transform.Value.FolderPath));
             }
 
-            foreach (IEnvoyTemplateTransform project in envoyFactory.GetProjectTransforms(serializationFormats, sdkPath, transforms.Keys.Concat(typeFileNames).ToList(), generateProject))
+            List<string> clientFilenames = transforms.Where(t => t.Value.EndpointTarget == EndpointTarget.Client).Select(t => t.Key).ToList();
+            List<string> serverFilenames = transforms.Where(t => t.Value.EndpointTarget == EndpointTarget.Server).Select(t => t.Key).ToList();
+            List<string> sharedFilenames = transforms.Where(t => t.Value.EndpointTarget == EndpointTarget.Shared).Select(t => t.Key).Concat(typeFileNames).ToList();
+            List<string> hiddenFilenames = transforms.Where(t => t.Value.EndpointTarget == EndpointTarget.Hidden).Select(t => t.Key).ToList();
+
+            foreach (IEnvoyTemplateTransform project in envoyFactory.GetProjectTransforms(serializationFormats, sdkPath, clientFilenames, serverFilenames, sharedFilenames, hiddenFilenames, generateProject))
             {
                 generatedEnvoys.Add(new GeneratedItem(project.TransformText(), project.FileName, project.FolderPath));
             }
@@ -116,9 +119,18 @@
             }
         }
 
-        private static void GenerateServiceEnvoys(SchemaNamer schemaNamer, CodeName serviceName, List<ActionSpec> actionSpecs, List<PropertySpec> propSpecs, List<EventSpec> eventSpecs, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms)
+        private static void GenerateServiceEnvoys(
+            SchemaNamer schemaNamer,
+            CodeName serviceName,
+            List<ActionSpec> actionSpecs,
+            List<PropertySpec> propSpecs,
+            List<EventSpec> eventSpecs,
+            EnvoyTransformFactory envoyFactory,
+            Dictionary<string, IEnvoyTemplateTransform> transforms,
+            bool generateClient,
+            bool generateServer)
         {
-            foreach (IEnvoyTemplateTransform transform in envoyFactory.GetServiceTransforms(schemaNamer, serviceName, actionSpecs, propSpecs, eventSpecs))
+            foreach (IEnvoyTemplateTransform transform in envoyFactory.GetServiceTransforms(schemaNamer, serviceName, actionSpecs, propSpecs, eventSpecs, generateClient, generateServer))
             {
                 transforms[transform.FileName] = transform;
             }

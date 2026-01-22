@@ -6,6 +6,8 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
         string FolderPath { get; }
 
+        EndpointTarget EndpointTarget { get; }
+
         string TransformText();
     }
 }

@@ -31,5 +31,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         public string FileName { get => generateProject ? "Cargo.toml" : "dependencies.md"; }
 
         public string FolderPath { get => this.generateProject ? string.Empty : this.srcSubdir; }
+
+        public EndpointTarget EndpointTarget { get => EndpointTarget.Shared; }
     }
 }

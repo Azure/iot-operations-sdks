@@ -15,8 +15,6 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly CodeName genNamespace;
         private readonly string projectName;
         private readonly string srcSubdir;
-        private readonly bool generateClient;
-        private readonly bool generateServer;
         private readonly bool defaultImpl;
 
         internal EnvoyTransformFactory(
@@ -24,16 +22,12 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             CodeName genNamespace,
             string projectName,
             string srcSubdir,
-            bool generateClient,
-            bool generateServer,
             bool defaultImpl)
         {
             this.targetLanguage = targetLanguage;
             this.genNamespace = genNamespace;
             this.projectName = projectName;
             this.srcSubdir = srcSubdir;
-            this.generateClient = generateClient;
-            this.generateServer = generateServer;
             this.defaultImpl = defaultImpl;
         }
 
@@ -72,7 +66,9 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string? headerInfoName,
             string? headerInfoSchema,
             List<string>? codeValues,
-            bool doesCommandTargetExecutor)
+            bool doesCommandTargetExecutor,
+            bool generateClient,
+            bool generateServer)
         {
             string serializerClassName = format.GetSerializerClassName();
             EmptyTypeName serializerEmptyType = format.GetEmptyTypeName();
@@ -215,7 +211,9 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string writeTopicPattern,
             bool separateProperties,
             bool doesPropertyTargetReadMaintainer,
-            bool doesPropertyTargetWriteMaintainer)
+            bool doesPropertyTargetWriteMaintainer,
+            bool generateClient,
+            bool generateServer)
         {
             string readSerializerClassName = readFormat.GetSerializerClassName();
             EmptyTypeName readSerializerEmptyType = readFormat.GetEmptyTypeName();
@@ -338,7 +336,9 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string schemaType,
             SerializationFormat format,
             string? serviceGroupId,
-            string topicPattern)
+            string topicPattern,
+            bool generateClient,
+            bool generateServer)
         {
             string serializerClassName = format.GetSerializerClassName();
             EmptyTypeName serializerEmptyType = format.GetEmptyTypeName();
@@ -449,7 +449,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             }
         }
 
-        internal IEnumerable<IEnvoyTemplateTransform> GetServiceTransforms(SchemaNamer schemaNamer, CodeName serviceName, List<ActionSpec> actionSpecs, List<PropertySpec> propSpecs, List<EventSpec> eventSpecs)
+        internal IEnumerable<IEnvoyTemplateTransform> GetServiceTransforms(
+            SchemaNamer schemaNamer,
+            CodeName serviceName,
+            List<ActionSpec> actionSpecs,
+            List<PropertySpec> propSpecs,
+            List<EventSpec> eventSpecs,
+            bool generateClient,
+            bool generateServer)
         {
             switch (targetLanguage)
             {
@@ -478,7 +485,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             }
         }
 
-        internal IEnumerable<IEnvoyTemplateTransform> GetProjectTransforms(List<SerializationFormat> genFormats, string? sdkPath, List<string> envoyFilenames, bool generateProject)
+        internal IEnumerable<IEnvoyTemplateTransform> GetProjectTransforms(
+            List<SerializationFormat> genFormats,
+            string? sdkPath,
+            List<string> clientFilenames,
+            List<string> serverFilenames,
+            List<string> sharedFilenames,
+            List<string> hiddenFilenames,
+            bool generateProject)
         {
             switch (targetLanguage)
             {
@@ -486,7 +500,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                     yield return new DotNetProject(projectName, sdkPath);
                     break;
                 case TargetLanguage.Rust:
-                    yield return new RustIndex(genNamespace, envoyFilenames, generateClient, generateServer, srcSubdir);
+                    yield return new RustIndex(genNamespace, clientFilenames, serverFilenames, sharedFilenames, hiddenFilenames, srcSubdir);
                     yield return new RustLib(genNamespace, generateProject, srcSubdir);
                     yield return new RustCargoToml(projectName, genFormats, sdkPath, generateProject, srcSubdir);
                     break;

@@ -21,5 +21,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         public string FileName { get => this.generateProject ? "lib.rs" : "mod.rs"; }
 
         public string FolderPath { get => this.srcSubdir; }
+
+        public EndpointTarget EndpointTarget { get => EndpointTarget.Shared; }
     }
 }

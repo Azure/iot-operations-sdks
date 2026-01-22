@@ -32,5 +32,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         public string FileName { get => $"{this.projectName}.csproj"; }
 
         public string FolderPath { get => string.Empty; }
+
+        public EndpointTarget EndpointTarget { get => EndpointTarget.Shared; }
     }
 }

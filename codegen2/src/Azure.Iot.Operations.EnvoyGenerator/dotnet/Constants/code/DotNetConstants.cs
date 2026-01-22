@@ -26,6 +26,8 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
         public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.CSharp); }
 
+        public EndpointTarget EndpointTarget { get => EndpointTarget.Shared; }
+
         private static string GetDotNetType(string type)
         {
             return type switch

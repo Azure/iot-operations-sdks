@@ -8,7 +8,18 @@
 
     internal static class PropertyEnvoyGenerator
     {
-        internal static List<PropertySpec> GeneratePropertyEnvoys(ErrorReporter errorReporter, TDThing tdThing, SchemaNamer schemaNamer, CodeName serviceName, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms, Dictionary<string, ErrorSpec> errorSpecs, Dictionary<string, AggregateErrorSpec> aggErrorSpecs, Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize)
+        internal static List<PropertySpec> GeneratePropertyEnvoys(
+            ErrorReporter errorReporter,
+            TDThing tdThing,
+            SchemaNamer schemaNamer,
+            CodeName serviceName,
+            EnvoyTransformFactory envoyFactory,
+            Dictionary<string, IEnvoyTemplateTransform> transforms,
+            Dictionary<string, ErrorSpec> errorSpecs,
+            Dictionary<string, AggregateErrorSpec> aggErrorSpecs,
+            Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize,
+            bool generateClient,
+            bool generateServer)
         {
             List<PropertySpec> propertySpecs = new();
             Dictionary<string, string> readInnerErrors = new();
@@ -109,7 +120,9 @@
                         writePropForm?.TopicPattern ?? string.Empty,
                         separateProperties: true,
                         doesReadTargetMaintainer,
-                        doesWriteTargetMaintainer))
+                        doesWriteTargetMaintainer,
+                        generateClient,
+                        generateServer))
                     {
                         transforms[transform.FileName] = transform;
                     }
@@ -202,7 +215,9 @@
                     writeMultPropsForm?.TopicPattern ?? string.Empty,
                     separateProperties: false,
                     doesReadTargetMaintainer,
-                    doesWriteTargetMaintainer))
+                    doesWriteTargetMaintainer,
+                    generateClient,
+                    generateServer))
                 {
                     transforms[transform.FileName] = transform;
                 }

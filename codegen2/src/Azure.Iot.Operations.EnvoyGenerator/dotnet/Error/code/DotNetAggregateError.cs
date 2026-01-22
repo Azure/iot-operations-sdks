@@ -21,5 +21,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         public string FileName { get => $"{this.schemaName.GetFileName(TargetLanguage.CSharp, "exception")}.g.cs"; }
 
         public string FolderPath { get => this.schemaNamespace.GetFolderName(TargetLanguage.CSharp); }
+
+        public EndpointTarget EndpointTarget { get => EndpointTarget.Shared; }
     }
 }

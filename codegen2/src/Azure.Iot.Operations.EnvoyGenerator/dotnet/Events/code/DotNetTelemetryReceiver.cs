@@ -40,5 +40,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         public string FileName { get => $"{this.componentName.GetFileName(TargetLanguage.CSharp)}.g.cs"; }
 
         public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.CSharp); }
+
+        public EndpointTarget EndpointTarget { get => EndpointTarget.Client; }
     }
 }

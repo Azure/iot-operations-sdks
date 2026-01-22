@@ -34,6 +34,8 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
         public string FolderPath { get; }
 
+        public EndpointTarget EndpointTarget { get => EndpointTarget.Shared; }
+
         public string TransformText()
         {
             return this.resourceText;

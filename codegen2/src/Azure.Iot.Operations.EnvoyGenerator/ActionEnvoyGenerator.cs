@@ -8,7 +8,17 @@
 
     internal static class ActionEnvoyGenerator
     {
-        internal static List<ActionSpec> GenerateActionEnvoys(ErrorReporter errorReporter, TDThing tdThing, SchemaNamer schemaNamer, CodeName serviceName, EnvoyTransformFactory envoyFactory, Dictionary<string, IEnvoyTemplateTransform> transforms, Dictionary<string, ErrorSpec> errorSpecs, Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize)
+        internal static List<ActionSpec> GenerateActionEnvoys(
+            ErrorReporter errorReporter,
+            TDThing tdThing,
+            SchemaNamer schemaNamer,
+            CodeName serviceName,
+            EnvoyTransformFactory envoyFactory,
+            Dictionary<string, IEnvoyTemplateTransform> transforms,
+            Dictionary<string, ErrorSpec> errorSpecs,
+            Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize,
+            bool generateClient,
+            bool generateServer)
         {
             List<ActionSpec> actionSpecs = new();
 
@@ -77,7 +87,9 @@
                         actionForm.HeaderInfoName,
                         headerInfoSchema,
                         actionForm.HeaderCodeSchema?.Value.Enum?.Elements?.Select(e => e.Value.Value).ToList(),
-                        doesTargetExecutor))
+                        doesTargetExecutor,
+                        generateClient,
+                        generateServer))
                     {
                         transforms[transform.FileName] = transform;
                     }

@@ -24,6 +24,8 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
         public string FolderPath { get => Path.Combine(this.srcSubdir, this.genNamespace.GetFolderName(TargetLanguage.Rust)); }
 
+        public EndpointTarget EndpointTarget { get => EndpointTarget.Shared; }
+
         private static string GetRustType(string type)
         {
             return type switch

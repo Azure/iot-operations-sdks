@@ -53,7 +53,7 @@
                 }
 
                 errorLog.Phase = "Parsing";
-                List<ParsedThing> parsedThings = ParseThings(options.ThingFiles, errorLog, out HashSet<SerializationFormat> serializationFormats, statusReceiver);
+                List<ParsedThing> parsedThings = ParseThings(options.ThingFiles, errorLog, out HashSet<SerializationFormat> serializationFormats, statusReceiver, generateClient: !options.ServerOnly, generateServer: !options.ClientOnly);
 
                 if (errorLog.HasErrors)
                 {
@@ -122,8 +122,6 @@
                     sdkPath,
                     typeNames,
                     srcSubdir,
-                    generateClient: !options.ServerOnly,
-                    generateServer: !options.ClientOnly,
                     generateProject: !options.NoProj,
                     defaultImpl: options.DefaultImpl);
                 WriteItems(generatedEnvoys, options.OutputDir, statusReceiver);
@@ -174,7 +172,7 @@
             }
         }
 
-        private static List<ParsedThing> ParseThings(FileInfo[] thingFiles, ErrorLog errorLog, out HashSet<SerializationFormat> serializationFormats, Action<string, bool> statusReceiver)
+        private static List<ParsedThing> ParseThings(FileInfo[] thingFiles, ErrorLog errorLog, out HashSet<SerializationFormat> serializationFormats, Action<string, bool> statusReceiver, bool generateClient, bool generateServer)
         {
             List<ParsedThing> parsedThings = new();
             serializationFormats = new HashSet<SerializationFormat>();
@@ -201,7 +199,7 @@
                                 if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, out SchemaNamer? schemaNamer))
                                 {
                                     thingCount++;
-                                    parsedThings.Add(new ParsedThing(thing, thingFile.Name, thingFile.DirectoryName!, schemaNamer, errorReporter));
+                                    parsedThings.Add(new ParsedThing(thing, thingFile.Name, thingFile.DirectoryName!, schemaNamer, errorReporter, generateClient, generateServer));
                                     errorReporter.RegisterNameOfThing(thing.Title!.Value.Value, thing.Title!.TokenIndex);
                                 }
                             }
