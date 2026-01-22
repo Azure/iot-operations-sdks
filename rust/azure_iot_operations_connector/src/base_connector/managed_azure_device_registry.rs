@@ -112,7 +112,7 @@ impl DeviceEndpointStatusReporter {
     }
 
     /// Snapshots the current specification version for use in future health events.
-    /// Call this when starting a new operation to "lock in" the version you're working with.
+    /// Call this when starting to use a new definition to "lock in" the version you're working with.
     ///
     /// # Panics
     /// if the specification mutex has been poisoned, which should not be possible
@@ -2037,7 +2037,7 @@ impl DataOperationStatusReporter {
     }
 
     /// Snapshots the current asset specification version for use in future health events.
-    /// Call this when starting a new operation to "lock in" the version you're working with.
+    /// Call this when starting to use a new definition to "lock in" the version you're working with.
     ///
     /// # Panics
     /// if the asset specification mutex has been poisoned, which should not be possible
