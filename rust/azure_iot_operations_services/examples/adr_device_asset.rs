@@ -230,7 +230,7 @@ async fn device_operations(
 
     // Report healthy status for the device endpoint
     // The background task handles deduplication and periodic re-reporting
-    health_sender.report(RuntimeHealth {
+    let _ = health_sender.report(RuntimeHealth {
         version: device.version.unwrap_or(0),
         status: HealthStatus::Available,
         message: Some("Connected and operational".to_string()),
