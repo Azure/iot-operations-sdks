@@ -36,11 +36,13 @@ const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialFactorBackoff =
     tokio_retry2::strategy::ExponentialFactorBackoff::from_millis(500, 2.0);
 
 /// Represents the runtime health of a resource.
+/// 
+/// When [`RuntimeHealthEvent::status`] is [`HealthStatus::Available`], both [`RuntimeHealthEvent::message`] and [`RuntimeHealthEvent::reason_code`] must be `None`.
 #[derive(Debug, Clone)]
 pub struct RuntimeHealthEvent {
-    /// A human-readable message describing the last transition.
+    /// A human-readable message describing the last transition. Must be `None` when [`RuntimeHealthEvent::status`] is [`HealthStatus::Available`].
     pub message: Option<String>,
-    /// Unique, CamelCase reason code describing the cause of the last health state transition.
+    /// Unique, CamelCase reason code describing the cause of the last health state transition. Must be `None` when [`RuntimeHealthEvent::status`] is [`HealthStatus::Available`].
     pub reason_code: Option<String>,
     /// The current health status of the resource.
     pub status: HealthStatus,
