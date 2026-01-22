@@ -19,6 +19,7 @@ use crate::azure_device_registry::models::{
 };
 use crate::azure_device_registry::{
     AssetRef, AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind, RuntimeHealth,
+    health_reporter,
 };
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
@@ -964,6 +965,34 @@ impl Client {
         Ok((discovery_id, version))
     }
 
+    /// Creates a new background health reporter for a device endpoint.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified device endpoint.
+    ///
+    /// # Arguments
+    /// * `device_ref` - Reference to the device and endpoint.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on device endpoint deletion.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
+    #[must_use]
+    pub fn new_device_endpoint_health_reporter(
+        &self,
+        device_ref: DeviceRef,
+        message_expiry: Duration,
+        report_interval: health_reporter::ReportInterval,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::DeviceEndpointHealthReporter {
+            client: self.clone(),
+            device_ref,
+            message_expiry,
+        };
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
+    }
+
     // ~~~~~~~~~~~~~~~~~ Asset APIs ~~~~~~~~~~~~~~~~~~~~~
 
     /// Retrieves an [`Asset`] from the Azure Device Registry service.
@@ -1696,6 +1725,136 @@ impl Client {
         let discovery_id = response.payload.discovered_asset_response.discovery_id;
         let version = response.payload.discovered_asset_response.version;
         Ok((discovery_id, version))
+    }
+
+    /// Creates a new background health reporter for a dataset.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified dataset within an asset.
+    ///
+    /// # Arguments
+    /// * `asset_ref` - Reference to the asset containing the dataset.
+    /// * `dataset_name` - The name of the dataset.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on dataset deletion.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
+    #[must_use]
+    pub fn new_dataset_health_reporter(
+        &self,
+        asset_ref: AssetRef,
+        dataset_name: String,
+        message_expiry: Duration,
+        report_interval: health_reporter::ReportInterval,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::DatasetHealthReporter {
+            client: self.clone(),
+            asset_ref,
+            dataset_name,
+            message_expiry,
+        };
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
+    }
+
+    /// Creates a new background health reporter for an event.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified event within an asset.
+    ///
+    /// # Arguments
+    /// * `asset_ref` - Reference to the asset containing the event.
+    /// * `event_group_name` - The name of the event group.
+    /// * `event_name` - The name of the event.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on event deletion.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
+    #[must_use]
+    pub fn new_event_health_reporter(
+        &self,
+        asset_ref: AssetRef,
+        event_group_name: String,
+        event_name: String,
+        message_expiry: Duration,
+        report_interval: health_reporter::ReportInterval,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::EventHealthReporter {
+            client: self.clone(),
+            asset_ref,
+            event_group_name,
+            event_name,
+            message_expiry,
+        };
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
+    }
+
+    /// Creates a new background health reporter for a stream.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified stream within an asset.
+    ///
+    /// # Arguments
+    /// * `asset_ref` - Reference to the asset containing the stream.
+    /// * `stream_name` - The name of the stream.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on stream deletion.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
+    #[must_use]
+    pub fn new_stream_health_reporter(
+        &self,
+        asset_ref: AssetRef,
+        stream_name: String,
+        message_expiry: Duration,
+        report_interval: health_reporter::ReportInterval,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::StreamHealthReporter {
+            client: self.clone(),
+            asset_ref,
+            stream_name,
+            message_expiry,
+        };
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
+    }
+
+    /// Creates a new background health reporter for a management action.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified management action within an asset.
+    ///
+    /// # Arguments
+    /// * `asset_ref` - Reference to the asset containing the management action.
+    /// * `management_group_name` - The name of the management group.
+    /// * `management_action_name` - The name of the management action.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on management action deletion.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
+    #[must_use]
+    pub fn new_management_action_health_reporter(
+        &self,
+        asset_ref: AssetRef,
+        management_group_name: String,
+        management_action_name: String,
+        message_expiry: Duration,
+        report_interval: health_reporter::ReportInterval,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::ManagementActionHealthReporter {
+            client: self.clone(),
+            asset_ref,
+            management_group_name,
+            management_action_name,
+            message_expiry,
+        };
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 }
 
