@@ -1269,17 +1269,6 @@ impl AssetClient {
         updated_asset: &Asset,
         updates: &mut AssetComponentUpdates,
     ) {
-        // let mut updated_asset_management_actions: Vec<ManagementActionSpecification> = Vec::new();
-        // for management_group in &updated_asset.management_groups {
-        //     // Creates a [`ManagementActionSpecification`] for each management action in the management group
-        //     for management_action in &management_group.actions {
-        //         updated_asset_management_actions.push((
-        //             management_group.clone(),
-        //             management_action.clone(),
-        //         ).into());
-        //     }
-        // }
-
         // remove the management actions that are no longer present in the new asset definition.
         // This triggers deletion notification since this drops the update sender.
         management_action_hashmap.retain(|management_group_name, action_map| {
@@ -1296,6 +1285,7 @@ impl AssetClient {
                 });
                 true
             } else {
+                // TODO: make sure this drops all of the actions (it should)
                 false
             }
         });
@@ -1304,10 +1294,6 @@ impl AssetClient {
         for received_management_group in &updated_asset.management_groups {
             // Creates a [`ManagementActionSpecification`] for each management action in the management group
             for received_management_action in &received_management_group.actions {
-                // let received_management_specification = (
-                //     received_management_group.clone(),
-                //     received_management_action.clone(),
-                // ).into();
                 let update_notification = ManagementActionUpdateNotification {
                     definition: (
                         received_management_group.clone(),
@@ -1320,39 +1306,20 @@ impl AssetClient {
                 };
                 // if it already exists
                 if let Some(management_action_update_tx) = management_action_hashmap
-                    .get_mut(&received_management_group.name)
-                    .and_then(|action_map| action_map.get_mut(&received_management_action.name))
+                    .get(&received_management_group.name)
+                    .and_then(|action_map| action_map.get(&received_management_action.name))
                 {
                     // save update to send to the action after the task can't get cancelled
                     // Send an update whether the action changed or not, because the client needs to know the asset was updated at minimum
-                    updates.management_action_updates.push((
-                        management_action_update_tx.clone(),
-                        update_notification, // ManagementActionUpdateNotification {
-                                             //     definition: (
-                                             //         received_management_group.clone(),
-                                             //         received_management_action.clone(),
-                                             //     ).into(),
-                                             //     release_asset_component_notifications_rx: self
-                                             //         .release_asset_component_notifications_tx
-                                             //         .subscribe(),
-                                             // },
-                    ));
+                    updates
+                        .management_action_updates
+                        .push((management_action_update_tx.clone(), update_notification));
                 }
                 // it needs to be created
                 else {
-                    let received_management_specification = (
-                        received_management_group.clone(),
-                        received_management_action.clone(),
-                    )
-                        .into();
+                    let received_management_specification = update_notification.definition.clone();
                     let (management_action_update_watcher_tx, management_action_update_watcher_rx) =
                         watch::channel(update_notification);
-                    // ManagementActionUpdateNotification {
-                    //     definition: received_management_specification.clone(),
-                    //     release_asset_component_notifications_rx: self
-                    //         .release_asset_component_notifications_tx
-                    //         .subscribe(),
-                    // });
                     let (new_management_action_client, new_executor_res) =
                         ManagementActionClient::new(
                             received_management_specification,
@@ -1379,7 +1346,7 @@ impl AssetClient {
                     // insert the management action into the hashmap so we can handle updates
                     management_action_hashmap
                         .entry(received_management_group.name.clone())
-                        .or_insert_with(HashMap::new)
+                        .or_insert(HashMap::new())
                         .insert(
                             received_management_action.name.clone(),
                             management_action_update_watcher_tx,
@@ -1539,7 +1506,7 @@ impl AssetClient {
         for received_data_operation in updated_asset_data_operations {
             // it already exists
             if let Some(data_operation_update_tx) =
-                data_operation_hashmap.get_mut(received_data_operation.hash_name())
+                data_operation_hashmap.get(received_data_operation.hash_name())
             {
                 // TODO: To support default destinations on the event group in the future,
                 // we can check the previous event group default destinations hashmap here
@@ -3681,7 +3648,6 @@ impl ManagementActionClient {
             self.management_action_update_watcher_rx.mark_unchanged();
             return ManagementActionNotification::Deleted;
         }
-        // let management_action_changed = update_notification.definition != self.definition;
         if update_notification.definition == self.definition {
             // Asset only update, we don't need to recreate the executor
             // Once the action update has been processed we can mark the value in the watcher as seen
@@ -3692,6 +3658,7 @@ impl ManagementActionClient {
             );
         }
 
+        // TODO: need to take tokens into account here
         let new_topic = update_notification
             .definition
             .topic
@@ -3721,8 +3688,8 @@ impl ManagementActionClient {
         // no await points beyond this point, so this is safe
         self.definition = update_notification.definition;
 
-        // create new executor, in case topics have changed
-        // TODO: only do this if topics have actually changed because churn is high?
+        // create new executor, since topics have changed
+
         // technically because these fields are under the lock, if they change, we won't update them unless there's an action update
         // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
         let (device_uuid, device_external_device_id) = {

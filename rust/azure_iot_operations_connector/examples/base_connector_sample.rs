@@ -29,9 +29,7 @@ use azure_iot_operations_connector::{
         ManagementActionApplicationError, ManagementActionExecutor, ManagementActionResponseBuilder,
     },
 };
-use azure_iot_operations_protocol::{
-    application::ApplicationContextBuilder, common::payload_serialize::BypassPayload,
-};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
 
 /// Only reports status on first time (None) and when changing from OK to Error.
@@ -339,7 +337,8 @@ async fn run_management_action(
                             // Here we would process the management action request
                             // For this example, we simply log it and respond that it succeeded
                             ManagementActionResponseBuilder::default()
-                                .payload(BypassPayload::default()) // TODO: don't leave this content-type-less
+                                .payload(vec![])
+                                .content_type("application/json".to_string())
                                 .build().unwrap()
                         } else {
                             // If the management action is not valid, we respond with an application error
@@ -348,7 +347,8 @@ async fn run_management_action(
                                     application_error_code: "ManagementActionInvalidState".to_string(),
                                     application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
                                 })
-                                .payload(BypassPayload::default()) // TODO: don't leave this content-type-less
+                                .payload(vec![])
+                                .content_type("application/json".to_string())
                                 .build().unwrap()
                         };
 
@@ -396,6 +396,8 @@ async fn run_management_action(
                         // Update the local schema reference, since it will have been cleared by the version update
                         // local_schema_reference = None;
                         // move the current executor to the stale marker so we can drain any pending requests
+                        // TODO: rather than having a branch for the stale executor, should we just drain it here?
+                        // If the application is executing in a separate task, there really shouldn't be a build up to drain anyways
                         stale_executor = current_executor.take();
                         current_executor = new_executor.ok();
                     },
@@ -428,7 +430,8 @@ async fn run_management_action(
                             // Here we would process the management action request
                             // For this example, we simply log it and respond that it succeeded
                             ManagementActionResponseBuilder::default()
-                                .payload(BypassPayload::default()) // TODO: don't leave this content-type-less
+                                .payload(vec![])
+                                .content_type("application/json".to_string())
                                 .build().unwrap()
                         } else {
                             // If the management action is not valid, we respond with an application error
@@ -437,7 +440,8 @@ async fn run_management_action(
                                     application_error_code: "ManagementActionInvalidState".to_string(),
                                     application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
                                 })
-                                .payload(BypassPayload::default()) // TODO: don't leave this content-type-less
+                                .payload(vec![])
+                                .content_type("application/json".to_string())
                                 .build().unwrap()
                         };
 

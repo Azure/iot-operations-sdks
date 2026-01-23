@@ -129,4 +129,12 @@ impl ManagementActionRef {
             self.management_group_name, self.management_action_name
         )
     }
+
+    /// Printable name for management action
+    pub fn name(&self) -> String {
+        format!(
+            "Management Action: {}::{}",
+            self.management_group_name, self.management_action_name
+        )
+    }
 }

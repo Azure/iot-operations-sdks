@@ -7,8 +7,9 @@ use std::sync::Arc;
 
 use azure_iot_operations_protocol::{
     common::{
-        aio_protocol_error::AIOProtocolError, hybrid_logical_clock::HybridLogicalClock,
-        payload_serialize::BypassPayload,
+        aio_protocol_error::AIOProtocolError,
+        hybrid_logical_clock::HybridLogicalClock,
+        payload_serialize::{BypassPayload, FormatIndicator},
     },
     rpc_command::{
         self,
@@ -40,6 +41,7 @@ impl ManagementActionExecutor {
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         let request_topic_pattern = if let Some(topic) = topic.as_ref().or(default_topic.as_ref()) {
+            // TODO: if using default, ensure it has the correct token
             topic.clone()
         } else {
             return Err(AdrConfigError {
@@ -87,10 +89,6 @@ impl ManagementActionExecutor {
                     }]),
                     message: Some(format!("Invalid topic or name for management action")),
                 })
-                // ManagementActionExecutor {
-                //     executor: ActionExecutor::Error(err),
-                //     action_ref: management_action_ref.clone(),
-                // }
             }
         }
     }
@@ -127,8 +125,12 @@ impl ManagementActionExecutor {
             match self.executor.recv().await? {
                 Ok(request) => return Some(ManagementActionRequest { request: request }),
                 Err(e) => {
-                    log::error!("Error receiving management action request: {:?}", e);
-                    // continue waiting for the next request after a delay
+                    log::error!(
+                        "Error receiving request for {}: {:?}",
+                        self.action_ref.name(),
+                        e
+                    );
+                    // TODO: continue waiting for the next request after a delay (means we need to retry subscribe)
                 }
             }
             //     }
@@ -138,6 +140,7 @@ impl ManagementActionExecutor {
 }
 
 /// Represents a received Management Action Request
+/// If dropped, will send an error response to the invoker
 pub struct ManagementActionRequest {
     pub(crate) request: rpc_command::executor::Request<BypassPayload, BypassPayload>,
 }
@@ -210,14 +213,16 @@ pub struct ManagementActionApplicationError {
 }
 
 /// Management Action Response struct.
-/// If dropped, will send an error response to the invoker
 pub type ManagementActionResponse = rpc_command::executor::Response<BypassPayload>;
 
 /// Builder for [`ManagementActionResponse`]
 pub struct ManagementActionResponseBuilder {
-    /// Payload of the response.
-    /// TODO: should this be payload + content type separately?
-    payload: Option<BypassPayload>,
+    /// Payload of the response as a serialized byte vector.
+    payload: Option<Vec<u8>>,
+    /// Content type of the response payload.
+    content_type: Option<String>,
+    /// Format indicator of the response payload.
+    format_indicator: FormatIndicator,
     /// Custom user data set as custom MQTT User Properties on the response message.
     /// Used to pass additional metadata to the invoker.
     /// Default is an empty vector.
@@ -235,7 +240,9 @@ pub struct ManagementActionResponseBuilder {
 impl Default for ManagementActionResponseBuilder {
     fn default() -> Self {
         Self {
-            payload: None, // TODO: thoughts on this being SerializedPayload::default() and not having this be option and failable?
+            payload: None,
+            content_type: None,
+            format_indicator: FormatIndicator::default(),
             custom_user_data: Vec::new(),
             cloud_event: None,
             application_error: Ok(()),
@@ -245,11 +252,23 @@ impl Default for ManagementActionResponseBuilder {
 
 impl ManagementActionResponseBuilder {
     /// Payload for the response.
-    pub fn payload(&mut self, payload: BypassPayload) -> &mut Self {
+    pub fn payload(&mut self, payload: Vec<u8>) -> &mut Self {
         self.payload = Some(payload);
         self
     }
-    // TODO: actually have them provide content type and payload separately and build BypassPayload internally?
+
+    /// Content type for the response.
+    pub fn content_type(&mut self, content_type: String) -> &mut Self {
+        self.content_type = Some(content_type);
+        self
+    }
+
+    /// Format indicator for the response.
+    /// Default is `FormatIndicator::UnspecifiedBytes`.
+    pub fn format_indicator(&mut self, format_indicator: FormatIndicator) -> &mut Self {
+        self.format_indicator = format_indicator;
+        self
+    }
 
     /// Custom user data set as custom MQTT User Properties on the response message.
     /// Used to pass additional metadata to the invoker.
@@ -285,6 +304,9 @@ impl ManagementActionResponseBuilder {
         let Some(payload) = &self.payload else {
             return Err(ResponseBuilderError::UninitializedField("payload"));
         };
+        let Some(content_type) = &self.content_type else {
+            return Err(ResponseBuilderError::UninitializedField("content_type"));
+        };
         if let Err(application_error) = &self.application_error {
             application_error_headers(
                 &mut self.custom_user_data,
@@ -301,7 +323,11 @@ impl ManagementActionResponseBuilder {
 
         let mut inner_builder = rpc_command::executor::ResponseBuilder::default();
         inner_builder
-            .payload(payload.clone())
+            .payload(BypassPayload {
+                payload: payload.clone(),
+                content_type: content_type.clone(),
+                format_indicator: self.format_indicator,
+            })
             .unwrap() // TODO: handle. Can fail if content type is invalid
             .custom_user_data(self.custom_user_data.clone());
         if let Some(cloud_event) = cloud_event {
