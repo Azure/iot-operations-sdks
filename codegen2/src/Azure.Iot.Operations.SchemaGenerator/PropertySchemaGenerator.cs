@@ -245,7 +245,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
                     if (!schemaSpecs.TryGetValue(responseSchema, out List<SchemaSpec>? responseSpecs))
                     {
                         responseSpecs = new List<SchemaSpec>();
-                        schemaSpecs[propsSchema] = responseSpecs;
+                        schemaSpecs[responseSchema] = responseSpecs;
                     }
                     responseSpecs.Add(ObjectSpec.CreateFixed(
                         schemaNamer,
