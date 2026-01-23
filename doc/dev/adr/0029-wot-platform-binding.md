@@ -4,7 +4,7 @@
 
 The AIO team is in the process of changing our primary modeling language from [Digital Twins Definition Language (DTDL)](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.v4.md) to [Web of Things (WoT) Thing Model (TM)](https://www.w3.org/TR/wot-thing-description/#introduction-tm).
 
-DTDL supports language extensions that define additonal types and properties usable in models.
+DTDL supports language extensions that define additional types and properties usable in models.
 One such extension is the [Azure IoT Operations extension](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md), which has been defined but not released.
 The purpose of this extension is to enable DTDL models to express information appropriate for the AIO Golden Path, whose semantics are defined in the [Common Information Model](https://microsoft.sharepoint.com/:w:/t/DigitalOperations/IQDUq0xTOkMoSImWfPd5AH8oAR8OWsRmL3Be0epTA6j0DT0?e=3IWPqy) document.
 
@@ -77,7 +77,7 @@ The following extension properties are listed along with the cotypes of their do
 
 * scaleFactor (via [ScaledStatically](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#scaledstatically-adjunct-type)) &mdash; specifies a constant value used for statically scaling instance values.
 
-* decimalPlaces (via [Precise](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#precise-adjunct-type)) &mdash; specfies the significant precision of a numeric value.
+* decimalPlaces (via [Precise](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#precise-adjunct-type)) &mdash; specifies the significant precision of a numeric value.
 
 * group (via [GroupMember](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#groupmember-adjunct-type)) &mdash; for a Command, specifies the name of a group of which the Command is a member.
 
@@ -99,13 +99,13 @@ The proposed AIO Platform Binding introduces 14 new RDF terms:
 * `aov:component` &mdash; value for `rel` property in a `links` element indicating that the linked TM is a component of this TM.
 * `aov:reference` &mdash; value for `rel` property in a `links` element indicating an untyped reference to the linked TM.
 * `aov:typedReference` &mdash; value for `rel` property in a `links` element indicating a typed reference to the linked TM; the type must be given by an `aov:refType` property.
-* `aov:refType` &mdash; property whose string value indicates a user-defined reference type for a `links` element whos `rel` property has value `aov:typedReference`.
+* `aov:refType` &mdash; property whose string value indicates a user-defined reference type for a `links` element whose `rel` property has value `aov:typedReference`.
 * `aov:contains` &mdash; property whose value is the name of another affordance that is logically contained within this affordance.
 * `aov:containedIn` &mdash; property whose value is the name of another affordance that logically contains this affordance.
 * `aov:typeRef` &mdash; property whose value is an opaque identifier of another type definition that is congruent to this definition.
 * `aov:namespace` &mdash; property whose value is a namespace that qualifies the name of the model element.
 * `aov:scaleFactor` &mdash; property whose value is used for scaling instance values.
-* `aov:decimalPlaces` &mdash; property whose value specfies the significant precision of a numeric value.
+* `aov:decimalPlaces` &mdash; property whose value specifies the significant precision of a numeric value.
 * `aov:memberOf` &mdash; property whose value specifies the name of a group of which this action is a member.
 
 Use of these is illustrated in the following TM examples.
