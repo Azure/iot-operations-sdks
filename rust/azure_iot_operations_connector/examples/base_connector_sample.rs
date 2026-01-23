@@ -399,8 +399,8 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                     Err(e) => {
                         log::error!("{log_identifier} Error reporting message schema: {e}");
                         data_operation_reporter.report_health_event(RuntimeHealthEvent {
-                            message: None,
-                            reason_code: Some("SchemaReportErr".to_string()),
+                            message: Some(format!("Failed to report message schema: {e}")),
+                            reason_code: Some("SampleConnectorSchemaReportFailed".to_string()),
                             status: HealthStatus::Unavailable,
                         });
                         continue; // Can't forward data without a schema reported
@@ -422,8 +422,8 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                     Err(e) => {
                         log::error!("{log_identifier} error forwarding data: {e}");
                         data_operation_reporter.report_health_event(RuntimeHealthEvent {
-                            message: None,
-                            reason_code: Some("DataForwardErr".to_string()),
+                            message: Some(format!("Failed to forward data to broker: {e}")),
+                            reason_code: Some("SampleConnectorDataForwardFailed".to_string()),
                             status: HealthStatus::Unavailable,
                         });
                     },
