@@ -36,7 +36,7 @@ const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialFactorBackoff =
     tokio_retry2::strategy::ExponentialFactorBackoff::from_millis(500, 2.0);
 
 /// Represents the runtime health of a resource.
-/// 
+///
 /// When [`RuntimeHealthEvent::status`] is [`HealthStatus::Available`], both [`RuntimeHealthEvent::message`] and [`RuntimeHealthEvent::reason_code`] must be `None`.
 #[derive(Debug, Clone)]
 pub struct RuntimeHealthEvent {
@@ -101,7 +101,10 @@ impl DeviceEndpointStatusReporter {
             version: self.snapshotted_version,
         };
         if let Err(e) = self.health_sender.report(runtime_health) {
-            log::warn!("Failed to send health event: {e}");
+            log::warn!(
+                "Failed to send health event for device endpoint {:?}: {e}",
+                self.device_endpoint_ref
+            );
         }
     }
 
@@ -109,7 +112,10 @@ impl DeviceEndpointStatusReporter {
     /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
     pub fn pause_health_reporting(&self) {
         if let Err(e) = self.health_sender.pause() {
-            log::warn!("Failed to pause health reporting: {e}");
+            log::warn!(
+                "Failed to pause health reporting for device endpoint {:?}: {e}",
+                self.device_endpoint_ref
+            );
         }
     }
 
@@ -2026,7 +2032,10 @@ impl DataOperationStatusReporter {
             version: self.snapshotted_version,
         };
         if let Err(e) = self.health_sender.report(runtime_health) {
-            log::warn!("Failed to send health event: {e}");
+            log::warn!(
+                "Failed to send health event for data operation {:?}: {e}",
+                self.data_operation_ref
+            );
         }
     }
 
@@ -2034,7 +2043,10 @@ impl DataOperationStatusReporter {
     /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
     pub fn pause_health_reporting(&self) {
         if let Err(e) = self.health_sender.pause() {
-            log::warn!("Failed to pause health reporting: {e}");
+            log::warn!(
+                "Failed to pause health reporting for data operation {:?}: {e}",
+                self.data_operation_ref
+            );
         }
     }
 
