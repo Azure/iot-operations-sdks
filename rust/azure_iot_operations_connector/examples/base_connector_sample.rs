@@ -26,7 +26,7 @@ use azure_iot_operations_connector::{
     deployment_artifacts::connector::ConnectorArtifacts,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::azure_device_registry::{self, HealthStatus};
+use azure_iot_operations_services::azure_device_registry;
 
 /// Only reports status on first time (None) and when changing from OK to Error.
 /// Skips reporting when status has already been reported and hasn't changed.
@@ -166,11 +166,7 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
     }
 
     // Report initial health event after successfully validating and reporting endpoint status
-    device_endpoint_reporter.report_health_event(RuntimeHealthEvent {
-        message: None,
-        reason_code: None,
-        status: HealthStatus::Available,
-    });
+    device_endpoint_reporter.report_health_event(RuntimeHealthEvent::Available);
 
     loop {
         match device_endpoint_client.recv_notification().await {
@@ -205,11 +201,7 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                     log::error!("{log_identifier} Error reporting endpoint status: {e}");
                 }
                 // Report health event after successfully processing the update
-                device_endpoint_reporter.report_health_event(RuntimeHealthEvent {
-                    message: None,
-                    reason_code: None,
-                    status: HealthStatus::Available,
-                });
+                device_endpoint_reporter.report_health_event(RuntimeHealthEvent::Available);
             }
             ClientNotification::Created(asset_client) => {
                 let asset_log_identifier =
@@ -398,10 +390,9 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                     }
                     Err(e) => {
                         log::error!("{log_identifier} Error reporting message schema: {e}");
-                        data_operation_reporter.report_health_event(RuntimeHealthEvent {
+                        data_operation_reporter.report_health_event(RuntimeHealthEvent::Unavailable {
                             message: Some(format!("Failed to report message schema: {e}")),
                             reason_code: Some("SampleConnectorSchemaReportFailed".to_string()),
-                            status: HealthStatus::Unavailable,
                         });
                         continue; // Can't forward data without a schema reported
                     }
@@ -413,18 +404,13 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                             "{log_identifier} data {count} forwarded"
                         );
                         count += 1;
-                        data_operation_reporter.report_health_event(RuntimeHealthEvent {
-                            message: None,
-                            reason_code: None,
-                            status: HealthStatus::Available,
-                        });
+                        data_operation_reporter.report_health_event(RuntimeHealthEvent::Available);
                     }
                     Err(e) => {
                         log::error!("{log_identifier} error forwarding data: {e}");
-                        data_operation_reporter.report_health_event(RuntimeHealthEvent {
+                        data_operation_reporter.report_health_event(RuntimeHealthEvent::Unavailable {
                             message: Some(format!("Failed to forward data to broker: {e}")),
                             reason_code: Some("SampleConnectorDataForwardFailed".to_string()),
-                            status: HealthStatus::Unavailable,
                         });
                     },
                 }

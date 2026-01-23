@@ -36,16 +36,17 @@ const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialFactorBackoff =
     tokio_retry2::strategy::ExponentialFactorBackoff::from_millis(500, 2.0);
 
 /// Represents the runtime health of a resource.
-///
-/// When [`RuntimeHealthEvent::status`] is [`HealthStatus::Available`], both [`RuntimeHealthEvent::message`] and [`RuntimeHealthEvent::reason_code`] must be `None`.
 #[derive(Debug, Clone)]
-pub struct RuntimeHealthEvent {
-    /// A human-readable message describing the last transition. Must be `None` when [`RuntimeHealthEvent::status`] is [`HealthStatus::Available`].
-    pub message: Option<String>,
-    /// Unique, CamelCase reason code describing the cause of the last health state transition. Must be `None` when [`RuntimeHealthEvent::status`] is [`HealthStatus::Available`].
-    pub reason_code: Option<String>,
-    /// The current health status of the resource.
-    pub status: HealthStatus,
+pub enum RuntimeHealthEvent {
+    /// Resource is currently available.
+    Available,
+    /// Resource is currently unavailable.
+    Unavailable {
+        /// A human-readable message describing the last transition.
+        message: Option<String>,
+        /// Unique, CamelCase reason code describing the cause of the last health state transition.
+        reason_code: Option<String>,
+    },
 }
 
 /// Notifications that can be received for a Client
@@ -93,11 +94,18 @@ impl DeviceEndpointStatusReporter {
     /// The version used for reporting is the snapshotted version from the last call to
     /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not necessarily the current specification version.
     pub fn report_health_event(&self, health_event: RuntimeHealthEvent) {
+        let (status, message, reason_code) = match health_event {
+            RuntimeHealthEvent::Available => (HealthStatus::Available, None, None),
+            RuntimeHealthEvent::Unavailable {
+                message,
+                reason_code,
+            } => (HealthStatus::Unavailable, message, reason_code),
+        };
         let runtime_health = RuntimeHealth {
             last_update_time: Utc::now(),
-            message: health_event.message,
-            reason_code: health_event.reason_code,
-            status: health_event.status,
+            message,
+            reason_code,
+            status,
             version: self.snapshotted_version,
         };
         if let Err(e) = self.health_sender.report(runtime_health) {
@@ -2024,11 +2032,18 @@ impl DataOperationStatusReporter {
     /// The version used for reporting is the snapshotted version from the last call to
     /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not necessarily the current specification version.
     pub fn report_health_event(&self, health_event: RuntimeHealthEvent) {
+        let (status, message, reason_code) = match health_event {
+            RuntimeHealthEvent::Available => (HealthStatus::Available, None, None),
+            RuntimeHealthEvent::Unavailable {
+                message,
+                reason_code,
+            } => (HealthStatus::Unavailable, message, reason_code),
+        };
         let runtime_health = RuntimeHealth {
             last_update_time: Utc::now(),
-            message: health_event.message,
-            reason_code: health_event.reason_code,
-            status: health_event.status,
+            message,
+            reason_code,
+            status,
             version: self.snapshotted_version,
         };
         if let Err(e) = self.health_sender.report(runtime_health) {
