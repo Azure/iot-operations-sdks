@@ -236,7 +236,9 @@ Each of the properties has a type reference to an identifier in the space of OPC
 
 ### Mapping DTDL to WoT
 
-The following table summarizes the mapping between DTDL and WoT.
+A semantic mapping between core DTDL and native WoT can be found [here](https://github.com/digitaltwinconsortium/ManufacturingOntologies/blob/main/comparison.md).
+
+The following table summarizes the mapping between the DTDL AIO extension and the WoT Platform Binding for AIO.
 
 | DTDL Core Type | DTDL AIO Extension Cotype/Property | WoT Native Property | WoT Binding Property |
 | --- | --- | --- | --- |
