@@ -10,7 +10,7 @@ The purpose of this extension is to enable DTDL models to express information ap
 
 > NOTE: Because the Azure IoT Operations extension has not been released, its documentation is not openly accessible.
 > The docs are therefore unlinkable from this document without causing linkspector violations.
-> People with access can find the docs at https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md.
+> People with access can find the docs on the GitHub Azure/DTDL repo at path "dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md".
 
 As with DTDL models, WoT Thing Models need to express AIO Golden Path information.
 Much like DTDL's [language extension mechanism](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.Extensions.md), WoT provides for [Binding Templates](https://www.w3.org/TR/wot-binding-templates/) that define additional types and properties for expressing supplementary modeling information.
