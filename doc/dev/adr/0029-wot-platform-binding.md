@@ -5,8 +5,12 @@
 The AIO team is in the process of changing our primary modeling language from [Digital Twins Definition Language (DTDL)](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.v4.md) to [Web of Things (WoT) Thing Model (TM)](https://www.w3.org/TR/wot-thing-description/#introduction-tm).
 
 DTDL supports language extensions that define additional types and properties usable in models.
-One such extension is the [Azure IoT Operations extension](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md), which has been defined but not released.
+One such extension is the Azure IoT Operations extension, which has been defined but not released.
 The purpose of this extension is to enable DTDL models to express information appropriate for the AIO Golden Path, whose semantics are defined in the [Common Information Model](https://microsoft.sharepoint.com/:w:/t/DigitalOperations/IQDUq0xTOkMoSImWfPd5AH8oAR8OWsRmL3Be0epTA6j0DT0?e=3IWPqy) document.
+
+> NOTE: Because the Azure IoT Operations extension has not been released, its documentation is not openly accessible.
+> The docs are therefore unlinkable from this document without causing linkspector violations.
+> People with access can find the docs at https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md.
 
 As with DTDL models, WoT Thing Models need to express AIO Golden Path information.
 Much like DTDL's [language extension mechanism](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.Extensions.md), WoT provides for [Binding Templates](https://www.w3.org/TR/wot-binding-templates/) that define additional types and properties for expressing supplementary modeling information.
@@ -19,7 +23,7 @@ WoT defines three types of bindings:
 The AIO team has informally defined a [WoT Protocol Binding for AIO](./0026-wot-protocol-binding.md), which enables Thing Models to express MQTT topic patterns, header value definitions, error annotations, and other information needed for generating source-code binders that target the AIO SDKs, analogously to the [Mqtt extension](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.mqtt.v3.md) for DTDL models.
 
 
-For Golden Path support, we need a WoT Platform Binding for AIO, which will enable Thing Models to express Golden Path information analogously to the [AIO extension](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md) for DTDL models.
+For Golden Path support, we need a WoT Platform Binding for AIO, which will enable Thing Models to express Golden Path information analogously to the AIO extension for DTDL models.
 This requires:
 
 * Defining a WoT Ontology ([RDF vocabulary](https://www.w3.org/RDF/)) using [RDF Schema](https://www.w3.org/TR/rdf12-schema/)
@@ -51,19 +55,19 @@ It is mentioned here for completeness, but it has no usage in AIO.
 
 #### DTDL Azure IoT Operations extension
 
-The [Azure IoT Operations extension](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md) defines the following extension types and properties.
+The Azure IoT Operations extension defines the following extension types and properties.
 
 ##### Extension types
 
-* [Composite](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#composite-adjunct-type) &mdash; a cotype applied to an Interface to indicate that the Interface is not a component or capability of any other Interface.
+* Composite &mdash; a cotype applied to an Interface to indicate that the Interface is not a component or capability of any other Interface.
 
-* [Event](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#event-adjunct-type) &mdash; a cotype applied to an Interface to indicate that the Interface has semantics associated with an event type.
+* Event &mdash; a cotype applied to an Interface to indicate that the Interface has semantics associated with an event type.
 
-* [HasCapability](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#hascapability-adjunct-type) &mdash; a cotype applied to a Relationship to indicate that the Relationship target is a capability (as opposed to a component, a collection, a feed, a sink, etc.) of the Relationship source.
+* HasCapability &mdash; a cotype applied to a Relationship to indicate that the Relationship target is a capability (as opposed to a component, a collection, a feed, a sink, etc.) of the Relationship source.
 
-* [HasComponent](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#hascomponent-adjunct-type) &mdash; a cotype applied to a Relationship to indicate that the Relationship target is a component (as opposed to a capability, a collection, a feed, a sink, etc.) of the Relationship source.
+* HasComponent &mdash; a cotype applied to a Relationship to indicate that the Relationship target is a component (as opposed to a capability, a collection, a feed, a sink, etc.) of the Relationship source.
 
-* [Detail and Subject](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#detail-and-subject-adjunct-types) &mdash; cotypes that work together to indicate an object structure that conveys a subject value along with detail information about the subject.
+* Detail and Subject &mdash; cotypes that work together to indicate an object structure that conveys a subject value along with detail information about the subject.
 
 ##### Extension properties
 
@@ -71,17 +75,17 @@ DTDL does not allow for freestanding properties that are independent of type.
 Every extension property is defined to have an associated domain that is an extension cotype, and this cotype must be applied to a native type for the property to be usable on that type.
 The following extension properties are listed along with the cotypes of their domains.
 
-* typeRef (via [Congruence](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#congruence-adjunct-type)) &mdash; specifies an opaque reference to another type definition (usually in a different modeling format) that is congruent to this definition.
+* typeRef (Congruence) &mdash; specifies an opaque reference to another type definition (usually in a different modeling format) that is congruent to this definition.
 
-* namespace (via [Qualified](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#qualified-adjunct-type)) &mdash; specifies a namespace that qualifies the `name` property of the model element.
+* namespace (via Qualified) &mdash; specifies a namespace that qualifies the `name` property of the model element.
 
-* scaleFactor (via [ScaledStatically](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#scaledstatically-adjunct-type)) &mdash; specifies a constant value used for statically scaling instance values.
+* scaleFactor (via ScaledStatically) &mdash; specifies a constant value used for statically scaling instance values.
 
-* decimalPlaces (via [Precise](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#precise-adjunct-type)) &mdash; specifies the significant precision of a numeric value.
+* decimalPlaces (via Precise) &mdash; specifies the significant precision of a numeric value.
 
-* group (via [GroupMember](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#groupmember-adjunct-type)) &mdash; for a Command, specifies the name of a group of which the Command is a member.
+* group (via GroupMember) &mdash; for a Command, specifies the name of a group of which the Command is a member.
 
-* maximum and minimum (via [Limited](https://github.com/Azure/DTDL/blob/main/dtdl/Docs/generated/en-US/DTDL.iotoperations.v4.md#limited-adjunct-type)) &mdash; specifies maximum and minimum expected values of a numeric type that is thereby limited to the specified range.
+* maximum and minimum (via Limited) &mdash; specifies maximum and minimum expected values of a numeric type that is thereby limited to the specified range.
 
 ## Proposal
 
