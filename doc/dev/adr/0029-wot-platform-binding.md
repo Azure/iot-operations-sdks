@@ -139,7 +139,7 @@ The name "Gain" is qualified by the namespace "MyControls".
   ],
   "properties": {
     "Gain": {
-      "namespace": "MyControls",
+      "aov:namespace": "MyControls",
       "type": "number",
       "aov:scaleFactor": 10.0,
       "aov:decimalPlaces": 3,
