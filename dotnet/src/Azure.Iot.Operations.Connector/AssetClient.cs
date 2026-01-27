@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
@@ -166,6 +167,132 @@ namespace Azure.Iot.Operations.Connector
                 _assetName,
                 commandTimeout,
                 cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset's datasets.
+        /// </summary>
+        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportDatasetRuntimeHealthAsync(List<DatasetsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
+            await _adrClient.ReportDatasetRuntimeHealthAsync(
+                _deviceName,
+                _inboundEndpointName,
+                _assetName,
+                runtimeHealth,
+                telemetryTimeout,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset's dataset.
+        /// </summary>
+        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportDatasetRuntimeHealthAsync(DatasetsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
+            await ReportDatasetRuntimeHealthAsync(new List<DatasetsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset's events.
+        /// </summary>
+        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportEventRuntimeHealthAsync(List<EventsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            await _adrClient.ReportEventRuntimeHealthAsync(
+                _deviceName,
+                _inboundEndpointName,
+                _assetName,
+                runtimeHealth,
+                telemetryTimeout,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset's event.
+        /// </summary>
+        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportEventRuntimeHealthAsync(EventsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
+            await ReportEventRuntimeHealthAsync(new List<EventsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset's streams.
+        /// </summary>
+        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportStreamRuntimeHealthAsync(List<StreamsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
+            await _adrClient.ReportStreamRuntimeHealthAsync(
+                _deviceName,
+                _inboundEndpointName,
+                _assetName,
+                runtimeHealth,
+                telemetryTimeout,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given asset's stream.
+        /// </summary>
+        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportStreamRuntimeHealthAsync(StreamsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
+            await ReportStreamRuntimeHealthAsync(new List<StreamsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of some given management actions.
+        /// </summary>
+        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportManagementActionRuntimeHealthAsync(List<ManagementActionsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
+            await _adrClient.ReportManagementActionRuntimeHealthAsync(
+                _deviceName,
+                _inboundEndpointName,
+                _assetName,
+                runtimeHealth,
+                telemetryTimeout,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Report the health of a given management action.
+        /// </summary>
+        /// <param name="runtimeHealth">The health status to report.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportManagementActionRuntimeHealthAsync(ManagementActionsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
+            await ReportManagementActionRuntimeHealthAsync(new List<ManagementActionsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
         }
     }
 }
