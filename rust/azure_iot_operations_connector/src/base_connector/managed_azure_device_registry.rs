@@ -2044,6 +2044,7 @@ pub struct AssetComponentStatusReporter<T: AssetComponentRef> {
     asset_ref: AssetRef,
 }
 
+// Allowing private bounds because the customer doesn't actually need to interface with T, and it should be private
 #[allow(private_bounds)]
 impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
     /// Used to conditionally report the data operation status and then updates the asset with the new status returned.

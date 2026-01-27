@@ -751,7 +751,7 @@ where
                             }
                             Err(e) => {
                                 log::error!(
-                                    "[{}] Executor nsuback error: {unsuback:?}",
+                                    "[{}] Executor unsuback error: {unsuback:?}",
                                     self.command_name
                                 );
                                 return Err(AIOProtocolError::new_mqtt_error(
