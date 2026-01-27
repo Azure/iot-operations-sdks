@@ -18,7 +18,8 @@ use azure_iot_operations_connector::{
         self, BaseConnector,
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
-            DeviceEndpointClient, DeviceEndpointClientCreationObservation, SchemaModifyResult,
+            DeviceEndpointClient, DeviceEndpointClientCreationObservation, RuntimeHealthEvent,
+            SchemaModifyResult,
         },
     },
     data_processor::derived_json,
@@ -140,7 +141,7 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
 // This function runs in a loop, waiting for asset creation notifications.
 async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEndpointClient) {
     // Get the status reporter for this device endpoint - create once and reuse
-    let device_endpoint_reporter = device_endpoint_client.get_status_reporter();
+    let mut device_endpoint_reporter = device_endpoint_client.get_status_reporter();
 
     // Update the status of the device
     if let Err(e) = device_endpoint_reporter
@@ -164,6 +165,9 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
         log::error!("{log_identifier} Error reporting endpoint status: {e}");
     }
 
+    // Report initial health event after successfully validating and reporting endpoint status
+    device_endpoint_reporter.report_health_event(RuntimeHealthEvent::Available);
+
     loop {
         match device_endpoint_client.recv_notification().await {
             ClientNotification::Deleted => {
@@ -171,6 +175,8 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                 break;
             }
             ClientNotification::Updated => {
+                // Pause reporting and refresh to the new version before processing the update
+                device_endpoint_reporter.pause_and_refresh_health_version();
                 log::info!("{log_identifier} Device updated: {device_endpoint_client:?}");
 
                 // Update device status - usually only on first report or error changes
@@ -194,6 +200,8 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                 {
                     log::error!("{log_identifier} Error reporting endpoint status: {e}");
                 }
+                // Report health event after successfully processing the update
+                device_endpoint_reporter.report_health_event(RuntimeHealthEvent::Available);
             }
             ClientNotification::Created(asset_client) => {
                 let asset_log_identifier =
@@ -277,7 +285,7 @@ async fn run_dataset(
     initial_status: Result<(), AdrConfigError>,
 ) {
     // Get the status reporter for this data operation - create once and reuse
-    let data_operation_reporter = data_operation_client.get_status_reporter();
+    let mut data_operation_reporter = data_operation_client.get_status_reporter();
 
     // now we should update the status of the dataset, using the initial_status since there's nothing else we need to validate ourselves
     if let Err(e) = data_operation_reporter
@@ -300,6 +308,8 @@ async fn run_dataset(
             biased;
             // Listen for a dataset update notifications
             res = data_operation_client.recv_notification() => {
+                // Pause reporting and refresh to the new version before processing the update
+                data_operation_reporter.pause_and_refresh_health_version();
                 match res {
                     DataOperationNotification::AssetUpdated(Ok(())) => {
                         log::info!("{log_identifier} Asset updated for {:?}", data_operation_client.data_operation_ref());
@@ -377,6 +387,10 @@ async fn run_dataset(
                     }
                     Err(e) => {
                         log::error!("{log_identifier} Error reporting message schema: {e}");
+                        data_operation_reporter.report_health_event(RuntimeHealthEvent::Unavailable {
+                            message: Some(format!("Failed to report message schema: {e}")),
+                            reason_code: Some("SampleConnectorSchemaReportFailed".to_string()),
+                        });
                         continue; // Can't forward data without a schema reported
                     }
                 }
@@ -387,8 +401,15 @@ async fn run_dataset(
                             "{log_identifier} data {count} forwarded"
                         );
                         count += 1;
+                        data_operation_reporter.report_health_event(RuntimeHealthEvent::Available);
                     }
-                    Err(e) => log::error!("{log_identifier} error forwarding data: {e}"),
+                    Err(e) => {
+                        log::error!("{log_identifier} error forwarding data: {e}");
+                        data_operation_reporter.report_health_event(RuntimeHealthEvent::Unavailable {
+                            message: Some(format!("Failed to forward data to broker: {e}")),
+                            reason_code: Some("SampleConnectorDataForwardFailed".to_string()),
+                        });
+                    },
                 }
             }
         }
