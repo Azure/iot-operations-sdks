@@ -33,6 +33,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             private readonly SetNotificationPreferenceForDeviceUpdatesCommandExecutor setNotificationPreferenceForDeviceUpdatesCommandExecutor;
             private readonly SetNotificationPreferenceForAssetUpdatesCommandExecutor setNotificationPreferenceForAssetUpdatesCommandExecutor;
             private readonly CreateOrUpdateDiscoveredAssetCommandExecutor createOrUpdateDiscoveredAssetCommandExecutor;
+            private readonly DeviceEndpointRuntimeHealthEventTelemetrySender deviceEndpointRuntimeHealthEventTelemetrySender;
+            private readonly DatasetRuntimeHealthEventTelemetrySender datasetRuntimeHealthEventTelemetrySender;
+            private readonly EventRuntimeHealthEventTelemetrySender eventRuntimeHealthEventTelemetrySender;
+            private readonly ManagementActionRuntimeHealthEventTelemetrySender managementActionRuntimeHealthEventTelemetrySender;
+            private readonly StreamRuntimeHealthEventTelemetrySender streamRuntimeHealthEventTelemetrySender;
             private readonly DeviceUpdateEventTelemetrySender deviceUpdateEventTelemetrySender;
             private readonly AssetUpdateEventTelemetrySender assetUpdateEventTelemetrySender;
 
@@ -66,6 +71,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 this.setNotificationPreferenceForDeviceUpdatesCommandExecutor = new SetNotificationPreferenceForDeviceUpdatesCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = SetNotificationPreferenceForDeviceUpdatesInt };
                 this.setNotificationPreferenceForAssetUpdatesCommandExecutor = new SetNotificationPreferenceForAssetUpdatesCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = SetNotificationPreferenceForAssetUpdatesInt };
                 this.createOrUpdateDiscoveredAssetCommandExecutor = new CreateOrUpdateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateOrUpdateDiscoveredAssetInt };
+                this.deviceEndpointRuntimeHealthEventTelemetrySender = new DeviceEndpointRuntimeHealthEventTelemetrySender(applicationContext, mqttClient);
+                this.datasetRuntimeHealthEventTelemetrySender = new DatasetRuntimeHealthEventTelemetrySender(applicationContext, mqttClient);
+                this.eventRuntimeHealthEventTelemetrySender = new EventRuntimeHealthEventTelemetrySender(applicationContext, mqttClient);
+                this.managementActionRuntimeHealthEventTelemetrySender = new ManagementActionRuntimeHealthEventTelemetrySender(applicationContext, mqttClient);
+                this.streamRuntimeHealthEventTelemetrySender = new StreamRuntimeHealthEventTelemetrySender(applicationContext, mqttClient);
                 this.deviceUpdateEventTelemetrySender = new DeviceUpdateEventTelemetrySender(applicationContext, mqttClient);
                 this.assetUpdateEventTelemetrySender = new AssetUpdateEventTelemetrySender(applicationContext, mqttClient);
 
@@ -82,6 +92,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                         this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.setNotificationPreferenceForAssetUpdatesCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.createOrUpdateDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.deviceEndpointRuntimeHealthEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.datasetRuntimeHealthEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.eventRuntimeHealthEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.managementActionRuntimeHealthEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.streamRuntimeHealthEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.deviceUpdateEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.assetUpdateEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
@@ -116,6 +131,16 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
             public CreateOrUpdateDiscoveredAssetCommandExecutor CreateOrUpdateDiscoveredAssetCommandExecutor { get => this.createOrUpdateDiscoveredAssetCommandExecutor; }
 
+            public DeviceEndpointRuntimeHealthEventTelemetrySender DeviceEndpointRuntimeHealthEventTelemetrySender { get => this.deviceEndpointRuntimeHealthEventTelemetrySender; }
+
+            public DatasetRuntimeHealthEventTelemetrySender DatasetRuntimeHealthEventTelemetrySender { get => this.datasetRuntimeHealthEventTelemetrySender; }
+
+            public EventRuntimeHealthEventTelemetrySender EventRuntimeHealthEventTelemetrySender { get => this.eventRuntimeHealthEventTelemetrySender; }
+
+            public ManagementActionRuntimeHealthEventTelemetrySender ManagementActionRuntimeHealthEventTelemetrySender { get => this.managementActionRuntimeHealthEventTelemetrySender; }
+
+            public StreamRuntimeHealthEventTelemetrySender StreamRuntimeHealthEventTelemetrySender { get => this.streamRuntimeHealthEventTelemetrySender; }
+
             public DeviceUpdateEventTelemetrySender DeviceUpdateEventTelemetrySender { get => this.deviceUpdateEventTelemetrySender; }
 
             public AssetUpdateEventTelemetrySender AssetUpdateEventTelemetrySender { get => this.assetUpdateEventTelemetrySender; }
@@ -137,6 +162,126 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             public abstract Task<ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload>> SetNotificationPreferenceForAssetUpdatesAsync(SetNotificationPreferenceForAssetUpdatesRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             public abstract Task<ExtendedResponse<CreateOrUpdateDiscoveredAssetResponsePayload>> CreateOrUpdateDiscoveredAssetAsync(CreateOrUpdateDiscoveredAssetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task SendTelemetryAsync(DeviceEndpointRuntimeHealthEventTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+            {
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.deviceEndpointRuntimeHealthEventTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+            }
+
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task SendTelemetryAsync(DatasetRuntimeHealthEventTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+            {
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.datasetRuntimeHealthEventTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+            }
+
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task SendTelemetryAsync(EventRuntimeHealthEventTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+            {
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.eventRuntimeHealthEventTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+            }
+
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task SendTelemetryAsync(ManagementActionRuntimeHealthEventTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+            {
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.managementActionRuntimeHealthEventTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+            }
+
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task SendTelemetryAsync(StreamRuntimeHealthEventTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+            {
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.streamRuntimeHealthEventTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+            }
 
             /// <summary>
             /// Send telemetry.
@@ -407,6 +552,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 await this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.setNotificationPreferenceForAssetUpdatesCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.createOrUpdateDiscoveredAssetCommandExecutor.DisposeAsync().ConfigureAwait(false);
+                await this.deviceEndpointRuntimeHealthEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
+                await this.datasetRuntimeHealthEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
+                await this.eventRuntimeHealthEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
+                await this.managementActionRuntimeHealthEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
+                await this.streamRuntimeHealthEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
                 await this.deviceUpdateEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
                 await this.assetUpdateEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
             }
@@ -422,6 +572,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 await this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.setNotificationPreferenceForAssetUpdatesCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.createOrUpdateDiscoveredAssetCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.deviceEndpointRuntimeHealthEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.datasetRuntimeHealthEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.eventRuntimeHealthEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.managementActionRuntimeHealthEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.streamRuntimeHealthEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.deviceUpdateEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.assetUpdateEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
             }
@@ -440,6 +595,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             private readonly SetNotificationPreferenceForDeviceUpdatesCommandInvoker setNotificationPreferenceForDeviceUpdatesCommandInvoker;
             private readonly SetNotificationPreferenceForAssetUpdatesCommandInvoker setNotificationPreferenceForAssetUpdatesCommandInvoker;
             private readonly CreateOrUpdateDiscoveredAssetCommandInvoker createOrUpdateDiscoveredAssetCommandInvoker;
+            private readonly DeviceEndpointRuntimeHealthEventTelemetryReceiver deviceEndpointRuntimeHealthEventTelemetryReceiver;
+            private readonly DatasetRuntimeHealthEventTelemetryReceiver datasetRuntimeHealthEventTelemetryReceiver;
+            private readonly EventRuntimeHealthEventTelemetryReceiver eventRuntimeHealthEventTelemetryReceiver;
+            private readonly ManagementActionRuntimeHealthEventTelemetryReceiver managementActionRuntimeHealthEventTelemetryReceiver;
+            private readonly StreamRuntimeHealthEventTelemetryReceiver streamRuntimeHealthEventTelemetryReceiver;
             private readonly DeviceUpdateEventTelemetryReceiver deviceUpdateEventTelemetryReceiver;
             private readonly AssetUpdateEventTelemetryReceiver assetUpdateEventTelemetryReceiver;
 
@@ -466,6 +626,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 this.setNotificationPreferenceForDeviceUpdatesCommandInvoker = new SetNotificationPreferenceForDeviceUpdatesCommandInvoker(applicationContext, mqttClient);
                 this.setNotificationPreferenceForAssetUpdatesCommandInvoker = new SetNotificationPreferenceForAssetUpdatesCommandInvoker(applicationContext, mqttClient);
                 this.createOrUpdateDiscoveredAssetCommandInvoker = new CreateOrUpdateDiscoveredAssetCommandInvoker(applicationContext, mqttClient);
+                this.deviceEndpointRuntimeHealthEventTelemetryReceiver = new DeviceEndpointRuntimeHealthEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                this.datasetRuntimeHealthEventTelemetryReceiver = new DatasetRuntimeHealthEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                this.eventRuntimeHealthEventTelemetryReceiver = new EventRuntimeHealthEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                this.managementActionRuntimeHealthEventTelemetryReceiver = new ManagementActionRuntimeHealthEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                this.streamRuntimeHealthEventTelemetryReceiver = new StreamRuntimeHealthEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
                 this.deviceUpdateEventTelemetryReceiver = new DeviceUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
                 this.assetUpdateEventTelemetryReceiver = new AssetUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
 
@@ -482,6 +647,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                         this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.setNotificationPreferenceForAssetUpdatesCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.createOrUpdateDiscoveredAssetCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.deviceEndpointRuntimeHealthEventTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.datasetRuntimeHealthEventTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.eventRuntimeHealthEventTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.managementActionRuntimeHealthEventTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.streamRuntimeHealthEventTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.deviceUpdateEventTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.assetUpdateEventTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
@@ -506,9 +676,29 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
             public CreateOrUpdateDiscoveredAssetCommandInvoker CreateOrUpdateDiscoveredAssetCommandInvoker { get => this.createOrUpdateDiscoveredAssetCommandInvoker; }
 
+            public DeviceEndpointRuntimeHealthEventTelemetryReceiver DeviceEndpointRuntimeHealthEventTelemetryReceiver { get => this.deviceEndpointRuntimeHealthEventTelemetryReceiver; }
+
+            public DatasetRuntimeHealthEventTelemetryReceiver DatasetRuntimeHealthEventTelemetryReceiver { get => this.datasetRuntimeHealthEventTelemetryReceiver; }
+
+            public EventRuntimeHealthEventTelemetryReceiver EventRuntimeHealthEventTelemetryReceiver { get => this.eventRuntimeHealthEventTelemetryReceiver; }
+
+            public ManagementActionRuntimeHealthEventTelemetryReceiver ManagementActionRuntimeHealthEventTelemetryReceiver { get => this.managementActionRuntimeHealthEventTelemetryReceiver; }
+
+            public StreamRuntimeHealthEventTelemetryReceiver StreamRuntimeHealthEventTelemetryReceiver { get => this.streamRuntimeHealthEventTelemetryReceiver; }
+
             public DeviceUpdateEventTelemetryReceiver DeviceUpdateEventTelemetryReceiver { get => this.deviceUpdateEventTelemetryReceiver; }
 
             public AssetUpdateEventTelemetryReceiver AssetUpdateEventTelemetryReceiver { get => this.assetUpdateEventTelemetryReceiver; }
+
+            public abstract Task ReceiveTelemetry(string senderId, DeviceEndpointRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
+            public abstract Task ReceiveTelemetry(string senderId, DatasetRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
+            public abstract Task ReceiveTelemetry(string senderId, EventRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
+            public abstract Task ReceiveTelemetry(string senderId, ManagementActionRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
+            public abstract Task ReceiveTelemetry(string senderId, StreamRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
 
             public abstract Task ReceiveTelemetry(string senderId, DeviceUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
 
@@ -825,6 +1015,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             public async Task StartAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
+                    this.deviceEndpointRuntimeHealthEventTelemetryReceiver.StartAsync(cancellationToken),
+                    this.datasetRuntimeHealthEventTelemetryReceiver.StartAsync(cancellationToken),
+                    this.eventRuntimeHealthEventTelemetryReceiver.StartAsync(cancellationToken),
+                    this.managementActionRuntimeHealthEventTelemetryReceiver.StartAsync(cancellationToken),
+                    this.streamRuntimeHealthEventTelemetryReceiver.StartAsync(cancellationToken),
                     this.deviceUpdateEventTelemetryReceiver.StartAsync(cancellationToken),
                     this.assetUpdateEventTelemetryReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
             }
@@ -836,6 +1031,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
+                    this.deviceEndpointRuntimeHealthEventTelemetryReceiver.StopAsync(cancellationToken),
+                    this.datasetRuntimeHealthEventTelemetryReceiver.StopAsync(cancellationToken),
+                    this.eventRuntimeHealthEventTelemetryReceiver.StopAsync(cancellationToken),
+                    this.managementActionRuntimeHealthEventTelemetryReceiver.StopAsync(cancellationToken),
+                    this.streamRuntimeHealthEventTelemetryReceiver.StopAsync(cancellationToken),
                     this.deviceUpdateEventTelemetryReceiver.StopAsync(cancellationToken),
                     this.assetUpdateEventTelemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
@@ -1103,6 +1303,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.setNotificationPreferenceForAssetUpdatesCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.createOrUpdateDiscoveredAssetCommandInvoker.DisposeAsync().ConfigureAwait(false);
+                await this.deviceEndpointRuntimeHealthEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
+                await this.datasetRuntimeHealthEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
+                await this.eventRuntimeHealthEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
+                await this.managementActionRuntimeHealthEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
+                await this.streamRuntimeHealthEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
                 await this.deviceUpdateEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
                 await this.assetUpdateEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
@@ -1118,6 +1323,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.setNotificationPreferenceForAssetUpdatesCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.createOrUpdateDiscoveredAssetCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.deviceEndpointRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.datasetRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.eventRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.managementActionRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.streamRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.deviceUpdateEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.assetUpdateEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
             }

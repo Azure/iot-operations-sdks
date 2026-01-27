@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Threading;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
@@ -65,6 +64,26 @@ namespace Azure.Iot.Operations.Connector
             {
                 _semaphore.Release();
             }
+        }
+
+        /// <summary>
+        /// Report the health of this device endpoint.
+        /// </summary>
+        /// <param name="deviceName">The name of the device.</param>
+        /// <param name="inboundEndpointName">The name of the endpoint.</param>
+        /// <param name="telemetry">The health status to report.</param>
+        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ReportRuntimeHealthAsync(RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
+            await _adrClient.ReportDeviceEndpointRuntimeHealthAsync(
+                _deviceName,
+                _inboundEndpointName,
+                runtimeHealth,
+                telemetryTimeout,
+                cancellationToken);
         }
 
         /// <summary>
