@@ -1974,6 +1974,8 @@ impl AssetClient {
     }
 }
 
+// MARK: Asset Component
+
 /// Azure Device Registry Asset Component Client represents either a Dataset, Event,
 /// Stream, or Management Action Client
 pub enum AssetComponentClient {
@@ -2002,65 +2004,6 @@ pub enum MessageSchemaError {
     AzureDeviceRegistryError(#[from] azure_device_registry::Error),
 }
 
-#[derive(Debug, Clone)]
-pub(crate) struct DataOperationUpdateNotification {
-    /// new data operation definition
-    definition: DataOperationDefinition,
-    /// new default data operation destinations
-    default_destinations: Vec<Arc<destination_endpoint::Destination>>,
-    /// whether default destinations have changed or not in this update
-    default_destination_has_changed: bool,
-    /// watch receiver for when the update notification should be released to the application
-    release_asset_component_notifications_rx: watch::Receiver<()>,
-}
-
-#[derive(Debug, Clone)]
-pub(crate) struct ManagementActionUpdateNotification {
-    /// new management action definition
-    definition: ManagementActionSpecification,
-    /// watch receiver for when the update notification should be released to the application
-    release_asset_component_notifications_rx: watch::Receiver<()>,
-}
-
-/// Notifications that can be received for a Management Action
-pub enum ManagementActionNotification {
-    /// Indicates that the Asset containing the Management Action has been updated in place. If this is returned,
-    /// it indicates that the Management Group/Action definition has not changed.
-    /// If there was an error detected, it is included in the result, and must be reported by the application.
-    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
-    AssetUpdated(Result<(), AdrConfigError>),
-    /// Indicates that the Management Action's definition has been updated in place.
-    /// This will only be returned if the Management Group or Action definition has changed.
-    /// If the default config on the asset changed, the AssetUpdated variant will be returned.
-    /// If there was an error detected, it is included in the result, and must be reported by the application.
-    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
-    ManagementActionUpdated(Result<(), AdrConfigError>),
-    /// Indicates that the Management Action's definition has been updated in place and the old executor no longer
-    /// can be used with the new definition. This will only be returned if the Management Group or Action
-    /// definition has changed, and that change requires a new executor to be created (e.g. topic change).
-    /// If the topic for the executor has not changed, the ManagementActionUpdated variant will be returned.
-    /// If there was an error detected, it is included in the result, and must be reported by the application.
-    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update.
-    ManagementActionNewExecutor(Result<ManagementActionExecutor, AdrConfigError>),
-    /// Indicates that the Management Action has been deleted.
-    Deleted,
-}
-
-/// Notifications that can be received for a Data Operation
-pub enum DataOperationNotification {
-    /// Indicates that the Asset containing the Data Operation has been updated in place. If this is returned, it indicates that the Data Operation definition has not changed
-    /// If there was an error detected, it is included in the result, and must be reported by the application.
-    /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
-    AssetUpdated(Result<(), AdrConfigError>),
-    /// Indicates that the Data Operation's definition has been updated in place.
-    /// This will only be returned if the Data Operation definition changed. If the default destination or default config on the asset changed, the `AssetUpdated` variant will be returned.
-    /// If there was an error detected, it is included in the result, and must be reported by the application.
-    /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
-    DataOperationUpdated(Result<(), AdrConfigError>),
-    /// Indicates that the Data Operation has been deleted.
-    Deleted,
-}
-
 /// Result of a schema modification attempt
 pub enum SchemaModifyResult {
     /// Indicates that the schema was reported successfully and status was modified
@@ -2070,11 +2013,13 @@ pub enum SchemaModifyResult {
 }
 
 trait AssetComponentRef: std::fmt::Debug {
+    /// Gets the input needed to modify the status for this asset component
     fn get_modify_input<'a>(
         &self,
         current_status: &'a adr_models::AssetStatus,
     ) -> Option<Result<(), &'a AdrConfigError>>;
 
+    /// Internal function to report the status for this asset component
     async fn internal_report_status(
         &self,
         connector_context: &Arc<ConnectorContext>,
@@ -2086,167 +2031,10 @@ trait AssetComponentRef: std::fmt::Debug {
     ) -> Result<(), azure_device_registry::Error>;
 }
 
-impl AssetComponentRef for DataOperationRef {
-    fn get_modify_input<'a>(
-        &self,
-        current_status: &'a adr_models::AssetStatus,
-    ) -> Option<Result<(), &'a AdrConfigError>> {
-        match self.data_operation_name {
-            DataOperationName::Dataset {
-                name: ref dataset_name,
-            } => current_status
-                .datasets
-                .as_ref()
-                .and_then(|datasets| {
-                    datasets
-                        .iter()
-                        .find(|ds_status| ds_status.name == *dataset_name)
-                })
-                .map(|ds_status| ds_status.error.as_ref().map_or(Ok(()), Err)),
-            DataOperationName::Event {
-                name: ref event_name,
-                ref event_group_name,
-            } => current_status
-                .event_groups
-                .as_ref()
-                .and_then(|event_groups| {
-                    event_groups
-                        .iter()
-                        .find(|eg_status| eg_status.name == *event_group_name)
-                })
-                .and_then(|eg_status| {
-                    eg_status.events.as_ref().and_then(|events| {
-                        events.iter().find(|e_status| e_status.name == *event_name)
-                    })
-                })
-                .map(|e_status| e_status.error.as_ref().map_or(Ok(()), Err)),
-            DataOperationName::Stream {
-                name: ref stream_name,
-            } => current_status
-                .streams
-                .as_ref()
-                .and_then(|streams| {
-                    streams
-                        .iter()
-                        .find(|s_status| s_status.name == *stream_name)
-                })
-                .map(|s_status| s_status.error.as_ref().map_or(Ok(()), Err)),
-        }
-    }
-
-    async fn internal_report_status(
-        &self,
-        connector_context: &Arc<ConnectorContext>,
-        asset_ref: &AssetRef,
-        mut adr_asset_status: adr_models::AssetStatus,
-        asset_status_write_guard: &mut adr_models::AssetStatus,
-        desired_asset_component_status: Result<(), AdrConfigError>,
-        log_identifier: &str,
-    ) -> Result<(), azure_device_registry::Error> {
-        match self.data_operation_name {
-            DataOperationName::Dataset {
-                name: ref dataset_name,
-            } => DataOperationClient::update_dataset_status(
-                &mut adr_asset_status,
-                dataset_name,
-                desired_asset_component_status,
-            ),
-            DataOperationName::Event {
-                name: ref event_name,
-                ref event_group_name,
-            } => DataOperationClient::update_event_status(
-                &mut adr_asset_status,
-                event_group_name,
-                event_name,
-                desired_asset_component_status,
-            ),
-            DataOperationName::Stream {
-                name: ref stream_name,
-            } => DataOperationClient::update_stream_status(
-                &mut adr_asset_status,
-                stream_name,
-                desired_asset_component_status,
-            ),
-        }
-
-        log::debug!("Reporting data operation {:?} status from app", self);
-
-        AssetStatusReporter::internal_report_status(
-            adr_asset_status,
-            connector_context,
-            asset_ref,
-            asset_status_write_guard,
-            log_identifier,
-        )
-        .await
-    }
-}
-
-impl AssetComponentRef for ManagementActionRef {
-    fn get_modify_input<'a>(
-        &self,
-        current_status: &'a adr_models::AssetStatus,
-    ) -> Option<Result<(), &'a AdrConfigError>> {
-        current_status
-            .management_groups
-            .as_ref()
-            .and_then(|management_groups| {
-                management_groups
-                    .iter()
-                    .find(|mg_status| mg_status.name == *self.management_group_name)
-            })
-            .and_then(|mg_status| {
-                mg_status.actions.as_ref().and_then(|actions| {
-                    actions
-                        .iter()
-                        .find(|a_status| a_status.name == *self.management_action_name)
-                })
-            })
-            .map(|a_status| a_status.error.as_ref().map_or(Ok(()), Err))
-    }
-
-    async fn internal_report_status(
-        &self,
-        connector_context: &Arc<ConnectorContext>,
-        asset_ref: &AssetRef,
-        mut adr_asset_status: adr_models::AssetStatus,
-        asset_status_write_guard: &mut adr_models::AssetStatus,
-        desired_asset_component_status: Result<(), AdrConfigError>,
-        log_identifier: &str,
-    ) -> Result<(), azure_device_registry::Error> {
-        ManagementActionClient::update_action_status(
-            &mut adr_asset_status,
-            &self.management_group_name,
-            &self.management_action_name,
-            desired_asset_component_status,
-        );
-
-        log::debug!("Reporting management action {:?} status from app", self);
-
-        AssetStatusReporter::internal_report_status(
-            adr_asset_status,
-            connector_context,
-            asset_ref,
-            asset_status_write_guard,
-            log_identifier,
-        )
-        .await
-    }
-}
-
 /// A cloneable status reporter for Data Operation status reporting.
 ///
 /// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
-pub type DataOperationStatusReporter = AssetComponentStatusReporter<DataOperationRef>;
-
-/// A cloneable status reporter for Management Action status reporting.
-///
-/// This provides a way to report Management Action status changes from outside the [`ManagementActionClient`].
-pub type ManagementActionStatusReporter = AssetComponentStatusReporter<ManagementActionRef>;
-
-/// A cloneable status reporter for Data Operation status reporting.
-///
-/// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
+#[allow(private_bounds)]
 #[derive(Debug, Clone)]
 pub struct AssetComponentStatusReporter<T: AssetComponentRef> {
     connector_context: Arc<ConnectorContext>,
@@ -2256,6 +2044,7 @@ pub struct AssetComponentStatusReporter<T: AssetComponentRef> {
     asset_ref: AssetRef,
 }
 
+#[allow(private_bounds)]
 impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
     /// Used to conditionally report the data operation status and then updates the asset with the new status returned.
     ///
@@ -2372,7 +2161,136 @@ impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
     }
 }
 
-// MARK: DataOperation
+// MARK: Data Operation
+
+/// A cloneable status reporter for Data Operation status reporting.
+///
+/// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
+pub type DataOperationStatusReporter = AssetComponentStatusReporter<DataOperationRef>;
+
+impl AssetComponentRef for DataOperationRef {
+    fn get_modify_input<'a>(
+        &self,
+        current_status: &'a adr_models::AssetStatus,
+    ) -> Option<Result<(), &'a AdrConfigError>> {
+        match self.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => current_status
+                .datasets
+                .as_ref()
+                .and_then(|datasets| {
+                    datasets
+                        .iter()
+                        .find(|ds_status| ds_status.name == *dataset_name)
+                })
+                .map(|ds_status| ds_status.error.as_ref().map_or(Ok(()), Err)),
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => current_status
+                .event_groups
+                .as_ref()
+                .and_then(|event_groups| {
+                    event_groups
+                        .iter()
+                        .find(|eg_status| eg_status.name == *event_group_name)
+                })
+                .and_then(|eg_status| {
+                    eg_status.events.as_ref().and_then(|events| {
+                        events.iter().find(|e_status| e_status.name == *event_name)
+                    })
+                })
+                .map(|e_status| e_status.error.as_ref().map_or(Ok(()), Err)),
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => current_status
+                .streams
+                .as_ref()
+                .and_then(|streams| {
+                    streams
+                        .iter()
+                        .find(|s_status| s_status.name == *stream_name)
+                })
+                .map(|s_status| s_status.error.as_ref().map_or(Ok(()), Err)),
+        }
+    }
+
+    async fn internal_report_status(
+        &self,
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        mut adr_asset_status: adr_models::AssetStatus,
+        asset_status_write_guard: &mut adr_models::AssetStatus,
+        desired_asset_component_status: Result<(), AdrConfigError>,
+        log_identifier: &str,
+    ) -> Result<(), azure_device_registry::Error> {
+        match self.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => DataOperationClient::update_dataset_status(
+                &mut adr_asset_status,
+                dataset_name,
+                desired_asset_component_status,
+            ),
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => DataOperationClient::update_event_status(
+                &mut adr_asset_status,
+                event_group_name,
+                event_name,
+                desired_asset_component_status,
+            ),
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => DataOperationClient::update_stream_status(
+                &mut adr_asset_status,
+                stream_name,
+                desired_asset_component_status,
+            ),
+        }
+
+        log::debug!("Reporting data operation {:?} status from app", self);
+
+        AssetStatusReporter::internal_report_status(
+            adr_asset_status,
+            connector_context,
+            asset_ref,
+            asset_status_write_guard,
+            log_identifier,
+        )
+        .await
+    }
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct DataOperationUpdateNotification {
+    /// new data operation definition
+    definition: DataOperationDefinition,
+    /// new default data operation destinations
+    default_destinations: Vec<Arc<destination_endpoint::Destination>>,
+    /// whether default destinations have changed or not in this update
+    default_destination_has_changed: bool,
+    /// watch receiver for when the update notification should be released to the application
+    release_asset_component_notifications_rx: watch::Receiver<()>,
+}
+
+/// Notifications that can be received for a Data Operation
+pub enum DataOperationNotification {
+    /// Indicates that the Asset containing the Data Operation has been updated in place. If this is returned, it indicates that the Data Operation definition has not changed
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
+    AssetUpdated(Result<(), AdrConfigError>),
+    /// Indicates that the Data Operation's definition has been updated in place.
+    /// This will only be returned if the Data Operation definition changed. If the default destination or default config on the asset changed, the `AssetUpdated` variant will be returned.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
+    DataOperationUpdated(Result<(), AdrConfigError>),
+    /// Indicates that the Data Operation has been deleted.
+    Deleted,
+}
+
 /// Azure Device Registry Data Operation Client represents either a Dataset, Event,
 /// or Stream and includes additional functionality
 /// to report status, report message schema, receive updates,
@@ -3358,12 +3276,102 @@ impl DataOperationClient {
     }
 }
 
+// MARK: Management Action
+
+/// A cloneable status reporter for Management Action status reporting.
+///
+/// This provides a way to report Management Action status changes from outside the [`ManagementActionClient`].
+pub type ManagementActionStatusReporter = AssetComponentStatusReporter<ManagementActionRef>;
+
+impl AssetComponentRef for ManagementActionRef {
+    fn get_modify_input<'a>(
+        &self,
+        current_status: &'a adr_models::AssetStatus,
+    ) -> Option<Result<(), &'a AdrConfigError>> {
+        current_status
+            .management_groups
+            .as_ref()
+            .and_then(|management_groups| {
+                management_groups
+                    .iter()
+                    .find(|mg_status| mg_status.name == *self.management_group_name)
+            })
+            .and_then(|mg_status| {
+                mg_status.actions.as_ref().and_then(|actions| {
+                    actions
+                        .iter()
+                        .find(|a_status| a_status.name == *self.management_action_name)
+                })
+            })
+            .map(|a_status| a_status.error.as_ref().map_or(Ok(()), Err))
+    }
+
+    async fn internal_report_status(
+        &self,
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        mut adr_asset_status: adr_models::AssetStatus,
+        asset_status_write_guard: &mut adr_models::AssetStatus,
+        desired_asset_component_status: Result<(), AdrConfigError>,
+        log_identifier: &str,
+    ) -> Result<(), azure_device_registry::Error> {
+        ManagementActionClient::update_action_status(
+            &mut adr_asset_status,
+            &self.management_group_name,
+            &self.management_action_name,
+            desired_asset_component_status,
+        );
+
+        log::debug!("Reporting management action {:?} status from app", self);
+
+        AssetStatusReporter::internal_report_status(
+            adr_asset_status,
+            connector_context,
+            asset_ref,
+            asset_status_write_guard,
+            log_identifier,
+        )
+        .await
+    }
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct ManagementActionUpdateNotification {
+    /// new management action definition
+    definition: ManagementActionSpecification,
+    /// watch receiver for when the update notification should be released to the application
+    release_asset_component_notifications_rx: watch::Receiver<()>,
+}
+
+/// Notifications that can be received for a Management Action
+pub enum ManagementActionNotification {
+    /// Indicates that the Asset containing the Management Action has been updated in place. If this is returned,
+    /// it indicates that the Management Group/Action definition has not changed.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
+    AssetUpdated(Result<(), AdrConfigError>),
+    /// Indicates that the Management Action's definition has been updated in place.
+    /// This will only be returned if the Management Group or Action definition has changed.
+    /// If the default config on the asset changed, the AssetUpdated variant will be returned.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
+    ManagementActionUpdated(Result<(), AdrConfigError>),
+    /// Indicates that the Management Action's definition has been updated in place and the old executor no longer
+    /// can be used with the new definition. This will only be returned if the Management Group or Action
+    /// definition has changed, and that change requires a new executor to be created (e.g. topic change).
+    /// If the topic for the executor has not changed, the ManagementActionUpdated variant will be returned.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update.
+    ManagementActionNewExecutor(Result<ManagementActionExecutor, AdrConfigError>),
+    /// Indicates that the Management Action has been deleted.
+    Deleted,
+}
+
 enum ActionSchema {
     Request,
     Response,
 }
 
-// MARK: ManagementAction
 /// Azure Device Registry Management Action Client represents a Management Action
 /// and includes additional functionality to report status, report message schemas, receive updates,
 /// and receive execution requests for the Management Action.
