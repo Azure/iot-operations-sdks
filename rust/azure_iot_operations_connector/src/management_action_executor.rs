@@ -22,6 +22,7 @@ use tokio_util::sync::CancellationToken;
 
 use crate::{AdrConfigError, ManagementActionRef, base_connector::ConnectorContext};
 
+/// Executor for a Management Action. Used to receive requests.
 pub struct ManagementActionExecutor {
     executor: rpc_command::Executor<BypassPayload, BypassPayload>,
     action_ref: ManagementActionRef,
@@ -100,6 +101,10 @@ impl ManagementActionExecutor {
         self.cancellation_token.clone()
     }
 
+    /// Receive a [`ManagementActionRequest`] or [`None`] if there will be no more requests on this executor.
+    ///
+    /// Will also subscribe to the request topic if not already subscribed. If this operation fails, it will log an error and retry
+    /// after a delay
     pub async fn recv_request(&mut self) -> Option<ManagementActionRequest> {
         // TODO: need to sort out how to handle changing executors on updates - allow existing commands to drain still? This means we can't
         // drop the old executor until all of these complete though. Looks like we can shut it down to prevent more requests,
@@ -133,6 +138,7 @@ impl ManagementActionExecutor {
                 biased;
                 _ = self.cancellation_token.cancelled() => {
                     log::info!("Management action no longer active, shutting down executor for {}", self.action_ref.name());
+                    // TODO: retry on any failures here? See telemetry receiver shutdown handling in ADR client
                     _ = self.executor.shutdown().await;
                     break;
                 },
@@ -166,7 +172,7 @@ impl ManagementActionExecutor {
             //         // TODO: continue waiting for the next request after a delay (means we need to retry subscribe)
             //     }
             // }
-            // log::info!("ma executor looping");
+            log::info!("ma executor looping");
             //     }
             // }
         }
@@ -182,7 +188,7 @@ impl ManagementActionExecutor {
                     // TODO: continue waiting for the next request after a delay (means we need to retry subscribe)
                 }
             }
-            // log::info!("ma executor looping");
+            log::info!("ma executor looping");
         }
     }
 }

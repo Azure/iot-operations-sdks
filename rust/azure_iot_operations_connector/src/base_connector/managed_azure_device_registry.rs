@@ -1974,8 +1974,15 @@ impl AssetClient {
     }
 }
 
+/// Azure Device Registry Asset Component Client represents either a Dataset, Event,
+/// Stream, or Management Action Client
 pub enum AssetComponentClient {
+    /// Azure Device Registry Data Operation Client represents either a Dataset, Event,
+    /// or Stream Client along with any configuration errors detected during creation
     DataOperation((DataOperationClient, Result<(), AdrConfigError>)),
+    /// Azure Device Registry Management Action Client represents a Management Action Client
+    /// along with either any configuration error detected during creation or the initial
+    /// Management Action Executor
     ManagementAction(
         (
             ManagementActionClient,
@@ -2017,20 +2024,23 @@ pub(crate) struct ManagementActionUpdateNotification {
 
 /// Notifications that can be received for a Management Action
 pub enum ManagementActionNotification {
-    /// Indicates that the Asset containing the Management Action has been updated in place. If this is returned, it indicates that the Management Group/Action definition has not changed
+    /// Indicates that the Asset containing the Management Action has been updated in place. If this is returned,
+    /// it indicates that the Management Group/Action definition has not changed.
     /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
     AssetUpdated(Result<(), AdrConfigError>),
-    /// Indicates that the Management Group containing the Management Action has been updated in place.
-    /// If this is returned, it indicates that the Management Action definition has not changed.
-    /// If there was an error detected, it is included in the result, and must be reported by the application.
-    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
-    // ManagementGroupUpdated(Result<(), AdrConfigError>),
     /// Indicates that the Management Action's definition has been updated in place.
-    /// This will only be returned if the Management Action definition changed. If the default config on the asset changed, the AssetUpdated variant will be returned.
+    /// This will only be returned if the Management Group or Action definition has changed.
+    /// If the default config on the asset changed, the AssetUpdated variant will be returned.
     /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
     ManagementActionUpdated(Result<(), AdrConfigError>),
+    /// Indicates that the Management Action's definition has been updated in place and the old executor no longer
+    /// can be used with the new definition. This will only be returned if the Management Group or Action
+    /// definition has changed, and that change requires a new executor to be created (e.g. topic change).
+    /// If the topic for the executor has not changed, the ManagementActionUpdated variant will be returned.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update.
     ManagementActionNewExecutor(Result<ManagementActionExecutor, AdrConfigError>),
     /// Indicates that the Management Action has been deleted.
     Deleted,
@@ -3353,6 +3363,10 @@ enum ActionSchema {
     Response,
 }
 
+// MARK: ManagementAction
+/// Azure Device Registry Management Action Client represents a Management Action
+/// and includes additional functionality to report status, report message schemas, receive updates,
+/// and receive execution requests for the Management Action.
 pub struct ManagementActionClient {
     /// Management action, management group, asset, device, and inbound endpoint names
     management_action_ref: ManagementActionRef,
@@ -3633,6 +3647,33 @@ impl ManagementActionClient {
             .await
     }
 
+    /// Used to receive notifications about the Management Action from the Azure Device Registry Service.
+    ///
+    /// Returns [`ManagementActionNotification::ManagementActionNewExecutor`] if the Management Group or Action's definition has been updated in place
+    /// and the definition change required a new executor to be created (e.g. topic change). If this is received, the old executor will be shut down,
+    /// but it can still be used to drain/complete any already received requests until it is dropped.
+    ///
+    /// Returns [`ManagementActionNotification::ManagementActionUpdated`] if the Management Group or Action's definition has been updated in place,
+    /// but the definition change did not require a new executor to be created.
+    ///
+    /// Returns [`ManagementActionNotification::AssetUpdated`] if the Asset's definition has been updated in place, but there were no
+    /// changes to the Management Group or Action's definition.
+    ///
+    /// Returns any of the above with an `Err(AdrConfigError)` if the Management Action/Asset received an update, but a config error
+    /// for the Management Action was detected. The definition is still updated in place, but the [`ManagementActionClient`] should not be
+    /// used until there is a new update because receiving requests will not be possible.
+    ///
+    /// Returns [`ManagementActionNotification::Deleted`] if the Management Action has been deleted. The [`ManagementActionClient`]
+    /// should not be used after this point, and no more notifications will be received. If this is received, the existing executor
+    /// will be shut down, but it can still be used to drain/complete any already received requests until it is dropped.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    ///
+    /// # Cancel safety
+    /// This method is cancel safe. If you use it as the event in a `tokio::select!` statement and some other branch
+    /// completes first, then it is guaranteed that no management action notifications will be lost, and the management action will not
+    /// be updated without a notification being returned.
     pub async fn recv_notification(&mut self) -> ManagementActionNotification {
         if self
             .management_action_update_watcher_rx
@@ -4646,9 +4687,6 @@ pub struct ManagementActionSpecification {
 }
 
 impl ManagementActionSpecification {
-    pub(crate) fn hash_name(&self) -> &(String, String) {
-        &self.name_tuple
-    }
     pub(crate) fn command_name(&self) -> String {
         format!("{}::{}", self.management_group.name, self.name)
     }
