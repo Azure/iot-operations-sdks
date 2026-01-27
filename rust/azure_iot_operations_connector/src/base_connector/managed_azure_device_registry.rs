@@ -1120,8 +1120,8 @@ pub struct AssetClient {
     management_action_hashmap: HashMap<
         String, // ManagementGroup name
         HashMap<
-            String,                                            // ManagementAction name
-            watch::Sender<ManagementActionUpdateNotification>, // change to ManagementActionUpdateNotification
+            String, // ManagementAction name
+            watch::Sender<ManagementActionUpdateNotification>,
         >,
     >,
     #[getter(skip)]
@@ -1261,8 +1261,8 @@ impl AssetClient {
         management_action_hashmap: &mut HashMap<
             String, // ManagementGroup name
             HashMap<
-                String,                                            // ManagementAction name
-                watch::Sender<ManagementActionUpdateNotification>, // change to ManagementActionUpdateNotification
+                String, // ManagementAction name
+                watch::Sender<ManagementActionUpdateNotification>,
             >,
         >,
         updated_asset: &Asset,

@@ -282,7 +282,7 @@ pub struct ManagementActionResponseBuilder {
     /// Default is an empty vector.
     custom_user_data: Vec<(String, String)>,
     /// Cloud event of the response.
-    // Default is a Cloud Event aligning to the AIO standards, but it can be overwritten if desired
+    // Default is a no cloud event
     cloud_event: Option<Option<ResponseCloudEvent>>,
     /// Whether the execution was successful or not, and any error details to include.
     /// An Err() will be displayed on the calling side if this is set to Err(). The payload can still have any
@@ -355,6 +355,7 @@ impl ManagementActionResponseBuilder {
     /// # Errors
     /// If a field is not valid or a required field has not been initialized.
     pub fn build(&mut self) -> Result<ManagementActionResponse, ResponseBuilderError> {
+        // TODO: new error type here?
         let Some(payload) = &self.payload else {
             return Err(ResponseBuilderError::UninitializedField("payload"));
         };
