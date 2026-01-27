@@ -5,10 +5,9 @@
 
 use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Arc};
 
-use azure_iot_operations_protocol::{common::payload_serialize::BypassPayload, rpc_command};
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self, Details,
+        self,
         models::{self as adr_models, Asset},
     },
     schema_registry,
@@ -29,7 +28,7 @@ use crate::{
         azure_device_registry::{AssetRef, DeviceEndpointRef},
     },
     destination_endpoint::{self, DataOperationForwarder},
-    management_action_executor::{ManagementActionExecutor, ManagementActionRequest},
+    management_action_executor::ManagementActionExecutor,
 };
 
 /// Used as the strategy when using [`tokio_retry2::Retry`]
@@ -1055,7 +1054,7 @@ struct AssetComponentUpdates {
         watch::Sender<DataOperationUpdateNotification>,
         DataOperationUpdateNotification,
     )>,
-    new_asset_component_clients: Vec<(AssetComponentClient)>,
+    new_asset_component_clients: Vec<AssetComponentClient>,
     management_action_updates: Vec<(
         watch::Sender<ManagementActionUpdateNotification>,
         ManagementActionUpdateNotification,
@@ -1732,8 +1731,8 @@ impl AssetClient {
             let _ = management_action_update_tx.send(management_action_update_notification).inspect_err(|tokio::sync::watch::error::SendError(ManagementActionUpdateNotification {definition, ..})| {
                 // TODO: should this trigger the ManagementActionClient create flow, or is this just indicative of an application bug?
                 log::warn!(
-                    "Update received for management action on asset {:?}, but ManagementActionClient has been dropped",
-                    // e_management_action_definition.name(),
+                    "Update received for management action {} on asset {:?}, but ManagementActionClient has been dropped",
+                    definition.command_name(),
                     self.asset_ref
                 );
             });
@@ -3370,6 +3369,7 @@ pub struct ManagementActionClient {
     // Internally used fields
     // executor: ManagementActionExecutor,
     previous_detected_status: Result<(), AdrConfigError>,
+    executor_cancellation_token: Option<CancellationToken>,
     connector_context: Arc<ConnectorContext>,
     /// Asset reference for internal use
     asset_ref: AssetRef,
@@ -3399,20 +3399,20 @@ impl ManagementActionClient {
         };
         // technically because these fields are under the lock, if they change, we won't update them unless there's a data operation update
         // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
-        let (device_uuid, device_external_device_id) = {
-            let device_spec = device_specification.read().unwrap();
-            (
-                device_spec.uuid.clone(),
-                device_spec.external_device_id.clone(),
-            )
-        };
-        let (asset_uuid, asset_external_asset_id) = {
-            let asset_spec = asset_specification.read().unwrap();
-            (
-                asset_spec.uuid.clone(),
-                asset_spec.external_asset_id.clone(),
-            )
-        };
+        // let (device_uuid, device_external_device_id) = {
+        //     let device_spec = device_specification.read().unwrap();
+        //     (
+        //         device_spec.uuid.clone(),
+        //         device_spec.external_device_id.clone(),
+        //     )
+        // };
+        // let (asset_uuid, asset_external_asset_id) = {
+        //     let asset_spec = asset_specification.read().unwrap();
+        //     (
+        //         asset_spec.uuid.clone(),
+        //         asset_spec.external_asset_id.clone(),
+        //     )
+        // };
         // create executor
         let executor_res = ManagementActionExecutor::new(
             &definition.topic,
@@ -3420,6 +3420,10 @@ impl ManagementActionClient {
             &management_action_ref,
             connector_context.clone(),
         );
+        // let (executor_cancellation_token, previous_detected_status) = match executor_res {
+        //     Ok(ref executor) => (Some(executor.get_cancellation_token()), Ok(())),
+        //     Err(ref e) => (None, Err(e.clone())),
+        // };
 
         (
             Self {
@@ -3434,6 +3438,10 @@ impl ManagementActionClient {
                 asset_ref,
                 management_action_update_watcher_rx,
                 previous_detected_status: executor_res.as_ref().map(|_| ()).map_err(|e| e.clone()),
+                executor_cancellation_token: executor_res
+                    .as_ref()
+                    .ok()
+                    .map(|executor| executor.get_cancellation_token()),
             },
             executor_res,
         )
@@ -3632,6 +3640,10 @@ impl ManagementActionClient {
             .await
             .is_err()
         {
+            // shut down the current executor if it exists
+            self.executor_cancellation_token
+                .as_ref()
+                .inspect(|token| token.cancel());
             return ManagementActionNotification::Deleted;
         }
         // In case this function gets cancelled the next time it is called we will process the update again.
@@ -3646,6 +3658,10 @@ impl ManagementActionClient {
             .is_err()
         {
             self.management_action_update_watcher_rx.mark_unchanged();
+            // shut down the current executor if it exists
+            self.executor_cancellation_token
+                .as_ref()
+                .inspect(|token| token.cancel());
             return ManagementActionNotification::Deleted;
         }
         if update_notification.definition == self.definition {
@@ -3690,28 +3706,38 @@ impl ManagementActionClient {
 
         // create new executor, since topics have changed
 
-        // technically because these fields are under the lock, if they change, we won't update them unless there's an action update
-        // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
-        let (device_uuid, device_external_device_id) = {
-            let device_spec = self.device_specification.read().unwrap();
-            (
-                device_spec.uuid.clone(),
-                device_spec.external_device_id.clone(),
-            )
-        };
-        let (asset_uuid, asset_external_asset_id) = {
-            let asset_spec = self.asset_specification.read().unwrap();
-            (
-                asset_spec.uuid.clone(),
-                asset_spec.external_asset_id.clone(),
-            )
-        };
+        // // technically because these fields are under the lock, if they change, we won't update them unless there's an action update
+        // // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
+        // let (device_uuid, device_external_device_id) = {
+        //     let device_spec = self.device_specification.read().unwrap();
+        //     (
+        //         device_spec.uuid.clone(),
+        //         device_spec.external_device_id.clone(),
+        //     )
+        // };
+        // let (asset_uuid, asset_external_asset_id) = {
+        //     let asset_spec = self.asset_specification.read().unwrap();
+        //     (
+        //         asset_spec.uuid.clone(),
+        //         asset_spec.external_asset_id.clone(),
+        //     )
+        // };
+
+        // shut down the current executor if it exists
+        self.executor_cancellation_token
+            .as_ref()
+            .inspect(|token| token.cancel());
         let executor = ManagementActionExecutor::new(
             &self.definition.topic,
             &self.definition.management_group.default_topic,
             &self.management_action_ref,
             self.connector_context.clone(),
         );
+
+        self.executor_cancellation_token = executor
+            .as_ref()
+            .ok()
+            .map(|executor| executor.get_cancellation_token());
         self.previous_detected_status = executor.as_ref().map(|_| ()).map_err(|e| e.clone());
 
         // Once the action definition has been updated we can mark the value in the watcher as seen

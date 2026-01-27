@@ -18,12 +18,14 @@ use azure_iot_operations_protocol::{
 };
 use azure_iot_operations_services::azure_device_registry::Details;
 use derive_builder::Builder;
+use tokio_util::sync::CancellationToken;
 
 use crate::{AdrConfigError, ManagementActionRef, base_connector::ConnectorContext};
 
 pub struct ManagementActionExecutor {
     executor: rpc_command::Executor<BypassPayload, BypassPayload>,
     action_ref: ManagementActionRef,
+    cancellation_token: CancellationToken,
 }
 
 // /// Represents whether there is currently a valid Executor or not for a Management Action
@@ -75,6 +77,7 @@ impl ManagementActionExecutor {
             Ok(executor) => Ok(ManagementActionExecutor {
                 executor,
                 action_ref: management_action_ref.clone(),
+                cancellation_token: CancellationToken::new(),
             }),
             Err(e) => {
                 log::warn!(
@@ -91,6 +94,10 @@ impl ManagementActionExecutor {
                 })
             }
         }
+    }
+
+    pub(crate) fn get_cancellation_token(&self) -> CancellationToken {
+        self.cancellation_token.clone()
     }
 
     pub async fn recv_request(&mut self) -> Option<ManagementActionRequest> {
@@ -122,6 +129,48 @@ impl ManagementActionExecutor {
             //         // Return None? Indicating no more requests will be received until there's a definition update
             //     }
             //     ActionExecutor::Executor(executor) => {
+            tokio::select! {
+                biased;
+                _ = self.cancellation_token.cancelled() => {
+                    log::info!("Management action no longer active, shutting down executor for {}", self.action_ref.name());
+                    _ = self.executor.shutdown().await;
+                    break;
+                },
+                res = self.executor.recv() => {
+                    match res {
+                        Some(request_result) => {
+                            match request_result {
+                                Ok(request) => return Some(ManagementActionRequest { request: request }),
+                                Err(e) => {
+                                    log::error!(
+                                        "Error receiving request for {}: {:?}",
+                                        self.action_ref.name(),
+                                        e
+                                    );
+                                    // TODO: continue waiting for the next request after a delay (means we need to retry subscribe)
+                                }
+                            }
+                        }
+                        None => return None
+                    }
+                }
+            }
+            // match self.executor.recv().await? {
+            //     Ok(request) => return Some(ManagementActionRequest { request: request }),
+            //     Err(e) => {
+            //         log::error!(
+            //             "Error receiving request for {}: {:?}",
+            //             self.action_ref.name(),
+            //             e
+            //         );
+            //         // TODO: continue waiting for the next request after a delay (means we need to retry subscribe)
+            //     }
+            // }
+            // log::info!("ma executor looping");
+            //     }
+            // }
+        }
+        loop {
             match self.executor.recv().await? {
                 Ok(request) => return Some(ManagementActionRequest { request: request }),
                 Err(e) => {
@@ -133,8 +182,7 @@ impl ManagementActionExecutor {
                     // TODO: continue waiting for the next request after a delay (means we need to retry subscribe)
                 }
             }
-            //     }
-            // }
+            // log::info!("ma executor looping");
         }
     }
 }
@@ -279,7 +327,7 @@ impl ManagementActionResponseBuilder {
     }
 
     /// Cloud event for the response.
-    // Default is a Cloud Event aligning to the AIO standards, but it can be overwritten if desired
+    // Default is no Cloud Event
     pub fn cloud_event(&mut self, cloud_event: Option<ResponseCloudEvent>) -> &mut Self {
         self.cloud_event = Some(cloud_event);
         self
@@ -317,7 +365,8 @@ impl ManagementActionResponseBuilder {
         }
         let cloud_event = match &self.cloud_event {
             Some(cloud_event) => cloud_event.clone(),
-            // TODO: formulate automagic cloud event
+            // TODO: should we require this field for now so not specifying it to use automagic one in the future is
+            // an additive change?
             None => None,
         };
 

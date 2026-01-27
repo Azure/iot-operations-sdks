@@ -26,7 +26,8 @@ use azure_iot_operations_connector::{
     data_processor::derived_json,
     deployment_artifacts::connector::ConnectorArtifacts,
     management_action_executor::{
-        ManagementActionApplicationError, ManagementActionExecutor, ManagementActionResponseBuilder,
+        ManagementActionApplicationError, ManagementActionExecutor, ManagementActionRequest,
+        ManagementActionResponseBuilder,
     },
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
@@ -278,7 +279,7 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
                 initial_executor,
             ))) => {
                 let management_action_log_identifier = format!(
-                    "{asset_log_identifier}[{}]",
+                    "{asset_log_identifier}[Action: {}]",
                     management_action_client
                         .management_action_ref()
                         .management_action_name
@@ -325,7 +326,7 @@ async fn run_management_action(
             biased;
             // drain any pending requests from the out of date executor definition. Bias this above receiving new notifications
             // so that we don't have to ever store more than one stale executor at a time
-            request_res = stale_executor.as_mut().unwrap().recv_request(), if stale_executor.is_some() => {
+            request_res = recv_request(&mut stale_executor, "stale_executor"), if stale_executor.is_some() => {
                 // TODO: this branch needs to know the old definition and the old management_action_valid value
                 // TODO: maybe draining is a rare case because usually there wouldn't be anything in this queue if commands are processed in another task as they should be
                 match request_res {
@@ -388,7 +389,7 @@ async fn run_management_action(
                         // local_schema_reference = None;
                     },
                     ManagementActionNotification::ManagementActionNewExecutor(new_executor) => {
-                        log::info!("{log_identifier} Management action updated");
+                        log::info!("{log_identifier} Management action updated with new executor");
 
                         is_sdk_error_causing_invalid_state = false;
                         last_reported_management_action_status = Ok(());
@@ -421,7 +422,7 @@ async fn run_management_action(
                     log::error!("{log_identifier} Error reporting management action status: {e}");
                 }
             },
-            request_res = current_executor.as_mut().unwrap().recv_request(), if current_executor.is_some() => {
+            request_res = recv_request(&mut current_executor, "current_executor"), if current_executor.is_some() => {
                 match request_res {
                     Some(request) => {
                         log::info!("{log_identifier} Management action request received: {:?}", request.payload());
@@ -513,12 +514,18 @@ async fn run_management_action(
 }
 
 // async fn recv_request(log_identifier: &str, executor: &mut Option<ManagementActionExecutor>) -> Option<ManagementActionRequest> {
-//     if let Some(ex) = executor {
-//         ex.recv_request().await
-//     } else {
-//         panic!();
-//     }
-// }
+async fn recv_request(
+    executor: &mut Option<ManagementActionExecutor>,
+    log_identifier: &str,
+) -> Option<ManagementActionRequest> {
+    if let Some(ex) = executor {
+        log::info!("{log_identifier} awaiting request");
+        ex.recv_request().await
+    } else {
+        log::info!("{log_identifier} executor none");
+        None
+    }
+}
 
 /// Note, this function takes in a `DataOperationClient`, but we know it is specifically a `Dataset`
 /// because we already filtered out non-dataset `DataOperationClient`s in the `run_asset` function.
