@@ -2201,8 +2201,8 @@ impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
         };
         if let Err(e) = self.health_sender.report(runtime_health) {
             log::warn!(
-                "Failed to send health event for data operation {:?}: {e}",
-                self.data_operation_ref
+                "Failed to send health event for {:?}: {e}",
+                self.asset_component_ref
             );
         }
     }
@@ -2212,8 +2212,8 @@ impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
     pub fn pause_health_reporting(&self) {
         if let Err(e) = self.health_sender.pause() {
             log::warn!(
-                "Failed to pause health reporting for data operation {:?}: {e}",
-                self.data_operation_ref
+                "Failed to pause health reporting for {:?}: {e}",
+                self.asset_component_ref
             );
         }
     }
@@ -2294,7 +2294,7 @@ impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
             log::debug!(
-                "Asset specification is out-of-date for component {:?}; skipping modification",
+                "Asset specification is out-of-date for {:?}; skipping modification",
                 self.asset_component_ref
             );
             return Ok(ModifyResult::NotModified);
@@ -2534,16 +2534,11 @@ fn new_data_operation_health_sender(
     data_operation_ref: &DataOperationRef,
     cancellation_token: CancellationToken,
 ) -> HealthReporterSender {
-    let asset_ref = azure_device_registry::AssetRef {
-        device_name: data_operation_ref.device_name.clone(),
-        inbound_endpoint_name: data_operation_ref.inbound_endpoint_name.clone(),
-        name: data_operation_ref.asset_name.clone(),
-    };
     match &data_operation_ref.data_operation_name {
         DataOperationName::Dataset { name } => connector_context
             .azure_device_registry_client
             .new_dataset_health_reporter(
-                asset_ref,
+                AssetRef::from(data_operation_ref).into(),
                 name.clone(),
                 connector_context.azure_device_registry_timeout,
                 connector_context.health_report_interval,
@@ -2555,7 +2550,7 @@ fn new_data_operation_health_sender(
         } => connector_context
             .azure_device_registry_client
             .new_event_health_reporter(
-                asset_ref,
+                AssetRef::from(data_operation_ref).into(),
                 event_group_name.clone(),
                 name.clone(),
                 connector_context.azure_device_registry_timeout,
@@ -2565,7 +2560,7 @@ fn new_data_operation_health_sender(
         DataOperationName::Stream { name } => connector_context
             .azure_device_registry_client
             .new_stream_health_reporter(
-                asset_ref,
+                AssetRef::from(data_operation_ref).into(),
                 name.clone(),
                 connector_context.azure_device_registry_timeout,
                 connector_context.health_report_interval,
@@ -3674,6 +3669,10 @@ pub struct ManagementActionClient {
     /// Internal watcher receiver that holds a snapshot of the latest update and whether it has been
     /// fully processed or not.
     management_action_update_watcher_rx: watch::Receiver<ManagementActionUpdateNotification>,
+    /// Health reporter sender for sending health events
+    health_sender: HealthReporterSender,
+    /// Cancellation token for health reporting task - cancelled on deletion
+    health_cancellation_token: CancellationToken,
 }
 
 impl ManagementActionClient {
@@ -3695,6 +3694,17 @@ impl ManagementActionClient {
             device_name: asset_ref.device_name.clone(),
             inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
         };
+        let health_cancellation_token = CancellationToken::new();
+        let health_sender = connector_context
+            .azure_device_registry_client
+            .new_management_action_health_reporter(
+                asset_ref.clone().into(),
+                management_action_ref.management_group_name.clone(),
+                management_action_ref.management_action_name.clone(),
+                connector_context.azure_device_registry_timeout,
+                connector_context.health_report_interval,
+                health_cancellation_token.clone(),
+            );
         // technically because these fields are under the lock, if they change, we won't update them unless there's a data operation update
         // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
         // let (device_uuid, device_external_device_id) = {
@@ -3740,6 +3750,8 @@ impl ManagementActionClient {
                     .as_ref()
                     .ok()
                     .map(|executor| executor.get_cancellation_token()),
+                health_sender,
+                health_cancellation_token,
             },
             executor_res,
         )
@@ -3969,6 +3981,8 @@ impl ManagementActionClient {
             self.executor_cancellation_token
                 .as_ref()
                 .inspect(|token| token.cancel());
+            // Cancel health reporting task on deletion
+            self.health_cancellation_token.cancel();
             return ManagementActionNotification::Deleted;
         }
         // In case this function gets cancelled the next time it is called we will process the update again.
@@ -3987,6 +4001,8 @@ impl ManagementActionClient {
             self.executor_cancellation_token
                 .as_ref()
                 .inspect(|token| token.cancel());
+            // Cancel health reporting task on deletion
+            self.health_cancellation_token.cancel();
             return ManagementActionNotification::Deleted;
         }
         if update_notification.definition == self.definition {
@@ -4070,15 +4086,27 @@ impl ManagementActionClient {
         ManagementActionNotification::ManagementActionNewExecutor(executor)
     }
 
-    /// Creates a new status reporter for this [`DataOperationClient`]
+    /// Creates a new status reporter for this [`ManagementActionClient`]
+    /// The reporter's version snapshot is initialized to the current asset specification version.
+    ///
+    /// # Panics
+    /// if the asset specification mutex has been poisoned, which should not be possible
     #[must_use]
     pub fn get_status_reporter(&self) -> ManagementActionStatusReporter {
+        let snapshotted_version = self
+            .asset_specification
+            .read()
+            .unwrap()
+            .version
+            .unwrap_or(0);
         ManagementActionStatusReporter {
             connector_context: self.connector_context.clone(),
             asset_status: self.asset_status.clone(),
             asset_specification: self.asset_specification.clone(),
+            health_sender: self.health_sender.clone(),
             asset_component_ref: self.management_action_ref.clone(),
             asset_ref: self.asset_ref.clone(),
+            snapshotted_version,
         }
     }
 
@@ -4641,6 +4669,16 @@ impl ManagementActionClient {
                 ActionSchema::Request => a_status.request_message_schema_reference.as_ref(),
                 ActionSchema::Response => a_status.response_message_schema_reference.as_ref(),
             })
+    }
+}
+
+impl Drop for ManagementActionClient {
+    fn drop(&mut self) {
+        // shut down the current executor if it exists
+        self.executor_cancellation_token
+            .as_ref()
+            .inspect(|token| token.cancel());
+        self.health_cancellation_token.cancel();
     }
 }
 

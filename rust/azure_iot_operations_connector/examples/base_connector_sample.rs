@@ -308,7 +308,7 @@ async fn run_management_action(
     initial_executor: Result<ManagementActionExecutor, AdrConfigError>,
 ) {
     // Get the status reporter for this management action - create once and reuse
-    let management_action_reporter = management_action_client.get_status_reporter();
+    let mut management_action_reporter = management_action_client.get_status_reporter();
     let (mut current_executor, mut last_reported_management_action_status) = match initial_executor
     {
         Ok(executor) => (Some(executor), Ok(())),
@@ -374,6 +374,8 @@ async fn run_management_action(
             },
             // Listen for a management action update notifications
             res = management_action_client.recv_notification() => {
+                // Pause reporting and refresh to the new version before processing the update
+                management_action_reporter.pause_and_refresh_health_version();
                 match res {
                     ManagementActionNotification::AssetUpdated(Ok(())) => {
                         log::info!("{log_identifier} Asset updated for {:?}", management_action_client.management_action_ref());
@@ -457,6 +459,7 @@ async fn run_management_action(
                             log::error!("{log_identifier} Error completing management action request: {e}");
                         } else {
                             log::info!("{log_identifier} Management action request completed");
+                            management_action_reporter.report_health_event(RuntimeHealthEvent::Available);
                         }
                     },
                     None => {
