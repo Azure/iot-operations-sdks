@@ -15,8 +15,11 @@ use azure_iot_operations_services::{
 };
 use chrono::{DateTime, Utc};
 use thiserror::Error;
-use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use tokio::sync::watch;
+use tokio::sync::{
+    Notify,
+    mpsc::{self, UnboundedReceiver, UnboundedSender},
+};
 use tokio_retry2::{Retry, RetryError};
 use tokio_util::sync::CancellationToken;
 
@@ -1166,8 +1169,8 @@ impl AssetStatusReporter {
     }
 }
 
-/// Struct used to hold the updates for an Asset's data operations
-/// until all data operation kinds have been processed and the function
+/// Struct used to hold the updates for an Asset's components
+/// until all components have been processed and the function
 /// using this struct is beyond the point where it needs to worry about
 /// cancel safety.
 struct AssetComponentUpdates {
@@ -1177,11 +1180,11 @@ struct AssetComponentUpdates {
         watch::Sender<DataOperationUpdateNotification>,
         DataOperationUpdateNotification,
     )>,
-    new_asset_component_clients: Vec<AssetComponentClient>,
     management_action_updates: Vec<(
         watch::Sender<ManagementActionUpdateNotification>,
         ManagementActionUpdateNotification,
     )>,
+    new_asset_component_clients: Vec<AssetComponentClient>,
 }
 
 // MARK: Asset
@@ -1217,13 +1220,13 @@ pub struct AssetClient {
     /// Internal watcher sender that sends the latest update
     #[getter(skip)]
     asset_update_watcher_tx: watch::Sender<Asset>,
-    /// Internal sender for when new data operations are created
+    /// Internal sender for when new asset components are created
     #[getter(skip)]
     asset_component_creation_tx: UnboundedSender<AssetComponentClient>,
-    /// Internal channel for receiving notifications about data operation creation events.
+    /// Internal channel for receiving notifications about asset component creation events.
     #[getter(skip)]
     asset_component_creation_rx: UnboundedReceiver<AssetComponentClient>,
-    /// Internal watch sender for releasing data operation create/update notifications
+    /// Internal watch sender for releasing asset component create/update notifications
     #[getter(skip)]
     release_asset_component_notifications_tx: watch::Sender<()>,
     /// hashmap of current dataset names to their sender to send dataset updates
@@ -1268,7 +1271,7 @@ impl AssetClient {
         let specification_version = specification.version;
         let (asset_component_creation_tx, asset_component_creation_rx) = mpsc::unbounded_channel();
 
-        // Create the AssetClient so that we can use the same helper functions for processing the data_operations as we do during the update flow
+        // Create the AssetClient so that we can use the same helper functions for processing the asset components as we do during the update flow
         let mut asset_client = AssetClient {
             asset_ref,
             specification: Arc::new(std::sync::RwLock::new(specification)),
@@ -1305,8 +1308,8 @@ impl AssetClient {
                 new_asset_component_clients: Vec::new(),
                 management_action_updates: Vec::new(),
             };
-            // Handle "updates" for each type of data operation. Since we don't currently have any data
-            // operations tracked yet, everything in the definition will be treated as a new data operation.
+            // Handle "updates" for each type of asset component. Since we don't currently have any asset
+            // components tracked yet, everything in the definition will be treated as a new asset component.
             let mut temp_dataset_hashmap = asset_client.dataset_hashmap.clone();
             // asset_client.dataset_hashmap will be empty, so all datasets will be treated as new (as it should be).
             // Note that I could use vec::new() for temp_dataset_hashmap, but for extra safety, I'll clone the asset's dataset hashmap instead
@@ -1366,19 +1369,28 @@ impl AssetClient {
                 }
             }
 
-            // Send all new data operation create notifications
+            // Send all new asset component create notifications
             for new_asset_component_client in updates.new_asset_component_clients {
                 // error is not possible since the receiving side of the channel is owned by the AssetClient
                 let _ = asset_client
                     .asset_component_creation_tx
                     .send(new_asset_component_client);
             }
-            // Note, updates.data_operation_updates is not used because there will be no updates on new
+            // Note, updates.data_operation_updates/management_action_updates is not used because there will be no updates on new
         }
 
         asset_client
     }
 
+    /// Helper function to handle updates for all management actions on an Asset
+    ///
+    /// Parses and validates all Asset updates pertaining to management actions
+    ///     Detects any deleted, updated, and new management actions
+    /// Modifies `updates` and `management_action_hashmap` in place:
+    /// Modifies `updates.new_status` with any validation errors found
+    /// Adds any management action updates to `updates.management_action_updates` that can be sent after the update task can't be cancelled
+    /// Adds any new Management Action Clients to `updates.new_asset_component_clients` that can be sent after the update task can't be cancelled
+    /// Removes any deleted Management Actions from the `management_action_hashmap` that can be applied after the update task can't be cancelled
     fn handle_management_action_updates(
         &self,
         management_action_hashmap: &mut HashMap<
@@ -1524,7 +1536,7 @@ impl AssetClient {
     /// Modifies `updates` and `data_operation_hashmap` in place:
     /// Modifies `updates.new_status` with any validation errors found
     /// Adds any Data Operation updates to `updates.data_operation_updates` that can be sent after the update task can't be cancelled
-    /// Adds any new Data Operation Clients to `updates.new_data_operation_clients` that can be sent after the update task can't be cancelled
+    /// Adds any new Data Operation Clients to `updates.new_asset_component_clients` that can be sent after the update task can't be cancelled
     /// Removes any deleted Data Operations from the `data_operation_hashmap` that can be applied after the update task can't be cancelled
     fn handle_data_operation_kind_updates<T: Clone + DataOperation + PartialEq>(
         &self,
@@ -1684,7 +1696,7 @@ impl AssetClient {
                     received_data_operation.hash_name().clone(),
                     data_operation_update_watcher_tx,
                 );
-                // save new data operation client to be sent on self.data_operation_creation_tx after the task can't get cancelled
+                // save new data operation client to be sent on self.asset_component_creation_tx after the task can't get cancelled
                 updates
                     .new_asset_component_clients
                     .push(AssetComponentClient::DataOperation((
@@ -1752,7 +1764,7 @@ impl AssetClient {
                 Some(config)
             }
             None => {
-                // If the config is None, we need to create a new one to report along with the data operation status
+                // If the config is None, we need to create a new one to report along with the asset component statuses
                 Some(azure_device_registry::ConfigStatus {
                     version: updated_asset.version,
                     last_transition_time: Some(Utc::now()),
@@ -1762,17 +1774,17 @@ impl AssetClient {
         };
 
         // if there are any config errors when parsing the asset, collect them all so we can report them at once
-        // track all data_operations to update and save notifications for once the task can't be cancelled
+        // track all asset components to update and save notifications for once the task can't be cancelled
         let mut updates = AssetComponentUpdates {
             new_status: adr_asset_status,
             status_updated: false,
             data_operation_updates: Vec::new(),
-            new_asset_component_clients: Vec::new(),
             management_action_updates: Vec::new(),
+            new_asset_component_clients: Vec::new(),
         };
 
-        // Handle updates for each type of data operation
-        // make changes to copies of the data operation hashmaps so that this function is cancel safe
+        // Handle updates for each type of asset component
+        // make changes to copies of the asset component hashmaps so that this function is cancel safe
         let mut temp_dataset_hashmap = self.dataset_hashmap.clone();
         self.handle_data_operation_kind_updates(
             &mut temp_dataset_hashmap,
@@ -1841,7 +1853,7 @@ impl AssetClient {
             let _ = data_operation_update_tx.send(data_operation_update_notification).inspect_err(|tokio::sync::watch::error::SendError(DataOperationUpdateNotification {definition, ..})| {
                 // TODO: should this trigger the DataOperationClient create flow, or is this just indicative of an application bug?
                 log::warn!(
-                    "Update received for data operation {} on asset {:?}, but DataOperationClient has been dropped",
+                    "Update received for {} on asset {:?}, but DataOperationClient has been dropped",
                     definition.name(),
                     self.asset_ref
                 );
@@ -1882,14 +1894,14 @@ impl AssetClient {
     /// The [`AssetClient`] should not be used after this point, and no more
     /// notifications will be received.
     ///
-    /// Returns [`ClientNotification::Created`] with a new [`DataOperationClient`] and a [`Result<(), AdrConfigError>`] if a
-    /// new Data Operation has been created. The Result indicates whether a config error was detected for the new Data Operation,
-    /// but it has already been reported. If there was an error detected, the [`DataOperationClient`] should not be used
-    /// until an Ok update is received. The [`DataOperationClient`] can be used to receive updates for the new Data Operation.
+    /// Returns [`ClientNotification::Created`] with a new [`AssetComponentClient`] if a new dataset, event, stream, or
+    /// management action has been created. Within the [`AssetComponentClient`] enum, the Client and any configuration
+    /// errors detected during creation are included. If there was an error detected, the [`AssetComponentClient`] should
+    /// not be used until an Ok update is received. The [`AssetComponentClient`] can be used to receive updates for the new component.
     ///
-    /// Receiving an update will also trigger update/deletion notifications for data operations that
-    /// are linked to this asset. To ensure the asset update is received before data operation notifications,
-    /// data operation notifications won't be released until this function is polled again after receiving an
+    /// Receiving an update will also trigger update/deletion notifications for asset components that
+    /// are linked to this asset. To ensure the asset update is received before asset component notifications,
+    /// asset component notifications won't be released until this function is polled again after receiving an
     /// update.
     ///
     /// # Cancel safety
@@ -1900,7 +1912,7 @@ impl AssetClient {
     /// # Panics
     /// If the specification mutex has been poisoned, which should not be possible
     pub async fn recv_notification(&mut self) -> ClientNotification<AssetComponentClient> {
-        // release any pending data_operation create/update notifications
+        // release any pending asset component create/update notifications
         self.release_asset_component_notifications_tx
             .send_modify(|()| ());
         tokio::select! {
@@ -2116,7 +2128,7 @@ pub enum AssetComponentClient {
     ),
 }
 
-/// Errors that can be returned when reporting a message schema for a data operation
+/// Errors that can be returned when reporting a message schema for an asset component
 #[derive(Error, Debug)]
 pub enum MessageSchemaError {
     /// An error occurred while putting the Schema in the Schema Registry
@@ -2154,9 +2166,9 @@ trait AssetComponentRef: std::fmt::Debug {
     ) -> Result<(), azure_device_registry::Error>;
 }
 
-/// A cloneable status reporter for Data Operation status reporting.
+/// A cloneable status reporter for Asset Component status reporting.
 ///
-/// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
+/// This provides a way to report Asset Component status changes from outside the [`AssetComponentClient`].
 /// Each clone maintains its own independent version snapshot, allowing different tasks to work with
 /// different versions of the asset specification.
 #[allow(private_bounds)]
@@ -2174,7 +2186,7 @@ pub struct AssetComponentStatusReporter<T: AssetComponentRef> {
 // Allowing private bounds because the customer doesn't actually need to interface with T, and it should be private
 #[allow(private_bounds)]
 impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
-    /// This function is used to report the current runtime health event for the data operation.
+    /// This function is used to report the current runtime health event for the asset component.
     ///
     /// NOTE: This will only report the health event to the service if needed, so it is
     /// okay to call this function frequently. It is required to call this function any time
@@ -2240,9 +2252,9 @@ impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
         self.refresh_health_version();
     }
 
-    /// Used to conditionally report the data operation status and then updates the asset with the new status returned.
+    /// Used to conditionally report the asset component status and then updates the asset with the new status returned.
     ///
-    /// The `modify` function is called with the current data operation status (if any) and should return:
+    /// The `modify` function is called with the current asset component status (if any) and should return:
     /// - `Some(new_status)` if the status should be updated and reported
     /// - `None` if no update is needed
     ///
@@ -2330,7 +2342,7 @@ impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
             }
             None => {
                 // If the config is None, we need to create a new one to report along with the
-                // data operations status
+                // asset component's status
                 Some(azure_device_registry::ConfigStatus {
                     version: cached_version,
                     last_transition_time: Some(Utc::now()),
@@ -3655,14 +3667,15 @@ pub struct ManagementActionClient {
     asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
     /// Current specification for the Asset
     asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
-    /// Specification of the device that this data operation is tied to
+    /// Specification of the device that this management action is tied to
     device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
-    /// Status of the device that this data operation is tied to
+    /// Status of the device that this management action is tied to
     device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     // Internally used fields
-    // executor: ManagementActionExecutor,
-    previous_detected_status: Result<(), AdrConfigError>,
-    executor_cancellation_token: Option<CancellationToken>,
+    /// Any previously detected config status for the management action
+    previous_detected_config_status: Result<(), AdrConfigError>,
+    /// used to shutdown the current executor if the definition for it is no longer current
+    executor_shutdown_notifier: Option<Arc<Notify>>,
     connector_context: Arc<ConnectorContext>,
     /// Asset reference for internal use
     asset_ref: AssetRef,
@@ -3705,22 +3718,6 @@ impl ManagementActionClient {
                 connector_context.health_report_interval,
                 health_cancellation_token.clone(),
             );
-        // technically because these fields are under the lock, if they change, we won't update them unless there's a data operation update
-        // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
-        // let (device_uuid, device_external_device_id) = {
-        //     let device_spec = device_specification.read().unwrap();
-        //     (
-        //         device_spec.uuid.clone(),
-        //         device_spec.external_device_id.clone(),
-        //     )
-        // };
-        // let (asset_uuid, asset_external_asset_id) = {
-        //     let asset_spec = asset_specification.read().unwrap();
-        //     (
-        //         asset_spec.uuid.clone(),
-        //         asset_spec.external_asset_id.clone(),
-        //     )
-        // };
         // create executor
         let executor_res = ManagementActionExecutor::new(
             &definition.topic,
@@ -3728,10 +3725,6 @@ impl ManagementActionClient {
             &management_action_ref,
             connector_context.clone(),
         );
-        // let (executor_cancellation_token, previous_detected_status) = match executor_res {
-        //     Ok(ref executor) => (Some(executor.get_cancellation_token()), Ok(())),
-        //     Err(ref e) => (None, Err(e.clone())),
-        // };
 
         (
             Self {
@@ -3741,67 +3734,23 @@ impl ManagementActionClient {
                 asset_specification,
                 device_specification,
                 device_status,
-                // executor,
                 connector_context,
                 asset_ref,
                 management_action_update_watcher_rx,
-                previous_detected_status: executor_res.as_ref().map(|_| ()).map_err(|e| e.clone()),
-                executor_cancellation_token: executor_res
+                previous_detected_config_status: executor_res
+                    .as_ref()
+                    .map(|_| ())
+                    .map_err(|e| e.clone()),
+                executor_shutdown_notifier: executor_res
                     .as_ref()
                     .ok()
-                    .map(|executor| executor.get_cancellation_token()),
+                    .map(|executor| executor.get_shutdown_notifier()),
                 health_sender,
                 health_cancellation_token,
             },
             executor_res,
         )
     }
-
-    // pub async fn recv_request(&mut self) -> Option<ManagementActionRequest> {
-    //     // TODO: need to sort out how to handle changing executors on updates - allow existing commands to drain still? This means we can't
-    //     // drop the old executor until all of these complete though. Looks like we can shut it down to prevent more requests,
-    //     // but we need to make sure not to drop it to be able to complete in flight requests
-
-    //     // maybe have the new and update return the ManagementActionExecutor and then we shut it down, but
-    //     // it's the application's responsibility to drain it before polling the new one? And then the cloud event
-    //     // headers would be locked to when the executor was created
-
-    //     // and actually, this simplifies a lot since recv_request and recv_notification both take &mut self
-    //     // although you wouldn't/couldn't really have two recv_requests be draining/calling at the same time on your select
-    //     // but also you only need a new executor if the topic/default topic has changed, so you'd only return it sometimes?
-
-    //     // if recv() returns none, this indicates that the management action was deleted
-
-    //     loop {
-    //         match &mut self.executor {
-    //             ManagementActionExecutor::Error(e) => {
-    //                 log::error!(
-    //                     "Management action executor in error state for management action {:?}: {:?}",
-    //                     self.management_action_ref,
-    //                     e
-    //                 );
-    //                 // continue waiting for the next request after a delay
-    //                 tokio::time::sleep(std::time::Duration::from_secs(5)).await;
-    //                 continue;
-    //                 // Return None? Indicating no more requests will be received until there's a definition update
-    //             }
-    //             ManagementActionExecutor::Executor(executor) => {
-    //                 match executor.recv().await? {
-    //                     Ok(request) => { return Some(ManagementActionRequest { request: request })}
-    //                     Err(e) => {
-    //                         log::error!("Error receiving management action request: {:?}", e);
-    //                         // continue waiting for the next request after a delay
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-    // Will have some way to send response
-    // on .complete(), we need to also include a Result, which we turn into `application_error_headers` on the response, to be
-    // consistent for all connectors and the cloud. The application should still be able to send a custom payload with
-    // full error details, this is just additional
-    // we can have custom builder wrapper that allows default cloud event or a custom one if the customer wants to override it.
 
     /// Used to conditionally report the request message schema of a management action as an existing schema reference
     ///
@@ -3978,9 +3927,9 @@ impl ManagementActionClient {
             .is_err()
         {
             // shut down the current executor if it exists
-            self.executor_cancellation_token
+            self.executor_shutdown_notifier
                 .as_ref()
-                .inspect(|token| token.cancel());
+                .inspect(|notify| notify.notify_one());
             // Cancel health reporting task on deletion
             self.health_cancellation_token.cancel();
             return ManagementActionNotification::Deleted;
@@ -3998,9 +3947,9 @@ impl ManagementActionClient {
         {
             self.management_action_update_watcher_rx.mark_unchanged();
             // shut down the current executor if it exists
-            self.executor_cancellation_token
+            self.executor_shutdown_notifier
                 .as_ref()
-                .inspect(|token| token.cancel());
+                .inspect(|notify| notify.notify_one());
             // Cancel health reporting task on deletion
             self.health_cancellation_token.cancel();
             return ManagementActionNotification::Deleted;
@@ -4011,7 +3960,7 @@ impl ManagementActionClient {
             self.management_action_update_watcher_rx.mark_unchanged();
             // if nothing changed, but there was an executor error before, we need to return that error again since it still applies
             return ManagementActionNotification::AssetUpdated(
-                self.previous_detected_status.clone(),
+                self.previous_detected_config_status.clone(),
             );
         }
 
@@ -4038,7 +3987,7 @@ impl ManagementActionClient {
             self.management_action_update_watcher_rx.mark_unchanged();
             // if nothing changed, but there was an executor error before, we need to return that error again since it still applies
             return ManagementActionNotification::ManagementActionUpdated(
-                self.previous_detected_status.clone(),
+                self.previous_detected_config_status.clone(),
             );
         }
 
@@ -4065,9 +4014,9 @@ impl ManagementActionClient {
         // };
 
         // shut down the current executor if it exists
-        self.executor_cancellation_token
+        self.executor_shutdown_notifier
             .as_ref()
-            .inspect(|token| token.cancel());
+            .inspect(|notify| notify.notify_one());
         let executor = ManagementActionExecutor::new(
             &self.definition.topic,
             &self.definition.management_group.default_topic,
@@ -4075,11 +4024,11 @@ impl ManagementActionClient {
             self.connector_context.clone(),
         );
 
-        self.executor_cancellation_token = executor
+        self.executor_shutdown_notifier = executor
             .as_ref()
             .ok()
-            .map(|executor| executor.get_cancellation_token());
-        self.previous_detected_status = executor.as_ref().map(|_| ()).map_err(|e| e.clone());
+            .map(|executor| executor.get_shutdown_notifier());
+        self.previous_detected_config_status = executor.as_ref().map(|_| ()).map_err(|e| e.clone());
 
         // Once the action definition has been updated we can mark the value in the watcher as seen
         self.management_action_update_watcher_rx.mark_unchanged();
@@ -4532,12 +4481,10 @@ impl ManagementActionClient {
         Ok(SchemaModifyResult::Reported(message_schema_reference))
     }
 
-    #[allow(clippy::too_many_arguments)]
     async fn internal_report_message_schema_reference(
         connector_context: &Arc<ConnectorContext>,
         asset_ref: &AssetRef,
         management_action_ref: &ManagementActionRef,
-        // forwarder: &mut DataOperationForwarder,
         asset_status_to_report: adr_models::AssetStatus,
         status_write_guard: &mut adr_models::AssetStatus,
         message_schema_reference: &MessageSchemaReference,
@@ -4633,15 +4580,6 @@ impl ManagementActionClient {
         )
         .await?;
 
-        // // CONSIDERATION: should we do this at the beginning and not allow the message schema reporting if there's no valid destination?
-        // // For now, don't block reporting the message schema if there's no valid destination for more flexibility
-        // match forwarder {
-        //     DataOperationForwarder::Forwarder(forwarder) => {
-        //         forwarder.update_message_schema_reference(Some(message_schema_reference.clone()))
-        //     }
-        //     DataOperationForwarder::Error(_) => {}
-        // }
-
         Ok(())
     }
 
@@ -4675,9 +4613,9 @@ impl ManagementActionClient {
 impl Drop for ManagementActionClient {
     fn drop(&mut self) {
         // shut down the current executor if it exists
-        self.executor_cancellation_token
+        self.executor_shutdown_notifier
             .as_ref()
-            .inspect(|token| token.cancel());
+            .inspect(|notify| notify.notify_one());
         self.health_cancellation_token.cancel();
     }
 }
@@ -5005,7 +4943,6 @@ pub struct ManagementActionSpecification {
     pub type_ref: Option<String>,
     /// The Management Group this action belongs to.
     pub management_group: ManagementGroupSpecification,
-    name_tuple: (String, String),
 }
 
 impl ManagementActionSpecification {
@@ -5027,7 +4964,6 @@ impl
         ),
     ) -> Self {
         ManagementActionSpecification {
-            name_tuple: (val.0.name.clone(), val.1.name.clone()),
             action_configuration: val.1.action_configuration,
             action_type: val.1.action_type,
             target_uri: val.1.target_uri,
