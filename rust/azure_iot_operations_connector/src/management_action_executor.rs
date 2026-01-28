@@ -79,11 +79,6 @@ impl ManagementActionExecutor {
         }
     }
 
-    // /// Get the cancellation token that triggers shutdown of this executor
-    // pub(crate) fn get_cancellation_token(&self) -> CancellationToken {
-    //     self.cancellation_token.clone()
-    // }
-
     /// Get the shutdown notifier that triggers shutdown of this executor
     pub(crate) fn get_shutdown_notifier(&self) -> Arc<Notify> {
         self.shutdown_notifier.clone()
@@ -94,114 +89,17 @@ impl ManagementActionExecutor {
     /// Will also subscribe to the request topic if not already subscribed. If this operation fails, it will log an error and retry
     /// after a delay
     pub async fn recv_request(&mut self) -> Option<ManagementActionRequest> {
-        // almost want to check for shutdown notifier here first, and then not bias it in the retry loop, or even bias against it in the retry loop
-
-        // scenarios
+        // Logic/validations:
         // new, subscribe success and then recv request after some time (no loop, returns)
-        // new, subscribe fails and retry (loops after exponential delay, calls recv again. Shouldn't ever stop trying? returns after succeeds and first request)
+        // new, subscribe fails and retry (loops after exponential delay, calls recv again. Shouldn't ever stop trying. Eventually returns after succeeds and first request)
         // already subscribed, recv request after some time (no loop, returns)
-        // get shutdown, shutdown success, nothing to drain in queue (first loop shuts down, second loop returns None from .recv)
-        // get shutdown, shutdown success, some requests to drain in queue (first loop MUST shut down, subsequent loop returns next request. Next call returns next request. Next call req or none)
-        // get shutdown, shutdown fails, nothing to drain in queue. Shutdown retries (first loop MUST shut down, delay and then loop again.)
+        // get shutdown, shutdown success, nothing to drain in queue (first loop shuts down, second iterations of loop returns None from .recv)
+        // get shutdown, shutdown success, some requests to drain in queue (first loop MUST shut down, subsequent iteration of loop returns next request. Next call returns next request or none, etc)
+        // get shutdown, shutdown fails, nothing to drain in queue. Shutdown retries (first loop MUST shut down, delay and then loop again)
         // get shutdown, shutdown fails, retry shutdown and some requests to drain in queue (shouldn't be blocked on retrying shutdown)
         //
-        // need to make sure that recv() doesn't return None from the fn if the shutdown hasn't successfully completed yet - if I unbias the select, then it could return None before retrying the shutdown again
-        // before loop, bias for shutdown notifier
-        // if looping, and shutdown was attempted, then bias for try_recv (aka if recv wouldn't return None).
-        // This way, it will return, and then the shutdown will be immediately attempted when recv is called next again (implicit retry)
-        //
-        // so maybe biased tokio select, but if shutdown fails, do a try_recv() and return if it isn't None, otherwise loop again with the bias so we retry shutdown until it succeeds or we stop trying and
-        // we can have the fn return None
-        // ah poop we don't have try_recv here
-        //
-        // do shutdown check first outside of select, then in select bias for recv and only return None if shutdown attempts have ended (will only return None if shutdown has been attempted at least once)
-
-        // check for shutdown first
-        // if it succeeds, call recv() and return whatever it returns (Some or None)
-        // if it returns Some, on subsequent calls, the shutdown notifier won't do anything, and we'll call recv and return Some or None
-        // if it fails, call recv() and return Some if it returns Some, otherwise loop again to retry shutdown. In this scenario, recv and notifier will both return immediately
-
-        // // this loop is just for errors subscribing
-        // loop {
-        //     if is_notified_now(&self.shutdown_notifier) {
-        //         // if we go in here, this branch will always return
-        //         loop {
-        //             match shutdown.await() {
-        //                 Ok(_) => {
-        //                     return executor.recv().await; // will complete immediately either some or None, can't fail in this case
-        //                 },
-        //                 Err(e) => {
-        //                     shutdown_notifier.notify_one(); // retry shutdown later
-        //                     match executor.recv().await { // will complete immediately either some or None, can't fail in this case
-        //                         Some(request) => {
-        //                             return Some(request)
-        //                         },
-        //                         None => {
-        //                             // delay and loop this if # of attempts isn't too many, otherwise return None
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-
-        //     // only going to here if the shutdown hasn't been requested yet
-        //     tokio::select! {
-        //         request = executor.recv() => {
-        //             match request {
-        //                 Some(request) => return Some(request),
-        //                 None => return None,
-        //                 Err(e) => {
-        //                     // retry recv to give subscribe another chance after a delay
-        //                 }
-        //             }
-        //         }
-        //         () = self.shutdown_notifier.notified() => {
-        //             // same as within if statement above??
-        //             // and same, if we go in this branch, it will always return
-        //         }
-        //     }
-        // }
-
-        // // this loop is just for errors subscribing to retry
-        // let mut delay = Duration::from_millis(50);
-        // loop {
-        //     if is_notified_now(&self.shutdown_notifier) {
-        //         // attempt shutdown until it succeeds or fails too many times, while draining any requests in the meantime
-        //         // and returning None once shutdown doesn't need to be attempted anymore and there are no more requests
-        //         return self.on_shutdown().await;
-        //     }
-
-        //     // only going to here if the shutdown hasn't been requested yet
-        //     tokio::select! {
-        //         () = self.shutdown_notifier.notified() => {
-        //             // if the shutdown request happens, go to the shutdown flow
-        //             return self.on_shutdown().await;
-        //         },
-        //         res = self.executor.recv() => {
-        //             match res {
-        //                 Some(Ok(request)) => {
-        //                     return Some(ManagementActionRequest { request: request })
-        //                 },
-        //                 Some(Err(e)) => {
-        //                     log::error!(
-        //                         "Error receiving request for {}: {:?}",
-        //                         self.action_ref.name(),
-        //                         e
-        //                     );
-        //                     // Continue waiting for the next request after a delay (means we need to retry subscribe)
-        //                 }
-        //                 None => {
-        //                     // executor has been successfully shutdown and there are no more requests to drain
-        //                     return None;
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     // wait with exponential backoff before retrying subscribe
-        //     tokio::time::sleep(delay).await;
-        //     delay = delay.saturating_mul(2);
-        // }
+        // need to make sure that recv() doesn't return None from the fn if the shutdown hasn't successfully completed yet (or tried too many times) - if I unbias the select, then it could return None before retrying the shutdown again
+        // this is also why the shutdown flow calls recv() internally if shutdown fails, so that None can be ignored until shutdown is successful
 
         let mut subscribe_delay = Duration::from_millis(50);
         let mut shutdown_delay = Duration::from_millis(50);
@@ -216,7 +114,6 @@ impl ManagementActionExecutor {
                         Ok(_) => {
                             // notify won't be notified anymore, so recv() will be evaluated in select on next loop
                             // and eventually return None when there are no more requests to drain
-                            continue;
                         },
                         Err(e) => {
                             log::warn!("Error shutting down executor for {}: {e:?}", self.action_ref.name());
@@ -239,11 +136,11 @@ impl ManagementActionExecutor {
                                     }
                                 }
                             }
+                            // wait with exponential backoff before retrying shutdown
+                            tokio::time::sleep(shutdown_delay).await;
+                            shutdown_delay = shutdown_delay.saturating_mul(2);
                         }
                     }
-                    // wait with exponential backoff before retrying shutdown
-                    tokio::time::sleep(shutdown_delay).await;
-                    shutdown_delay = shutdown_delay.saturating_mul(2);
                 },
                 res = self.executor.recv() => {
                     match res {
@@ -269,159 +166,7 @@ impl ManagementActionExecutor {
                 }
             }
         }
-
-        // let mut shutdown_completed = false;
-        // if is_notified_now(&self.shutdown_notifier) {
-        //     log::info!("Management action no longer active, shutting down executor for {}", self.action_ref.name());
-        //         // TODO: retry on any failures here? See telemetry receiver shutdown handling in ADR client
-        //         match self.executor.shutdown().await {
-        //             Ok(_) => {
-        //                 shutdown_completed = true;
-        //             },
-        //             Err(e) => {
-        //                 log::warn!("Error shutting down executor for {}: {e:?}", self.action_ref.name());
-        //                 // try to shut down again on the next loop iteration
-        //                 // TODO: delay?
-        //                 if self.shutdown_attempts < 10 {
-        //                     self.shutdown_attempts += 1;
-        //                     self.shutdown_notifier.notify_one();
-        //                 } else {
-        //                     log::warn!("Exceeded maximum executor shutdown attempts for {}, giving up", self.action_ref.name());
-        //                 }
-        //             }
-        //         }
-        // }
-        // loop {
-        //     tokio::select! {
-        //         biased; // always check shutdown request first
-        //         () = self.shutdown_notifier.notified() => {
-        //             log::info!("Management action no longer active, shutting down executor for {}", self.action_ref.name());
-        //             // TODO: retry on any failures here? See telemetry receiver shutdown handling in ADR client
-        //             _ = self.executor.shutdown().await.inspect_err(|e| {
-        //                 log::warn!("Error shutting down executor for {}: {e:?}", self.action_ref.name());
-        //                 // try to shut down again on the next loop iteration
-        //                 // TODO: delay?
-        //                 if self.shutdown_attempts < 10 {
-        //                     self.shutdown_attempts += 1;
-        //                     self.shutdown_notifier.notify_one();
-        //                 } else {
-        //                     log::warn!("Exceeded maximum executor shutdown attempts for {}, giving up", self.action_ref.name());
-        //                 }
-        //             })
-        //         }
-        //         // _ = self.cancellation_token.cancelled() => {
-        //         //     log::info!("Management action no longer active, shutting down executor for {}", self.action_ref.name());
-        //         //     // TODO: retry on any failures here? See telemetry receiver shutdown handling in ADR client
-        //         //     _ = self.executor.shutdown().await;
-        //         //     break;
-        //         // },
-        //         res = self.executor.recv() => {
-        //             match res {
-        //                 Some(request_result) => {
-        //                     match request_result {
-        //                         Ok(request) => return Some(ManagementActionRequest { request: request }),
-        //                         Err(e) => {
-        //                             log::error!(
-        //                                 "Error receiving request for {}: {:?}",
-        //                                 self.action_ref.name(),
-        //                                 e
-        //                             );
-        //                             // TODO: continue waiting for the next request after a delay (means we need to retry subscribe)
-        //                         }
-        //                     }
-        //                 }
-        //                 None => {
-        //                     if shutdown_completed {
-        //                         return None;
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     // match self.executor.recv().await? {
-        //     //     Ok(request) => return Some(ManagementActionRequest { request: request }),
-        //     //     Err(e) => {
-        //     //         log::error!(
-        //     //             "Error receiving request for {}: {:?}",
-        //     //             self.action_ref.name(),
-        //     //             e
-        //     //         );
-        //     //         // TODO: continue waiting for the next request after a delay (means we need to retry subscribe)
-        //     //     }
-        //     // }
-        //     log::info!("ma executor looping");
-        //     //     }
-        //     // }
-        // }
-        // loop {
-        //     match self.executor.recv().await? {
-        //         Ok(request) => return Some(ManagementActionRequest { request: request }),
-        //         Err(e) => {
-        //             log::error!(
-        //                 "Error receiving request for {}: {:?}",
-        //                 self.action_ref.name(),
-        //                 e
-        //             );
-        //             // TODO: continue waiting for the next request after a delay (means we need to retry subscribe)
-        //         }
-        //     }
-        //     log::info!("ma executor looping");
-        // }
     }
-
-    // async fn on_shutdown(&mut self) -> Option<ManagementActionRequest> {
-    //     let mut delay = Duration::from_millis(50);
-    //     loop {
-    //         log::info!("Management action no longer active, shutting down executor for {}", self.action_ref.name());
-    //         match self.executor.shutdown().await {
-    //             Ok(_) => {
-    //                 // drain next request or return none
-    //                 // could just bounce out here and continue in outer fn
-    //                 match self.executor.recv().await? {
-    //                     Ok(request) => return Some(ManagementActionRequest { request: request }),
-    //                     Err(_) => {
-    //                         unreachable!(); // shouldn't be possible after shutdown
-
-    //                         // log::error!(
-    //                         //     "Error receiving request for {}: {:?}",
-    //                         //     self.action_ref.name(),
-    //                         //     e
-    //                         // );
-    //                         // // TODO: continue waiting for the next request after a delay (means we need to retry subscribe)
-    //                     }
-    //                 }
-    //             },
-    //             Err(e) => {
-    //                 log::warn!("Error shutting down executor for {}: {e:?}", self.action_ref.name());
-    //                 // try to shut down again on the next loop iteration
-    //                 // TODO: delay?
-    //                 let keep_going = self.shutdown_attempts < 10;
-    //                 if keep_going {
-    //                     self.shutdown_attempts += 1;
-    //                     self.shutdown_notifier.notify_one();
-    //                 } else {
-    //                     log::warn!("Exceeded maximum executor shutdown attempts for {}, giving up", self.action_ref.name());
-    //                 }
-    //                 // drain next request, or loop if none
-    //                 match self.executor.recv().await {
-    //                     Some(Ok(request)) => return Some(ManagementActionRequest { request: request }),
-    //                     Some(Err(_)) => {
-    //                         unreachable!(); // shouldn't be possible after shutdown
-    //                         // tbh, if we hit this and we're trying to shutdown, can we just consider this the same as None?
-    //                     }
-    //                     None => {
-    //                         if !keep_going {
-    //                             return None;
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         // wait with exponential backoff before retrying shutdown
-    //         tokio::time::sleep(delay).await;
-    //         delay = delay.saturating_mul(2);
-    //     }
-    // }
 }
 
 /// Represents a received Management Action Request
@@ -623,32 +368,3 @@ impl ManagementActionResponseBuilder {
         inner_builder.build()
     }
 }
-
-// #[derive(Builder, Clone, Debug)]
-// #[builder(setter(into), build_fn(validate = "Self::validate"))]
-// pub struct Response<TResp>
-// where
-//     TResp: PayloadSerialize,
-// {
-//     /// Payload of the command response.
-//     #[builder(setter(custom))]
-//     payload: BypassPayload,
-//     /// Strongly link `Response` with type `TResp`
-//     #[builder(private)]
-//     payload_type: PhantomData<TResp>,
-//     /// Custom user data set as custom MQTT User Properties on the response message.
-//     /// Used to pass additional metadata to the invoker.
-//     /// Default is an empty vector.
-//     #[builder(default)]
-//     custom_user_data: Vec<(String, String)>,
-//     /// Cloud event of the response.
-//     #[builder(default = "None")]
-//     cloud_event: Option<ResponseCloudEvent>,
-// }
-
-// impl ManagementActionResponseBuilder {
-//     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> Self {
-//         self.inner_builder = self.inner_builder.custom_user_data(custom_user_data);
-//         self
-//     }
-// }
