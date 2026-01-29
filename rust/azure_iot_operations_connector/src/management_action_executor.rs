@@ -3,7 +3,7 @@
 
 //! Traits, types, and implementations for Azure IoT Operations Connector Management Action Executor.
 
-use std::{sync::Arc, time::Duration};
+use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_protocol::{
     common::{
@@ -47,9 +47,23 @@ impl ManagementActionExecutor {
                 message: Some("Management Group must have default topic if Management Action doesn't have a topic".to_string()),
             });
         };
+        let topic_token_map = HashMap::from([
+            (
+                "assetName".to_string(),
+                management_action_ref.asset_name.to_string(),
+            ),
+            (
+                "managementGroupName".to_string(),
+                management_action_ref.management_group_name.to_string(),
+            ),
+            (
+                "managementActionName".to_string(),
+                management_action_ref.management_action_name.to_string(),
+            ),
+        ]);
         let executor_options = rpc_command::executor::OptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
-            // TODO: handle topic tokens
+            .topic_token_map(topic_token_map)
             .command_name(management_action_ref.command_name())
             .build()
             // note: no topic validation is done as part of this builder, which is why this expect is safe
@@ -360,7 +374,7 @@ impl ManagementActionResponseBuilder {
                 content_type: content_type.clone(),
                 format_indicator: self.format_indicator,
             })
-            .unwrap() // TODO: handle. Can fail if content type is invalid
+            .map_err(|e| ResponseBuilderError::ValidationError(e.to_string()))?
             .custom_user_data(self.custom_user_data.clone());
         if let Some(cloud_event) = cloud_event {
             inner_builder.cloud_event(cloud_event.clone());

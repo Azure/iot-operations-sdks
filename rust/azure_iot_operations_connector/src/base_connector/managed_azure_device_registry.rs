@@ -1419,7 +1419,6 @@ impl AssetClient {
                 });
                 true
             } else {
-                // TODO: make sure this drops all of the actions (it should)
                 false
             }
         });
@@ -3964,7 +3963,7 @@ impl ManagementActionClient {
             );
         }
 
-        // TODO: need to take tokens into account here
+        // TODO: need to take tokens into account here? If the tokens are required, then there shouldn't be any need to evaluate the topics replaced?
         let new_topic = update_notification
             .definition
             .topic
@@ -4144,64 +4143,6 @@ impl ManagementActionClient {
     }
 
     // ~~~~~~ Internal fns ~~~~~~~
-
-    // fn create_executor(
-    //     definition: &ManagementActionSpecification,
-    //     management_action_ref: &ManagementActionRef,
-    //     connector_context: Arc<ConnectorContext>,
-    // ) -> (ManagementActionExecutor, Result<(), AdrConfigError>) {
-    //     let request_topic_pattern = if let Some(ref action_topic) = definition.topic {
-    //         action_topic.clone()
-    //     } else if let Some(ref default_group_topic) = definition.management_group.default_topic {
-    //         default_group_topic.clone()
-    //     } else {
-    //         let err = AdrConfigError {
-    //             code: None,
-    //             details: None,
-    //             message: Some("Management Group must have default topic if Management Action doesn't have a topic".to_string()),
-    //         };
-    //         return (ManagementActionExecutor::Error(err.clone()), Err(err));
-    //     };
-    //     let executor_options = rpc_command::executor::OptionsBuilder::default()
-    //         .request_topic_pattern(request_topic_pattern)
-    //         // TODO: handle topic tokens
-    //         .command_name(definition.command_name())
-    //         .build()
-    //         .expect("Options can't fail if request topic pattern and command name are provided");
-    //     //  {
-    //     //     Ok(options) => options,
-    //     //     Err(e) => {
-    //     //         let err = AdrConfigError {
-    //     //             code: None,
-    //     //             details: Some(vec![Details { info: Some(e.to_string()), ..Default::default()}]),
-    //     //             message: Some(format!("Invalid topic or name for management action")),
-    //     //         };
-    //     //         return (ManagementActionExecutor::Error(err.clone()), Err(err));
-    //     //     }
-    //     // };
-    //     match rpc_command::Executor::new(
-    //         connector_context.application_context.clone(),
-    //         connector_context.managed_client.clone(),
-    //         executor_options,
-    //     ) {
-    //         Ok(executor) => (ManagementActionExecutor::Executor(executor), Ok(())),
-    //         Err(e) => {
-    //             log::warn!(
-    //                 "Invalid definition for management action: {:?} {e:?}",
-    //                 management_action_ref
-    //             );
-    //             let err = AdrConfigError {
-    //                 code: None,
-    //                 details: Some(vec![Details {
-    //                     info: Some(e.to_string()),
-    //                     ..Default::default()
-    //                 }]),
-    //                 message: Some(format!("Invalid topic or name for management action")),
-    //             };
-    //             (ManagementActionExecutor::Error(err.clone()), Err(err))
-    //         }
-    //     }
-    // }
 
     /// Helper function to update the specific event status within the asset status
     fn update_action_status(
@@ -4870,8 +4811,6 @@ pub struct AssetSpecification {
     pub hardware_revision: Option<String>,
     /// The last time the asset has been modified.
     pub last_transition_time: Option<DateTime<Utc>>,
-    /// Array of management groups that are part of the asset. TODO: `ManagementGroupClient`
-    pub management_groups: Vec<adr_models::ManagementGroup>, // if None, we can represent as empty vec
     /// The name of the manufacturer.
     pub manufacturer: Option<String>,
     /// The URI of the manufacturer.
@@ -4911,7 +4850,6 @@ impl From<adr_models::Asset> for AssetSpecification {
             external_asset_id: value.external_asset_id,
             hardware_revision: value.hardware_revision,
             last_transition_time: value.last_transition_time,
-            management_groups: value.management_groups,
             manufacturer: value.manufacturer,
             manufacturer_uri: value.manufacturer_uri,
             model: value.model,
