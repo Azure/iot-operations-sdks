@@ -6,12 +6,12 @@
 
 #nullable enable
 
+using System;
+using System.Collections.Generic;
+using <#=this.projectName#>;
+
 namespace <#=this.projectName#>.<#=this.schemaNamespace.GetNamespaceName(TargetLanguage.CSharp)#>
 {
-    using System;
-    using System.Collections.Generic;
-    using <#=this.projectName#>;
-
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "<#=System.Reflection.Assembly.GetExecutingAssembly().GetName().Version#>")]
     public partial class <#=this.schemaName.GetTypeName(TargetLanguage.CSharp, "exception")#> : AggregateException
     {

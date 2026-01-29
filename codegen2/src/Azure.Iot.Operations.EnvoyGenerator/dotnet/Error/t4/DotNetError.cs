@@ -34,17 +34,17 @@ string codeSchema = this.errorCodeSchema?.GetTypeName(TargetLanguage.CSharp);
 string infoName = this.errorInfoName?.GetVariableName(TargetLanguage.CSharp) ?? "errorPayload";
 string infoSchema = this.errorInfoSchema?.GetTypeName(TargetLanguage.CSharp) ?? "string";
 
-            this.Write("\r\n#nullable enable\r\n\r\nnamespace ");
+            this.Write("\r\n#nullable enable\r\n\r\nusing System;\r\n");
+ if (codeName != null) { 
+            this.Write("using System.Diagnostics.CodeAnalysis;\r\n");
+ } 
+            this.Write("using ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
+            this.Write(";\r\n\r\nnamespace ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)));
-            this.Write("\r\n{\r\n    using System;\r\n");
- if (codeName != null) { 
-            this.Write("    using System.Diagnostics.CodeAnalysis;\r\n");
- } 
-            this.Write("    using ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
-            this.Write(";\r\n\r\n    [System.CodeDom.Compiler.GeneratedCode(\"Azure.Iot.Operations.ProtocolCom" +
+            this.Write("\r\n{\r\n    [System.CodeDom.Compiler.GeneratedCode(\"Azure.Iot.Operations.ProtocolCom" +
                     "pilerLib\", \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version));
             this.Write("\")]\r\n    public partial class ");
