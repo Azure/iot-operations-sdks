@@ -9,13 +9,13 @@ namespace Azure.Iot.Operations.TypeGenerator
 
     public partial class RustObject : ITypeTemplateTransform
     {
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly ObjectType objectType;
         private readonly IReadOnlyCollection<ReferenceType> referencedSchemas;
         private readonly bool allowSkipping;
         private readonly string srcSubdir;
 
-        internal RustObject(CodeName genNamespace, ObjectType objectType, bool allowSkipping, string srcSubdir)
+        internal RustObject(MultiCodeName genNamespace, ObjectType objectType, bool allowSkipping, string srcSubdir)
         {
             this.genNamespace = genNamespace;
             this.objectType = objectType;

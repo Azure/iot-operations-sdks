@@ -15,14 +15,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     internal class EnvoyTransformFactory
     {
         private readonly TargetLanguage targetLanguage;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly string projectName;
         private readonly string srcSubdir;
         private readonly bool defaultImpl;
 
         internal EnvoyTransformFactory(
             TargetLanguage targetLanguage,
-            CodeName genNamespace,
+            MultiCodeName genNamespace,
             string projectName,
             string srcSubdir,
             bool defaultImpl)

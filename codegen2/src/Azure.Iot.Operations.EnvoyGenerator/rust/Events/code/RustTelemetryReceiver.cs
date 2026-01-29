@@ -10,14 +10,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     {
         private readonly CodeName telemetryName;
         private readonly CodeName componentName;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly ITypeName schemaType;
         private readonly CodeName messageName;
         private readonly string? serviceGroupId;
         private readonly string topicPattern;
         private readonly string srcSubdir;
 
-        public RustTelemetryReceiver(string telemetryName, string componentName, CodeName genNamespace, ITypeName schemaType, string? serviceGroupId, string topicPattern, string messageStub, string srcSubdir)
+        public RustTelemetryReceiver(string telemetryName, string componentName, MultiCodeName genNamespace, ITypeName schemaType, string? serviceGroupId, string topicPattern, string messageStub, string srcSubdir)
         {
             this.telemetryName = new CodeName(telemetryName);
             this.componentName = new CodeName(componentName);

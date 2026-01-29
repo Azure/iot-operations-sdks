@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         public TargetLanguage TargetLanguage { get => TargetLanguage.CSharp; }
 
-        public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, CodeName genNamespace, SerializationFormat serFormat, string _)
+        public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, MultiCodeName genNamespace, SerializationFormat serFormat, string _)
         {
             ITypeTemplateTransform templateTransform = schemaType switch
             {

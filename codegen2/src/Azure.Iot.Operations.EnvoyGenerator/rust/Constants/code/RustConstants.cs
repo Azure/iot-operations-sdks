@@ -11,11 +11,11 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     public partial class RustConstants : IEnvoyTemplateTransform
     {
         private readonly CodeName schemaName;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly ConstantsSpec constantSpec;
         private readonly string srcSubdir;
 
-        public RustConstants(CodeName schemaName, CodeName genNamespace, ConstantsSpec constantSpec, string srcSubdir)
+        public RustConstants(CodeName schemaName, MultiCodeName genNamespace, ConstantsSpec constantSpec, string srcSubdir)
         {
             this.schemaName = schemaName;
             this.genNamespace = genNamespace;

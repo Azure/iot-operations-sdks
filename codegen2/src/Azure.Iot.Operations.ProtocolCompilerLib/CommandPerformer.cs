@@ -102,7 +102,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 {
                     Dictionary<string, string> schemaTextsByName = schemaSet.Value.ToDictionary(s => Path.GetFullPath(Path.Combine(options.WorkingDir.FullName, s.FolderPath, s.FileName)).Replace('\\', '/'), s => s.Content);
                     TypeGenerator typeGenerator = new TypeGenerator(schemaSet.Key, targetLanguage, typeNamer, errorLog);
-                    generatedTypes.AddRange(typeGenerator.GenerateTypes(schemaTextsByName, new CodeName(options.GenNamespace), projectName, srcSubdir));
+                    generatedTypes.AddRange(typeGenerator.GenerateTypes(schemaTextsByName, new MultiCodeName(options.GenNamespace), projectName, srcSubdir));
                 }
 
                 errorLog.CheckForDuplicatesInSchemas();

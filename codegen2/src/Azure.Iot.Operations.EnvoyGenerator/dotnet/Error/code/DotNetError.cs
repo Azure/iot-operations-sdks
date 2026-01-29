@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     {
         private readonly string projectName;
         private readonly CodeName schemaName;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly CodeName? errorCodeName;
         private readonly CodeName? errorCodeSchema;
         private readonly CodeName? errorInfoName;
@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly CodeName? messageField;
         private readonly bool messageIsRequired;
 
-        public DotNetError(string projectName, CodeName schemaName, CodeName genNamespace, CodeName? errorCodeName, CodeName? errorCodeSchema, CodeName? errorInfoName, CodeName? errorInfoSchema, string description, CodeName? messageField, bool messageIsRequired)
+        public DotNetError(string projectName, CodeName schemaName, MultiCodeName genNamespace, CodeName? errorCodeName, CodeName? errorCodeSchema, CodeName? errorInfoName, CodeName? errorInfoSchema, string description, CodeName? messageField, bool messageIsRequired)
         {
             this.projectName = projectName;
             this.schemaName = schemaName;

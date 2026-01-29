@@ -10,14 +10,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
     public partial class RustIndex : IEnvoyTemplateTransform
     {
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly List<string>? clientModules;
         private readonly List<string>? serverModules;
         private readonly List<string> allModules;
         private readonly string srcSubdir;
 
         public RustIndex(
-            CodeName genNamespace,
+            MultiCodeName genNamespace,
             List<string> clientFilenames,
             List<string> serverFilenames,
             List<string> sharedFilenames,

@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write("; DO NOT EDIT. */\r\n\r\n#nullable enable\r\n\r\nnamespace ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetTypeName(TargetLanguage.CSharp)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)));
             this.Write("\r\n{\r\n");
  if (this.constantSpec.Description != null) { 
             this.Write("    /// <summary>\r\n    /// ");

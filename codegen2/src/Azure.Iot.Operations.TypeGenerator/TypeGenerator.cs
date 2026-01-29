@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.TypeGenerator
             this.errorLog = errorLog;
         }
 
-        public List<GeneratedItem> GenerateTypes(Dictionary<string, string> schemaTextsByName, CodeName genNamespace, string projectName, string srcSubdir)
+        public List<GeneratedItem> GenerateTypes(Dictionary<string, string> schemaTextsByName, MultiCodeName genNamespace, string projectName, string srcSubdir)
         {
             List<GeneratedItem> generatedTypes = new();
 

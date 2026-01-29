@@ -9,12 +9,12 @@ namespace Azure.Iot.Operations.TypeGenerator
 
     public partial class RustEnum : ITypeTemplateTransform
     {
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly EnumType enumType;
         private readonly string srcSubdir;
         private readonly bool hasNonPascalNames;
 
-        internal RustEnum(CodeName genNamespace, EnumType enumType, string srcSubdir)
+        internal RustEnum(MultiCodeName genNamespace, EnumType enumType, string srcSubdir)
         {
             this.genNamespace = genNamespace;
             this.enumType = enumType;

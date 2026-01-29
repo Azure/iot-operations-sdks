@@ -8,10 +8,10 @@ namespace Azure.Iot.Operations.TypeGenerator
     public partial class DotNetAlias : ITypeTemplateTransform
     {
         private readonly string projectName;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly AliasType aliasType;
 
-        internal DotNetAlias(string projectName, CodeName genNamespace, AliasType aliasType)
+        internal DotNetAlias(string projectName, MultiCodeName genNamespace, AliasType aliasType)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;

@@ -6,7 +6,7 @@
 
 #nullable enable
 
-namespace <#=this.projectName#>.<#=this.schemaNamespace.GetTypeName(TargetLanguage.CSharp)#>
+namespace <#=this.projectName#>.<#=this.schemaNamespace.GetNamespaceName(TargetLanguage.CSharp)#>
 {
     using System;
     using System.Collections.Generic;

@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             bool generateProject,
             bool defaultImpl)
         {
-            EnvoyTransformFactory envoyFactory = new(targetLanguage, new CodeName(genNamespace), projectName, srcSubdir, defaultImpl);
+            EnvoyTransformFactory envoyFactory = new(targetLanguage, new MultiCodeName(genNamespace), projectName, srcSubdir, defaultImpl);
 
             Dictionary<string, IEnvoyTemplateTransform> transforms = new();
             Dictionary<string, ErrorSpec> errorSpecs = new();

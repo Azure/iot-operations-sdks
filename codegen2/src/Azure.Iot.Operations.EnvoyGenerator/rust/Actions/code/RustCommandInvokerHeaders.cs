@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     {
         private readonly CodeName commandName;
         private readonly CodeName componentName;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly CodeName errorCodeName;
         private readonly CodeName errorCodeSchema;
         private readonly CodeName? errorInfoName;
@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         public RustCommandInvokerHeaders(
             string commandName,
             string componentName,
-            CodeName genNamespace,
+            MultiCodeName genNamespace,
             CodeName errorCodeName,
             CodeName errorCodeSchema,
             CodeName? errorInfoName,

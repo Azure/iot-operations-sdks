@@ -12,7 +12,7 @@ string infoSchema = this.errorInfoSchema?.GetTypeName(TargetLanguage.CSharp) ?? 
 
 #nullable enable
 
-namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>
+namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)#>
 {
     using System;
 <# if (codeName != null) { #>

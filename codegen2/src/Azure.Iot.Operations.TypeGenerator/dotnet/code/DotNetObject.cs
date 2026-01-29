@@ -10,12 +10,12 @@ namespace Azure.Iot.Operations.TypeGenerator
     public partial class DotNetObject : ITypeTemplateTransform
     {
         private readonly string projectName;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly ObjectType objectType;
         private readonly SerializationFormat serFormat;
         private readonly bool needsNullCheck;
 
-        internal DotNetObject(string projectName, CodeName genNamespace, ObjectType objectType, SerializationFormat serFormat)
+        internal DotNetObject(string projectName, MultiCodeName genNamespace, ObjectType objectType, SerializationFormat serFormat)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;

@@ -38,7 +38,7 @@ string infoSchema = this.headerInfoSchema?.GetTypeName(TargetLanguage.CSharp) ??
             this.Write("\r\n#nullable enable\r\n\r\nnamespace ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetTypeName(TargetLanguage.CSharp)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)));
             this.Write("\r\n{\r\n    using System;\r\n    using System.Diagnostics.CodeAnalysis;\r\n    using Sys" +
                     "tem.Text;\r\n    using System.Text.Json;\r\n    using Azure.Iot.Operations.Protocol." +
                     "RPC;\r\n\r\n    public static class ");

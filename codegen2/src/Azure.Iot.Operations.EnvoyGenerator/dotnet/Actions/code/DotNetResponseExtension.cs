@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     public partial class DotNetResponseExtension : IEnvoyTemplateTransform
     {
         private readonly string projectName;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly ITypeName respSchema;
         private readonly CodeName headerCodeName;
         private readonly CodeName headerCodeSchema;
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
         public DotNetResponseExtension(
             string projectName,
-            CodeName genNamespace,
+            MultiCodeName genNamespace,
             ITypeName respSchema,
             CodeName headerCodeName,
             CodeName headerCodeSchema,

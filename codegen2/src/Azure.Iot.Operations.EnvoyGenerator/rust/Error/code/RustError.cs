@@ -9,13 +9,13 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     public partial class RustError : IEnvoyTemplateTransform
     {
         private readonly CodeName schemaName;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly string description;
         private readonly CodeName? messageField;
         private readonly bool messageIsRequired;
         private readonly string srcSubdir;
 
-        public RustError(CodeName schemaName, CodeName genNamespace, string description, CodeName? messageField, bool messageIsRequired, string srcSubdir)
+        public RustError(CodeName schemaName, MultiCodeName genNamespace, string description, CodeName? messageField, bool messageIsRequired, string srcSubdir)
         {
             this.schemaName = schemaName;
             this.genNamespace = genNamespace;

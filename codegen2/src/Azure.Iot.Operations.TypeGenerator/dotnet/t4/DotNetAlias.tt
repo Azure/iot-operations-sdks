@@ -9,4 +9,4 @@
     /// <#=this.aliasType.Description#>
     /// </summary>
 <# } #>
-global using <#=this.aliasType.SchemaName.GetTypeName(TargetLanguage.CSharp)#> = <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>.<#=this.aliasType.ReferencedName.GetTypeName(TargetLanguage.CSharp)#>;
+global using <#=this.aliasType.SchemaName.GetTypeName(TargetLanguage.CSharp)#> = <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)#>.<#=this.aliasType.ReferencedName.GetTypeName(TargetLanguage.CSharp)#>;

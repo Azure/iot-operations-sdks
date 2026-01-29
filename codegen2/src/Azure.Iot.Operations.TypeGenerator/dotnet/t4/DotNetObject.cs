@@ -30,7 +30,7 @@ namespace Azure.Iot.Operations.TypeGenerator
             this.Write("; DO NOT EDIT. */\r\n\r\n#nullable enable\r\n\r\nnamespace ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetTypeName(TargetLanguage.CSharp)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)));
             this.Write("\r\n{\r\n    using System;\r\n    using System.Collections.Generic;\r\n");
  if (this.serFormat == SerializationFormat.Json) { 
             this.Write("    using System.Text.Json.Serialization;\r\n");

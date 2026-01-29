@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.TypeGenerator
             this.Write(" = ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetTypeName(TargetLanguage.CSharp)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)));
             this.Write(".");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.aliasType.ReferencedName.GetTypeName(TargetLanguage.CSharp)));
             this.Write(";\r\n");

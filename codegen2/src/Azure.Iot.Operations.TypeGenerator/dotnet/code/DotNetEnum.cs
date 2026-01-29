@@ -8,10 +8,10 @@ namespace Azure.Iot.Operations.TypeGenerator
     public partial class DotNetEnum : ITypeTemplateTransform
     {
         private readonly string projectName;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly EnumType enumType;
 
-        internal DotNetEnum(string projectName, CodeName genNamespace, EnumType enumType)
+        internal DotNetEnum(string projectName, MultiCodeName genNamespace, EnumType enumType)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;

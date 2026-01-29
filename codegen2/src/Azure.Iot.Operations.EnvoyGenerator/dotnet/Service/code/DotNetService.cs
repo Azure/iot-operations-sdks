@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly CodeName readResponderName;
         private readonly CodeName writeResponderName;
         private readonly string projectName;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly CodeName serviceName;
         private readonly List<ActionSpec> actionSpecs;
         private readonly List<PropertySpec> propSpecs;
@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string readResponderName,
             string writeResponderName,
             string projectName,
-            CodeName genNamespace,
+            MultiCodeName genNamespace,
             CodeName serviceName,
             List<ActionSpec> actionSpecs,
             List<PropertySpec> propSpecs,

@@ -10,11 +10,11 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     public partial class RustAggregateError : IEnvoyTemplateTransform
     {
         private readonly CodeName schemaName;
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly List<(CodeName, CodeName)> innerNameSchemas;
         private readonly string srcSubdir;
 
-        public RustAggregateError(CodeName schemaName, CodeName genNamespace, List<(CodeName, CodeName)> innerNameSchemas, string srcSubdir)
+        public RustAggregateError(CodeName schemaName, MultiCodeName genNamespace, List<(CodeName, CodeName)> innerNameSchemas, string srcSubdir)
         {
             this.schemaName = schemaName;
             this.genNamespace = genNamespace;

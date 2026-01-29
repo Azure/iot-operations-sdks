@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly List<string> modules;
         private readonly string srcSubdir;
 
-        public RustLib(CodeName genNamespace, bool generateProject, string srcSubdir)
+        public RustLib(MultiCodeName genNamespace, bool generateProject, string srcSubdir)
         {
             this.generateProject = generateProject;
             this.srcSubdir = srcSubdir;

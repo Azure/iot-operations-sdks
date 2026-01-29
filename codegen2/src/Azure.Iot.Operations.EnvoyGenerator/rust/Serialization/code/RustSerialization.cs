@@ -44,7 +44,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             { SerializationFormat.Json, new List<string> { "serde_json::from_slice(payload)" } },
         };
 
-        private readonly CodeName genNamespace;
+        private readonly MultiCodeName genNamespace;
         private readonly CodeName schemaClassName;
         private readonly string? serdeLib;
         private readonly List<string> stdHeaders;
@@ -55,7 +55,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly List<string> deserializeCode;
         private readonly string srcSubdir;
 
-        public RustSerialization(CodeName genNamespace, SerializationFormat genFormat, CodeName schemaClassName, string srcSubdir)
+        public RustSerialization(MultiCodeName genNamespace, SerializationFormat genFormat, CodeName schemaClassName, string srcSubdir)
         {
             this.genNamespace = genNamespace;
             this.schemaClassName = schemaClassName;

@@ -37,7 +37,7 @@ string infoSchema = this.errorInfoSchema?.GetTypeName(TargetLanguage.CSharp) ?? 
             this.Write("\r\n#nullable enable\r\n\r\nnamespace ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetTypeName(TargetLanguage.CSharp)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)));
             this.Write("\r\n{\r\n    using System;\r\n");
  if (codeName != null) { 
             this.Write("    using System.Diagnostics.CodeAnalysis;\r\n");
