@@ -32,12 +32,12 @@ pub struct ManagementActionExecutor {
 
 impl ManagementActionExecutor {
     pub(crate) fn new(
-        topic: &Option<String>,
-        default_topic: &Option<String>,
+        topic: Option<&String>,
+        default_topic: Option<&String>,
         management_action_ref: &ManagementActionRef,
-        connector_context: Arc<ConnectorContext>,
+        connector_context: &Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
-        let request_topic_pattern = if let Some(topic) = topic.as_ref().or(default_topic.as_ref()) {
+        let request_topic_pattern = if let Some(topic) = topic.or(default_topic) {
             // TODO: ensure topic has the correct tokens
             topic.clone()
         } else {
@@ -50,15 +50,15 @@ impl ManagementActionExecutor {
         let topic_token_map = HashMap::from([
             (
                 "assetName".to_string(),
-                management_action_ref.asset_name.to_string(),
+                management_action_ref.asset_name.clone(),
             ),
             (
                 "managementGroupName".to_string(),
-                management_action_ref.management_group_name.to_string(),
+                management_action_ref.management_group_name.clone(),
             ),
             (
                 "managementActionName".to_string(),
-                management_action_ref.management_action_name.to_string(),
+                management_action_ref.management_action_name.clone(),
             ),
         ]);
         let executor_options = rpc_command::executor::OptionsBuilder::default()
@@ -80,14 +80,14 @@ impl ManagementActionExecutor {
                 shutdown_notifier: Arc::new(Notify::new()),
             }),
             Err(e) => {
-                log::warn!("Invalid definition for {:?} {e:?}", management_action_ref);
+                log::warn!("Invalid definition for {management_action_ref:?} {e:?}");
                 Err(AdrConfigError {
                     code: None,
                     details: Some(vec![Details {
                         info: Some(e.to_string()),
                         ..Default::default()
                     }]),
-                    message: Some(format!("Invalid topic or name for management action")),
+                    message: Some("Invalid topic or name for management action".to_string()),
                 })
             }
         }
@@ -125,7 +125,7 @@ impl ManagementActionExecutor {
                 () = self.shutdown_notifier.notified() => {
                     log::info!("Management action no longer active, shutting down executor for {}", self.action_ref.name());
                     match self.executor.shutdown().await {
-                        Ok(_) => {
+                        Ok(()) => {
                             // notify won't be notified anymore, so recv() will be evaluated in select on next loop
                             // and eventually return None when there are no more requests to drain
                         },
@@ -159,7 +159,7 @@ impl ManagementActionExecutor {
                 res = self.executor.recv() => {
                     match res {
                         Some(Ok(request)) => {
-                            return Some(ManagementActionRequest { request: request })
+                            return Some(ManagementActionRequest { request })
                         },
                         Some(Err(e)) => {
                             log::error!(
@@ -220,47 +220,56 @@ impl ManagementActionRequest {
     /// Check if the management action response is no longer expected.
     ///
     /// Returns true if the response is no longer expected, otherwise returns false.
+    #[must_use]
     pub fn is_cancelled(&self) -> bool {
         self.request.is_cancelled()
     }
 
     /// Payload of the request, with the content type and format indicator.
+    #[must_use]
     pub fn serialized_payload(&self) -> &BypassPayload {
         &self.request.payload
     }
 
     /// Raw bytes of the payload of the request.
+    #[must_use]
     pub fn raw_payload(&self) -> &[u8] {
         &self.request.payload.payload
     }
 
     /// Content type of the request payload.
+    #[must_use]
     pub fn content_type(&self) -> &String {
         &self.request.payload.content_type
     }
 
     /// Format indicator of the request payload.
+    #[must_use]
     pub fn format_indicator(&self) -> &FormatIndicator {
         &self.request.payload.format_indicator
     }
 
     // this will contain ARM correlation ID (likely x-ms-correlation-request-id)
     /// Custom user data set as custom MQTT User Properties on the request message.
+    #[must_use]
     pub fn custom_user_data(&self) -> &Vec<(String, String)> {
         &self.request.custom_user_data
     }
 
     /// Timestamp of the request.
+    #[must_use]
     pub fn timestamp(&self) -> &Option<HybridLogicalClock> {
         &self.request.timestamp
     }
 
     /// If present, contains the client ID of the invoker of the request.
+    #[must_use]
     pub fn invoker_id(&self) -> &Option<String> {
         &self.request.invoker_id
     }
 
     /// Resolved static and dynamic topic tokens from the incoming request's topic.
+    #[must_use]
     pub fn topic_tokens(&self) -> &HashMap<String, String> {
         &self.request.topic_tokens
     }
@@ -292,10 +301,11 @@ pub struct ManagementActionResponseBuilder {
     /// Default is an empty vector.
     custom_user_data: Vec<(String, String)>,
     /// Cloud event of the response.
-    // Default is a no cloud event
+    #[allow(clippy::option_option)]
+    // to allow specifying None as a value vs not specifying the field at all in the builder
     cloud_event: Option<Option<ResponseCloudEvent>>,
     /// Whether the execution was successful or not, and any error details to include.
-    /// An Err() will be displayed on the calling side if this is set to Err(). The payload can still have any
+    /// An `Err()` will be displayed on the calling side if this is set to `Err()`. The payload can still have any
     /// additional details for custom logic.
     /// Default is Ok(())
     application_error: Result<(), ManagementActionApplicationError>,
@@ -360,7 +370,7 @@ impl ManagementActionResponseBuilder {
     }
 
     /// Add error details about the execution fo the request.
-    /// An Err() will be displayed on the calling side if this is set. The payload can still have any
+    /// An `Err()` will be displayed on the calling side if this is set. The payload can still have any
     /// additional details for custom logic.
     pub fn application_error(
         &mut self,
@@ -393,7 +403,7 @@ impl ManagementActionResponseBuilder {
                 application_error.application_error_code.clone(),
                 application_error.application_error_payload.clone(),
             )
-            .map_err(|e| ResponseBuilderError::ValidationError(e))?;
+            .map_err(ResponseBuilderError::ValidationError)?;
         }
 
         let mut inner_builder = rpc_command::executor::ResponseBuilder::default();

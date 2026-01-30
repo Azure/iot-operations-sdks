@@ -131,6 +131,7 @@ impl ManagementActionRef {
     }
 
     /// Printable name for management action
+    #[must_use]
     pub fn name(&self) -> String {
         format!(
             "Management Action: {}::{}",

@@ -1478,7 +1478,7 @@ impl AssetClient {
                     // insert the management action into the hashmap so we can handle updates
                     management_action_hashmap
                         .entry(received_management_group.name.clone())
-                        .or_insert(HashMap::new())
+                        .or_default()
                         .insert(
                             received_management_action.name.clone(),
                             management_action_update_watcher_tx,
@@ -2108,6 +2108,7 @@ impl AssetClient {
 
 /// Azure Device Registry Asset Component Client represents either a Dataset, Event,
 /// Stream, or Management Action Client
+#[allow(clippy::large_enum_variant)] // Large variants are mostly composed of already heap allocated data
 pub enum AssetComponentClient {
     /// Azure Device Registry Data Operation Client represents either a Dataset, Event,
     /// or Stream Client along with any configuration errors detected during creation
@@ -3597,7 +3598,7 @@ impl AssetComponentRef for ManagementActionRef {
             desired_asset_component_status,
         );
 
-        log::debug!("Reporting management action {:?} status from app", self);
+        log::debug!("Reporting management action {self:?} status from app");
 
         AssetStatusReporter::internal_report_status(
             adr_asset_status,
@@ -3619,6 +3620,7 @@ pub(crate) struct ManagementActionUpdateNotification {
 }
 
 /// Notifications that can be received for a Management Action
+#[allow(clippy::large_enum_variant)] // Large variants are mostly composed of already heap allocated data
 pub enum ManagementActionNotification {
     /// Indicates that the Asset containing the Management Action has been updated in place. If this is returned,
     /// it indicates that the Management Group/Action definition has not changed.
@@ -3627,14 +3629,14 @@ pub enum ManagementActionNotification {
     AssetUpdated(Result<(), AdrConfigError>),
     /// Indicates that the Management Action's definition has been updated in place.
     /// This will only be returned if the Management Group or Action definition has changed.
-    /// If the default config on the asset changed, the AssetUpdated variant will be returned.
+    /// If the default config on the asset changed, the `AssetUpdated` variant will be returned.
     /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
     ManagementActionUpdated(Result<(), AdrConfigError>),
     /// Indicates that the Management Action's definition has been updated in place and the old executor no longer
     /// can be used with the new definition. This will only be returned if the Management Group or Action
     /// definition has changed, and that change requires a new executor to be created (e.g. topic change).
-    /// If the topic for the executor has not changed, the ManagementActionUpdated variant will be returned.
+    /// If the topic for the executor has not changed, the `ManagementActionUpdated` variant will be returned.
     /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update.
     ManagementActionNewExecutor(Result<ManagementActionExecutor, AdrConfigError>),
@@ -3682,6 +3684,7 @@ pub struct ManagementActionClient {
 }
 
 impl ManagementActionClient {
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
         definition: ManagementActionSpecification,
         management_action_update_watcher_rx: watch::Receiver<ManagementActionUpdateNotification>,
@@ -3713,10 +3716,10 @@ impl ManagementActionClient {
             );
         // create executor
         let executor_res = ManagementActionExecutor::new(
-            &definition.topic,
-            &definition.management_group.default_topic,
+            definition.topic.as_ref(),
+            definition.management_group.default_topic.as_ref(),
             &management_action_ref,
-            connector_context.clone(),
+            &connector_context,
         );
 
         (
@@ -3733,11 +3736,11 @@ impl ManagementActionClient {
                 previous_detected_config_status: executor_res
                     .as_ref()
                     .map(|_| ())
-                    .map_err(|e| e.clone()),
+                    .map_err(Clone::clone),
                 executor_shutdown_notifier: executor_res
                     .as_ref()
                     .ok()
-                    .map(|executor| executor.get_shutdown_notifier()),
+                    .map(ManagementActionExecutor::get_shutdown_notifier),
                 health_sender,
                 health_cancellation_token,
             },
@@ -3992,17 +3995,17 @@ impl ManagementActionClient {
             .as_ref()
             .inspect(|notify| notify.notify_one());
         let executor = ManagementActionExecutor::new(
-            &self.definition.topic,
-            &self.definition.management_group.default_topic,
+            self.definition.topic.as_ref(),
+            self.definition.management_group.default_topic.as_ref(),
             &self.management_action_ref,
-            self.connector_context.clone(),
+            &self.connector_context,
         );
 
         self.executor_shutdown_notifier = executor
             .as_ref()
             .ok()
-            .map(|executor| executor.get_shutdown_notifier());
-        self.previous_detected_config_status = executor.as_ref().map(|_| ()).map_err(|e| e.clone());
+            .map(ManagementActionExecutor::get_shutdown_notifier);
+        self.previous_detected_config_status = executor.as_ref().map(|_| ()).map_err(Clone::clone);
 
         // Once the action definition has been updated we can mark the value in the watcher as seen
         self.management_action_update_watcher_rx.mark_unchanged();
@@ -4078,11 +4081,13 @@ impl ManagementActionClient {
     }
 
     /// Management action, management group, asset, device, and inbound endpoint names
+    #[must_use]
     pub fn management_action_ref(&self) -> &ManagementActionRef {
         &self.management_action_ref
     }
 
     /// Management Action and Group Definitions
+    #[must_use]
     pub fn definition(&self) -> &ManagementActionSpecification {
         &self.definition
     }
@@ -4395,6 +4400,7 @@ impl ManagementActionClient {
         Ok(SchemaModifyResult::Reported(message_schema_reference))
     }
 
+    #[allow(clippy::too_many_arguments)]
     async fn internal_report_message_schema_reference(
         connector_context: &Arc<ConnectorContext>,
         asset_ref: &AssetRef,
@@ -4447,7 +4453,7 @@ impl ManagementActionClient {
                     .actions
                     .get_or_insert_with(Vec::new)
                     .push(adr_models::ActionStatus {
-                        name: management_action_ref.management_action_name.to_string(),
+                        name: management_action_ref.management_action_name.clone(),
                         request_message_schema_reference: match schema_side {
                             ActionSchema::Request => Some(message_schema_reference.clone()),
                             ActionSchema::Response => None,
@@ -4467,7 +4473,7 @@ impl ManagementActionClient {
                 .push(adr_models::ManagementGroupStatus {
                     name: management_action_ref.management_group_name.clone(),
                     actions: Some(vec![adr_models::ActionStatus {
-                        name: management_action_ref.management_action_name.to_string(),
+                        name: management_action_ref.management_action_name.clone(),
                         request_message_schema_reference: match schema_side {
                             ActionSchema::Request => Some(message_schema_reference.clone()),
                             ActionSchema::Response => None,
