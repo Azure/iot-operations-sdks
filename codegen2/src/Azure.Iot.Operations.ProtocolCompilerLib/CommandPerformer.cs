@@ -23,16 +23,13 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
     {
         public const string DefaultOutDir = ".";
         public const string DefaultWorkingDir = "schemas";
-        public const string DefaultNamespace = "Generated";
 
-        private static readonly Dictionary<string, (TargetLanguage, string)> LanguageMap = new()
+        public static readonly Dictionary<string, LanguageInfo> LanguageMap = new()
         {
-            { "csharp", (TargetLanguage.CSharp, "") },
-            { "rust", (TargetLanguage.Rust, "src") },
-            { "none", (TargetLanguage.None, "") },
+            { "csharp", new LanguageInfo(TargetLanguage.CSharp, "", new Regex(@"^[A-Z][a-zA-Z0-9]*(?:\.[A-Z][a-zA-Z0-9]*)*$"), true, false, "Generated", "", "must have PascalCase name segments seprated by dots") },
+            { "rust", new LanguageInfo(TargetLanguage.Rust, "src", new Regex(@"^[a-z][a-z0-9]*(?:_[a-z][a-z0-9]*)*$"), true, true, "generated", "common_types", "must have a single snake_case name segment") },
+            { "none", new LanguageInfo(TargetLanguage.None, "", new Regex(@"^$"), false, false, "", "", "must not be used") },
         };
-
-        public static readonly string[] SupportedLanguages = LanguageMap.Keys.ToArray();
 
         public static ErrorLog GenerateCode(OptionContainer options, Action<string, bool> statusReceiver, bool suppressExternalTools = false)
         {
@@ -48,12 +45,19 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 }
 
                 string projectName = LegalizeProjectName(options.OutputDir.Name);
-                (TargetLanguage targetLanguage, string srcSubdir) = LanguageMap[options.Language.ToLowerInvariant()];
+                LanguageInfo languageInfo = LanguageMap[options.Language.ToLowerInvariant()];
 
-                if (options.NoProj)
+                string genNamespace = options.GenNamespace ?? languageInfo.DefaultNamespace;
+                string commonNs = options.CommonNamespace ?? languageInfo.DefaultCommon;
+
+                ValidateNamespaceOption(options.Language, genNamespace, "namespace", languageInfo.ArgRegex, languageInfo.NamespaceRequired, languageInfo.ArgConstraint, errorLog);
+                ValidateNamespaceOption(options.Language, commonNs, "common", languageInfo.ArgRegex, languageInfo.CommonRequired, languageInfo.ArgConstraint, errorLog);
+                if (errorLog.HasErrors)
                 {
-                    srcSubdir = string.Empty;
+                    return errorLog;
                 }
+
+                string srcSubdir = options.NoProj ? string.Empty : languageInfo.SrcSubdir;
 
                 errorLog.Phase = "Parsing";
                 List<ParsedThing> parsedThings = new();
@@ -81,7 +85,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                     WriteItems(schemas, options.WorkingDir, statusReceiver);
                 }
 
-                if (targetLanguage == TargetLanguage.None)
+                if (languageInfo.TargetLanguage == TargetLanguage.None)
                 {
                     statusReceiver?.Invoke("No code generation requested; exiting after schema generation.", false);
                     return errorLog;
@@ -101,8 +105,8 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 foreach (KeyValuePair<SerializationFormat, List<GeneratedItem>> schemaSet in generatedSchemas)
                 {
                     Dictionary<string, string> schemaTextsByName = schemaSet.Value.ToDictionary(s => Path.GetFullPath(Path.Combine(options.WorkingDir.FullName, s.FolderPath, s.FileName)).Replace('\\', '/'), s => s.Content);
-                    TypeGenerator typeGenerator = new TypeGenerator(schemaSet.Key, targetLanguage, typeNamer, errorLog);
-                    generatedTypes.AddRange(typeGenerator.GenerateTypes(schemaTextsByName, new MultiCodeName(options.GenNamespace), projectName, srcSubdir));
+                    TypeGenerator typeGenerator = new TypeGenerator(schemaSet.Key, languageInfo.TargetLanguage, typeNamer, errorLog);
+                    generatedTypes.AddRange(typeGenerator.GenerateTypes(schemaTextsByName, new MultiCodeName(genNamespace), new MultiCodeName(commonNs), projectName, srcSubdir));
                 }
 
                 errorLog.CheckForDuplicatesInSchemas();
@@ -123,8 +127,9 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 List<GeneratedItem> generatedEnvoys = EnvoyGenerator.GenerateEnvoys(
                     parsedThings,
                     serializationFormats.ToList(),
-                    targetLanguage,
-                    options.GenNamespace,
+                    languageInfo.TargetLanguage,
+                    genNamespace,
+                    commonNs,
                     projectName,
                     sdkPath,
                     typeNames,
@@ -133,7 +138,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                     defaultImpl: options.DefaultImpl);
                 WriteItems(generatedEnvoys, options.OutputDir, statusReceiver);
 
-                if (targetLanguage == TargetLanguage.Rust && !suppressExternalTools)
+                if (languageInfo.TargetLanguage == TargetLanguage.Rust && !suppressExternalTools)
                 {
                     GeneratedItem? cargoInfo = generatedEnvoys.FirstOrDefault(e => e.FileName.Equals("Cargo.toml", StringComparison.OrdinalIgnoreCase));
                     if (cargoInfo != null)
@@ -338,10 +343,10 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 return;
             }
 
-            if (!SupportedLanguages.Contains(options.Language))
+            if (!LanguageMap.ContainsKey(options.Language))
             {
                 string langCondition = string.IsNullOrEmpty(options.Language) ? "language not specified" : $"language '{options.Language}' not recognized";
-                AddUnlocatableError(ErrorCondition.PropertyUnsupportedValue, $"{langCondition}; language must be {string.Join(" or ", SupportedLanguages.Select(l => $"'{l}'"))} (use 'none' for no code generation)", errorLog);
+                AddUnlocatableError(ErrorCondition.PropertyUnsupportedValue, $"{langCondition}; language must be {string.Join(" or ", LanguageMap.Keys.Select(l => $"'{l}'"))} (use 'none' for no code generation)", errorLog);
                 return;
             }
 
@@ -390,6 +395,21 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                     AddUnlocatableError(ErrorCondition.ItemNotFound, $"non-existent server Thing Model file: {f.FullName}", errorLog);
                 }
                 return;
+            }
+        }
+
+        private static void ValidateNamespaceOption(string language, string optNamespace, string optKey, Regex argRegex, bool argRequired, string argConstraint, ErrorLog errorLog)
+        {
+            if (optNamespace == string.Empty)
+            {
+                if (argRequired)
+                {
+                    AddUnlocatableError(ErrorCondition.ValuesInconsistent, $"for language {language}, the --{optKey} value must not be an empty string", errorLog);
+                }
+            }
+            else if (!argRegex.IsMatch(optNamespace))
+            {
+                AddUnlocatableError(ErrorCondition.ValuesInconsistent, $"'{optNamespace}' is not a valid namespace for language {language}; the --{optKey} option {argConstraint}", errorLog);
             }
         }
 

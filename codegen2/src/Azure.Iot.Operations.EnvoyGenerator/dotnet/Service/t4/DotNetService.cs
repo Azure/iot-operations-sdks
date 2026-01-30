@@ -36,7 +36,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write("using System.Threading.Tasks;\r\nusing Azure.Iot.Operations.Protocol.Models;\r\nusing" +
                     " Azure.Iot.Operations.Protocol;\r\nusing Azure.Iot.Operations.Protocol.RPC;\r\nusing" +
                     " Azure.Iot.Operations.Protocol.Telemetry;\r\nusing ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetNamespaceName(TargetLanguage.CSharp, this.projectName)));
             this.Write(";\r\n\r\nnamespace ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");

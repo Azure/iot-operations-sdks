@@ -75,14 +75,19 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(this.writeErrorSchema.GetTypeName(TargetLanguage.Rust)));
             this.Write(";\r\n");
  } 
-            this.Write("use super::super::common_types::options::CommandExecutorOptions;\r\nuse super::supe" +
-                    "r::common_types::");
+            this.Write("use super::super::");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
+            this.Write("::options::CommandExecutorOptions;\r\nuse super::super::");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
+            this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.readSerializerEmptyType.GetFileName(TargetLanguage.Rust)));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.readSerializerEmptyType.GetTypeName(TargetLanguage.Rust)));
             this.Write(";\r\n");
  if (!this.readSerializerEmptyType.Equals(this.writeSerializerEmptyType)) { 
-            this.Write("use super::super::common_types::");
+            this.Write("use super::super::");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
+            this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.writeSerializerEmptyType.GetFileName(TargetLanguage.Rust)));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.writeSerializerEmptyType.GetTypeName(TargetLanguage.Rust)));

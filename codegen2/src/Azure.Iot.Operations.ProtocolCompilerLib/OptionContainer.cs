@@ -32,7 +32,10 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         public required DirectoryInfo OutputDir { get; set; }
 
         /// <summary>Gets or sets a namespace for generated code.</summary>
-        public required string GenNamespace { get; set; }
+        public required string? GenNamespace { get; set; }
+
+        /// <summary>Gets or sets a namespace for common code.</summary>
+        public required string? CommonNamespace { get; set; }
 
         /// <summary>Gets or sets a local path or feed URL for Azure.Iot.Operations.Protocol SDK.</summary>
         public string? SdkPath { get; set; }

@@ -10,6 +10,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     {
         private readonly string projectName;
         private readonly MultiCodeName genNamespace;
+        private readonly MultiCodeName commonNs;
         private readonly ITypeName respSchema;
         private readonly CodeName headerCodeName;
         private readonly CodeName headerCodeSchema;
@@ -22,6 +23,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         public DotNetResponseExtension(
             string projectName,
             MultiCodeName genNamespace,
+            MultiCodeName commonNs,
             ITypeName respSchema,
             CodeName headerCodeName,
             CodeName headerCodeSchema,
@@ -33,6 +35,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
+            this.commonNs = commonNs;
             this.respSchema = respSchema;
             this.headerCodeName = headerCodeName;
             this.headerCodeSchema = headerCodeSchema;

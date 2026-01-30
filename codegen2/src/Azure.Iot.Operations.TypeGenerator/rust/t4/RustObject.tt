@@ -13,7 +13,7 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 <# foreach (var referencedSchema in this.referencedSchemas) { #>
 <# if (!referencedSchema.SchemaName.Equals(this.objectType.SchemaName)) { #>
 use super::<#=referencedSchema.SchemaName.GetFileName(TargetLanguage.Rust)#>::<#=referencedSchema.SchemaName.GetTypeName(TargetLanguage.Rust)#>;

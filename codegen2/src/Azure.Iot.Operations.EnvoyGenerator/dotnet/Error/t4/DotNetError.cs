@@ -39,7 +39,7 @@ string infoSchema = this.errorInfoSchema?.GetTypeName(TargetLanguage.CSharp) ?? 
             this.Write("using System.Diagnostics.CodeAnalysis;\r\n");
  } 
             this.Write("using ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetNamespaceName(TargetLanguage.CSharp, this.projectName)));
             this.Write(";\r\n\r\nnamespace ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");

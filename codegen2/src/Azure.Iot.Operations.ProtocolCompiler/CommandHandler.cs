@@ -4,7 +4,6 @@
 namespace Azure.Iot.Operations.ProtocolCompiler
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using Azure.Iot.Operations.CodeGeneration;
     using Azure.Iot.Operations.ProtocolCompilerLib;
@@ -14,14 +13,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private const ConsoleColor ErrorColor = ConsoleColor.Red;
         private const ConsoleColor WarningColor = ConsoleColor.Yellow;
 
-        private static readonly Dictionary<string, (TargetLanguage, string)> LanguageMap = new()
-        {
-            { "csharp", (TargetLanguage.CSharp, "") },
-            { "rust", (TargetLanguage.Rust, "src") },
-            { "none", (TargetLanguage.None, "") },
-        };
-
-        public static readonly string[] SupportedLanguages = LanguageMap.Keys.ToArray();
+        public static readonly string[] SupportedLanguages = CommandPerformer.LanguageMap.Keys.ToArray();
 
         public static int GenerateCode(OptionContainer options)
         {

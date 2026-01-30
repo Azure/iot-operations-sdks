@@ -14,6 +14,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly CodeName writeResponderName;
         private readonly string projectName;
         private readonly MultiCodeName genNamespace;
+        private readonly MultiCodeName commonNs;
         private readonly CodeName serviceName;
         private readonly List<ActionSpec> actionSpecs;
         private readonly List<PropertySpec> propSpecs;
@@ -29,6 +30,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string writeResponderName,
             string projectName,
             MultiCodeName genNamespace,
+            MultiCodeName commonNs,
             CodeName serviceName,
             List<ActionSpec> actionSpecs,
             List<PropertySpec> propSpecs,
@@ -43,6 +45,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.writeResponderName = new CodeName(writeResponderName);
             this.projectName = projectName;
             this.genNamespace = genNamespace;
+            this.commonNs = commonNs;
             this.serviceName = serviceName;
             this.actionSpecs = actionSpecs;
             this.propSpecs = propSpecs;

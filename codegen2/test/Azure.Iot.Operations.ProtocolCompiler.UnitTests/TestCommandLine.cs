@@ -29,8 +29,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests
         [JsonPropertyName("workingDir")]
         public string? WorkingDir { get; set; }
 
-        [JsonPropertyName("namespaace")]
+        [JsonPropertyName("namespace")]
         public string? GenNamespace { get; set; }
+
+        [JsonPropertyName("common")]
+        public string? CommonNamespace { get; set; }
 
         [JsonPropertyName("sdkPath")]
         public string? SdkPath { get; set; }

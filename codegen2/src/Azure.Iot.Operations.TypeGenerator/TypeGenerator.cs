@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.TypeGenerator
             this.errorLog = errorLog;
         }
 
-        public List<GeneratedItem> GenerateTypes(Dictionary<string, string> schemaTextsByName, MultiCodeName genNamespace, string projectName, string srcSubdir)
+        public List<GeneratedItem> GenerateTypes(Dictionary<string, string> schemaTextsByName, MultiCodeName genNamespace, MultiCodeName commonNs, string projectName, string srcSubdir)
         {
             List<GeneratedItem> generatedTypes = new();
 
@@ -43,7 +43,7 @@ namespace Azure.Iot.Operations.TypeGenerator
                 {
                     cycleBreaker.AddIndirectionAsNeeded(schemaType);
 
-                    generatedTypes.Add(this.typeGenerator.GenerateTypeFromSchema(schemaType, projectName, genNamespace, schemaStandardizer.SerializationFormat, srcSubdir));
+                    generatedTypes.Add(this.typeGenerator.GenerateTypeFromSchema(schemaType, projectName, genNamespace, commonNs, schemaStandardizer.SerializationFormat, srcSubdir));
                 }
             }
 

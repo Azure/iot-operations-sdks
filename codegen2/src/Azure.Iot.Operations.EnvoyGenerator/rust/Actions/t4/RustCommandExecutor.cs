@@ -41,16 +41,22 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
  } 
             this.Write("use azure_iot_operations_protocol::rpc_command;\r\n\r\n");
  if (this.reqSchema is CustomTypeName || this.respSchema is CustomTypeName) { 
-            this.Write("use super::super::common_types::custom_payload::CustomPayload;\r\n");
+            this.Write("use super::super::");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
+            this.Write("::custom_payload::CustomPayload;\r\n");
  } 
  if (this.reqSchema == null || this.respSchema == null) { 
-            this.Write("use super::super::common_types::");
+            this.Write("use super::super::");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
+            this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.serializerEmptyType.GetFileName(TargetLanguage.Rust)));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)));
             this.Write(";\r\n");
  } 
-            this.Write("use super::super::common_types::options::CommandExecutorOptions;\r\n");
+            this.Write("use super::super::");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
+            this.Write("::options::CommandExecutorOptions;\r\n");
  if (this.reqSchema is CodeName) { 
             this.Write("use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.reqSchema.GetFileName(TargetLanguage.Rust)));

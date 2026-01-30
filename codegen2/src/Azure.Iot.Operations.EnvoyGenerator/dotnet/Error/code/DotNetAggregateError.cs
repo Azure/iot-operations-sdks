@@ -11,13 +11,15 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly string projectName;
         private readonly CodeName schemaName;
         private readonly MultiCodeName schemaNamespace;
+        private readonly MultiCodeName commonNs;
         private readonly List<(CodeName, CodeName)> innerNameSchemas;
 
-        public DotNetAggregateError(string projectName, CodeName schemaName, MultiCodeName schemaNamespace, List<(CodeName, CodeName)> innerNameSchemas)
+        public DotNetAggregateError(string projectName, CodeName schemaName, MultiCodeName schemaNamespace, MultiCodeName commonNs, List<(CodeName, CodeName)> innerNameSchemas)
         {
             this.projectName = projectName;
             this.schemaName = schemaName;
             this.schemaNamespace = schemaNamespace;
+            this.commonNs = commonNs;
             this.innerNameSchemas = innerNameSchemas;
         }
 

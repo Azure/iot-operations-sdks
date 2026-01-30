@@ -39,7 +39,7 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Models;
 using ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetNamespaceName(TargetLanguage.CSharp, this.projectName)));
             this.Write(";\r\n\r\nnamespace ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");

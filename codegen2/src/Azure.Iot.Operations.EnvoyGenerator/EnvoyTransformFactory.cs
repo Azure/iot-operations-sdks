@@ -16,6 +16,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     {
         private readonly TargetLanguage targetLanguage;
         private readonly MultiCodeName genNamespace;
+        private readonly MultiCodeName commonNs;
         private readonly string projectName;
         private readonly string srcSubdir;
         private readonly bool defaultImpl;
@@ -23,12 +24,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         internal EnvoyTransformFactory(
             TargetLanguage targetLanguage,
             MultiCodeName genNamespace,
+            MultiCodeName commonNs,
             string projectName,
             string srcSubdir,
             bool defaultImpl)
         {
             this.targetLanguage = targetLanguage;
             this.genNamespace = genNamespace;
+            this.commonNs = commonNs;
             this.projectName = projectName;
             this.srcSubdir = srcSubdir;
             this.defaultImpl = defaultImpl;
@@ -39,10 +42,10 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             switch (targetLanguage)
             {
                 case TargetLanguage.CSharp:
-                    yield return new DotNetConstants(projectName, schemaName, genNamespace, constantSpec);
+                    yield return new DotNetConstants(projectName, schemaName, genNamespace, commonNs, constantSpec);
                     break;
                 case TargetLanguage.Rust:
-                    yield return new RustConstants(schemaName, genNamespace, constantSpec, srcSubdir);
+                    yield return new RustConstants(schemaName, genNamespace, commonNs, constantSpec, srcSubdir);
                     break;
                 default:
                     throw new NotSupportedException($"Target language {targetLanguage} is not supported.");
@@ -100,6 +103,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetActionExecutorBinder(actionName),
                             projectName,
                             genNamespace,
+                            commonNs,
                             serviceName,
                             serializerClassName,
                             serializerEmptyType,
@@ -117,6 +121,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetActionInvokerBinder(actionName),
                             projectName,
                             genNamespace,
+                            commonNs,
                             serviceName,
                             serializerClassName,
                             serializerEmptyType,
@@ -130,6 +135,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                         yield return new DotNetResponseExtension(
                             projectName,
                             genNamespace,
+                            commonNs,
                             outputSchema,
                             codeName,
                             codeSchema!,
@@ -148,6 +154,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             actionName,
                             schemaNamer.GetActionExecutorBinder(actionName),
                             genNamespace,
+                            commonNs,
                             serializerEmptyType,
                             inputSchema,
                             outputSchema,
@@ -162,7 +169,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             srcSubdir);
                         if (codeName != null && codeValues != null)
                         {
-                            yield return new RustCommandExecutorHeaders(actionName, schemaNamer.GetActionExecutorBinder(actionName), genNamespace, codeName, codeSchema!, infoName, infoSchema, codeValues, srcSubdir);
+                            yield return new RustCommandExecutorHeaders(actionName, schemaNamer.GetActionExecutorBinder(actionName), genNamespace, commonNs, codeName, codeSchema!, infoName, infoSchema, codeValues, srcSubdir);
                         }
                     }
 
@@ -172,6 +179,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             actionName,
                             schemaNamer.GetActionInvokerBinder(actionName),
                             genNamespace,
+                            commonNs,
                             serializerEmptyType,
                             inputSchema,
                             outputSchema,
@@ -185,7 +193,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             srcSubdir);
                         if (codeName != null && codeValues != null)
                         {
-                            yield return new RustCommandInvokerHeaders(actionName, schemaNamer.GetActionInvokerBinder(actionName), genNamespace, codeName, codeSchema!, infoName, infoSchema, codeValues, srcSubdir);
+                            yield return new RustCommandInvokerHeaders(actionName, schemaNamer.GetActionInvokerBinder(actionName), genNamespace, commonNs, codeName, codeSchema!, infoName, infoSchema, codeValues, srcSubdir);
                         }
                     }
 
@@ -237,6 +245,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetPropWriteActName(propertyName),
                             projectName,
                             genNamespace,
+                            commonNs,
                             serviceName,
                             readSerializerClassName,
                             readSerializerEmptyType,
@@ -260,6 +269,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetPropWriteActName(propertyName),
                             projectName,
                             genNamespace,
+                            commonNs,
                             serviceName,
                             readSerializerClassName,
                             readSerializerEmptyType,
@@ -283,6 +293,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetPropReadActName(propertyName),
                             schemaNamer.GetPropWriteActName(propertyName),
                             genNamespace,
+                            commonNs,
                             readSerializerEmptyType,
                             writeSerializerEmptyType,
                             readRespSchema,
@@ -308,6 +319,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.GetPropReadActName(propertyName),
                             schemaNamer.GetPropWriteActName(propertyName),
                             genNamespace,
+                            commonNs,
                             readSerializerEmptyType,
                             writeSerializerEmptyType,
                             readRespSchema,
@@ -351,24 +363,24 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                 case TargetLanguage.CSharp:
                     if (generateServer)
                     {
-                        yield return new DotNetTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(schemaType), projectName, genNamespace, serviceName, serializerClassName, serializerEmptyType, EnvoyGeneratorSupport.GetTypeName(schemaType, format), topicPattern);
+                        yield return new DotNetTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(schemaType), projectName, genNamespace, commonNs, serviceName, serializerClassName, serializerEmptyType, EnvoyGeneratorSupport.GetTypeName(schemaType, format), topicPattern);
                     }
 
                     if (generateClient)
                     {
-                        yield return new DotNetTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(schemaType), projectName, genNamespace, serviceName, serializerClassName, serializerEmptyType, EnvoyGeneratorSupport.GetTypeName(schemaType, format), serviceGroupId, topicPattern);
+                        yield return new DotNetTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(schemaType), projectName, genNamespace, commonNs, serviceName, serializerClassName, serializerEmptyType, EnvoyGeneratorSupport.GetTypeName(schemaType, format), serviceGroupId, topicPattern);
                     }
 
                     break;
                 case TargetLanguage.Rust:
                     if (generateServer)
                     {
-                        yield return new RustTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(schemaType), genNamespace, EnvoyGeneratorSupport.GetTypeName(schemaType, format), topicPattern, schemaType, srcSubdir);
+                        yield return new RustTelemetrySender(eventName, schemaNamer.GetEventSenderBinder(schemaType), genNamespace, commonNs, EnvoyGeneratorSupport.GetTypeName(schemaType, format), topicPattern, schemaType, srcSubdir);
                     }
 
                     if (generateClient)
                     {
-                        yield return new RustTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(schemaType), genNamespace, EnvoyGeneratorSupport.GetTypeName(schemaType, format), serviceGroupId, topicPattern, schemaType, srcSubdir);
+                        yield return new RustTelemetryReceiver(eventName, schemaNamer.GetEventReceiverBinder(schemaType), genNamespace, commonNs, EnvoyGeneratorSupport.GetTypeName(schemaType, format), serviceGroupId, topicPattern, schemaType, srcSubdir);
                     }
 
                     break;
@@ -386,6 +398,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                         projectName,
                         new CodeName(errorSpec.SchemaName),
                         genNamespace,
+                        commonNs,
                         errorSpec.ErrorCodeName != null ? new CodeName(errorSpec.ErrorCodeName) : null,
                         errorSpec.ErrorCodeSchema != null ? new CodeName(errorSpec.ErrorCodeSchema): null,
                         errorSpec.ErrorInfoName != null ? new CodeName(errorSpec.ErrorInfoName) : null,
@@ -398,6 +411,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                     yield return new RustError(
                         new CodeName(errorSpec.SchemaName),
                         genNamespace,
+                        commonNs,
                         errorSpec.Description,
                         errorSpec.MessageField != null ? new CodeName(errorSpec.MessageField) : null,
                         errorSpec.MessageIsRequired,
@@ -417,12 +431,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                         projectName,
                         new CodeName(errorSpec.SchemaName),
                         genNamespace,
+                        commonNs,
                         errorSpec.InnerErrors.Select(kv => (new CodeName(kv.Key), new CodeName(kv.Value))).ToList());
                     break;
                 case TargetLanguage.Rust:
                     yield return new RustAggregateError(
                         new CodeName(errorSpec.SchemaName),
                         genNamespace,
+                        commonNs,
                         errorSpec.InnerErrors.Select(kv => (new CodeName(kv.Key), new CodeName(kv.Value))).ToList(),
                         srcSubdir);
                     break;
@@ -442,6 +458,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                     {
                         yield return new RustSerialization(
                             genNamespace,
+                            commonNs,
                             format,
                             new CodeName(serializableType),
                             srcSubdir);
@@ -472,6 +489,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             schemaNamer.WriteResponderBinder,
                             projectName,
                             genNamespace,
+                            commonNs,
                             serviceName,
                             actionSpecs,
                             propSpecs,
@@ -503,8 +521,8 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                     yield return new DotNetProject(projectName, sdkPath);
                     break;
                 case TargetLanguage.Rust:
-                    yield return new RustIndex(genNamespace, clientFilenames, serverFilenames, sharedFilenames, hiddenFilenames, srcSubdir);
-                    yield return new RustLib(genNamespace, generateProject, srcSubdir);
+                    yield return new RustIndex(genNamespace, commonNs, clientFilenames, serverFilenames, sharedFilenames, hiddenFilenames, srcSubdir);
+                    yield return new RustLib(genNamespace, commonNs, generateProject, srcSubdir);
                     yield return new RustCargoToml(projectName, genFormats, sdkPath, generateProject, srcSubdir);
                     break;
                 default:
@@ -539,7 +557,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
                             StreamReader resourceReader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)!);
 
-                            yield return new ResourceTransform(targetLanguage, projectName, subFolder, resourcePath, resourceFile, ext, resourceReader.ReadToEnd(), srcSubdir);
+                            yield return new ResourceTransform(targetLanguage, commonNs, projectName, subFolder, resourcePath, resourceFile, ext, resourceReader.ReadToEnd(), srcSubdir);
                         }
                     }
                 }

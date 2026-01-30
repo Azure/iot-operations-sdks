@@ -11,13 +11,15 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     {
         private readonly CodeName schemaName;
         private readonly MultiCodeName genNamespace;
+        private readonly MultiCodeName commonNs;
         private readonly List<(CodeName, CodeName)> innerNameSchemas;
         private readonly string srcSubdir;
 
-        public RustAggregateError(CodeName schemaName, MultiCodeName genNamespace, List<(CodeName, CodeName)> innerNameSchemas, string srcSubdir)
+        public RustAggregateError(CodeName schemaName, MultiCodeName genNamespace, MultiCodeName commonNs, List<(CodeName, CodeName)> innerNameSchemas, string srcSubdir)
         {
             this.schemaName = schemaName;
             this.genNamespace = genNamespace;
+            this.commonNs = commonNs;
             this.innerNameSchemas = innerNameSchemas;
             this.srcSubdir = srcSubdir;
         }

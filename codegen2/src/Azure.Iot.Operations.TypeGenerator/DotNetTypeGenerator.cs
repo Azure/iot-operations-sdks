@@ -11,12 +11,12 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         public TargetLanguage TargetLanguage { get => TargetLanguage.CSharp; }
 
-        public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, MultiCodeName genNamespace, SerializationFormat serFormat, string _)
+        public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, MultiCodeName genNamespace, MultiCodeName commonNs, SerializationFormat serFormat, string _)
         {
             ITypeTemplateTransform templateTransform = schemaType switch
             {
                 AliasType aliasType => new DotNetAlias(projectName, genNamespace, aliasType),
-                ObjectType objectType => new DotNetObject(projectName, genNamespace, objectType, serFormat),
+                ObjectType objectType => new DotNetObject(projectName, genNamespace, commonNs, objectType, serFormat),
                 EnumType enumType => new DotNetEnum(projectName, genNamespace, enumType),
                 _ => throw new Exception("unrecognized schema type"),
             };

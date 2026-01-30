@@ -12,10 +12,10 @@ mod <#=Path.GetFileNameWithoutExtension(module)#>;
 pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
 <# if (this.serverModules != null) { #>
-pub use super::common_types::options::{CommandExecutorOptions, TelemetrySenderOptions};
+pub use super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::options::{CommandExecutorOptions, TelemetrySenderOptions};
 <# } #>
 <# if (this.clientModules != null) { #>
-pub use super::common_types::options::{CommandInvokerOptions, TelemetryReceiverOptions};
+pub use super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::options::{CommandInvokerOptions, TelemetryReceiverOptions};
 <# } #>
 <# if (this.clientModules != null) { #>
 

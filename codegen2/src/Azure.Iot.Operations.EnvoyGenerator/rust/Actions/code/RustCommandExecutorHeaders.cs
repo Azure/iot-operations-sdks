@@ -12,6 +12,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly CodeName commandName;
         private readonly CodeName componentName;
         private readonly MultiCodeName genNamespace;
+        private readonly MultiCodeName commonNs;
         private readonly CodeName errorCodeName;
         private readonly CodeName errorCodeSchema;
         private readonly CodeName? errorInfoName;
@@ -23,6 +24,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string commandName,
             string componentName,
             MultiCodeName genNamespace,
+            MultiCodeName commonNs,
             CodeName errorCodeName,
             CodeName errorCodeSchema,
             CodeName? errorInfoName,
@@ -33,6 +35,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.commandName = new CodeName(commandName);
             this.componentName = new CodeName(componentName);
             this.genNamespace = genNamespace;
+            this.commonNs = commonNs;
             this.errorCodeName = errorCodeName;
             this.errorCodeSchema = errorCodeSchema;
             this.errorInfoName = errorInfoName;

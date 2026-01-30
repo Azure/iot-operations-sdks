@@ -11,6 +11,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     public partial class RustIndex : IEnvoyTemplateTransform
     {
         private readonly MultiCodeName genNamespace;
+        private readonly MultiCodeName commonNs;
         private readonly List<string>? clientModules;
         private readonly List<string>? serverModules;
         private readonly List<string> allModules;
@@ -18,6 +19,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
         public RustIndex(
             MultiCodeName genNamespace,
+            MultiCodeName commonNs,
             List<string> clientFilenames,
             List<string> serverFilenames,
             List<string> sharedFilenames,
@@ -25,6 +27,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string srcSubdir)
         {
             this.genNamespace = genNamespace;
+            this.commonNs = commonNs;
             this.clientModules = clientFilenames.Count > 0 ? clientFilenames.Concat(sharedFilenames).Select(f => Path.GetFileNameWithoutExtension(f)).Order().ToList() : null;
             this.serverModules = serverFilenames.Count > 0 ? serverFilenames.Concat(sharedFilenames).Select(f => Path.GetFileNameWithoutExtension(f)).Order().ToList() : null;
             this.allModules = sharedFilenames.Concat(hiddenFilenames).Concat(clientFilenames).Concat(serverFilenames).Select(f => Path.GetFileNameWithoutExtension(f)).Order().ToList();

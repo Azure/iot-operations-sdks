@@ -39,10 +39,10 @@ use super::<#=this.readErrorSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.r
 <# if (this.writeErrorName != null && !this.writeErrorSchema.Equals(this.readErrorSchema)) { #>
 use super::<#=this.writeErrorSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.writeErrorSchema.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
-use super::super::common_types::options::CommandInvokerOptions;
-use super::super::common_types::<#=this.readSerializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.readSerializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
+use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::options::CommandInvokerOptions;
+use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::<#=this.readSerializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.readSerializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
 <# if (!this.readSerializerEmptyType.Equals(this.writeSerializerEmptyType)) { #>
-use super::super::common_types::<#=this.writeSerializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.writeSerializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
+use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::<#=this.writeSerializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.writeSerializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 
 <# if (this.readRespSchema != null) { #>

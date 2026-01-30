@@ -30,7 +30,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write("; DO NOT EDIT. */\r\n\r\n#nullable enable\r\n\r\nusing System.Collections.Generic;\r\nusing" +
                     " Azure.Iot.Operations.Protocol;\r\nusing Azure.Iot.Operations.Protocol.Telemetry;\r" +
                     "\nusing Azure.Iot.Operations.Protocol.Models;\r\nusing ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetNamespaceName(TargetLanguage.CSharp, this.projectName)));
             this.Write(";\r\n\r\nnamespace ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");

@@ -37,12 +37,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write("\r\npub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolE" +
                     "rror;\r\n\r\n");
  if (this.serverModules != null) { 
-            this.Write("pub use super::common_types::options::{CommandExecutorOptions, TelemetrySenderOpt" +
-                    "ions};\r\n");
+            this.Write("pub use super::");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
+            this.Write("::options::{CommandExecutorOptions, TelemetrySenderOptions};\r\n");
  } 
  if (this.clientModules != null) { 
-            this.Write("pub use super::common_types::options::{CommandInvokerOptions, TelemetryReceiverOp" +
-                    "tions};\r\n");
+            this.Write("pub use super::");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
+            this.Write("::options::{CommandInvokerOptions, TelemetryReceiverOptions};\r\n");
  } 
  if (this.clientModules != null) { 
             this.Write("\r\npub mod client {\r\n");

@@ -15,6 +15,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly string writeCommandName;
         private readonly string projectName;
         private readonly MultiCodeName genNamespace;
+        private readonly MultiCodeName commonNs;
         private readonly CodeName serviceName;
         private readonly string readSerializerClassName;
         private readonly EmptyTypeName readSerializerEmptyType;
@@ -35,6 +36,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string writeCommandName,
             string projectName,
             MultiCodeName genNamespace,
+            MultiCodeName commonNs,
             CodeName serviceName,
             string readSerializerClassName,
             EmptyTypeName readSerializerEmptyType,
@@ -54,6 +56,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.writeCommandName = writeCommandName;
             this.projectName = projectName;
             this.genNamespace = genNamespace;
+            this.commonNs = commonNs;
             this.serviceName = serviceName;
             this.readSerializerClassName = readSerializerClassName;
             this.readSerializerEmptyType = readSerializerEmptyType;

@@ -11,12 +11,12 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         public TargetLanguage TargetLanguage { get => TargetLanguage.Rust; }
 
-        public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, MultiCodeName genNamespace, SerializationFormat serFormat, string srcSubdir)
+        public GeneratedItem GenerateTypeFromSchema(SchemaType schemaType, string projectName, MultiCodeName genNamespace, MultiCodeName commonNs, SerializationFormat serFormat, string srcSubdir)
         {
             ITypeTemplateTransform templateTransform = schemaType switch
             {
                 AliasType aliasType => new RustAlias(genNamespace, aliasType, srcSubdir),
-                ObjectType objectType => new RustObject(genNamespace, objectType, allowSkipping: serFormat == SerializationFormat.Json, srcSubdir),
+                ObjectType objectType => new RustObject(genNamespace, commonNs, objectType, allowSkipping: serFormat == SerializationFormat.Json, srcSubdir),
                 EnumType enumType => new RustEnum(genNamespace, enumType, srcSubdir),
                 _ => throw new Exception("unrecognized schema type"),
             };

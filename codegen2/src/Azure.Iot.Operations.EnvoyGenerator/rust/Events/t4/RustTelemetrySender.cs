@@ -48,9 +48,13 @@ use azure_iot_operations_protocol::application::ApplicationContext;
             this.Write(";\r\n");
  } 
  if (this.schemaType is CustomTypeName) { 
-            this.Write("use super::super::common_types::custom_payload::CustomPayload;\r\n");
+            this.Write("use super::super::");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
+            this.Write("::custom_payload::CustomPayload;\r\n");
  } 
-            this.Write("use super::super::common_types::options::TelemetrySenderOptions;\r\n\r\npub type ");
+            this.Write("use super::super::");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
+            this.Write("::options::TelemetrySenderOptions;\r\n\r\npub type ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.messageName.GetTypeName(TargetLanguage.Rust)));
             this.Write(" = telemetry::sender::Message<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaType.GetTypeName(TargetLanguage.Rust)));

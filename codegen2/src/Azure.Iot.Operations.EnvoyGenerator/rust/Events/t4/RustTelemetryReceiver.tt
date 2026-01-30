@@ -15,9 +15,9 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use super::<#=this.schemaType.GetFileName(TargetLanguage.Rust)#>::<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 <# if (this.schemaType is CustomTypeName) { #>
-use super::super::common_types::custom_payload::CustomPayload;
+use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::custom_payload::CustomPayload;
 <# } #>
-use super::super::common_types::options::TelemetryReceiverOptions;
+use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::options::TelemetryReceiverOptions;
 
 pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#> = telemetry::receiver::Message<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>;
 

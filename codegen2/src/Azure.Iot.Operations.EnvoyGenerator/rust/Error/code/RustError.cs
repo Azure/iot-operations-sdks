@@ -10,15 +10,17 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     {
         private readonly CodeName schemaName;
         private readonly MultiCodeName genNamespace;
+        private readonly MultiCodeName commonNs;
         private readonly string description;
         private readonly CodeName? messageField;
         private readonly bool messageIsRequired;
         private readonly string srcSubdir;
 
-        public RustError(CodeName schemaName, MultiCodeName genNamespace, string description, CodeName? messageField, bool messageIsRequired, string srcSubdir)
+        public RustError(CodeName schemaName, MultiCodeName genNamespace, MultiCodeName commonNs, string description, CodeName? messageField, bool messageIsRequired, string srcSubdir)
         {
             this.schemaName = schemaName;
             this.genNamespace = genNamespace;
+            this.commonNs = commonNs;
             this.description = description;
             this.messageField = messageField;
             this.messageIsRequired = messageIsRequired;

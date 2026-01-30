@@ -16,6 +16,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             List<SerializationFormat> serializationFormats,
             TargetLanguage targetLanguage,
             string genNamespace,
+            string commonNs,
             string projectName,
             string? sdkPath,
             List<string> typeFileNames,
@@ -23,7 +24,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             bool generateProject,
             bool defaultImpl)
         {
-            EnvoyTransformFactory envoyFactory = new(targetLanguage, new MultiCodeName(genNamespace), projectName, srcSubdir, defaultImpl);
+            EnvoyTransformFactory envoyFactory = new(targetLanguage, new MultiCodeName(genNamespace), new MultiCodeName(commonNs), projectName, srcSubdir, defaultImpl);
 
             Dictionary<string, IEnvoyTemplateTransform> transforms = new();
             Dictionary<string, ErrorSpec> errorSpecs = new();

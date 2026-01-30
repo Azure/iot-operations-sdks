@@ -11,14 +11,16 @@ namespace Azure.Iot.Operations.TypeGenerator
     {
         private readonly string projectName;
         private readonly MultiCodeName genNamespace;
+        private readonly MultiCodeName commonNs;
         private readonly ObjectType objectType;
         private readonly SerializationFormat serFormat;
         private readonly bool needsNullCheck;
 
-        internal DotNetObject(string projectName, MultiCodeName genNamespace, ObjectType objectType, SerializationFormat serFormat)
+        internal DotNetObject(string projectName, MultiCodeName genNamespace, MultiCodeName commonNs, ObjectType objectType, SerializationFormat serFormat)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
+            this.commonNs = commonNs;
             this.objectType = objectType;
             this.serFormat = serFormat;
             this.needsNullCheck = objectType.FieldInfos.Any(fi => !fi.Value.SchemaType.OrNull && DotNetSchemaSupport.IsNullable(fi.Value.SchemaType));

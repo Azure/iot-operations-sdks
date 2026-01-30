@@ -200,7 +200,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests
             FileInfo? typeNamerFile = commandLine.TypeNamerFile != null ? new FileInfo(Path.GetFullPath($"{namerPath}/{commandLine.TypeNamerFile}")) : null;
             DirectoryInfo outputDir = new DirectoryInfo(commandLine.OutputDir != null ? Path.GetFullPath($"{testCaseSandboxPath}/{commandLine.OutputDir}") : $"{testCaseSandboxPath}/{CommandPerformer.DefaultOutDir}");
             DirectoryInfo workingDir = new DirectoryInfo(commandLine.WorkingDir != null ? Path.GetFullPath($"{outputDir}/{commandLine.WorkingDir}") : $"{outputDir}/{CommandPerformer.DefaultWorkingDir}");
-            string genNamespace = commandLine.GenNamespace ?? CommandPerformer.DefaultNamespace;
 
             return new OptionContainer
             {
@@ -211,7 +210,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests
                 TypeNamerFile = typeNamerFile,
                 OutputDir = outputDir,
                 WorkingDir = workingDir,
-                GenNamespace = genNamespace,
+                GenNamespace = commandLine.GenNamespace,
+                CommonNamespace = commandLine.CommonNamespace,
                 SdkPath = commandLine.SdkPath,
                 Language = commandLine.Language ?? "none",
                 NoProj = commandLine.NoProj,

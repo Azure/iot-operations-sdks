@@ -11,7 +11,7 @@ using System.Collections.Generic;
 <# if (this.serFormat == SerializationFormat.Json) { #>
 using System.Text.Json.Serialization;
 <# } #>
-using <#=this.projectName#>;
+using <#=this.commonNs.GetNamespaceName(TargetLanguage.CSharp, this.projectName)#>;
 
 namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)#>
 {

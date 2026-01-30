@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Models;
-using <#=this.projectName#>;
+using <#=this.commonNs.GetNamespaceName(TargetLanguage.CSharp, this.projectName)#>;
 
 namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)#>
 {

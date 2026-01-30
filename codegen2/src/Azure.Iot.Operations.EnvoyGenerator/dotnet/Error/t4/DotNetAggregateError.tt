@@ -8,7 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using <#=this.projectName#>;
+using <#=this.commonNs.GetNamespaceName(TargetLanguage.CSharp, this.projectName)#>;
 
 namespace <#=this.projectName#>.<#=this.schemaNamespace.GetNamespaceName(TargetLanguage.CSharp)#>
 {

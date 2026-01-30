@@ -25,12 +25,12 @@ use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
 <# if (this.reqSchema is CustomTypeName || this.respSchema is CustomTypeName) { #>
-use super::super::common_types::custom_payload::CustomPayload;
+use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::custom_payload::CustomPayload;
 <# } #>
 <# if (this.reqSchema == null || this.respSchema == null) { #>
-use super::super::common_types::<#=this.serializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
+use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
-use super::super::common_types::options::CommandInvokerOptions;
+use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::options::CommandInvokerOptions;
 <# if (this.reqSchema is CodeName) { #>
 use super::<#=this.reqSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>

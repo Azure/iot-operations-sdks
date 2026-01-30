@@ -16,7 +16,7 @@ using System;
 <# if (codeName != null) { #>
 using System.Diagnostics.CodeAnalysis;
 <# } #>
-using <#=this.projectName#>;
+using <#=this.commonNs.GetNamespaceName(TargetLanguage.CSharp, this.projectName)#>;
 
 namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)#>
 {

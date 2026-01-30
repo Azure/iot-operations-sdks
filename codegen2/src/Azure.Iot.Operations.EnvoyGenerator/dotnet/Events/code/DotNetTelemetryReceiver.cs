@@ -11,6 +11,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly CodeName componentName;
         private readonly string projectName;
         private readonly MultiCodeName genNamespace;
+        private readonly MultiCodeName commonNs;
         private readonly CodeName serviceName;
         private readonly string serializerClassName;
         private readonly ITypeName schemaType;
@@ -22,6 +23,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string componentName,
             string projectName,
             MultiCodeName genNamespace,
+            MultiCodeName commonNs,
             CodeName serviceName,
             string serializerClassName,
             EmptyTypeName serializerEmptyType,
@@ -33,6 +35,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.componentName = new CodeName(componentName);
             this.projectName = projectName;
             this.genNamespace = genNamespace;
+            this.commonNs = commonNs;
             this.serviceName = serviceName;
             this.serializerClassName = string.Format(serializerClassName, $"<{schemaType.GetTypeName(TargetLanguage.CSharp)}, {serializerEmptyType.GetTypeName(TargetLanguage.CSharp)}>");
             this.schemaType = schemaType;

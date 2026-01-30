@@ -14,11 +14,13 @@ namespace Azure.Iot.Operations.CodeGeneration
 
         public MultiCodeName(string givenName = "")
         {
-            nameComponents = givenName.Split('.').Select(c => new CodeName(c)).ToList();
+            nameComponents = givenName == string.Empty ? new() : givenName.Split('.').Select(c => new CodeName(c)).ToList();
         }
 
         public string GetNamespaceName(TargetLanguage language) => string.Join('.', nameComponents.Select(c => c.GetTypeName(language)));
 
-        public string GetFolderName(TargetLanguage language) => string.Join('.', nameComponents.Select(c => c.GetFolderName(language)));
+        public string GetNamespaceName(TargetLanguage language, string prefix) => nameComponents.Count == 0 ? prefix : $"{prefix}.{GetNamespaceName(language)}";
+
+        public string GetFolderName(TargetLanguage language) => string.Join('/', nameComponents.Select(c => c.GetFolderName(language)));
     }
 }
