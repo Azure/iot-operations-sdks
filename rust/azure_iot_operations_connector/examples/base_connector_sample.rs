@@ -475,40 +475,38 @@ async fn run_management_action(
             request_res = recv_request(&mut stale_executor), if stale_executor.is_some() => {
                 // TODO: this branch needs to know the old definition and the old management_action_valid value
                 // TODO: maybe draining is a rare case because usually there wouldn't be anything in this queue if commands are processed in another task as they should be
-                match request_res {
+                if let Some(request) = request_res {
                     // WARNING: DON'T REPORT STATUS/HEALTH/MESSAGE SCHEMAS HERE - THIS IS FOR A STALE DEFINITION
-                    Some(request) => {
-                        log::info!("{log_identifier} Management action request received: {:?}", request.raw_payload());
+                    log::info!("{log_identifier} Management action request received: {:?}", request.raw_payload());
 
-                        let response = if management_action_valid {
-                            // Here we would process the management action request
-                            // For this example, we simply log it and respond that it succeeded
-                            ManagementActionResponseBuilder::default()
-                                .payload(vec![])
-                                .content_type("application/json".to_string())
-                                .build().unwrap()
-                        } else {
-                            // If the management action is not valid, we respond with an application error
-                            ManagementActionResponseBuilder::default()
-                                .application_error(ManagementActionApplicationError {
-                                    application_error_code: "ManagementActionInvalidState".to_string(),
-                                    application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
-                                })
-                                .payload(vec![])
-                                .content_type("application/json".to_string())
-                                .build().unwrap()
-                        };
+                    let response = if management_action_valid {
+                        // Here we would process the management action request
+                        // For this example, we simply log it and respond that it succeeded
+                        ManagementActionResponseBuilder::default()
+                            .payload(vec![])
+                            .content_type("application/json".to_string())
+                            .build().unwrap()
+                    } else {
+                        // If the management action is not valid, we respond with an application error
+                        ManagementActionResponseBuilder::default()
+                            .application_error(ManagementActionApplicationError {
+                                application_error_code: "ManagementActionInvalidState".to_string(),
+                                application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
+                            })
+                            .payload(vec![])
+                            .content_type("application/json".to_string())
+                            .build().unwrap()
+                    };
 
-                        if let Err(e) = request.complete(response).await {
-                            log::error!("{log_identifier} Error completing management action request: {e}");
-                        } else {
-                            log::info!("{log_identifier} Management action request completed");
-                        }
-                    },
-                    None => {
-                        log::info!("{log_identifier} Old management action executor completed");
-                        stale_executor = None;
+                    if let Err(e) = request.complete(response).await {
+                        log::error!("{log_identifier} Error completing management action request: {e}");
+                    } else {
+                        log::info!("{log_identifier} Management action request completed");
                     }
+                }
+                else {
+                    log::info!("{log_identifier} Old management action executor completed");
+                    stale_executor = None;
                 }
             },
             // Listen for a management action update notifications
@@ -565,42 +563,39 @@ async fn run_management_action(
                 }
             },
             request_res = recv_request(&mut current_executor), if current_executor.is_some() => {
-                match request_res {
-                    Some(request) => {
-                        log::info!("{log_identifier} Management action request received: {:?}", request.raw_payload());
+                if let Some(request) = request_res {
+                    log::info!("{log_identifier} Management action request received: {:?}", request.raw_payload());
 
-                        let response = if management_action_valid {
-                            // Here we would process the management action request in another task if it has any async work to do
-                            // For this example, we simply log it and respond that it succeeded
-                            ManagementActionResponseBuilder::default()
-                                .payload(vec![])
-                                .content_type("application/json".to_string())
-                                .cloud_event(None)
-                                .build().unwrap()
-                        } else {
-                            // If the management action is not valid, we respond with an application error
-                            ManagementActionResponseBuilder::default()
-                                .application_error(ManagementActionApplicationError {
-                                    application_error_code: "ManagementActionInvalidState".to_string(),
-                                    application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
-                                })
-                                .payload(vec![])
-                                .content_type("application/json".to_string())
-                                .cloud_event(None)
-                                .build().unwrap()
-                        };
+                    let response = if management_action_valid {
+                        // Here we would process the management action request in another task if it has any async work to do
+                        // For this example, we simply log it and respond that it succeeded
+                        ManagementActionResponseBuilder::default()
+                            .payload(vec![])
+                            .content_type("application/json".to_string())
+                            .cloud_event(None)
+                            .build().unwrap()
+                    } else {
+                        // If the management action is not valid, we respond with an application error
+                        ManagementActionResponseBuilder::default()
+                            .application_error(ManagementActionApplicationError {
+                                application_error_code: "ManagementActionInvalidState".to_string(),
+                                application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
+                            })
+                            .payload(vec![])
+                            .content_type("application/json".to_string())
+                            .cloud_event(None)
+                            .build().unwrap()
+                    };
 
-                        if let Err(e) = request.complete(response).await {
-                            log::error!("{log_identifier} Error completing management action request: {e}");
-                        } else {
-                            log::info!("{log_identifier} Management action request completed");
-                            management_action_reporter.report_health_event(RuntimeHealthEvent::Available);
-                        }
-                    },
-                    None => {
-                        log::warn!("{log_identifier} Management action executor closed");
-                        current_executor = None;
+                    if let Err(e) = request.complete(response).await {
+                        log::error!("{log_identifier} Error completing management action request: {e}");
+                    } else {
+                        log::info!("{log_identifier} Management action request completed");
+                        management_action_reporter.report_health_event(RuntimeHealthEvent::Available);
                     }
+                } else {
+                    log::warn!("{log_identifier} Management action executor closed");
+                    current_executor = None;
                 }
             },
         }
