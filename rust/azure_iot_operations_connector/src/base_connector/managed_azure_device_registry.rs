@@ -71,6 +71,7 @@ pub enum ModifyResult {
     NotModified,
 }
 
+// MARK: Device
 /// A cloneable status reporter for Device and Endpoint status reporting.
 ///
 /// This provides a way to report Device and Endpoint status changes from outside the [`DeviceEndpointClient`].
@@ -959,7 +960,7 @@ impl DeviceEndpointClient {
         (*self.status.read().await).clone()
     }
 
-    // Returns a clone of the current device specification
+    /// Returns a clone of the current device specification
     /// # Panics
     /// if the specification mutex has been poisoned, which should not be possible
     #[must_use]
@@ -1342,7 +1343,7 @@ impl AssetClient {
             let mut temp_management_action_hashmap = asset_client.management_action_hashmap.clone();
             asset_client.handle_management_action_updates(
                 &mut temp_management_action_hashmap,
-                &asset,
+                &asset.management_groups,
                 &mut updates,
             );
             asset_client.management_action_hashmap = temp_management_action_hashmap;
@@ -1400,14 +1401,13 @@ impl AssetClient {
                 watch::Sender<ManagementActionUpdateNotification>,
             >,
         >,
-        updated_asset: &Asset,
+        updated_management_groups: &[adr_models::ManagementGroup],
         updates: &mut AssetComponentUpdates,
     ) {
         // remove the management actions that are no longer present in the new asset definition.
         // This triggers deletion notification since this drops the update sender.
         management_action_hashmap.retain(|management_group_name, action_map| {
-            if let Some(updated_management_group) = updated_asset
-                .management_groups
+            if let Some(updated_management_group) = updated_management_groups
                 .iter()
                 .find(|management_group| management_group.name == *management_group_name)
             {
@@ -1424,8 +1424,7 @@ impl AssetClient {
         });
 
         // For all received actions, check if the existing action needs to be updated or if a new one needs to be created
-        for received_management_group in &updated_asset.management_groups {
-            // Creates a [`ManagementActionSpecification`] for each management action in the management group
+        for received_management_group in updated_management_groups {
             for received_management_action in &received_management_group.actions {
                 let update_notification = ManagementActionUpdateNotification {
                     definition: (
@@ -1808,7 +1807,7 @@ impl AssetClient {
         let mut temp_management_action_hashmap = self.management_action_hashmap.clone();
         self.handle_management_action_updates(
             &mut temp_management_action_hashmap,
-            &updated_asset,
+            &updated_asset.management_groups,
             &mut updates,
         );
 
@@ -1863,7 +1862,6 @@ impl AssetClient {
         {
             // send update to the management action
             let _ = management_action_update_tx.send(management_action_update_notification).inspect_err(|tokio::sync::watch::error::SendError(ManagementActionUpdateNotification {definition, ..})| {
-                // TODO: should this trigger the ManagementActionClient create flow, or is this just indicative of an application bug?
                 log::warn!(
                     "Update received for management action {} on asset {:?}, but ManagementActionClient has been dropped",
                     definition.command_name(),
@@ -2007,7 +2005,7 @@ impl AssetClient {
         (*self.status.read().await).clone()
     }
 
-    // Returns a clone of the current device specification
+    /// Returns a clone of the current device specification
     /// # Panics
     /// if the device specification mutex has been poisoned, which should not be possible
     #[must_use]
@@ -2015,9 +2013,7 @@ impl AssetClient {
         (*self.device_specification.read().unwrap()).clone()
     }
 
-    // Returns a clone of the current device status
-    /// # Panics
-    /// if the device status mutex has been poisoned, which should not be possible
+    /// Returns a clone of the current device status
     #[must_use]
     pub async fn device_status(&self) -> DeviceEndpointStatus {
         (*self.device_status.read().await).clone()
@@ -2356,7 +2352,6 @@ impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
                 &self.asset_ref,
                 asset_status_to_report,
                 &mut status_write_guard,
-                // &self.asset_component_ref,
                 modify_result,
                 "AssetComponentStatusReporter::report_asset_component_status_if_modified",
             )
@@ -2456,7 +2451,7 @@ impl AssetComponentRef for DataOperationRef {
             ),
         }
 
-        log::debug!("Reporting data operation {:?} status from app", self);
+        log::debug!("Reporting data operation {self:?} status from app");
 
         AssetStatusReporter::internal_report_status(
             adr_asset_status,
@@ -3428,7 +3423,7 @@ impl DataOperationClient {
         (*self.asset_status.read().await).clone()
     }
 
-    // Returns a clone of the current device specification
+    /// Returns a clone of the current device specification
     /// # Panics
     /// if the device specification mutex has been poisoned, which should not be possible
     #[must_use]
@@ -3436,9 +3431,7 @@ impl DataOperationClient {
         (*self.device_specification.read().unwrap()).clone()
     }
 
-    // Returns a clone of the current device status
-    /// # Panics
-    /// if the device status mutex has been poisoned, which should not be possible
+    /// Returns a clone of the current device status
     #[must_use]
     pub async fn device_status(&self) -> DeviceEndpointStatus {
         (*self.device_status.read().await).clone()
@@ -3649,18 +3642,19 @@ pub enum ManagementActionNotification {
     Deleted,
 }
 
+/// Enum to indicate whether the schema being reported is for a request or response
 enum ActionSchema {
     Request,
     Response,
 }
 
-/// Azure Device Registry Management Action Client represents a Management Action
+/// Azure Device Registry Management Action Client represents a Management Action and its Management Group
 /// and includes additional functionality to report status, report message schemas, receive updates,
 /// and receive execution requests for the Management Action.
 pub struct ManagementActionClient {
     /// Management action, management group, asset, device, and inbound endpoint names
     management_action_ref: ManagementActionRef,
-    // Management Action Definition
+    // Management Action and Management Group Definition
     definition: ManagementActionSpecification,
     /// Current status for the Asset
     asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
@@ -3993,26 +3987,7 @@ impl ManagementActionClient {
         // no await points beyond this point, so this is safe
         self.definition = update_notification.definition;
 
-        // create new executor, since topics have changed
-
-        // // technically because these fields are under the lock, if they change, we won't update them unless there's an action update
-        // // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
-        // let (device_uuid, device_external_device_id) = {
-        //     let device_spec = self.device_specification.read().unwrap();
-        //     (
-        //         device_spec.uuid.clone(),
-        //         device_spec.external_device_id.clone(),
-        //     )
-        // };
-        // let (asset_uuid, asset_external_asset_id) = {
-        //     let asset_spec = self.asset_specification.read().unwrap();
-        //     (
-        //         asset_spec.uuid.clone(),
-        //         asset_spec.external_asset_id.clone(),
-        //     )
-        // };
-
-        // shut down the current executor if it exists
+        // shut down the current executor if it exists and create new executor, since topics have changed
         self.executor_shutdown_notifier
             .as_ref()
             .inspect(|notify| notify.notify_one());
@@ -4126,7 +4101,7 @@ impl ManagementActionClient {
         (*self.asset_status.read().await).clone()
     }
 
-    // Returns a clone of the current device specification
+    /// Returns a clone of the current device specification
     /// # Panics
     /// if the device specification mutex has been poisoned, which should not be possible
     #[must_use]
@@ -4134,9 +4109,7 @@ impl ManagementActionClient {
         (*self.device_specification.read().unwrap()).clone()
     }
 
-    // Returns a clone of the current device status
-    /// # Panics
-    /// if the device status mutex has been poisoned, which should not be possible
+    /// Returns a clone of the current device status
     #[must_use]
     pub async fn device_status(&self) -> DeviceEndpointStatus {
         (*self.device_status.read().await).clone()

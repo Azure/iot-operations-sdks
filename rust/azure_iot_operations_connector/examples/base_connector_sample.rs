@@ -302,241 +302,6 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
     }
 }
 
-async fn run_management_action(
-    log_identifier: String,
-    mut management_action_client: ManagementActionClient,
-    initial_executor: Result<ManagementActionExecutor, AdrConfigError>,
-) {
-    // Get the status reporter for this management action - create once and reuse
-    let mut management_action_reporter = management_action_client.get_status_reporter();
-    let (mut current_executor, mut last_reported_management_action_status) = match initial_executor
-    {
-        Ok(executor) => (Some(executor), Ok(())),
-        Err(e) => (None, Err(e)),
-    };
-    let mut stale_executor: Option<ManagementActionExecutor> = None;
-    let mut is_sdk_error_causing_invalid_state = last_reported_management_action_status.is_err();
-    let mut management_action_valid = last_reported_management_action_status.is_ok();
-    // now we should update the status of the management action, using the initial_status since there's nothing else we need to validate ourselves
-    if let Err(e) = management_action_reporter
-        .report_status_if_modified(report_status_if_changed!(
-            &log_identifier,
-            last_reported_management_action_status
-        ))
-        .await
-    {
-        log::error!("{log_identifier} Error reporting management action status: {e}");
-    }
-
-    loop {
-        tokio::select! {
-            biased;
-            // drain any pending requests from the out of date executor definition. Bias this above receiving new notifications
-            // so that we don't have to ever store more than one stale executor at a time
-            request_res = recv_request(&mut stale_executor, "stale_executor"), if stale_executor.is_some() => {
-                // TODO: this branch needs to know the old definition and the old management_action_valid value
-                // TODO: maybe draining is a rare case because usually there wouldn't be anything in this queue if commands are processed in another task as they should be
-                match request_res {
-                    // WARNING: DON'T REPORT STATUS/HEALTH/MESSAGE SCHEMAS HERE - THIS IS FOR A STALE DEFINITION
-                    Some(request) => {
-                        log::info!("{log_identifier} Management action request received: {:?}", request.payload());
-
-                        let response = if management_action_valid {
-                            // Here we would process the management action request
-                            // For this example, we simply log it and respond that it succeeded
-                            ManagementActionResponseBuilder::default()
-                                .payload(vec![])
-                                .content_type("application/json".to_string())
-                                .build().unwrap()
-                        } else {
-                            // If the management action is not valid, we respond with an application error
-                            ManagementActionResponseBuilder::default()
-                                .application_error(ManagementActionApplicationError {
-                                    application_error_code: "ManagementActionInvalidState".to_string(),
-                                    application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
-                                })
-                                .payload(vec![])
-                                .content_type("application/json".to_string())
-                                .build().unwrap()
-                        };
-
-                        if let Err(e) = request.complete(response).await {
-                            log::error!("{log_identifier} Error completing management action request: {e}");
-                        } else {
-                            log::info!("{log_identifier} Management action request completed");
-                        }
-                    },
-                    None => {
-                        log::info!("{log_identifier} Old management action executor completed");
-                        stale_executor = None;
-                    }
-                }
-            },
-            // Listen for a management action update notifications
-            res = management_action_client.recv_notification() => {
-                // Pause reporting and refresh to the new version before processing the update
-                management_action_reporter.pause_and_refresh_health_version();
-                match res {
-                    ManagementActionNotification::AssetUpdated(Ok(())) => {
-                        log::info!("{log_identifier} Asset updated for {:?}", management_action_client.management_action_ref());
-                        // If the previous Err was detected by the SDK, then this Asset(Ok()) indicates the invalid state has been resolved
-                        if is_sdk_error_causing_invalid_state {
-                            last_reported_management_action_status = Ok(());
-                            management_action_valid = last_reported_management_action_status.is_ok();
-                            is_sdk_error_causing_invalid_state = false;
-                        }
-                        // Update the local schema reference, since it will have been cleared by the version update
-                        // local_schema_reference = None;
-                    },
-                    ManagementActionNotification::ManagementActionUpdated(Ok(())) => {
-                        log::info!("{log_identifier} Management action updated");
-
-                        is_sdk_error_causing_invalid_state = false;
-                        last_reported_management_action_status = Ok(());
-                        management_action_valid = last_reported_management_action_status.is_ok();
-                        // Update the local schema reference, since it will have been cleared by the version update
-                        // local_schema_reference = None;
-                    },
-                    ManagementActionNotification::ManagementActionNewExecutor(new_executor) => {
-                        log::info!("{log_identifier} Management action updated with new executor");
-
-                        is_sdk_error_causing_invalid_state = false;
-                        last_reported_management_action_status = Ok(());
-                        management_action_valid = last_reported_management_action_status.is_ok();
-                        // Update the local schema reference, since it will have been cleared by the version update
-                        // local_schema_reference = None;
-                        // move the current executor to the stale marker so we can drain any pending requests
-                        // TODO: rather than having a branch for the stale executor, should we just drain it here?
-                        // If the application is executing in a separate task, there really shouldn't be a build up to drain anyways
-                        stale_executor = current_executor.take();
-                        current_executor = new_executor.ok();
-                    },
-                    ManagementActionNotification::AssetUpdated(Err(e)) |
-                    ManagementActionNotification::ManagementActionUpdated(Err(e)) => {
-                        log::warn!("{log_identifier} Management action has invalid update. Wait for new management action update. {e}");
-                        is_sdk_error_causing_invalid_state = true;
-                        last_reported_management_action_status = Err(e);
-                        management_action_valid = false;
-                    },
-                    ManagementActionNotification::Deleted => {
-                        log::warn!("{log_identifier} Management action has been deleted. No more management action updates will be received");
-                        break;
-                    }
-                }
-                // Report the new management action status (needed for all cases other than deletion)
-                if let Err(e) = management_action_reporter
-                    .report_status_if_modified(report_status_if_changed!(&log_identifier, last_reported_management_action_status))
-                    .await
-                {
-                    log::error!("{log_identifier} Error reporting management action status: {e}");
-                }
-            },
-            request_res = recv_request(&mut current_executor, "current_executor"), if current_executor.is_some() => {
-                match request_res {
-                    Some(request) => {
-                        log::info!("{log_identifier} Management action request received: {:?}", request.payload());
-
-                        let response = if management_action_valid {
-                            // Here we would process the management action request
-                            // For this example, we simply log it and respond that it succeeded
-                            ManagementActionResponseBuilder::default()
-                                .payload(vec![])
-                                .content_type("application/json".to_string())
-                                .build().unwrap()
-                        } else {
-                            // If the management action is not valid, we respond with an application error
-                            ManagementActionResponseBuilder::default()
-                                .application_error(ManagementActionApplicationError {
-                                    application_error_code: "ManagementActionInvalidState".to_string(),
-                                    application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
-                                })
-                                .payload(vec![])
-                                .content_type("application/json".to_string())
-                                .build().unwrap()
-                        };
-
-                        if let Err(e) = request.complete(response).await {
-                            log::error!("{log_identifier} Error completing management action request: {e}");
-                        } else {
-                            log::info!("{log_identifier} Management action request completed");
-                            management_action_reporter.report_health_event(RuntimeHealthEvent::Available);
-                        }
-                    },
-                    None => {
-                        log::warn!("{log_identifier} Management action executor closed");
-                        current_executor = None;
-                    }
-                }
-            },
-
-            // _ = timer.tick(), if dataset_valid => {
-            //     let sample_data = mock_received_data(count);
-
-            //     let current_message_schema =
-            //         derived_json::create_schema(&sample_data).ok();
-            //     // Report schema only if there isn't already one
-            //     match data_operation_client
-            //         .report_message_schema_if_modified(|current_schema_reference| {
-            //             // Only report schema if there isn't already one, or if schema has changed
-            //             if local_schema_reference.is_none()
-            //                 || current_schema_reference.is_none()
-            //                 || current_schema_reference != local_schema_reference.as_ref()
-            //                 || current_message_schema != local_message_schema
-            //             {
-            //                 current_message_schema.clone()
-            //             } else {
-            //                 None
-            //             }
-            //         })
-            //         .await
-            //     {
-            //         Ok(status_reported) => {
-            //             match status_reported {
-            //                 SchemaModifyResult::Reported(schema_ref) => {
-            //                     local_message_schema = current_message_schema;
-            //                     local_schema_reference = Some(schema_ref);
-
-            //                     log::info!("{log_identifier} Message Schema reported successfully: {local_schema_reference:?}");
-            //                 }
-            //                 SchemaModifyResult::NotModified => {
-            //                     log::info!("{log_identifier} Message Schema already exists, not reporting");
-            //                 }
-            //             }
-            //         }
-            //         Err(e) => {
-            //             log::error!("{log_identifier} Error reporting message schema: {e}");
-            //             continue; // Can't forward data without a schema reported
-            //         }
-            //     }
-
-            //     match data_operation_client.forward_data(sample_data).await {
-            //         Ok(()) => {
-            //             log::info!(
-            //                 "{log_identifier} data {count} forwarded"
-            //             );
-            //             count += 1;
-            //         }
-            //         Err(e) => log::error!("{log_identifier} error forwarding data: {e}"),
-            //     }
-            // }
-        }
-    }
-}
-
-// async fn recv_request(log_identifier: &str, executor: &mut Option<ManagementActionExecutor>) -> Option<ManagementActionRequest> {
-async fn recv_request(
-    executor: &mut Option<ManagementActionExecutor>,
-    log_identifier: &str,
-) -> Option<ManagementActionRequest> {
-    if let Some(ex) = executor {
-        log::info!("{log_identifier} awaiting request");
-        ex.recv_request().await
-    } else {
-        log::info!("{log_identifier} executor none");
-        None
-    }
-}
-
 /// Note, this function takes in a `DataOperationClient`, but we know it is specifically a `Dataset`
 /// because we already filtered out non-dataset `DataOperationClient`s in the `run_asset` function.
 async fn run_dataset(
@@ -673,6 +438,182 @@ async fn run_dataset(
                 }
             }
         }
+    }
+}
+
+async fn run_management_action(
+    log_identifier: String,
+    mut management_action_client: ManagementActionClient,
+    initial_executor: Result<ManagementActionExecutor, AdrConfigError>,
+) {
+    // Get the status reporter for this management action
+    let mut management_action_reporter = management_action_client.get_status_reporter();
+    let (mut current_executor, mut last_reported_management_action_status) = match initial_executor
+    {
+        Ok(executor) => (Some(executor), Ok(())),
+        Err(e) => (None, Err(e)),
+    };
+    let mut stale_executor: Option<ManagementActionExecutor> = None;
+    let mut is_sdk_error_causing_invalid_state = last_reported_management_action_status.is_err();
+    let mut management_action_valid = last_reported_management_action_status.is_ok();
+    // now we should update the status of the management action, using the initial_status since there's nothing else we need to validate ourselves
+    if let Err(e) = management_action_reporter
+        .report_status_if_modified(report_status_if_changed!(
+            &log_identifier,
+            last_reported_management_action_status
+        ))
+        .await
+    {
+        log::error!("{log_identifier} Error reporting management action status: {e}");
+    }
+
+    loop {
+        tokio::select! {
+            biased;
+            // drain any pending requests from the out of date executor definition. Bias this above receiving new notifications
+            // so that we don't have to ever store more than one stale executor at a time
+            request_res = recv_request(&mut stale_executor), if stale_executor.is_some() => {
+                // TODO: this branch needs to know the old definition and the old management_action_valid value
+                // TODO: maybe draining is a rare case because usually there wouldn't be anything in this queue if commands are processed in another task as they should be
+                match request_res {
+                    // WARNING: DON'T REPORT STATUS/HEALTH/MESSAGE SCHEMAS HERE - THIS IS FOR A STALE DEFINITION
+                    Some(request) => {
+                        log::info!("{log_identifier} Management action request received: {:?}", request.raw_payload());
+
+                        let response = if management_action_valid {
+                            // Here we would process the management action request
+                            // For this example, we simply log it and respond that it succeeded
+                            ManagementActionResponseBuilder::default()
+                                .payload(vec![])
+                                .content_type("application/json".to_string())
+                                .build().unwrap()
+                        } else {
+                            // If the management action is not valid, we respond with an application error
+                            ManagementActionResponseBuilder::default()
+                                .application_error(ManagementActionApplicationError {
+                                    application_error_code: "ManagementActionInvalidState".to_string(),
+                                    application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
+                                })
+                                .payload(vec![])
+                                .content_type("application/json".to_string())
+                                .build().unwrap()
+                        };
+
+                        if let Err(e) = request.complete(response).await {
+                            log::error!("{log_identifier} Error completing management action request: {e}");
+                        } else {
+                            log::info!("{log_identifier} Management action request completed");
+                        }
+                    },
+                    None => {
+                        log::info!("{log_identifier} Old management action executor completed");
+                        stale_executor = None;
+                    }
+                }
+            },
+            // Listen for a management action update notifications
+            res = management_action_client.recv_notification() => {
+                // Pause reporting and refresh to the new version before processing the update
+                management_action_reporter.pause_and_refresh_health_version();
+                match res {
+                    ManagementActionNotification::AssetUpdated(Ok(())) => {
+                        log::info!("{log_identifier} Asset updated for {:?}", management_action_client.management_action_ref());
+                        // If the previous Err was detected by the SDK, then this Asset(Ok()) indicates the invalid state has been resolved
+                        if is_sdk_error_causing_invalid_state {
+                            last_reported_management_action_status = Ok(());
+                            management_action_valid = last_reported_management_action_status.is_ok();
+                            is_sdk_error_causing_invalid_state = false;
+                        }
+                    },
+                    ManagementActionNotification::ManagementActionUpdated(Ok(())) => {
+                        log::info!("{log_identifier} Management action updated");
+
+                        is_sdk_error_causing_invalid_state = false;
+                        last_reported_management_action_status = Ok(());
+                        management_action_valid = last_reported_management_action_status.is_ok();
+                    },
+                    ManagementActionNotification::ManagementActionNewExecutor(new_executor) => {
+                        log::info!("{log_identifier} Management action updated with new executor");
+
+                        is_sdk_error_causing_invalid_state = false;
+                        last_reported_management_action_status = Ok(());
+                        management_action_valid = last_reported_management_action_status.is_ok();
+                        // move the current executor to the stale marker so we can drain any pending requests
+                        // TODO: rather than having a branch for the stale executor, should we just drain it here?
+                        // If the application is executing in a separate task, there really shouldn't be a build up to drain anyways
+                        stale_executor = current_executor.take();
+                        current_executor = new_executor.ok();
+                    },
+                    ManagementActionNotification::AssetUpdated(Err(e)) |
+                    ManagementActionNotification::ManagementActionUpdated(Err(e)) => {
+                        log::warn!("{log_identifier} Management action has invalid update. Wait for new management action update. {e}");
+                        is_sdk_error_causing_invalid_state = true;
+                        last_reported_management_action_status = Err(e);
+                        management_action_valid = false;
+                    },
+                    ManagementActionNotification::Deleted => {
+                        log::warn!("{log_identifier} Management action has been deleted. No more management action updates will be received");
+                        break;
+                    }
+                }
+                // Report the new management action status (needed for all cases other than deletion)
+                if let Err(e) = management_action_reporter
+                    .report_status_if_modified(report_status_if_changed!(&log_identifier, last_reported_management_action_status))
+                    .await
+                {
+                    log::error!("{log_identifier} Error reporting management action status: {e}");
+                }
+            },
+            request_res = recv_request(&mut current_executor), if current_executor.is_some() => {
+                match request_res {
+                    Some(request) => {
+                        log::info!("{log_identifier} Management action request received: {:?}", request.raw_payload());
+
+                        let response = if management_action_valid {
+                            // Here we would process the management action request in another task if it has any async work to do
+                            // For this example, we simply log it and respond that it succeeded
+                            ManagementActionResponseBuilder::default()
+                                .payload(vec![])
+                                .content_type("application/json".to_string())
+                                .cloud_event(None)
+                                .build().unwrap()
+                        } else {
+                            // If the management action is not valid, we respond with an application error
+                            ManagementActionResponseBuilder::default()
+                                .application_error(ManagementActionApplicationError {
+                                    application_error_code: "ManagementActionInvalidState".to_string(),
+                                    application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
+                                })
+                                .payload(vec![])
+                                .content_type("application/json".to_string())
+                                .cloud_event(None)
+                                .build().unwrap()
+                        };
+
+                        if let Err(e) = request.complete(response).await {
+                            log::error!("{log_identifier} Error completing management action request: {e}");
+                        } else {
+                            log::info!("{log_identifier} Management action request completed");
+                            management_action_reporter.report_health_event(RuntimeHealthEvent::Available);
+                        }
+                    },
+                    None => {
+                        log::warn!("{log_identifier} Management action executor closed");
+                        current_executor = None;
+                    }
+                }
+            },
+        }
+    }
+}
+
+async fn recv_request(
+    executor: &mut Option<ManagementActionExecutor>,
+) -> Option<ManagementActionRequest> {
+    if let Some(ex) = executor {
+        ex.recv_request().await
+    } else {
+        None
     }
 }
 

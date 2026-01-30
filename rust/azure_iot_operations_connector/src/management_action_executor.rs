@@ -38,7 +38,7 @@ impl ManagementActionExecutor {
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         let request_topic_pattern = if let Some(topic) = topic.as_ref().or(default_topic.as_ref()) {
-            // TODO: if using default, ensure it has the correct token
+            // TODO: ensure topic has the correct tokens
             topic.clone()
         } else {
             return Err(AdrConfigError {
@@ -141,7 +141,7 @@ impl ManagementActionExecutor {
                             }
                             // drain next request, or retry shutting down again if none
                             match self.executor.recv().await {
-                                Some(Ok(request)) => return Some(ManagementActionRequest { request: request }),
+                                Some(Ok(request)) => return Some(ManagementActionRequest { request }),
                                 Some(Err(_)) | None => {
                                     if !keep_going {
                                         // if we've already tried to shutdown 10 times, Some(Err(_)) isn't really a scenario that should happen,
@@ -224,9 +224,24 @@ impl ManagementActionRequest {
         self.request.is_cancelled()
     }
 
-    /// Payload of the request.
-    pub fn payload(&self) -> &BypassPayload {
+    /// Payload of the request, with the content type and format indicator.
+    pub fn serialized_payload(&self) -> &BypassPayload {
         &self.request.payload
+    }
+
+    /// Raw bytes of the payload of the request.
+    pub fn raw_payload(&self) -> &[u8] {
+        &self.request.payload.payload
+    }
+
+    /// Content type of the request payload.
+    pub fn content_type(&self) -> &String {
+        &self.request.payload.content_type
+    }
+
+    /// Format indicator of the request payload.
+    pub fn format_indicator(&self) -> &FormatIndicator {
+        &self.request.payload.format_indicator
     }
 
     // this will contain ARM correlation ID (likely x-ms-correlation-request-id)
@@ -244,6 +259,11 @@ impl ManagementActionRequest {
     pub fn invoker_id(&self) -> &Option<String> {
         &self.request.invoker_id
     }
+
+    /// Resolved static and dynamic topic tokens from the incoming request's topic.
+    pub fn topic_tokens(&self) -> &HashMap<String, String> {
+        &self.request.topic_tokens
+    }
 }
 
 /// Represents an application error to include in a management action response
@@ -251,7 +271,7 @@ impl ManagementActionRequest {
 pub struct ManagementActionApplicationError {
     /// Application error code to include in the response headers
     pub application_error_code: String,
-    /// Application error payload to include in the response headers
+    /// Application error payload to include in the response headers. May be an empty string.
     #[builder(default)]
     pub application_error_payload: String,
 }
@@ -295,6 +315,17 @@ impl Default for ManagementActionResponseBuilder {
 }
 
 impl ManagementActionResponseBuilder {
+    /// Payload of the response, with the content type and format indicator.
+    ///
+    /// Either this function or `payload()`, `content_type()`, and `format_indicator()` may be called to set these fields.
+    /// Whatever is called last takes precedence.
+    pub fn serialized_payload(&mut self, serialized_payload: BypassPayload) -> &mut Self {
+        self.payload = Some(serialized_payload.payload);
+        self.content_type = Some(serialized_payload.content_type);
+        self.format_indicator = serialized_payload.format_indicator;
+        self
+    }
+
     /// Payload for the response.
     pub fn payload(&mut self, payload: Vec<u8>) -> &mut Self {
         self.payload = Some(payload);
@@ -322,8 +353,7 @@ impl ManagementActionResponseBuilder {
         self
     }
 
-    /// Cloud event for the response.
-    // Default is no Cloud Event
+    /// Cloud event for the response, if desired.
     pub fn cloud_event(&mut self, cloud_event: Option<ResponseCloudEvent>) -> &mut Self {
         self.cloud_event = Some(cloud_event);
         self
@@ -352,6 +382,11 @@ impl ManagementActionResponseBuilder {
         let Some(content_type) = &self.content_type else {
             return Err(ResponseBuilderError::UninitializedField("content_type"));
         };
+        let Some(cloud_event) = &self.cloud_event else {
+            // requiring this field for now so that not specifying it to use an
+            // automagicially created one in the future is an additive change
+            return Err(ResponseBuilderError::UninitializedField("cloud_event"));
+        };
         if let Err(application_error) = &self.application_error {
             application_error_headers(
                 &mut self.custom_user_data,
@@ -360,12 +395,6 @@ impl ManagementActionResponseBuilder {
             )
             .map_err(|e| ResponseBuilderError::ValidationError(e))?;
         }
-        let cloud_event = match &self.cloud_event {
-            Some(cloud_event) => cloud_event.clone(),
-            // TODO: should we require this field for now so not specifying it to use automagic one in the future is
-            // an additive change?
-            None => None,
-        };
 
         let mut inner_builder = rpc_command::executor::ResponseBuilder::default();
         inner_builder
