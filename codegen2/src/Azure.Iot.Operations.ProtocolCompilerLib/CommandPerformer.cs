@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
         public static readonly Dictionary<string, LanguageInfo> LanguageMap = new()
         {
-            { "csharp", new LanguageInfo(TargetLanguage.CSharp, "", new Regex(@"^[A-Z][a-zA-Z0-9]*(?:\.[A-Z][a-zA-Z0-9]*)*$"), true, false, "Generated", "", "must have PascalCase name segments seprated by dots") },
+            { "csharp", new LanguageInfo(TargetLanguage.CSharp, "", new Regex(@"^[A-Z][a-zA-Z0-9]*(?:\.[A-Z][a-zA-Z0-9]*)*$"), true, false, "Generated", "", "must have PascalCase name segments separated by dots") },
             { "rust", new LanguageInfo(TargetLanguage.Rust, "src", new Regex(@"^[a-z][a-z0-9]*(?:_[a-z][a-z0-9]*)*$"), true, true, "generated", "common_types", "must have a single snake_case name segment") },
             { "none", new LanguageInfo(TargetLanguage.None, "", new Regex(@"^$"), false, false, "", "", "must not be used") },
         };

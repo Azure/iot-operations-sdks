@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly CodeName errorCodeSchema;
         private readonly CodeName? errorInfoName;
         private readonly CodeName? errorInfoSchema;
-        List<string> errorCodeValues;
+        private readonly List<string> errorCodeValues;
         private readonly string srcSubdir;
 
         public RustCommandExecutorHeaders(

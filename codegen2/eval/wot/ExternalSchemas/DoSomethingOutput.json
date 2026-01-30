@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "title": "DoSomethingOuput",
+  "title": "DoSomethingOutput",
   "description": "Output arguments for action 'DoSomething'",
   "type": "object",
   "additionalProperties": false,

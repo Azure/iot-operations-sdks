@@ -61,7 +61,7 @@
         "dtv:ref": "./ExternalSchemas/DoSomethingInput.json"
       },
       "output": {
-        "dtv:ref": "./ExternalSchemas/DoSomethingOuput.json"
+        "dtv:ref": "./ExternalSchemas/DoSomethingOutput.json"
       },
       "forms": [
         {
