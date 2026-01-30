@@ -23,11 +23,12 @@ The compiler provides the following options:
 --things <FILEPATH ...>        File(s) containing WoT Thing Model(s) to process for full generation
 --clientThings <FILEPATH ...>  File(s) containing WoT Thing Model(s) to process for client-side generation
 --serverThings <FILEPATH ...>  File(s) containing WoT Thing Model(s) to process for server-side generation
---schemas <FILESPEC ...>       Filespec(s) of files containing schema definitions (each may include wildcards).
+--schemas <FILESPEC ...>       Filespec(s) of files containing schema definitions (each may include wildcards)
 --typeNamer <FILEPATH>         File containing JSON config for deriving type names from JSON Schema names
 --outDir <DIRPATH>             Directory for receiving generated code [default: .]
 --workingDir <DIRPATH>         Directory for storing temporary files (relative to outDir unless path is rooted) [default: schemas]
---namespace <NAMESPACE>        Namespace for generated code [default: Generated]
+--namespace <NAMESPACE>        Namespace for generated code [csharp default: "Generated", rust default: "generated"]
+--common <NAMESPACE>           Namespace for common code [csharp default: "", rust default: "common_types"]
 --sdkPath <FILEPATH | URL>     Local path or feed URL for Azure.Iot.Operations.Protocol SDK
 --lang <csharp|rust|none>      Programming language for generated code
 --noProj                       Do not generate code in a project
