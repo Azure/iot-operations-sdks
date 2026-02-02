@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "BethDatata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "eta", "theta" ],
+  "properties": {
+    "eta": {
+      "description": "The 'eta' Field.",
+      "type": "string"
+    },
+    "theta": {
+      "description": "The 'theta' Field.",
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "iota": {
+      "$ref": "#/definitions/org.opcfoundation.UA.DateTime"
+    },
+    "kappa": {
+      "$ref": "#/definitions/Temperature"
+    },
+    "lambda": {
+      "$ref": "#/definitions/HeaterState"
+    },
+    "ManufacturerUri": {
+      "$ref": "#/definitions/nsu%3Dhttp%3A%2F%2Fmicrosoft.com%2FOpc%2FOpcPlc%2FBoiler%3Bi%3D6203"
+    },
+    "ManufacturerUnencodedUri": {
+      "$ref": "#/definitions/nsu=http://microsoft.com/Opc/OpcPlc/Boiler;i=6203"
+    }
+  },
+  "definitions": {
+    "nsu=http://microsoft.com/Opc/OpcPlc/Boiler;i=6203": {
+      "type": "object",
+      "title": "MicrosoftComOpcOpcPlcBoilerManufacturerUri",
+      "properties": {
+        "SourceTimestamp": {
+          "$ref": "#/definitions/org.opcfoundation.UA.DateTime"
+        },
+        "Value": {
+          "$ref": "#/definitions/org.opcfoundation.UA.Int32"
+        },
+        "StatusCode": {
+          "$ref": "#/definitions/org.opcfoundation.UA.Int32"
+        }
+      }
+    },
+    "org.opcfoundation.UA.DateTime": {
+      "type": "string",
+      "title": "OpcUaDateTime",
+      "format": "date-time"
+    },
+    "org.opcfoundation.UA.Int32": {
+      "type": "integer",
+      "title": "OpcUaInt32",
+      "format": "int32",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "Temperature": {
+      "type": "object",
+      "title": "Temperatura",
+      "properties": {
+        "Top": {
+          "$ref": "#/definitions/org.opcfoundation.UA.Int32"
+        },
+        "Bottom": {
+          "$ref": "#/definitions/org.opcfoundation.UA.Int32"
+        },
+        "ChillerState": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "title": "ChillerState",
+            "enum": [
+              "Off_0",
+              "On_1"
+            ]
+          }
+        },
+        "GeoLocation": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "title": "Coordinates",
+            "additionalProperties": false,
+            "properties": {
+              "latitude": {
+                "type": "number",
+                "format": "double"
+              },
+              "longitude": {
+                "type": "number",
+                "format": "double"
+              }
+            }
+          }
+        },
+        "Something": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "pressure": {
+              "type": "number",
+              "format": "double"
+            },
+            "temperature": {
+              "$ref": "#/definitions/Temperature"
+            }
+          }
+        }
+      }
+    },
+    "HeaterState": {
+      "type": "string",
+      "title": "HeaterState",
+      "enum": [
+        "Off_0",
+        "On_1"
+      ]
+    }
+  }
+}

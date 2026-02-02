@@ -1,0 +1,98 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ThingOne",
+    "links": [
+      {
+        "rel": "dtv:naming",
+        "href": "./ThingOne.SchemaNames.json",
+        "type": "application/json"
+      }
+    ],
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "sample/{senderId}/telemetry1",
+        "op": "subscribeallevents"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+      "Alpha": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Beta": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ThingTwo",
+    "links": [
+      {
+        "rel": "dtv:naming",
+        "href": "./ThingTwo.SchemaNames.json",
+        "type": "application/json"
+      }
+    ],
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "sample/{senderId}/telemetry2",
+        "op": "subscribeallevents"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+      "Gamma": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Beta": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

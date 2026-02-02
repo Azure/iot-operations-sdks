@@ -1,0 +1,118 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="DTDLParser" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "<#=this.serviceName.AsGiven#>",
+  "links": [
+    {
+      "rel": "dtv:naming",
+      "href": "<#=this.schemaNamesPath#>",
+      "type": "application/json"
+    }
+  ],
+<# if (this.errorSchemas.Any() || this.namespacedEnums.Any()) { #>
+  "schemaDefinitions": {
+<# int ix1 = 1; foreach (KeyValuePair<string, DTSchemaInfo> errorSchema in this.errorSchemas) { #>
+    "<#=errorSchema.Key#>": {
+<# if (errorSchema.Value.Description.Any()) { #>
+      "description": "<#=errorSchema.Value.Description.First().Value#>",
+<# } #>
+<#=this.thingDescriber.GetTypeAndAddenda(errorSchema.Value, 6)#>
+    }<#=ix1 < this.errorSchemas.Count + this.namespacedEnums.Count ? "," : ""#>
+<# ix1++; } #>
+<# foreach (KeyValuePair<string, DTEnumInfo> namespacedEnum in this.namespacedEnums) { #>
+    "<#=namespacedEnum.Key#>": {
+      "type": "object",
+      "const": {
+<# int ix2 = 1; foreach (DTEnumValueInfo enumValue in namespacedEnum.Value.EnumValues) { #>
+        "<#=enumValue.Name#>": <#=(ThingDescriber.GetPrimitiveType(namespacedEnum.Value.ValueSchema.Id) == "integer") ? enumValue.EnumValue : $"\"{enumValue.EnumValue}\""#><#=ix2 < namespacedEnum.Value.EnumValues.Count ? "," : ""#>
+<# ix2++; } #>
+      },
+<# if (namespacedEnum.Value.Description.Any()) { #>
+      "description": "<#=namespacedEnum.Value.Description.First().Value#>",
+<# } #>
+      "properties": {
+<# ix2 = 1; foreach (DTEnumValueInfo enumValue in namespacedEnum.Value.EnumValues) { #>
+        "<#=enumValue.Name#>": {
+<# if (enumValue.Description.Any()) { #>
+          "description": "<#=enumValue.Description.First().Value#>",
+<# } #>
+          "type": "<#=ThingDescriber.GetPrimitiveType(namespacedEnum.Value.ValueSchema.Id)#>"
+        }<#=ix2 < namespacedEnum.Value.EnumValues.Count ? "," : ""#>
+<# ix2++; } #>
+      }
+    }<#=ix1 < this.errorSchemas.Count + this.namespacedEnums.Count ? "," : ""#>
+<# ix1++; } #>
+  },
+<# } #>
+<# if (this.aggregateTelemetries || this.aggregateProperties) { #>
+  "forms": [
+<# if (this.aggregateTelemetries) { #>
+    {
+      "contentType": "<#=this.contentType#>",
+      "dtv:topic": "<#=this.telemetryTopic#>",
+      "op": "subscribeallevents"
+    }<#=this.aggregateProperties ? "," : ""#>
+<# } #>
+<# if (this.aggregateProperties) { #>
+<# if (this.dtInterface.Properties.Any(p => p.Value.Writable)) { #>
+    {
+      "contentType": "<#=this.contentType#>",
+<# if (this.dtInterface.Properties.Values.Any(p => p.Writable && IsSchemaPropertyResult(p.Schema) && ((DTObjectInfo)p.Schema).Fields.Any(f => IsFieldWriteError(f)))) { #>
+      "additionalResponses": [
+        {
+          "success": false
+        }
+      ],
+<# } #>
+      "dtv:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "write")#>",
+      "op": "writemultipleproperties"
+    },
+<# } #>
+    {
+      "contentType": "<#=this.contentType#>",
+<# if (this.dtInterface.Properties.Values.Any(p => IsSchemaPropertyResult(p.Schema) && ((DTObjectInfo)p.Schema).Fields.Any(f => IsFieldReadError(f)))) { #>
+      "additionalResponses": [
+        {
+          "success": false
+        }
+      ],
+<# } #>
+      "dtv:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "read")#>",
+      "op": "readallproperties"
+    }
+<# } #>
+  ],
+<# } #>
+  "actions": {
+<# int ix = 1; foreach (KeyValuePair<string, DTCommandInfo> dtCommand in this.dtInterface.Commands) { #>
+<#=this.thingDescriber.GetCommandAffordance(dtCommand.Value, this.usesTypes, this.contentType, this.commandTopic, this.cmdServiceGroupId)#><#=ix < this.dtInterface.Commands.Count ? "," : ""#>
+<# ix++; } #>
+  },
+  "properties": {
+<# ix = 1; foreach (KeyValuePair<string, DTPropertyInfo> dtProperty in this.dtInterface.Properties) { #>
+<#=this.thingDescriber.GetPropertyAffordance(dtProperty.Value, this.usesTypes, this.contentType, this.propertyTopic)#><#=ix < this.dtInterface.Properties.Count ? "," : ""#>
+<# ix++; } #>
+  },
+  "events": {
+<# ix = 1; foreach (KeyValuePair<string, DTTelemetryInfo> dtTelemetry in this.dtInterface.Telemetries) { #>
+<#=this.thingDescriber.GetTelemetryAffordance(dtTelemetry.Value, this.usesTypes, this.contentType, this.telemetryTopic, this.telemServiceGroupId)#><#=ix < this.dtInterface.Telemetries.Count ? "," : ""#>
+<# ix++; } #>
+  }
+}
+<#+
+private bool IsSchemaPropertyResult(DTSchemaInfo dtSchema) => dtSchema != null && dtSchema.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.PropertyResultAdjunctTypeFormat, this.mqttVersion)));
+
+private bool IsFieldReadError(DTFieldInfo dtField) => dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ReadErrorAdjunctTypeFormat, this.mqttVersion)));
+
+private bool IsFieldWriteError(DTFieldInfo dtField) => dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.WriteErrorAdjunctTypeFormat, this.mqttVersion)));
+#>

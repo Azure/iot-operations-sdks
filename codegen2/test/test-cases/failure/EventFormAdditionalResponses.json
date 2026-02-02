@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventFormAdditionalResponses.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "EventFormAdditionalResponses.TM.json",
+      "line": 32,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}
