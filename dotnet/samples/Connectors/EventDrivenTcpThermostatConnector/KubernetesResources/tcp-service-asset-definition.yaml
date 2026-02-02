@@ -14,7 +14,7 @@ spec:
         - name: thermostat_status_changed
           destinations:
             - configuration:
-                topic: mqtt/machine/status/change_event
+                topic: timtay/topic
               target: Mqtt
           dataSource: "80"
   defaultDatasetsConfiguration: '{}'

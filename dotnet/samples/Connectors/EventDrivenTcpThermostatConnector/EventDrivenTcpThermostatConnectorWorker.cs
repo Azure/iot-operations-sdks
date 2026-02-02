@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
+using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+using SimpleRpcServer;
 using System.Net.Sockets;
 
 namespace EventDrivenTcpThermostatConnector
@@ -14,9 +17,14 @@ namespace EventDrivenTcpThermostatConnector
         private readonly ConnectorWorker _connector;
 
         private const string InboundEndpointName = "my_tcp_endpoint";
+        private readonly SimpleRpcServer.SampleCommandExecutor _rpcServer;
 
         public EventDrivenTcpThermostatConnectorWorker(ApplicationContext applicationContext, ILogger<EventDrivenTcpThermostatConnectorWorker> logger, ILogger<ConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAzureDeviceRegistryClientWrapperProvider adrClientFactory, IConnectorLeaderElectionConfigurationProvider leaderElectionConfigurationProvider)
         {
+            _rpcServer = new(applicationContext, mqttClient, "someCommandName", new SimpleRpcServer.Utf8JsonSerializer())
+            {
+                OnCommandReceived = CommandHandler,
+            };
             _logger = logger;
             _connector = new(applicationContext, connectorLogger, mqttClient, datasetSamplerFactory, adrClientFactory, leaderElectionConfigurationProvider)
             {
@@ -25,100 +33,46 @@ namespace EventDrivenTcpThermostatConnector
             };
         }
 
-        private async Task WhileDeviceAvailableAsync(DeviceAvailableEventArgs args, CancellationToken cancellationToken)
+        private async Task<ExtendedResponse<PayloadObject>> CommandHandler(ExtendedRequest<PayloadObject> request, CancellationToken token)
         {
-            _logger.LogInformation("Device with name {0} is now available", args.DeviceName);
+            _logger.LogInformation("Handling an mRPC call");
+            return new ExtendedResponse<PayloadObject>()
+            {
+                Response = new PayloadObject()
+            };
+        }
 
-            try
-            {
-                _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
-                await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
-                    currentDeviceStatus.Config ??= new();
-                    currentDeviceStatus.Config.Error = null;
-                    currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                    currentDeviceStatus.Endpoints ??= new();
-                    currentDeviceStatus.Endpoints.Inbound ??= new();
-                    if (!currentDeviceStatus.Endpoints.Inbound.ContainsKey(args.InboundEndpointName))
-                    {
-                        currentDeviceStatus.Endpoints.Inbound.Add(args.InboundEndpointName, new());
-                    }
-                    return currentDeviceStatus;
-                }, true, null, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
-            }
+        private Task WhileDeviceAvailableAsync(DeviceAvailableEventArgs args, CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
         }
 
         private async Task WhileAssetAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
             cancellationToken.ThrowIfCancellationRequested();
 
             // Skip sampling if the device is explicitly disabled (Enabled is false). Undefined (null) value is treated as enabled.
             if (args.Device.Enabled != true && args.Device.Enabled != null)
             {
-                _logger.LogWarning("Device {0} is disabled. Skipping asset {1} processing until device is enabled.", args.DeviceName, args.AssetName);
-                // Note: When the device is updated, ConnectorWorker will automatically cancel this handler
-                // and reinvoke it with the updated device information if it becomes enabled.
-                return;
+                throw new Exception();
             }
 
             // Skip sampling if the device is explicitly disabled (Enabled is false). Undefined (null) value is treated as enabled.
             if (args.Device.Enabled != true && args.Device.Enabled != null)
             {
-                _logger.LogWarning("Asset {0} is disabled. Skipping processing until asset is enabled.", args.AssetName);
-                // Note: When the asset is updated, ConnectorWorker will automatically cancel this handler
-                // and reinvoke it with the updated asset information if it becomes enabled.
-                return;
+                throw new Exception();
             }
 
-            _logger.LogInformation("Device {0} and Asset {1} are both enabled. Proceeding with event processing.", args.DeviceName, args.AssetName);
 
             if (args.Asset.EventGroups == null || args.Asset.EventGroups.Count != 1)
             {
-                _logger.LogWarning("Asset with name {0} does not have the expected event group. No events will be received.", args.AssetName);
-
-                try
-                {
-                    await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
-                        currentAssetStatus.Config ??= new();
-                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                        currentAssetStatus.Config.Error = null;
-                        currentAssetStatus.EventGroups ??= new();
-                        currentAssetStatus.EventGroups.Clear();
-                        return currentAssetStatus;
-                    }, true, null, cancellationToken);
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e, "Failed to report asset status to Azure Device Registry service");
-                }
-                return;
+                throw new Exception();
             }
 
             var eventGroup = args.Asset.EventGroups.First();
             if (eventGroup.Events == null || eventGroup.Events.Count != 1)
             {
-                _logger.LogWarning("Asset with name {0} does not have the expected event within its event group. No events will be received.", args.AssetName);
-
-                try
-                {
-                    await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
-                        currentAssetStatus.Config ??= new();
-                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                        currentAssetStatus.Config.Error = null;
-                        currentAssetStatus.EventGroups ??= new();
-                        currentAssetStatus.ClearEventGroupStatus(eventGroup.Name);
-                        return currentAssetStatus;
-                    }, true, null, cancellationToken);
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e, "Failed to report asset status to Azure Device Registry service");
-                }
-                return;
+                throw new Exception();
             }
 
             // This sample only has one asset with one event
@@ -126,35 +80,21 @@ namespace EventDrivenTcpThermostatConnector
 
             if (assetEvent.DataSource == null || !int.TryParse(assetEvent.DataSource, out int port))
             {
-                // If the asset's has no event doesn't specify a port, then do nothing
-                _logger.LogError("Asset with name {0} has an event, but the event didn't configure a port, so the connector won't handle these events", args.AssetName);
-
-                try
-                {
-                    _logger.LogWarning("Reporting asset status error to Azure Device Registry service...");
-                    await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
-                        currentAssetStatus.Config ??= new();
-                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                        currentAssetStatus.Config.Error = null;
-                        currentAssetStatus.UpdateEventStatus(eventGroup.Name, new()
-                        {
-                            Name = assetEvent.Name,
-                            Error = new ConfigError()
-                            {
-                                Message = "The configured event was either missing the expected port or had a non-integer value for the port",
-                            }
-                        });
-                        return currentAssetStatus;
-                    }, true, null, cancellationToken);
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
-                }
-                return;
+                throw new Exception();
             }
 
-            await OpenTcpConnectionAsync(args, args.Asset.EventGroups.First().Name, assetEvent, port, cancellationToken);
+            try
+            {
+                _logger.LogInformation("Starting mRPC server");
+
+                await _rpcServer.StartAsync(null, cancellationToken);
+
+                await OpenTcpConnectionAsync(args, args.Asset.EventGroups.First().Name, assetEvent, port, cancellationToken);
+            }
+            finally
+            {
+                await _rpcServer.StopAsync();
+            }
         }
 
         private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, string eventGroupName, AssetEvent assetEvent, int port, CancellationToken cancellationToken)
@@ -167,12 +107,10 @@ namespace EventDrivenTcpThermostatConnector
                     if (args.Device.Endpoints == null
                         || args.Device.Endpoints.Inbound == null)
                     {
-                        _logger.LogError("Missing TCP server address configuration");
                         return;
                     }
 
                     string host = args.Device.Endpoints.Inbound[InboundEndpointName].Address.Split(":")[0];
-                    _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
                     using TcpClient client = new();
                     await client.ConnectAsync(host, port, cancellationToken);
                     await using NetworkStream stream = client.GetStream();
@@ -185,55 +123,7 @@ namespace EventDrivenTcpThermostatConnector
                             int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024), cancellationToken);
                             Array.Resize(ref buffer, bytesRead);
 
-                            _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
                             await args.AssetClient.ForwardReceivedEventAsync(eventGroupName, assetEvent, buffer, null, null, cancellationToken);
-
-                            try
-                            {
-                                // Report status of the asset on every event received and forwarded
-                                _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
-
-                                await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
-                                    currentAssetStatus.Config ??= new();
-                                    currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                                    currentAssetStatus.Config.Error = null;
-                                    currentAssetStatus.UpdateEventStatus(eventGroupName, new()
-                                    {
-                                        Name = assetEvent.Name,
-                                        Error = null,
-                                        MessageSchemaReference = args.AssetClient.GetRegisteredEventMessageSchema(eventGroupName, assetEvent.Name)
-                                    });
-
-                                    _logger.LogInformation("Event group count: {}", currentAssetStatus.EventGroups?.Count);
-
-                                    return currentAssetStatus;
-                                }, true, null, cancellationToken);
-                            }
-                            catch (Exception e2)
-                            {
-                                _logger.LogError(e2, "Failed to report asset status to Azure Device Registry service");
-                            }
-
-                            try
-                            {
-                                _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
-                                await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
-                                    currentDeviceStatus.Config ??= new();
-                                    currentDeviceStatus.Config.Error = null;
-                                    currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                                    currentDeviceStatus.Endpoints ??= new();
-                                    currentDeviceStatus.Endpoints.Inbound ??= new();
-                                    if (!currentDeviceStatus.Endpoints.Inbound.ContainsKey(args.InboundEndpointName))
-                                    {
-                                        currentDeviceStatus.Endpoints.Inbound.Add(args.InboundEndpointName, new());
-                                    }
-                                    return currentDeviceStatus;
-                                }, true, null, cancellationToken);
-                            }
-                            catch (Exception e)
-                            {
-                                _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
-                            }
                         }
                     }
                     catch (Exception e)
@@ -245,26 +135,6 @@ namespace EventDrivenTcpThermostatConnector
                 catch (Exception e)
                 {
                     _logger.LogError(e, "Failed to open TCP connection to asset");
-                }
-
-                try
-                {
-                    await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
-                        currentDeviceStatus.Config ??= new();
-                        currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
-                        currentDeviceStatus.Config.Error = null;
-                        currentDeviceStatus.SetEndpointError(
-                            InboundEndpointName,
-                            new ConfigError()
-                            {
-                                Message = "Unable to connect to the TCP endpoint. The connector will retry to connect."
-                            });
-                        return currentDeviceStatus;
-                    }, true, null, cancellationToken);
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
                 }
             }
         }
