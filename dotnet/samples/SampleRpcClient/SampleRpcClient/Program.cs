@@ -6,7 +6,6 @@ using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Protocol.RPC;
 using SimpleRpcClient;
 
 internal class Program
@@ -42,6 +41,7 @@ internal class Program
             DateTime beforeInvoke = DateTime.Now;
             await rpcInvoker!.InvokeCommandAsync(new PayloadObject());
             DateTime afterInvoke = DateTime.Now;
+            Console.WriteLine("mRPC to connector returned.");
 
             Console.WriteLine("ACK'ing the recieved MQTT publish from connector.");
             await args.AcknowledgeAsync(default);
