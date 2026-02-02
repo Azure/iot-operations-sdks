@@ -21,6 +21,7 @@ internal class Program
             UseTls = false
         };
         await mqttClient.ConnectAsync(mcs);
+        Console.WriteLine("Connected to broker");
 
         rpcInvoker = new(new(), mqttClient, "someCommandName", new Utf8JsonSerializer());
 
