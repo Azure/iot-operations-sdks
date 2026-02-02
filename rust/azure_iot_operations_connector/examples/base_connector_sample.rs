@@ -485,6 +485,7 @@ async fn run_management_action(
                         ManagementActionResponseBuilder::default()
                             .payload(vec![])
                             .content_type("application/json".to_string())
+                            .cloud_event(None)
                             .build().unwrap()
                     } else {
                         // If the management action is not valid, we respond with an application error
@@ -495,6 +496,7 @@ async fn run_management_action(
                             })
                             .payload(vec![])
                             .content_type("application/json".to_string())
+                            .cloud_event(None)
                             .build().unwrap()
                     };
 

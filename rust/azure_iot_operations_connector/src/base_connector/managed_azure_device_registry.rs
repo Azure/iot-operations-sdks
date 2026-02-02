@@ -1385,13 +1385,12 @@ impl AssetClient {
 
     /// Helper function to handle updates for all management actions on an Asset
     ///
-    /// Parses and validates all Asset updates pertaining to management actions
-    ///     Detects any deleted, updated, and new management actions
+    /// Parses and validates all Asset updates pertaining to management actions: detects any deleted, updated, and new management actions
     /// Modifies `updates` and `management_action_hashmap` in place:
-    /// Modifies `updates.new_status` with any validation errors found
-    /// Adds any management action updates to `updates.management_action_updates` that can be sent after the update task can't be cancelled
-    /// Adds any new Management Action Clients to `updates.new_asset_component_clients` that can be sent after the update task can't be cancelled
-    /// Removes any deleted Management Actions from the `management_action_hashmap` that can be applied after the update task can't be cancelled
+    ///     Modifies `updates.new_status` with any validation errors found
+    ///     Adds any management action updates to `updates.management_action_updates` that can be sent after the update task can't be cancelled
+    ///     Adds any new Management Action Clients to `updates.new_asset_component_clients` that can be sent after the update task can't be cancelled
+    ///     Removes any deleted Management Actions from the `management_action_hashmap` that can be applied after the update task can't be cancelled
     fn handle_management_action_updates(
         &self,
         management_action_hashmap: &mut HashMap<
@@ -1528,14 +1527,14 @@ impl AssetClient {
     /// Helper function to handle updates for all of a type of data operations on an Asset
     /// This reduces duplicate code for each data operation kind - instead this function is called once for each
     ///
-    /// Parses and validates all Asset updates pertaining to this data operation kind
+    /// Parses and validates all Asset updates pertaining to this data operation kind:
     ///     Detects any deleted, updated, and new data operations
     ///     Parses the default destination for that data operation
     /// Modifies `updates` and `data_operation_hashmap` in place:
-    /// Modifies `updates.new_status` with any validation errors found
-    /// Adds any Data Operation updates to `updates.data_operation_updates` that can be sent after the update task can't be cancelled
-    /// Adds any new Data Operation Clients to `updates.new_asset_component_clients` that can be sent after the update task can't be cancelled
-    /// Removes any deleted Data Operations from the `data_operation_hashmap` that can be applied after the update task can't be cancelled
+    ///     Modifies `updates.new_status` with any validation errors found
+    ///     Adds any Data Operation updates to `updates.data_operation_updates` that can be sent after the update task can't be cancelled
+    ///     Adds any new Data Operation Clients to `updates.new_asset_component_clients` that can be sent after the update task can't be cancelled
+    ///     Removes any deleted Data Operations from the `data_operation_hashmap` that can be applied after the update task can't be cancelled
     fn handle_data_operation_kind_updates<T: Clone + DataOperation + PartialEq>(
         &self,
         data_operation_hashmap: &mut HashMap<

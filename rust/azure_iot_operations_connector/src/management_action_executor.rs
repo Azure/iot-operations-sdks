@@ -22,6 +22,9 @@ use tokio::sync::Notify;
 
 use crate::{AdrConfigError, ManagementActionRef, base_connector::ConnectorContext};
 
+/// Initial backoff delay for exponential backoff retries
+const INITIAL_BACKOFF_DELAY: Duration = Duration::from_millis(50);
+
 /// Executor for a Management Action. Used to receive requests.
 pub struct ManagementActionExecutor {
     executor: rpc_command::Executor<BypassPayload, BypassPayload>,
@@ -115,8 +118,8 @@ impl ManagementActionExecutor {
         // need to make sure that recv() doesn't return None from the fn if the shutdown hasn't successfully completed yet (or tried too many times) - if I unbias the select, then it could return None before retrying the shutdown again
         // this is also why the shutdown flow calls recv() internally if shutdown fails, so that None can be ignored until shutdown is successful
 
-        let mut subscribe_delay = Duration::from_millis(50);
-        let mut shutdown_delay = Duration::from_millis(50);
+        let mut subscribe_delay = INITIAL_BACKOFF_DELAY;
+        let mut shutdown_delay = INITIAL_BACKOFF_DELAY;
         // must be a local variable in case there are many requests to drain after shutdown is requested
         let mut shutdown_attempts = 0;
         loop {
