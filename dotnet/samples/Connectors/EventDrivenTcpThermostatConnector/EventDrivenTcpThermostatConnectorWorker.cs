@@ -33,13 +33,13 @@ namespace EventDrivenTcpThermostatConnector
             };
         }
 
-        private async Task<ExtendedResponse<PayloadObject>> CommandHandler(ExtendedRequest<PayloadObject> request, CancellationToken token)
+        private Task<ExtendedResponse<PayloadObject>> CommandHandler(ExtendedRequest<PayloadObject> request, CancellationToken token)
         {
             _logger.LogInformation("Handling an mRPC call");
-            return new ExtendedResponse<PayloadObject>()
+            return Task.FromResult(new ExtendedResponse<PayloadObject>()
             {
                 Response = new PayloadObject()
-            };
+            });
         }
 
         private Task WhileDeviceAvailableAsync(DeviceAvailableEventArgs args, CancellationToken cancellationToken)
