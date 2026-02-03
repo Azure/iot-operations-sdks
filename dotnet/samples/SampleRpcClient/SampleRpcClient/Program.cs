@@ -51,62 +51,69 @@ internal class Program
                 }
             }
 
-            Console.WriteLine("Recieved MQTT publish from connector. Sending mRPC back to connector");
-            var crm = new CommandRequestMetadata();
-            long stageThreeTicks = DateTime.UtcNow.Ticks;
-            crm.UserData.Add("stage3", stageThreeTicks + "");
-            var rpcResponse = await rpcInvoker!.InvokeCommandAsync(new PayloadObject(), crm);
-            Console.WriteLine("mRPC to connector returned.");
-            long stageFiveTicks = DateTime.UtcNow.Ticks;
-
-
-            long? stageFourTicks = null;
-            if (rpcResponse.ResponseMetadata != null)
+            try
             {
-                foreach (string key in rpcResponse.ResponseMetadata.UserData.Keys)
+                Console.WriteLine("Recieved MQTT publish from connector. Sending mRPC back to connector");
+                var crm = new CommandRequestMetadata();
+                long stageThreeTicks = DateTime.UtcNow.Ticks;
+                crm.UserData.Add("stage3", stageThreeTicks + "");
+                var rpcResponse = await rpcInvoker!.InvokeCommandAsync(new PayloadObject(), crm);
+                Console.WriteLine("mRPC to connector returned.");
+                long stageFiveTicks = DateTime.UtcNow.Ticks;
+
+
+                long? stageFourTicks = null;
+                if (rpcResponse.ResponseMetadata != null)
                 {
-                    if (key.Equals("stage4"))
+                    foreach (string key in rpcResponse.ResponseMetadata.UserData.Keys)
                     {
-                        stageFourTicks = long.Parse(rpcResponse.ResponseMetadata.UserData[key]);
+                        if (key.Equals("stage4"))
+                        {
+                            stageFourTicks = long.Parse(rpcResponse.ResponseMetadata.UserData[key]);
+                        }
                     }
                 }
-            }
 
-            if (stageTwoTicks == null)
+                if (stageTwoTicks == null)
+                {
+                    Console.WriteLine("Stage 2 ticks not found");
+                    return;
+                }
+
+                if (stageFourTicks == null)
+                {
+                    Console.WriteLine("Stage 4 ticks not found");
+                    return;
+                }
+
+                Console.WriteLine("ACK'ing the recieved MQTT publish from connector.");
+                await args.AcknowledgeAsync(default);
+
+                // Delay between TCP connector publishing message and this app receiving it from the broker
+                long delayOne = (stageThreeTicks - stageTwoTicks.Value) / System.TimeSpan.TicksPerMillisecond;
+
+                // Delay between this app sending RPC and when the connector receiving it
+                long delayTwo = (stageFourTicks.Value - stageThreeTicks) / System.TimeSpan.TicksPerMillisecond;
+
+                // Delay between the connector sending mRPC response and this app receiving it
+                long delayThree = (stageFiveTicks - stageFourTicks.Value) / System.TimeSpan.TicksPerMillisecond;
+
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("MQTT pub from TCP connector -> MQTT app: " + delayOne);
+                Console.WriteLine("MQTT app invoke RPC -> connector receives invocation: " + delayTwo);
+                Console.WriteLine("connector sends RPC response -> MQTT app receives response: " + delayThree);
+                if (delayOne > 30 || delayTwo > 30 || delayThree > 30)
+                {
+                    Console.WriteLine("~~~~~~~~~~~~~Repro~~~~~~~~~~~~~");
+                }
+                Console.WriteLine();
+                Console.WriteLine();
+            }
+            catch (Exception e)
             {
-                Console.WriteLine("Stage 2 ticks not found");
-                return;
+                Console.WriteLine(e.StackTrace);
             }
-
-            if (stageFourTicks == null)
-            {
-                Console.WriteLine("Stage 4 ticks not found");
-                return;
-            }
-
-            Console.WriteLine("ACK'ing the recieved MQTT publish from connector.");
-            await args.AcknowledgeAsync(default);
-
-            // Delay between TCP connector publishing message and this app receiving it from the broker
-            long delayOne = (stageThreeTicks - stageTwoTicks.Value) / System.TimeSpan.TicksPerMillisecond;
-
-            // Delay between this app sending RPC and when the connector receiving it
-            long delayTwo = (stageFourTicks.Value - stageThreeTicks) / System.TimeSpan.TicksPerMillisecond;
-
-            // Delay between the connector sending mRPC response and this app receiving it
-            long delayThree = (stageFiveTicks - stageFourTicks.Value) / System.TimeSpan.TicksPerMillisecond;
-
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("MQTT pub from TCP connector -> MQTT app: " + delayOne);
-            Console.WriteLine("MQTT app invoke RPC -> connector receives invocation: " + delayTwo);
-            Console.WriteLine("connector sends RPC response -> MQTT app receives response: " + delayThree);
-            if (delayOne > 30 || delayTwo > 30 || delayThree > 30)
-            {
-                Console.WriteLine("~~~~~~~~~~~~~Repro~~~~~~~~~~~~~");
-            }
-            Console.WriteLine();
-            Console.WriteLine();
         }
     }
 }
