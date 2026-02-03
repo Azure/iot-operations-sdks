@@ -40,13 +40,7 @@ namespace EventDrivenTcpThermostatConnector
 
         public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string eventName, AssetEvent assetEvent, CancellationToken cancellationToken = default)
         {
-            if (eventName.Equals("thermostat_status_changed", StringComparison.OrdinalIgnoreCase))
-            {
-                ConnectorMessageSchema? schema = new ConnectorMessageSchema(_datasetJsonSchema, Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format.JsonSchemaDraft07, Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaType.MessageSchema, "1.0", null);
-                return Task.FromResult((ConnectorMessageSchema?)schema);
-            }
-
-            return Task.FromResult((ConnectorMessageSchema?)null);
+            return Task.FromResult((ConnectorMessageSchema?) null);
         }
     }
 }
