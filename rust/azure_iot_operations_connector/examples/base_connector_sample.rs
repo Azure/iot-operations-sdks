@@ -298,7 +298,7 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
                     initial_executor,
                 ));
             }
-            _ => {}
+            ClientNotification::Created(_) => {}
         }
     }
 }
