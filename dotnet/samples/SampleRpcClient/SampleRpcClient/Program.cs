@@ -65,7 +65,7 @@ internal class Program
                     crm.UserData.Add("stage3", stageThreeTicks + "");
                     var rpcResponse = await rpcInvoker!.InvokeCommandAsync(new PayloadObject(), crm);
                     Console.WriteLine("mRPC to connector returned.");
-                    long stageFiveTicks = DateTime.UtcNow.Ticks;
+                    long stageFiveTicks = DateTime.UtcNow.Ticks; //note it repros at this commit
 
 
                     long? stageFourTicks = null;
