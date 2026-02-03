@@ -36,9 +36,14 @@ namespace EventDrivenTcpThermostatConnector
         private Task<ExtendedResponse<PayloadObject>> CommandHandler(ExtendedRequest<PayloadObject> request, CancellationToken token)
         {
             _logger.LogInformation("Handling an mRPC call");
+            CommandResponseMetadata responseMetadata = new CommandResponseMetadata();
+            var crm = new CommandRequestMetadata();
+            long stageFourTicks = DateTime.UtcNow.Ticks;
+            responseMetadata.UserData.Add("Stage4", stageFourTicks + "");
             return Task.FromResult(new ExtendedResponse<PayloadObject>()
             {
-                Response = new PayloadObject()
+                Response = new PayloadObject(),
+                ResponseMetadata = responseMetadata,
             });
         }
 

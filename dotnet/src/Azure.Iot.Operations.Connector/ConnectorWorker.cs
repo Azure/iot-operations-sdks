@@ -533,6 +533,9 @@ namespace Azure.Iot.Operations.Connector
                         telemetryTimeout = TimeSpan.FromSeconds(ttl.Value);
                     }
 
+                    // Stage 2 TCP connector sends message to broker
+                    messageMetadata.UserData["stage2"] = DateTime.UtcNow.Ticks+"";
+
                     var telemetrySender = _telemetrySenderCache.GetOrAdd(topic, t => new ConnectorTelemetrySender(_applicationContext, _mqttClient, t));
                     await telemetrySender.SendTelemetryAsync(
                         serializedPayload,
