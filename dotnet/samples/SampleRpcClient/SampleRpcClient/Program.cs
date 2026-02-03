@@ -37,7 +37,7 @@ internal class Program
 
     private static Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
     {
-        args.AutoAcknowledge = false;
+        args.AutoAcknowledge = true;
         _ = Task.Run(async () =>
         {
             if (args.ApplicationMessage.Topic.Equals("timtay/topic"))
@@ -56,8 +56,8 @@ internal class Program
 
                 try
                 {
-                    Console.WriteLine("ACK'ing the recieved MQTT publish from connector.");
-                    await args.AcknowledgeAsync(default);
+                    //Console.WriteLine("ACK'ing the recieved MQTT publish from connector.");
+                    //await args.AcknowledgeAsync(default);
 
                     Console.WriteLine("Recieved MQTT publish from connector. Sending mRPC back to connector");
                     var crm = new CommandRequestMetadata();
