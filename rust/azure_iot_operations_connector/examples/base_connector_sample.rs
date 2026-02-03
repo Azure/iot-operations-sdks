@@ -298,6 +298,7 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
                     initial_executor,
                 ));
             }
+            _ => {}
         }
     }
 }
@@ -347,7 +348,7 @@ async fn run_dataset(
                         // Update the local schema reference, since it will have been cleared by the version update
                         local_schema_reference = None;
                     },
-                    DataOperationNotification::DataOperationUpdated(Ok(())) => {
+                    DataOperationNotification::Updated(Ok(())) => {
                         log::info!("{log_identifier} Dataset updated: {data_operation_client:?}");
 
                         is_sdk_error_causing_invalid_state = false;
@@ -357,7 +358,7 @@ async fn run_dataset(
                         local_schema_reference = None;
                     },
                     DataOperationNotification::AssetUpdated(Err(e)) |
-                    DataOperationNotification::DataOperationUpdated(Err(e)) => {
+                    DataOperationNotification::Updated(Err(e)) => {
                         log::warn!("{log_identifier} Dataset has invalid update. Wait for new dataset update. {e}");
                         is_sdk_error_causing_invalid_state = true;
                         last_reported_dataset_status = Err(e);
@@ -525,14 +526,14 @@ async fn run_management_action(
                             is_sdk_error_causing_invalid_state = false;
                         }
                     },
-                    ManagementActionNotification::ManagementActionUpdated(Ok(())) => {
+                    ManagementActionNotification::Updated(Ok(())) => {
                         log::info!("{log_identifier} Management action updated");
 
                         is_sdk_error_causing_invalid_state = false;
                         last_reported_management_action_status = Ok(());
                         management_action_valid = last_reported_management_action_status.is_ok();
                     },
-                    ManagementActionNotification::ManagementActionNewExecutor(new_executor) => {
+                    ManagementActionNotification::UpdatedWithNewExecutor(new_executor) => {
                         log::info!("{log_identifier} Management action updated with new executor");
 
                         is_sdk_error_causing_invalid_state = false;
@@ -545,7 +546,7 @@ async fn run_management_action(
                         current_executor = new_executor.ok();
                     },
                     ManagementActionNotification::AssetUpdated(Err(e)) |
-                    ManagementActionNotification::ManagementActionUpdated(Err(e)) => {
+                    ManagementActionNotification::Updated(Err(e)) => {
                         log::warn!("{log_identifier} Management action has invalid update. Wait for new management action update. {e}");
                         is_sdk_error_causing_invalid_state = true;
                         last_reported_management_action_status = Err(e);
@@ -648,8 +649,7 @@ async fn handle_unsupported_data_operation(
     loop {
         match data_operation_client.recv_notification().await {
             // it doesn't matter if the update is Err or Ok, we can always report unsupported
-            DataOperationNotification::AssetUpdated(_)
-            | DataOperationNotification::DataOperationUpdated(_) => {
+            DataOperationNotification::AssetUpdated(_) | DataOperationNotification::Updated(_) => {
                 log::warn!(
                     "{log_identifier} update notification received. {data_operation_kind:?} is not supported for the this Connector",
                 );

@@ -71,7 +71,6 @@ pub enum ModifyResult {
     NotModified,
 }
 
-// MARK: Device
 /// A cloneable status reporter for Device and Endpoint status reporting.
 ///
 /// This provides a way to report Device and Endpoint status changes from outside the [`DeviceEndpointClient`].
@@ -1188,7 +1187,6 @@ struct AssetComponentUpdates {
     new_asset_component_clients: Vec<AssetComponentClient>,
 }
 
-// MARK: Asset
 /// Azure Device Registry Asset that includes additional functionality
 /// to report status and receive Asset updates
 #[derive(Debug, Getters)]
@@ -1245,11 +1243,8 @@ pub struct AssetClient {
     /// hashmap of current management action/management group names to their current definitions and a sender to send action updates
     #[getter(skip)]
     management_action_hashmap: HashMap<
-        String, // ManagementGroup name
-        HashMap<
-            String, // ManagementAction name
-            watch::Sender<ManagementActionUpdateNotification>,
-        >,
+        (String, String), // (ManagementGroup name, ManagementAction name)
+        watch::Sender<ManagementActionUpdateNotification>,
     >,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
@@ -1394,29 +1389,23 @@ impl AssetClient {
     fn handle_management_action_updates(
         &self,
         management_action_hashmap: &mut HashMap<
-            String, // ManagementGroup name
-            HashMap<
-                String, // ManagementAction name
-                watch::Sender<ManagementActionUpdateNotification>,
-            >,
+            (String, String), // (ManagementGroup name, ManagementAction name)
+            watch::Sender<ManagementActionUpdateNotification>,
         >,
         updated_management_groups: &[adr_models::ManagementGroup],
         updates: &mut AssetComponentUpdates,
     ) {
         // remove the management actions that are no longer present in the new asset definition.
         // This triggers deletion notification since this drops the update sender.
-        management_action_hashmap.retain(|management_group_name, action_map| {
+        management_action_hashmap.retain(|(management_group_name, action_name), _| {
             if let Some(updated_management_group) = updated_management_groups
                 .iter()
                 .find(|management_group| management_group.name == *management_group_name)
             {
-                action_map.retain(|action_name, _| {
-                    updated_management_group
-                        .actions
-                        .iter()
-                        .any(|updated_action| updated_action.name == *action_name)
-                });
-                true
+                updated_management_group
+                    .actions
+                    .iter()
+                    .any(|updated_action| updated_action.name == *action_name)
             } else {
                 false
             }
@@ -1436,9 +1425,8 @@ impl AssetClient {
                         .subscribe(),
                 };
                 // if it already exists
-                if let Some(management_action_update_tx) = management_action_hashmap
-                    .get(&received_management_group.name)
-                    .and_then(|action_map| action_map.get(&received_management_action.name))
+                if let Some(management_action_update_tx) =
+                    management_action_hashmap.get(update_notification.definition.hash_name())
                 {
                     // save update to send to the action after the task can't get cancelled
                     // Send an update whether the action changed or not, because the client needs to know the asset was updated at minimum
@@ -1475,13 +1463,10 @@ impl AssetClient {
                         updates.status_updated = true;
                     }
                     // insert the management action into the hashmap so we can handle updates
-                    management_action_hashmap
-                        .entry(received_management_group.name.clone())
-                        .or_default()
-                        .insert(
-                            received_management_action.name.clone(),
-                            management_action_update_watcher_tx,
-                        );
+                    management_action_hashmap.insert(
+                        new_management_action_client.definition.hash_name().clone(),
+                        management_action_update_watcher_tx,
+                    );
                     // save the new management action client to be sent on self.asset_component_creation_tx after the task can't get cancelled
                     updates.new_asset_component_clients.push(
                         AssetComponentClient::ManagementAction((
@@ -2103,11 +2088,10 @@ impl AssetClient {
     }
 }
 
-// MARK: Asset Component
-
 /// Azure Device Registry Asset Component Client represents either a Dataset, Event,
 /// Stream, or Management Action Client
 #[allow(clippy::large_enum_variant)] // Large variants are mostly composed of already heap allocated data
+#[non_exhaustive]
 pub enum AssetComponentClient {
     /// Azure Device Registry Data Operation Client represents either a Dataset, Event,
     /// or Stream Client along with any configuration errors detected during creation
@@ -2361,8 +2345,6 @@ impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
     }
 }
 
-// MARK: Data Operation
-
 /// A cloneable status reporter for Data Operation status reporting.
 ///
 /// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
@@ -2466,9 +2448,9 @@ impl AssetComponentRef for DataOperationRef {
 
 #[derive(Debug, Clone)]
 pub(crate) struct DataOperationUpdateNotification {
-    /// new data operation definition
+    /// data operation definition from update
     definition: DataOperationDefinition,
-    /// new default data operation destinations
+    /// default data operation destinations from update
     default_destinations: Vec<Arc<destination_endpoint::Destination>>,
     /// whether default destinations have changed or not in this update
     default_destination_has_changed: bool,
@@ -2483,10 +2465,11 @@ pub enum DataOperationNotification {
     /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
     AssetUpdated(Result<(), AdrConfigError>),
     /// Indicates that the Data Operation's definition has been updated in place.
-    /// This will only be returned if the Data Operation definition changed. If the default destination or default config on the asset changed, the `AssetUpdated` variant will be returned.
+    /// This will only be returned if the Data Operation definition changed, which also implies that the Asset has been updated.
+    /// If the default destination or default config on the asset changed, the `AssetUpdated` variant will be returned.
     /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
-    DataOperationUpdated(Result<(), AdrConfigError>),
+    Updated(Result<(), AdrConfigError>),
     /// Indicates that the Data Operation has been deleted.
     Deleted,
 }
@@ -3329,7 +3312,7 @@ impl DataOperationClient {
             DataOperationForwarder::Error(e) => Err(e.clone()),
         };
         if data_operation_changed {
-            DataOperationNotification::DataOperationUpdated(res)
+            DataOperationNotification::Updated(res)
         } else {
             DataOperationNotification::AssetUpdated(res)
         }
@@ -3551,8 +3534,6 @@ impl Drop for DataOperationClient {
     }
 }
 
-// MARK: Management Action
-
 /// A cloneable status reporter for Management Action status reporting.
 ///
 /// This provides a way to report Management Action status changes from outside the [`ManagementActionClient`].
@@ -3612,7 +3593,7 @@ impl AssetComponentRef for ManagementActionRef {
 
 #[derive(Debug, Clone)]
 pub(crate) struct ManagementActionUpdateNotification {
-    /// new management action definition
+    /// management action definition from update
     definition: ManagementActionSpecification,
     /// watch receiver for when the update notification should be released to the application
     release_asset_component_notifications_rx: watch::Receiver<()>,
@@ -3627,18 +3608,20 @@ pub enum ManagementActionNotification {
     /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
     AssetUpdated(Result<(), AdrConfigError>),
     /// Indicates that the Management Action's definition has been updated in place.
-    /// This will only be returned if the Management Group or Action definition has changed.
+    /// This will only be returned if the Management Group or Action definition has changed,
+    /// which implies that the Asset has also been updated.
     /// If the default config on the asset changed, the `AssetUpdated` variant will be returned.
     /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
-    ManagementActionUpdated(Result<(), AdrConfigError>),
+    Updated(Result<(), AdrConfigError>),
     /// Indicates that the Management Action's definition has been updated in place and the old executor no longer
     /// can be used with the new definition. This will only be returned if the Management Group or Action
     /// definition has changed, and that change requires a new executor to be created (e.g. topic change).
-    /// If the topic for the executor has not changed, the `ManagementActionUpdated` variant will be returned.
+    /// This changing also implies that the Asset has been updated.
+    /// If the topic for the executor has not changed, the `Updated` variant will be returned.
     /// If there was an error detected, it is included in the result, and must be reported by the application.
     /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update.
-    ManagementActionNewExecutor(Result<ManagementActionExecutor, AdrConfigError>),
+    UpdatedWithNewExecutor(Result<ManagementActionExecutor, AdrConfigError>),
     /// Indicates that the Management Action has been deleted.
     Deleted,
 }
@@ -3981,7 +3964,7 @@ impl ManagementActionClient {
             // Once the action update has been processed we can mark the value in the watcher as seen
             self.management_action_update_watcher_rx.mark_unchanged();
             // if nothing changed, but there was an executor error before, we need to return that error again since it still applies
-            return ManagementActionNotification::ManagementActionUpdated(
+            return ManagementActionNotification::Updated(
                 self.previous_detected_config_status.clone(),
             );
         }
@@ -4008,7 +3991,7 @@ impl ManagementActionClient {
 
         // Once the action definition has been updated we can mark the value in the watcher as seen
         self.management_action_update_watcher_rx.mark_unchanged();
-        ManagementActionNotification::ManagementActionNewExecutor(executor)
+        ManagementActionNotification::UpdatedWithNewExecutor(executor)
     }
 
     /// Creates a new status reporter for this [`ManagementActionClient`]
@@ -4859,11 +4842,16 @@ pub struct ManagementActionSpecification {
     pub type_ref: Option<String>,
     /// The Management Group this action belongs to.
     pub management_group: ManagementGroupSpecification,
+    name_tuple: (String, String),
 }
 
 impl ManagementActionSpecification {
     pub(crate) fn command_name(&self) -> String {
         format!("{}::{}", self.management_group.name, self.name)
+    }
+
+    pub(crate) fn hash_name(&self) -> &(String, String) {
+        &self.name_tuple
     }
 }
 
@@ -4880,6 +4868,7 @@ impl
         ),
     ) -> Self {
         ManagementActionSpecification {
+            name_tuple: (val.0.name.clone(), val.1.name.clone()),
             action_configuration: val.1.action_configuration,
             action_type: val.1.action_type,
             target_uri: val.1.target_uri,
