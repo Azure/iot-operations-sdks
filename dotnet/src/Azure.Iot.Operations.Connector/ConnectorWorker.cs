@@ -32,7 +32,6 @@ namespace Azure.Iot.Operations.Connector
         protected IAzureDeviceRegistryClientWrapper? _adrClient;
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
         private bool _isDisposed = false;
-        private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration;
         private readonly ConcurrentDictionary<string, ConnectorTelemetrySender> _telemetrySenderCache = new();
 
         // Keys are <deviceName>_<inboundEndpointName> and values are the running task and their cancellation token to signal once the device is no longer available or the connector is shutting down
