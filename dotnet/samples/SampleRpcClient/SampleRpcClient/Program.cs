@@ -35,7 +35,7 @@ internal class Program
         await Task.Delay(TimeSpan.FromHours(24));
     }
 
-    private static async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
+    private static Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
     {
         args.AutoAcknowledge = false;
         _ = Task.Run(async () =>
@@ -124,6 +124,7 @@ internal class Program
                 }
             }
         });
-        
+
+        return Task.CompletedTask;
     }
 }
