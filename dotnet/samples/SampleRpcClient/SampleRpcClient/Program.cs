@@ -56,6 +56,9 @@ internal class Program
 
                 try
                 {
+                    Console.WriteLine("ACK'ing the recieved MQTT publish from connector.");
+                    await args.AcknowledgeAsync(default);
+
                     Console.WriteLine("Recieved MQTT publish from connector. Sending mRPC back to connector");
                     var crm = new CommandRequestMetadata();
                     long stageThreeTicks = DateTime.UtcNow.Ticks;
@@ -88,9 +91,6 @@ internal class Program
                         Console.WriteLine("Stage 4 ticks not found");
                         return;
                     }
-
-                    Console.WriteLine("ACK'ing the recieved MQTT publish from connector.");
-                    await args.AcknowledgeAsync(default);
 
                     // Delay between TCP connector publishing message and this app receiving it from the broker
                     long delayOne = (stageThreeTicks - stageTwoTicks.Value) / System.TimeSpan.TicksPerMillisecond;
