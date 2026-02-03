@@ -13,6 +13,7 @@ namespace EventDrivenTcpThermostatConnector
 {
     public class MessageSchemaProvider : IMessageSchemaProvider
     {
+        /*
         private static readonly string _datasetJsonSchema = """
     {
         "$schema": "https://json-schema.org/draft-07/schema#",
@@ -27,7 +28,7 @@ namespace EventDrivenTcpThermostatConnector
         }
     }
     """;
-
+        */
         public static Func<IServiceProvider, IMessageSchemaProvider> Factory = service =>
         {
             return new MessageSchemaProvider();
