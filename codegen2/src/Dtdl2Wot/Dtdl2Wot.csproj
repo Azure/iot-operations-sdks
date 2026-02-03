@@ -46,6 +46,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PlaceholderThingSchema.tt</DependentUpon>
     </Compile>
+    <Compile Update="ModelSet\t4\ModelSet.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModelSet.tt</DependentUpon>
+    </Compile>
     <Compile Update="Object\t4\ObjectThingSchema.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -92,6 +97,11 @@
     <None Update="Map\t4\PlaceholderThingSchema.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>PlaceholderThingSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
+    </None>
+    <None Update="ModelSet\t4\ModelSet.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ModelSet.cs</LastGenOutput>
       <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
     </None>
     <None Update="Object\t4\ObjectThingSchema.tt">

@@ -52,20 +52,16 @@ namespace Dtdl2Wot
             var modelParser = new ModelParser(parsingOptions);
 
             IReadOnlyDictionary<Dtmi, DTEntityInfo> model = modelParser.Parse(modelText, parseLocator);
+            string schemaNamesPath = Path.GetRelativePath(outputDirectory.FullName, schemaNamesFile.FullName).Replace('\\', '/');
 
-            foreach (DTEntityInfo dtEntity in model.Values)
-            {
-                if (dtEntity.EntityKind == DTEntityKind.Interface && dtEntity.SupplementalTypes.Any(t => DtdlMqttExtensionValues.MqttAdjunctTypeRegex.IsMatch(t.AbsoluteUri)))
-                {
-                    DTInterfaceInfo dtInterface = (DTInterfaceInfo)dtEntity;
-                    Dtmi mqttTypeId = dtInterface.SupplementalTypes.First(t => DtdlMqttExtensionValues.MqttAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
-                    int mqttVersion = int.Parse(DtdlMqttExtensionValues.MqttAdjunctTypeRegex.Match(mqttTypeId.AbsoluteUri).Groups[1].Captures[0].Value);
+            List<DTInterfaceInfo> thingInterfaces = model.Values.Where(dt => dt.EntityKind == DTEntityKind.Interface && dt.SupplementalTypes.Any(t => DtdlMqttExtensionValues.MqttAdjunctTypeRegex.IsMatch(t.AbsoluteUri))).Cast<DTInterfaceInfo>().ToList();
 
-                    ThingGenerator thingGenerator = new ThingGenerator(model, dtInterface.Id, mqttVersion);
+            ITemplateTransform transform = thingInterfaces.Count == 1 ?
+                new InterfaceThing(model, thingInterfaces[0].Id, GetMqttVersion(thingInterfaces[0]), schemaNamesPath) :
+                new ModelSet(inputFile.Name, thingInterfaces.Select(i => new InterfaceThing(model, i.Id, GetMqttVersion(i), schemaNamesPath)).Cast<ITemplateTransform>().ToList());
 
-                    thingGenerator.GenerateThing(outputDirectory, schemaNamesFile);
-                }
-            }
+            ThingGenerator thingGenerator = new ThingGenerator(transform, outputDirectory);
+            thingGenerator.GenerateThing();
 
             if (!schemaNamesFile.Exists)
             {
@@ -77,6 +73,12 @@ namespace Dtdl2Wot
             }
 
             return 0;
+        }
+
+        private static int GetMqttVersion(DTInterfaceInfo dtInterface)
+        {
+            Dtmi mqttTypeId = dtInterface.SupplementalTypes.First(t => DtdlMqttExtensionValues.MqttAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
+            return int.Parse(DtdlMqttExtensionValues.MqttAdjunctTypeRegex.Match(mqttTypeId.AbsoluteUri).Groups[1].Captures[0].Value);
         }
     }
 }

@@ -1,0 +1,22 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+"<#=this.eventName#>" : {
+  "data": {
+<# this.PushIndent("    "); #>
+<#=this.dataSchema.TransformText()#>
+<# this.PopIndent(); #>
+  },
+<# if (this.uaVariable.IsPlaceholder) { #>
+  "dtv:placeholder": true,
+<# } #>
+  "forms": [
+    {
+      "contentType": "application/json",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/event/<#=this.eventName#>/{senderId}",
+      "op": "subscribeevent"
+    }
+  ]
+}

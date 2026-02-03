@@ -1,0 +1,70 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    {
+      "dtv": "http://azure.com/DigitalTwins/dtmi#",
+      "aov": "http://azure.com/IoT/operations/tm#"
+    }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "<#=this.thingName#>",
+  "links": [
+<# int ix = 1; foreach (string baseModelRef in this.baseModelRefs) { #>
+    {
+      "rel": "tm:extends",
+      "href": "<#=baseModelRef#>",
+      "type": "application/tm+json"
+    }<#=ix < this.baseModelRefs.Count ? "," : ""#>
+<# ix++; } #>
+  ],
+  "schemaDefinitions": {
+  },
+<# if (this.properties.Any() || this.events.Any()) { #>
+  "forms": [
+<# if (this.events.Any()) { #>
+    {
+      "contentType": "application/json",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/events/{senderId}",
+      "op": "subscribeallevents"
+    }<#=this.properties.Any() ? "," : ""#>
+<# } #>
+<# if (this.properties.Any()) { #>
+<# if (this.properties.Any(p => !p.ReadOnly)) { #>
+    {
+      "contentType": "application/json",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/write",
+      "op": "writemultipleproperties"
+    },
+<# } #>
+    {
+      "contentType": "application/json",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/read",
+      "op": "readallproperties"
+    }
+<# } #>
+  ],
+<# } #>
+  "actions": {
+<# this.PushIndent("    "); #>
+<# ix = 1; foreach (WotAction action in this.actions) { #>
+<#=action.TransformText()#><#=ix < this.actions.Count ? "," : ""#>
+<# ix++; } this.PopIndent(); #>
+  },
+  "properties": {
+<# this.PushIndent("    "); #>
+<# ix = 1; foreach (WotProperty property in this.properties) { #>
+<#=property.TransformText()#><#=ix < this.properties.Count ? "," : ""#>
+<# ix++; } this.PopIndent(); #>
+  },
+  "events": {
+<# this.PushIndent("    "); #>
+<# ix = 1; foreach (WotEvent evt in this.events) { #>
+<#=evt.TransformText()#><#=ix < this.events.Count ? "," : ""#>
+<# ix++; } this.PopIndent(); #>
+  }
+}

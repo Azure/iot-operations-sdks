@@ -1,0 +1,24 @@
+<#@ template language="C#" inherits="WotDataSchema" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+<# if (this.schemaName != null) { #>
+"title": "<#=this.schemaName#>",
+<# } #>
+<# if (this.description != null) { #>
+"description": "<#=this.description#>",
+<# } #>
+"type": "object",
+<# if (this.requiredFieldNames.Any()) { #>
+"required": [ <#=string.Join(", ", this.requiredFieldNames.Select(f => $"\"{f}\""))#> ],
+<# } #>
+"properties": {
+<# int ix = 1; foreach (KeyValuePair<string, WotDataSchema> fieldDataSchema in this.fieldDataSchemas) { #>
+  "<#=fieldDataSchema.Key#>": {
+<# this.PushIndent("    "); #>
+<#=fieldDataSchema.Value.TransformText()#>
+<# this.PopIndent(); #>
+  }<#=ix < this.fieldDataSchemas.Count ? "," : ""#>
+<# ix++; } #>
+}

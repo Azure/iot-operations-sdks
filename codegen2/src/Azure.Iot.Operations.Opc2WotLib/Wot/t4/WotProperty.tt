@@ -1,0 +1,28 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+"<#=this.propertyName#>" : {
+<# this.PushIndent("  "); #>
+<#=this.dataSchema.TransformText()#>,
+<# this.PopIndent(); #>
+  "readOnly": <#=this.ReadOnly ? "true" : "false"#>,
+<# if (this.uaVariable.IsPlaceholder) { #>
+  "dtv:placeholder": true,
+<# } #>
+  "forms": [
+<# if (!this.ReadOnly) { #>
+    {
+      "contentType": "application/json",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/property/<#=this.propertyName#>/write",
+      "op": "writeproperty"
+    },
+<# } #>
+    {
+      "contentType": "application/json",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/property/<#=this.propertyName#>/read",
+      "op": "readproperty"
+    }
+  ]
+}
