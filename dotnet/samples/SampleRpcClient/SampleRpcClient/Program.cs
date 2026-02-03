@@ -37,7 +37,11 @@ internal class Program
 
     private static async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
     {
-        if (args.ApplicationMessage.Topic.Equals("timtay/topic"))
+        if (!args.ApplicationMessage.Topic.Equals("timtay/topic"))
+        {
+            Console.WriteLine("received unexpected message on topic " + args.ApplicationMessage.Topic);
+        }
+        else if (args.ApplicationMessage.Topic.Equals("timtay/topic"))
         {
             long? stageTwoTicks = null;
             if (args.ApplicationMessage.UserProperties != null)
