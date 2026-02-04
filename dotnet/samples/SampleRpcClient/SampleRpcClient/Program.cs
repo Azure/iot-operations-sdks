@@ -58,6 +58,7 @@ internal class Program
                     return;
                 }
 
+
                 // Delay between this app sending RPC and when the connector receiving it
                 long delayTwo = (stageFourTicks.Value - stageThreeTicks) / System.TimeSpan.TicksPerMillisecond;
 

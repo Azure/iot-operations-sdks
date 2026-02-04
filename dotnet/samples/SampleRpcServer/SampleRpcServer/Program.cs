@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Connection;
+using Azure.Iot.Operations.Protocol.RPC;
 using SimpleRpcServer;
 
 string commandName = "someCommandName";
@@ -22,18 +23,13 @@ await using SampleCommandExecutor rpcExecutor = new(new(), mqttClient, commandNa
 {
     OnCommandReceived = (request, cancellationToken) =>
     {
-        Console.WriteLine("Received RPC request");
-
-        var responsePayload = new PayloadObject()
+        CommandResponseMetadata responseMetadata = new CommandResponseMetadata();
+        long stageFourTicks = DateTime.UtcNow.Ticks;
+        responseMetadata.UserData.Add("stage4", stageFourTicks + "");
+        return Task.FromResult(new ExtendedResponse<PayloadObject>()
         {
-            SomeField = request.Request.SomeField,
-            OtherField = request.Request.OtherField,
-        };
-
-        // Echo the payload back to the sender
-        return Task.FromResult(new Azure.Iot.Operations.Protocol.RPC.ExtendedResponse<PayloadObject>()
-        {
-            Response = responsePayload
+            Response = new PayloadObject(),
+            ResponseMetadata = responseMetadata,
         });
     }
 };
