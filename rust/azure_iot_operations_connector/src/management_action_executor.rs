@@ -22,9 +22,6 @@ use tokio::sync::Notify;
 
 use crate::{AdrConfigError, ManagementActionRef, base_connector::ConnectorContext};
 
-/// Initial backoff delay for exponential backoff retries
-const INITIAL_BACKOFF_DELAY: Duration = Duration::from_millis(50);
-
 /// Executor for a Management Action. Used to receive requests.
 pub struct ManagementActionExecutor {
     executor: rpc_command::Executor<BypassPayload, BypassPayload>,
@@ -34,22 +31,14 @@ pub struct ManagementActionExecutor {
 }
 
 impl ManagementActionExecutor {
+    /// Initial backoff delay for exponential backoff retries
+    const INITIAL_BACKOFF_DELAY: Duration = Duration::from_millis(50);
+
     pub(crate) fn new(
-        topic: Option<&String>,
-        default_topic: Option<&String>,
+        request_topic_pattern: String,
         management_action_ref: &ManagementActionRef,
         connector_context: &Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
-        let request_topic_pattern = if let Some(topic) = topic.or(default_topic) {
-            // TODO: ensure topic has the correct tokens
-            topic.clone()
-        } else {
-            return Err(AdrConfigError {
-                code: None,
-                details: None,
-                message: Some("Management Group must have default topic if Management Action doesn't have a topic".to_string()),
-            });
-        };
         let topic_token_map = HashMap::from([
             (
                 "assetName".to_string(),
@@ -118,8 +107,8 @@ impl ManagementActionExecutor {
         // need to make sure that recv() doesn't return None from the fn if the shutdown hasn't successfully completed yet (or tried too many times) - if I unbias the select, then it could return None before retrying the shutdown again
         // this is also why the shutdown flow calls recv() internally if shutdown fails, so that None can be ignored until shutdown is successful
 
-        let mut subscribe_delay = INITIAL_BACKOFF_DELAY;
-        let mut shutdown_delay = INITIAL_BACKOFF_DELAY;
+        let mut subscribe_delay = Self::INITIAL_BACKOFF_DELAY;
+        let mut shutdown_delay = Self::INITIAL_BACKOFF_DELAY;
         // must be a local variable in case there are many requests to drain after shutdown is requested
         let mut shutdown_attempts = 0;
         loop {
@@ -183,6 +172,22 @@ impl ManagementActionExecutor {
                 }
             }
         }
+    }
+}
+
+pub(crate) fn try_executor_topic_from_management_topics(
+    topic: Option<&String>,
+    default_topic: Option<&String>,
+) -> Result<String, AdrConfigError> {
+    if let Some(topic) = topic.or(default_topic) {
+        // TODO: ensure topic has the correct tokens
+        Ok(topic.clone())
+    } else {
+        return Err(AdrConfigError {
+            code: None,
+            details: None,
+            message: Some("Management Group must have default topic if Management Action doesn't have a topic".to_string()),
+        });
     }
 }
 

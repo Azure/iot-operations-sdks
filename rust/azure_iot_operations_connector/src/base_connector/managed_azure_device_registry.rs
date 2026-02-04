@@ -32,7 +32,7 @@ use crate::{
         azure_device_registry::{AssetRef, DeviceEndpointRef},
     },
     destination_endpoint::{self, DataOperationForwarder},
-    management_action_executor::ManagementActionExecutor,
+    management_action_executor::{self, ManagementActionExecutor},
 };
 
 /// Used as the strategy when using [`tokio_retry2::Retry`]
@@ -3697,12 +3697,13 @@ impl ManagementActionClient {
                 health_cancellation_token.clone(),
             );
         // create executor
-        let executor_res = ManagementActionExecutor::new(
+        let executor_res = management_action_executor::try_executor_topic_from_management_topics(
             definition.topic.as_ref(),
             definition.management_group.default_topic.as_ref(),
-            &management_action_ref,
-            &connector_context,
-        );
+        )
+        .and_then(|topic| {
+            ManagementActionExecutor::new(topic, &management_action_ref, &connector_context)
+        });
 
         (
             Self {
@@ -3976,22 +3977,28 @@ impl ManagementActionClient {
         self.executor_shutdown_notifier
             .as_ref()
             .inspect(|notify| notify.notify_one());
-        let executor = ManagementActionExecutor::new(
+        let executor_res = management_action_executor::try_executor_topic_from_management_topics(
             self.definition.topic.as_ref(),
             self.definition.management_group.default_topic.as_ref(),
-            &self.management_action_ref,
-            &self.connector_context,
-        );
+        )
+        .and_then(|topic| {
+            ManagementActionExecutor::new(
+                topic,
+                &self.management_action_ref,
+                &self.connector_context,
+            )
+        });
 
-        self.executor_shutdown_notifier = executor
+        self.executor_shutdown_notifier = executor_res
             .as_ref()
             .ok()
             .map(ManagementActionExecutor::get_shutdown_notifier);
-        self.previous_detected_config_status = executor.as_ref().map(|_| ()).map_err(Clone::clone);
+        self.previous_detected_config_status =
+            executor_res.as_ref().map(|_| ()).map_err(Clone::clone);
 
         // Once the action definition has been updated we can mark the value in the watcher as seen
         self.management_action_update_watcher_rx.mark_unchanged();
-        ManagementActionNotification::UpdatedWithNewExecutor(executor)
+        ManagementActionNotification::UpdatedWithNewExecutor(executor_res)
     }
 
     /// Creates a new status reporter for this [`ManagementActionClient`]
