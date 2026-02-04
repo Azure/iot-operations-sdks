@@ -161,19 +161,19 @@ internal static class ProtocolConverter
     }
 
     internal static AdrBaseService.DiscoveredAssetManagementGroup ToProtocol(this DiscoveredAssetManagementGroup source)
-{
-    return new AdrBaseService.DiscoveredAssetManagementGroup
     {
-        Actions = source.Actions?.Select(x => x.ToProtocol()).ToList(),
-        DefaultTimeoutInSeconds = source.DefaultTimeoutInSeconds,
-        DefaultTopic = source.DefaultTopic,
-        LastUpdatedOn = source.LastUpdatedOn,
-        ManagementGroupConfiguration = source.ManagementGroupConfiguration,
-        Name = source.Name,
-        TypeRef = source.TypeRef,
-
-    };
-}
+        return new AdrBaseService.DiscoveredAssetManagementGroup
+        {
+            Actions = source.Actions?.Select(x => x.ToProtocol()).ToList(),
+            DataSource = source.DataSource,
+            DefaultTimeoutInSeconds = source.DefaultTimeoutInSeconds,
+            DefaultTopic = source.DefaultTopic,
+            LastUpdatedOn = source.LastUpdatedOn,
+            ManagementGroupConfiguration = source.ManagementGroupConfiguration,
+            Name = source.Name,
+            TypeRef = source.TypeRef,
+        };
+    }
 
     internal static AdrBaseService.DiscoveredAssetManagementGroupAction ToProtocol(this DiscoveredAssetManagementGroupAction source)
 {
