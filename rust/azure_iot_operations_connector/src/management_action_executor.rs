@@ -183,11 +183,11 @@ pub(crate) fn try_executor_topic_from_management_topics(
         // TODO: ensure topic has the correct tokens
         Ok(topic.clone())
     } else {
-        return Err(AdrConfigError {
+        Err(AdrConfigError {
             code: None,
             details: None,
             message: Some("Management Group must have default topic if Management Action doesn't have a topic".to_string()),
-        });
+        })
     }
 }
 
