@@ -184,6 +184,9 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
             throw new InvalidOperationException("Only retained messages can be persisted. Must set the retain flag on this message to persist it.");
         }
 
+        applicationMessage.UserProperties ??= new();
+        applicationMessage.UserProperties.Add(new MqttUserProperty("sent", DateTime.UtcNow.Ticks + ""));
+
         await ValidateMessageSize(applicationMessage);
         return MqttNetConverter.ToGeneric(await UnderlyingMqttClient.PublishAsync(MqttNetConverter.FromGeneric(applicationMessage), cancellationToken));
     }
@@ -210,6 +213,32 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     private async Task OnMessageReceived(MQTTnet.MqttApplicationMessageReceivedEventArgs mqttNetArgs)
     {
+        bool found = false;
+        if (mqttNetArgs.ApplicationMessage.UserProperties != null)
+        {
+            foreach (var sentUserProperty in mqttNetArgs.ApplicationMessage.UserProperties)
+            {
+                if (sentUserProperty.Name.Equals("sent"))
+                {
+                    found = true;
+                    long now = DateTime.UtcNow.Ticks;
+                    long sent = long.Parse(sentUserProperty.Value);
+                    long diff = now - sent;
+                    if (diff > 30)
+                    {
+                        Trace.WriteLine("DIFF WAS AT BROKER");
+                        Console.WriteLine("DIFF WAS AT BROKER");
+                    }
+                }
+            }
+        }
+
+        if (!found)
+        {
+            Trace.WriteLine("CAN'T CORRELATE");
+            Console.WriteLine("CAN'T CORRELATE");
+        }
+
         // Never let MQTTnet auto ack a message because it may do so out-of-order
         mqttNetArgs.AutoAcknowledge = false;
         if (mqttNetArgs.ApplicationMessage.QualityOfServiceLevel == MQTTnet.Protocol.MqttQualityOfServiceLevel.AtMostOnce)
