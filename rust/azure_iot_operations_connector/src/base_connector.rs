@@ -86,7 +86,7 @@ pub struct Options {
     #[builder(default = "Duration::from_secs(5)")]
     filemount_debounce_duration: Duration,
 
-    /// Reconnect policy for the MQTT Session
+    /// Reconnect policy used by the MQTT Session.
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     reconnect_policy: Box<dyn ReconnectPolicy>,
 }
