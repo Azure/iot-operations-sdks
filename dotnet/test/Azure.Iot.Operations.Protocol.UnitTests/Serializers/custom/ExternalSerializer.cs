@@ -3,13 +3,13 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using System;
-using System.Buffers;
-using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.Models;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.custom
 {
+    using System;
+    using System.Buffers;
+    using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
+
     public class ExternalSerializer : IPayloadSerializer
     {
         public static readonly CustomPayload EmptyValue = new (ReadOnlySequence<byte>.Empty);

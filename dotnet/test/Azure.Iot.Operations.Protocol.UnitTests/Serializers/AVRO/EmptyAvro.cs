@@ -3,11 +3,11 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using Avro;
-using Avro.Specific;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
 {
+    using Avro;
+    using Avro.Specific;
+
     public class EmptyAvro : ISpecificRecord
     {
         public Schema Schema

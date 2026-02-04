@@ -3,12 +3,12 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using System;
-using System.Globalization;
-using System.Text.RegularExpressions;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.common
 {
+    using System;
+    using System.Globalization;
+    using System.Text.RegularExpressions;
+
     public class DecimalString
     {
         private static readonly Regex ValidationRegex = new Regex("^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$", RegexOptions.Compiled);

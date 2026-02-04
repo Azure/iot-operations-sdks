@@ -3,17 +3,17 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using System;
-using System.Buffers;
-using System.IO;
-using Avro;
-using Avro.IO;
-using Avro.Specific;
-using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.Models;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
 {
+    using System;
+    using System.Buffers;
+    using System.IO;
+    using Avro;
+    using Avro.IO;
+    using Avro.Specific;
+    using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
+
     public class AvroSerializer<T1, T2> : IPayloadSerializer
         where T1 : class, ISpecificRecord, new()
         where T2 : class, ISpecificRecord, new()

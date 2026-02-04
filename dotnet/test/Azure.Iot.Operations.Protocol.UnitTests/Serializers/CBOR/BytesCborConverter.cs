@@ -3,12 +3,12 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using System;
-using Dahomey.Cbor.Serialization;
-using Dahomey.Cbor.Serialization.Converters;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
 {
+    using System;
+    using Dahomey.Cbor.Serialization;
+    using Dahomey.Cbor.Serialization.Converters;
+
     /// <summary>
     /// Class for customized CBOR conversion of <c>byte[]</c> values to/from Base64 string representations per RFC 4648.
     /// </summary>

@@ -3,12 +3,12 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
 {
+    using System;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
+
     /// <summary>
     /// Class for customized JSON conversion of <c>byte[]</c> values to/from Base64 string representations per RFC 4648.
     /// </summary>

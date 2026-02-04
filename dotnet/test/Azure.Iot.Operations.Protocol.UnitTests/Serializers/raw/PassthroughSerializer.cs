@@ -3,13 +3,13 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using System;
-using System.Buffers;
-using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.Models;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.raw
 {
+    using System;
+    using System.Buffers;
+    using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
+
     public class PassthroughSerializer : IPayloadSerializer
     {
         public const string ContentType = "application/octet-stream";

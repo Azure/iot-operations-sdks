@@ -3,15 +3,15 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using System;
-using System.Buffers;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.Models;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
 {
+    using System;
+    using System.Buffers;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
+    using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
+
     public class Utf8JsonSerializer : IPayloadSerializer
     {
         public const string ContentType = "application/json";

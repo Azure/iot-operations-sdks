@@ -3,13 +3,13 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Xml;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
 {
+    using System;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
+    using System.Xml;
+
     /// <summary>
     /// Class for customized JSON conversion of <c>TimeSpan</c> values to/from string representations in ISO 8601 Duration format.
     /// </summary>

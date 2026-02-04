@@ -3,13 +3,13 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using System;
-using System.Globalization;
-using Dahomey.Cbor.Serialization;
-using Dahomey.Cbor.Serialization.Converters;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
 {
+    using System;
+    using System.Globalization;
+    using Dahomey.Cbor.Serialization;
+    using Dahomey.Cbor.Serialization.Converters;
+
     /// <summary>
     /// Class for customized CBOR conversion of <c>DateOnly</c> values to/from string representations in ISO 8601 Date format.
     /// </summary>

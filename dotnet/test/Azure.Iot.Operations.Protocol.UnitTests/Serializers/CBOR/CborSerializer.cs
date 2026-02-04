@@ -3,16 +3,16 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using Dahomey.Cbor;
-using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.Models;
-using System.Buffers;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
 {
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
+    using Dahomey.Cbor;
+    using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
+    using System.Buffers;
+
 #pragma warning disable VSTHRD002 // Synchronously waiting on tasks or awaiters may cause deadlocks. Use await or JoinableTaskFactory.Run instead.
 
     public class CborSerializer : IPayloadSerializer

@@ -3,15 +3,15 @@
 
 /* This file will be copied into the folder for generated code. */
 
-using System;
-using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
-using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.Models;
-using System.Buffers;
-
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf
 {
+    using System;
+    using Google.Protobuf;
+    using Google.Protobuf.WellKnownTypes;
+    using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
+    using System.Buffers;
+
     public class ProtobufSerializer<T1, T2> : IPayloadSerializer
         where T1 : IMessage<T1>, new()
         where T2 : IMessage<T2>, new()
