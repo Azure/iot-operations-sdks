@@ -122,7 +122,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, requestTopicFilter))
             {
-                args.AutoAcknowledge = false;
+                args.AutoAcknowledge = true;
 
                 DateTime messageReceivedTime = WallClock.UtcNow;
 
