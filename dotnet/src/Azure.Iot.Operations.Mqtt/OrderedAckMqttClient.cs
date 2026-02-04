@@ -223,11 +223,11 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
                     found = true;
                     long now = DateTime.UtcNow.Ticks;
                     long sent = long.Parse(sentUserProperty.Value);
-                    long diff = now - sent;
+                    long diff = (now - sent) / System.TimeSpan.TicksPerMillisecond;
                     if (diff > 30)
                     {
-                        Trace.WriteLine("DIFF WAS AT BROKER");
-                        Console.WriteLine("DIFF WAS AT BROKER");
+                        Trace.WriteLine("DIFF WAS AT BROKER: " + diff);
+                        Console.WriteLine("DIFF WAS AT BROKER: " + diff);
                     }
                 }
             }
