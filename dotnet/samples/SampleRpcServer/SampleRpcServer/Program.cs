@@ -38,7 +38,7 @@ await rpcExecutor.StartAsync();
 
 Console.WriteLine("Now listening for RPC requests...");
 
-await Task.Delay(TimeSpan.FromMinutes(1));
+await Task.Delay(TimeSpan.FromMinutes(10));
 
 Console.WriteLine("Shutting down...");
 
