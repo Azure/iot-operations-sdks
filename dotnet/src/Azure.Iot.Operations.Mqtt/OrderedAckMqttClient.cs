@@ -195,13 +195,18 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         var pubackRecivedTime = DateTime.UtcNow.Ticks;
 
         long diff = (pubackRecivedTime - publishSentTime) / System.TimeSpan.TicksPerMillisecond;
-        if (diff > 30)
+        if (diff > 20)
         {
             Trace.WriteLine("PUBACK DIFF WAS DELAYED: " + diff);
             Console.WriteLine("PUBACK DIFF WAS DELAYED: " + diff);
         }
+        else
+        {
+            Trace.WriteLine("NO DELAY ON PUBACK: " + diff);
+            Console.WriteLine("NO DELAY ON PUBACK: " + diff);
+        }
 
-        return MqttNetConverter.ToGeneric(p);
+            return MqttNetConverter.ToGeneric(p);
     }
 
     /// <inheritdoc/>
@@ -237,7 +242,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
                     long now = DateTime.UtcNow.Ticks;
                     long sent = long.Parse(sentUserProperty.Value);
                     long diff = (now - sent) / System.TimeSpan.TicksPerMillisecond;
-                    if (diff > 30)
+                    if (diff > 20)
                     {
                         Trace.WriteLine("DIFF WAS AT BROKER: " + diff);
                         Console.WriteLine("DIFF WAS AT BROKER: " + diff);
