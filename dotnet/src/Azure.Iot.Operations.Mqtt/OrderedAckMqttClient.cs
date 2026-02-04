@@ -183,12 +183,25 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         {
             throw new InvalidOperationException("Only retained messages can be persisted. Must set the retain flag on this message to persist it.");
         }
-
-        applicationMessage.UserProperties ??= new();
-        applicationMessage.UserProperties.Add(new MqttUserProperty("sent", DateTime.UtcNow.Ticks + ""));
-
         await ValidateMessageSize(applicationMessage);
-        return MqttNetConverter.ToGeneric(await UnderlyingMqttClient.PublishAsync(MqttNetConverter.FromGeneric(applicationMessage), cancellationToken));
+
+        var c = MqttNetConverter.FromGeneric(applicationMessage);
+
+        c.UserProperties ??= new();
+        var publishSentTime = DateTime.UtcNow.Ticks;
+        c.UserProperties.Add(new MQTTnet.Packets.MqttUserProperty("sent", publishSentTime + ""));
+
+        var p = await UnderlyingMqttClient.PublishAsync(c, cancellationToken);
+        var pubackRecivedTime = DateTime.UtcNow.Ticks;
+
+        long diff = (pubackRecivedTime - publishSentTime) / System.TimeSpan.TicksPerMillisecond;
+        if (diff > 30)
+        {
+            Trace.WriteLine("PUBACK DIFF WAS DELAYED: " + diff);
+            Console.WriteLine("PUBACK DIFF WAS DELAYED: " + diff);
+        }
+
+        return MqttNetConverter.ToGeneric(p);
     }
 
     /// <inheritdoc/>
