@@ -6,7 +6,8 @@
 use std::{sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::session::{
-    SessionError, SessionManagedClient, {Session, SessionOptionsBuilder},
+    Session, SessionError, SessionManagedClient, SessionOptionsBuilder,
+    reconnect_policy::ExponentialBackoffWithJitter, reconnect_policy::ReconnectPolicy,
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::{
@@ -84,6 +85,10 @@ pub struct Options {
     /// Debounce duration for filemount operations for the connector
     #[builder(default = "Duration::from_secs(5)")]
     filemount_debounce_duration: Duration,
+
+    /// Reconnect policy used by the MQTT Session.
+    #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
+    reconnect_policy: Box<dyn ReconnectPolicy>,
 }
 
 /// Base Connector for Azure IoT Operations
@@ -109,6 +114,7 @@ impl BaseConnector {
             .map_err(|e| e.clone())?;
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(mqtt_connection_settings)
+            .reconnect_policy(base_connector_options.reconnect_policy)
             .build()
             .map_err(|e| e.to_string())?;
         let session = Session::new(session_options).map_err(|e| e.to_string())?;
