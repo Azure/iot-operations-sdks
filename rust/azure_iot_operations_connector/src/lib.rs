@@ -17,6 +17,7 @@ pub mod base_connector;
 pub mod data_processor;
 pub mod deployment_artifacts;
 pub mod destination_endpoint;
+pub mod management_action_executor;
 
 #[macro_use]
 extern crate derive_getters;
@@ -103,4 +104,38 @@ pub struct DataOperationRef {
     pub device_name: String,
     /// The name of the endpoint
     pub inbound_endpoint_name: String,
+}
+
+/// Represents a `ManagementAction` associated with a specific device, endpoint, asset, and management group.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct ManagementActionRef {
+    /// The name of the management action
+    pub management_action_name: String,
+    /// The name of the management group
+    pub management_group_name: String,
+    /// The name of the asset
+    pub asset_name: String,
+    /// The name of the device
+    pub device_name: String,
+    /// The name of the endpoint
+    pub inbound_endpoint_name: String,
+}
+
+impl ManagementActionRef {
+    /// Gets the command name for this management action
+    pub(crate) fn command_name(&self) -> String {
+        format!(
+            "{}::{}",
+            self.management_group_name, self.management_action_name
+        )
+    }
+
+    /// Printable name for management action
+    #[must_use]
+    pub fn name(&self) -> String {
+        format!(
+            "Management Action: {}::{}",
+            self.management_group_name, self.management_action_name
+        )
+    }
 }
