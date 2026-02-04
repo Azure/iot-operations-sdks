@@ -9,11 +9,14 @@ string commandName = "someCommandName";
 bool logMqtt = false;
 
 if (logMqtt) Trace.Listeners.Add(new ConsoleTraceListener());
-await using MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogging = logMqtt });
-
-await mqttClient.ConnectAsync(MqttConnectionSettings.FromEnvVars());
-
-Console.WriteLine("Connected to the MQTT broker");
+await using MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogging = false });
+var mcs = new MqttConnectionSettings("127.0.0.1", Guid.NewGuid().ToString())
+{
+    TcpPort = 1883,
+    UseTls = false
+};
+await mqttClient.ConnectAsync(mcs);
+Console.WriteLine("Connected to broker");
 
 await using SampleCommandExecutor rpcExecutor = new(new(), mqttClient, commandName, new Utf8JsonSerializer())
 {
