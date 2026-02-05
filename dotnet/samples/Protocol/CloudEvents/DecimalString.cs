@@ -39,7 +39,7 @@ namespace CloudEvents
 
         public static explicit operator DecimalString(string stringVal) => new DecimalString(stringVal);
 
-        public static implicit operator double(DecimalString decimalString) => double.TryParse(decimalString.value, out double doubleVal) ? doubleVal : double.NaN;
+        public static implicit operator double(DecimalString decimalString) => double.TryParse(decimalString.value, NumberStyles.Float, CultureInfo.InvariantCulture, out double doubleVal) ? doubleVal : double.NaN;
 
         public static explicit operator DecimalString(double doubleVal) => new DecimalString(doubleVal.ToString("F", CultureInfo.InvariantCulture));
 
