@@ -91,9 +91,12 @@ internal static class ProtocolConverter
             DefaultManagementGroupsConfiguration = source.DefaultManagementGroupsConfiguration,
             DefaultStreamsConfiguration = source.DefaultStreamsConfiguration,
             DefaultStreamsDestinations = source.DefaultStreamsDestinations?.Select(x => x.ToProtocol()).ToList(),
+            Description = source.Description,
             DeviceRef = source.DeviceRef.ToProtocol(),
+            DisplayName = source.DisplayName,
             DocumentationUri = source.DocumentationUri,
             EventGroups = source.EventGroups?.Select(x => x.ToProtocol()).ToList(),
+            ExternalAssetId = source.ExternalAssetId,
             HardwareRevision = source.HardwareRevision,
             ManagementGroups = source.ManagementGroups?.Select(x => x.ToProtocol()).ToList(),
             Manufacturer = source.Manufacturer,
@@ -162,13 +165,13 @@ internal static class ProtocolConverter
     return new AdrBaseService.DiscoveredAssetManagementGroup
     {
         Actions = source.Actions?.Select(x => x.ToProtocol()).ToList(),
+        DataSource = source.DataSource,
         DefaultTimeoutInSeconds = source.DefaultTimeoutInSeconds,
         DefaultTopic = source.DefaultTopic,
         LastUpdatedOn = source.LastUpdatedOn,
         ManagementGroupConfiguration = source.ManagementGroupConfiguration,
         Name = source.Name,
         TypeRef = source.TypeRef,
-
     };
 }
 

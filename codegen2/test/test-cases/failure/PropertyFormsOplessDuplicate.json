@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyFormsOplessDuplicate.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "PropertyFormsOplessDuplicate.TM.json",
+      "line": 14,
+      "cfLine": 13,
+      "crossRef": ""
+    }
+  ]
+}

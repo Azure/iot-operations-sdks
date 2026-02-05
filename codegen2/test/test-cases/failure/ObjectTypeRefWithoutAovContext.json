@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ObjectTypeRefWithoutAovContext.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "ObjectTypeRefWithoutAovContext.TM.json",
+      "line": 11,
+      "cfLine": 2,
+      "crossRef": ""
+    }
+  ]
+}

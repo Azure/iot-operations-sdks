@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventContainsEventContainedInOther.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "EventContainsEventContainedInOther.TM.json",
+      "line": 18,
+      "cfLine": 31,
+      "crossRef": ""
+    }
+  ]
+}
