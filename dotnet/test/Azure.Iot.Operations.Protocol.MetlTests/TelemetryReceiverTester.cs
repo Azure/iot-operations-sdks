@@ -386,7 +386,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (sourceId != null)
             {
-                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.SourceId, sourceId);
+                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.SourceId, System.Text.Encoding.UTF8.GetBytes(sourceId));
             }
 
             if (actionReceiveTelemetry.Qos != null)
@@ -401,7 +401,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             foreach (KeyValuePair<string, string> kvp in actionReceiveTelemetry.Metadata)
             {
-                requestAppMsgBuilder.WithUserProperty(kvp.Key, kvp.Value);
+                requestAppMsgBuilder.WithUserProperty(kvp.Key, System.Text.Encoding.UTF8.GetBytes(kvp.Value));
             }
 
             MqttApplicationMessage requestAppMsg = requestAppMsgBuilder.Build();
