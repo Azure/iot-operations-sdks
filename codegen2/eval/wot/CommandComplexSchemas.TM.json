@@ -1,0 +1,108 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "CommandComplexSchemas",
+  "links": [
+    {
+      "rel": "dtv:naming",
+      "href": "./CommandComplexSchemas.SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
+  "schemaDefinitions": {
+    "WhenNow": {
+      "description": "Indicates that the action should be performed immediately.",
+      "type": "integer",
+      "const": 1
+    },
+    "WhenLater": {
+      "description": "Indicates that the action should be performed after a deferral.",
+      "type": "integer",
+      "const": 2
+    },
+    "Hello": {
+      "type": "string",
+      "const": "Hello, World!"
+    },
+    "Raining": {
+      "type": "boolean",
+        "const": true
+    },
+    "Sunny": {
+      "type": "boolean",
+      "const": false
+    }
+  },
+  "actions": {
+    "doSomething": {
+      "input": {
+        "title": "DoSomethingRequestPayload",
+        "type": "object",
+        "required": [ "input" ],
+        "properties": {
+          "input": {
+            "type": "object",
+            "title": "DoSomethingRequestSchema",
+            "properties": {
+              "actions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "when": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          }
+        }
+      },
+      "output": {
+        "title": "SomeResponseInfo",
+        "type": "object",
+        "description": "The result of the doSomething command.",
+        "properties": {
+          "details": {
+            "type": "object",
+            "dtv:additionalProperties": {
+              "title": "Results",
+              "type": "string",
+              "enum": [
+                "success",
+                "failure"
+              ]
+            }
+          },
+          "magnitude": {
+            "type": "string",
+            "pattern": "^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$"
+          },
+          "overallResult": {
+            "title": "Results",
+            "type": "string",
+            "enum": [
+              "success",
+              "failure"
+            ]
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "samples/command/doSomething",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventsTopicDuplication.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "EventsTopicDuplication.TM.json",
+      "line": 20,
+      "cfLine": 0,
+      "crossRef": "sample/dup/TestThing"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "EventsTopicDuplication.TM.json",
+      "line": 32,
+      "cfLine": 0,
+      "crossRef": "sample/dup/TestThing"
+    }
+  ]
+}

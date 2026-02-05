@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionFormsMultipleContentTypes.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "ActionFormsMultipleContentTypes.TM.json",
+      "line": 12,
+      "cfLine": 17,
+      "crossRef": ""
+    }
+  ]
+}

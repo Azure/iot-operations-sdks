@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidThing/TypeEmpty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyEmpty",
+      "filename": "TypeEmpty.TM.json",
+      "line": 6,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

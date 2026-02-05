@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyFormAdditionalResponsesMultiple.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ElementsPlural",
+      "filename": "PropertyFormAdditionalResponsesMultiple.TM.json",
+      "line": 36,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

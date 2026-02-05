@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyFormReadWithoutTopicWriteWithTopicAndRootFormReadAll.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "PropertyFormReadWithoutTopicWriteWithTopicAndRootFormReadAll.TM.json",
+      "line": 25,
+      "cfLine": 20,
+      "crossRef": ""
+    }
+  ]
+}
