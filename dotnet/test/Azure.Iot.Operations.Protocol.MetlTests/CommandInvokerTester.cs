@@ -413,32 +413,32 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             foreach (KeyValuePair<string, string> kvp in actionReceiveResponse.Metadata)
             {
-                responseAppMsgBuilder.WithUserProperty(kvp.Key, kvp.Value);
+                responseAppMsgBuilder.WithUserProperty(kvp.Key, System.Text.Encoding.UTF8.GetBytes(kvp.Value));
             }
 
             if (actionReceiveResponse.Status != null)
             {
-                responseAppMsgBuilder.WithUserProperty(AkriSystemProperties.Status, actionReceiveResponse.Status);
+                responseAppMsgBuilder.WithUserProperty(AkriSystemProperties.Status, System.Text.Encoding.UTF8.GetBytes(actionReceiveResponse.Status));
             }
 
             if (actionReceiveResponse.StatusMessage != null)
             {
-                responseAppMsgBuilder.WithUserProperty(AkriSystemProperties.StatusMessage, actionReceiveResponse.StatusMessage);
+                responseAppMsgBuilder.WithUserProperty(AkriSystemProperties.StatusMessage, System.Text.Encoding.UTF8.GetBytes(actionReceiveResponse.StatusMessage));
             }
 
             if (actionReceiveResponse.IsApplicationError != null)
             {
-                responseAppMsgBuilder.WithUserProperty(AkriSystemProperties.IsApplicationError, actionReceiveResponse.IsApplicationError);
+                responseAppMsgBuilder.WithUserProperty(AkriSystemProperties.IsApplicationError, System.Text.Encoding.UTF8.GetBytes(actionReceiveResponse.IsApplicationError));
             }
 
             if (actionReceiveResponse.InvalidPropertyName != null)
             {
-                responseAppMsgBuilder.WithUserProperty(AkriSystemProperties.InvalidPropertyName, actionReceiveResponse.InvalidPropertyName);
+                responseAppMsgBuilder.WithUserProperty(AkriSystemProperties.InvalidPropertyName, System.Text.Encoding.UTF8.GetBytes(actionReceiveResponse.InvalidPropertyName));
             }
 
             if (actionReceiveResponse.InvalidPropertyValue != null)
             {
-                responseAppMsgBuilder.WithUserProperty(AkriSystemProperties.InvalidPropertyValue, actionReceiveResponse.InvalidPropertyValue);
+                responseAppMsgBuilder.WithUserProperty(AkriSystemProperties.InvalidPropertyValue, System.Text.Encoding.UTF8.GetBytes(actionReceiveResponse.InvalidPropertyValue));
             }
 
             MQTTnet.MqttApplicationMessage responseAppMsg = responseAppMsgBuilder.Build();
