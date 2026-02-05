@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventDuplicateSchemaNamesObjectsDifferentFieldValues.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "EventDuplicateSchemaNamesObjectsDifferentFieldValues.TM.json",
+      "line": 18,
+      "cfLine": 36,
+      "crossRef": ""
+    },
+    {
+      "condition": "Duplication",
+      "filename": "EventDuplicateSchemaNamesObjectsDifferentFieldValues.TM.json",
+      "line": 36,
+      "cfLine": 18,
+      "crossRef": ""
+    }
+  ]
+}

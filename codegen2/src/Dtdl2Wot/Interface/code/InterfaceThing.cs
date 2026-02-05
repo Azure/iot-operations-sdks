@@ -1,0 +1,91 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace Dtdl2Wot
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using DTDLParser;
+    using DTDLParser.Models;
+
+    public partial class InterfaceThing : ITemplateTransform
+    {
+        private readonly DTInterfaceInfo dtInterface;
+        private readonly CodeName serviceName;
+        private readonly int mqttVersion;
+        private string schemaNamesPath;
+        private readonly string? telemetryTopic;
+        private readonly string? commandTopic;
+        private readonly string? propertyTopic;
+        private readonly string? telemServiceGroupId;
+        private readonly string? cmdServiceGroupId;
+        private readonly bool aggregateTelemetries;
+        private readonly bool aggregateProperties;
+        private readonly bool usesTypes;
+        private readonly string contentType;
+        private readonly Dictionary<string, DTSchemaInfo> errorSchemas;
+        private readonly Dictionary<string, DTEnumInfo> namespacedEnums;
+        private readonly ThingDescriber thingDescriber;
+
+        public InterfaceThing(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string schemaNamesPath)
+        {
+            this.dtInterface = (DTInterfaceInfo)modelDict[interfaceId];
+            this.serviceName = new CodeName(dtInterface.Id);
+            this.mqttVersion = mqttVersion;
+            this.schemaNamesPath = schemaNamesPath;
+
+            this.telemetryTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.TelemTopicPropertyFormat, mqttVersion), out object? telemTopicObj) ? ((string)telemTopicObj).Replace(DtdlMqttTopicTokens.ModelId, interfaceId.AbsoluteUri) : null;
+            this.commandTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.CmdReqTopicPropertyFormat, mqttVersion), out object? cmdTopicObj) ? ((string)cmdTopicObj).Replace(DtdlMqttTopicTokens.ModelId, interfaceId.AbsoluteUri) : null;
+            this.propertyTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.PropTopicPropertyFormat, mqttVersion), out object? propTopicObj) ? ((string)propTopicObj).Replace(DtdlMqttTopicTokens.ModelId, interfaceId.AbsoluteUri) : null;
+
+            this.telemServiceGroupId = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.TelemServiceGroupIdPropertyFormat, mqttVersion), out object? telemServiceGroupIdObj) ? (string)telemServiceGroupIdObj : null;
+            this.cmdServiceGroupId = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.CmdServiceGroupIdPropertyFormat, mqttVersion), out object? cmdServiceGroupIdObj) ? (string)cmdServiceGroupIdObj : null;
+
+            this.aggregateTelemetries = this.telemetryTopic != null && !this.telemetryTopic.Contains(DtdlMqttTopicTokens.TelemetryName);
+            this.aggregateProperties = this.propertyTopic != null && !this.propertyTopic.Contains(DtdlMqttTopicTokens.PropertyName);
+
+            string payloadFormat = (string)dtInterface.SupplementalProperties[string.Format(DtdlMqttExtensionValues.PayloadFormatPropertyFormat, mqttVersion)];
+            this.usesTypes = payloadFormat != PayloadFormat.Raw && payloadFormat != PayloadFormat.Custom;
+            this.contentType = payloadFormat switch
+            {
+                PayloadFormat.Avro => "application/avro",
+                PayloadFormat.Json => "application/json",
+                PayloadFormat.Raw => "application/octet-stream",
+                PayloadFormat.Custom => "",
+                _ => throw new InvalidOperationException($"InvalidOperationException \"{payloadFormat}\" not recognized"),
+            };
+            Dtmi errorResultType = new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorResultAdjunctTypeFormat, mqttVersion));
+            Dtmi readErrorType = new Dtmi(string.Format(DtdlMqttExtensionValues.ReadErrorAdjunctTypeFormat, mqttVersion));
+            Dtmi writeErrorType = new Dtmi(string.Format(DtdlMqttExtensionValues.WriteErrorAdjunctTypeFormat, mqttVersion));
+            Dtmi errorInfoType = new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorInfoAdjunctTypeFormat, mqttVersion));
+
+            IEnumerable<DTFieldInfo> errorFields = modelDict.Values.Where(e => e.EntityKind == DTEntityKind.Field).Select(e => (DTFieldInfo)e).Where(f => f.SupplementalTypes.Contains(errorResultType) || f.SupplementalTypes.Contains(readErrorType) || f.SupplementalTypes.Contains(writeErrorType) || f.SupplementalTypes.Contains(errorInfoType));
+
+            this.errorSchemas = new Dictionary<string, DTSchemaInfo>();
+            foreach (DTFieldInfo errorField in errorFields)
+            {
+                this.errorSchemas[new CodeName(errorField.Schema.Id).AsGiven] = errorField.Schema;
+            }
+
+            this.namespacedEnums = new();
+            foreach (DTEntityInfo dTEntity in modelDict.Values)
+            {
+                if (dTEntity.EntityKind == DTEntityKind.Enum)
+                {
+                    DTEnumInfo dtEnum = (DTEnumInfo)dTEntity;
+                    if (!EnumThingSchema.CanExpressAsEnum(dtEnum))
+                    {
+                        this.namespacedEnums[new CodeName(dtEnum.Id).AsGiven] = dtEnum;
+                    }
+                }
+            }
+
+            this.thingDescriber = new ThingDescriber(mqttVersion);
+        }
+
+        public string FileName { get => $"{this.serviceName.AsGiven}.TM.json"; }
+
+        public string FolderPath { get => string.Empty; }
+    }
+}

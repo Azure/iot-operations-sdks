@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/IntegerScaleFactorWithoutAovContext.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "IntegerScaleFactorWithoutAovContext.TM.json",
+      "line": 13,
+      "cfLine": 2,
+      "crossRef": ""
+    }
+  ]
+}

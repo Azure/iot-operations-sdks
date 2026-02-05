@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.TDParser", "src\Azure.Iot.Operations.TDParser\Azure.Iot.Operations.TDParser.csproj", "{D100A0D2-9E52-4FF4-8964-C4DE816DC0D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDParse", "src\TDParse\TDParse.csproj", "{9F1A48E4-A681-4FCF-B0FF-1ECBF57E614D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.CodeGeneration", "src\Azure.Iot.Operations.CodeGeneration\Azure.Iot.Operations.CodeGeneration.csproj", "{FAACC86C-C974-4FE5-B7C4-6C59D7983D82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.TypeGenerator", "src\Azure.Iot.Operations.TypeGenerator\Azure.Iot.Operations.TypeGenerator.csproj", "{6C3D81EA-5950-4AFA-AA0F-75EBFB5C1732}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.SchemaGenerator", "src\Azure.Iot.Operations.SchemaGenerator\Azure.Iot.Operations.SchemaGenerator.csproj", "{AED5A5DA-CA6D-4FC6-B806-050603EF5416}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.EnvoyGenerator", "src\Azure.Iot.Operations.EnvoyGenerator\Azure.Iot.Operations.EnvoyGenerator.csproj", "{7A0261EF-4C5B-009B-1F89-A78993646A3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.ProtocolCompiler", "src\Azure.Iot.Operations.ProtocolCompiler\Azure.Iot.Operations.ProtocolCompiler.csproj", "{5A83D072-8E7F-424C-B009-4A6011A13CA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dtdl2Wot", "src\Dtdl2Wot\Dtdl2Wot.csproj", "{67B4CD3D-17A8-4D63-9996-79A424E628A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.ProtocolCompilerLib", "src\Azure.Iot.Operations.ProtocolCompilerLib\Azure.Iot.Operations.ProtocolCompilerLib.csproj", "{F4163CB9-D895-4144-AEB5-CBDBC36B21D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.ProtocolCompiler.UnitTests", "test\Azure.Iot.Operations.ProtocolCompiler.UnitTests\Azure.Iot.Operations.ProtocolCompiler.UnitTests.csproj", "{24D55C64-5869-C81B-611B-A84AB1D357C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D100A0D2-9E52-4FF4-8964-C4DE816DC0D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D100A0D2-9E52-4FF4-8964-C4DE816DC0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D100A0D2-9E52-4FF4-8964-C4DE816DC0D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D100A0D2-9E52-4FF4-8964-C4DE816DC0D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F1A48E4-A681-4FCF-B0FF-1ECBF57E614D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F1A48E4-A681-4FCF-B0FF-1ECBF57E614D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F1A48E4-A681-4FCF-B0FF-1ECBF57E614D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F1A48E4-A681-4FCF-B0FF-1ECBF57E614D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAACC86C-C974-4FE5-B7C4-6C59D7983D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAACC86C-C974-4FE5-B7C4-6C59D7983D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAACC86C-C974-4FE5-B7C4-6C59D7983D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAACC86C-C974-4FE5-B7C4-6C59D7983D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3D81EA-5950-4AFA-AA0F-75EBFB5C1732}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3D81EA-5950-4AFA-AA0F-75EBFB5C1732}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3D81EA-5950-4AFA-AA0F-75EBFB5C1732}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3D81EA-5950-4AFA-AA0F-75EBFB5C1732}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AED5A5DA-CA6D-4FC6-B806-050603EF5416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AED5A5DA-CA6D-4FC6-B806-050603EF5416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AED5A5DA-CA6D-4FC6-B806-050603EF5416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AED5A5DA-CA6D-4FC6-B806-050603EF5416}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A0261EF-4C5B-009B-1F89-A78993646A3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A0261EF-4C5B-009B-1F89-A78993646A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A0261EF-4C5B-009B-1F89-A78993646A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A0261EF-4C5B-009B-1F89-A78993646A3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A83D072-8E7F-424C-B009-4A6011A13CA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A83D072-8E7F-424C-B009-4A6011A13CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A83D072-8E7F-424C-B009-4A6011A13CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A83D072-8E7F-424C-B009-4A6011A13CA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67B4CD3D-17A8-4D63-9996-79A424E628A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67B4CD3D-17A8-4D63-9996-79A424E628A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67B4CD3D-17A8-4D63-9996-79A424E628A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67B4CD3D-17A8-4D63-9996-79A424E628A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4163CB9-D895-4144-AEB5-CBDBC36B21D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4163CB9-D895-4144-AEB5-CBDBC36B21D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4163CB9-D895-4144-AEB5-CBDBC36B21D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4163CB9-D895-4144-AEB5-CBDBC36B21D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D55C64-5869-C81B-611B-A84AB1D357C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D55C64-5869-C81B-611B-A84AB1D357C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D55C64-5869-C81B-611B-A84AB1D357C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D55C64-5869-C81B-611B-A84AB1D357C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{24D55C64-5869-C81B-611B-A84AB1D357C0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DBD77462-D0B0-41D2-BC2B-EF17A519C667}
+	EndGlobalSection
+EndGlobal

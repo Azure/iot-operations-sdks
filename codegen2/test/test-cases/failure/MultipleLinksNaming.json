@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/MultipleLinksNaming.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "MultipleLinksNaming.TM.json",
+      "line": 8,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}
