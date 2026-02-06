@@ -1,0 +1,33 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="DTDLParser" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+    "<#=this.dtTelemetry.Name#>": {
+<# if (this.dtTelemetry.Description.Any()) { #>
+      "description": "<#=this.dtTelemetry.Description.First().Value#>",
+<# } #>
+<# if (this.usesTypes) { #>
+      "data": {
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtTelemetry.Schema, 8)#>
+      },
+<# } else { #>
+      "data": {
+        "type": "null"
+      },
+<# } #>
+      "forms": [
+        {
+          "contentType": "<#=this.contentType#>",
+<# if (this.serviceGroupId != null) { #>
+          "dtv:serviceGroupId": "<#=this.serviceGroupId#>",
+<# } #>
+<# if (this.separate) { #>
+          "dtv:topic": "<#=this.telemetryTopic#>",
+<# } #>
+          "op": "subscribeevent"
+        }
+      ]
+    }

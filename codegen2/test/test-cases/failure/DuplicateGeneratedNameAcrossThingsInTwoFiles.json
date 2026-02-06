@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "valid/ThingOneWithGeneratedNameMyPropSchema.TM.json", "valid/ThingTwoWithGeneratedNameMyPropSchema.TM.json" ],
+    "lang": "csharp"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "ThingOneWithGeneratedNameMyPropSchema.TM.json",
+      "line": 10,
+      "cfLine": 0,
+      "crossRef": "MyPropSchema"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "ThingTwoWithGeneratedNameMyPropSchema.TM.json",
+      "line": 10,
+      "cfLine": 0,
+      "crossRef": "MyPropSchema"
+    }
+  ]
+}

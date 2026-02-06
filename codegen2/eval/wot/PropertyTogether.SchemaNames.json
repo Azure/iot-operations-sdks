@@ -1,0 +1,21 @@
+{
+  "aggregatePropName": "Properties",
+  "aggregateReadRespValueField": "Properties",
+  "aggregateRespErrorField": "Errors",
+  "propReadActName": {
+    "in": [ "propName" ],
+    "out": "ReadPropertyCollection"
+  },
+  "propWriteActName": {
+    "in": [ "propName" ],
+    "out": "WritePropertyCollection"
+  },
+  "propMaintainerBinder": {
+    "in": [ "propSchema" ],
+    "out": "PropertyMaintainer"
+  },
+  "propConsumerBinder": {
+    "in": [ "propSchema" ],
+    "out": "PropertyConsumer"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionFormHeaderInfoNoContentType.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyMissing",
+      "filename": "ActionFormHeaderInfoNoContentType.TM.json",
+      "line": 33,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}
