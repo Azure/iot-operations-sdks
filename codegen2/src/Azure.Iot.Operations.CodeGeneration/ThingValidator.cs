@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.CodeGeneration
         private const string DecimalExample = "1234567890.0987654321";
         private const string AnArbitraryString = "Pretty12345Tricky67890";
 
-        private static readonly Regex TitleRegex = new(@"^[A-Z][A-Za-z0-9]*$", RegexOptions.Compiled);
+        private static readonly Regex TitleRegex = new(@"^[A-Z][A-Za-z0-9_]*$", RegexOptions.Compiled);
         private static readonly Regex RefCharRegex = new(@"^(?:[!#$&-;=?-\[\]_a-z~]|\%[0-9a-fA-F]{2})+$", RegexOptions.Compiled);
         private static readonly Regex EnumValueRegex = new(@"^[A-Za-z][A-Za-z0-9_]*$", RegexOptions.Compiled);
 
@@ -535,7 +535,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (!TitleRegex.IsMatch(title.Value.Value))
             {
-                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.TitleName}' property value \"{title.Value.Value}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters", title.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.TitleName}' property value \"{title.Value.Value}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters and underscores", title.TokenIndex);
                 return false;
             }
 
