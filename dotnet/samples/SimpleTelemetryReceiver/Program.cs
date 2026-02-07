@@ -10,14 +10,16 @@ mqttClient.ApplicationMessageReceivedAsync += async (args) =>
 {
     Console.WriteLine("Handling a request");
     Console.WriteLine();
-    args.AutoAcknowledge = false;
-    MqttApplicationMessage msg =
-        new MqttApplicationMessageBuilder()
-            .WithTopic(args.ApplicationMessage.ResponseTopic)
-            .Build();
+    args.AutoAcknowledge = true;
+    _ = Task.Run(async () =>
+    {
+        MqttApplicationMessage msg =
+            new MqttApplicationMessageBuilder()
+                .WithTopic(args.ApplicationMessage.ResponseTopic)
+                .Build();
 
-    await mqttClient.PublishAsync(msg);
-    await args.AcknowledgeAsync(CancellationToken.None);
+        await mqttClient.PublishAsync(msg);
+    });
 };
 
 await mqttClient.SubscribeAsync(
