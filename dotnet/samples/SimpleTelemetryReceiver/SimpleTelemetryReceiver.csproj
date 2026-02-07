@@ -7,7 +7,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="0.11.0" />
-    <PackageReference Include="Azure.Iot.Operations.Protocol" Version="0.12.1" />
+    <PackageReference Include="MQTTnet" Version="5.0.1.1416" />
   </ItemGroup>
 </Project>

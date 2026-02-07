@@ -1,25 +1,41 @@
-﻿using System.Diagnostics;
-using Azure.Iot.Operations.Mqtt.Session;
-using Azure.Iot.Operations.Protocol.Connection;
-using SimpleTelemetrySender;
+﻿using MQTTnet;
 
-// If you want to log the MQTT layer publishes, subscribes, connects, etc.
-bool logMqtt = false;
+using var mqttClient = new MqttClientFactory().CreateMqttClient();
+var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).Build();
+await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+Console.WriteLine("Connected to MQTT broker");
 
-if (logMqtt) Trace.Listeners.Add(new ConsoleTraceListener());
-await using MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogging = logMqtt });
-
-await mqttClient.ConnectAsync(MqttConnectionSettings.FromEnvVars());
-
-Console.WriteLine("Connected to the MQTT broker");
-
-await using SampleTelemetrySender telemetrySender = new(new(), mqttClient, new Utf8JsonSerializer());
-
-var payloadObject = new PayloadObject()
+TaskCompletionSource responseMessageReceived = new();
+mqttClient.ApplicationMessageReceivedAsync += (args) =>
 {
-    SomeField = "myTelemetry"
+    responseMessageReceived.TrySetResult();
+    return Task.CompletedTask;
 };
 
-Console.WriteLine("Publishing telemetry");
-await telemetrySender.SendTelemetryAsync(payloadObject);
-Console.WriteLine("Telemetry published successfully");
+await mqttClient.SubscribeAsync(
+    new MqttClientSubscribeOptionsBuilder().WithTopicFilter(
+        new MqttTopicFilterBuilder()
+        .WithTopic("timtay/responseTopic")
+        .WithAtLeastOnceQoS()).Build());
+
+MqttApplicationMessage msg =
+    new MqttApplicationMessageBuilder()
+        .WithTopic("timtay/requestTopic")
+        .WithResponseTopic("timtay/responseTopic")
+        .Build();
+
+while (true)
+{
+    await Task.Delay(TimeSpan.FromSeconds(3));
+    await mqttClient.PublishAsync(msg);
+
+    DateTime beforeResponse = DateTime.UtcNow;
+    await responseMessageReceived.Task;
+    DateTime afterResponse = DateTime.UtcNow;
+    responseMessageReceived = new();
+
+    var diff = afterResponse.Subtract(beforeResponse);
+    Console.WriteLine("DIFF! " + diff.TotalMilliseconds);
+    Console.WriteLine();
+}
+

@@ -1,28 +1,29 @@
-﻿using System.Diagnostics;
-using Azure.Iot.Operations.Mqtt.Session;
-using Azure.Iot.Operations.Protocol.Connection;
-using SimpleTelemetryReceiver;
+﻿using MQTTnet;
 
-// If you want to log the MQTT layer publishes, subscribes, connects, etc.
-bool logMqtt = false;
+using var mqttClient = new MqttClientFactory().CreateMqttClient();
+var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).Build();
+await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+Console.WriteLine("Connected to MQTT broker");
 
-if (logMqtt) Trace.Listeners.Add(new ConsoleTraceListener());
-await using MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogging = logMqtt });
 
-await mqttClient.ConnectAsync(MqttConnectionSettings.FromEnvVars());
-
-await using SampleTelemetryReceiver telemetryReceiver = new(new(), mqttClient, new Utf8JsonSerializer());
-telemetryReceiver.OnTelemetryReceived += (sourceId, payload, metadata) =>
+mqttClient.ApplicationMessageReceivedAsync += async (args) =>
 {
-    Console.WriteLine("Received telemetry from source: " + sourceId);
-    return Task.CompletedTask;
+    Console.WriteLine("Handling a request");
+    Console.WriteLine();
+    args.AutoAcknowledge = false;
+    MqttApplicationMessage msg =
+        new MqttApplicationMessageBuilder()
+            .WithTopic(args.ApplicationMessage.ResponseTopic)
+            .Build();
+
+    await mqttClient.PublishAsync(msg);
+    await args.AcknowledgeAsync(CancellationToken.None);
 };
 
-await telemetryReceiver.StartAsync();
+await mqttClient.SubscribeAsync(
+    new MqttClientSubscribeOptionsBuilder().WithTopicFilter(
+        new MqttTopicFilterBuilder()
+        .WithTopic("timtay/requestTopic")
+        .WithAtLeastOnceQoS()).Build());
 
-Console.WriteLine("Now listening for telemetry...");
-
-await Task.Delay(TimeSpan.FromMinutes(1));
-
-Console.WriteLine("Shutting down...");
-
+await Task.Delay(-1);
