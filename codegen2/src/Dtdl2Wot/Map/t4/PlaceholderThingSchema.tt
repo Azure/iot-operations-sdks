@@ -1,0 +1,9 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+<# this.PushIndent(new string(' ', this.indent)); #>
+"dtv:placeholder": true,
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtMap.MapValue.Schema, 0)#><# this.PopIndent(); #>

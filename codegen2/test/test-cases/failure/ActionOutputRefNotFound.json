@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionOutputRefNotFound.TM.json" ],
+    "lang": "csharp"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "ActionOutputRefNotFound.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

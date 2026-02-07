@@ -1,0 +1,14 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+<# this.PushIndent(new string(' ', this.indent)); #>
+"type": "array",
+"items": {
+<# if (this.dtArray.Description.Any()) { #>
+  "description": "<#=this.dtArray.Description.First().Value#>",
+<# } #>
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtArray.ElementSchema, 2)#>
+}<# this.PopIndent(); #>

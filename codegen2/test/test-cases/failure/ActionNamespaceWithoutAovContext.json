@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionNamespaceWithoutAovContext.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "ActionNamespaceWithoutAovContext.TM.json",
+      "line": 10,
+      "cfLine": 2,
+      "crossRef": ""
+    }
+  ]
+}

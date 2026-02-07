@@ -1,0 +1,120 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DTDLParser" Version="1.2.16-preview-gc368fb0828" />
+    <PackageReference Include="System.CodeDom" Version="10.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Array\t4\ArrayThingSchema.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ArrayThingSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Command\t4\CommandAffordance.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CommandAffordance.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Enum\t4\EnumThingSchema.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EnumThingSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Interface\t4\InterfaceThing.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InterfaceThing.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Map\t4\MapThingSchema.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MapThingSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Map\t4\PlaceholderThingSchema.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlaceholderThingSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Object\t4\ObjectThingSchema.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ObjectThingSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Property\t4\PropertyAffordance.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PropertyAffordance.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Telemetry\t4\TelemetryAffordance.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TelemetryAffordance.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Array\t4\ArrayThingSchema.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ArrayThingSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
+    </None>
+    <None Update="Command\t4\CommandAffordance.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>CommandAffordance.cs</LastGenOutput>
+      <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
+    </None>
+    <None Update="Enum\t4\EnumThingSchema.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>EnumThingSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
+    </None>
+    <None Update="Interface\t4\InterfaceThing.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>InterfaceThing.cs</LastGenOutput>
+      <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
+    </None>
+    <None Update="Map\t4\MapThingSchema.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>MapThingSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
+    </None>
+    <None Update="Map\t4\PlaceholderThingSchema.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>PlaceholderThingSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
+    </None>
+    <None Update="Object\t4\ObjectThingSchema.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ObjectThingSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
+    </None>
+    <None Update="Property\t4\PropertyAffordance.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>PropertyAffordance.cs</LastGenOutput>
+      <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
+    </None>
+    <None Update="Telemetry\t4\TelemetryAffordance.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>TelemetryAffordance.cs</LastGenOutput>
+      <CustomToolNamespace>Dtdl2Wot</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\res\conversion\SchemaNames.json">
+      <Link>Resources\conversion\%(Filename)%(Extension)</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

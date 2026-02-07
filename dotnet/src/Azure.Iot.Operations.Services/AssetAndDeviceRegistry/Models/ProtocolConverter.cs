@@ -165,13 +165,13 @@ internal static class ProtocolConverter
     return new AdrBaseService.DiscoveredAssetManagementGroup
     {
         Actions = source.Actions?.Select(x => x.ToProtocol()).ToList(),
+        DataSource = source.DataSource,
         DefaultTimeoutInSeconds = source.DefaultTimeoutInSeconds,
         DefaultTopic = source.DefaultTopic,
         LastUpdatedOn = source.LastUpdatedOn,
         ManagementGroupConfiguration = source.ManagementGroupConfiguration,
         Name = source.Name,
         TypeRef = source.TypeRef,
-
     };
 }
 

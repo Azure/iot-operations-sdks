@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyFormsOpWriteNoRead.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "PropertyFormsOpWriteNoRead.TM.json",
+      "line": 17,
+      "cfLine": 13,
+      "crossRef": ""
+    }
+  ]
+}
