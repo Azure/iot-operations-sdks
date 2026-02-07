@@ -6,7 +6,7 @@ await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
 Console.WriteLine("Connected to MQTT broker");
 
 
-mqttClient.ApplicationMessageReceivedAsync += async (args) =>
+mqttClient.ApplicationMessageReceivedAsync += (args) =>
 {
     Console.WriteLine("Handling a request");
     Console.WriteLine();
@@ -20,6 +20,8 @@ mqttClient.ApplicationMessageReceivedAsync += async (args) =>
 
         await mqttClient.PublishAsync(msg);
     });
+
+    return Task.CompletedTask;
 };
 
 await mqttClient.SubscribeAsync(
