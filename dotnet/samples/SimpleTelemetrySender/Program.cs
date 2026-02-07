@@ -22,6 +22,7 @@ MqttApplicationMessage msg =
     new MqttApplicationMessageBuilder()
         .WithTopic("timtay/requestTopic")
         .WithResponseTopic("timtay/responseTopic")
+        .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
         .Build();
 
 while (true)

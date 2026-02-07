@@ -14,6 +14,7 @@ mqttClient.ApplicationMessageReceivedAsync += async (args) =>
     MqttApplicationMessage msg =
         new MqttApplicationMessageBuilder()
             .WithTopic(args.ApplicationMessage.ResponseTopic)
+            .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
             .Build();
 
     await mqttClient.PublishAsync(msg);
