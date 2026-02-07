@@ -1,7 +1,7 @@
 ﻿using MQTTnet;
 
 using var mqttClient = new MqttClientFactory().CreateMqttClient();
-var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
+var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1884).WithClientId(Guid.NewGuid().ToString()).Build();
 await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
 Console.WriteLine("Connected to MQTT broker");
 
