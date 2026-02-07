@@ -26,7 +26,7 @@ MqttApplicationMessage msg =
 
 while (true)
 {
-    await Task.Delay(TimeSpan.FromSeconds(3));
+    //await Task.Delay(TimeSpan.FromSeconds(3));
     await mqttClient.PublishAsync(msg);
 
     DateTime beforeResponse = DateTime.UtcNow;
