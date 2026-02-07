@@ -13,7 +13,7 @@ if (logMqtt) Trace.Listeners.Add(new ConsoleTraceListener());
 await using MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogging = false });
 var mcs = new MqttConnectionSettings("127.0.0.1", Guid.NewGuid().ToString())
 {
-    TcpPort = 1883,
+    TcpPort = 1884,
     UseTls = false
 };
 await mqttClient.ConnectAsync(mcs);
