@@ -37,6 +37,7 @@ internal class Program
                 long stageThreeTicks = DateTime.UtcNow.Ticks;
                 crm.UserData.Add("stage3", stageThreeTicks + "");
                 var rpcResponse = await rpcInvoker!.InvokeCommandAsync(new PayloadObject() { Count = rpcNumber }, crm);
+                var returnedTime = DateTime.UtcNow;
                 Console.WriteLine("mRPC to connector returned.");
                 long stageFiveTicks = DateTime.UtcNow.Ticks; //note it repros at this commit (not this line in particular)
 
@@ -71,6 +72,7 @@ internal class Program
                 Console.WriteLine("For RPC repsonse message : " + rpcNumber);
                 Console.WriteLine("MQTT app invoke RPC -> connector receives invocation: " + delayTwo);
                 Console.WriteLine("connector sends RPC response -> MQTT app receives response: " + delayThree);
+                Console.WriteLine("UTC time when received RPC response: " + returnedTime);
                 if (delayTwo > 30 || delayThree > 30)
                 {
                     Console.WriteLine("~~~~~~~~~~~~~Repro~~~~~~~~~~~~~");
