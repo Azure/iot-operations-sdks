@@ -19,7 +19,17 @@
       "rel": "tm:extends",
       "href": "<#=baseModelRef#>",
       "type": "application/tm+json"
-    }<#=ix < this.baseModelRefs.Count ? "," : ""#>
+    }<#=ix < this.baseModelRefs.Count + this.hrefRelReftypes.Count ? "," : ""#>
+<# ix++; } #>
+<# foreach ((string, string, string) hrefRelReftype in this.hrefRelReftypes) { #>
+    {
+      "rel": "<#=hrefRelReftype.Item2#>",
+<# if (hrefRelReftype.Item3 != null) { #>
+      "aov:refType": "<#=hrefRelReftype.Item3#>",
+<# } #>
+      "href": "<#=hrefRelReftype.Item1#>",
+      "type": "application/tm+json"
+    }<#=ix < this.baseModelRefs.Count + this.hrefRelReftypes.Count ? "," : ""#>
 <# ix++; } #>
   ],
   "schemaDefinitions": {

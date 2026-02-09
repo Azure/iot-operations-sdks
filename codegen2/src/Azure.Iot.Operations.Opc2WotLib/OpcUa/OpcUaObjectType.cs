@@ -30,5 +30,15 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 .Select(r => GetReferencedOpcUaNode(r.Target, nsUriToNsInfoMap))
                 .Cast<OpcUaObjectType>();
         }
+
+        public IEnumerable<(OpcUaNodeId, OpcUaObject)> GetTypeAndObjectOfReferences(Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        {
+            return References
+                .Where(r => r.IsForward && (r.ReferenceType.NsIndex != 0 || r.ReferenceType.IsComponentReference))
+                .Select(r => (r.ReferenceType, GetReferencedOpcUaNode(r.Target, nsUriToNsInfoMap)))
+                .Where(t => t.Item2 is OpcUaObject)
+                .Select(t => (t.Item1, (OpcUaObject)t.Item2))
+                .Where(o => o.Item2.HasTypeDefinitionNodeId != null);
+        }
     }
 }

@@ -35,7 +35,22 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write("    {\r\n      \"rel\": \"tm:extends\",\r\n      \"href\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(baseModelRef));
             this.Write("\",\r\n      \"type\": \"application/tm+json\"\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.baseModelRefs.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.baseModelRefs.Count + this.hrefRelReftypes.Count ? "," : ""));
+            this.Write("\r\n");
+ ix++; } 
+ foreach ((string, string, string) hrefRelReftype in this.hrefRelReftypes) { 
+            this.Write("    {\r\n      \"rel\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(hrefRelReftype.Item2));
+            this.Write("\",\r\n");
+ if (hrefRelReftype.Item3 != null) { 
+            this.Write("      \"aov:refType\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(hrefRelReftype.Item3));
+            this.Write("\",\r\n");
+ } 
+            this.Write("      \"href\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(hrefRelReftype.Item1));
+            this.Write("\",\r\n      \"type\": \"application/tm+json\"\r\n    }");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.baseModelRefs.Count + this.hrefRelReftypes.Count ? "," : ""));
             this.Write("\r\n");
  ix++; } 
             this.Write("  ],\r\n  \"schemaDefinitions\": {\r\n  },\r\n");

@@ -21,12 +21,24 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     string? hasTypeDefinitionNodeIdString = hasTypeDefinitionNode.InnerText;
                     if (hasTypeDefinitionNodeIdString != null)
                     {
-                        HasTypeDefinition = UaUtil.ParseTypeString(hasTypeDefinitionNodeIdString, modelInfo, nsUriToNsInfoMap);
+                        HasTypeDefinitionNodeId = UaUtil.ParseTypeString(hasTypeDefinitionNodeIdString, modelInfo, nsUriToNsInfoMap);
+                    }
+                }
+
+                XmlNode? hasModellingRuleNode = referencesNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "Reference" && node.Attributes?["ReferenceType"]?.Value == "HasModellingRule");
+                if (hasModellingRuleNode != null)
+                {
+                    string? hasModellingRuleNodeIdString = hasModellingRuleNode.InnerText;
+                    if (hasModellingRuleNodeIdString != null)
+                    {
+                        HasModellingRule = UaUtil.ParseTypeString(hasModellingRuleNodeIdString, modelInfo, nsUriToNsInfoMap);
                     }
                 }
             }
         }
 
-        public OpcUaNodeId? HasTypeDefinition { get; }
+        public OpcUaNodeId? HasTypeDefinitionNodeId { get; }
+
+        public OpcUaNodeId? HasModellingRule { get; }
     }
 }

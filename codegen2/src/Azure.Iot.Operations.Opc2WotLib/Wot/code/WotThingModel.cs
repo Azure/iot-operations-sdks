@@ -12,6 +12,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private string specName;
         private string thingName;
         private List<string> baseModelRefs;
+        private List<(string, string, string?)> hrefRelReftypes;
         private List<WotAction> actions;
         private List<WotProperty> properties;
         private List<WotEvent> events;
@@ -20,7 +21,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName(uaObjectType.DiscriminatedEffectiveName, specName);
-            this.baseModelRefs = uaObjectType.GetBaseModels(nsUriToNsInfoMap).Select(node => GetModelRef(uaObjectType, node)).ToList();
+            this.baseModelRefs = uaObjectType.GetBaseModels(nsUriToNsInfoMap)
+                .Select(node => GetModelRef(uaObjectType, node)).ToList();
+            this.hrefRelReftypes = uaObjectType.GetTypeAndObjectOfReferences(nsUriToNsInfoMap)
+                .Where(t => t.Item1.NsIndex != 0 || t.Item1.IsComponentReference)
+                .Select(t => GetHrefRelReftype(uaObjectType, t.Item1, t.Item2, nsUriToNsInfoMap))
+                .ToList();
 
             List<OpcUaMethod> actionVariables = uaObjectType.GetComponents(nsUriToNsInfoMap).OfType<OpcUaMethod>().ToList();
             List<OpcUaVariable> propertyVariables = uaObjectType.GetPropertiesAndComponents(nsUriToNsInfoMap).OfType<OpcUaVariable>().ToList();
@@ -37,6 +43,20 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             string fileRef = ReferenceEquals(sourceObjectType.DefiningModel, targetObjectType.DefiningModel) ? string.Empty : $"./{targetSpecName}.TM.json";
             return $"{fileRef}#title={WotUtil.LegalizeName(targetObjectType.DiscriminatedEffectiveName, targetSpecName)}";
+        }
+
+        private (string, string, string?) GetHrefRelReftype(OpcUaObjectType sourceObjectType, OpcUaNodeId referenceTypeNodeId, OpcUaObject targetObject, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        {
+            string targetModelRef = GetModelRef(sourceObjectType, (OpcUaObjectType)targetObject.GetReferencedOpcUaNode(targetObject.HasTypeDefinitionNodeId!, nsUriToNsInfoMap));
+
+            if (referenceTypeNodeId.NsIndex != 0)
+            {
+                return (targetModelRef, "aov:typedReference", sourceObjectType.GetReferencedOpcUaNode(referenceTypeNodeId, nsUriToNsInfoMap).EffectiveName);
+            }
+            else
+            {
+                return (targetModelRef, "aov:reference", null);
+            }
         }
     }
 }

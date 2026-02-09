@@ -10,9 +10,6 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public class OpcUaVariable : OpcUaNode
     {
-        private const int OptionalPlaceholderNodeIndex = 11508;
-        private const int MandatoryPlaceholderNodeIndex = 11510;
-
         public OpcUaVariable(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, XmlNode variableNode)
             : base(modelInfo, nsUriToNsInfoMap, variableNode)
         {
@@ -30,8 +27,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             IsPlaceholder = References.Any(r => 
                 r.IsForward &&
                 r.ReferenceType.IsModellingRuleReference &&
-                r.Target.NsIndex == 0 &&
-                (r.Target.NodeIndex == OptionalPlaceholderNodeIndex || r.Target.NodeIndex == MandatoryPlaceholderNodeIndex));
+                r.Target.IsRulePlaceholder);
         }
 
         public OpcUaNodeId? DataType { get; }

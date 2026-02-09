@@ -34,5 +34,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
         public bool IsPropertyReference { get => NsIndex == 0 && NodeIndex == HasPropertyNodeIndex; }
 
         public bool IsComponentReference { get => NsIndex == 0 && NodeIndex == HasComponentNodeIndex; }
+
+        public bool IsRuleOptional { get => NsIndex == 0 && (NodeIndex == (int)ModellingRule.Optional || NodeIndex == (int)ModellingRule.OptionalPlaceholder); }
+
+        public bool IsRuleMandatory { get => NsIndex == 0 && (NodeIndex == (int)ModellingRule.Mandatory || NodeIndex == (int)ModellingRule.MandatoryPlaceholder); }
+
+        public bool IsRulePlaceholder { get => NsIndex == 0 && (NodeIndex == (int)ModellingRule.OptionalPlaceholder || NodeIndex == (int)ModellingRule.MandatoryPlaceholder); }
     }
 }
