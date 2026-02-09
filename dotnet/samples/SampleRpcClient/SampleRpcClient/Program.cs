@@ -72,7 +72,7 @@ internal class Program
                 Console.WriteLine("For RPC repsonse message : " + rpcNumber);
                 Console.WriteLine("MQTT app invoke RPC -> connector receives invocation: " + delayTwo);
                 Console.WriteLine("connector sends RPC response -> MQTT app receives response: " + delayThree);
-                Console.WriteLine("UTC time when received RPC response: " + returnedTime);
+                Console.WriteLine("UTC time when received RPC response: " + returnedTime.ToString("yyyy-MM-dd HH:mm:ss.fff 'UTC'"));
                 if (delayTwo > 30 || delayThree > 30)
                 {
                     Console.WriteLine("~~~~~~~~~~~~~Repro~~~~~~~~~~~~~");
