@@ -16,7 +16,7 @@ internal class Program
     private static async Task Main()
     {
         await using MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogging = false });
-        var mcs = new MqttConnectionSettings("127.0.0.1", Guid.NewGuid().ToString())
+        var mcs = new MqttConnectionSettings("127.0.0.1", "timtay-dotnet-invoker")
         {
             TcpPort = 1883,
             UseTls = false
