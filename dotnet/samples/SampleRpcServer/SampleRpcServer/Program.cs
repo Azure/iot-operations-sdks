@@ -28,7 +28,7 @@ await using SampleCommandExecutor rpcExecutor = new(new(), mqttClient, commandNa
         responseMetadata.UserData.Add("stage4", stageFourTicks + "");
         return Task.FromResult(new ExtendedResponse<PayloadObject>()
         {
-            Response = new PayloadObject(),
+            Response = new PayloadObject() { Count = request.Request.Count },
             ResponseMetadata = responseMetadata,
         });
     }

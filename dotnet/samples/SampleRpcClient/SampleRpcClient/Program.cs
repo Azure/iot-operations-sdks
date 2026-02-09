@@ -25,6 +25,7 @@ internal class Program
         Console.WriteLine("Connected to broker");
 
         rpcInvoker = new(new(), mqttClient, "someCommandName", new Utf8JsonSerializer());
+        int rpcNumber = 0;
 
         while (true)
         {
@@ -35,7 +36,7 @@ internal class Program
                 var crm = new CommandRequestMetadata();
                 long stageThreeTicks = DateTime.UtcNow.Ticks;
                 crm.UserData.Add("stage3", stageThreeTicks + "");
-                var rpcResponse = await rpcInvoker!.InvokeCommandAsync(new PayloadObject(), crm);
+                var rpcResponse = await rpcInvoker!.InvokeCommandAsync(new PayloadObject() { Count = rpcNumber }, crm);
                 Console.WriteLine("mRPC to connector returned.");
                 long stageFiveTicks = DateTime.UtcNow.Ticks; //note it repros at this commit (not this line in particular)
 
@@ -67,6 +68,7 @@ internal class Program
 
                 Console.WriteLine();
                 Console.WriteLine();
+                Console.WriteLine("For RPC repsonse message : " + );
                 Console.WriteLine("MQTT app invoke RPC -> connector receives invocation: " + delayTwo);
                 Console.WriteLine("connector sends RPC response -> MQTT app receives response: " + delayThree);
                 if (delayTwo > 30 || delayThree > 30)
@@ -81,6 +83,8 @@ internal class Program
                 Console.WriteLine(e.Message);
                 //Console.WriteLine(e.StackTrace);
             }
+
+            rpcNumber++;
         }
     }
 }
