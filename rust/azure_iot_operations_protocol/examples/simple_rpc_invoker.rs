@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 use std::time::Duration;
 use std::{num::ParseIntError, str::Utf8Error};
+use chrono::prelude::*;
 
 use env_logger::Builder;
 use thiserror::Error;
@@ -83,13 +84,22 @@ async fn increment_invoke_loop(
             .build()
             .unwrap();
         log::info!("Sending 'increment' command request...");
+        let utcBefore: DateTime<Utc> = Utc::now();
         match invoker.invoke(payload).await {
             Ok(response) => {
-                log::info!("Response: {response:?}");
+                let utcAfter: DateTime<Utc> = Utc::now();
+                //println!("Before invoke: {}", utcBefore);
+                //println!("After invoke: {}", utcAfter);
+                let diff = utcAfter - utcBefore;
+
+                // Duration can be positive or negative
+                println!("Difference in milliseconds: {}", diff.num_milliseconds());
+                
+                //log::info!("Response: {response:?}");
                 // Parse cloud event if present
                 match rpc_command::invoker::cloud_event_from_response(&response) {
                     Ok(cloud_event) => {
-                        log::info!("{cloud_event}");
+                        //log::info!("{cloud_event}");
                     }
                     Err(e) => {
                         // If a cloud event is not present, this error is expected
