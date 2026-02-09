@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 use std::str;
 use std::time::Duration;
+use chrono::prelude::*;
 
 use env_logger::Builder;
 
@@ -17,7 +18,7 @@ const CLIENT_ID: &str = "aio_send_receive_client";
 const HOSTNAME: &str = "localhost";
 
 const PORT: u16 = 1883;
-const TOPIC: &str = "hello/mqtt";
+const TOPIC: &str = "clients/timtay-dotnet-invoker/rpc/command-samples/someCommandName";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -89,7 +90,8 @@ async fn receive_messages(
 
     // Receive until there are no more messages
     while let Some(msg) = receiver.recv().await {
-        println!("Received: {:?}", msg.payload);
+        let utc: DateTime<Utc> = Utc::now();
+        println!("Received message {:?}, current UTC time: {}", msg.payload, utc);
     }
 
     Ok(())
@@ -105,8 +107,8 @@ async fn send_messages(
     loop {
         i += 1;
         let payload = format!("Hello #{i}");
-        // Send message and receive a CompletionToken which will notify when the message is acknowledged
-        let completion_token = client
+        //Send message and receive a CompletionToken which will notify when the message is acknowledged
+/*        let completion_token = client
             .publish_qos1(
                 topic_name.clone(),
                 false,
@@ -121,6 +123,7 @@ async fn send_messages(
                 println!("Message #{i} delivery failure: {e}");
             }
         }
+            */
         tokio::time::sleep(Duration::from_secs(1)).await;
     }
 }
