@@ -68,7 +68,7 @@ internal class Program
 
                 Console.WriteLine();
                 Console.WriteLine();
-                Console.WriteLine("For RPC repsonse message : " + );
+                Console.WriteLine("For RPC repsonse message : " + rpcNumber);
                 Console.WriteLine("MQTT app invoke RPC -> connector receives invocation: " + delayTwo);
                 Console.WriteLine("connector sends RPC response -> MQTT app receives response: " + delayThree);
                 if (delayTwo > 30 || delayThree > 30)
