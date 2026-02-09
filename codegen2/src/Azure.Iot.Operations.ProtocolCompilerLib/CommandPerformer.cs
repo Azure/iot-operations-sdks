@@ -202,7 +202,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                         int thingCount = 0;
                         foreach (TDThing thing in things)
                         {
-                            if (thingValidator.TryValidateThng(thing, serializationFormats))
+                            if (thingValidator.TryValidateThing(thing, serializationFormats))
                             {
                                 ValueTracker<StringHolder>? schemaNamesFilename = thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationSchemaNaming)?.Value.Href;
                                 if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, out SchemaNamer? schemaNamer))

@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             this.errorReporter = errorReporter;
         }
 
-        public bool TryValidateThng(TDThing thing, HashSet<SerializationFormat> serializationFormats)
+        public bool TryValidateThing(TDThing thing, HashSet<SerializationFormat> serializationFormats)
         {
             bool hasError = false;
 
@@ -1854,7 +1854,7 @@ namespace Azure.Iot.Operations.CodeGeneration
         {
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             bool hasError = false;
@@ -1888,7 +1888,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             if (constValue.Value.Value is double numValue)
@@ -1935,7 +1935,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             if (constValue.Value.Value is double numValue && double.IsInteger(numValue))
@@ -1982,7 +1982,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             if (constValue.Value.Value is not bool)
@@ -2127,7 +2127,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
                     if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
                     {
-                        errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                        errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                     }
 
                     HashSet<string> supportedProperties = new()
@@ -2218,7 +2218,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
                 if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
                 {
-                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                 }
             }
             else
@@ -2286,7 +2286,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
                 {
-                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                 }
 
                 foreach (ValueTracker<StringHolder> enumValue in dataSchema.Value.Enum.Elements)
