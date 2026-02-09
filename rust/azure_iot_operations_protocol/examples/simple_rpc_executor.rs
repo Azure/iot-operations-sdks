@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 use std::time::Duration;
+use chrono::prelude::*;
 
 use env_logger::Builder;
 use thiserror::Error;
@@ -73,6 +74,9 @@ async fn increment_executor_loop(
 
     // Increment the counter for each incoming request
     while let Some(recv_result) = executor.recv().await {
+        let utcBefore: DateTime<Utc> = Utc::now();
+        println!("Received invocation: {}", utcBefore);
+        
         let request = recv_result?;
 
         // Parse cloud event if present
@@ -106,6 +110,8 @@ async fn increment_executor_loop(
         // Send the response
         match request.complete(response).await {
             Ok(()) => {
+                let utcAfter: DateTime<Utc> = Utc::now();
+                println!("Sent response: {}", utcAfter);
                 log::info!("Sent response to 'increment' command request");
             }
             Err(e) => {

@@ -88,8 +88,8 @@ async fn increment_invoke_loop(
         match invoker.invoke(payload).await {
             Ok(response) => {
                 let utcAfter: DateTime<Utc> = Utc::now();
-                //println!("Before invoke: {}", utcBefore);
-                //println!("After invoke: {}", utcAfter);
+                println!("Before invoke: {}", utcBefore);
+                println!("After invoke: {}", utcAfter);
                 let diff = utcAfter - utcBefore;
 
                 // Duration can be positive or negative
