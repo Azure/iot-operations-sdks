@@ -66,7 +66,7 @@ internal class Program
             await mqttClient2.PublishAsync(msg2);
             DateTime time2 = DateTime.UtcNow;
             await mqttClient1ReceivedMessage.Task;
-            await mqttClient2ReceivedMessage.Task;
+            //await mqttClient2ReceivedMessage.Task;
             mqttClient1ReceivedMessage = new();
             mqttClient2ReceivedMessage = new();
             DateTime after = DateTime.UtcNow;
