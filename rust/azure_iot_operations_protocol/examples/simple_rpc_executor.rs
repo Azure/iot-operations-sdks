@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-use std::time::Duration;
 use chrono::prelude::*;
+use std::time::Duration;
 
 use env_logger::Builder;
 use thiserror::Error;
@@ -76,7 +76,7 @@ async fn increment_executor_loop(
     while let Some(recv_result) = executor.recv().await {
         let utcBefore: DateTime<Utc> = Utc::now();
         println!("Received invocation: {}", utcBefore);
-        
+
         let request = recv_result?;
 
         // Parse cloud event if present
