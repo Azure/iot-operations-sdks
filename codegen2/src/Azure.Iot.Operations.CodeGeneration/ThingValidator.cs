@@ -646,6 +646,12 @@ namespace Azure.Iot.Operations.CodeGeneration
                     _ => throw new NotSupportedException($"Unsupported '{TDLink.RelName}' property value '{link.Value.Rel.Value.Value}'"),
                 };
 
+                if (link.Value.RefName != null && link.Value.RefName.Value.Value == string.Empty)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' has empty '{TDLink.RefNameName}' property value.", link.Value.RefName.TokenIndex);
+                    hasError = true;
+                }
+
                 if (link.Value.RefType == null)
                 {
                     if (link.Value.Rel.Value.Value == TDValues.RelationTypedReference)
@@ -697,7 +703,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
                 foreach (KeyValuePair<string, long> propertyName in link.Value.PropertyNames)
                 {
-                    if (propertyName.Key != TDLink.HrefName && propertyName.Key != TDLink.TypeName && propertyName.Key != TDLink.RelName && propertyName.Key != TDLink.RefTypeName)
+                    if (propertyName.Key != TDLink.HrefName && propertyName.Key != TDLink.TypeName && propertyName.Key != TDLink.RelName && propertyName.Key != TDLink.RefNameName && propertyName.Key != TDLink.RefTypeName)
                     {
                         if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                         {
