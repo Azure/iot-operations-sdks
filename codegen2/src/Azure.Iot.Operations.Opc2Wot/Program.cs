@@ -113,7 +113,7 @@ namespace Azure.Iot.Operations.Opc2Wot
             HashSet<SerializationFormat> serializationFormats = new();
             foreach (TDThing thing in things)
             {
-                if (thingValidator.TryValidateThng(thing, serializationFormats))
+                if (thingValidator.TryValidateThing(thing, serializationFormats))
                 {
                     errorReporter.RegisterNameOfThing(thing.Title!.Value.Value, thing.Title!.TokenIndex);
                 }
