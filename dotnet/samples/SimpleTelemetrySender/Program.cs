@@ -5,11 +5,11 @@ internal class Program
     private static async Task Main()
     {
         MqttApplicationMessage msg1 =
-            new MqttApplicationMessageBuilder()
-                .WithTopic("timtay/requestTopic")
-                .WithResponseTopic("timtay/responseTopic")
-                .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
-                .Build();
+        new MqttApplicationMessageBuilder()
+            .WithTopic("timtay/requestTopic")
+            .WithResponseTopic("timtay/responseTopic")
+            .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
+            .Build();
 
         MqttApplicationMessage msg2 =
             new MqttApplicationMessageBuilder()
@@ -27,19 +27,19 @@ internal class Program
         Console.WriteLine("Connected");
 
         TaskCompletionSource mqttClient1ReceivedMessage = new();
-        mqttClient1.ApplicationMessageReceivedAsync += async (args) =>
+        mqttClient1.ApplicationMessageReceivedAsync += (args) =>
         {
             mqttClient1ReceivedMessage.TrySetResult();
             args.AutoAcknowledge = true;
-            await mqttClient2.PublishAsync(msg2);
+            return Task.CompletedTask;
         };
 
         TaskCompletionSource mqttClient2ReceivedMessage = new();
-        mqttClient2.ApplicationMessageReceivedAsync += (args) =>
+        mqttClient2.ApplicationMessageReceivedAsync += async (args) =>
         {
             mqttClient2ReceivedMessage.TrySetResult();
+            await mqttClient2.PublishAsync(msg2);
             args.AutoAcknowledge = true;
-            return Task.CompletedTask;
         };
 
         await mqttClient1.SubscribeAsync(
