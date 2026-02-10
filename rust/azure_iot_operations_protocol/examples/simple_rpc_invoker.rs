@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+use chrono::prelude::*;
 use std::time::Duration;
 use std::{num::ParseIntError, str::Utf8Error};
-use chrono::prelude::*;
 
 use env_logger::Builder;
 use thiserror::Error;
@@ -94,7 +94,7 @@ async fn increment_invoke_loop(
 
                 // Duration can be positive or negative
                 println!("Difference in milliseconds: {}", diff.num_milliseconds());
-                
+
                 //log::info!("Response: {response:?}");
                 // Parse cloud event if present
                 match rpc_command::invoker::cloud_event_from_response(&response) {
