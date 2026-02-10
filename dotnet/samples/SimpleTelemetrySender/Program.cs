@@ -62,16 +62,13 @@ internal class Program
 
             DateTime before = DateTime.UtcNow;
             await mqttClient1.PublishAsync(msg1);
-            DateTime time1 = DateTime.UtcNow;
-            await mqttClient2.PublishAsync(msg2);
-            DateTime time2 = DateTime.UtcNow;
-            //await mqttClient1ReceivedMessage.Task;
             await mqttClient2ReceivedMessage.Task;
-            mqttClient1ReceivedMessage = new();
+            mqttClient2ReceivedMessage = new();
+            await mqttClient1.PublishAsync(msg1);
+            await mqttClient2ReceivedMessage.Task;
             mqttClient2ReceivedMessage = new();
             DateTime after = DateTime.UtcNow;
             var diff = after.Subtract(before);
-            Console.WriteLine("time publishing response message: " + time2.Subtract(time1).TotalMilliseconds);
             Console.WriteLine("Total diff: " + diff.TotalMilliseconds);
             Console.WriteLine();
         }
