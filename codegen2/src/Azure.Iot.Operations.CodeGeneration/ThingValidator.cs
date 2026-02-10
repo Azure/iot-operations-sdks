@@ -646,10 +646,18 @@ namespace Azure.Iot.Operations.CodeGeneration
                     _ => throw new NotSupportedException($"Unsupported '{TDLink.RelName}' property value '{link.Value.Rel.Value.Value}'"),
                 };
 
-                if (link.Value.RefName != null && link.Value.RefName.Value.Value == string.Empty)
+                if (link.Value.RefName != null)
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' has empty '{TDLink.RefNameName}' property value.", link.Value.RefName.TokenIndex);
-                    hasError = true;
+                    if (!platContextPresent)
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Link element {TDLink.RelName}='{link.Value.Rel.Value.Value}' has '{TDLink.RefNameName}' property, which requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", link.Value.RefName.TokenIndex, contextTokenIndex);
+                        hasError = true;
+                    }
+                    if (string.IsNullOrWhiteSpace(link.Value.RefName.Value.Value))
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' has empty '{TDLink.RefNameName}' property value.", link.Value.RefName.TokenIndex);
+                        hasError = true;
+                    }
                 }
 
                 if (link.Value.RefType == null)
