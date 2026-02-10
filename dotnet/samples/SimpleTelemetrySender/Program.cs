@@ -38,6 +38,7 @@ internal class Program
 
         mqttClient2.ApplicationMessageReceivedAsync += async (args) =>
         {
+            args.AutoAcknowledge = false;
             await mqttClient2.PublishAsync(msg2);
             await args.AcknowledgeAsync(CancellationToken.None);
         };
