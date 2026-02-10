@@ -39,7 +39,7 @@ internal class Program
         {
             mqttClient2ReceivedMessage.TrySetResult();
             await mqttClient2.PublishAsync(msg2);
-            args.AutoAcknowledge = true;
+            await args.AcknowledgeAsync(CancellationToken.None);
         };
 
         await mqttClient1.SubscribeAsync(
