@@ -2,7 +2,6 @@
 
 internal class Program
 {
-    // does not repro
     private static async Task Main()
     {
         MqttApplicationMessage msg1 =
@@ -32,15 +31,16 @@ internal class Program
         TaskCompletionSource mqttClient1ReceivedMessage = new();
         mqttClient1.ApplicationMessageReceivedAsync += (args) =>
         {
-            mqttClient1ReceivedMessage.TrySetResult();
             args.AutoAcknowledge = true;
+            mqttClient1ReceivedMessage.TrySetResult();
             return Task.CompletedTask;
         };
 
+        TaskCompletionSource mqttClient2ReceivedMessage = new();
         mqttClient2.ApplicationMessageReceivedAsync += async (args) =>
         {
             args.AutoAcknowledge = false;
-            await mqttClient2.PublishAsync(msg2);
+            mqttClient2ReceivedMessage.TrySetResult();
             await args.AcknowledgeAsync(CancellationToken.None);
         };
 
@@ -62,8 +62,11 @@ internal class Program
 
             DateTime before = DateTime.UtcNow;
             await mqttClient1.PublishAsync(msg1);
+            await mqttClient2ReceivedMessage.Task;
+            await mqttClient2.PublishAsync(msg2);
             await mqttClient1ReceivedMessage.Task;
             mqttClient1ReceivedMessage = new();
+            mqttClient2ReceivedMessage = new();
             DateTime after = DateTime.UtcNow;
             var diff = after.Subtract(before);
             Console.WriteLine("DIFF! " + diff.TotalMilliseconds);
