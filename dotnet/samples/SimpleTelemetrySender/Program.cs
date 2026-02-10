@@ -34,10 +34,8 @@ internal class Program
             return Task.CompletedTask;
         };
 
-        TaskCompletionSource mqttClient2ReceivedMessage = new();
         mqttClient2.ApplicationMessageReceivedAsync += async (args) =>
         {
-            mqttClient2ReceivedMessage.TrySetResult();
             await mqttClient2.PublishAsync(msg2);
             await args.AcknowledgeAsync(CancellationToken.None);
         };
