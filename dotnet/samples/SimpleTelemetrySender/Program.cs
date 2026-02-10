@@ -13,17 +13,19 @@ internal class Program
         Console.WriteLine("Connected");
 
         TaskCompletionSource mqttClient1ReceivedMessage = new();
-        mqttClient1.ApplicationMessageReceivedAsync += async (args) =>
+        mqttClient1.ApplicationMessageReceivedAsync += (args) =>
         {
             mqttClient1ReceivedMessage.TrySetResult();
             args.AutoAcknowledge = true;
+            return Task.CompletedTask;
         };
 
         TaskCompletionSource mqttClient2ReceivedMessage = new();
-        mqttClient1.ApplicationMessageReceivedAsync += async (args) =>
+        mqttClient1.ApplicationMessageReceivedAsync += (args) =>
         {
             mqttClient2ReceivedMessage.TrySetResult();
             args.AutoAcknowledge = true;
+            return Task.CompletedTask;
         };
 
         await mqttClient1.SubscribeAsync(
