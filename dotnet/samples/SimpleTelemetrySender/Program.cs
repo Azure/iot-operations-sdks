@@ -1,4 +1,6 @@
-﻿using MQTTnet;
+﻿using System.Net;
+using System.Net.Sockets;
+using MQTTnet;
 
 internal class Program
 {
@@ -23,8 +25,8 @@ internal class Program
 
         using var mqttClient1 = new MqttClientFactory().CreateMqttClient();
         using var mqttClient2 = new MqttClientFactory().CreateMqttClient();
-        var mqttClientOptions1 = new MqttClientOptionsBuilder().WithTcpServer(bob).WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
-        var mqttClientOptions2 = new MqttClientOptionsBuilder().WithTcpServer(bob).WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
+        var mqttClientOptions1 = new MqttClientOptionsBuilder().WithTcpServer(bob).WithClientId(Guid.NewGuid().ToString()).Build();
+        var mqttClientOptions2 = new MqttClientOptionsBuilder().WithTcpServer(bob).WithClientId(Guid.NewGuid().ToString()).Build();
 
         await mqttClient1.ConnectAsync(mqttClientOptions1);
         await mqttClient2.ConnectAsync(mqttClientOptions2);
@@ -84,6 +86,7 @@ internal class Program
 
     private static void bob(MqttClientTcpOptions options)
     {
+        options.RemoteEndpoint = new DnsEndPoint("localhost", 1883, AddressFamily.Unspecified);
         options.NoDelay = false;
     }
 }
