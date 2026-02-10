@@ -6,10 +6,11 @@ internal class Program
     {
         using var mqttClient1 = new MqttClientFactory().CreateMqttClient();
         using var mqttClient2 = new MqttClientFactory().CreateMqttClient();
-        var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
+        var mqttClientOptions1 = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
+        var mqttClientOptions2 = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
 
-        await mqttClient1.ConnectAsync(mqttClientOptions);
-        await mqttClient2.ConnectAsync(mqttClientOptions);
+        await mqttClient1.ConnectAsync(mqttClientOptions1);
+        await mqttClient2.ConnectAsync(mqttClientOptions2);
         Console.WriteLine("Connected");
 
         TaskCompletionSource mqttClient1ReceivedMessage = new();
@@ -21,7 +22,7 @@ internal class Program
         };
 
         TaskCompletionSource mqttClient2ReceivedMessage = new();
-        mqttClient1.ApplicationMessageReceivedAsync += (args) =>
+        mqttClient2.ApplicationMessageReceivedAsync += (args) =>
         {
             mqttClient2ReceivedMessage.TrySetResult();
             args.AutoAcknowledge = true;
