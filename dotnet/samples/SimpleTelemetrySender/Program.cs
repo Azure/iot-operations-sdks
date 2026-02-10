@@ -67,6 +67,5 @@ internal class Program
             Console.WriteLine("DIFF! " + diff.TotalMilliseconds);
             Console.WriteLine();
         }
-
     }
 }

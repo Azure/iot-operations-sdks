@@ -4,72 +4,61 @@ internal class Program
 {
     private static async Task Main()
     {
-        await Task.WhenAll(RunReceiver(), RunSender());
-    }
+        using var mqttClient1 = new MqttClientFactory().CreateMqttClient();
+        var mqttClientOptions1 = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
+        await mqttClient1.ConnectAsync(mqttClientOptions1, CancellationToken.None);
 
-    public static async Task RunReceiver()
-    {
-        using var mqttClient = new MqttClientFactory().CreateMqttClient();
-        var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
-        await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+        using var mqttClient2 = new MqttClientFactory().CreateMqttClient();
+        var mqttClientOptions2 = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
+        await mqttClient2.ConnectAsync(mqttClientOptions2, CancellationToken.None);
         Console.WriteLine("Connected to MQTT broker");
 
-
-        mqttClient.ApplicationMessageReceivedAsync += async (args) =>
-        {
-            Console.WriteLine("Handling a request");
-            Console.WriteLine();
-            args.AutoAcknowledge = false;
-            MqttApplicationMessage msg =
-                new MqttApplicationMessageBuilder()
-                    .WithTopic(args.ApplicationMessage.ResponseTopic)
-                    .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
-                    .Build();
-
-            await mqttClient.PublishAsync(msg);
-            await args.AcknowledgeAsync(CancellationToken.None);
-        };
-
-        await mqttClient.SubscribeAsync(
-            new MqttClientSubscribeOptionsBuilder().WithTopicFilter(
-                new MqttTopicFilterBuilder()
-                .WithTopic("timtay/requestTopic")
-                .WithAtLeastOnceQoS()).Build());
-
-        await Task.Delay(-1);
-    }
-
-    public static async Task RunSender()
-    {
-        using var mqttClient = new MqttClientFactory().CreateMqttClient();
-        var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
-        await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
-        Console.WriteLine("Connected to MQTT broker");
 
         TaskCompletionSource responseMessageReceived = new();
-        mqttClient.ApplicationMessageReceivedAsync += (args) =>
+        mqttClient1.ApplicationMessageReceivedAsync += (args) =>
         {
             responseMessageReceived.TrySetResult();
             return Task.CompletedTask;
         };
 
-        await mqttClient.SubscribeAsync(
+        await mqttClient1.SubscribeAsync(
             new MqttClientSubscribeOptionsBuilder().WithTopicFilter(
                 new MqttTopicFilterBuilder()
                 .WithTopic("timtay/responseTopic")
                 .WithAtLeastOnceQoS()).Build());
 
-        MqttApplicationMessage msg =
+        MqttApplicationMessage msg1 =
             new MqttApplicationMessageBuilder()
                 .WithTopic("timtay/requestTopic")
                 .WithResponseTopic("timtay/responseTopic")
                 .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
                 .Build();
 
+        mqttClient2.ApplicationMessageReceivedAsync += async (args) =>
+        {
+            Console.WriteLine("Handling a request");
+            Console.WriteLine();
+            args.AutoAcknowledge = false;
+            MqttApplicationMessage msg2 =
+                new MqttApplicationMessageBuilder()
+                    .WithTopic(args.ApplicationMessage.ResponseTopic)
+                    .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
+                    .Build();
+
+            await mqttClient2.PublishAsync(msg2);
+            await args.AcknowledgeAsync(CancellationToken.None);
+        };
+
+        await mqttClient2.SubscribeAsync(
+            new MqttClientSubscribeOptionsBuilder().WithTopicFilter(
+                new MqttTopicFilterBuilder()
+                .WithTopic("timtay/requestTopic")
+                .WithAtLeastOnceQoS()).Build());
+
         while (true)
         {
-            //await Task.Delay(TimeSpan.FromSeconds(3));
-            await mqttClient.PublishAsync(msg);
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            await mqttClient1.PublishAsync(msg1);
 
             DateTime beforeResponse = DateTime.UtcNow;
             await responseMessageReceived.Task;
@@ -79,6 +68,6 @@ internal class Program
             var diff = afterResponse.Subtract(beforeResponse);
             Console.WriteLine("DIFF! " + diff.TotalMilliseconds);
             Console.WriteLine();
-        }
+        }       
     }
 }
