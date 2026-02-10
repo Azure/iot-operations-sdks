@@ -2,6 +2,7 @@
 
 internal class Program
 {
+    // does not repro
     private static async Task Main()
     {
         MqttApplicationMessage msg1 =
