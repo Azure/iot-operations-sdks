@@ -41,7 +41,10 @@ internal class Program
         {
             args.AutoAcknowledge = false;
             mqttClient2ReceivedMessage.TrySetResult();
+            DateTime before = DateTime.UtcNow;
             await args.AcknowledgeAsync(CancellationToken.None);
+            DateTime after = DateTime.UtcNow;
+            Console.WriteLine("Time sending ack: " + after.Subtract(before).TotalMilliseconds);
         };
 
         await mqttClient1.SubscribeAsync(
