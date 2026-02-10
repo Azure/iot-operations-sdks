@@ -3,7 +3,10 @@
 <#@ import namespace="System.Linq" #>
 <# // Copyright (c) Microsoft Corporation. #>
 <# // Licensed under the MIT License #>
-"<#=this.eventName#>" : {
+"<#=this.eventName#>": {
+<# if (this.uaVariable.BrowseNamespace != null) { #>
+  "aov:namespace": "<#=this.uaVariable.BrowseNamespace#>",
+<# } #>
   "data": {
 <# this.PushIndent("    "); #>
 <#=this.dataSchema.TransformText()#>
@@ -11,6 +14,12 @@
   },
 <# if (this.uaVariable.IsPlaceholder) { #>
   "dtv:placeholder": true,
+<# } #>
+<# if (this.containedIn != null) { #>
+  "aov:containedIn": "<#=this.containedIn#>",
+<# } #>
+<# if (this.contains.Any()) { #>
+  "aov:contains": [ <#=string.Join(", ", this.contains.Select(c => $"\"{c}\""))#> ],
 <# } #>
   "forms": [
     {

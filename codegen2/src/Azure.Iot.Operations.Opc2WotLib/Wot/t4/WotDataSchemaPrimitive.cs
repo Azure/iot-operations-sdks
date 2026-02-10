@@ -36,6 +36,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.description));
             this.Write("\",\r\n");
  } 
+ if (this.typeRef != null) { 
+            this.Write("\"aov:typeRef\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));
+            this.Write("\",\r\n");
+ } 
  for (int ix = 0; ix < this.kvpList.Length - 1; ix++) { 
             this.Write("\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.kvpList[ix].Item1));

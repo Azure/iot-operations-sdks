@@ -28,7 +28,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
  // Licensed under the MIT License 
             this.Write("\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.propertyName));
-            this.Write("\" : {\r\n");
+            this.Write("\": {\r\n");
+ if (this.uaVariable.BrowseNamespace != null) { 
+            this.Write("  \"aov:namespace\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.uaVariable.BrowseNamespace));
+            this.Write("\",\r\n");
+ } 
  this.PushIndent("  "); 
             this.Write(this.ToStringHelper.ToStringWithCulture(this.dataSchema.TransformText()));
             this.Write(",\r\n");

@@ -44,7 +44,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             if (dataTypeNode is OpcUaDataTypeEnum enumNode)
             {
-                return new WotDataSchemaPrimitive(EnumDataTypeNodeId, description, WotUtil.LegalizeName(enumNode.EffectiveName));
+                return new WotDataSchemaPrimitive(EnumDataTypeNodeId, description, WotUtil.LegalizeName(enumNode.EffectiveName), enumNode);
             }
             else if (dataTypeNode is OpcUaDataTypeObject objectNode)
             {

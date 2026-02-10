@@ -14,14 +14,18 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private string specName;
         private string thingModelName;
         private string eventName;
+        private string? containedIn;
+        private List<string> contains;
 
-        public WotEvent(string specName, string thingModelName, OpcUaVariable uaVariable, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        public WotEvent(string specName, string thingModelName, OpcUaVariable uaVariable, string variableName, string? containedIn, List<string> contains, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
         {
             this.uaVariable = uaVariable;
             this.dataSchema = WotDataSchema.Create(uaVariable.DataType, uaVariable.ValueRank, uaVariable, nsUriToNsInfoMap, 0, uaVariable.Description);
             this.specName = specName;
             this.thingModelName = thingModelName;
-            this.eventName = WotUtil.LegalizeName(uaVariable.EffectiveName);
+            this.eventName = WotUtil.LegalizeName(variableName);
+            this.containedIn = containedIn;
+            this.contains = contains;
         }
     }
 }

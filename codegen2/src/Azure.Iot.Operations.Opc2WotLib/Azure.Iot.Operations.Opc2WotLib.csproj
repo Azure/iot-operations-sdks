@@ -109,4 +109,10 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\res\conversion\LinkRelRules.json">
+      <Link>Resources\conversion\%(Filename)%(Extension)</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

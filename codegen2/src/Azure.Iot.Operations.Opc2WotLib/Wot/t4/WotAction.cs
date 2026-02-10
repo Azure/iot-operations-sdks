@@ -29,6 +29,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write("\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.actionName));
             this.Write("\" : {\r\n");
+ if (this.uaMethod.BrowseNamespace != null) { 
+            this.Write("  \"aov:namespace\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.uaMethod.BrowseNamespace));
+            this.Write("\",\r\n");
+ } 
  if (this.uaMethod.Description != null) { 
             this.Write("  \"description\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.uaMethod.Description));

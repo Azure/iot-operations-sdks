@@ -3,9 +3,10 @@
 
 namespace Azure.Iot.Operations.Opc2WotLib
 {
+    using System;
     using System.Collections.Generic;
 
-    public class OpcUaNodeId
+    public class OpcUaNodeId : IEquatable<OpcUaNodeId>
     {
         private const int HasModellingRuleNodeIndex = 37;
         private const int HasSubtypeNodeIndex = 45;
@@ -40,5 +41,15 @@ namespace Azure.Iot.Operations.Opc2WotLib
         public bool IsRuleMandatory { get => NsIndex == 0 && (NodeIndex == (int)ModellingRule.Mandatory || NodeIndex == (int)ModellingRule.MandatoryPlaceholder); }
 
         public bool IsRulePlaceholder { get => NsIndex == 0 && (NodeIndex == (int)ModellingRule.OptionalPlaceholder || NodeIndex == (int)ModellingRule.MandatoryPlaceholder); }
+
+        public bool Equals(OpcUaNodeId? other)
+        {
+            return other != null && NsIndex == other.NsIndex && NodeIndex == other.NodeIndex;
+        }
+
+        public override int GetHashCode()
+        {
+            return (NsIndex, NodeIndex).GetHashCode();
+        }
     }
 }

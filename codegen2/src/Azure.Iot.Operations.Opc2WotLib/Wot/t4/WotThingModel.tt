@@ -13,23 +13,31 @@
   ],
   "@type": "tm:ThingModel",
   "title": "<#=this.thingName#>",
+  "aov:typeRef": "<#=this.typeRef#>",
+<# if (this.isEvent) { #>
+  "aov:isEvent": true,
+<# } #>
+<# if (this.isComposite) { #>
+  "aov:isComposite": true,
+<# } #>
   "links": [
 <# int ix = 1; foreach (string baseModelRef in this.baseModelRefs) { #>
     {
       "rel": "tm:extends",
       "href": "<#=baseModelRef#>",
       "type": "application/tm+json"
-    }<#=ix < this.baseModelRefs.Count + this.hrefRelReftypes.Count ? "," : ""#>
+    }<#=ix < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""#>
 <# ix++; } #>
-<# foreach ((string, string, string) hrefRelReftype in this.hrefRelReftypes) { #>
+<# foreach (LinkInfo linkInfo in this.linkInfos) { #>
     {
-      "rel": "<#=hrefRelReftype.Item2#>",
-<# if (hrefRelReftype.Item3 != null) { #>
-      "aov:refType": "<#=hrefRelReftype.Item3#>",
+      "rel": "<#=linkInfo.Rel#>",
+      "aov:refName": "<#=linkInfo.RefName#>",
+<# if (linkInfo.RefType != null) { #>
+      "aov:refType": "<#=linkInfo.RefType#>",
 <# } #>
-      "href": "<#=hrefRelReftype.Item1#>",
+      "href": "<#=linkInfo.Href#>",
       "type": "application/tm+json"
-    }<#=ix < this.baseModelRefs.Count + this.hrefRelReftypes.Count ? "," : ""#>
+    }<#=ix < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""#>
 <# ix++; } #>
   ],
   "schemaDefinitions": {

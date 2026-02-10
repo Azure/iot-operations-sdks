@@ -10,6 +10,7 @@
 "description": "<#=this.description#>",
 <# } #>
 "type": "object",
+"aov:typeRef": "<#=this.typeRef#>",
 <# if (this.requiredFieldNames.Any()) { #>
 "required": [ <#=string.Join(", ", this.requiredFieldNames.Select(f => $"\"{f}\""))#> ],
 <# } #>

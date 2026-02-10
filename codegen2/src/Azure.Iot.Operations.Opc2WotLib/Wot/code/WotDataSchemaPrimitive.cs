@@ -35,6 +35,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         private string? description;
         private string? schemaName;
+        private string? typeRef;
         private (string, string)[] kvpList;
 
         public static bool IsPrimitive(OpcUaNodeId dataTypeNodeId)
@@ -42,10 +43,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
             return dataTypeNodeId.NsIndex == 0 && NodeIndexToKvpListMap.ContainsKey(dataTypeNodeId.NodeIndex);
         }
 
-        public WotDataSchemaPrimitive(OpcUaNodeId dataTypeNodeId, string? description, string? schemaName = null)
+        public WotDataSchemaPrimitive(OpcUaNodeId dataTypeNodeId, string? description, string? schemaName = null, OpcUaNode? dataTypeNode = null)
         {
             this.description = description;
             this.schemaName = schemaName;
+            this.typeRef = dataTypeNode != null ? $"nsu={dataTypeNode.NodeIdNamespace};i={dataTypeNode.NodeId.NodeIndex}" : null;
             this.kvpList = NodeIndexToKvpListMap[dataTypeNodeId.NodeIndex];
         }
     }

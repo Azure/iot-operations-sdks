@@ -30,27 +30,38 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     "\": \"http://azure.com/DigitalTwins/dtmi#\",\r\n      \"aov\": \"http://azure.com/IoT/op" +
                     "erations/tm#\"\r\n    }\r\n  ],\r\n  \"@type\": \"tm:ThingModel\",\r\n  \"title\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("\",\r\n  \"links\": [\r\n");
+            this.Write("\",\r\n  \"aov:typeRef\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));
+            this.Write("\",\r\n");
+ if (this.isEvent) { 
+            this.Write("  \"aov:isEvent\": true,\r\n");
+ } 
+ if (this.isComposite) { 
+            this.Write("  \"aov:isComposite\": true,\r\n");
+ } 
+            this.Write("  \"links\": [\r\n");
  int ix = 1; foreach (string baseModelRef in this.baseModelRefs) { 
             this.Write("    {\r\n      \"rel\": \"tm:extends\",\r\n      \"href\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(baseModelRef));
             this.Write("\",\r\n      \"type\": \"application/tm+json\"\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.baseModelRefs.Count + this.hrefRelReftypes.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""));
             this.Write("\r\n");
  ix++; } 
- foreach ((string, string, string) hrefRelReftype in this.hrefRelReftypes) { 
+ foreach (LinkInfo linkInfo in this.linkInfos) { 
             this.Write("    {\r\n      \"rel\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(hrefRelReftype.Item2));
+            this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.Rel));
+            this.Write("\",\r\n      \"aov:refName\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.RefName));
             this.Write("\",\r\n");
- if (hrefRelReftype.Item3 != null) { 
+ if (linkInfo.RefType != null) { 
             this.Write("      \"aov:refType\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(hrefRelReftype.Item3));
+            this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.RefType));
             this.Write("\",\r\n");
  } 
             this.Write("      \"href\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(hrefRelReftype.Item1));
+            this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.Href));
             this.Write("\",\r\n      \"type\": \"application/tm+json\"\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.baseModelRefs.Count + this.hrefRelReftypes.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""));
             this.Write("\r\n");
  ix++; } 
             this.Write("  ],\r\n  \"schemaDefinitions\": {\r\n  },\r\n");

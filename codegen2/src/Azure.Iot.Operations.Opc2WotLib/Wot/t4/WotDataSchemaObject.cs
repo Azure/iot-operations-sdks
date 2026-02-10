@@ -36,7 +36,9 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.description));
             this.Write("\",\r\n");
  } 
-            this.Write("\"type\": \"object\",\r\n");
+            this.Write("\"type\": \"object\",\r\n\"aov:typeRef\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));
+            this.Write("\",\r\n");
  if (this.requiredFieldNames.Any()) { 
             this.Write("\"required\": [ ");
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(", ", this.requiredFieldNames.Select(f => $"\"{f}\""))));

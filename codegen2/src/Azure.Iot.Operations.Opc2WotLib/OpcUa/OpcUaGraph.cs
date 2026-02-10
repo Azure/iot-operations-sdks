@@ -97,7 +97,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
                         opcUaNode = OpcUaDataType.TryCreate(modelInfo, NsUriToNsInfoMap, node, out OpcUaDataType? dataType) ? dataType : null;
                         break;
                     case "UAObject":
-                        opcUaNode = new OpcUaObject(modelInfo, NsUriToNsInfoMap, node);
+                        OpcUaObject opcUaObject = new OpcUaObject(modelInfo, NsUriToNsInfoMap, node);
+                        if (opcUaObject.HasTypeDefinitionNodeId != null)
+                        {
+                            modelInfo.TypeDefinitionNodeIds.Add(opcUaObject.HasTypeDefinitionNodeId);
+                        }
+                        opcUaNode = opcUaObject;
                         break;
                     case "UAObjectType":
                         OpcUaObjectType opcUaObjectType = new OpcUaObjectType(modelInfo, NsUriToNsInfoMap, node);

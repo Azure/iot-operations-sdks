@@ -11,6 +11,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
     {
         private string? description;
         private string? schemaName;
+        private string typeRef;
         private Dictionary<string, WotDataSchema> fieldDataSchemas;
         private List<string> requiredFieldNames;
 
@@ -18,6 +19,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             this.description = description;
             this.schemaName = schemaName;
+            this.typeRef = $"nsu={containingNode.NodeIdNamespace};i={containingNode.NodeId.NodeIndex}";
 
             fieldDataSchemas =  fields.ToDictionary(
                 field => field.Key,

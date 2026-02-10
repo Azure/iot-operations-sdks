@@ -28,7 +28,13 @@ namespace Azure.Iot.Operations.Opc2WotLib
  // Licensed under the MIT License 
             this.Write("\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.eventName));
-            this.Write("\" : {\r\n  \"data\": {\r\n");
+            this.Write("\": {\r\n");
+ if (this.uaVariable.BrowseNamespace != null) { 
+            this.Write("  \"aov:namespace\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.uaVariable.BrowseNamespace));
+            this.Write("\",\r\n");
+ } 
+            this.Write("  \"data\": {\r\n");
  this.PushIndent("    "); 
             this.Write(this.ToStringHelper.ToStringWithCulture(this.dataSchema.TransformText()));
             this.Write("\r\n");
@@ -36,6 +42,16 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write("  },\r\n");
  if (this.uaVariable.IsPlaceholder) { 
             this.Write("  \"dtv:placeholder\": true,\r\n");
+ } 
+ if (this.containedIn != null) { 
+            this.Write("  \"aov:containedIn\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.containedIn));
+            this.Write("\",\r\n");
+ } 
+ if (this.contains.Any()) { 
+            this.Write("  \"aov:contains\": [ ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(", ", this.contains.Select(c => $"\"{c}\""))));
+            this.Write(" ],\r\n");
  } 
             this.Write("  \"forms\": [\r\n    {\r\n      \"contentType\": \"application/json\",\r\n      \"dtv:topic\":" +
                     " \"opcua/");

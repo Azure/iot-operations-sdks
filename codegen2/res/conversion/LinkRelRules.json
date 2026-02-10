@@ -1,0 +1,89 @@
+[
+  {
+    "source": "OpcUaCore_StateMachineType",
+    "target": [
+      "OpcUaCore_StateType",
+      "OpcUaCore_TransitionType"
+    ],
+    "rel": "aov:reference"
+  },
+  {
+    "modellingRule": [
+      "OptionalPlaceholder",
+      "MandatoryPlaceholder"
+    ],
+    "rel": "aov:component"
+  },
+  {
+    "targetExact": [
+      "OpcUaCore_FolderType",
+      "OpcUaCore_FileDirectoryType"
+    ],
+    "rel": "aov:component"
+  },
+  {
+    "target": "OpcUaCore_FileType",
+    "rel": "aov:component"
+  },
+  {
+    "targetExact": "OpcUaCore_BaseObjectType",
+    "rel": "aov:component"
+  },
+  {
+    "target": [
+      "OpcUaCore_StateMachineType",
+      "OpcUaCore_TemporaryFileTransferType",
+      "OpcUaCore_RoleSetType"
+    ],
+    "rel": "aov:capability"
+  },
+  {
+    "targetExact": [
+      "*ComponentType",
+      "*ComponentsType"
+    ],
+    "rel": "aov:component"
+  },
+  {
+    "targetExact": "*DiagnosticsType",
+    "rel": "aov:capability"
+  },
+  {
+    "target": [
+      "*CapabilityType",
+      "*CapabilitiesType",
+      "*FunctionalGroupType"
+    ],
+    "rel": "aov:capability"
+  },
+  {
+    "target": "*GroupType",
+    "rel": "aov:component"
+  },
+  {
+    "source": "*DeviceType",
+    "target": [
+      "*ServiceType",
+      "*ParameterType"
+    ],
+    "rel": "aov:component"
+  },
+  {
+    "target": [
+      "DI_TopologyElementType",
+      "DI_LockingServicesType"
+    ],
+    "rel": "aov:capability"
+  },
+  {
+    "targetExact": [
+      "BACnet_V2_BACnetEventReportingType",
+      "BACnet_V2_BACnetFaultEvaluationType"
+    ],
+    "rel": "aov:capability"
+  },
+  {
+    "modellingRule": "Mandatory",
+    "rel": "aov:capability"
+  }
+]

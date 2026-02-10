@@ -9,6 +9,9 @@
 <# if (this.description != null) { #>
 "description": "<#=this.description#>",
 <# } #>
+<# if (this.typeRef != null) { #>
+"aov:typeRef": "<#=this.typeRef#>",
+<# } #>
 <# for (int ix = 0; ix < this.kvpList.Length - 1; ix++) { #>
 "<#=this.kvpList[ix].Item1#>": <#=this.kvpList[ix].Item2#>,
 <# } #>

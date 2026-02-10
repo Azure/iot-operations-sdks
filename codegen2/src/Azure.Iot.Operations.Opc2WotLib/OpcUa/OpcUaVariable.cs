@@ -40,6 +40,26 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public bool IsPlaceholder { get; }
 
+        public void CollectVariableRecords(Dictionary<string, UaVariableRecord> variableRecords, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, bool isDataVariable, string? parentContainer = null, List<string>? parentContents = null)
+        {
+            string variableName = parentContainer != null ? $"{parentContainer}_{this.EffectiveName}" : this.EffectiveName;
+
+            List<string> myContents = new();
+            variableRecords[variableName] = new UaVariableRecord(this, parentContainer, myContents, isDataVariable);
+            if (parentContents != null)
+            {
+                parentContents.Add(variableName);
+            }
+
+            if (isDataVariable)
+            {
+                foreach (OpcUaVariable uaVariable in GetComponents(nsUriToNsInfoMap).OfType<OpcUaVariable>())
+                {
+                    uaVariable.CollectVariableRecords(variableRecords, nsUriToNsInfoMap, true, variableName, myContents);
+                }
+            }
+        }
+
         private static Dictionary<string, OpcUaObjectField> GetArgumentsFromXmlNode(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, XmlNode xmlNode)
         {
             Dictionary<string, OpcUaObjectField> arguments = new Dictionary<string, OpcUaObjectField>();

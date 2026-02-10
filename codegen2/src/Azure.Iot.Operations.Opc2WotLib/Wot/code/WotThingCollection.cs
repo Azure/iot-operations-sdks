@@ -11,10 +11,10 @@ namespace Azure.Iot.Operations.Opc2WotLib
     {
         private List<WotThingModel> thingModels;
 
-        public WotThingCollection(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        public WotThingCollection(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, LinkRelRuleEngine linkRelRuleEngine)
         {
             string specName = SpecMapper.GetSpecNameFromUri(modelInfo.ModelUri);
-            this.thingModels = modelInfo.NodeIdToObjectTypeMap.Values.Select(ot => new WotThingModel(specName, ot, nsUriToNsInfoMap)).ToList();
+            this.thingModels = modelInfo.NodeIdToObjectTypeMap.Values.Select(ot => new WotThingModel(specName, ot, nsUriToNsInfoMap, linkRelRuleEngine)).ToList();
         }
     }
 }

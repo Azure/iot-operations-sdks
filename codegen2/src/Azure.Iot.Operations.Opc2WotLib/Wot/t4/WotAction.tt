@@ -4,6 +4,9 @@
 <# // Copyright (c) Microsoft Corporation. #>
 <# // Licensed under the MIT License #>
 "<#=this.actionName#>" : {
+<# if (this.uaMethod.BrowseNamespace != null) { #>
+  "aov:namespace": "<#=this.uaMethod.BrowseNamespace#>",
+<# } #>
 <# if (this.uaMethod.Description != null) { #>
   "description": "<#=this.uaMethod.Description#>",
 <# } #>

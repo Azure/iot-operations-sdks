@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public string NodeIdNamespace { get => DefiningModel.NamespaceUris[NodeId.NsIndex]; }
 
-        public string BrowseNamespace { get => DefiningModel.NamespaceUris[BrowseName.NsIndex]; }
+        public string? BrowseNamespace { get => BrowseName.NsIndex == 0 ? null : DefiningModel.NamespaceUris[BrowseName.NsIndex]; }
 
         public OpcUaNode GetReferencedOpcUaNode(OpcUaNodeId nodeId, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap) =>
             nsUriToNsInfoMap[this.DefiningModel.NamespaceUris[nodeId.NsIndex]].NodeIndexToNodeMap[nodeId.NodeIndex];
@@ -58,13 +58,6 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             return References
                 .Where(r => r.IsForward && r.ReferenceType.IsComponentReference)
-                .Select(r => GetReferencedOpcUaNode(r.Target, nsUriToNsInfoMap));
-        }
-
-        public IEnumerable<OpcUaNode> GetPropertiesAndComponents(Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
-        {
-            return References
-                .Where(r => r.IsForward && (r.ReferenceType.IsPropertyReference || r.ReferenceType.IsComponentReference))
                 .Select(r => GetReferencedOpcUaNode(r.Target, nsUriToNsInfoMap));
         }
     }
