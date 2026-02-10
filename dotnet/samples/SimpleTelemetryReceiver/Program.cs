@@ -5,6 +5,22 @@ internal class Program
     //repros
     private static async Task Main()
     {
+
+        MqttApplicationMessage msg1 =
+        new MqttApplicationMessageBuilder()
+            .WithTopic("timtay/requestTopic")
+            .WithResponseTopic("timtay/responseTopic")
+            .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
+            .WithMessageExpiryInterval(20)
+            .Build();
+
+        MqttApplicationMessage msg2 =
+            new MqttApplicationMessageBuilder()
+                .WithTopic("timtay/responseTopic")
+                .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
+                .WithMessageExpiryInterval(20)
+                .Build();
+
         using var mqttClient1 = new MqttClientFactory().CreateMqttClient();
         var mqttClientOptions1 = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
         await mqttClient1.ConnectAsync(mqttClientOptions1, CancellationToken.None);
@@ -22,33 +38,21 @@ internal class Program
             return Task.CompletedTask;
         };
 
-        await mqttClient1.SubscribeAsync(
-            new MqttClientSubscribeOptionsBuilder().WithTopicFilter(
-                new MqttTopicFilterBuilder()
-                .WithTopic("timtay/responseTopic")
-                .WithAtLeastOnceQoS()).Build());
-
-        MqttApplicationMessage msg1 =
-            new MqttApplicationMessageBuilder()
-                .WithTopic("timtay/requestTopic")
-                .WithResponseTopic("timtay/responseTopic")
-                .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
-                .Build();
-
         mqttClient2.ApplicationMessageReceivedAsync += async (args) =>
         {
             Console.WriteLine("Handling a request");
             Console.WriteLine();
             args.AutoAcknowledge = false;
-            MqttApplicationMessage msg2 =
-                new MqttApplicationMessageBuilder()
-                    .WithTopic(args.ApplicationMessage.ResponseTopic)
-                    .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
-                    .Build();
 
             await mqttClient2.PublishAsync(msg2);
             await args.AcknowledgeAsync(CancellationToken.None);
         };
+
+        await mqttClient1.SubscribeAsync(
+            new MqttClientSubscribeOptionsBuilder().WithTopicFilter(
+                new MqttTopicFilterBuilder()
+                .WithTopic("timtay/responseTopic")
+                .WithAtLeastOnceQoS()).Build());
 
         await mqttClient2.SubscribeAsync(
             new MqttClientSubscribeOptionsBuilder().WithTopicFilter(

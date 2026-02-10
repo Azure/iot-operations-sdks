@@ -63,6 +63,7 @@ internal class Program
             DateTime before = DateTime.UtcNow;
             await mqttClient1.PublishAsync(msg1);
             await mqttClient1ReceivedMessage.Task;
+            mqttClient1ReceivedMessage = new();
             DateTime after = DateTime.UtcNow;
             var diff = after.Subtract(before);
             Console.WriteLine("DIFF! " + diff.TotalMilliseconds);
