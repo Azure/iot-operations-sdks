@@ -7,16 +7,16 @@ internal class Program
         MqttApplicationMessage msg1 =
         new MqttApplicationMessageBuilder()
             .WithTopic("timtay/requestTopic")
-            .WithResponseTopic("timtay/responseTopic")
+            //.WithResponseTopic("timtay/responseTopic")
             .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
-            .WithMessageExpiryInterval(20)
+            //.WithMessageExpiryInterval(20)
             .Build();
 
         MqttApplicationMessage msg2 =
             new MqttApplicationMessageBuilder()
                 .WithTopic("timtay/responseTopic")
                 .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
-                .WithMessageExpiryInterval(20)
+                //.WithMessageExpiryInterval(20)
                 .Build();
 
         using var mqttClient1 = new MqttClientFactory().CreateMqttClient();
