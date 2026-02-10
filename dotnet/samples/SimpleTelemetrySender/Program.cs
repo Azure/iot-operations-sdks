@@ -4,6 +4,19 @@ internal class Program
 {
     private static async Task Main()
     {
+        MqttApplicationMessage msg1 =
+            new MqttApplicationMessageBuilder()
+                .WithTopic("timtay/requestTopic")
+                .WithResponseTopic("timtay/responseTopic")
+                .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
+                .Build();
+
+        MqttApplicationMessage msg2 =
+            new MqttApplicationMessageBuilder()
+                .WithTopic("timtay/responseTopic")
+                .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
+                .Build();
+
         using var mqttClient1 = new MqttClientFactory().CreateMqttClient();
         using var mqttClient2 = new MqttClientFactory().CreateMqttClient();
         var mqttClientOptions1 = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
@@ -14,11 +27,11 @@ internal class Program
         Console.WriteLine("Connected");
 
         TaskCompletionSource mqttClient1ReceivedMessage = new();
-        mqttClient1.ApplicationMessageReceivedAsync += (args) =>
+        mqttClient1.ApplicationMessageReceivedAsync += async (args) =>
         {
             mqttClient1ReceivedMessage.TrySetResult();
             args.AutoAcknowledge = true;
-            return Task.CompletedTask;
+            await mqttClient2.PublishAsync(msg2);
         };
 
         TaskCompletionSource mqttClient2ReceivedMessage = new();
@@ -41,27 +54,12 @@ internal class Program
                 .WithTopic("timtay/requestTopic")
                 .WithAtLeastOnceQoS()).Build());
 
-        MqttApplicationMessage msg1 =
-            new MqttApplicationMessageBuilder()
-                .WithTopic("timtay/requestTopic")
-                .WithResponseTopic("timtay/responseTopic")
-                .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
-                .Build();
-
-        MqttApplicationMessage msg2 =
-            new MqttApplicationMessageBuilder()
-                .WithTopic("timtay/responseTopic")
-                .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
-                .Build();
-
         while (true)
         {
             await Task.Delay(TimeSpan.FromSeconds(1));
 
             DateTime before = DateTime.UtcNow;
             await mqttClient1.PublishAsync(msg1);
-            await mqttClient2ReceivedMessage.Task;
-            await mqttClient2.PublishAsync(msg2);
             await mqttClient1ReceivedMessage.Task;
             DateTime after = DateTime.UtcNow;
             var diff = after.Subtract(before);
