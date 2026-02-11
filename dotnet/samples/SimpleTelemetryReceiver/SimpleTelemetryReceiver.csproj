@@ -8,8 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="MQTTnet">
-      <HintPath>..\..\src\Azure.Iot.Operations.Mqtt\MQTTnet.dll</HintPath>
-    </Reference>
+    <PackageReference Include="MQTTnet" Version="5.0.1.1416" />
   </ItemGroup>
 </Project>
