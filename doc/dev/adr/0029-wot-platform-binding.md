@@ -49,6 +49,7 @@ This state can be accessed by a Property Consumer on the client side.
 
 * [Relationship](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.v4.md#relationship) is a means for declaring a semantic association between instances of DTDL models.
 It has no directly analogous communication pattern.
+Like the other types of contents, a Relationship has a name defined by the model.
 
 * [Component](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.v4.md#component) is a structural mechanism for expressing model composition.
 It is mentioned here for completeness, but it has no usage in AIO.
@@ -104,6 +105,7 @@ The proposed AIO Platform Binding introduces 14 new RDF terms:
 * `aov:reference` &mdash; value for `rel` property in a `links` element indicating an untyped reference to the linked TM.
 * `aov:typedReference` &mdash; value for `rel` property in a `links` element indicating a typed reference to the linked TM; the type must be given by an `aov:refType` property.
 * `aov:refType` &mdash; property whose string value indicates a user-defined reference type for a `links` element whose `rel` property has value `aov:typedReference`.
+* `aov:refName` &mdash; property whose string value indicates a name for the reference to the linked TM; can be used irrespective of the link `rel` value.
 * `aov:contains` &mdash; property whose value is the name of another affordance that is logically contained within this affordance.
 * `aov:containedIn` &mdash; property whose value is the name of another affordance that logically contains this affordance.
 * `aov:typeRef` &mdash; property whose value is an opaque identifier of another type definition that is congruent to this definition.
@@ -116,10 +118,10 @@ Use of these is illustrated in the following TM examples.
 
 #### Example 1
 
-The following TM example illustrates 6 terms: `aov:isComposite`, `aov:component`, `aov:reference`, `aov:scaleFactor`, `aov:decimalPlaces`, and `aov:namespace`.
+The following TM example illustrates 6 terms: `aov:isComposite`, `aov:component`, `aov:reference`, `aov:refName`, `aov:scaleFactor`, `aov:decimalPlaces`, and `aov:namespace`.
 
 The model is designated as composite.
-There are two `links` elements, one that indicates a component, and one that indicates an untyped reference.
+There are two `links` elements, one with name "filter" that indicates a component, and one with name "acoustics" that indicates an untyped reference.
 The numeric value of the "Gain" property has a scale factor of 10.0, and it has 3 decimal places of precision.
 The name "Gain" is qualified by the namespace "MyControls".
 
@@ -134,8 +136,8 @@ The name "Gain" is qualified by the namespace "MyControls".
   "aov:isComposite": true,
   "title": "Amplifier",
   "links": [
-    { "rel": "aov:component", "href": "./BandPassFilter.TM.json", "type": "application/tm+json" },
-    { "rel": "aov:reference", "href": "./AcousticModel.TM.json", "type": "application/tm+json" }
+    { "rel": "aov:component", "aov:refName": "filter", "href": "./BandPassFilter.TM.json", "type": "application/tm+json" },
+    { "rel": "aov:reference", "aov:refName": "acoustics", "href": "./AcousticModel.TM.json", "type": "application/tm+json" }
   ],
   "properties": {
     "Gain": {
@@ -247,10 +249,10 @@ The following table summarizes the mapping between the DTDL AIO extension and th
 | Property | | properties | |
 | Interface | Composite | | aov:isComposite |
 | Interface | Event | | aov:isEvent |
-| Relationship | | links / rel | aov:reference |
-| Relationship | (not supported) | links / rel | aov:typedReference / aov:refType |
-| Relationship | HasCapability | links / rel | aov:capability |
-| Relationship | HasComponent | links / rel | aov:component |
+| Relationship | | links / rel | aov:reference / aov:refName |
+| Relationship | (not supported) | links / rel | aov:typedReference / aov:refType / aov:refName |
+| Relationship | HasCapability | links / rel | aov:capability / aov:refName |
+| Relationship | HasComponent | links / rel | aov:component / aov:refName |
 | Object | Detail / Subject | | aov:contains / aov:containedIn |
 | | Congruence.typeRef | | aov:typeRef |
 | | Qualified.namespace | | aov:namespace |
