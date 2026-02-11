@@ -44,7 +44,10 @@ internal class Program
         mqttClient2.ApplicationMessageReceivedAsync += (args) =>
         {
             args.AutoAcknowledge = true;
-            mqttClient2ReceivedMessage.TrySetResult();
+            if (!mqttClient2ReceivedMessage.TrySetResult())
+            {
+                mqttClient1ReceivedMessage.TrySetResult();
+            }
             return Task.CompletedTask;
         };
 
@@ -66,7 +69,7 @@ internal class Program
 
             DateTime before = DateTime.UtcNow;
             await mqttClient1.PublishAsync(msg1);
-            await mqttClient2.PublishAsync(msg2);
+            await mqttClient1.PublishAsync(msg2);
             await mqttClient2ReceivedMessage.Task;
             await mqttClient1ReceivedMessage.Task;
             mqttClient1ReceivedMessage = new();
