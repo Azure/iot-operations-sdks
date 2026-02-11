@@ -41,14 +41,11 @@ internal class Program
         };
 
         TaskCompletionSource mqttClient2ReceivedMessage = new();
-        mqttClient2.ApplicationMessageReceivedAsync += async (args) =>
+        mqttClient2.ApplicationMessageReceivedAsync += (args) =>
         {
-            args.AutoAcknowledge = false;
+            args.AutoAcknowledge = true;
             mqttClient2ReceivedMessage.TrySetResult();
-            DateTime before = DateTime.UtcNow;
-            await args.AcknowledgeAsync(CancellationToken.None);
-            DateTime after = DateTime.UtcNow;
-            Console.WriteLine("Time sending ack: " + after.Subtract(before).TotalMilliseconds);
+            return Task.CompletedTask;
         };
 
         await mqttClient1.SubscribeAsync(
