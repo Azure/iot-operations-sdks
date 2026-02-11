@@ -52,13 +52,13 @@ internal class Program
             new MqttClientSubscribeOptionsBuilder().WithTopicFilter(
                 new MqttTopicFilterBuilder()
                 .WithTopic("timtay/responseTopic")
-                .WithAtLeastOnceQoS()).Build());
+                .WithAtMostOnceQoS()).Build());
 
         await mqttClient2.SubscribeAsync(
             new MqttClientSubscribeOptionsBuilder().WithTopicFilter(
                 new MqttTopicFilterBuilder()
                 .WithTopic("timtay/requestTopic")
-                .WithAtLeastOnceQoS()).Build());
+                .WithAtMostOnceQoS()).Build());
 
         while (true)
         {
