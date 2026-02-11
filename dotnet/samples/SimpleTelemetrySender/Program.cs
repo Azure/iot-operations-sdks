@@ -10,14 +10,14 @@ internal class Program
         new MqttApplicationMessageBuilder()
             .WithTopic("timtay/requestTopic")
             .WithResponseTopic("timtay/responseTopic")
-            .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
+            .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtMostOnce)
             .WithMessageExpiryInterval(20)
             .Build();
 
         MqttApplicationMessage msg2 =
             new MqttApplicationMessageBuilder()
                 .WithTopic("timtay/responseTopic")
-                .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
+                .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtMostOnce)
                 .WithMessageExpiryInterval(20)
                 .Build();
 
@@ -44,10 +44,7 @@ internal class Program
         mqttClient2.ApplicationMessageReceivedAsync += (args) =>
         {
             args.AutoAcknowledge = true;
-            if (!mqttClient2ReceivedMessage.TrySetResult())
-            {
-                mqttClient1ReceivedMessage.TrySetResult();
-            }
+            mqttClient2ReceivedMessage.TrySetResult();
             return Task.CompletedTask;
         };
 
@@ -69,8 +66,8 @@ internal class Program
 
             DateTime before = DateTime.UtcNow;
             await mqttClient1.PublishAsync(msg1);
-            await mqttClient1.PublishAsync(msg2);
             await mqttClient2ReceivedMessage.Task;
+            await mqttClient2.PublishAsync(msg2);
             await mqttClient1ReceivedMessage.Task;
             mqttClient1ReceivedMessage = new();
             mqttClient2ReceivedMessage = new();
