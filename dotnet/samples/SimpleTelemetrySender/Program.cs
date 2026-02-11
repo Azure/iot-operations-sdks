@@ -66,16 +66,13 @@ internal class Program
 
             DateTime before = DateTime.UtcNow;
             await mqttClient1.PublishAsync(msg1);
-            await mqttClient2ReceivedMessage.Task;
-            DateTime time1 = DateTime.UtcNow;
             await mqttClient2.PublishAsync(msg2);
+            await mqttClient2ReceivedMessage.Task;
             await mqttClient1ReceivedMessage.Task;
             mqttClient1ReceivedMessage = new();
             mqttClient2ReceivedMessage = new();
             DateTime after = DateTime.UtcNow;
             var diff = after.Subtract(before);
-            Console.WriteLine("inv->ex diff: " + time1.Subtract(before).TotalMilliseconds);
-            Console.WriteLine("ex->inv diff: " + after.Subtract(time1).TotalMilliseconds);
             Console.WriteLine("Total diff: " + diff.TotalMilliseconds);
             Console.WriteLine();
         }
