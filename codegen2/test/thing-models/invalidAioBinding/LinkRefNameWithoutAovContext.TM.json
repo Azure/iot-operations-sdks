@@ -4,7 +4,15 @@
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
   "@type": "tm:ThingModel",
-  "title": "No_Op",
+  "title": "Noop",
+  "links": [
+    {
+      "rel": "tm:extends",
+      "aov:refName": "Parent",
+      "href": "http://example.com/BasicOnOffTM",
+      "type": "application/tm+json"
+    }
+  ],
   "actions": {
     "noop": {
       "forms": [
