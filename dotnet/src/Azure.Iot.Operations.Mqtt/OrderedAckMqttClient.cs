@@ -240,8 +240,11 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
                 {
                     found = true;
                     long now = DateTime.UtcNow.Ticks;
+#pragma warning disable CS0618 // Type or member is obsolete
                     long sent = long.Parse(sentUserProperty.Value);
                     long diff = (now - sent) / System.TimeSpan.TicksPerMillisecond;
+#pragma warning restore CS0618 // Type or member is obsolete
+
                     if (diff > 20)
                     {
                         Trace.WriteLine("DIFF WAS AT BROKER: " + diff);

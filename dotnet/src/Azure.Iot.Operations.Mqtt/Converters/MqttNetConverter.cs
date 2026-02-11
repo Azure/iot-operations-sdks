@@ -106,7 +106,9 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             {
                 foreach (var mqttNetUserProperty in mqttNetUserProperties)
                 {
+#pragma warning disable CS0618 // Type or member is obsolete
                     genericUserProperties.Add(new MqttUserProperty(mqttNetUserProperty.Name, mqttNetUserProperty.Value));
+#pragma warning restore CS0618 // Type or member is obsolete
                 }
             }
 

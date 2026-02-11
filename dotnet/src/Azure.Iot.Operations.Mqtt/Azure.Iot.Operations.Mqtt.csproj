@@ -19,11 +19,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MQTTnet" Version="5.0.1.1416" />
+    <ProjectReference Include="..\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
+    <Reference Include="MQTTnet">
+      <HintPath>MQTTnet.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <PropertyGroup>
