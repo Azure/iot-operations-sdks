@@ -12,9 +12,7 @@ members = [
   "sample_applications/counter/counter_server",
   "sample_applications/event_driven_app/input_client",
   "sample_applications/event_driven_app/output_client",
-]
-exclude = [
-  "sample_applications/sample_connector_scaffolding"
+  "sample_applications/sample_connector_scaffolding",
 ]
 
 resolver = "2"
