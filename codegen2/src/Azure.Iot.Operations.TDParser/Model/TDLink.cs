@@ -12,6 +12,7 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string HrefName = "href";
         public const string TypeName = "type";
         public const string RelName = "rel";
+        public const string RefNameName = "aov:refName";
         public const string RefTypeName = "aov:refType";
 
         public ValueTracker<StringHolder>? Href { get; set; }
@@ -19,6 +20,8 @@ namespace Azure.Iot.Operations.TDParser.Model
         public ValueTracker<StringHolder>? Type { get; set; }
 
         public ValueTracker<StringHolder>? Rel { get; set; }
+
+        public ValueTracker<StringHolder>? RefName { get; set; }
 
         public ValueTracker<StringHolder>? RefType { get; set; }
 
@@ -32,13 +35,13 @@ namespace Azure.Iot.Operations.TDParser.Model
             }
             else
             {
-                return Href == other.Href && Type == other.Type && Rel == other.Rel && RefType == other.RefType;
+                return Href == other.Href && Type == other.Type && Rel == other.Rel && RefName == other.RefName && RefType == other.RefType;
             }
         }
 
         public override int GetHashCode()
         {
-            return (Href, Type, Rel, RefType).GetHashCode();
+            return (Href, Type, Rel, RefName, RefType).GetHashCode();
         }
 
         public static bool operator ==(TDLink? left, TDLink? right)
@@ -101,6 +104,13 @@ namespace Azure.Iot.Operations.TDParser.Model
                     yield return item;
                 }
             }
+            if (RefName != null)
+            {
+                foreach (ITraversable item in RefName.Traverse())
+                {
+                    yield return item;
+                }
+            }
             if (RefType != null)
             {
                 foreach (ITraversable item in RefType.Traverse())
@@ -137,6 +147,9 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case RelName:
                         link.Rel = ValueTracker<StringHolder>.Deserialize(ref reader, RelName);
+                        break;
+                    case RefNameName:
+                        link.RefName = ValueTracker<StringHolder>.Deserialize(ref reader, RefNameName);
                         break;
                     case RefTypeName:
                         link.RefType = ValueTracker<StringHolder>.Deserialize(ref reader, RefTypeName);
