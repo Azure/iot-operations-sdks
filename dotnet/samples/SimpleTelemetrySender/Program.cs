@@ -9,7 +9,6 @@ internal class Program
         MqttApplicationMessage msg1 =
         new MqttApplicationMessageBuilder()
             .WithTopic("timtay/requestTopic")
-            .WithPayload(new byte[1000000])
             .WithResponseTopic("timtay/responseTopic")
             .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
             .WithMessageExpiryInterval(20)
@@ -18,7 +17,6 @@ internal class Program
         MqttApplicationMessage msg2 =
             new MqttApplicationMessageBuilder()
                 .WithTopic("timtay/responseTopic")
-                .WithPayload(new byte[1000000])
                 .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
                 .WithMessageExpiryInterval(20)
                 .Build();
