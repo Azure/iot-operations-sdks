@@ -25,8 +25,8 @@ internal class Program
 
         using var mqttClient1 = new MqttClientFactory().CreateMqttClient();
         using var mqttClient2 = new MqttClientFactory().CreateMqttClient();
-        var mqttClientOptions1 = new MqttClientOptionsBuilder().WithEndPoint(new DnsEndPoint("localhost", 1883, AddressFamily.Unspecified)).WithTcpServer(bob).WithClientId(Guid.NewGuid().ToString()).Build();
-        var mqttClientOptions2 = new MqttClientOptionsBuilder().WithEndPoint(new DnsEndPoint("localhost", 1883, AddressFamily.Unspecified)).WithTcpServer(bob).WithClientId(Guid.NewGuid().ToString()).Build();
+        var mqttClientOptions1 = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
+        var mqttClientOptions2 = new MqttClientOptionsBuilder().WithTcpServer("localhost", 1883).WithClientId(Guid.NewGuid().ToString()).Build();
 
         await mqttClient1.ConnectAsync(mqttClientOptions1);
         await mqttClient2.ConnectAsync(mqttClientOptions2);
@@ -82,11 +82,5 @@ internal class Program
             Console.WriteLine("Total diff: " + diff.TotalMilliseconds);
             Console.WriteLine();
         }
-    }
-
-    private static void bob(MqttClientTcpOptions options)
-    {
-        options.RemoteEndpoint = new DnsEndPoint("localhost", 1883, AddressFamily.Unspecified);
-        options.NoDelay = false;
     }
 }
