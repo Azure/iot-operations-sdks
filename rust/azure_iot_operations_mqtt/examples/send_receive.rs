@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 use std::str;
 use std::time::Duration;
+use chrono::prelude::*;
 
 use env_logger::Builder;
 
@@ -90,6 +91,8 @@ async fn client_1_task(client: SessionManagedClient) {
         // Wait a second
         tokio::time::sleep(Duration::from_secs(1)).await;
 
+        let utc: DateTime<Utc> = Utc::now();
+        println!("{}", utc);
         // Publish a QoS 1 message to request topic
         let completion_token = client
             .publish_qos1(
@@ -102,7 +105,7 @@ async fn client_1_task(client: SessionManagedClient) {
 
         match completion_token {
             Ok(token) => match token.await {
-                Ok(_) => println!("Client 1: Message acknowledgement received"),
+                Ok(_) => {},
                 Err(e) => {
                     println!("Client 1: Message delivery failure: {e}");
                     continue;
@@ -118,7 +121,9 @@ async fn client_1_task(client: SessionManagedClient) {
         match receiver.recv().await {
             Some(publish) => {
                 let payload_str = str::from_utf8(&publish.payload).unwrap_or("<invalid utf-8>");
-                println!("Client 1: Received response: {payload_str}");
+                let utc2: DateTime<Utc> = Utc::now();
+                println!("{}", utc2);
+                println!("");
             }
             None => {
                 println!("Client 1: Response topic receiver closed");
@@ -156,7 +161,9 @@ async fn client_2_task(client: SessionManagedClient) {
         match receiver.recv().await {
             Some(publish) => {
                 let payload_str = str::from_utf8(&publish.payload).unwrap_or("<invalid utf-8>");
-                println!("Client 2: Received request: {payload_str}");
+
+                let utcMid: DateTime<Utc> = Utc::now();
+                println!("{}", utcMid);
 
                 // Publish a response
                 let completion_token = client
@@ -170,7 +177,7 @@ async fn client_2_task(client: SessionManagedClient) {
 
                 match completion_token {
                     Ok(token) => match token.await {
-                        Ok(_) => println!("Client 2: Response message acknowledgement received"),
+                        Ok(_) => {},
                         Err(e) => {
                             println!("Client 2: Response message delivery failure: {e}");
                             continue;
