@@ -24,6 +24,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             SymbolicName = xmlNode.Attributes?["SymbolicName"]?.Value;
             Description = xmlNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "Description")?.InnerText.CleanText();
             References = new List<OpcUaReference>();
+            NsUriToNsInfoMap = nsUriToNsInfoMap;
         }
 
         public OpcUaModelInfo DefiningModel { get; }
@@ -44,21 +45,23 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public string? BrowseNamespace { get => BrowseName.NsIndex == 0 ? null : DefiningModel.NamespaceUris[BrowseName.NsIndex]; }
 
-        public OpcUaNode GetReferencedOpcUaNode(OpcUaNodeId nodeId, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap) =>
-            nsUriToNsInfoMap[this.DefiningModel.NamespaceUris[nodeId.NsIndex]].NodeIndexToNodeMap[nodeId.NodeIndex];
-
-        public IEnumerable<OpcUaNode> GetProperties(Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        public IEnumerable<OpcUaNode> Properties
         {
-            return References
+            get => References
                 .Where(r => r.IsForward && r.ReferenceType.IsPropertyReference)
-                .Select(r => GetReferencedOpcUaNode(r.Target, nsUriToNsInfoMap));
+                .Select(r => GetReferencedOpcUaNode(r.Target));
         }
 
-        public IEnumerable<OpcUaNode> GetComponents(Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        public IEnumerable<OpcUaNode> Components
         {
-            return References
+            get => References
                 .Where(r => r.IsForward && r.ReferenceType.IsComponentReference)
-                .Select(r => GetReferencedOpcUaNode(r.Target, nsUriToNsInfoMap));
+                .Select(r => GetReferencedOpcUaNode(r.Target));
         }
+
+        public OpcUaNode GetReferencedOpcUaNode(OpcUaNodeId nodeId) =>
+            NsUriToNsInfoMap[this.DefiningModel.NamespaceUris[nodeId.NsIndex]].NodeIndexToNodeMap[nodeId.NodeIndex];
+
+        protected Dictionary<string, OpcUaNamespaceInfo> NsUriToNsInfoMap { get; }
     }
 }

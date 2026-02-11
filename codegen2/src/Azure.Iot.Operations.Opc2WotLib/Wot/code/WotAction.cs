@@ -15,18 +15,15 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private WotDataSchema? inputSchema;
         private WotDataSchema? outputSchema;
 
-        public WotAction(string specName, string thingModelName, OpcUaMethod uaMethod, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        public WotAction(string specName, string thingModelName, OpcUaMethod uaMethod)
         {
             this.uaMethod = uaMethod;
             this.specName = specName;
             this.thingModelName = thingModelName;
             this.actionName = WotUtil.LegalizeName(uaMethod.EffectiveName);
 
-            OpcUaVariable? inputArgsVariable = uaMethod.GetProperties(nsUriToNsInfoMap).OfType<OpcUaVariable>().FirstOrDefault(v => v.BrowseName.Name == "InputArguments");
-            OpcUaVariable? outputArgsVariable = uaMethod.GetProperties(nsUriToNsInfoMap).OfType<OpcUaVariable>().FirstOrDefault(v => v.BrowseName.Name == "OutputArguments");
-
-            this.inputSchema = inputArgsVariable == null ? null : new WotDataSchemaObject(inputArgsVariable, null, null, inputArgsVariable.Arguments, nsUriToNsInfoMap, 0);
-            this.outputSchema = outputArgsVariable == null ? null : new WotDataSchemaObject(outputArgsVariable, null, null, outputArgsVariable.Arguments, nsUriToNsInfoMap, 0);
+            this.inputSchema = uaMethod.TryGetInputArguments(out OpcUaVariable? inputArgsVariable) ? new WotDataSchemaObject(inputArgsVariable, null, null, inputArgsVariable.Arguments, 0) : null;
+            this.outputSchema = uaMethod.TryGetOutputArguments(out OpcUaVariable? outputArgsVariable) ? new WotDataSchemaObject(outputArgsVariable, null, null, outputArgsVariable.Arguments, 0) : null;
         }
     }
 }

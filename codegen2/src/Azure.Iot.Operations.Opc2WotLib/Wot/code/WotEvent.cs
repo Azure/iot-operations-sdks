@@ -17,10 +17,10 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private string? containedIn;
         private List<string> contains;
 
-        public WotEvent(string specName, string thingModelName, OpcUaVariable uaVariable, string variableName, string? containedIn, List<string> contains, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        public WotEvent(string specName, string thingModelName, OpcUaVariable uaVariable, string variableName, string? containedIn, List<string> contains)
         {
             this.uaVariable = uaVariable;
-            this.dataSchema = WotDataSchema.Create(uaVariable.DataType, uaVariable.ValueRank, uaVariable, nsUriToNsInfoMap, 0, uaVariable.Description);
+            this.dataSchema = WotDataSchema.Create(uaVariable.DataType, uaVariable.ValueRank, uaVariable, 0, uaVariable.Description);
             this.specName = specName;
             this.thingModelName = thingModelName;
             this.eventName = WotUtil.LegalizeName(variableName);

@@ -20,29 +20,26 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private List<WotProperty> properties;
         private List<WotEvent> events;
 
-        public WotThingModel(string specName, OpcUaObjectType uaObjectType, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, LinkRelRuleEngine linkRelRuleEngine)
+        public WotThingModel(string specName, OpcUaObjectType uaObjectType, LinkRelRuleEngine linkRelRuleEngine)
         {
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName(uaObjectType.DiscriminatedEffectiveName, specName);
             this.typeRef = $"nsu={uaObjectType.NodeIdNamespace};i={uaObjectType.NodeId.NodeIndex}";
 
             bool isTypeDefinition = uaObjectType.DefiningModel.TypeDefinitionNodeIds.Contains(uaObjectType.NodeId);
-            this.isEvent = uaObjectType.GetAncestorNames(nsUriToNsInfoMap).Contains("OpcUaCore_BaseEventType");
+            this.isEvent = uaObjectType.AncestorNames.Contains("OpcUaCore_BaseEventType");
             this.isComposite = !isTypeDefinition && !this.isEvent && !uaObjectType.IsAbstract;
 
-            this.baseModelRefs = uaObjectType.GetBaseModels(nsUriToNsInfoMap)
+            this.baseModelRefs = uaObjectType.BaseModels
                 .Select(node => GetModelRef(uaObjectType, node)).ToList();
-            this.linkInfos = uaObjectType.GetTypeAndObjectOfReferences(nsUriToNsInfoMap)
+            this.linkInfos = uaObjectType.TypeAndObjectOfReferences
                 .Where(t => t.Item1.NsIndex != 0 || t.Item1.IsComponentReference)
-                .Select(t => GetLinkInfo(uaObjectType, t.Item1, t.Item2, nsUriToNsInfoMap, linkRelRuleEngine))
+                .Select(t => GetLinkInfo(uaObjectType, t.Item1, t.Item2, linkRelRuleEngine))
                 .ToList();
 
-            List<OpcUaMethod> actionVariables = uaObjectType.GetComponents(nsUriToNsInfoMap).OfType<OpcUaMethod>().ToList();
-            Dictionary<string, UaVariableRecord> variableRecords = uaObjectType.GetVariableRecords(nsUriToNsInfoMap);
-
-            this.actions = actionVariables.OrderBy(v => v.EffectiveName).Select(m => new WotAction(specName, this.thingName, m, nsUriToNsInfoMap)).ToList();
-            this.properties = variableRecords.OrderBy(r => r.Key).Select(r => new WotProperty(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains, nsUriToNsInfoMap)).ToList();
-            this.events = variableRecords.OrderBy(r => r.Key).Where(r => r.Value.IsDataVariable).Select(r => new WotEvent(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains, nsUriToNsInfoMap)).ToList();
+            this.actions = uaObjectType.Methods.OrderBy(m => m.EffectiveName).Select(m => new WotAction(specName, this.thingName, m)).ToList();
+            this.properties = uaObjectType.VariableRecords.OrderBy(r => r.Key).Select(r => new WotProperty(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains)).ToList();
+            this.events = uaObjectType.VariableRecords.OrderBy(r => r.Key).Where(r => r.Value.IsDataVariable).Select(r => new WotEvent(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains)).ToList();
         }
 
         private string GetModelRef(OpcUaObjectType sourceObjectType, OpcUaObjectType targetObjectType)
@@ -53,14 +50,14 @@ namespace Azure.Iot.Operations.Opc2WotLib
             return $"{fileRef}#title={WotUtil.LegalizeName(targetObjectType.DiscriminatedEffectiveName, targetSpecName)}";
         }
 
-        private LinkInfo GetLinkInfo(OpcUaObjectType sourceObjectType, OpcUaNodeId referenceTypeNodeId, OpcUaObject targetObject, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, LinkRelRuleEngine linkRelRuleEngine)
+        private LinkInfo GetLinkInfo(OpcUaObjectType sourceObjectType, OpcUaNodeId referenceTypeNodeId, OpcUaObject targetObject, LinkRelRuleEngine linkRelRuleEngine)
         {
-            OpcUaObjectType targetObjectType = (OpcUaObjectType)targetObject.GetReferencedOpcUaNode(targetObject.HasTypeDefinitionNodeId!, nsUriToNsInfoMap);
+            OpcUaObjectType targetObjectType = (OpcUaObjectType)targetObject.GetReferencedOpcUaNode(targetObject.HasTypeDefinitionNodeId!);
             string targetModelRef = GetModelRef(sourceObjectType, targetObjectType);
 
             if (referenceTypeNodeId.NsIndex != 0)
             {
-                return new LinkInfo(targetModelRef, "aov:typedReference", targetObject.EffectiveName, sourceObjectType.GetReferencedOpcUaNode(referenceTypeNodeId, nsUriToNsInfoMap).EffectiveName);
+                return new LinkInfo(targetModelRef, "aov:typedReference", targetObject.EffectiveName, sourceObjectType.GetReferencedOpcUaNode(referenceTypeNodeId).EffectiveName);
             }
             else
             {

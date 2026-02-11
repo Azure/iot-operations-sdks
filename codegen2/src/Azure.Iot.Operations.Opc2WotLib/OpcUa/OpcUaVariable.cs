@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public bool IsPlaceholder { get; }
 
-        public void CollectVariableRecords(Dictionary<string, UaVariableRecord> variableRecords, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, bool isDataVariable, string? parentContainer = null, List<string>? parentContents = null)
+        public void CollectVariableRecords(Dictionary<string, UaVariableRecord> variableRecords, bool isDataVariable, string? parentContainer = null, List<string>? parentContents = null)
         {
             string variableName = parentContainer != null ? $"{parentContainer}_{this.EffectiveName}" : this.EffectiveName;
 
@@ -53,9 +53,9 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             if (isDataVariable)
             {
-                foreach (OpcUaVariable uaVariable in GetComponents(nsUriToNsInfoMap).OfType<OpcUaVariable>())
+                foreach (OpcUaVariable uaVariable in Components.OfType<OpcUaVariable>())
                 {
-                    uaVariable.CollectVariableRecords(variableRecords, nsUriToNsInfoMap, true, variableName, myContents);
+                    uaVariable.CollectVariableRecords(variableRecords, true, variableName, myContents);
                 }
             }
         }

@@ -10,6 +10,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
     public class OpcUaObjectType : OpcUaNode
     {
         private HashSet<string>? ancestorNames = null;
+        private Dictionary<string, UaVariableRecord>? variableRecords = null;
 
         public OpcUaObjectType(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, XmlNode objectTypeNode)
             : base(modelInfo, nsUriToNsInfoMap, objectTypeNode)
@@ -25,59 +26,70 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public string DiscriminatedEffectiveName => Discriminator == 0 ? EffectiveName : $"{EffectiveName}_{Discriminator}";
 
-        public Dictionary<string, UaVariableRecord> GetVariableRecords(Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        public IEnumerable<OpcUaObjectType> BaseModels
         {
-            Dictionary<string, UaVariableRecord> variableRecords = new();
-
-            foreach (OpcUaVariable uaVariable in GetComponents(nsUriToNsInfoMap).OfType<OpcUaVariable>())
-            {
-                uaVariable.CollectVariableRecords(variableRecords, nsUriToNsInfoMap, true);
-            }
-
-            foreach (OpcUaVariable uaVariable in GetProperties(nsUriToNsInfoMap).OfType<OpcUaVariable>())
-            {
-                uaVariable.CollectVariableRecords(variableRecords, nsUriToNsInfoMap, false);
-            }
-
-            return variableRecords;
-        }
-
-        public IEnumerable<OpcUaObjectType> GetBaseModels(Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
-        {
-            return References
+            get => References
                 .Where(r => !r.IsForward && r.ReferenceType.IsSubtypeReference)
-                .Select(r => GetReferencedOpcUaNode(r.Target, nsUriToNsInfoMap))
+                .Select(r => GetReferencedOpcUaNode(r.Target))
                 .Cast<OpcUaObjectType>();
         }
 
-        public IEnumerable<(OpcUaNodeId, OpcUaObject)> GetTypeAndObjectOfReferences(Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        public IEnumerable<(OpcUaNodeId, OpcUaObject)> TypeAndObjectOfReferences
         {
-            return References
+            get => References
                 .Where(r => r.IsForward && (r.ReferenceType.NsIndex != 0 || r.ReferenceType.IsComponentReference))
-                .Select(r => (r.ReferenceType, GetReferencedOpcUaNode(r.Target, nsUriToNsInfoMap)))
+                .Select(r => (r.ReferenceType, GetReferencedOpcUaNode(r.Target)))
                 .Where(t => t.Item2 is OpcUaObject)
                 .Select(t => (t.Item1, (OpcUaObject)t.Item2))
                 .Where(o => o.Item2.HasTypeDefinitionNodeId != null);
         }
 
-        public HashSet<string> GetAncestorNames(Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        public HashSet<string> AncestorNames
         {
-            if (ancestorNames == null)
+            get
             {
-                this.ancestorNames = new HashSet<string>();
-                ComputeAncestorNames(this.ancestorNames, nsUriToNsInfoMap);
-            }
+                if (ancestorNames == null)
+                {
+                    this.ancestorNames = new HashSet<string>();
+                    ComputeAncestorNames(this.ancestorNames);
+                }
 
-            return ancestorNames;
+                return ancestorNames;
+            }
         }
 
-        private void ComputeAncestorNames(HashSet<string> ancestorNames, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        public List<OpcUaMethod> Methods { get => Components.OfType<OpcUaMethod>().ToList(); }
+
+        public Dictionary<string, UaVariableRecord> VariableRecords
         {
-            foreach (OpcUaObjectType baseModel in GetBaseModels(nsUriToNsInfoMap))
+            get
+            {
+                if (variableRecords == null)
+                {
+                    variableRecords = new Dictionary<string, UaVariableRecord>();
+
+                    foreach (OpcUaVariable uaVariable in Components.OfType<OpcUaVariable>())
+                    {
+                        uaVariable.CollectVariableRecords(variableRecords, true);
+                    }
+
+                    foreach (OpcUaVariable uaVariable in Properties.OfType<OpcUaVariable>())
+                    {
+                        uaVariable.CollectVariableRecords(variableRecords, false);
+                    }
+                }
+
+                return variableRecords;
+            }
+        }
+
+        private void ComputeAncestorNames(HashSet<string> ancestorNames)
+        {
+            foreach (OpcUaObjectType baseModel in BaseModels)
             {
                 if (ancestorNames.Add(WotUtil.LegalizeName(baseModel.DiscriminatedEffectiveName, SpecMapper.GetSpecNameFromUri(baseModel.DefiningModel.ModelUri))))
                 {
-                    baseModel.ComputeAncestorNames(ancestorNames, nsUriToNsInfoMap);
+                    baseModel.ComputeAncestorNames(ancestorNames);
                 }
             }
         }

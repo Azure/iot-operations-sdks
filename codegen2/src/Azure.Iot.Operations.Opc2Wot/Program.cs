@@ -60,11 +60,11 @@ namespace Azure.Iot.Operations.Opc2Wot
 
             ErrorLog errorLog = new(string.Empty);
 
-            LinkRelRuleEngine linkRelRuleEngine = new LinkRelRuleEngine(opcUaGraph.NsUriToNsInfoMap);
+            LinkRelRuleEngine linkRelRuleEngine = new LinkRelRuleEngine();
 
             foreach (string modelUri in opcUaGraph.GetModelUris())
             {
-                WotThingCollection thingCollection = new WotThingCollection(opcUaGraph.GetOpcUaModelInfo(modelUri), opcUaGraph.NsUriToNsInfoMap, linkRelRuleEngine);
+                WotThingCollection thingCollection = new WotThingCollection(opcUaGraph.GetOpcUaModelInfo(modelUri), linkRelRuleEngine);
 
                 string thingText = thingCollection.TransformText();
 

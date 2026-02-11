@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
         }
 
-        public static WotDataSchema Create(OpcUaNodeId? dataTypeNodeId, int valueRank, OpcUaNode sourceNode, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, int depth, string? description)
+        public static WotDataSchema Create(OpcUaNodeId? dataTypeNodeId, int valueRank, OpcUaNode sourceNode, int depth, string? description)
         {
             if (depth > depthLimit)
             {
@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             if (valueRank > 0)
             {
-                return new WotDataSchemaArray(dataTypeNodeId, description, valueRank, sourceNode, nsUriToNsInfoMap, depth);
+                return new WotDataSchemaArray(dataTypeNodeId, description, valueRank, sourceNode, depth);
             }
 
             if (dataTypeNodeId == null)
@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 return new WotDataSchemaPrimitive(dataTypeNodeId, description);
             }
 
-            OpcUaNode dataTypeNode =  sourceNode.GetReferencedOpcUaNode(dataTypeNodeId, nsUriToNsInfoMap);
+            OpcUaNode dataTypeNode =  sourceNode.GetReferencedOpcUaNode(dataTypeNodeId);
 
             if (dataTypeNode is OpcUaDataTypeEnum enumNode)
             {
@@ -48,7 +48,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
             else if (dataTypeNode is OpcUaDataTypeObject objectNode)
             {
-                return new WotDataSchemaObject(objectNode, objectNode.Description ?? description, WotUtil.LegalizeName(objectNode.EffectiveName), objectNode.ObjectFields, nsUriToNsInfoMap, depth);
+                return new WotDataSchemaObject(objectNode, objectNode.Description ?? description, WotUtil.LegalizeName(objectNode.EffectiveName), objectNode.ObjectFields, depth);
             }
             else if (dataTypeNode is OpcUaDataTypeSubtype subtypeNode)
             {
@@ -58,7 +58,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     return new WotDataSchemaPrimitive(primitiveBaseTypeNodeId, description);
                 }
 
-                return Create(subtypeNode.BaseTypes.First(), 0, subtypeNode, nsUriToNsInfoMap, depth, description);
+                return Create(subtypeNode.BaseTypes.First(), 0, subtypeNode, depth, description);
             }
             else
             {

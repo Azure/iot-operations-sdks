@@ -14,13 +14,10 @@ namespace Azure.Iot.Operations.Opc2WotLib
     {
         private const string DefaultRel = "aov:reference";
 
-        private readonly Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap;
         private readonly List<LinkRelRule> linkRelRules;
 
-        public LinkRelRuleEngine(Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap)
+        public LinkRelRuleEngine()
         {
-            this.nsUriToNsInfoMap = nsUriToNsInfoMap;
-
             Stream linkRulesStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{Assembly.GetExecutingAssembly().GetName().Name}.Resources.conversion.LinkRelRules.json")!;
             string linkRulesText = new StreamReader(linkRulesStream).ReadToEnd();
 
@@ -32,8 +29,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public string GetLinkRel(OpcUaObjectType sourceObjectType, OpcUaObjectType targetObjectType, OpcUaNodeId? modellingRule)
         {
-            HashSet<string> sourceAncestors = sourceObjectType.GetAncestorNames(nsUriToNsInfoMap);
-            HashSet<string> targetAncestors = targetObjectType.GetAncestorNames(nsUriToNsInfoMap);
+            HashSet<string> sourceAncestors = sourceObjectType.AncestorNames;
+            HashSet<string> targetAncestors = targetObjectType.AncestorNames;
 
             foreach (LinkRelRule linkRelRule in linkRelRules)
             {
