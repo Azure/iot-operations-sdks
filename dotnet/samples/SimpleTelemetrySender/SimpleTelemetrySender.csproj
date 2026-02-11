@@ -6,7 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="MQTTnet" Version="5.0.1.1416" />
+    <Reference Include="MQTTnet">
+      <HintPath>..\..\src\Azure.Iot.Operations.Mqtt\MQTTnet.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
