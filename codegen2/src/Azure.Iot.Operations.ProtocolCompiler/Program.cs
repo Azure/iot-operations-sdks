@@ -87,6 +87,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 HelpName = string.Join('|', CommandHandler.SupportedLanguages),
             };
 
+            var prefixSchemasOption = new Option<bool>("--prefixSchemas")
+            {
+                Description = "Apply Thing Model prefixes to schema type names (to avoid collisions across Thing Models)",
+            };
+
             var noProjOption = new Option<bool>("--noProj")
             {
                 Description = "Do not generate code in a project",
@@ -109,6 +114,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             rootCommand.Add(commonOption);
             rootCommand.Add(sdkPathOption);
             rootCommand.Add(langOption);
+            rootCommand.Add(prefixSchemasOption);
             rootCommand.Add(noProjOption);
             rootCommand.Add(defaultImplOption);
 
@@ -133,6 +139,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     CommonNamespace = parseResult.GetValue(commonOption)!,
                     SdkPath = parseResult.GetValue(sdkPathOption),
                     Language = parseResult.GetValue(langOption)!,
+                    PrefixSchemas = parseResult.GetValue(prefixSchemasOption),
                     NoProj = parseResult.GetValue(noProjOption),
                     DefaultImpl = parseResult.GetValue(defaultImplOption),
                 });
