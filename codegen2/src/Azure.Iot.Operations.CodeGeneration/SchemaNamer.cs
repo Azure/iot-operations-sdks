@@ -10,9 +10,9 @@ namespace Azure.Iot.Operations.CodeGeneration
 
     public class SchemaNamer
     {
-        private string? schemaPrefix;
-        private SchemaNameInfo? schemaNameInfo;
-        private bool suppressTitles;
+        private readonly string? schemaPrefix;
+        private readonly SchemaNameInfo? schemaNameInfo;
+        private readonly bool suppressTitles;
 
         public SchemaNamer(string? schemaPrefix, string? schemaNameInfoText = null)
         {
