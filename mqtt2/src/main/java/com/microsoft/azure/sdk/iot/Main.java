@@ -41,12 +41,12 @@ public class Main {
         System.out.println("Connected!");
 
         Mqtt5Publish requestPublish = Mqtt5Publish.builder()
-                .topic("timtay/requestTopic")
+                .topic("timtay/request")
                 .qos(MqttQos.AT_LEAST_ONCE)
                 .build();
 
         Mqtt5Publish responsePublish = Mqtt5Publish.builder()
-                .topic("timtay/responseTopic")
+                .topic("timtay/response")
                 .qos(MqttQos.AT_LEAST_ONCE)
                 .build();
 
@@ -55,12 +55,12 @@ public class Main {
                 .applySubscribe();
 
         Mqtt5Subscription subscribe1 = Mqtt5Subscription.builder()
-                        .topicFilter("timtay/responseTopic")
+                        .topicFilter("timtay/response")
                         .qos(MqttQos.AT_LEAST_ONCE)
                         .build();
 
         Mqtt5Subscription subscribe2 = Mqtt5Subscription.builder()
-                .topicFilter("timtay/requestTopic")
+                .topicFilter("timtay/request")
                 .qos(MqttQos.AT_LEAST_ONCE)
                 .build();
 
