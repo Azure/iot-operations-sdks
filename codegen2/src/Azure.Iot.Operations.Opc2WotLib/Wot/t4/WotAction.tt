@@ -3,7 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <# // Copyright (c) Microsoft Corporation. #>
 <# // Licensed under the MIT License #>
-"<#=this.actionName#>" : {
+"<#=this.actionName#>": {
 <# if (this.uaMethod.BrowseNamespace != null) { #>
   "aov:namespace": "<#=this.uaMethod.BrowseNamespace#>",
 <# } #>

@@ -214,6 +214,8 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                             }
                         }
 
+                        thingValidator.ValidateThingCollection(things);
+
                         statusReceiver.Invoke($" {thingCount} {(thingCount == 1 ? "TD" : "TDs")} validly parsed", false);
                     }
                 }

@@ -118,6 +118,8 @@ namespace Azure.Iot.Operations.Opc2Wot
                     errorReporter.RegisterNameOfThing(thing.Title!.Value.Value, thing.Title!.TokenIndex);
                 }
             }
+
+            thingValidator.ValidateThingCollection(things);
         }
 
         private static void DisplayErrors(ErrorLog errorLog)

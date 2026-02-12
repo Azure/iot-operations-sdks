@@ -16,6 +16,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private bool isComposite;
         private List<string> baseModelRefs;
         private List<LinkInfo> linkInfos;
+        private List<OpcUaDataTypeEnum> dataTypeEnums;
         private List<WotAction> actions;
         private List<WotProperty> properties;
         private List<WotEvent> events;
@@ -36,6 +37,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 .Where(t => t.Item1.NsIndex != 0 || t.Item1.IsComponentReference)
                 .Select(t => GetLinkInfo(uaObjectType, t.Item1, t.Item2, linkRelRuleEngine))
                 .ToList();
+
+            this.dataTypeEnums = uaObjectType.ExtractEnums();
 
             this.actions = uaObjectType.Methods.OrderBy(m => m.EffectiveName).Select(m => new WotAction(specName, this.thingName, m)).ToList();
             this.properties = uaObjectType.VariableRecords.OrderBy(r => r.Key).Select(r => new WotProperty(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains)).ToList();

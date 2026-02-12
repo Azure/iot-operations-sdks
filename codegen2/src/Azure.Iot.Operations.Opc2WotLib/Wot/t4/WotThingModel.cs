@@ -40,13 +40,13 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write("  \"aov:isComposite\": true,\r\n");
  } 
             this.Write("  \"links\": [\r\n");
- int ix = 1; foreach (string baseModelRef in this.baseModelRefs) { 
+ int ix1 = 1; foreach (string baseModelRef in this.baseModelRefs) { 
             this.Write("    {\r\n      \"rel\": \"tm:extends\",\r\n      \"href\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(baseModelRef));
             this.Write("\",\r\n      \"type\": \"application/tm+json\"\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""));
             this.Write("\r\n");
- ix++; } 
+ ix1++; } 
  foreach (LinkInfo linkInfo in this.linkInfos) { 
             this.Write("    {\r\n      \"rel\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.Rel));
@@ -61,10 +61,51 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write("      \"href\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.Href));
             this.Write("\",\r\n      \"type\": \"application/tm+json\"\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""));
             this.Write("\r\n");
- ix++; } 
-            this.Write("  ],\r\n  \"schemaDefinitions\": {\r\n  },\r\n");
+ ix1++; } 
+            this.Write("  ],\r\n  \"schemaDefinitions\": {\r\n");
+ ix1 = 1; foreach (OpcUaDataTypeEnum dataTypeEnum in this.dataTypeEnums) { 
+            this.Write("    \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.EffectiveName));
+            this.Write("\": {\r\n      \"type\": \"object\",\r\n      \"aov:typeRef\": \"nsu=");
+            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.NodeIdNamespace));
+            this.Write(";i=");
+            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.NodeId.NodeIndex));
+            this.Write("\",\r\n      \"const\": {\r\n");
+ int ix2 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in dataTypeEnum.EnumValues) { 
+            this.Write("        \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.SymbolicName ?? enumValue.Key));
+            this.Write("\": ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.Value));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix2 < dataTypeEnum.EnumValues.Count ? "," : ""));
+            this.Write("\r\n");
+ ix2++; } 
+            this.Write("      },\r\n");
+ if (dataTypeEnum.Description != null) { 
+            this.Write("      \"description\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.Description));
+            this.Write("\",\r\n");
+ } 
+            this.Write("      \"properties\": {\r\n");
+ ix2 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in dataTypeEnum.EnumValues) { 
+            this.Write("        \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.SymbolicName ?? enumValue.Key));
+            this.Write("\": {\r\n");
+ if (enumValue.Value.Description != null) { 
+            this.Write("          \"description\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.Description));
+            this.Write("\",\r\n");
+ } 
+            this.Write("          \"type\": \"integer\"\r\n        }");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix2 < dataTypeEnum.EnumValues.Count ? "," : ""));
+            this.Write("\r\n");
+ ix2++; } 
+            this.Write("      }\r\n    }");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.dataTypeEnums.Count ? "," : ""));
+            this.Write("\r\n");
+ ix1++; } 
+            this.Write("  },\r\n");
  if (this.properties.Any() || this.events.Any()) { 
             this.Write("  \"forms\": [\r\n");
  if (this.events.Any()) { 
@@ -94,25 +135,25 @@ namespace Azure.Iot.Operations.Opc2WotLib
  } 
             this.Write("  \"actions\": {\r\n");
  this.PushIndent("    "); 
- ix = 1; foreach (WotAction action in this.actions) { 
+ ix1 = 1; foreach (WotAction action in this.actions) { 
             this.Write(this.ToStringHelper.ToStringWithCulture(action.TransformText()));
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.actions.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.actions.Count ? "," : ""));
             this.Write("\r\n");
- ix++; } this.PopIndent(); 
+ ix1++; } this.PopIndent(); 
             this.Write("  },\r\n  \"properties\": {\r\n");
  this.PushIndent("    "); 
- ix = 1; foreach (WotProperty property in this.properties) { 
+ ix1 = 1; foreach (WotProperty property in this.properties) { 
             this.Write(this.ToStringHelper.ToStringWithCulture(property.TransformText()));
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.properties.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.properties.Count ? "," : ""));
             this.Write("\r\n");
- ix++; } this.PopIndent(); 
+ ix1++; } this.PopIndent(); 
             this.Write("  },\r\n  \"events\": {\r\n");
  this.PushIndent("    "); 
- ix = 1; foreach (WotEvent evt in this.events) { 
+ ix1 = 1; foreach (WotEvent evt in this.events) { 
             this.Write(this.ToStringHelper.ToStringWithCulture(evt.TransformText()));
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.events.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.events.Count ? "," : ""));
             this.Write("\r\n");
- ix++; } this.PopIndent(); 
+ ix1++; } this.PopIndent(); 
             this.Write("  }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
