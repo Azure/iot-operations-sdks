@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Asset",
+  "description": "The asset resource",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "deviceRef" ],
+  "properties": {
+    "assetTypeRefs": {
+      "description": "URIs or type definition IDs.",
+      "type": "array", "items": { "type": "string" }
+    },
+    "attributes": {
+      "description": "A set of key-value pairs that contain custom attributes set by the customer.",
+      "type": "object", "additionalProperties": { "type": "string" }
+    },
+    "datasets": {
+      "description": "Array of data sets that are part of the asset. Each data set describes the data points that make up the set.",
+      "type": "array", "items": { "$ref": "AssetDatasetSchemaElementSchema.schema.json" }
+    },
+    "defaultDatasetsConfiguration": {
+      "description": "Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.",
+      "type": "string"
+    },
+    "defaultDatasetsDestinations": {
+      "description": "Default destinations for a dataset.",
+      "type": "array", "items": { "$ref": "DatasetDestination.schema.json" }
+    },
+    "defaultEventsConfiguration": {
+      "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here.",
+      "type": "string"
+    },
+    "defaultEventsDestinations": {
+      "description": "Default destinations for an event.",
+      "type": "array", "items": { "$ref": "EventStreamDestination.schema.json" }
+    },
+    "defaultManagementGroupsConfiguration": {
+      "description": "Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here.",
+      "type": "string"
+    },
+    "defaultStreamsConfiguration": {
+      "description": "Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here.",
+      "type": "string"
+    },
+    "defaultStreamsDestinations": {
+      "description": "Default destinations for a stream.",
+      "type": "array", "items": { "$ref": "EventStreamDestination.schema.json" }
+    },
+    "description": {
+      "description": "Human-readable description of the asset.",
+      "type": "string"
+    },
+    "deviceRef": {
+      "description": "Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use.",
+      "$ref": "AssetDeviceRef.schema.json"
+    },
+    "discoveredAssetRefs": {
+      "description": "Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided.",
+      "type": "array", "items": { "type": "string" }
+    },
+    "displayName": {
+      "description": "Human-readable display name.",
+      "type": "string"
+    },
+    "documentationUri": {
+      "description": "Asset documentation reference.",
+      "type": "string"
+    },
+    "enabled": {
+      "description": "Enabled/Disabled status of the asset.",
+      "type": "boolean"
+    },
+    "eventGroups": {
+      "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+      "type": "array", "items": { "$ref": "AssetEventGroupSchemaElementSchema.schema.json" }
+    },
+    "externalAssetId": {
+      "description": "Asset ID provided by the customer.",
+      "type": "string"
+    },
+    "hardwareRevision": {
+      "description": "Asset hardware revision number.",
+      "type": "string"
+    },
+    "lastTransitionTime": {
+      "description": "A timestamp (in UTC) that is updated each time the resource is modified.",
+      "type": "string", "format": "date-time"
+    },
+    "managementGroups": {
+      "description": "Array of management groups that are part of the asset.",
+      "type": "array", "items": { "$ref": "AssetManagementGroupSchemaElementSchema.schema.json" }
+    },
+    "manufacturer": {
+      "description": "Asset manufacturer.",
+      "type": "string"
+    },
+    "manufacturerUri": {
+      "description": "Asset manufacturer URI.",
+      "type": "string"
+    },
+    "model": {
+      "description": "Asset model.",
+      "type": "string"
+    },
+    "productCode": {
+      "description": "Asset product code.",
+      "type": "string"
+    },
+    "serialNumber": {
+      "description": "Asset serial number.",
+      "type": "string"
+    },
+    "softwareRevision": {
+      "description": "Asset software revision number.",
+      "type": "string"
+    },
+    "streams": {
+      "description": "Array of streams that are part of the asset. Each stream can have per-stream configuration.",
+      "type": "array", "items": { "$ref": "AssetStreamSchemaElementSchema.schema.json" }
+    },
+    "uuid": {
+      "description": "Globally unique, immutable, non-reusable id.",
+      "type": "string"
+    },
+    "version": {
+      "description": "A read-only integer that is incremented each time the resource is modified the cloud.",
+      "type": "integer", "minimum": 0, "maximum": 9223372036854775807
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "MessageSchemaReference",
+  "description": "The message schema reference object.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "schemaName", "schemaRegistryNamespace", "schemaVersion" ],
+  "properties": {
+    "schemaName": {
+      "description": "The reference to the message schema name.",
+      "type": "string"
+    },
+    "schemaRegistryNamespace": {
+      "description": "The reference to the message schema registry namespace.",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "description": "The reference to the message schema version.",
+      "type": "string"
+    }
+  }
+}
