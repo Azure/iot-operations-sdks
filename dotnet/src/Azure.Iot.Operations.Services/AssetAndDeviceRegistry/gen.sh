@@ -1,15 +1,4 @@
-rm -rf ./AdrBaseService
-mkdir ./AdrBaseService
-rm -rf ./DeviceDiscoveryService
-mkdir ./DeviceDiscoveryService
-rm -rf ./Common
-mkdir ./Common
-../../../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler --modelFile ../../../../eng/dtdl/adr-base-service.json --lang csharp --outDir /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry
-cp -f /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry/AdrBaseService/*.cs AdrBaseService -v
-cp -f /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry/*.cs Common -v
-rm -rf /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry -v
+../../../../codegen2/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler --things ../../../../eng/wot/adr-base-service/AdrBaseService.TM.json --lang csharp --outDir ./Azure.Iot.Operations.Services.AssetAndDeviceRegistry --noProj --namespace AssetAndDeviceRegistryGenerated --common AssetAndDeviceRegistryGeneratedCommon --typeNamer ../../../../eng/wot/adr-base-service/SchemaNames.json
 
-../../../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler --modelFile ../../../../eng/dtdl/device-discovery-service.json --lang csharp --outDir /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry
-cp -f /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry/DeviceDiscoveryService/*.cs DeviceDiscoveryService -v
-cp -f /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry/*.cs Common -v
-rm -rf /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry -v
+../../../../codegen2/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler --things ../../../../eng/wot/device-discovery-service/device-discovery-service.json --lang csharp --outDir ./Azure.Iot.Operations.Services.AssetAndDeviceRegistry --noProj --namespace DeviceDiscoveryServiceGenerated --common DeviceDiscoveryServiceGeneratedCommon --typeNamer ../../../../eng/wot/device-discovery-service/SchemaNames.json
+
