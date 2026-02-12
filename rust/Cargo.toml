@@ -13,6 +13,7 @@ members = [
   "sample_applications/event_driven_app/input_client",
   "sample_applications/event_driven_app/output_client",
 ]
+
 exclude = [
   "sample_applications/sample_connector_scaffolding"
 ]
