@@ -37,6 +37,14 @@
 //! - Use `report_health_event(RuntimeHealthEvent::Unavailable { message, reason_code })` when operations fail.
 //! - Use `pause_and_refresh_health_version()` when configuration updates occur to avoid reporting stale health.
 //!
+//! ### When to Use Configuration Status vs Health Events
+//! A good rule for deciding whether to report something as configuration status vs health status:
+//! - **Configuration status**: Report errors here if they can ONLY be fixed by a definition update.
+//!   Examples: invalid URL format, missing required fields, unsupported protocol.
+//! - **Health events**: Report errors here if there's any possibility the operation could succeed
+//!   in the future without a definition update. Examples: network timeouts, connection refused,
+//!   external service unavailable, transient failures.
+//!
 //! ## Extending the Scaffold
 //! - Implement custom sampling logic in the dataset handler.
 //! - Extend dataset handlers for custom data processing or integration.
@@ -713,9 +721,13 @@ async fn handle_dataset(
                 let Ok(message_schema) = derived_json::create_schema(&data) else {
                     log::error!("{dataset_log_identifier} Failed to create message schema");
 
-                    // If we fail to create the message schema, we will not be able to report it or forward data
+                    // If we fail to create the message schema, we will not be able to report it or forward data.
                     // NOTE: Failing to create the message schema could be due to malformed data, so waiting for
                     // a dataset definition update on this failure is not desirable.
+                    data_operation_status_reporter.report_health_event(RuntimeHealthEvent::Unavailable {
+                        message: Some("Failed to create message schema. Response data may be malformed or in an unexpected format.".to_string()),
+                        reason_code: Some("SampleConnectorSchemaGenerationFailure".to_string()),
+                    });
                     continue;
                 };
 
