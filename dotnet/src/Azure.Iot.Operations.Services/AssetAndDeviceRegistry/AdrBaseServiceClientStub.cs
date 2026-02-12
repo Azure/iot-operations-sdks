@@ -5,12 +5,13 @@ using System.Diagnostics;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
 internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
-    : AdrBaseService.AdrBaseService.Client(applicationContext, mqttClient, topicTokenMap), IAdrBaseServiceClientStub
+    : Generated.AdrBaseService.Client(applicationContext, mqttClient, topicTokenMap), IAdrBaseServiceClientStub
 {
     public event Func<string, string, Models.Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
     public event Func<string, Models.Asset, Task>? OnReceiveAssetUpdateEventTelemetry;
