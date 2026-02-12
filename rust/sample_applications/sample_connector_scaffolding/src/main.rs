@@ -27,7 +27,23 @@
 //! - Can report status for itself, the asset, or device endpoint.
 //!
 //! ### Status Reporting
-//! - Each handler (device, asset, dataset) is responsible for reporting its status back to Azure IoT Operations.
+//! - Each handler (device, asset, dataset) is responsible for reporting its **configuration status** back to Azure IoT Operations.
+//! - Configuration status indicates whether the entity's configuration is valid (Ok) or has errors (Err with details).
+//! - Use `report_device_status_if_modified`, `report_endpoint_status_if_modified`, and `report_status_if_modified` (for an asset and its components).
+//!
+//! ### Health Event Reporting
+//! - Device and asset component (datasets, events, etc.) handlers report **runtime health events** indicating operational availability.
+//! - Use `report_health_event(RuntimeHealthEvent::Available)` when operations succeed.
+//! - Use `report_health_event(RuntimeHealthEvent::Unavailable { message, reason_code })` when operations fail.
+//! - Use `pause_and_refresh_health_version()` when configuration updates occur to avoid reporting stale health.
+//!
+//! ### When to Use Configuration Status vs Health Events
+//! A good rule for deciding whether to report something as configuration status vs health status:
+//! - **Configuration status**: Report errors here if they can ONLY be fixed by a definition update.
+//!   Examples: invalid URL format, missing required fields, unsupported protocol.
+//! - **Health events**: Report errors here if there's any possibility the operation could succeed
+//!   in the future without a definition update. Examples: network timeouts, connection refused,
+//!   external service unavailable, transient failures.
 //!
 //! ## Extending the Scaffold
 //! - Implement custom sampling logic in the dataset handler.
@@ -45,7 +61,7 @@ use azure_iot_operations_connector::{
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
             DeviceEndpointClient, DeviceEndpointClientCreationObservation, ModifyResult,
-            SchemaModifyResult,
+            RuntimeHealthEvent, SchemaModifyResult,
         },
     },
     data_processor::derived_json,
@@ -204,7 +220,7 @@ async fn device_handler(
     mut device_endpoint_client: DeviceEndpointClient,
 ) {
     // Get the status reporter for the device endpoint
-    let device_endpoint_status_reporter = device_endpoint_client.get_status_reporter();
+    let mut device_endpoint_status_reporter = device_endpoint_client.get_status_reporter();
 
     // This watcher is used to notify the dataset handler whether the device endpoint is healthy and sampling should happen
     let device_endpoint_ready_watcher_tx = watch::Sender::new(false);
@@ -227,14 +243,28 @@ async fn device_handler(
     }
     // Only perform connection if the device endpoint is enabled and validated
     else {
-        // IMPLEMENT: Connection logic may be handled at this level if this Connector Application maintains a persistent connection to the device endpoint.
-        // If knowledge of a successful connection can't be determined at this level, communication will need to be added from the location of
-        // the connection logic to this level to report the device and endpoint statuses.
+        // IMPLEMENT: Connection logic may be handled at this level if this Connector Application
+        // maintains a persistent connection to the device endpoint. If knowledge of a successful connection
+        // can't be determined at this level, communication will need to be added from the location of
+        // the connection logic to this level to report the device and endpoint statuses and health events.
 
         // Notify any lower components that the device endpoint is in a ready state
         device_endpoint_ready_watcher_tx.send_if_modified(send_if_modified_fn(true));
         // If there was an error, notify any lower components that the device endpoint is not in a ready state while we wait for an update
         // device_endpoint_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
+
+        // Report runtime health events based on connection status.
+        // Runtime health events indicate the operational health of the connector at runtime,
+        // separate from configuration status.
+        //
+        // Report Available when the connection to the device endpoint succeeds:
+        device_endpoint_status_reporter.report_health_event(RuntimeHealthEvent::Available);
+        //
+        // IMPLEMENT: Report Unavailable with details when the connection fails:
+        // device_endpoint_status_reporter.report_health_event(RuntimeHealthEvent::Unavailable {
+        //     message: Some("Failed to connect: <error details>".to_string()),
+        //     reason_code: Some("SampleConnectionFailure".to_string()),
+        // });
     }
 
     // If the connection is successful or the device wasn't enabled and there weren't configuration errors, report the device and endpoint statuses.
@@ -271,6 +301,9 @@ async fn device_handler(
     loop {
         match device_endpoint_client.recv_notification().await {
             ClientNotification::Updated => {
+                // Pause health reporting until we re-validate and re-establish connection.
+                // The "refresh" snapshots the new specification version for future health events.
+                device_endpoint_status_reporter.pause_and_refresh_health_version();
                 log::info!(
                     "{device_endpoint_log_identifier} Device endpoint update notification received"
                 );
@@ -291,6 +324,11 @@ async fn device_handler(
                 } else {
                     // Notify any lower components that the device endpoint is in a ready state (this notification will only be sent if that wasn't already true)
                     device_endpoint_ready_watcher_tx.send_if_modified(send_if_modified_fn(true));
+
+                    // After re-validating the updated configuration and re-establishing connection,
+                    // report runtime health events as shown in the initial device_handler setup above.
+                    device_endpoint_status_reporter
+                        .report_health_event(RuntimeHealthEvent::Available);
                 }
 
                 // For this example, we will assume that the device endpoint specification is OK. Modify this to report any errors
@@ -509,7 +547,7 @@ async fn handle_dataset(
     mut device_endpoint_ready_watcher_rx: watch::Receiver<bool>,
 ) {
     // Get the status reporter for the data operation
-    let data_operation_status_reporter = data_operation_client.get_status_reporter();
+    let mut data_operation_status_reporter = data_operation_client.get_status_reporter();
 
     let mut is_asset_ready = *asset_update_watcher_rx.borrow_and_update();
     let mut is_device_endpoint_ready = *device_endpoint_ready_watcher_rx.borrow_and_update();
@@ -561,12 +599,22 @@ async fn handle_dataset(
                 // Update our local device endpoint readiness state
                 is_device_endpoint_ready = *device_endpoint_ready_watcher_rx.borrow_and_update();
 
+                // NOTE: If the dataset's health depends on device endpoint configuration (e.g., connection
+                // settings, authentication), you may want to pause data operation health reporting here
+                // until the new configuration is validated:
+                // data_operation_status_reporter.pause_health_reporting();
+
                 log::debug!("{dataset_log_identifier} Device endpoint ready state changed to {is_device_endpoint_ready}");
             },
             data_operation_notification = data_operation_client.recv_notification() => {
                 // Match the data operation notification to handle updates, deletions, or invalid updates
                 match data_operation_notification {
                     DataOperationNotification::Updated => {
+                        // Pause health reporting until we validate the new configuration and successfully
+                        // complete a sampling cycle. This prevents reporting stale health status from
+                        // the previous configuration. The "refresh" part snapshots the new specification
+                        // version so future health events are tagged with the correct version.
+                        data_operation_status_reporter.pause_and_refresh_health_version();
                         log::info!("{dataset_log_identifier} Dataset update notification received");
 
                         // Update the local dataset definition
@@ -614,6 +662,10 @@ async fn handle_dataset(
                     log::info!("{dataset_log_identifier} Asset deleted notification received, ending dataset handler");
                     break;
                 }
+                // Pause and refresh health version because we have a new version of the asset
+                // and want to report health for that new version after we validate the new configuration.
+                data_operation_status_reporter.pause_and_refresh_health_version();
+
                 // Update our local asset readiness state
                 is_asset_ready = *asset_update_watcher_rx.borrow_and_update();
                 log::debug!("{dataset_log_identifier} Asset update notification received. Current ready state is {is_asset_ready}");
@@ -640,7 +692,18 @@ async fn handle_dataset(
                 log::debug!("{dataset_log_identifier} Sampling!");
 
                 // IMPLEMENT: This should be replaced with the actual sampling logic.
-                let bytes = mock_sample();
+                let bytes = match mock_sample() {
+                    Ok(bytes) => bytes,
+                    Err(e) => {
+                        log::error!("{dataset_log_identifier} Sampling failed: {e}");
+                        // Report Unavailable when sampling fails
+                        data_operation_status_reporter.report_health_event(RuntimeHealthEvent::Unavailable {
+                            message: Some(format!("Sampling failed: {e}")),
+                            reason_code: Some("SampleConnectorSamplingFailure".to_string()),
+                        });
+                        continue;
+                    }
+                };
 
                 // IMPLEMENT: If there are any configuration related errors found while sampling those should be
                 // reported to ADR on the appropriate level (e.g., device endpoint, asset, dataset). Status reporters
@@ -658,9 +721,13 @@ async fn handle_dataset(
                 let Ok(message_schema) = derived_json::create_schema(&data) else {
                     log::error!("{dataset_log_identifier} Failed to create message schema");
 
-                    // If we fail to create the message schema, we will not be able to report it or forward data
+                    // If we fail to create the message schema, we will not be able to report it or forward data.
                     // NOTE: Failing to create the message schema could be due to malformed data, so waiting for
                     // a dataset definition update on this failure is not desirable.
+                    data_operation_status_reporter.report_health_event(RuntimeHealthEvent::Unavailable {
+                        message: Some("Failed to create message schema. Response data may be malformed or in an unexpected format.".to_string()),
+                        reason_code: Some("SampleConnectorSchemaGenerationFailure".to_string()),
+                    });
                     continue;
                 };
 
@@ -694,21 +761,30 @@ async fn handle_dataset(
                 // Forward the data using the data operation client
                 log::info!("{dataset_log_identifier} Forwarding data");
 
-                // IMPLEMENT: This should handle errors forwarding the data.
-                let _ = data_operation_client.forward_data(data).await;
+                // IMPLEMENT: Handle errors forwarding the data.
+                match data_operation_client.forward_data(data).await {
+                    Ok(()) => {
+                        // For this connector, report dataset healthy after successful data forwarding.
+                        // This indicates the full sampling cycle completed successfully.
+                        data_operation_status_reporter.report_health_event(RuntimeHealthEvent::Available);
+                    }
+                    Err(e) => {
+                        log::error!("{dataset_log_identifier} Failed to forward data: {e}");
+                    }
+                }
             }
         }
     }
 }
 
-fn mock_sample() -> Vec<u8> {
-    // This function is a mock for sampling data, it should be replaced with the actual sampling logic.
+fn mock_sample() -> Result<Vec<u8>, String> {
+    // IMPLEMENT: This function is a mock for sampling data, it should be replaced with the actual sampling logic.
     // For now, it returns a simple JSON object as a byte vector.
     serde_json::to_vec(&serde_json::json!({
         "temperature": 22.5,
         "humidity": 45.0,
     }))
-    .unwrap()
+    .map_err(|e| e.to_string())
 }
 
 /// Helper function to create a closure that sends an update if the desired state is different from the current state.
