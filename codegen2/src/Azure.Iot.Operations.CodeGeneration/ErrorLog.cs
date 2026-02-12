@@ -61,7 +61,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 {
                     foreach (var (thingName, (filename, lineNumber)) in nameSites)
                     {
-                        AddError(ErrorLevel.Error, ErrorCondition.Duplication, $"Duplicate use of generated name '{name}' across Thing Descriptions.", filename, lineNumber, crossRef: name);
+                        AddError(ErrorLevel.Error, ErrorCondition.Duplication, $"Duplicate use of generated name '{name}' across Thing Models.", filename, lineNumber, crossRef: name);
                     }
                 }
             }
