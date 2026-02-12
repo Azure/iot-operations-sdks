@@ -1,0 +1,36 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "StateStore",
+  "links": [
+    {
+      "rel": "dtv:naming",
+      "href": "SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
+  "actions": {
+    "invoke": {
+      "input": {
+        "type": "null"
+      },
+      "output": {
+        "type": "null"
+      },
+      "forms": [
+        {
+          "contentType": "application/octet-stream",
+          "dtv:topic": "statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}
