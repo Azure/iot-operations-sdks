@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "PutResponsePayload",
+  "description": "PUT Schema response object",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "schema" ],
+  "properties": {
+    "schema": {
+      "description": "Schema object that was created.",
+      "$ref": "Schema.schema.json"
+    }
+  }
+}
