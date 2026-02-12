@@ -22,21 +22,23 @@ public class Main {
                 .useMqttVersion5()
                 .identifier(UUID.randomUUID().toString()) // Unique client ID
                 .serverHost("localhost") // HiveMQ public broker
-                .serverPort(1883) // Default MQTT port
+                .serverPort(1884) // Default MQTT port
                 .build();
 
         Mqtt5Client client2 = MqttClient.builder()
                 .useMqttVersion5()
                 .identifier(UUID.randomUUID().toString()) // Unique client ID
                 .serverHost("localhost") // HiveMQ public broker
-                .serverPort(1883) // Default MQTT port
+                .serverPort(1884) // Default MQTT port
                 .build();
 
         Mqtt5RxClient asyncClient1 = client1.toRx();
         Mqtt5RxClient asyncClient2 = client2.toRx();
 
+        System.out.println("Starting...");
         asyncClient1.toBlocking().connect();
         asyncClient2.toBlocking().connect();
+        System.out.println("Connected!");
 
         Mqtt5Publish requestPublish = Mqtt5Publish.builder()
                 .topic("timtay/requestTopic")
