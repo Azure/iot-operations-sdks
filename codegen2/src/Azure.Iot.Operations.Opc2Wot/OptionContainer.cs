@@ -15,5 +15,8 @@ namespace Azure.Iot.Operations.Opc2Wot
 
         /// <summary>Gets or sets the path to a folder for placing files that will each contain a collection of WoT Thing Models.</summary>
         public required DirectoryInfo OutputDir { get; set; }
+
+        /// <summary>Gets or sets an indication of whether to integrate all referenced Thing Models into each Thing Model collection.</summary>
+        public bool Integrate { get; set; }
     }
 }

@@ -9,6 +9,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public class OpcUaObjectType : OpcUaNode
     {
+        private List<OpcUaObjectType>? baseModels = null;
+        private List<(OpcUaNodeId, OpcUaObject)>? typeAndObjectOfReferences = null;
         private HashSet<string>? ancestorNames = null;
         private Dictionary<string, UaVariableRecord>? variableRecords = null;
 
@@ -26,22 +28,40 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public string DiscriminatedEffectiveName => Discriminator == 0 ? EffectiveName : $"{EffectiveName}_{Discriminator}";
 
-        public IEnumerable<OpcUaObjectType> BaseModels
+        public List<OpcUaObjectType> BaseModels
         {
-            get => References
-                .Where(r => !r.IsForward && r.ReferenceType.IsSubtypeReference)
-                .Select(r => GetReferencedOpcUaNode(r.Target))
-                .Cast<OpcUaObjectType>();
+            get
+            {
+                if (baseModels == null)
+                {
+                    baseModels = References
+                        .Where(r => !r.IsForward && r.ReferenceType.IsSubtypeReference)
+                        .Select(r => GetReferencedOpcUaNode(r.Target))
+                        .Cast<OpcUaObjectType>()
+                        .ToList();
+                }
+
+                return baseModels;
+            }
         }
 
-        public IEnumerable<(OpcUaNodeId, OpcUaObject)> TypeAndObjectOfReferences
+        public List<(OpcUaNodeId, OpcUaObject)> TypeAndObjectOfReferences
         {
-            get => References
-                .Where(r => r.IsForward && (r.ReferenceType.NsIndex != 0 || r.ReferenceType.IsComponentReference))
-                .Select(r => (r.ReferenceType, GetReferencedOpcUaNode(r.Target)))
-                .Where(t => t.Item2 is OpcUaObject)
-                .Select(t => (t.Item1, (OpcUaObject)t.Item2))
-                .Where(o => o.Item2.HasTypeDefinitionNodeId != null);
+            get
+            {
+                if (typeAndObjectOfReferences == null)
+                {
+                    typeAndObjectOfReferences = References
+                        .Where(r => r.IsForward && (r.ReferenceType.NsIndex != 0 || r.ReferenceType.IsComponentReference))
+                        .Select(r => (r.ReferenceType, GetReferencedOpcUaNode(r.Target)))
+                        .Where(t => t.Item2 is OpcUaObject)
+                        .Select(t => (t.Item1, (OpcUaObject)t.Item2))
+                        .Where(o => o.Item2.HasTypeDefinitionNodeId != null)
+                        .ToList();
+                }
+
+                return typeAndObjectOfReferences;
+            }
         }
 
         public HashSet<string> AncestorNames

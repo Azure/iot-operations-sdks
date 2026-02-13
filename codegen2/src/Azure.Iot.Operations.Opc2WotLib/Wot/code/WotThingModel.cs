@@ -12,6 +12,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private string specName;
         private string thingName;
         private string typeRef;
+        private bool isIntegrated;
         private bool isEvent;
         private bool isComposite;
         private List<string> baseModelRefs;
@@ -21,11 +22,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private List<WotProperty> properties;
         private List<WotEvent> events;
 
-        public WotThingModel(string specName, OpcUaObjectType uaObjectType, LinkRelRuleEngine linkRelRuleEngine)
+        public WotThingModel(string specName, OpcUaObjectType uaObjectType, LinkRelRuleEngine linkRelRuleEngine, bool isIntegrated)
         {
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName(uaObjectType.DiscriminatedEffectiveName, specName);
             this.typeRef = $"nsu={uaObjectType.NodeIdNamespace};i={uaObjectType.NodeId.NodeIndex}";
+            this.isIntegrated = isIntegrated;
 
             bool isTypeDefinition = uaObjectType.DefiningModel.TypeDefinitionNodeIds.Contains(uaObjectType.NodeId);
             this.isEvent = uaObjectType.AncestorNames.Contains("OpcUaCore_BaseEventType");
@@ -49,7 +51,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             string targetSpecName = SpecMapper.GetSpecNameFromUri(targetObjectType.DefiningModel.ModelUri);
 
-            string fileRef = ReferenceEquals(sourceObjectType.DefiningModel, targetObjectType.DefiningModel) ? string.Empty : $"./{targetSpecName}.TM.json";
+            string fileRef = isIntegrated || ReferenceEquals(sourceObjectType.DefiningModel, targetObjectType.DefiningModel) ? string.Empty : $"./{targetSpecName}.TM.json";
             return $"{fileRef}#title={WotUtil.LegalizeName(targetObjectType.DiscriminatedEffectiveName, targetSpecName)}";
         }
 

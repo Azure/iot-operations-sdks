@@ -25,9 +25,15 @@ namespace Azure.Iot.Operations.Opc2Wot
                 Required = true,
             };
 
+            var integrateOption = new Option<bool>("--integrate")
+            {
+                Description = "Integrate all referenced Thing Models into each Thing Model collection, making each output file self-contained",
+            };
+
             var rootCommand = new RootCommand("Tool for converting OPC UA specs to WoT Thing Models for use in Akri");
             rootCommand.Add(nodeSetsOption);
             rootCommand.Add(outDirOption);
+            rootCommand.Add(integrateOption);
 
             rootCommand.SetAction(parseResult =>
             {
@@ -35,6 +41,7 @@ namespace Azure.Iot.Operations.Opc2Wot
                 {
                     NodeSetsDir = parseResult.GetValue(nodeSetsOption)!,
                     OutputDir = parseResult.GetValue(outDirOption)!,
+                    Integrate = parseResult.GetValue(integrateOption),
                 });
             });
 

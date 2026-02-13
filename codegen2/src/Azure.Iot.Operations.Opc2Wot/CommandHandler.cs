@@ -77,7 +77,9 @@ namespace Azure.Iot.Operations.Opc2Wot
 
             foreach (string modelUri in opcUaGraph.GetModelUris())
             {
-                WotThingCollection thingCollection = new WotThingCollection(opcUaGraph.GetOpcUaModelInfo(modelUri), linkRelRuleEngine);
+                errorLog.ClearRegistrations();
+
+                WotThingCollection thingCollection = new WotThingCollection(opcUaGraph.GetOpcUaModelInfo(modelUri), linkRelRuleEngine, options.Integrate);
 
                 string thingText = thingCollection.TransformText();
 

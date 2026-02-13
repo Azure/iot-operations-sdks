@@ -42,6 +42,16 @@ namespace Azure.Iot.Operations.CodeGeneration
             FatalError = null;
         }
 
+        public void ClearRegistrations()
+        {
+            referencesFromThings.Clear();
+            typedReferencesFromThings.Clear();
+            namesOfThings.Clear();
+            namesInThings.Clear();
+            topicsInThings.Clear();
+            schemaNames.Clear();
+        }
+
         public void CheckForDuplicatesInThings()
         {
             foreach (var (name, nameSites) in namesOfThings)
