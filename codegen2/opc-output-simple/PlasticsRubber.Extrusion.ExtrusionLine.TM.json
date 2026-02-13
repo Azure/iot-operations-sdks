@@ -1,0 +1,2346 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobGroupStatusChangedEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1012",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "JobStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "const": {
+          "OTHER": 0,
+          "TRANSFERRED_ASSIGNED": 1,
+          "SET_UP_ACTIVE": 2,
+          "SET_UP_INTERRUPTED": 3,
+          "SET_UP_FINISHED": 4,
+          "START_UP_ACTIVE": 5,
+          "JOB_IN_PRODUCTION": 6,
+          "JOB_INTERRUPTED": 7,
+          "JOB_FINISHED": 8,
+          "TEAR_DOWN_ACTIVE": 9,
+          "TEAR_DOWN_INTERRUPTED": 10,
+          "TEAR_DOWN_FINISHED": 11
+        },
+        "description": "Current status of the job",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states below apply",
+            "type": "integer"
+          },
+          "TRANSFERRED_ASSIGNED": {
+            "description": "The job has been transferred to the machine and assigned as current job",
+            "type": "integer"
+          },
+          "SET_UP_ACTIVE": {
+            "description": "The operator prepares the machine for the job",
+            "type": "integer"
+          },
+          "SET_UP_INTERRUPTED": {
+            "description": "The operator has interrupted but not finished the preparation of the machine for the job",
+            "type": "integer"
+          },
+          "SET_UP_FINISHED": {
+            "description": "The operator has finished the preparation of the machine for the job",
+            "type": "integer"
+          },
+          "START_UP_ACTIVE": {
+            "description": "The operator is setting the machine in the start-up phase",
+            "type": "integer"
+          },
+          "JOB_IN_PRODUCTION": {
+            "description": "The machine is producing parts/products for the job",
+            "type": "integer"
+          },
+          "JOB_INTERRUPTED": {
+            "description": "The job is interrupted. The nominal output is not reached",
+            "type": "integer"
+          },
+          "JOB_FINISHED": {
+            "description": "Nominal output reached",
+            "type": "integer"
+          },
+          "TEAR_DOWN_ACTIVE": {
+            "description": "The operator tears the machine down",
+            "type": "integer"
+          },
+          "TEAR_DOWN_INTERRUPTED": {
+            "description": "Tear-down is interrupted but not finished",
+            "type": "integer"
+          },
+          "TEAR_DOWN_FINISHED": {
+            "description": "Tear-down is finished",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupStatusChangedEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActiveStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "title": "JobStatusEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupStatusChangedEventType/property/ActiveStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Id": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupStatusChangedEventType/property/Id/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "title": "JobStatusEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupStatusChangedEventType/property/LastStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobStatusChangedEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1008",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "JobStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "const": {
+          "OTHER": 0,
+          "TRANSFERRED_ASSIGNED": 1,
+          "SET_UP_ACTIVE": 2,
+          "SET_UP_INTERRUPTED": 3,
+          "SET_UP_FINISHED": 4,
+          "START_UP_ACTIVE": 5,
+          "JOB_IN_PRODUCTION": 6,
+          "JOB_INTERRUPTED": 7,
+          "JOB_FINISHED": 8,
+          "TEAR_DOWN_ACTIVE": 9,
+          "TEAR_DOWN_INTERRUPTED": 10,
+          "TEAR_DOWN_FINISHED": 11
+        },
+        "description": "Current status of the job",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states below apply",
+            "type": "integer"
+          },
+          "TRANSFERRED_ASSIGNED": {
+            "description": "The job has been transferred to the machine and assigned as current job",
+            "type": "integer"
+          },
+          "SET_UP_ACTIVE": {
+            "description": "The operator prepares the machine for the job",
+            "type": "integer"
+          },
+          "SET_UP_INTERRUPTED": {
+            "description": "The operator has interrupted but not finished the preparation of the machine for the job",
+            "type": "integer"
+          },
+          "SET_UP_FINISHED": {
+            "description": "The operator has finished the preparation of the machine for the job",
+            "type": "integer"
+          },
+          "START_UP_ACTIVE": {
+            "description": "The operator is setting the machine in the start-up phase",
+            "type": "integer"
+          },
+          "JOB_IN_PRODUCTION": {
+            "description": "The machine is producing parts/products for the job",
+            "type": "integer"
+          },
+          "JOB_INTERRUPTED": {
+            "description": "The job is interrupted. The nominal output is not reached",
+            "type": "integer"
+          },
+          "JOB_FINISHED": {
+            "description": "Nominal output reached",
+            "type": "integer"
+          },
+          "TEAR_DOWN_ACTIVE": {
+            "description": "The operator tears the machine down",
+            "type": "integer"
+          },
+          "TEAR_DOWN_INTERRUPTED": {
+            "description": "Tear-down is interrupted but not finished",
+            "type": "integer"
+          },
+          "TEAR_DOWN_FINISHED": {
+            "description": "Tear-down is finished",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobStatusChangedEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActiveStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "title": "JobStatusEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobStatusChangedEventType/property/ActiveStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "JobGroupId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobStatusChangedEventType/property/JobGroupId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "JobId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobStatusChangedEventType/property/JobId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "title": "JobStatusEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobStatusChangedEventType/property/LastStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_ExtrusionLine_LotFinishedEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1010",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_LotFinishedEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "JobGroupId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_LotFinishedEventType/property/JobGroupId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "JobId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_LotFinishedEventType/property/JobId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Lot": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_LotFinishedEventType/property/Lot/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_ExtrusionLine_RequestAddMaterialEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1006",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_RequestAddMaterialEventType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_RequestAddMaterialEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Id": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_RequestAddMaterialEventType/property/Id/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_RequestAddMaterialEventType/property/Id/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_ExtrusionLine_UnitFinishedEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1009",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_UnitFinishedEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "GoodProduct": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_UnitFinishedEventType/property/GoodProduct/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "JobGroupId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_UnitFinishedEventType/property/JobGroupId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "JobId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_UnitFinishedEventType/property/JobId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Unit": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_UnitFinishedEventType/property/Unit/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_ExtrusionLine_ExtrusionLine_InterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1003",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "JobGroups",
+        "href": "#title=PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MachineConfiguration",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MachineInformation",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineInformationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MachineMESConfiguration",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineMESConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MaterialList",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaterialListType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MESMessage",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MESMessageType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ProductionDatasetManagement",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ProductionDatasetManagementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ProductionParameters",
+        "href": "#title=PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Users",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_UsersType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ProductionStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3016",
+        "const": {
+          "OTHER": 0,
+          "NO_PRODUCTION": 1,
+          "START_UP": 2,
+          "READY_FOR_PRODUCTION": 3,
+          "PRODUCTION": 4,
+          "DRY_RUN": 5
+        },
+        "description": "Production status of the machine",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states below apply",
+            "type": "integer"
+          },
+          "NO_PRODUCTION": {
+            "description": "The machine does not produce any parts/products",
+            "type": "integer"
+          },
+          "START_UP": {
+            "description": "The machine is producing parts/products in the start-up phase. So the correct settings of the machines are not reached.",
+            "type": "integer"
+          },
+          "READY_FOR_PRODUCTION": {
+            "description": "The machine is producing parts/products, the correct settings of the machines are reached but the production is not yet released (e.g. waiting for release from quality assurance)",
+            "type": "integer"
+          },
+          "PRODUCTION": {
+            "description": "The machine is producing parts/products.  In semi-automatic mode also during waiting time (e.g. for manual loading/unloading of parts) ProductionStatus remains in this state (time out possible if e.g. cycle time exceeds a pre-defined limit)",
+            "type": "integer"
+          },
+          "DRY_RUN": {
+            "description": "The machine is moving without material",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ExtrusionLine_InterfaceType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ExtrusionLine_InterfaceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ClearMESMessage": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ExtrusionLine_InterfaceType/action/ClearMESMessage",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetMESMessage": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6057",
+          "required": [ "Id", "Message", "Message2" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            },
+            "Message": {
+              "type": "string"
+            },
+            "Message2": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ExtrusionLine_InterfaceType/action/SetMESMessage",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ConfigurationParameters": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "array",
+        "items": {
+          "title": "ConfigurationParameterType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3024",
+          "required": [ "Id", "Description", "DefaultValue", "Unit" ],
+          "properties": {
+            "Id": {
+              "description": "Unique identifier",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Description": {
+              "description": "Description of the parameter",
+              "type": "string"
+            },
+            "DefaultValue": {
+              "description": "Default value of the parameter",
+              "type": "string"
+            },
+            "Unit": {
+              "title": "EUInformation",
+              "description": "Engineering unit of the parameter. If the Type of Defaultvalue is not a Number, then the Unit shall be empty",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+              "properties": {
+                "NamespaceUri": {
+                  "type": "string"
+                },
+                "UnitId": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "DisplayName": {
+                  "type": "string"
+                },
+                "Description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ExtrusionLine_InterfaceType/property/ConfigurationParameters/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LineId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ExtrusionLine_InterfaceType/property/LineId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ExtrusionLine_InterfaceType/property/LineId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LineStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "title": "ProductionStatusEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3016",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ExtrusionLine_InterfaceType/property/LineStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1013",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "JobGroup__Nr_",
+        "href": "#title=PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "AddJobGroup": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6217",
+          "required": [ "Id", "Description", "EquipmentDescription", "ProductionDatasetName", "MaterialMapping", "Priority", "PlannedStart", "PlannedProductionTime", "PlannedSetUpTime", "LatestEnd" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            },
+            "Description": {
+              "type": "string"
+            },
+            "EquipmentDescription": {
+              "type": "string"
+            },
+            "ProductionDatasetName": {
+              "type": "string"
+            },
+            "MaterialMapping": {
+              "type": "array",
+              "items": {
+                "title": "MaterialMappingType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=3003",
+                "required": [ "MaterialId", "MaterialLot", "HopperId" ],
+                "properties": {
+                  "MaterialId": {
+                    "type": "string"
+                  },
+                  "MaterialLot": {
+                    "type": "string"
+                  },
+                  "HopperId": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Priority": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "PlannedStart": {
+              "type": "string",
+              "format": "time"
+            },
+            "PlannedProductionTime": {
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "PlannedSetUpTime": {
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "LatestEnd": {
+              "type": "string",
+              "format": "time"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6218",
+          "required": [ "JobGroupNodeId" ],
+          "properties": {
+            "JobGroupNodeId": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType/action/AddJobGroup",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "FinishJobGroupById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6216",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType/action/FinishJobGroupById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "InterruptJobGroupById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6215",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType/action/InterruptJobGroupById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RemoveJobGroupById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6214",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType/action/RemoveJobGroupById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StartJobGroupById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6213",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType/action/StartJobGroupById",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Job__Nr_",
+        "href": "#title=PlasticsRubber_Extrusion_ExtrusionLine_JobType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "JobStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "const": {
+          "OTHER": 0,
+          "TRANSFERRED_ASSIGNED": 1,
+          "SET_UP_ACTIVE": 2,
+          "SET_UP_INTERRUPTED": 3,
+          "SET_UP_FINISHED": 4,
+          "START_UP_ACTIVE": 5,
+          "JOB_IN_PRODUCTION": 6,
+          "JOB_INTERRUPTED": 7,
+          "JOB_FINISHED": 8,
+          "TEAR_DOWN_ACTIVE": 9,
+          "TEAR_DOWN_INTERRUPTED": 10,
+          "TEAR_DOWN_FINISHED": 11
+        },
+        "description": "Current status of the job",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states below apply",
+            "type": "integer"
+          },
+          "TRANSFERRED_ASSIGNED": {
+            "description": "The job has been transferred to the machine and assigned as current job",
+            "type": "integer"
+          },
+          "SET_UP_ACTIVE": {
+            "description": "The operator prepares the machine for the job",
+            "type": "integer"
+          },
+          "SET_UP_INTERRUPTED": {
+            "description": "The operator has interrupted but not finished the preparation of the machine for the job",
+            "type": "integer"
+          },
+          "SET_UP_FINISHED": {
+            "description": "The operator has finished the preparation of the machine for the job",
+            "type": "integer"
+          },
+          "START_UP_ACTIVE": {
+            "description": "The operator is setting the machine in the start-up phase",
+            "type": "integer"
+          },
+          "JOB_IN_PRODUCTION": {
+            "description": "The machine is producing parts/products for the job",
+            "type": "integer"
+          },
+          "JOB_INTERRUPTED": {
+            "description": "The job is interrupted. The nominal output is not reached",
+            "type": "integer"
+          },
+          "JOB_FINISHED": {
+            "description": "Nominal output reached",
+            "type": "integer"
+          },
+          "TEAR_DOWN_ACTIVE": {
+            "description": "The operator tears the machine down",
+            "type": "integer"
+          },
+          "TEAR_DOWN_INTERRUPTED": {
+            "description": "Tear-down is interrupted but not finished",
+            "type": "integer"
+          },
+          "TEAR_DOWN_FINISHED": {
+            "description": "Tear-down is finished",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "AddJob": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6171",
+          "required": [ "Id", "Description", "CustomerName", "ProductName", "ProductDescription", "Strand", "Sequence", "ParameterSetting", "SetOutput", "LotSize" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            },
+            "Description": {
+              "type": "string"
+            },
+            "CustomerName": {
+              "type": "string"
+            },
+            "ProductName": {
+              "type": "string"
+            },
+            "ProductDescription": {
+              "type": "string"
+            },
+            "Strand": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Sequence": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "ParameterSetting": {
+              "type": "array",
+              "items": {
+                "title": "ParameterSettingType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3026",
+                "required": [ "Id", "Value" ],
+                "properties": {
+                  "Id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "SetOutput": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "LotSize": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6173",
+          "required": [ "JobNodeId" ],
+          "properties": {
+            "JobNodeId": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/action/AddJob",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "FinishJobById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6177",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/action/FinishJobById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "InterruptJobById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6176",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/action/InterruptJobById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RemoveJobById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6174",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/action/RemoveJobById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StartJobById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6175",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/action/StartJobById",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ConfigurationParameters": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "array",
+        "items": {
+          "title": "ConfigurationParameterType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3024",
+          "required": [ "Id", "Description", "DefaultValue", "Unit" ],
+          "properties": {
+            "Id": {
+              "description": "Unique identifier",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Description": {
+              "description": "Description of the parameter",
+              "type": "string"
+            },
+            "DefaultValue": {
+              "description": "Default value of the parameter",
+              "type": "string"
+            },
+            "Unit": {
+              "title": "EUInformation",
+              "description": "Engineering unit of the parameter. If the Type of Defaultvalue is not a Number, then the Unit shall be empty",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+              "properties": {
+                "NamespaceUri": {
+                  "type": "string"
+                },
+                "UnitId": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "DisplayName": {
+                  "type": "string"
+                },
+                "Description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/ConfigurationParameters/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Description": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/Description/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ElectricalEnergyConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/ElectricalEnergyConsumption/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EquipmentDescription": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/EquipmentDescription/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FluidEnergyConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/FluidEnergyConsumption/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Id": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/Id/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LatestEnd": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/LatestEnd/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaterialMapping": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "array",
+        "items": {
+          "title": "MaterialMappingType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=3003",
+          "required": [ "MaterialId", "MaterialLot", "HopperId" ],
+          "properties": {
+            "MaterialId": {
+              "type": "string"
+            },
+            "MaterialLot": {
+              "type": "string"
+            },
+            "HopperId": {
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/MaterialMapping/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PlannedProductionTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/PlannedProductionTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PlannedSetUpTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/PlannedSetUpTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PlannedStart": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/PlannedStart/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PressureAirConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/PressureAirConsumption/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Priority": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/Priority/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductionDatasetName": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/ProductionDatasetName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "title": "JobStatusEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ElectricalEnergyConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/event/ElectricalEnergyConsumption/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FluidEnergyConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/event/FluidEnergyConsumption/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PressureAirConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/event/PressureAirConsumption/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "JobStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "const": {
+          "OTHER": 0,
+          "TRANSFERRED_ASSIGNED": 1,
+          "SET_UP_ACTIVE": 2,
+          "SET_UP_INTERRUPTED": 3,
+          "SET_UP_FINISHED": 4,
+          "START_UP_ACTIVE": 5,
+          "JOB_IN_PRODUCTION": 6,
+          "JOB_INTERRUPTED": 7,
+          "JOB_FINISHED": 8,
+          "TEAR_DOWN_ACTIVE": 9,
+          "TEAR_DOWN_INTERRUPTED": 10,
+          "TEAR_DOWN_FINISHED": 11
+        },
+        "description": "Current status of the job",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states below apply",
+            "type": "integer"
+          },
+          "TRANSFERRED_ASSIGNED": {
+            "description": "The job has been transferred to the machine and assigned as current job",
+            "type": "integer"
+          },
+          "SET_UP_ACTIVE": {
+            "description": "The operator prepares the machine for the job",
+            "type": "integer"
+          },
+          "SET_UP_INTERRUPTED": {
+            "description": "The operator has interrupted but not finished the preparation of the machine for the job",
+            "type": "integer"
+          },
+          "SET_UP_FINISHED": {
+            "description": "The operator has finished the preparation of the machine for the job",
+            "type": "integer"
+          },
+          "START_UP_ACTIVE": {
+            "description": "The operator is setting the machine in the start-up phase",
+            "type": "integer"
+          },
+          "JOB_IN_PRODUCTION": {
+            "description": "The machine is producing parts/products for the job",
+            "type": "integer"
+          },
+          "JOB_INTERRUPTED": {
+            "description": "The job is interrupted. The nominal output is not reached",
+            "type": "integer"
+          },
+          "JOB_FINISHED": {
+            "description": "Nominal output reached",
+            "type": "integer"
+          },
+          "TEAR_DOWN_ACTIVE": {
+            "description": "The operator tears the machine down",
+            "type": "integer"
+          },
+          "TEAR_DOWN_INTERRUPTED": {
+            "description": "Tear-down is interrupted but not finished",
+            "type": "integer"
+          },
+          "TEAR_DOWN_FINISHED": {
+            "description": "Tear-down is finished",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActualBadOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ActualBadOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualGoodOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ActualGoodOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualLot": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ActualLot/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualLotName": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ActualLotName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ActualLotName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ActualOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualOutputRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ActualOutputRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualSampleOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ActualSampleOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CustomerName": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/CustomerName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Description": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/Description/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "GoodProduct": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/GoodProduct/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Id": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/Id/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LineSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/LineSpeed/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LotSize": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/LotSize/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ParameterSetting": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "array",
+        "items": {
+          "title": "ParameterSettingType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3026",
+          "required": [ "Id", "Value" ],
+          "properties": {
+            "Id": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Value": {
+              "description": "Stand-in for an unspecified data type.",
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ParameterSetting/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductDescription": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ProductDescription/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ProductId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductWeight": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/ProductWeight/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Sequence": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/Sequence/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/SetOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "title": "JobStatusEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Strand": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/Strand/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Throughput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/property/Throughput/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualBadOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/event/ActualBadOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualGoodOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/event/ActualGoodOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualLot": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/event/ActualLot/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualLotName": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/event/ActualLotName/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/event/ActualOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualOutputRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/event/ActualOutputRate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualSampleOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/event/ActualSampleOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "GoodProduct": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/event/GoodProduct/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LineSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/event/LineSpeed/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ProductWeight": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/event/ProductWeight/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Throughput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobType/event/Throughput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ElectricalEnergy",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_EnergyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FluidEnergy",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_EnergyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PressureAir",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_EnergyType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "GoodProduct": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType/property/GoodProduct/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LineSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType/property/LineSpeed/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductWeight": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType/property/ProductWeight/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Throughput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType/property/Throughput/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "GoodProduct": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType/event/GoodProduct/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LineSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType/event/LineSpeed/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ProductWeight": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType/event/ProductWeight/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Throughput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType/event/Throughput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

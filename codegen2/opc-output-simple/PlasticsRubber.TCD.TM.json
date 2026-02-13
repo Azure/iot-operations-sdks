@@ -1,0 +1,2098 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_TCDHelpOffNormalAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1009",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_HelpOffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDHelpOffNormalAlarmType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DeviceMappingNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDHelpOffNormalAlarmType/property/DeviceMappingNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_DeviceZoneType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExternalChannels",
+        "href": "#title=PlasticsRubber_TCD_ExternalChannelsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExternalSensor",
+        "href": "#title=PlasticsRubber_TCD_ExternalSensorType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FlowRate",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LeakStopper",
+        "href": "#title=PlasticsRubber_TCD_LeakStopperType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MaintenanceInformation",
+        "href": "#title=PlasticsRubber_TCD_MaintenanceInformationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MouldEvacuation",
+        "href": "#title=PlasticsRubber_TCD_MouldEvacuationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PressureDifference",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PumpSpeed",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Temperature",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TemperatureDifference",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActualProcessPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual calculated process performance (from the view of the TCD: heating = positive value, cooling = negative value)",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/ActualProcessPower/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPumpPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual power of the pump in kW",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/ActualPumpPower/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPumpSpeedRPM": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual speed of the pump in revolutions per minute",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/ActualPumpSpeedRPM/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualRegulationRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual Regulation Ratio (heating = positive value, cooling = negative value)",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/ActualRegulationRatio/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DelayTimeAfterCooling": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Delay Time after cooling before switching off the TCD",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/DelayTimeAfterCooling/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/DelayTimeAfterCooling/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InternalMeasuringPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Determines whether the temperature of the main or the return is to be controlled",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/InternalMeasuringPoint/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/InternalMeasuringPoint/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PressureMainLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual pressure in the main line (Pressure return line + pump pressure)",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/PressureMainLine/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PressureReturnLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual pressure in the return line",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/PressureReturnLine/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PumpControlMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Defines to which setpoint or function the pump is controlled",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/PumpControlMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/PumpControlMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StandbyTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "The standby value temperature is approached with the Method ReduceToStandByOn. The TCD switches off.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/StandbyTemperature/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/StandbyTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SwitchingOffTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Defines the temperature to which the TCD must be cooled down before it switches off",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/SwitchingOffTemperature/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/SwitchingOffTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TemperatureLimitation": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "This setpoint is for temperature limitation of the mould circuit e.g. to protect the connected tubes or the downstream water distribution system",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/TemperatureLimitation/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/TemperatureLimitation/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TemperatureMainLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual temperature in the main line",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/TemperatureMainLine/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TemperatureReturnLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual temperature in the return line",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/TemperatureReturnLine/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualProcessPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual calculated process performance (from the view of the TCD: heating = positive value, cooling = negative value)",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/ActualProcessPower/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualPumpPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual power of the pump in kW",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/ActualPumpPower/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualPumpSpeedRPM": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual speed of the pump in revolutions per minute",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/ActualPumpSpeedRPM/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualRegulationRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual Regulation Ratio (heating = positive value, cooling = negative value)",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/ActualRegulationRatio/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DelayTimeAfterCooling": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Delay Time after cooling before switching off the TCD",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/DelayTimeAfterCooling/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "InternalMeasuringPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Determines whether the temperature of the main or the return is to be controlled",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/InternalMeasuringPoint/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PressureMainLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual pressure in the main line (Pressure return line + pump pressure)",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/PressureMainLine/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PressureReturnLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual pressure in the return line",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/PressureReturnLine/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PumpControlMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Defines to which setpoint or function the pump is controlled",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/PumpControlMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "StandbyTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "The standby value temperature is approached with the Method ReduceToStandByOn. The TCD switches off.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/StandbyTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SwitchingOffTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Defines the temperature to which the TCD must be cooled down before it switches off",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/SwitchingOffTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TemperatureLimitation": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "This setpoint is for temperature limitation of the mould circuit e.g. to protect the connected tubes or the downstream water distribution system",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/TemperatureLimitation/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TemperatureMainLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual temperature in the main line",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/TemperatureMainLine/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TemperatureReturnLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual temperature in the return line",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/event/TemperatureReturnLine/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_ExternalChannelsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ExternalChannel__Nr_",
+        "href": "#title=PlasticsRubber_TCD_ExternalChannelType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelsType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_ExternalChannelType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FlowRate",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PressureDifference",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Temperature",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TemperatureDifference",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SwitchOff": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Switch method of the external channel for switching off",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/action/SwitchOff",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SwitchOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Switch method of the external channel for switching on",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/action/SwitchOn",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ControlMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Defines to which setpoint the external channel is controlled",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/property/ControlMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/property/ControlMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PressureMainLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual value of the pressure in the main line",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/property/PressureMainLine/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PressureReturnLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual value of the pressure in the return line",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/property/PressureReturnLine/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SwitchedOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Information if the external channel is switched on",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/property/SwitchedOn/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/property/SwitchedOn/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TemperatureMainLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual temperature in the main line",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/property/TemperatureMainLine/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TemperatureReturnLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual temperature in the return line",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/property/TemperatureReturnLine/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ControlMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Defines to which setpoint the external channel is controlled",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/event/ControlMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PressureMainLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual value of the pressure in the main line",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/event/PressureMainLine/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PressureReturnLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual value of the pressure in the return line",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/event/PressureReturnLine/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TemperatureMainLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual temperature in the main line",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/event/TemperatureMainLine/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TemperatureReturnLine": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual temperature in the return line",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalChannelType/event/TemperatureReturnLine/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_ExternalSensorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ClosedLoopControl",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ClosedLoopControlType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ExternalSensorModeOff": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Deactivate the mode where the external temperature sensor is used for temperature control",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/action/ExternalSensorModeOff",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ExternalSensorModeOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Activate the mode where the external temperature sensor is used for temperature control",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/action/ExternalSensorModeOn",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActualValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual value of external temperature sensor",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/property/ActualValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/property/ActualValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AutomaticModeSwitch": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Setting whether switching to external sensor is performed automatically (TRUE) or manually (FALSE)",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/property/AutomaticModeSwitch/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/property/AutomaticModeSwitch/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CommunicationProtocolType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/property/CommunicationProtocolType/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/property/CommunicationProtocolType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ThermocoupleType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Type of connected external temperature sensor",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/property/ThermocoupleType/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/property/ThermocoupleType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Used": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Return whether an external temperature sensor is used for control",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/property/Used/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual value of external temperature sensor",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/event/ActualValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CommunicationProtocolType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/event/CommunicationProtocolType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ThermocoupleType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Type of connected external temperature sensor",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/event/ThermocoupleType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_LeakStopperType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "Off": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Deactivate the leak stopper mode",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_LeakStopperType/action/Off",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "On": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Activate the leak stopper mode (emergency operation in case of leaks in the system)",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_LeakStopperType/action/On",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_MaintenanceInformationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Cooling",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Fluid",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Heating",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Pump",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_MouldEvacuationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Off": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Deactivate evacuation mode",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/action/Off",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "On": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Activate evacuation mode",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/action/On",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "Mode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Defines how the medium is to be emptied",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/property/Mode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/property/Mode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Sink": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Defines where the medium is to be emptied",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/property/Sink/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/property/Sink/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TemperatureLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Temperature Limitation of the mould evacuation. TCD is cooled to this temperature first if necessary.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/property/TemperatureLimit/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/property/TemperatureLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Time": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Duration of the mould evacuation",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/property/Time/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/property/Time/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Mode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Defines how the medium is to be emptied",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/event/Mode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Sink": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Defines where the medium is to be emptied",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/event/Sink/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TemperatureLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Temperature Limitation of the mould evacuation. TCD is cooled to this temperature first if necessary.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/event/TemperatureLimit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Time": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Duration of the mould evacuation",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/event/Time/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_OperationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1010",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "OperatingModeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=3002",
+        "const": {
+          "OTHER": 0,
+          "READY_TO_OPERATE": 1,
+          "NORMAL_OPERATION": 2,
+          "LEAK_STOPPER": 3,
+          "MOULD_EVACUATION": 4,
+          "PRESSURE_RELIEF": 5,
+          "COOLING": 6,
+          "SAFETY_COOLING": 7,
+          "ECO": 8,
+          "BOOST": 9
+        },
+        "description": "Actual operating mode of the TCD",
+        "properties": {
+          "OTHER": {
+            "description": "Operating mode of the TCD is unknown",
+            "type": "integer"
+          },
+          "READY_TO_OPERATE": {
+            "description": "TCD is ready to operate (heating, pump and cooling are switched off)",
+            "type": "integer"
+          },
+          "NORMAL_OPERATION": {
+            "description": "TCD is running in normal operating mode",
+            "type": "integer"
+          },
+          "LEAK_STOPPER": {
+            "description": "TCD is running in leak stopper operating mode",
+            "type": "integer"
+          },
+          "MOULD_EVACUATION": {
+            "description": "TCD is carrying out a mould evacuation process",
+            "type": "integer"
+          },
+          "PRESSURE_RELIEF": {
+            "description": "TCD is carrying out a pressure relief process",
+            "type": "integer"
+          },
+          "COOLING": {
+            "description": "TCD is cooling down to StandbyTemperature and switch off",
+            "type": "integer"
+          },
+          "SAFETY_COOLING": {
+            "description": "TCD is cooling down to SwitchingOffTemperature and switch off",
+            "type": "integer"
+          },
+          "ECO": {
+            "description": "TCD is running in Eco operating mode (energy is saved via the reduced pump speed)",
+            "type": "integer"
+          },
+          "BOOST": {
+            "description": "TCD is running in Boost operating mode (pump runs at maximum possible speed)",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "IdentifyDevice": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "The TCD on which this method is called shows itself by e.g. activation of a LED",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/action/IdentifyDevice",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReduceToStandByOff": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Deactivate the cooling down function on the TCD. If it is already in progress, it will be interrupted and the device changes back to the last selected operating mode.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/action/ReduceToStandByOff",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReduceToStandByOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Activate the cooling down function on the TCD followed by switching off",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/action/ReduceToStandByOn",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ResetAllErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Method to reset all errors of the device",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/action/ResetAllErrors",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ResetErrorById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=6510",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "description": "Id of the error, listed in ActiveErrors, that shall be reset",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/action/ResetErrorById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SwitchOff": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Main switch method of the TCD for switching off",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/action/SwitchOff",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SwitchOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Main switch method of the TCD for switching on",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/action/SwitchOn",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActiveErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "List of the active errors of the device",
+        "type": "array",
+        "items": {
+          "title": "ActiveErrorDataType",
+          "description": "Iinformation about an active error in a device",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3028",
+          "required": [ "Id", "Severity", "Message" ],
+          "properties": {
+            "Id": {
+              "description": "Unique identifier defined by manufacturer",
+              "type": "string"
+            },
+            "Severity": {
+              "description": "Severity as defined in the BaseEventType (1 = low – 1000 = high)",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "Message": {
+              "description": "Message giving information about the error",
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/property/ActiveErrors/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceMappingNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/property/DeviceMappingNumber/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/property/DeviceMappingNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HighestActiveAlarmSeverity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Indication of the severity of the highest active alarm (0 = no active alarm – 1000 = possible error)",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/property/HighestActiveAlarmSeverity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HoursOfOperation": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Actual hours of operation",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/property/HoursOfOperation/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperatingMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "title": "OperatingModeEnumeration",
+        "description": "Actual operating mode of the TCD",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=3002",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/property/OperatingMode/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActiveErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "List of the active errors of the device",
+          "type": "array",
+          "items": {
+            "title": "ActiveErrorDataType",
+            "description": "Iinformation about an active error in a device",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3028",
+            "required": [ "Id", "Severity", "Message" ],
+            "properties": {
+              "Id": {
+                "description": "Unique identifier defined by manufacturer",
+                "type": "string"
+              },
+              "Severity": {
+                "description": "Severity as defined in the BaseEventType (1 = low – 1000 = high)",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "Message": {
+                "description": "Message giving information about the error",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/event/ActiveErrors/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "HoursOfOperation": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Actual hours of operation",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/event/HoursOfOperation/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_TCD_InterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1012",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "DeviceZone",
+        "href": "#title=PlasticsRubber_TCD_DeviceZoneType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_IdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MachineConfiguration",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operation",
+        "href": "#title=PlasticsRubber_TCD_OperationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "TCDSpecification",
+        "href": "#title=PlasticsRubber_TCD_TCDSpecificationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCD_InterfaceType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCD_InterfaceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DisplayLanguage": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "With this Property the client can set the desired language on the user interface at the TCD",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCD_InterfaceType/property/DisplayLanguage/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCD_InterfaceType/property/DisplayLanguage/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_TCDSpecificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ConnectedLoad": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Connected load, defines the connections of the TCD (pump performance, heating capacity and performance of the remaining components)",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/property/ConnectedLoad/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CoolingCapacity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Power value for cooling, defines the power value for cooling at temperature difference 60 K between cooling water and heat transfer medium",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/property/CoolingCapacity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceZoneId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/property/DeviceZoneId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Defines the maximum working temperature of the TCD",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/property/MaxTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NominalFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Nominal flow rate, defines the maximum achievable flow rate of the TCD",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/property/NominalFlowRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowerValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "description": "Power value, defines the heating capacity of the TCD with the rated voltage",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/property/PowerValue/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ConnectedLoad": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Connected load, defines the connections of the TCD (pump performance, heating capacity and performance of the remaining components)",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/event/ConnectedLoad/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CoolingCapacity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Power value for cooling, defines the power value for cooling at temperature difference 60 K between cooling water and heat transfer medium",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/event/CoolingCapacity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MaxTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Defines the maximum working temperature of the TCD",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/event/MaxTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NominalFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Nominal flow rate, defines the maximum achievable flow rate of the TCD",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/event/NominalFlowRate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PowerValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
+        "data": {
+          "description": "Power value, defines the heating capacity of the TCD with the rated voltage",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/event/PowerValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

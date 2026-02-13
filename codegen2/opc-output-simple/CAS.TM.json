@@ -1,0 +1,6076 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_AnalysisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "OutputFile",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "Trigger": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Triggers the analysis on the MCS in a compressed air system.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AnalysisType/action/Trigger",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_CASType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1035",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Airnets",
+        "href": "#title=CAS_AirnetsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Components",
+        "href": "#title=CAS_ComponentsGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "#title=CAS_CASIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MCS",
+        "href": "#title=CAS_MCSType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_CommunicationSettingsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1048",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "IpVersionEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3016",
+        "const": {
+          "IPv4": 0,
+          "IPv6": 1
+        },
+        "properties": {
+          "IPv4": {
+            "description": "IP address is in IPv4 format",
+            "type": "integer"
+          },
+          "IPv6": {
+            "description": "IP address is in IPv6 format",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultGateway": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "IP Address of the default gateway used by the MCS.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/property/DefaultGateway/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Dhcp": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "States if DHCP is enabled or disabled on the MCS.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/property/Dhcp/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DnsServer": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "IP Address of the DNS server used by the MCS.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/property/DnsServer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DomainName": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Domain name the MCS is assigned to.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/property/DomainName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Hostname": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Host name of the MCS.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/property/Hostname/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IpAddress": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "IP address of the MCS.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/property/IpAddress/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IpVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "IpVersionEnum",
+        "description": "Version of the internet protocol used for the MCS.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3016",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/property/IpVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MacAddress": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "MAC address of the NIC of the MCS.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/property/MacAddress/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SubnetMask": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Subnet mask of the MCS.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/property/SubnetMask/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Dhcp": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "States if DHCP is enabled or disabled on the MCS.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/event/Dhcp/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MacAddress": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "MAC address of the NIC of the MCS.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CommunicationSettingsType/event/MacAddress/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ElectricalCircuitType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1014",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Other",
+        "href": "#title=CAS_ElectricalQuantitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Delta",
+        "href": "#title=CAS_ElectricalQuantitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Input",
+        "href": "#title=CAS_ElectricalQuantitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Output",
+        "href": "#title=CAS_ElectricalQuantitiesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ElectricalQuantitiesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ResetStatistics": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Restarts all statistical data, including a reset of the StartTime to the current time.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/action/ResetStatistics",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ApparentPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual apparent power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …).",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/property/ApparentPower/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Current": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual root mean square of the electric power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …).",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/property/Current/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Energy": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated accumulated electrical energy consumed including all auxiliary components (e.g. on a compressor including fans, controller, …) since last reset.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/property/Energy/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Power": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual electric real power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …).",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/property/Power/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StartTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Indicates the point in time at which the collection of the statistical data has been started.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/property/StartTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Voltage": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual root mean square of the voltage applied including all auxiliary components (e.g. on a compressor including fans, controller, …).",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/property/Voltage/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ApparentPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual apparent power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …).",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/event/ApparentPower/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Current": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual root mean square of the electric power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …).",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/event/Current/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Energy": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated accumulated electrical energy consumed including all auxiliary components (e.g. on a compressor including fans, controller, …) since last reset.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/event/Energy/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Power": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual electric real power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …).",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/event/Power/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Voltage": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual root mean square of the voltage applied including all auxiliary components (e.g. on a compressor including fans, controller, …).",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/event/Voltage/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_FluidCircuitType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1013",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Other",
+        "href": "#title=CAS_FluidQuantitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Delta",
+        "href": "#title=CAS_FluidQuantitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Inlet",
+        "href": "#title=CAS_FluidQuantitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Outlet",
+        "href": "#title=CAS_FluidQuantitiesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "FluidTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3006",
+        "const": {
+          "Air": 0,
+          "Condensate": 1,
+          "Oil": 2,
+          "Water": 3
+        },
+        "description": "possible process fluid types",
+        "properties": {
+          "Air": {
+            "description": "Air used as fluid",
+            "type": "integer"
+          },
+          "Condensate": {
+            "description": "Condensate used as fluid",
+            "type": "integer"
+          },
+          "Oil": {
+            "description": "Oil used as fluid",
+            "type": "integer"
+          },
+          "Water": {
+            "description": "Water used as fluid",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_FluidCircuitType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_FluidCircuitType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "FluidType": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "FluidTypeEnum",
+        "description": "Enumeration of possible fluid types.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3006",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidCircuitType/property/FluidType/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "FluidType": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "FluidTypeEnum",
+          "description": "Enumeration of possible fluid types.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3006",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidCircuitType/event/FluidType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_FluidQuantitiesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1012",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ParticlesPerSizeRange",
+        "href": "#title=CAS_ParticleType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ResetStatistics": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Restarts all statistical data, including a reset of the StartTime to the current time.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/action/ResetStatistics",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AbsolutePressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual absolute pressure of a fluid.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/AbsolutePressure/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AccumulatedVolume": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated accumulated volume of a fluid since last reset.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/AccumulatedVolume/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DewPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual dew point of a fluid.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/DewPoint/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "GaugePressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual gauge pressure of a fluid.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/GaugePressure/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MassFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual mass flow rate of a fluid.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/MassFlowRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OilConcentration": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual oil concentration of a fluid.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/OilConcentration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Quantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Manufacturer or system specific measurements or calculations.",
+        "type": "number",
+        "readOnly": true,
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/Quantity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeHumidity": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual relative humidity of a fluid.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/RelativeHumidity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StartTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Indicates the point in time at which the collection of the statistical data has been started.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/StartTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Temperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual temperature of a fluid.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/Temperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Volume": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual volume of a fluid.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/Volume/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual volume flow rate of a fluid.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/property/VolumeFlowRate/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AbsolutePressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual absolute pressure of a fluid.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/event/AbsolutePressure/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AccumulatedVolume": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated accumulated volume of a fluid since last reset.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/event/AccumulatedVolume/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DewPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual dew point of a fluid.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/event/DewPoint/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "GaugePressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual gauge pressure of a fluid.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/event/GaugePressure/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MassFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual mass flow rate of a fluid.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/event/MassFlowRate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OilConcentration": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual oil concentration of a fluid.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/event/OilConcentration/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Quantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Manufacturer or system specific measurements or calculations.",
+          "type": "number"
+        },
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/event/Quantity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeHumidity": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual relative humidity of a fluid.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/event/RelativeHumidity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Temperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual temperature of a fluid.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/event/Temperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Volume": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual volume of a fluid.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/event/Volume/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VolumeFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual volume flow rate of a fluid.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FluidQuantitiesType/event/VolumeFlowRate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_AirnetComponentsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1050",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ComponentsGroup",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ChargingSystems",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Compressors",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CondensateDrains",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CondensateSeparators",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Converters",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CoolingSystems",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Dryers",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Filters",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "HeatRecoverySystems",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Receivers",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Sensors",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Valves",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_AnalysesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1049",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Analysis",
+        "href": "#title=CAS_AnalysisType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "PrefabAnalysis",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EnergyReportISO50001",
+        "href": "#title=CAS_AnalysisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_CalibrationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1054",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CalibrationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CalibrationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "LastCalibrationDate": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Date when the sensor was last calibrated.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CalibrationType/property/LastCalibrationDate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NextCalibrationDate": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Date when the sensor is scheduled for the next calibration.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CalibrationType/property/NextCalibrationDate/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "LastCalibrationDate": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Date when the sensor was last calibrated.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CalibrationType/event/LastCalibrationDate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NextCalibrationDate": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Date when the sensor is scheduled for the next calibration.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CalibrationType/event/NextCalibrationDate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_CASIdentificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1051",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CASIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CASIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CASIdentificationType/property/AssetId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CASIdentificationType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CASIdentificationType/property/ComponentName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CASIdentificationType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ConfigurationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1037",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_AirnetConfigurationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1016",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_ConfigurationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_AirnetConfigurationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_AirnetConfigurationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_AirnetConfigurationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "OperatingModes": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Configured operating mode for an airnet in a compressed air system.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetConfigurationType/property/OperatingModes/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetConfigurationType/property/OperatingModes/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperatingProfiles": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Configured operating profile for an airnet in a compressed air system.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetConfigurationType/property/OperatingProfiles/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetConfigurationType/property/OperatingProfiles/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "OperatingModes": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Configured operating mode for an airnet in a compressed air system.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetConfigurationType/event/OperatingModes/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OperatingProfiles": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Configured operating profile for an airnet in a compressed air system.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetConfigurationType/event/OperatingProfiles/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_MCSConfigurationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1019",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_ConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CommunicationSettings",
+        "href": "#title=CAS_CommunicationSettingsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ConfigurationFile",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "LoadConfigurationFile": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Loads the configuration stored in ConfigurationFile to the MCS.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_MCSConfigurationType/action/LoadConfigurationFile",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SaveConfigurationFile": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Saves the current configuration of the MCS to the stored ConfigurationFile.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_MCSConfigurationType/action/SaveConfigurationFile",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_DesignType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1044",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_DesignType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_DesignType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Enumeration of possible types of the component’s device class.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DesignType/property/ComponentClass/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Enumeration of possible types of the component’s device class.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DesignType/event/ComponentClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_CompressorDesignType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_DesignType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "CompressorTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3018",
+        "const": {
+          "Other": 0,
+          "AxialTurboCompressor": 1,
+          "BellowsCompressor": 2,
+          "DiaphragmCompressor": 3,
+          "LiquidRingCompressor": 4,
+          "PistonCompressor": 5,
+          "RadialTurboCompressor": 6,
+          "RootsCompressor": 7,
+          "ScrewCompressor": 8,
+          "ScrollCompressor": 9,
+          "SideChannelCompressor": 10,
+          "StraightLobeCompressor": 11,
+          "VaneCompressor": 12
+        },
+        "description": "possible compressor types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "AxialTurboCompressor": {
+            "description": "Axial Turbo compressor",
+            "type": "integer"
+          },
+          "BellowsCompressor": {
+            "description": "Bellows compressor",
+            "type": "integer"
+          },
+          "DiaphragmCompressor": {
+            "description": "Diaphragm compressor",
+            "type": "integer"
+          },
+          "LiquidRingCompressor": {
+            "description": "Liquid ring compressor",
+            "type": "integer"
+          },
+          "PistonCompressor": {
+            "description": "Piston compressor",
+            "type": "integer"
+          },
+          "RadialTurboCompressor": {
+            "description": "Radial Turbo compressor",
+            "type": "integer"
+          },
+          "RootsCompressor": {
+            "description": "Roots compressor",
+            "type": "integer"
+          },
+          "ScrewCompressor": {
+            "description": "Screw compressor",
+            "type": "integer"
+          },
+          "ScrollCompressor": {
+            "description": "Scroll compressor",
+            "type": "integer"
+          },
+          "SideChannelCompressor": {
+            "description": "Side channel compressor",
+            "type": "integer"
+          },
+          "StraightLobeCompressor": {
+            "description": "Straight lobe compressor",
+            "type": "integer"
+          },
+          "VaneCompressor": {
+            "description": "Vane compressor",
+            "type": "integer"
+          }
+        }
+      },
+      "DisplacementTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3020",
+        "const": {
+          "PositiveDisplacement": 0,
+          "DynamicDisplacement": 1
+        },
+        "description": "possible displacement types for a compressor",
+        "properties": {
+          "PositiveDisplacement": {
+            "description": "Positive displacement compressor",
+            "type": "integer"
+          },
+          "DynamicDisplacement": {
+            "description": "Dynamic displacement compressor",
+            "type": "integer"
+          }
+        }
+      },
+      "LubricationTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3019",
+        "const": {
+          "NoLubrication": 0,
+          "OilLubricated": 1,
+          "WaterLubricated": 2
+        },
+        "description": "possible lubrication types for the compression process of a compressor",
+        "properties": {
+          "NoLubrication": {
+            "description": "No lubrication",
+            "type": "integer"
+          },
+          "OilLubricated": {
+            "description": "Oil lubricated",
+            "type": "integer"
+          },
+          "WaterLubricated": {
+            "description": "Water lubricated",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "CompressorTypeEnum",
+        "description": "Enumeration of possible compressor types.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3018",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/property/ComponentClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DisplacementType": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "DisplacementTypeEnum",
+        "description": "Enumeration of possible displacement types.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3020",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/property/DisplacementType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LubricationType": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "LubricationTypeEnum",
+        "description": "Enumeration of possible lubrication types for the compression process of a compressor.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3019",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/property/LubricationType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NumberOfStages": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Number of stages the compressor has available.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/property/NumberOfStages/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VariableFlow": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Indicates if a compressor has a variable or fixed flow.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/property/VariableFlow/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "CompressorTypeEnum",
+          "description": "Enumeration of possible compressor types.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3018",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/event/ComponentClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DisplacementType": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "DisplacementTypeEnum",
+          "description": "Enumeration of possible displacement types.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3020",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/event/DisplacementType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LubricationType": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "LubricationTypeEnum",
+          "description": "Enumeration of possible lubrication types for the compression process of a compressor.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3019",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/event/LubricationType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NumberOfStages": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Number of stages the compressor has available.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/event/NumberOfStages/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VariableFlow": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Indicates if a compressor has a variable or fixed flow.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorDesignType/event/VariableFlow/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ConverterDesignType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1041",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_DesignType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ConverterTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3015",
+        "const": {
+          "Other": 0,
+          "CatalyticHCConverter": 1
+        },
+        "description": "possible converter types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "CatalyticHCConverter": {
+            "description": "Catalytic hydrocarbons converter",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ConverterDesignType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ConverterDesignType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "ConverterTypeEnum",
+        "description": "Enumeration of possible converter types.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3015",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ConverterDesignType/property/ComponentClass/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "ConverterTypeEnum",
+          "description": "Enumeration of possible converter types.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3015",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ConverterDesignType/event/ComponentClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_DrainDesignType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1036",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_DesignType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "DrainTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3012",
+        "const": {
+          "Other": 0,
+          "CapacitiveDrain": 1,
+          "LevelControlledDrain": 2,
+          "TimedDrain": 3
+        },
+        "description": "possible condensate drain types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "CapacitiveDrain": {
+            "description": "Capacitive drain",
+            "type": "integer"
+          },
+          "LevelControlledDrain": {
+            "description": "Level controlled drain",
+            "type": "integer"
+          },
+          "TimedDrain": {
+            "description": "Timed drain",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_DrainDesignType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_DrainDesignType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "DrainTypeEnum",
+        "description": "Enumeration of possible condensate drain types.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3012",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DrainDesignType/property/ComponentClass/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "DrainTypeEnum",
+          "description": "Enumeration of possible condensate drain types.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3012",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DrainDesignType/event/ComponentClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_DryerDesignType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1033",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_DesignType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "DryerTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3017",
+        "const": {
+          "Other": 0,
+          "AbsorptionDryer": 1,
+          "AdsorptionDryer": 2,
+          "MembraneDryer": 3,
+          "RefrigerationDryer": 4
+        },
+        "description": "possible dryer types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "AbsorptionDryer": {
+            "description": "Absorption dryer",
+            "type": "integer"
+          },
+          "AdsorptionDryer": {
+            "description": "Adsorption dryer",
+            "type": "integer"
+          },
+          "MembraneDryer": {
+            "description": "Membrane dryer",
+            "type": "integer"
+          },
+          "RefrigerationDryer": {
+            "description": "Refrigeration dryer",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_DryerDesignType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_DryerDesignType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "DryerTypeEnum",
+        "description": "Enumeration of possible dryer types.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3017",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DryerDesignType/property/ComponentClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LowestAmbientTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Lowest allowable ambient temperature for the dryer to work as intended.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DryerDesignType/property/LowestAmbientTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "DryerTypeEnum",
+          "description": "Enumeration of possible dryer types.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3017",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DryerDesignType/event/ComponentClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LowestAmbientTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Lowest allowable ambient temperature for the dryer to work as intended.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DryerDesignType/event/LowestAmbientTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_FilterDesignType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_DesignType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "FilterTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3005",
+        "const": {
+          "Other": 0,
+          "ActivatedCarbonFilter": 1,
+          "AdsorptionFilter": 2,
+          "CoalescingFilter": 3,
+          "ParticulateFilter": 4,
+          "FabricFilter": 5,
+          "SterileFilter": 6
+        },
+        "description": "possible filter types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "ActivatedCarbonFilter": {
+            "description": "Activated carbon filter",
+            "type": "integer"
+          },
+          "AdsorptionFilter": {
+            "description": "Adsorption filter",
+            "type": "integer"
+          },
+          "CoalescingFilter": {
+            "description": "Coalescing filter",
+            "type": "integer"
+          },
+          "ParticulateFilter": {
+            "description": "Particulate filter",
+            "type": "integer"
+          },
+          "FabricFilter": {
+            "description": "Fabric filter",
+            "type": "integer"
+          },
+          "SterileFilter": {
+            "description": "Sterile filter",
+            "type": "integer"
+          }
+        }
+      },
+      "FilterClassEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+        "const": {
+          "S0": 0,
+          "S1": 1,
+          "S2": 2,
+          "S3": 3,
+          "S4": 4,
+          "S5": 5,
+          "S6": 6,
+          "S7": 7,
+          "S8": 8,
+          "S9": 9,
+          "X": 10
+        },
+        "description": "possible filter classes according to ISO 8573-1",
+        "properties": {
+          "S0": {
+            "description": "As specified by the equipment user or supplier and more stringent than class 1.",
+            "type": "integer"
+          },
+          "S1": {
+            "description": "Particles: By Particle Size: 0.1 µm < d ≤ 0.5 µm: ≤ 20,000; 0.5 µ m< d ≤ 1.0 µm: ≤ 400; 1.0 µm < d ≤ 5.0 µm: ≤ 10;  Water: Vapor Pressure Dewpoint: ≤ -70 °C, ≤ -94 °F;  Oil: Liquid, Aerosol, & Vapor: ≤ 0.01 mg/m3;",
+            "type": "integer"
+          },
+          "S2": {
+            "description": "Particles: By Particle Size: 0.1 µm < d ≤ 0.5 µm: ≤ 400,000; 0.5 µ m< d ≤ 1.0 µm: ≤ 6,000; 1.0 µm < d ≤ 5.0 µm: ≤ 100;  Water: Vapor Pressure Dewpoint: ≤ -40 °C, ≤ -40 °F;  Oil: Liquid, Aerosol, & Vapor: ≤ 0.1 mg/m3;",
+            "type": "integer"
+          },
+          "S3": {
+            "description": "Particles: By Particle Size: 0.5 µ m< d ≤ 1.0 µm: ≤ 90,000; 1.0 µm < d ≤ 5.0 µm: ≤ 1,000;  Water: Vapor Pressure Dewpoint: ≤ -20 °C, ≤ -4 °F;  Oil: Liquid, Aerosol, & Vapor: ≤ 1 mg/m3;",
+            "type": "integer"
+          },
+          "S4": {
+            "description": "Particles: By Particle Size: 1.0 µm < d ≤ 5.0 µm: ≤ 10,000;  Water: Vapor Pressure Dewpoint: ≤ +3 °C, ≤ +37 °F;  Oil: Liquid, Aerosol, & Vapor: ≤ 5 mg/m3;",
+            "type": "integer"
+          },
+          "S5": {
+            "description": "Particles: By Particle Size: 1.0 µm < d ≤ 5.0 µm: ≤ 100,000;  Water: Vapor Pressure Dewpoint: ≤ +7 °C, ≤ +45 °F;",
+            "type": "integer"
+          },
+          "S6": {
+            "description": "Particles: By Mass: 0 – ≤ 5 mg/m3;  Water: Vapor Pressure Dewpoint: ≤ +10 °C, ≤ +50 °F;",
+            "type": "integer"
+          },
+          "S7": {
+            "description": "Particles: By Mass: 5 – ≤ 10 mg/m3;  Water: Liquid: ≤ 0.5 g/m3;",
+            "type": "integer"
+          },
+          "S8": {
+            "description": "Water: Liquid: ≤ 5 g/m3;",
+            "type": "integer"
+          },
+          "S9": {
+            "description": "Water: Liquid: ≤ 10 g/m3;",
+            "type": "integer"
+          },
+          "X": {
+            "description": "Particles: By Mass: > 10 mg/m3;  Water: Liquid: > 10 g/m3;  Oil: Liquid, Aerosol, & Vapor: > 5 mg/m3;",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_FilterDesignType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_FilterDesignType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "FilterTypeEnum",
+        "description": "Enumeration of possible filter types.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3005",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FilterDesignType/property/ComponentClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FilterClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "FilterClassDataType",
+        "description": "information about the used filter class according to ISO 8573-1 of a filter",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3007",
+        "required": [ "A", "B", "C" ],
+        "properties": {
+          "A": {
+            "title": "FilterClassEnum",
+            "description": "Class for particles",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "B": {
+            "title": "FilterClassEnum",
+            "description": "Class for water and humidity",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "C": {
+            "title": "FilterClassEnum",
+            "description": "Class for oil",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FilterDesignType/property/FilterClass/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "FilterTypeEnum",
+          "description": "Enumeration of possible filter types.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3005",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FilterDesignType/event/ComponentClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FilterClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "FilterClassDataType",
+          "description": "information about the used filter class according to ISO 8573-1 of a filter",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3007",
+          "required": [ "A", "B", "C" ],
+          "properties": {
+            "A": {
+              "title": "FilterClassEnum",
+              "description": "Class for particles",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "B": {
+              "title": "FilterClassEnum",
+              "description": "Class for water and humidity",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "C": {
+              "title": "FilterClassEnum",
+              "description": "Class for oil",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_FilterDesignType/event/FilterClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ReceiverDesignType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1023",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_DesignType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ReceiverTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3004",
+        "const": {
+          "Other": 0,
+          "DryReceiver": 1,
+          "WetReceiver": 2
+        },
+        "description": "possible receiver types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "DryReceiver": {
+            "description": "Dry Receiver",
+            "type": "integer"
+          },
+          "WetReceiver": {
+            "description": "Wet Receiver",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ReceiverDesignType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ReceiverDesignType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "ReceiverTypeEnum",
+        "description": "Enumeration of possible receiver types.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ReceiverDesignType/property/ComponentClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Volume": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Total volume of the receiver.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ReceiverDesignType/property/Volume/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "ReceiverTypeEnum",
+          "description": "Enumeration of possible receiver types.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3004",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ReceiverDesignType/event/ComponentClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Volume": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Total volume of the receiver.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ReceiverDesignType/event/Volume/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_SensorDesignType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1031",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_DesignType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "SensorTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3021",
+        "const": {
+          "Other": 0,
+          "Ammeter": 1,
+          "DewPointSensor": 2,
+          "FlowRateSensor": 3,
+          "FlowSpeedSensor": 4,
+          "HumiditySensor": 5,
+          "OilConcentrationSensor": 6,
+          "ParticleCounter": 7,
+          "PressureSensor": 8,
+          "TemperatureSensor": 9,
+          "Voltmeter": 10,
+          "VolumeSensor": 11,
+          "Wattmeter": 12
+        },
+        "description": "possible sensor types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "Ammeter": {
+            "description": "Ammeter",
+            "type": "integer"
+          },
+          "DewPointSensor": {
+            "description": "Dew point sensor",
+            "type": "integer"
+          },
+          "FlowRateSensor": {
+            "description": "Flow rate sensor",
+            "type": "integer"
+          },
+          "FlowSpeedSensor": {
+            "description": "Flow speed sensor",
+            "type": "integer"
+          },
+          "HumiditySensor": {
+            "description": "Humidity sensor",
+            "type": "integer"
+          },
+          "OilConcentrationSensor": {
+            "description": "Oil concentration sensor",
+            "type": "integer"
+          },
+          "ParticleCounter": {
+            "description": "Particle counter",
+            "type": "integer"
+          },
+          "PressureSensor": {
+            "description": "Pressure sensor",
+            "type": "integer"
+          },
+          "TemperatureSensor": {
+            "description": "Temperature sensor",
+            "type": "integer"
+          },
+          "Voltmeter": {
+            "description": "Voltmeter",
+            "type": "integer"
+          },
+          "VolumeSensor": {
+            "description": "Volume sensor",
+            "type": "integer"
+          },
+          "Wattmeter": {
+            "description": "Wattmeter",
+            "type": "integer"
+          }
+        }
+      },
+      "SensorTechnologyOptionSet": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3010",
+        "const": {
+          "CapacitiveSensor": 0,
+          "ElectronTube": 1,
+          "InductiveSensor": 2,
+          "IonizationSensor": 3,
+          "Magnetometer": 4,
+          "OpticalSensor": 5,
+          "PiezoelectricSensor": 6,
+          "ResistiveSensor": 7,
+          "ResonantSensor": 8,
+          "TemperatureSensor": 9,
+          "ThermalSensor": 10,
+          "UltrasoundSensor": 11
+        },
+        "description": "flags for the used sensor technologies for a sensor",
+        "properties": {
+          "CapacitiveSensor": {
+            "description": "Capacitive sensor capabilities",
+            "type": "integer"
+          },
+          "ElectronTube": {
+            "description": "Electron tube capabilities",
+            "type": "integer"
+          },
+          "InductiveSensor": {
+            "description": "Inductive sensor capabilities",
+            "type": "integer"
+          },
+          "IonizationSensor": {
+            "description": "Ionization sensor capabilities",
+            "type": "integer"
+          },
+          "Magnetometer": {
+            "description": "Magnetometer capabilities",
+            "type": "integer"
+          },
+          "OpticalSensor": {
+            "description": "Optical sensor capabilities",
+            "type": "integer"
+          },
+          "PiezoelectricSensor": {
+            "description": "Piezoelectric sensor capabilities",
+            "type": "integer"
+          },
+          "ResistiveSensor": {
+            "description": "Resistive sensor capabilities",
+            "type": "integer"
+          },
+          "ResonantSensor": {
+            "description": "Resonant sensor capabilities",
+            "type": "integer"
+          },
+          "TemperatureSensor": {
+            "description": "Temperature sensor capabilities",
+            "type": "integer"
+          },
+          "ThermalSensor": {
+            "description": "Thermal sensor capabilities",
+            "type": "integer"
+          },
+          "UltrasoundSensor": {
+            "description": "Ultrasound sensor capabilities",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_SensorDesignType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_SensorDesignType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "SensorTypeEnum",
+        "description": "Enumeration of possible sensor types.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3021",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_SensorDesignType/property/ComponentClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensorTechnology": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "SensorTechnologyOptionSet",
+        "description": "Selection of sensor technologies this sensor uses.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3010",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_SensorDesignType/property/SensorTechnology/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SoftSensor": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Indicates if the sensor is a software or hardware sensor.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_SensorDesignType/property/SoftSensor/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "SensorTypeEnum",
+          "description": "Enumeration of possible sensor types.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3021",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_SensorDesignType/event/ComponentClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SensorTechnology": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "SensorTechnologyOptionSet",
+          "description": "Selection of sensor technologies this sensor uses.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3010",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_SensorDesignType/event/SensorTechnology/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SoftSensor": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Indicates if the sensor is a software or hardware sensor.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_SensorDesignType/event/SoftSensor/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_SeparatorDesignType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1040",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_DesignType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "SeparatorTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3013",
+        "const": {
+          "Other": 0,
+          "CentrifugalOilyWaterSeparator": 1,
+          "EmulsionSplittingSeparator": 2,
+          "FlotationSeparator": 3,
+          "GravityPlateSeparator": 4,
+          "HydrocycloneOilyWaterSeparator": 5
+        },
+        "description": "possible condensate separator types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "CentrifugalOilyWaterSeparator": {
+            "description": "Centrifugal oily water separator",
+            "type": "integer"
+          },
+          "EmulsionSplittingSeparator": {
+            "description": "Emulsion splitting separator",
+            "type": "integer"
+          },
+          "FlotationSeparator": {
+            "description": "Flotation separator",
+            "type": "integer"
+          },
+          "GravityPlateSeparator": {
+            "description": "Gravity plate separator",
+            "type": "integer"
+          },
+          "HydrocycloneOilyWaterSeparator": {
+            "description": "Hydrocyclone oily water separator",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_SeparatorDesignType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_SeparatorDesignType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "SeparatorTypeEnum",
+        "description": "Enumeration of possible condensate separator types.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3013",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_SeparatorDesignType/property/ComponentClass/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "SeparatorTypeEnum",
+          "description": "Enumeration of possible condensate separator types.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3013",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_SeparatorDesignType/event/ComponentClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ValveDesignType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1032",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_DesignType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ValveTypeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3011",
+        "const": {
+          "Other": 0,
+          "CheckValve": 1,
+          "ContinuousValve": 2,
+          "FlowControlValve": 3,
+          "PressureValve": 4,
+          "SwitchingValve": 5
+        },
+        "description": "possible valve types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "CheckValve": {
+            "description": "Check valve",
+            "type": "integer"
+          },
+          "ContinuousValve": {
+            "description": "Continuous valve",
+            "type": "integer"
+          },
+          "FlowControlValve": {
+            "description": "Flow control valve",
+            "type": "integer"
+          },
+          "PressureValve": {
+            "description": "Pressure valve",
+            "type": "integer"
+          },
+          "SwitchingValve": {
+            "description": "Switching valve",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ValveDesignType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ValveDesignType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "ValveTypeEnum",
+        "description": "Enumeration of possible valve types.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3011",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ValveDesignType/property/ComponentClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NumberOfPorts": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Number of ports of a valve.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ValveDesignType/property/NumberOfPorts/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ComponentClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "ValveTypeEnum",
+          "description": "Enumeration of possible valve types.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3011",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ValveDesignType/event/ComponentClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NumberOfPorts": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Number of ports of a valve.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ValveDesignType/event/NumberOfPorts/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_EventsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1020",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Event",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EmergencyStop",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OffNormalAlarmType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Service",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OffNormalAlarmType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Shutdown",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OffNormalAlarmType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Warning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_MaintenanceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1028",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_MaintenanceType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_MaintenanceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "RealTimeSinceLastService": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Real time passed since the sensor was last serviced.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_MaintenanceType/property/RealTimeSinceLastService/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RealTimeToNextService": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Real time left until the sensor is scheduled for the next servicing.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_MaintenanceType/property/RealTimeToNextService/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "RealTimeSinceLastService": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Real time passed since the sensor was last serviced.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_MaintenanceType/event/RealTimeSinceLastService/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RealTimeToNextService": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Real time left until the sensor is scheduled for the next servicing.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_MaintenanceType/event/RealTimeToNextService/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_OperationalType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_OperationalType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_OperationalType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "HealthState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Actual health state of the part.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_OperationalType/property/HealthState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IntegratedState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Actual integrated state of the part.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_OperationalType/property/IntegratedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OnOff": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Actual OnOff state of the component.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_OperationalType/property/OnOff/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperatingState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Actual operating state of the part.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_OperationalType/property/OperatingState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "HealthState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Actual health state of the part.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_OperationalType/event/HealthState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "IntegratedState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Actual integrated state of the part.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_OperationalType/event/IntegratedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OnOff": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Actual OnOff state of the component.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_OperationalType/event/OnOff/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OperatingState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Actual operating state of the part.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_OperationalType/event/OperatingState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_AirnetOperationalType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_OperationalType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "AirnetHealthStateEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3022",
+        "const": {
+          "OK": 0,
+          "Warning": 1,
+          "Error": 2,
+          "Critical": 3
+        },
+        "properties": {
+          "OK": {
+            "description": "All requirements can be fulfilled.",
+            "type": "integer"
+          },
+          "Warning": {
+            "description": "Check required, possibly there is a problem that leads to an Error.",
+            "type": "integer"
+          },
+          "Error": {
+            "description": "Immediate action needed to avoid Critical.",
+            "type": "integer"
+          },
+          "Critical": {
+            "description": "At least one requirement cannot be fulfilled.",
+            "type": "integer"
+          }
+        }
+      },
+      "AirnetIntegratedStateEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3023",
+        "const": {
+          "FullyIntegrated": 0,
+          "PartiallyIntegrated": 1,
+          "FullyIsolated": 2
+        },
+        "properties": {
+          "FullyIntegrated": {
+            "description": "The MCS controls all compressors of this airnet.",
+            "type": "integer"
+          },
+          "PartiallyIntegrated": {
+            "description": "At least one compressor of this airnet is not controlled by the MCS.",
+            "type": "integer"
+          },
+          "FullyIsolated": {
+            "description": "The MCS does not control any compressor of this airnet.",
+            "type": "integer"
+          }
+        }
+      },
+      "AirnetOperatingStateEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3024",
+        "const": {
+          "Other": 0,
+          "Stopped": 1,
+          "Starting": 2,
+          "Stopping": 3,
+          "Operational": 4
+        },
+        "properties": {
+          "Other": {
+            "description": "The airnet is in a state not specified by this enumeration.",
+            "type": "integer"
+          },
+          "Stopped": {
+            "description": "The requirements shall not be fulfilled.",
+            "type": "integer"
+          },
+          "Starting": {
+            "description": "Transition phase to end in Operational state.",
+            "type": "integer"
+          },
+          "Stopping": {
+            "description": "Transition phase to end in Stopped state.",
+            "type": "integer"
+          },
+          "Operational": {
+            "description": "The requirements should be fulfilled.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AirDeliveryRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Volume of generated compressed air per time frame.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/AirDeliveryRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CompressorsIntegrated": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Number of integrated compressors in the airnet.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/CompressorsIntegrated/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CompressorsIsolated": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Number of isolated compressors in the airnet.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/CompressorsIsolated/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CompressorsNotAvailable": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Number of unavailable compressors in the airnet.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/CompressorsNotAvailable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ControlPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Current pressure in the airnet.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/ControlPressure/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HealthState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "AirnetHealthStateEnum",
+        "description": "Actual health state of the airnet.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3022",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/HealthState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IntegratedState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "AirnetIntegratedStateEnum",
+        "description": "Actual integrated state of the airnet.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3023",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/IntegratedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperatingState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "AirnetOperatingStateEnum",
+        "description": "Actual operating state of the airnet.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3024",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/OperatingState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SpecificEnergy": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Electrical energy consumed in the generation of a volume of compressed air.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/SpecificEnergy/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SpecificEnergyCost": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Costs for generating a volume of compressed air.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/SpecificEnergyCost/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeFlowRateAvailable": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated available volume flow rate of the process fluid in the airnet.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/VolumeFlowRateAvailable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeFlowRateUnavailable": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Calculated unavailable volume flow rate of the process fluid in the airnet.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/property/VolumeFlowRateUnavailable/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AirDeliveryRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Volume of generated compressed air per time frame.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/AirDeliveryRate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CompressorsIntegrated": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Number of integrated compressors in the airnet.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/CompressorsIntegrated/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CompressorsIsolated": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Number of isolated compressors in the airnet.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/CompressorsIsolated/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CompressorsNotAvailable": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Number of unavailable compressors in the airnet.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/CompressorsNotAvailable/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ControlPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Current pressure in the airnet.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/ControlPressure/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "HealthState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "AirnetHealthStateEnum",
+          "description": "Actual health state of the airnet.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3022",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/HealthState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "IntegratedState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "AirnetIntegratedStateEnum",
+          "description": "Actual integrated state of the airnet.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3023",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/IntegratedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OperatingState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "AirnetOperatingStateEnum",
+          "description": "Actual operating state of the airnet.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3024",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/OperatingState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SpecificEnergy": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Electrical energy consumed in the generation of a volume of compressed air.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/SpecificEnergy/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SpecificEnergyCost": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Costs for generating a volume of compressed air.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/SpecificEnergyCost/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VolumeFlowRateAvailable": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated available volume flow rate of the process fluid in the airnet.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/VolumeFlowRateAvailable/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VolumeFlowRateUnavailable": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Calculated unavailable volume flow rate of the process fluid in the airnet.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetOperationalType/event/VolumeFlowRateUnavailable/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_CompressorOperationalType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1045",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_OperationalType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "CompressorOperatingStateEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3025",
+        "const": {
+          "Other": 0,
+          "Stopped": 1,
+          "Starting": 2,
+          "Stopping": 3,
+          "Unloaded": 4,
+          "Loading": 5,
+          "Unloading": 6,
+          "Loaded": 7
+        },
+        "properties": {
+          "Other": {
+            "description": "The compressor is in a state not specified by this enumeration.",
+            "type": "integer"
+          },
+          "Stopped": {
+            "description": "The motor is not running.",
+            "type": "integer"
+          },
+          "Starting": {
+            "description": "Transition phase to end in Unloaded state.",
+            "type": "integer"
+          },
+          "Stopping": {
+            "description": "Transition phase to end in Stopped state.",
+            "type": "integer"
+          },
+          "Unloaded": {
+            "description": "The motor is running but the compressor does not deliver compressed air to the airnet.",
+            "type": "integer"
+          },
+          "Loading": {
+            "description": "Transition phase to end in Loaded state.",
+            "type": "integer"
+          },
+          "Unloading": {
+            "description": "Transition phase to end in Unloaded state.",
+            "type": "integer"
+          },
+          "Loaded": {
+            "description": "The compressor does deliver compressed air to the airnet.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActivePressureBand": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Indicates the actual active pressure band.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/property/ActivePressureBand/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FlowRateRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Calculated ratio of actual and maximum possible flow rate of a compressor.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/property/FlowRateRatio/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsentropicEfficiency": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Calculated isentropic efficiency.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/property/IsentropicEfficiency/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperatingState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "CompressorOperatingStateEnum",
+        "description": "Actual operating state of the compressor.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3025",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/property/OperatingState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SpecificEnergyRequirement": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Calculated shaft input energy per unit of compressor actual rate of flow.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/property/SpecificEnergyRequirement/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActivePressureBand": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Indicates the actual active pressure band.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/event/ActivePressureBand/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FlowRateRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Calculated ratio of actual and maximum possible flow rate of a compressor.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/event/FlowRateRatio/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "IsentropicEfficiency": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Calculated isentropic efficiency.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/event/IsentropicEfficiency/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OperatingState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "CompressorOperatingStateEnum",
+          "description": "Actual operating state of the compressor.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3025",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/event/OperatingState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SpecificEnergyRequirement": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Calculated shaft input energy per unit of compressor actual rate of flow.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorOperationalType/event/SpecificEnergyRequirement/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ConverterOperationalType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1046",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_OperationalType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ConverterOperationalType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ConverterOperationalType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CatalyticMaterialTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured actual temperature of the catalytic material inside a converter.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ConverterOperationalType/property/CatalyticMaterialTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CatalyticMaterialTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured actual temperature of the catalytic material inside a converter.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ConverterOperationalType/event/CatalyticMaterialTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_DrainOperationalType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_OperationalType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "DrainTest": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Invoke a drain test on a condensate drain.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DrainOperationalType/action/DrainTest",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_DryerOperationalType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1052",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_OperationalType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "DryerOperatingStateEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3026",
+        "const": {
+          "Other": 0,
+          "Stopped": 1,
+          "Running": 2,
+          "RefrigerantCompressorStopped": 3,
+          "RefrigerantCompressorRunning": 4,
+          "PurgeValveClosed": 5,
+          "PurgeValveOpen": 6,
+          "ParallelModeOfBothVessels": 7,
+          "Depressurizing": 8,
+          "Desorbing": 9,
+          "Cooling": 10,
+          "Pressurizing": 11,
+          "RegeneratedVesselInStand_by": 12
+        },
+        "properties": {
+          "Other": {
+            "description": "The dryer is in a state not specified by this enumeration.",
+            "type": "integer"
+          },
+          "Stopped": {
+            "description": "The dryer is stopped. This state is applicable to all adsorption dryers.",
+            "type": "integer"
+          },
+          "Running": {
+            "description": "The dryer is running. This state is applicable to all dryers.",
+            "type": "integer"
+          },
+          "RefrigerantCompressorStopped": {
+            "description": "The compressor of the refrigerant circuit is standing still, and the refrigerant dryer is operating using the stored cold. This state is applicable to refrigerant dryers.",
+            "type": "integer"
+          },
+          "RefrigerantCompressorRunning": {
+            "description": "The compressor of the refrigerant circuit is running and compressing refrigerant, creating cold. This state is applicable to refrigerant dryers.",
+            "type": "integer"
+          },
+          "PurgeValveClosed": {
+            "description": "Purge valve is closed, and no purge air is consumed, no purge of the humidity from membranes dryer. This state is applicable to membrane dryers.",
+            "type": "integer"
+          },
+          "PurgeValveOpen": {
+            "description": "Purge air can flow to purge the humidity out of the membrane dryer. This state is applicable to membrane dryers.",
+            "type": "integer"
+          },
+          "ParallelModeOfBothVessels": {
+            "description": "Both vessels of the adsorption dryer are used in parallel for adsorption. This state is applicable to all adsorption dryers.",
+            "type": "integer"
+          },
+          "Depressurizing": {
+            "description": "One vessel of the adsorption dryer is depressurized for regeneration. This state is applicable to heatless and heated adsorption dryers, not HOC.",
+            "type": "integer"
+          },
+          "Desorbing": {
+            "description": "One vessel of the adsorption dryer is in desorption phase, using purge or ambient air, heated or not heated. This state is applicable to all adsorption dryers.",
+            "type": "integer"
+          },
+          "Cooling": {
+            "description": "One vessel of the adsorption dryer is being cooled after being heated in the previous desorption phase. This state is applicable to heated adsorption dryers and HOC.",
+            "type": "integer"
+          },
+          "Pressurizing": {
+            "description": "The depressurized vessel is pressurized again. This state is applicable to heatless and heated adsorption dryers, not HOC.",
+            "type": "integer"
+          },
+          "RegeneratedVesselInStand_by": {
+            "description": "The regenerated vessel is in standby and ready for adsorption phase. This state is applicable to all adsorption dryers.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_DryerOperationalType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_DryerOperationalType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "OnOff": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Actual OnOff state of the dryer. For membrane dryers this describes the state of the controller.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DryerOperationalType/property/OnOff/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperatingState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "title": "DryerOperatingStateEnum",
+        "description": "Actual operating state of the dryer.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3026",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DryerOperationalType/property/OperatingState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PressureDewPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Measured or calculated actual pressure dew point of the process fluid at a dryer.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DryerOperationalType/property/PressureDewPoint/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "OnOff": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Actual OnOff state of the dryer. For membrane dryers this describes the state of the controller.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DryerOperationalType/event/OnOff/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OperatingState": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "title": "DryerOperatingStateEnum",
+          "description": "Actual operating state of the dryer.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3026",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DryerOperationalType/event/OperatingState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PressureDewPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Measured or calculated actual pressure dew point of the process fluid at a dryer.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_DryerOperationalType/event/PressureDewPoint/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ValveOperationalType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1053",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_OperationalType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ValveOperationalType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ValveOperationalType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ContinuousPosition": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Actual valve stroke.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ValveOperationalType/property/ContinuousPosition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PortUsed": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Actual port used.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ValveOperationalType/property/PortUsed/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ContinuousPosition": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Actual valve stroke.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ValveOperationalType/event/ContinuousPosition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PortUsed": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Actual port used.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ValveOperationalType/event/PortUsed/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_StatisticsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1018",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_StatisticsType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_StatisticsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ResetStatistics": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Restarts all statistical data, including a reset of the StartTime to the current time.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_StatisticsType/action/ResetStatistics",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "RealTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Real time passed since last counter reset.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_StatisticsType/property/RealTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RealTimeToNextService": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Real time left until the real time of the next service level is exceeded.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_StatisticsType/property/RealTimeToNextService/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ResetCondition": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "The reason and context for the reset of the statistics, which is done without a trigger from an OPC UA Client, like calling the ResetStatistics Method. ResetCondition is a vendor-specific, human readable string. ResetCondition is non-localized and might contain an expression that can be parsed by certain clients. Examples are: “AFTER 4 HOURS”, “AFTER 1000 ITEMS”, “OPERATOR”. “OPERATOR” means, that an operator resets the statistics on a local HMI.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_StatisticsType/property/ResetCondition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RunningTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Time spent running since last counter reset.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_StatisticsType/property/RunningTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RunningTimeToNextService": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Running time left until the running time of the next service level is exceeded.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_StatisticsType/property/RunningTimeToNextService/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StartTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Indicates the point in time at which the collection of the statistical data has been started.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_StatisticsType/property/StartTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "RealTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Real time passed since last counter reset.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_StatisticsType/event/RealTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RealTimeToNextService": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Real time left until the real time of the next service level is exceeded.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_StatisticsType/event/RealTimeToNextService/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RunningTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Time spent running since last counter reset.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_StatisticsType/event/RunningTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RunningTimeToNextService": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Running time left until the running time of the next service level is exceeded.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_StatisticsType/event/RunningTimeToNextService/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_CompressorStatisticsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1027",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_StatisticsType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CompressorStatisticsType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CompressorStatisticsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "LoadedTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Time spent in loaded state since last counter reset.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorStatisticsType/property/LoadedTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UnloadedTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Time spent in unloaded state since last counter reset.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorStatisticsType/property/UnloadedTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "LoadedTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Time spent in loaded state since last counter reset.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorStatisticsType/event/LoadedTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UnloadedTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Time spent in unloaded state since last counter reset.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CompressorStatisticsType/event/UnloadedTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_AirnetsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1038",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Component",
+        "href": "#title=CAS_AirnetType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_AirnetsType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_AirnetsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetsType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_AirnetsType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ComponentsGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1047",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ComponentsGroup",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ChargingSystems",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Compressors",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CondensateDrains",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CondensateSeparators",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Converters",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CoolingSystems",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Dryers",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Filters",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "HeatRecoverySystems",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Receivers",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Sensors",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Valves",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ParticleType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1043",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ParticleType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_ParticleType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Fine": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Particle count of sizes from 0.1 to 0.5 um.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ParticleType/property/Fine/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Large": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Particle count of sizes from 1.0 to 5.0 um.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ParticleType/property/Large/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Medium": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Particle count of sizes from 0.5 to 1.0 um.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ParticleType/property/Medium/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Fine": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Particle count of sizes from 0.1 to 0.5 um.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ParticleType/event/Fine/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Large": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Particle count of sizes from 1.0 to 5.0 um.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ParticleType/event/Large/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Medium": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "data": {
+          "description": "Particle count of sizes from 0.5 to 1.0 um.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_ParticleType/event/Medium/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_AirnetType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_TopologyElementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Ambient",
+        "href": "#title=CAS_FluidQuantitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Components",
+        "href": "#title=CAS_AirnetComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Configuration",
+        "href": "#title=CAS_AirnetConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ElectricalCircuit",
+        "href": "#title=CAS_ElectricalCircuitType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "#title=CAS_CASIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operational",
+        "href": "#title=CAS_AirnetOperationalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ProcessFluidCircuit",
+        "href": "#title=CAS_FluidCircuitType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_CASComponentType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1021",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_TopologyElementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Ambient",
+        "href": "#title=CAS_FluidQuantitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Configuration",
+        "href": "#title=CAS_ConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CoolantCircuit",
+        "href": "#title=CAS_FluidCircuitType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Design",
+        "href": "#title=CAS_DesignType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ElectricalCircuit",
+        "href": "#title=CAS_ElectricalCircuitType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Events",
+        "href": "#title=CAS_EventsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operational",
+        "href": "#title=CAS_OperationalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ProcessFluidCircuit",
+        "href": "#title=CAS_FluidCircuitType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Statistics",
+        "href": "#title=CAS_StatisticsType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CASComponentType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CAS/CAS_CASComponentType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActiveAirnet": {
+        "aov:namespace": "http://opcfoundation.org/UA/CAS/",
+        "description": "Indicates which airnet is currently using this component.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CASComponentType/property/ActiveAirnet/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CAS/CAS_CASComponentType/property/ActiveAirnet/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ChargingSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1005",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_CompressorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1039",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Design",
+        "href": "#title=CAS_CompressorDesignType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operational",
+        "href": "#title=CAS_CompressorOperationalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Statistics",
+        "href": "#title=CAS_CompressorStatisticsType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ConverterType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1029",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Design",
+        "href": "#title=CAS_ConverterDesignType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operational",
+        "href": "#title=CAS_ConverterOperationalType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_CoolingSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1001",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_DrainType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1025",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Design",
+        "href": "#title=CAS_DrainDesignType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operational",
+        "href": "#title=CAS_DrainOperationalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ProcessFluidCircuit",
+        "href": "#title=CAS_FluidCircuitType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_DryerType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1030",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Design",
+        "href": "#title=CAS_DryerDesignType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operational",
+        "href": "#title=CAS_DryerOperationalType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_FilterType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1034",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Design",
+        "href": "#title=CAS_FilterDesignType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_HeatRecoverySystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1042",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ReceiverType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1022",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Design",
+        "href": "#title=CAS_ReceiverDesignType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_SensorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1015",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Calibration",
+        "href": "#title=CAS_CalibrationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Design",
+        "href": "#title=CAS_SensorDesignType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Maintenance",
+        "href": "#title=CAS_MaintenanceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operational",
+        "href": "#title=CAS_OperationalType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_SeparatorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1026",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Design",
+        "href": "#title=CAS_SeparatorDesignType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ProcessFluidCircuit",
+        "href": "#title=CAS_FluidCircuitType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_ValveType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1024",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=CAS_CASComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Design",
+        "href": "#title=CAS_ValveDesignType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operational",
+        "href": "#title=CAS_ValveOperationalType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_MCSType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1017",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_TopologyElementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Analyses",
+        "href": "#title=CAS_AnalysesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Configuration",
+        "href": "#title=CAS_MCSConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ElectricalCircuit",
+        "href": "#title=CAS_ElectricalCircuitType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Events",
+        "href": "#title=CAS_EventsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operational",
+        "href": "#title=CAS_OperationalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Statistics",
+        "href": "#title=CAS_StatisticsType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

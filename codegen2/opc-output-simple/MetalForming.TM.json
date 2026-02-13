@@ -1,0 +1,649 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_FormingProcessConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1023",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_AllowableTiltingExceededConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MetalForming_FormingProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_BreakthroughTonnageExceededConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1014",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MetalForming_FormingProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_CorrectionValueOutOfRangeConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1020",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MetalForming_FormingProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_EccentricLoadExceededConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MetalForming_FormingProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_OverloadTriggeredConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MetalForming_FormingProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_PositionOutOfRangeConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1017",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MetalForming_FormingProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_ProcessForceExceededConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MetalForming_FormingProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_CyclicEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1016",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "CurrentProcessValue",
+        "href": "./Machinery.ProcessValues.TM.json#title=Machinery_ProcessValues_ProcessValueType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MetalForming/MetalForming_CyclicEventType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MetalForming/MetalForming_CyclicEventType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MetalForming/MetalForming_CyclicEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CycleCount": {
+        "aov:namespace": "http://opcfoundation.org/UA/MetalForming/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MetalForming/MetalForming_CyclicEventType/property/CycleCount/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MetalForming/MetalForming_CyclicEventType/property/CycleCount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MetalForming/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MetalForming/MetalForming_CyclicEventType/property/PartId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MetalForming/MetalForming_CyclicEventType/property/PartId/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CycleCount": {
+        "aov:namespace": "http://opcfoundation.org/UA/MetalForming/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MetalForming/MetalForming_CyclicEventType/event/CycleCount/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PartId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MetalForming/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MetalForming/MetalForming_CyclicEventType/event/PartId/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_FormingToolType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1010",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./MachineTool.TM.json#title=MachineTool_BaseToolType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Location",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_FormingMultiToolType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1012",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./MachineTool.TM.json#title=MachineTool_MultiToolType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FormingTool",
+        "href": "#title=MetalForming_FormingToolType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_ProcessWorkingUnitType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1004",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./MachineTool.TM.json#title=MachineTool_WorkingUnitMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CyclicProcessValue_Placeholder",
+        "href": "#title=MetalForming_CyclicProcessValueType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ProcessValue",
+        "href": "./Machinery.ProcessValues.TM.json#title=Machinery_ProcessValues_ProcessValueType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_FormingProcessWorkingUnitType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1008",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MetalForming_ProcessWorkingUnitType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "FormingPositions",
+        "href": "#title=MetalForming_FormingPositionsType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_FormingPositionsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "BDC",
+        "href": "#title=MetalForming_CyclicProcessValueType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Retract",
+        "href": "#title=MetalForming_CyclicProcessValueType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Start",
+        "href": "#title=MetalForming_CyclicProcessValueType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TDC",
+        "href": "#title=MetalForming_CyclicProcessValueType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Touch",
+        "href": "#title=MetalForming_CyclicProcessValueType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_CyclicProcessValueType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.ProcessValues.TM.json#title=Machinery_ProcessValues_ProcessValueType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MetalForming/MetalForming_CyclicProcessValueType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MetalForming/MetalForming_CyclicProcessValueType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MetalForming/MetalForming_CyclicProcessValueType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CyclicProcessValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/MetalForming/",
+        "title": "CyclicProcessValueDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=3003",
+        "required": [ "AnalogSignal", "Setpoint", "CycleCount", "IsActive" ],
+        "properties": {
+          "AnalogSignal": {
+            "type": "number"
+          },
+          "Setpoint": {
+            "type": "number"
+          },
+          "CycleCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "IsActive": {
+            "type": "boolean"
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MetalForming/MetalForming_CyclicProcessValueType/property/CyclicProcessValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MetalForming/MetalForming_CyclicProcessValueType/property/CyclicProcessValue/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CyclicProcessValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/MetalForming/",
+        "data": {
+          "title": "CyclicProcessValueDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=3003",
+          "required": [ "AnalogSignal", "Setpoint", "CycleCount", "IsActive" ],
+          "properties": {
+            "AnalogSignal": {
+              "type": "number"
+            },
+            "Setpoint": {
+              "type": "number"
+            },
+            "CycleCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "IsActive": {
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MetalForming/MetalForming_CyclicProcessValueType/event/CyclicProcessValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

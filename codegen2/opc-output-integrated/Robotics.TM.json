@@ -1,0 +1,5778 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_MultiAcknowledgeableConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1015",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_AcknowledgeableConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_MultiAcknowledgeableConditionType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_MultiAcknowledgeableConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ConditionDescriptions": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MultiAcknowledgeableConditionType/property/ConditionDescriptions/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MultiAcknowledgeableConditionType/property/ConditionDescriptions/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_EmergencyStopFunctionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17230",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_EmergencyStopFunctionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_EmergencyStopFunctionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Active": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "description": "The Active variable is TRUE if this particular emergency stop function is active, e.g. that the emergency stop button is pressed, FALSE otherwise.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_EmergencyStopFunctionType/property/Active/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "description": "The Name of the EmergencyStopFunctionType provides a manufacturer-specific emergency stop function identifier within the safety system.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_EmergencyStopFunctionType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Active": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "description": "The Active variable is TRUE if this particular emergency stop function is active, e.g. that the emergency stop button is pressed, FALSE otherwise.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_EmergencyStopFunctionType/event/Active/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_LoadType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1018",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_LoadType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_LoadType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CenterOfMass": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "title": "ThreeDFrame",
+        "description": "The position and orientation of the center of the mass related to the mounting point using a FrameType. X, Y, Z define the position of the center of gravity relative to the mounting point coordinate system. A, B, C define the orientation of the principal axes of inertia relative to the mounting point coordinate system. Orientation A, B, C can be '0' for systems which do not need these  values.",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18814",
+        "required": [ "CartesianCoordinates", "Orientation" ],
+        "properties": {
+          "CartesianCoordinates": {
+            "title": "ThreeDCartesianCoordinates",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+            "required": [ "X", "Y", "Z" ],
+            "properties": {
+              "X": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "Y": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "Z": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              }
+            }
+          },
+          "Orientation": {
+            "title": "ThreeDOrientation",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+            "required": [ "A", "B", "C" ],
+            "properties": {
+              "A": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "B": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "C": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              }
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/CenterOfMass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CenterOfMass_CartesianCoordinates": {
+        "title": "ThreeDCartesianCoordinates",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+        "required": [ "X", "Y", "Z" ],
+        "properties": {
+          "X": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Y": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Z": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/CenterOfMass_CartesianCoordinates/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CenterOfMass_CartesianCoordinates_X": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/CenterOfMass_CartesianCoordinates_X/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CenterOfMass_CartesianCoordinates_Y": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/CenterOfMass_CartesianCoordinates_Y/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CenterOfMass_CartesianCoordinates_Z": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/CenterOfMass_CartesianCoordinates_Z/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CenterOfMass_Orientation": {
+        "title": "ThreeDOrientation",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+        "required": [ "A", "B", "C" ],
+        "properties": {
+          "A": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "B": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "C": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/CenterOfMass_Orientation/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CenterOfMass_Orientation_A": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/CenterOfMass_Orientation_A/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CenterOfMass_Orientation_B": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/CenterOfMass_Orientation_B/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CenterOfMass_Orientation_C": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/CenterOfMass_Orientation_C/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Inertia": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "title": "ThreeDVector",
+        "description": "The Inertia uses the VectorType to describe the three values of the principal moments of inertia with respect to the mounting point coordinate system. If inertia values are provided for rotary axis the CenterOfMass shall be completely filled as well.",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18808",
+        "required": [ "X", "Y", "Z" ],
+        "properties": {
+          "X": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Y": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Z": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/Inertia/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Inertia_X": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/Inertia_X/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Inertia_Y": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/Inertia_Y/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Inertia_Z": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/Inertia_Z/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Mass": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "description": "The weight of the load mounted on one mounting point.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/property/Mass/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CenterOfMass": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "title": "ThreeDFrame",
+          "description": "The position and orientation of the center of the mass related to the mounting point using a FrameType. X, Y, Z define the position of the center of gravity relative to the mounting point coordinate system. A, B, C define the orientation of the principal axes of inertia relative to the mounting point coordinate system. Orientation A, B, C can be '0' for systems which do not need these  values.",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18814",
+          "required": [ "CartesianCoordinates", "Orientation" ],
+          "properties": {
+            "CartesianCoordinates": {
+              "title": "ThreeDCartesianCoordinates",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+              "required": [ "X", "Y", "Z" ],
+              "properties": {
+                "X": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Y": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Z": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                }
+              }
+            },
+            "Orientation": {
+              "title": "ThreeDOrientation",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+              "required": [ "A", "B", "C" ],
+              "properties": {
+                "A": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "B": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "C": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                }
+              }
+            }
+          }
+        },
+        "aov:contains": [ "CenterOfMass_CartesianCoordinates", "CenterOfMass_Orientation" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/CenterOfMass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CenterOfMass_CartesianCoordinates": {
+        "data": {
+          "title": "ThreeDCartesianCoordinates",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+          "required": [ "X", "Y", "Z" ],
+          "properties": {
+            "X": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Y": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Z": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "aov:containedIn": "CenterOfMass",
+        "aov:contains": [ "CenterOfMass_CartesianCoordinates_X", "CenterOfMass_CartesianCoordinates_Y", "CenterOfMass_CartesianCoordinates_Z" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/CenterOfMass_CartesianCoordinates/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CenterOfMass_CartesianCoordinates_X": {
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:containedIn": "CenterOfMass_CartesianCoordinates",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/CenterOfMass_CartesianCoordinates_X/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CenterOfMass_CartesianCoordinates_Y": {
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:containedIn": "CenterOfMass_CartesianCoordinates",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/CenterOfMass_CartesianCoordinates_Y/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CenterOfMass_CartesianCoordinates_Z": {
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:containedIn": "CenterOfMass_CartesianCoordinates",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/CenterOfMass_CartesianCoordinates_Z/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CenterOfMass_Orientation": {
+        "data": {
+          "title": "ThreeDOrientation",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+          "required": [ "A", "B", "C" ],
+          "properties": {
+            "A": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "B": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "C": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "aov:containedIn": "CenterOfMass",
+        "aov:contains": [ "CenterOfMass_Orientation_A", "CenterOfMass_Orientation_B", "CenterOfMass_Orientation_C" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/CenterOfMass_Orientation/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CenterOfMass_Orientation_A": {
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:containedIn": "CenterOfMass_Orientation",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/CenterOfMass_Orientation_A/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CenterOfMass_Orientation_B": {
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:containedIn": "CenterOfMass_Orientation",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/CenterOfMass_Orientation_B/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CenterOfMass_Orientation_C": {
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:containedIn": "CenterOfMass_Orientation",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/CenterOfMass_Orientation_C/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Inertia": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "title": "ThreeDVector",
+          "description": "The Inertia uses the VectorType to describe the three values of the principal moments of inertia with respect to the mounting point coordinate system. If inertia values are provided for rotary axis the CenterOfMass shall be completely filled as well.",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18808",
+          "required": [ "X", "Y", "Z" ],
+          "properties": {
+            "X": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Y": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Z": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "aov:contains": [ "Inertia_X", "Inertia_Y", "Inertia_Z" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/Inertia/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Inertia_X": {
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:containedIn": "Inertia",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/Inertia_X/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Inertia_Y": {
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:containedIn": "Inertia",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/Inertia_Y/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Inertia_Z": {
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:containedIn": "Inertia",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/Inertia_Z/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Mass": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "description": "The weight of the load mounted on one mounting point.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_LoadType/event/Mass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_ProtectiveStopFunctionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17233",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_ProtectiveStopFunctionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_ProtectiveStopFunctionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Active": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "description": "– The Active variable is TRUE if this particular protective stop function is active, i.e. that a stop is initiated, FALSE otherwise. If Enabled is FALSE then Active shall be FALSE.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ProtectiveStopFunctionType/property/Active/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Enabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "description": "– The Enabled variable is TRUE if this protective stop function is currently supervising the system, FALSE otherwise. A protective stop function may or may not be enabled at all times, e.g. the protective stop function of the safety doors are typically enabled in automatic operational mode and disabled in manual mode. On the other hand for example, the protective stop function of the teach pendant enabling device is enabled in manual modes and disabled in automatic modes.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ProtectiveStopFunctionType/property/Enabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "description": "The Name of the ProtectiveStopFunctionType provides a manufacturer-specific protective stop function identifier within the safety system.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ProtectiveStopFunctionType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Active": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "description": "– The Active variable is TRUE if this particular protective stop function is active, i.e. that a stop is initiated, FALSE otherwise. If Enabled is FALSE then Active shall be FALSE.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ProtectiveStopFunctionType/event/Active/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Enabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "description": "– The Enabled variable is TRUE if this protective stop function is currently supervising the system, FALSE otherwise. A protective stop function may or may not be enabled at all times, e.g. the protective stop function of the safety doors are typically enabled in automatic operational mode and disabled in manual mode. On the other hand for example, the protective stop function of the teach pendant enabling device is enabled in manual modes and disabled in automatic modes.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ProtectiveStopFunctionType/event/Enabled/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_ExecutingSubstateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Running",
+        "href": "#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToStopping",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Stopping",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_ExecutingSubstateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_ExecutingSubstateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_ExecutingSubstateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ExecutingSubstateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ExecutingSubstateMachineType/property/LastTransitionReason/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ExecutingSubstateMachineType/property/LastTransitionReason/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ExecutingSubstateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ExecutingSubstateMachineType/event/LastTransitionReason/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_IdleSubstateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "GettingReady",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "GettingReadyToStandBy",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StandBy",
+        "href": "#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StandByToGettingReady",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_IdleSubstateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_IdleSubstateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_IdleSubstateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_IdleSubstateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_IdleSubstateMachineType/property/LastTransitionReason/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_IdleSubstateMachineType/property/LastTransitionReason/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_IdleSubstateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_IdleSubstateMachineType/event/LastTransitionReason/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_OperationStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Executing",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecutingToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecutingToReady",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Idle",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToReady",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Ready",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadyToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadyToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Start": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6023",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/action/Start",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Stop": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6024",
+          "required": [ "StopMode" ],
+          "properties": {
+            "StopMode": {
+              "description": "provides a way to differentiate between different stop modes. This parameter should correspond to one of the values in the PossibleStopModes array",
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6025",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/action/Stop",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ConfiguredDefaultStopMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/property/ConfiguredDefaultStopMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/property/ConfiguredDefaultStopMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/property/LastTransitionReason/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/property/LastTransitionReason/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PossibleStopModes": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "array",
+        "items": {
+          "title": "EnumValueType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+          "required": [ "Value", "DisplayName", "Description" ],
+          "properties": {
+            "Value": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807
+            },
+            "DisplayName": {
+              "type": "string"
+            },
+            "Description": {
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/property/PossibleStopModes/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/property/PossibleStopModes/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ConfiguredDefaultStopMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/event/ConfiguredDefaultStopMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/event/LastTransitionReason/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PossibleStopModes": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "EnumValueType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+            "required": [ "Value", "DisplayName", "Description" ],
+            "properties": {
+              "Value": {
+                "type": "integer",
+                "minimum": -9223372036854775808,
+                "maximum": 9223372036854775807
+              },
+              "DisplayName": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_OperationStateMachineType/event/PossibleStopModes/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_SystemOperationStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1021",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Robotics_OperationStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Executing",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ExecutingSubstateMachine",
+        "href": "#title=Robotics_ExecutingSubstateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecutingToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecutingToReady",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Idle",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "IdleSubstateMachine",
+        "href": "#title=Robotics_IdleSubstateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToReady",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Ready",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadyToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadyToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "GetReady": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6068",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/action/GetReady",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StandDown": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6070",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/action/StandDown",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Start": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6064",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/action/Start",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Stop": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6065",
+          "required": [ "StopMode" ],
+          "properties": {
+            "StopMode": {
+              "description": "provides a way to differentiate between different stop modes. This parameter should correspond to one of the values in the PossibleStopModes array",
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6066",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/action/Stop",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ConfiguredDefaultStopMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/property/ConfiguredDefaultStopMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/property/ConfiguredDefaultStopMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/property/LastTransitionReason/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/property/LastTransitionReason/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PossibleStopModes": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "array",
+        "items": {
+          "title": "EnumValueType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+          "required": [ "Value", "DisplayName", "Description" ],
+          "properties": {
+            "Value": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807
+            },
+            "DisplayName": {
+              "type": "string"
+            },
+            "Description": {
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/property/PossibleStopModes/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/property/PossibleStopModes/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ConfiguredDefaultStopMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/event/ConfiguredDefaultStopMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/event/LastTransitionReason/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PossibleStopModes": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "EnumValueType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+            "required": [ "Value", "DisplayName", "Description" ],
+            "properties": {
+              "Value": {
+                "type": "integer",
+                "minimum": -9223372036854775808,
+                "maximum": 9223372036854775807
+              },
+              "DisplayName": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/event/PossibleStopModes/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_TaskControlStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1025",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Robotics_OperationStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Executing",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecutingToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecutingToReady",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Idle",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToReady",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Ready",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ReadySubstateMachine",
+        "href": "#title=Robotics_ReadySubstateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadyToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadyToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "LoadByName": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6143",
+          "required": [ "Name" ],
+          "properties": {
+            "Name": {
+              "description": "Name to identify a task control program or module",
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6144",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK – Everything is OK  1 – E_SystemState – The system is not in correct state for this operation  2 – E_UnexpectedError – Unexpected Error during the method call  3 – E_ActiveAlarm – An Active Alarm prevents the system start  4 – E_AcknowledgeRequired – Condition needs to be acknowledged  <0 – shall be used for vendor-specific errors  >0 – are reserved for errors defined by this and future standards",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/action/LoadByName",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "LoadByNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6141",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "description": "ExpandedNodeId pointing to an instance of FileType representing a task control program or module",
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6142",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK – Everything is OK  1 – E_SystemState – The system is not in correct state for this operation  2 – E_UnexpectedError – Unexpected Error during the method call  3 – E_ActiveAlarm – An Active Alarm prevents the system start  4 – E_AcknowledgeRequired – Condition needs to be acknowledged  <0 – shall be used for vendor-specific errors  >0 – are reserved for errors defined by this and future standards",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/action/LoadByNodeId",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Start": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6101",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/action/Start",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Stop": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6102",
+          "required": [ "StopMode" ],
+          "properties": {
+            "StopMode": {
+              "description": "provides a way to differentiate between different stop modes. This parameter should correspond to one of the values in the PossibleStopModes array",
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6103",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/action/Stop",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "UnloadByName": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6067",
+          "required": [ "Name" ],
+          "properties": {
+            "Name": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6069",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/action/UnloadByName",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "UnloadByNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6146",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "description": "Expanded NodeId of the module to be unloaded",
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6147",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK – Everything is OK  1 – E_SystemState – The system is not in correct state for this operation  2 – E_UnexpectedError – Unexpected Error during the method call  3 – E_ActiveAlarm – An Active Alarm prevents the system start  4 – E_AcknowledgeRequired – Condition needs to be acknowledged  <0 – shall be used for vendor-specific errors  >0 – are reserved for errors defined by this and future standards",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/action/UnloadByNodeId",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "UnloadProgram": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6145",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK – Everything is OK  1 – E_SystemState – The system is not in correct state for this operation  2 – E_UnexpectedError – Unexpected Error during the method call  3 – E_ActiveAlarm – An Active Alarm prevents the system start  4 – E_AcknowledgeRequired – Condition needs to be acknowledged  <0 – shall be used for vendor-specific errors  >0 – are reserved for errors defined by this and future standards",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/action/UnloadProgram",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ConfiguredDefaultStopMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/property/ConfiguredDefaultStopMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/property/ConfiguredDefaultStopMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/property/LastTransitionReason/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/property/LastTransitionReason/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PossibleStopModes": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "array",
+        "items": {
+          "title": "EnumValueType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+          "required": [ "Value", "DisplayName", "Description" ],
+          "properties": {
+            "Value": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807
+            },
+            "DisplayName": {
+              "type": "string"
+            },
+            "Description": {
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/property/PossibleStopModes/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/property/PossibleStopModes/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ConfiguredDefaultStopMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/event/ConfiguredDefaultStopMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/event/LastTransitionReason/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PossibleStopModes": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "EnumValueType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+            "required": [ "Value", "DisplayName", "Description" ],
+            "properties": {
+              "Value": {
+                "type": "integer",
+                "minimum": -9223372036854775808,
+                "maximum": 9223372036854775807
+              },
+              "DisplayName": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/event/PossibleStopModes/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_ReadySubstateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1012",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AtProgramStart",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ProgramStartToSuspended",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Suspended",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendedToProgramStart",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_ReadySubstateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_ReadySubstateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_ReadySubstateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ResetToProgramStart": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6053",
+          "required": [ "Status" ],
+          "properties": {
+            "Status": {
+              "description": "0 – OK – Everything is OK  1 – E_SystemState – The system is not in correct state for this operation  2 – E_UnexpectedError – Unexpected Error during the method call  3 – E_ActiveAlarm – An Active Alarm prevents the system start  4 – E_AcknowledgeRequired – Condition needs to be acknowledged  <0 – shall be used for vendor-specific errors  >0 – are reserved for errors defined by this and future standards",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ReadySubstateMachineType/action/ResetToProgramStart",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ReadySubstateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ReadySubstateMachineType/property/LastTransitionReason/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ReadySubstateMachineType/property/LastTransitionReason/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ReadySubstateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransitionReason": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ReadySubstateMachineType/event/LastTransitionReason/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_SystemOperationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1028",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Conditions",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "SystemOperationStateMachine",
+        "href": "#title=Robotics_SystemOperationStateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_SystemOperationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_SystemOperationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SystemOperationType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_TaskControlOperationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "TaskControlStateMachine",
+        "href": "#title=Robotics_TaskControlStateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_TaskControlOperationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_TaskControlOperationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlOperationType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlOperationType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MotionDevicesUnderControl": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlOperationType/property/MotionDevicesUnderControl/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_TaskModuleType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1016",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_TaskModuleType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_TaskModuleType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "IsReferenced": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskModuleType/property/IsReferenced/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskModuleType/property/IsReferenced/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskModuleType/property/Name/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskModuleType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Version": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskModuleType/property/Version/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskModuleType/property/Version/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_AuxiliaryComponentType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17725",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_AuxiliaryComponentType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_AuxiliaryComponentType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "The ProductCode property provides a unique combination of numbers and letters used to identify the product. It may be the order information displayed on type shields or in ERP systems.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_AuxiliaryComponentType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_AxisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=16601",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "PowerTrainIdentifier",
+        "aov:refType": "Requires",
+        "href": "#title=Robotics_PowerTrainType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AdditionalLoad",
+        "href": "#title=Robotics_LoadType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "AxisMotionProfileEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=3008",
+        "const": {
+          "OTHER": 0,
+          "ROTARY": 1,
+          "ROTARY_ENDLESS": 2,
+          "LINEAR": 3,
+          "LINEAR_ENDLESS": 4
+        },
+        "properties": {
+          "OTHER": {
+            "description": "Any motion-profile which is not defined by the AxisMotionProfileEnumeration.",
+            "type": "integer"
+          },
+          "ROTARY": {
+            "description": "Rotary motion is a rotation along a circular path with defined limits. Motion movement is not going always in the same direction. Control unit is mainly degree.",
+            "type": "integer"
+          },
+          "ROTARY_ENDLESS": {
+            "description": "Rotary motion is a rotation along a circular path with no limits. Motion movement is going endless in the same direction. Control unit is mainly degree.",
+            "type": "integer"
+          },
+          "LINEAR": {
+            "description": "Linear motion is a one dimensional motion along a straight line with defined limits. Motion movement is not going always in the same direction. Control unit is mainly mm.",
+            "type": "integer"
+          },
+          "LINEAR_ENDLESS": {
+            "description": "Linear motion is a one dimensional motion along a straight line with no limits. Motion movement is going endless in the same direction. Control unit is mainly mm.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_AxisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_AxisType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MotionProfile": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "title": "AxisMotionProfileEnumeration",
+        "description": "The kind of axis motion as defined with the AxisMotionProfileEnumeration.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=3008",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_AxisType/property/MotionProfile/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_PowerTrainType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=16794",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "AxisIdentifier",
+        "aov:refType": "Moves",
+        "href": "#title=Robotics_AxisType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "GearIdentifier",
+        "href": "#title=Robotics_GearType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MotorIdentifier",
+        "href": "#title=Robotics_MotorType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "PowerTrainIdentifier",
+        "aov:refType": "HasSlave",
+        "href": "#title=Robotics_PowerTrainType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_PowerTrainType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_PowerTrainType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_GearType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1022",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_GearType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_GearType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "GearRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "title": "RationalNumber",
+        "description": "The transmission ratio of the gear expressed as a fraction as input velocity (motor side) by output velocity (load side).",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18806",
+        "required": [ "Numerator", "Denominator" ],
+        "properties": {
+          "Numerator": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Denominator": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/property/GearRatio/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "GearRatio_Denominator": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/property/GearRatio_Denominator/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "GearRatio_Numerator": {
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/property/GearRatio_Numerator/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Pitch": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "description": "Pitch describes the distance covered in millimeters (mm) for linear motion per one revolution of the output side of the driving unit. Pitch is used in combination with GearRatio to describe the overall transmission from input to output of the gear.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/property/Pitch/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "GearRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "title": "RationalNumber",
+          "description": "The transmission ratio of the gear expressed as a fraction as input velocity (motor side) by output velocity (load side).",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18806",
+          "required": [ "Numerator", "Denominator" ],
+          "properties": {
+            "Numerator": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Denominator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "aov:contains": [ "GearRatio_Denominator", "GearRatio_Numerator" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/event/GearRatio/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "GearRatio_Denominator": {
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "GearRatio",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/event/GearRatio_Denominator/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "GearRatio_Numerator": {
+        "data": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "aov:containedIn": "GearRatio",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/event/GearRatio_Numerator/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Pitch": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "description": "Pitch describes the distance covered in millimeters (mm) for linear motion per one revolution of the output side of the driving unit. Pitch is used in combination with GearRatio to describe the overall transmission from input to output of the gear.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_GearType/event/Pitch/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_MotorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1019",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "DriveIdentifier",
+        "aov:refType": "IsDrivenBy",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_MotorType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotorType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotorType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotorType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotorType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotorType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_ControllerType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "MotionDeviceIdentifier",
+        "aov:refType": "Controls",
+        "href": "#title=Robotics_MotionDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "SafetyStatesIdentifier",
+        "aov:refType": "HasSafetyStates",
+        "href": "#title=Robotics_SafetyStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Components",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "CurrentUser",
+        "href": "#title=Robotics_UserType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Programs",
+        "href": "#title=OpcUaCore_FileDirectoryType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Software",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "TaskControls",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_ControllerType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ControllerType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ControllerType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceManual": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ControllerType/property/DeviceManual/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ControllerType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ControllerType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ControllerType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_ControllerType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_MotionDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "AdditionalComponents",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Axes",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FlangeLoad",
+        "href": "#title=Robotics_LoadType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "PowerTrains",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "MotionDeviceCategoryEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=18193",
+        "const": {
+          "OTHER": 0,
+          "ARTICULATED_ROBOT": 1,
+          "SCARA_ROBOT": 2,
+          "CARTESIAN_ROBOT": 3,
+          "SPHERICAL_ROBOT": 4,
+          "PARALLEL_ROBOT": 5,
+          "CYLINDRICAL_ROBOT": 6
+        },
+        "properties": {
+          "OTHER": {
+            "description": "Any MotionDevice which is not defined by the MotionDeviceCategoryEnumeration.",
+            "type": "integer"
+          },
+          "ARTICULATED_ROBOT": {
+            "description": "This robot design features rotary joints and can range from simple two joint structures to 10 or more joints. The arm is connected to the base with a twisting joint. The links in the arm are connected by rotary joints.",
+            "type": "integer"
+          },
+          "SCARA_ROBOT": {
+            "description": "The robot has two parallel rotary joints that ensure compliance in a specified plane.",
+            "type": "integer"
+          },
+          "CARTESIAN_ROBOT": {
+            "description": "Cartesian robots have three linear joints that use the Cartesian coordinate system (X, Y, and Z). They also may have an attached wrist to allow for rotational movement. The three prismatic joints provide linear movement along the axis.",
+            "type": "integer"
+          },
+          "SPHERICAL_ROBOT": {
+            "description": "The arm is connected to the base with a twisting joint and a combination of two rotary joints and one linear joint. The axes form a polar coordinate system and create a spherical shaped work envelope.",
+            "type": "integer"
+          },
+          "PARALLEL_ROBOT": {
+            "description": "These spider like robots are built from jointed parallelograms connected to a common base. The parallelograms move a single EOAT in a dome-shaped work area.",
+            "type": "integer"
+          },
+          "CYLINDRICAL_ROBOT": {
+            "description": "The robot has at least one rotary joint at the base and at least one prismatic joint to connect the links. The rotary joint uses a rotational motion along the joint axis, while the prismatic joint moves in a linear motion. Cylindrical robots operate within a cylindrical-shaped work envelope.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceManual": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/property/DeviceManual/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MotionDeviceCategory": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "title": "MotionDeviceCategoryEnumeration",
+        "description": "The variable MotionDeviceCategory provides the kind of motion device defined by MotionDeviceCategoryEnumeration based on ISO 8373.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=18193",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/property/MotionDeviceCategory/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TaskControlReference": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/property/TaskControlReference/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "TaskControlReference": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceType/event/TaskControlReference/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_SafetyStateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1013",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "EmergencyStopFunctions",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ProtectiveStopFunctions",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_SafetyStateType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_SafetyStateType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_UserType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=18175",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_UserType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Level": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "description": "Provides information about the access rights and determines what can be viewed, updated, or deleted by a user",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_UserType/property/Level/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/Robotics/",
+        "description": "The name for the current user within the control system.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_UserType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_DriveType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17793",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_DriveType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_DriveType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "The ProductCode property provides a unique combination of numbers and letters used to identify the product. It may be the order information displayed on type shields or in ERP systems.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_DriveType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_MotionDeviceSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1002",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Controllers",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MotionDevices",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "SafetyStates",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceSystemType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_MotionDeviceSystemType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_TaskControlType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "MotionDeviceIdentifier",
+        "aov:refType": "Controls",
+        "href": "#title=Robotics_MotionDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "TaskModules",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Robotics/Robotics_TaskControlType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A user writable name provided by the vendor, integrator or user of the device.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Robotics/Robotics_TaskControlType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_AcknowledgeableConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2881",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Acknowledge": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9112",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/action/Acknowledge",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Confirm": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9114",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/action/Confirm",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AckedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/AckedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConfirmedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/ConfirmedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnabledState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/EnabledState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AckedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/AckedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ConfirmedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/ConfirmedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnabledState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/EnabledState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_ConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "AddComment": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/AddComment",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ConditionRefresh": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "required": [ "SubscriptionId" ],
+          "properties": {
+            "SubscriptionId": {
+              "description": "The identifier for the subscription to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/ConditionRefresh",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ConditionRefresh2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "required": [ "SubscriptionId", "MonitoredItemId" ],
+          "properties": {
+            "SubscriptionId": {
+              "description": "The identifier for the subscription to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "MonitoredItemId": {
+              "description": "The identifier for the monitored item to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/ConditionRefresh2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Disable": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/Disable",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Enable": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/Enable",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "BranchId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/BranchId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ClientUserId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ClientUserId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Comment": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Comment/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionSubClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassName": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionSubClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnabledState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/EnabledState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastSeverity": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/LastSeverity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Quality": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Quality/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Retain": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Retain/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupportsFilteredRetain": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/SupportsFilteredRetain/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Comment": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/Comment/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnabledState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/EnabledState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastSeverity": {
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/LastSeverity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Quality": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/Quality/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ConditionClassId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassName": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventId": {
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventType": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LocalTime": {
+        "title": "TimeZoneDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "required": [ "Offset", "DaylightSavingInOffset" ],
+        "properties": {
+          "Offset": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "DaylightSavingInOffset": {
+            "type": "boolean"
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Message": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReceiveTime": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Severity": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceNode": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Time": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FiniteStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_StateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AvailableStates": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AvailableStates": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_InitialStateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2309",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "StateNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_TransitionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "TransitionNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FileDirectoryType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13353",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "CreateDirectory": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13388",
+          "required": [ "DirectoryName" ],
+          "properties": {
+            "DirectoryName": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13389",
+          "required": [ "DirectoryNodeId" ],
+          "properties": {
+            "DirectoryNodeId": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/CreateDirectory",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CreateFile": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13391",
+          "required": [ "FileName", "RequestFileOpen" ],
+          "properties": {
+            "FileName": {
+              "type": "string"
+            },
+            "RequestFileOpen": {
+              "type": "boolean"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13392",
+          "required": [ "FileNodeId", "FileHandle" ],
+          "properties": {
+            "FileNodeId": {
+              "type": "string"
+            },
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/CreateFile",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteFileSystemObject": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13394",
+          "required": [ "ObjectToDelete" ],
+          "properties": {
+            "ObjectToDelete": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/DeleteFileSystemObject",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "MoveOrCopy": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13396",
+          "required": [ "ObjectToMoveOrCopy", "TargetDirectory", "CreateCopy", "NewName" ],
+          "properties": {
+            "ObjectToMoveOrCopy": {
+              "type": "string"
+            },
+            "TargetDirectory": {
+              "type": "string"
+            },
+            "CreateCopy": {
+              "type": "boolean"
+            },
+            "NewName": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13397",
+          "required": [ "NewNodeId" ],
+          "properties": {
+            "NewNodeId": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/MoveOrCopy",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_ComponentType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_TopologyElementType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_ComponentType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceManual": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceManual/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HardwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/HardwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManufacturerUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/ManufacturerUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RevisionCounter": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/RevisionCounter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SoftwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/SoftwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_TopologyElementType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "GroupIdentifier",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Lock",
+        "href": "#title=DI_LockingServicesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_FunctionalGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "GroupIdentifier",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_LockingServicesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_LockingServicesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "BreakLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "required": [ "BreakLockStatus" ],
+          "properties": {
+            "BreakLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/BreakLock",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ExitLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "required": [ "ExitLockStatus" ],
+          "properties": {
+            "ExitLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/ExitLock",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "InitLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "required": [ "Context" ],
+          "properties": {
+            "Context": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "required": [ "InitLockStatus" ],
+          "properties": {
+            "InitLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/InitLock",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RenewLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "required": [ "RenewLockStatus" ],
+          "properties": {
+            "RenewLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/RenewLock",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Locked": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/Locked/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LockingClient": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/LockingClient/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LockingUser": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/LockingUser/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingLockTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/RemainingLockTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

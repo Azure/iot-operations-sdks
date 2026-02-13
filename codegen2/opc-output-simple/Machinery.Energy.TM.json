@@ -1,0 +1,761 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_Energy_IBaseFlowType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Pressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Pressure_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Pressure_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Temperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Temperature_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Temperature_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Pressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "Pressure_AccuracyClass", "Pressure_Resource" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Pressure/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Pressure_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "Pressure",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Pressure_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Pressure_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "Pressure",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Pressure_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Temperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "Temperature_AccuracyClass", "Temperature_Resource" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Temperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Temperature_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "Temperature",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Temperature_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Temperature_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "Temperature",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Temperature_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_Energy_IMassFlowType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_Energy_IBaseFlowType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Mass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Mass_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Mass_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MassFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MassFlowRate_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MassFlowRate_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Mass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "Mass_AccuracyClass", "Mass_Resource" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/Mass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Mass_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "Mass",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/Mass_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Mass_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "Mass",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/Mass_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MassFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "MassFlowRate_AccuracyClass", "MassFlowRate_Resource" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/MassFlowRate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MassFlowRate_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "MassFlowRate",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/MassFlowRate_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MassFlowRate_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "MassFlowRate",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/MassFlowRate_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_Energy_IVolumeFlowType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_Energy_IBaseFlowType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Volume": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Volume_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Volume_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeFlowRate_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeFlowRate_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Volume": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "Volume_AccuracyClass", "Volume_Resource" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/Volume/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Volume_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "Volume",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/Volume_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Volume_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "Volume",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/Volume_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VolumeFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "VolumeFlowRate_AccuracyClass", "VolumeFlowRate_Resource" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/VolumeFlowRate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VolumeFlowRate_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "VolumeFlowRate",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/VolumeFlowRate_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VolumeFlowRate_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "VolumeFlowRate",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/VolumeFlowRate_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_Energy_INonElectricalEnergyType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

@@ -1,0 +1,2695 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_EncoderDiagnosisEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1006",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "EventTypeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+        "const": {
+          "FAULT": 0,
+          "WARNING": 1,
+          "UNSPECIFIED": 255
+        },
+        "properties": {
+          "FAULT": {
+            "description": "The log entry indicates a malfunction of the encoder, e.g. position fault",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The log entry is a warning, e.g. for battery status",
+            "type": "integer"
+          },
+          "UNSPECIFIED": {
+            "description": "No information about the type of the event is given.  The intended purpose for the definition is usage by the GetFilteredLogbookEntries Method to specify “don’t care” for the EventType parameter. Must not be used for log entries and encoder diagnosis events as EncoderDiagnosisEventType and LogbookEventType",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderDiagnosisReasonEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3012",
+        "const": {
+          "ALL_DISAPPEARS": 0,
+          "APPEARS": 1,
+          "DISAPPEARS": 2,
+          "DISAPPEARS_OTHER_REMAIN": 3
+        },
+        "properties": {
+          "ALL_DISAPPEARS": {
+            "description": "No diagnosis condition of any severity is persisting",
+            "type": "integer"
+          },
+          "APPEARS": {
+            "description": "The diagnosis condition indicated arises and/or persists",
+            "type": "integer"
+          },
+          "DISAPPEARS": {
+            "description": "The diagnosis condition indicated does not longer persist. No diagnosis condition of the same severity is persisting for the affected channel",
+            "type": "integer"
+          },
+          "DISAPPEARS_OTHER_REMAIN": {
+            "description": "The diagnosis condition indicated does not longer persist. Other diagnosis conditions of the same severity are persisting",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderDiagnosisEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DiagnosisType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "title": "EventTypeEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderDiagnosisEventType/property/DiagnosisType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderDiagnosisEventType/property/EventCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventText": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderDiagnosisEventType/property/EventText/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Reason": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "title": "EncoderDiagnosisReasonEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3012",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderDiagnosisEventType/property/Reason/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_EncoderProbeLatchEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1005",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderProbeLatchEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "LastLatchedPos": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderProbeLatchEventType/property/LastLatchedPos/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LatchActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderProbeLatchEventType/property/LatchActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProbeName": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderProbeLatchEventType/property/ProbeName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_EncoderRefLatchEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1004",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderRefLatchEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "LastLatchedPos": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderRefLatchEventType/property/LastLatchedPos/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LatchActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderRefLatchEventType/property/LatchActive/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_LogbookEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1003",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "EventTypeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+        "const": {
+          "FAULT": 0,
+          "WARNING": 1,
+          "UNSPECIFIED": 255
+        },
+        "properties": {
+          "FAULT": {
+            "description": "The log entry indicates a malfunction of the encoder, e.g. position fault",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The log entry is a warning, e.g. for battery status",
+            "type": "integer"
+          },
+          "UNSPECIFIED": {
+            "description": "No information about the type of the event is given.  The intended purpose for the definition is usage by the GetFilteredLogbookEntries Method to specify “don’t care” for the EventType parameter. Must not be used for log entries and encoder diagnosis events as EncoderDiagnosisEventType and LogbookEventType",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_LogbookEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "LogEntry": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "title": "LogEntryDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+        "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
+        "properties": {
+          "FaultSituationNumber": {
+            "description": "Identification of fault situation. 0 means current fault situation",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "EventNumber": {
+            "description": "Unique number of log entry, analogous to Fault message counter",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "EventType": {
+            "title": "EventTypeEnumeration",
+            "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "EventCode": {
+            "description": "Fault-code identifying a fault or warning",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "EventText": {
+            "description": "Brief description of the fault or warning",
+            "type": "string"
+          },
+          "EventComing": {
+            "description": "Time when the event appears",
+            "type": "string",
+            "format": "time"
+          },
+          "EventGoing": {
+            "description": "Time when the event disappears",
+            "type": "string",
+            "format": "time"
+          },
+          "EventAcknowledged": {
+            "description": "Time when the event is acknowledged",
+            "type": "string",
+            "format": "time"
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_LogbookEventType/property/LogEntry/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_EncoderAxisConfigType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "EncoderAxisTypeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3004",
+        "const": {
+          "ROTARY": 0,
+          "LINEAR": 1
+        },
+        "properties": {
+          "ROTARY": {
+            "description": "Rotating Axis",
+            "type": "integer"
+          },
+          "LINEAR": {
+            "description": "Linear Axis",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderCodeSequenceEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3005",
+        "const": {
+          "INCREASING_CLOCKWISE": 0,
+          "INCREASING_COUNTERCLOCKWISE": 1
+        },
+        "properties": {
+          "INCREASING_CLOCKWISE": {
+            "description": "Increasing position values with clockwise rotation (viewed from shaft side)",
+            "type": "integer"
+          },
+          "INCREASING_COUNTERCLOCKWISE": {
+            "description": "Increasing position values with counterclockwise rotation (viewed from shaft side)",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetAxisConfig": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6066",
+          "required": [ "AxisConfigParameters" ],
+          "properties": {
+            "AxisConfigParameters": {
+              "type": "array",
+              "items": {
+                "title": "KeyValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6067",
+          "required": [ "AxisConfigParametersResult" ],
+          "properties": {
+            "AxisConfigParametersResult": {
+              "type": "array",
+              "items": {
+                "title": "KeyValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/action/SetAxisConfig",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AccelerationDampingTimeConstant": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/property/AccelerationDampingTimeConstant/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AxisType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "title": "EncoderAxisTypeEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/property/AxisType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CodeSequence": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "title": "EncoderCodeSequenceEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3005",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/property/CodeSequence/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PositionScalingFactor": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/property/PositionScalingFactor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PresetOrShiftValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/property/PresetOrShiftValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VelocityDampingTimeConstant": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/property/VelocityDampingTimeConstant/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VelocityReference": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/property/VelocityReference/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AccelerationDampingTimeConstant": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/event/AccelerationDampingTimeConstant/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VelocityDampingTimeConstant": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/event/VelocityDampingTimeConstant/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VelocityReference": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/event/VelocityReference/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_EncoderChannelType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1002",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AxisConfig",
+        "href": "#title=PNENC_EncoderAxisConfigType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ControlConfig",
+        "href": "#title=PNENC_EncoderControlConfigType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Lock",
+        "href": "./DI.TM.json#title=DI_LockingServicesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Logbook",
+        "href": "#title=PNENC_LogbookType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Probes",
+        "href": "#title=PNENC_EncoderProbesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Sensor",
+        "href": "#title=PNENC_EncoderSensorType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SensorConfig",
+        "href": "#title=PNENC_EncoderSensorConfigType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "EncoderChannelStateEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3002",
+        "const": {
+          "NORMAL_OPERATION": 0,
+          "ERROR_ACKNOWLEDGEMENT": 1,
+          "ERROR": 2,
+          "REFERENCE_VALUE_Gx_XIST2": 3,
+          "WAIT_FOR_REFERENCE_MARKS": 4,
+          "SET_SHIFT_HOME_POSITION": 5,
+          "WAIT_FOR_MEASURED_VALUE": 6,
+          "MEASURED_VALUE_IN_XIST2": 7,
+          "PARKING": 8,
+          "PARKING_ERROR": 9,
+          "PARKING_ERROR_ACK": 10
+        },
+        "properties": {
+          "NORMAL_OPERATION": {
+            "description": "The position feedback interface operates normally",
+            "type": "integer"
+          },
+          "ERROR_ACKNOWLEDGEMENT": {
+            "description": "Error acknowledgement is being processed",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "There is an error present",
+            "type": "integer"
+          },
+          "REFERENCE_VALUE_Gx_XIST2": {
+            "description": "The reference value is loaded in Gx_XIST2",
+            "type": "integer"
+          },
+          "WAIT_FOR_REFERENCE_MARKS": {
+            "description": "The reference mark is expected",
+            "type": "integer"
+          },
+          "SET_SHIFT_HOME_POSITION": {
+            "description": "Gx_XIST1 and Gx_XIST2 are set or shifted by a predefined preset value",
+            "type": "integer"
+          },
+          "WAIT_FOR_MEASURED_VALUE": {
+            "description": "Measurement task active, waiting for measurement values",
+            "type": "integer"
+          },
+          "MEASURED_VALUE_IN_XIST2": {
+            "description": "The requested measured value is loaded into Gx_XIST2",
+            "type": "integer"
+          },
+          "PARKING": {
+            "description": "The position feedback interface is inactive and does not deliver a valid Gx_XIST1 value",
+            "type": "integer"
+          },
+          "PARKING_ERROR": {
+            "description": "There is an error present and Gx_XIST1 is signaled invalid",
+            "type": "integer"
+          },
+          "PARKING_ERROR_ACK": {
+            "description": "Error acknowledgement is being processed and Gx_XIST1 is signaled invalid",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetApplicationTag": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6002",
+          "required": [ "ApplicationTag" ],
+          "properties": {
+            "ApplicationTag": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/action/SetApplicationTag",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "Acceleration": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/Acceleration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ApplicationTag": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/ApplicationTag/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EncoderChannelState": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "title": "EncoderChannelStateEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3002",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/EncoderChannelState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EncoderProfileVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/EncoderProfileVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "G1_STW": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/G1_STW/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "G1_XIST_PRESET_B": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/G1_XIST_PRESET_B/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "G1_XIST_PRESET_B1": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/G1_XIST_PRESET_B1/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "G1_XIST_PRESET_C": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/G1_XIST_PRESET_C/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "G1_XIST1": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/G1_XIST1/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "G1_XIST2": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/G1_XIST2/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "G1_XIST3": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/G1_XIST3/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "G1_ZSW": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/G1_ZSW/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NIST_A": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/NIST_A/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NIST_B": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/NIST_B/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Position": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/Position/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Position_Resolution": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/Position_Resolution/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PositionSensorSignalValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/PositionSensorSignalValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "STW2_ENC": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/STW2_ENC/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Temperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/Temperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Velocity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/Velocity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Velocity_Damping": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/Velocity_Damping/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ZSW2_ENC": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/property/ZSW2_ENC/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Acceleration": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/Acceleration/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EncoderChannelState": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "title": "EncoderChannelStateEnumeration",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3002",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/EncoderChannelState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "G1_STW": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/G1_STW/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "G1_XIST_PRESET_B": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/G1_XIST_PRESET_B/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "G1_XIST_PRESET_B1": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/G1_XIST_PRESET_B1/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "G1_XIST_PRESET_C": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/G1_XIST_PRESET_C/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "G1_XIST1": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/G1_XIST1/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "G1_XIST2": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/G1_XIST2/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "G1_XIST3": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/G1_XIST3/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "G1_ZSW": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/G1_ZSW/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NIST_A": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/NIST_A/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NIST_B": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/NIST_B/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Position": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:contains": [ "Position_Resolution" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/Position/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Position_Resolution": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:containedIn": "Position",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/Position_Resolution/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PositionSensorSignalValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/PositionSensorSignalValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "STW2_ENC": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/STW2_ENC/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Temperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/Temperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Velocity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "Velocity_Damping" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/Velocity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Velocity_Damping": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:containedIn": "Velocity",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/Velocity_Damping/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ZSW2_ENC": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderChannelType/event/ZSW2_ENC/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_EncoderControlConfigType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "EncoderAlarmChannelControlEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3006",
+        "const": {
+          "ALARM_CHANNEL_DISABLED": 0,
+          "ALARM_CHANNEL_ENABLED": 1
+        },
+        "properties": {
+          "ALARM_CHANNEL_DISABLED": {
+            "description": "No Profile specific diagnosis (default)",
+            "type": "integer"
+          },
+          "ALARM_CHANNEL_ENABLED": {
+            "description": "Profile specific diagnosis is switched-on",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderPresetControlEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3007",
+        "const": {
+          "ENABLE_PRESET_CONTROL": 0,
+          "DISABLE_PRESET_CONTROL": 1
+        },
+        "properties": {
+          "ENABLE_PRESET_CONTROL": {
+            "description": "G1_XIST1 is affected by a Set-/Shift home position function command",
+            "type": "integer"
+          },
+          "DISABLE_PRESET_CONTROL": {
+            "description": "Set-/Shift home position function does not affect G1_XIST1",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderControlConfigType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetControlConfig": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6057",
+          "required": [ "ControlConfigParameters" ],
+          "properties": {
+            "ControlConfigParameters": {
+              "type": "array",
+              "items": {
+                "title": "KeyValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6058",
+          "required": [ "ControlConfigParametersResult" ],
+          "properties": {
+            "ControlConfigParametersResult": {
+              "type": "array",
+              "items": {
+                "title": "KeyValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderControlConfigType/action/SetControlConfig",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AlarmChannelControl": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "title": "EncoderAlarmChannelControlEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3006",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderControlConfigType/property/AlarmChannelControl/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SignOfLifeFailuresTolerated": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderControlConfigType/property/SignOfLifeFailuresTolerated/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "XIST1PresetControl": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "title": "EncoderPresetControlEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3007",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderControlConfigType/property/XIST1PresetControl/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_EncoderProbesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1012",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Probex",
+        "href": "#title=PNENC_EncoderProbeType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_EncoderProbeType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Lock",
+        "href": "./DI.TM.json#title=DI_LockingServicesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderProbeType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderProbeType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "LatchStart": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderProbeType/action/LatchStart",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "LastLatchedPos": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderProbeType/property/LastLatchedPos/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LatchActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderProbeType/property/LatchActive/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "LastLatchedPos": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderProbeType/event/LastLatchedPos/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LatchActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderProbeType/event/LatchActive/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_EncoderSensorConfigType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "EncoderConfigTypeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3011",
+        "const": {
+          "STATIC": 0,
+          "DYNAMIC": 1
+        },
+        "properties": {
+          "STATIC": {
+            "description": "Static configuration type",
+            "type": "integer"
+          },
+          "DYNAMIC": {
+            "description": "Dynamic configuration type",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderSensorAbsoluteTypeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3008",
+        "const": {
+          "SINGLETURN": 0,
+          "MULTITURN": 1
+        },
+        "properties": {
+          "SINGLETURN": {
+            "description": "Singleturn sensor absolute type",
+            "type": "integer"
+          },
+          "MULTITURN": {
+            "description": "Multiturn sensor absolute type",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetSensorConfig": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6052",
+          "required": [ "SensorConfigParameters" ],
+          "properties": {
+            "SensorConfigParameters": {
+              "type": "array",
+              "items": {
+                "title": "KeyValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6053",
+          "required": [ "SensorConfigParametersResult" ],
+          "properties": {
+            "SensorConfigParametersResult": {
+              "type": "array",
+              "items": {
+                "title": "KeyValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/action/SetSensorConfig",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AbsolutePosDeterminableRevolutions": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/property/AbsolutePosDeterminableRevolutions/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsolutePosLinSupported": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/property/AbsolutePosLinSupported/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConfigType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "title": "EncoderConfigTypeEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3011",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/property/ConfigType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensorAbsoluteType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "title": "EncoderSensorAbsoluteTypeEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3008",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/property/SensorAbsoluteType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensorResolutionIncPerRotation": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/property/SensorResolutionIncPerRotation/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensorResolutionNanometerPerIncrement": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/property/SensorResolutionNanometerPerIncrement/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ShiftFactorXIST1": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/property/ShiftFactorXIST1/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ShiftFactorXIST2": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/property/ShiftFactorXIST2/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_EncoderSensorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1013",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "PresetControl": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6086",
+          "required": [ "PresetValue" ],
+          "properties": {
+            "PresetValue": {
+              "type": "number"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorType/action/PresetControl",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Ref1LatchStart": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorType/action/Ref1LatchStart",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "PositionOffset": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorType/property/PositionOffset/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Ref1LastLatchedPos": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "number",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorType/property/Ref1LastLatchedPos/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Ref1LatchActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorType/property/Ref1LatchActive/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "PositionOffset": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorType/event/PositionOffset/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Ref1LastLatchedPos": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "number"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorType/event/Ref1LastLatchedPos/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Ref1LatchActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_EncoderSensorType/event/Ref1LatchActive/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_LogbookType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1010",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "EventTypeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+        "const": {
+          "FAULT": 0,
+          "WARNING": 1,
+          "UNSPECIFIED": 255
+        },
+        "properties": {
+          "FAULT": {
+            "description": "The log entry indicates a malfunction of the encoder, e.g. position fault",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The log entry is a warning, e.g. for battery status",
+            "type": "integer"
+          },
+          "UNSPECIFIED": {
+            "description": "No information about the type of the event is given.  The intended purpose for the definition is usage by the GetFilteredLogbookEntries Method to specify “don’t care” for the EventType parameter. Must not be used for log entries and encoder diagnosis events as EncoderDiagnosisEventType and LogbookEventType",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_LogbookType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNENC/PNENC_LogbookType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "DeleteLogbook": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_LogbookType/action/DeleteLogbook",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetActiveDiagnosis": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6074",
+          "required": [ "ActiveDiagnosis" ],
+          "properties": {
+            "ActiveDiagnosis": {
+              "type": "array",
+              "items": {
+                "title": "LogEntryDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+                "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
+                "properties": {
+                  "FaultSituationNumber": {
+                    "description": "Identification of fault situation. 0 means current fault situation",
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                  },
+                  "EventNumber": {
+                    "description": "Unique number of log entry, analogous to Fault message counter",
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "EventType": {
+                    "title": "EventTypeEnumeration",
+                    "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "EventCode": {
+                    "description": "Fault-code identifying a fault or warning",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "EventText": {
+                    "description": "Brief description of the fault or warning",
+                    "type": "string"
+                  },
+                  "EventComing": {
+                    "description": "Time when the event appears",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "EventGoing": {
+                    "description": "Time when the event disappears",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "EventAcknowledged": {
+                    "description": "Time when the event is acknowledged",
+                    "type": "string",
+                    "format": "time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_LogbookType/action/GetActiveDiagnosis",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetCurrentFaultSituation": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6071",
+          "required": [ "CurrentLogEntries" ],
+          "properties": {
+            "CurrentLogEntries": {
+              "type": "array",
+              "items": {
+                "title": "LogEntryDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+                "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
+                "properties": {
+                  "FaultSituationNumber": {
+                    "description": "Identification of fault situation. 0 means current fault situation",
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                  },
+                  "EventNumber": {
+                    "description": "Unique number of log entry, analogous to Fault message counter",
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "EventType": {
+                    "title": "EventTypeEnumeration",
+                    "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "EventCode": {
+                    "description": "Fault-code identifying a fault or warning",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "EventText": {
+                    "description": "Brief description of the fault or warning",
+                    "type": "string"
+                  },
+                  "EventComing": {
+                    "description": "Time when the event appears",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "EventGoing": {
+                    "description": "Time when the event disappears",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "EventAcknowledged": {
+                    "description": "Time when the event is acknowledged",
+                    "type": "string",
+                    "format": "time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_LogbookType/action/GetCurrentFaultSituation",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetFilteredLogbookEntries": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6070",
+          "required": [ "LogbookFilterOptions", "FaultSituationNumber", "EventType", "EventCode", "EventAppearanceInterval" ],
+          "properties": {
+            "LogbookFilterOptions": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "FaultSituationNumber": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "EventType": {
+              "title": "EventTypeEnumeration",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "EventCode": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "EventAppearanceInterval": {
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6033",
+          "required": [ "FilteredLogEntries" ],
+          "properties": {
+            "FilteredLogEntries": {
+              "type": "array",
+              "items": {
+                "title": "LogEntryDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+                "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
+                "properties": {
+                  "FaultSituationNumber": {
+                    "description": "Identification of fault situation. 0 means current fault situation",
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                  },
+                  "EventNumber": {
+                    "description": "Unique number of log entry, analogous to Fault message counter",
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "EventType": {
+                    "title": "EventTypeEnumeration",
+                    "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "EventCode": {
+                    "description": "Fault-code identifying a fault or warning",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "EventText": {
+                    "description": "Brief description of the fault or warning",
+                    "type": "string"
+                  },
+                  "EventComing": {
+                    "description": "Time when the event appears",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "EventGoing": {
+                    "description": "Time when the event disappears",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "EventAcknowledged": {
+                    "description": "Time when the event is acknowledged",
+                    "type": "string",
+                    "format": "time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_LogbookType/action/GetFilteredLogbookEntries",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetHistoricFaultSituation": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6072",
+          "required": [ "FaultSituationNumber" ],
+          "properties": {
+            "FaultSituationNumber": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6073",
+          "required": [ "HistoricLogEntries" ],
+          "properties": {
+            "HistoricLogEntries": {
+              "type": "array",
+              "items": {
+                "title": "LogEntryDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+                "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
+                "properties": {
+                  "FaultSituationNumber": {
+                    "description": "Identification of fault situation. 0 means current fault situation",
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                  },
+                  "EventNumber": {
+                    "description": "Unique number of log entry, analogous to Fault message counter",
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "EventType": {
+                    "title": "EventTypeEnumeration",
+                    "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "EventCode": {
+                    "description": "Fault-code identifying a fault or warning",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "EventText": {
+                    "description": "Brief description of the fault or warning",
+                    "type": "string"
+                  },
+                  "EventComing": {
+                    "description": "Time when the event appears",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "EventGoing": {
+                    "description": "Time when the event disappears",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "EventAcknowledged": {
+                    "description": "Time when the event is acknowledged",
+                    "type": "string",
+                    "format": "time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_LogbookType/action/GetHistoricFaultSituation",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "LogbookSize": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_LogbookType/property/LogbookSize/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LogEntries": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "type": "array",
+        "items": {
+          "title": "LogEntryDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+          "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
+          "properties": {
+            "FaultSituationNumber": {
+              "description": "Identification of fault situation. 0 means current fault situation",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "EventNumber": {
+              "description": "Unique number of log entry, analogous to Fault message counter",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "EventType": {
+              "title": "EventTypeEnumeration",
+              "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "EventCode": {
+              "description": "Fault-code identifying a fault or warning",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "EventText": {
+              "description": "Brief description of the fault or warning",
+              "type": "string"
+            },
+            "EventComing": {
+              "description": "Time when the event appears",
+              "type": "string",
+              "format": "time"
+            },
+            "EventGoing": {
+              "description": "Time when the event disappears",
+              "type": "string",
+              "format": "time"
+            },
+            "EventAcknowledged": {
+              "description": "Time when the event is acknowledged",
+              "type": "string",
+              "format": "time"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_LogbookType/property/LogEntries/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "LogEntries": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNENC/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "LogEntryDataType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+            "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
+            "properties": {
+              "FaultSituationNumber": {
+                "description": "Identification of fault situation. 0 means current fault situation",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              },
+              "EventNumber": {
+                "description": "Unique number of log entry, analogous to Fault message counter",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "EventType": {
+                "title": "EventTypeEnumeration",
+                "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "EventCode": {
+                "description": "Fault-code identifying a fault or warning",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "EventText": {
+                "description": "Brief description of the fault or warning",
+                "type": "string"
+              },
+              "EventComing": {
+                "description": "Time when the event appears",
+                "type": "string",
+                "format": "time"
+              },
+              "EventGoing": {
+                "description": "Time when the event disappears",
+                "type": "string",
+                "format": "time"
+              },
+              "EventAcknowledged": {
+                "description": "Time when the event is acknowledged",
+                "type": "string",
+                "format": "time"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNENC/PNENC_LogbookType/event/LogEntries/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

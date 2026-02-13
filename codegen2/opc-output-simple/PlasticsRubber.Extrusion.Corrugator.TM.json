@@ -1,0 +1,79 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_Corrugator_Corrugator_InterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Corrugator/;i=1003",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.Extrusion.HaulOff.TM.json#title=PlasticsRubber_Extrusion_HaulOff_HaulOff_InterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Corrugator/PlasticsRubber_Extrusion_Corrugator_Corrugator_InterfaceType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Corrugator/PlasticsRubber_Extrusion_Corrugator_Corrugator_InterfaceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ExtruderEnabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Corrugator/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Corrugator/PlasticsRubber_Extrusion_Corrugator_Corrugator_InterfaceType/property/ExtruderEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MouldId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Corrugator/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Corrugator/PlasticsRubber_Extrusion_Corrugator_Corrugator_InterfaceType/property/MouldId/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ExtruderEnabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Corrugator/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Corrugator/PlasticsRubber_Extrusion_Corrugator_Corrugator_InterfaceType/event/ExtruderEnabled/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

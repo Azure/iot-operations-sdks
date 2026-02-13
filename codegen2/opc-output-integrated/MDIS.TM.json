@@ -1,0 +1,4349 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISBaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=194",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "EnableDisable": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=196",
+          "required": [ "Enable" ],
+          "properties": {
+            "Enable": {
+              "description": "Disable the device (false), or enable the device (true)",
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/action/EnableDisable",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "Enabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/property/Enabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Fault": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/property/Fault/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FaultCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/property/FaultCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TagId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "description": "The id used in other parts of the system",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/property/TagId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Warning": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/property/Warning/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WarningCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/property/WarningCode/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Enabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/event/Enabled/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Fault": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/event/Fault/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FaultCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/event/FaultCode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Warning": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/event/Warning/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WarningCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISBaseObjectType/event/WarningCode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISAggregateObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1315",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISBaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ChokePlaceholder",
+        "href": "#title=MDIS_MDISChokeObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CIMVPlaceholder",
+        "href": "#title=MDIS_MDISCIMVObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CounterPlaceholder",
+        "href": "#title=MDIS_MDISCounterObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DigitalArbitrationPlaceholder",
+        "href": "#title=MDIS_MDISDigitalArbitrationObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DigitalOutPlaceholder",
+        "href": "#title=MDIS_MDISDigitalOutObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DigitalPlaceholder",
+        "href": "#title=MDIS_MDISDigitalInstrumentObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DiscreteArbitrationPlaceholder",
+        "href": "#title=MDIS_MDISDiscreteArbitrationObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DiscreteOutPlaceholder",
+        "href": "#title=MDIS_MDISDiscreteOutObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DiscretePlaceholder",
+        "href": "#title=MDIS_MDISDiscreteInstrumentObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ElectricChokePlaceholder",
+        "href": "#title=MDIS_MDISElectricChokeObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "InstrumentArbitrationPlaceholder",
+        "href": "#title=MDIS_MDISInstrumentArbitrationObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "InstrumentOutPlaceholder",
+        "href": "#title=MDIS_MDISInstrumentOutObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "InstrumentPlaceholder",
+        "href": "#title=MDIS_MDISInstrumentObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MotorPlaceholder",
+        "href": "#title=MDIS_MDISMotorObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ValvePlaceholder",
+        "href": "#title=MDIS_MDISValveObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISChokeObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1066",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISBaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ChokeMoveEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+        "const": {
+          "Moving": 1,
+          "Stopped": 2
+        },
+        "properties": {
+          "Moving": {
+            "description": "The choke is currently moving (in progress)",
+            "type": "integer"
+          },
+          "Stopped": {
+            "description": "The move has stopped",
+            "type": "integer"
+          }
+        }
+      },
+      "SetCalculatedPositionEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1287",
+        "const": {
+          "Initial": 0,
+          "Inprogress": 1,
+          "Complete": 2,
+          "Fault": 4
+        },
+        "properties": {
+          "Initial": {
+            "description": "no command (initial state)",
+            "type": "integer"
+          },
+          "Inprogress": {
+            "description": "command in progress",
+            "type": "integer"
+          },
+          "Complete": {
+            "description": "command completed",
+            "type": "integer"
+          },
+          "Fault": {
+            "description": "command fault",
+            "type": "integer"
+          }
+        }
+      },
+      "SEMEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "const": {
+          "SEM_A": 1,
+          "SEM_B": 2,
+          "Auto": 4
+        },
+        "properties": {
+          "SEM_A": {
+            "description": "Valve move command selection SEM A",
+            "type": "integer"
+          },
+          "SEM_B": {
+            "description": "Valve move command selection SEM B",
+            "type": "integer"
+          },
+          "Auto": {
+            "description": "Subsea equipment vendor decides how to send the command. In some cases, this would be both SEMs, in others it would mean a subsea system’s choice of a SEM.",
+            "type": "integer"
+          }
+        }
+      },
+      "ChokeCommandEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=701",
+        "const": {
+          "Close": 1,
+          "Open": 2
+        },
+        "properties": {
+          "Close": {
+            "description": "The command to the Choke is Close",
+            "type": "integer"
+          },
+          "Open": {
+            "description": "The command to the Choke is Open",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Abort": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/action/Abort",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Move": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1156",
+          "required": [ "Position", "OverrideInterlocks", "SEM" ],
+          "properties": {
+            "Position": {
+              "description": "A number (in percent) indicating the percent open",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "OverrideInterlocks": {
+              "description": "Boolean indicating if the open or close command should override any defeat able interlocks",
+              "type": "boolean"
+            },
+            "SEM": {
+              "title": "SEMEnum",
+              "description": "The selection of which SEM to send the command to",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/action/Move",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetCalculatedPosition": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1285",
+          "required": [ "Position" ],
+          "properties": {
+            "Position": {
+              "description": "A number (in percent) indicating the percent open",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/action/SetCalculatedPosition",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Step": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1158",
+          "required": [ "Direction", "Steps", "OverrideInterlocks", "SEM" ],
+          "properties": {
+            "Direction": {
+              "title": "ChokeCommandEnum",
+              "description": "The direction for the valve, true is opening a valve, false if closing the valve",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=701",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Steps": {
+              "description": "The number of steps to open/close the valve",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "OverrideInterlocks": {
+              "description": "Boolean indicating if the open or close command should override any defeat able interlocks",
+              "type": "boolean"
+            },
+            "SEM": {
+              "title": "SEMEnum",
+              "description": "The selection of which SEM to send the command to",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/action/Step",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "CalculatedPosition": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/CalculatedPosition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CommandRejected": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/CommandRejected/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/DefeatableCloseInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/DefeatableOpenInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Moving": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "ChokeMoveEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/Moving/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NonDefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/NonDefeatableCloseInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NonDefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/NonDefeatableOpenInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PositionInSteps": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/PositionInSteps/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetCalculatedPositionStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "SetCalculatedPositionEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1287",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/SetCalculatedPositionStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StepDurationClose": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/StepDurationClose/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StepDurationOpen": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/StepDurationOpen/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalSteps": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/property/TotalSteps/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CalculatedPosition": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/event/CalculatedPosition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CommandRejected": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/event/CommandRejected/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/event/DefeatableCloseInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/event/DefeatableOpenInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Moving": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "ChokeMoveEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/event/Moving/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NonDefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/event/NonDefeatableCloseInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NonDefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/event/NonDefeatableOpenInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PositionInSteps": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/event/PositionInSteps/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetCalculatedPositionStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "SetCalculatedPositionEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1287",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/event/SetCalculatedPositionStatus/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISCIMVObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15114",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISBaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MotorOperationsCount",
+        "href": "#title=MDIS_MDISCounterObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TotalMotorRuntime",
+        "href": "#title=MDIS_MDISCounterObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "CIMVMoveEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15007",
+        "const": {
+          "MoveClose": 1,
+          "MoveOpen": 2,
+          "Stop": 4
+        },
+        "properties": {
+          "MoveClose": {
+            "description": "The CIMV is moving in the close direction",
+            "type": "integer"
+          },
+          "MoveOpen": {
+            "description": "The CIMV is moving in the open direction",
+            "type": "integer"
+          },
+          "Stop": {
+            "description": "The CIMV is not moving",
+            "type": "integer"
+          }
+        }
+      },
+      "CIMVOperationModeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15102",
+        "const": {
+          "Position": 1,
+          "Flow": 2,
+          "Manual": 4
+        },
+        "properties": {
+          "Position": {
+            "description": "The CIMV is in closed-loop Position control mode. Sending fix position",
+            "type": "integer"
+          },
+          "Flow": {
+            "description": "The CIMV is in closed-loop Flow control mode (auto regulate)",
+            "type": "integer"
+          },
+          "Manual": {
+            "description": "The CIMV is in open-loop Manual mode (compare it to step mode – i.e., move some increment relative to current). Note: some CIMV instance may not support this mode.",
+            "type": "integer"
+          }
+        }
+      },
+      "SEMEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "const": {
+          "SEM_A": 1,
+          "SEM_B": 2,
+          "Auto": 4
+        },
+        "properties": {
+          "SEM_A": {
+            "description": "Valve move command selection SEM A",
+            "type": "integer"
+          },
+          "SEM_B": {
+            "description": "Valve move command selection SEM B",
+            "type": "integer"
+          },
+          "Auto": {
+            "description": "Subsea equipment vendor decides how to send the command. In some cases, this would be both SEMs, in others it would mean a subsea system’s choice of a SEM.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Abort": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/action/Abort",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ResetTotalFlow": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15167",
+          "required": [ "Initial" ],
+          "properties": {
+            "Initial": {
+              "description": "The value to initialize the TotalFlow to",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/action/ResetTotalFlow",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15171",
+          "required": [ "FlowRate", "SEM", "ShutdownRequest" ],
+          "properties": {
+            "FlowRate": {
+              "description": "Target flow rate. The CIMV will automatically maintain this target flow",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "SEM": {
+              "title": "SEMEnum",
+              "description": "The selection of which SEM to send the command to",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ShutdownRequest": {
+              "description": "Boolean indicates that this command is part of a shutdown sequence. ",
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/action/SetFlowRate",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetManual": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15175",
+          "required": [ "Direction", "Delta", "SEM", "ShutdownRequest" ],
+          "properties": {
+            "Direction": {
+              "title": "CIMVMoveEnum",
+              "description": "Direction to move – Open or Close",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15007",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Delta": {
+              "description": "A relative change in position from the current position as a percent. ",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "SEM": {
+              "title": "SEMEnum",
+              "description": "The selection of which SEM to send the command to",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ShutdownRequest": {
+              "description": "Boolean indicates that this command is part of a shutdown sequence. ",
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/action/SetManual",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetOperationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15169",
+          "required": [ "Mode", "SEM", "ShutdownRequest" ],
+          "properties": {
+            "Mode": {
+              "title": "CIMVOperationModeEnum",
+              "description": "Enumeration indicating the requested operation mode",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15102",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "SEM": {
+              "title": "SEMEnum",
+              "description": "The selection of which SEM to send the command to",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ShutdownRequest": {
+              "description": "Boolean indicating if the open or close command should override any interlocks",
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/action/SetOperationMode",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetPosition": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15173",
+          "required": [ "Position", "SEM", "ShutdownRequest" ],
+          "properties": {
+            "Position": {
+              "description": "Target position as percent of open. The CIMV will automatically maintain this position",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "SEM": {
+              "title": "SEMEnum",
+              "description": "The selection of which SEM to send the command to",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ShutdownRequest": {
+              "description": "Boolean indicating if the open or close command should override any interlocks",
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/action/SetPosition",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "CommandRejected": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/CommandRejected/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceCurrent": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/DeviceCurrent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/FlowRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InletPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/InletPressure/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InternalPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/InternalPressure/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Moving": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "CIMVMoveEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15007",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/Moving/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NonDefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/NonDefeatableCloseInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NonDefeatableCommandInProgressInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/NonDefeatableCommandInProgressInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NonDefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/NonDefeatableOpenInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "CIMVOperationModeEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15102",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/OperationMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OutletPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/OutletPressure/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Position": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/Position/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TargetFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/TargetFlowRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TargetPosition": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/TargetPosition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalFlow": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/property/TotalFlow/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CommandRejected": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/CommandRejected/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DeviceCurrent": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/DeviceCurrent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/FlowRate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "InletPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/InletPressure/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "InternalPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/InternalPressure/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Moving": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "CIMVMoveEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15007",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/Moving/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NonDefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/NonDefeatableCloseInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NonDefeatableCommandInProgressInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/NonDefeatableCommandInProgressInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NonDefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/NonDefeatableOpenInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OperationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "CIMVOperationModeEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15102",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/OperationMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OutletPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/OutletPressure/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Position": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/Position/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TargetFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/TargetFlowRate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TargetPosition": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/TargetPosition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TotalFlow": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/event/TotalFlow/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISCounterObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15098",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISCounterObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISCounterObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetCount": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15101",
+          "required": [ "Initial" ],
+          "properties": {
+            "Initial": {
+              "description": "The value to initialize the Object Count to, default is 0",
+              "type": "number"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCounterObjectType/action/SetCount",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "Count": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCounterObjectType/property/Count/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Count": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISCounterObjectType/event/Count/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISDigitalArbitrationObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15015",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISDigitalInstrumentObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ArbitrationModeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "const": {
+          "Average": 1,
+          "DefaultA": 2,
+          "DefaultB": 4,
+          "ForceA": 8,
+          "ForceB": 16,
+          "High": 32,
+          "Low": 64
+        },
+        "properties": {
+          "Average": {
+            "description": "Build the average of both values (if both available)",
+            "type": "integer"
+          },
+          "DefaultA": {
+            "description": "Select SourceA (if available), else SourceB",
+            "type": "integer"
+          },
+          "DefaultB": {
+            "description": "Select SourceB (if available), else SourceA",
+            "type": "integer"
+          },
+          "ForceA": {
+            "description": "Always select SourceA",
+            "type": "integer"
+          },
+          "ForceB": {
+            "description": "Always select SourceB",
+            "type": "integer"
+          },
+          "High": {
+            "description": "Highest Value (for digital this is an OR operation)",
+            "type": "integer"
+          },
+          "Low": {
+            "description": "Lowest Value (for digital this is an AND operation)",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalArbitrationObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalArbitrationObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetArbitrationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15029",
+          "required": [ "ArbitrationMode" ],
+          "properties": {
+            "ArbitrationMode": {
+              "title": "ArbitrationModeEnum",
+              "description": "ArbitrationMode enumeration value Variable, that defines the new arbitration mode",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalArbitrationObjectType/action/SetArbitrationMode",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ArbitrationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "ArbitrationModeEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalArbitrationObjectType/property/ArbitrationMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceA": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalArbitrationObjectType/property/SourceA/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceB": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalArbitrationObjectType/property/SourceB/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ArbitrationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "ArbitrationModeEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalArbitrationObjectType/event/ArbitrationMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SourceA": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalArbitrationObjectType/event/SourceA/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SourceB": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalArbitrationObjectType/event/SourceB/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISDigitalInstrumentObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=889",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISBaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalInstrumentObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalInstrumentObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "State": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalInstrumentObjectType/property/State/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "State": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalInstrumentObjectType/event/State/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISDigitalOutObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1230",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISDigitalInstrumentObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "WriteState": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1241",
+          "required": [ "State" ],
+          "properties": {
+            "State": {
+              "description": "Boolean state that is being written to the object",
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDigitalOutObjectType/action/WriteState",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISDiscreteArbitrationObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15032",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISDiscreteInstrumentObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ArbitrationModeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "const": {
+          "Average": 1,
+          "DefaultA": 2,
+          "DefaultB": 4,
+          "ForceA": 8,
+          "ForceB": 16,
+          "High": 32,
+          "Low": 64
+        },
+        "properties": {
+          "Average": {
+            "description": "Build the average of both values (if both available)",
+            "type": "integer"
+          },
+          "DefaultA": {
+            "description": "Select SourceA (if available), else SourceB",
+            "type": "integer"
+          },
+          "DefaultB": {
+            "description": "Select SourceB (if available), else SourceA",
+            "type": "integer"
+          },
+          "ForceA": {
+            "description": "Always select SourceA",
+            "type": "integer"
+          },
+          "ForceB": {
+            "description": "Always select SourceB",
+            "type": "integer"
+          },
+          "High": {
+            "description": "Highest Value (for digital this is an OR operation)",
+            "type": "integer"
+          },
+          "Low": {
+            "description": "Lowest Value (for digital this is an AND operation)",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteArbitrationObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteArbitrationObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetArbitrationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15546",
+          "required": [ "ArbitrationMode" ],
+          "properties": {
+            "ArbitrationMode": {
+              "title": "ArbitrationModeEnum",
+              "description": "ArbitrationMode enumeration value Variable, that defines the new arbitration mode",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteArbitrationObjectType/action/SetArbitrationMode",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ArbitrationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "ArbitrationModeEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteArbitrationObjectType/property/ArbitrationMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceA": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteArbitrationObjectType/property/SourceA/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceB": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteArbitrationObjectType/property/SourceB/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ArbitrationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "ArbitrationModeEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteArbitrationObjectType/event/ArbitrationMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SourceA": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteArbitrationObjectType/event/SourceA/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SourceB": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteArbitrationObjectType/event/SourceB/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISDiscreteInstrumentObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1214",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISBaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteInstrumentObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteInstrumentObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "State": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteInstrumentObjectType/property/State/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "State": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteInstrumentObjectType/event/State/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISDiscreteOutObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1242",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISDiscreteInstrumentObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "WriteValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1253",
+          "required": [ "State" ],
+          "properties": {
+            "State": {
+              "description": "Unit32 state that is being written to the object",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISDiscreteOutObjectType/action/WriteValue",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISElectricChokeObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15076",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISBaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ChokeMoveEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+        "const": {
+          "Moving": 1,
+          "Stopped": 2
+        },
+        "properties": {
+          "Moving": {
+            "description": "The choke is currently moving (in progress)",
+            "type": "integer"
+          },
+          "Stopped": {
+            "description": "The move has stopped",
+            "type": "integer"
+          }
+        }
+      },
+      "SEMEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "const": {
+          "SEM_A": 1,
+          "SEM_B": 2,
+          "Auto": 4
+        },
+        "properties": {
+          "SEM_A": {
+            "description": "Valve move command selection SEM A",
+            "type": "integer"
+          },
+          "SEM_B": {
+            "description": "Valve move command selection SEM B",
+            "type": "integer"
+          },
+          "Auto": {
+            "description": "Subsea equipment vendor decides how to send the command. In some cases, this would be both SEMs, in others it would mean a subsea system’s choice of a SEM.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Abort": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/action/Abort",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Move": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15093",
+          "required": [ "Position", "OverrideInterlocks", "SEM" ],
+          "properties": {
+            "Position": {
+              "description": "A number (in percent) indicating the percent open",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "OverrideInterlocks": {
+              "description": "Boolean indicating if the open or close command should override any defeat able interlocks",
+              "type": "boolean"
+            },
+            "SEM": {
+              "title": "SEMEnum",
+              "description": "The selection of which SEM to send the command to",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/action/Move",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActualPosition": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/property/ActualPosition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CommandRejected": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/property/CommandRejected/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/property/DefeatableCloseInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/property/DefeatableOpenInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Moving": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "ChokeMoveEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/property/Moving/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NonDefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/property/NonDefeatableCloseInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NonDefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/property/NonDefeatableOpenInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualPosition": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/event/ActualPosition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CommandRejected": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/event/CommandRejected/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/event/DefeatableCloseInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/event/DefeatableOpenInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Moving": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "ChokeMoveEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/event/Moving/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NonDefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/event/NonDefeatableCloseInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NonDefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/event/NonDefeatableOpenInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISInstrumentArbitrationObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15547",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISInstrumentObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ArbitrationModeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "const": {
+          "Average": 1,
+          "DefaultA": 2,
+          "DefaultB": 4,
+          "ForceA": 8,
+          "ForceB": 16,
+          "High": 32,
+          "Low": 64
+        },
+        "properties": {
+          "Average": {
+            "description": "Build the average of both values (if both available)",
+            "type": "integer"
+          },
+          "DefaultA": {
+            "description": "Select SourceA (if available), else SourceB",
+            "type": "integer"
+          },
+          "DefaultB": {
+            "description": "Select SourceB (if available), else SourceA",
+            "type": "integer"
+          },
+          "ForceA": {
+            "description": "Always select SourceA",
+            "type": "integer"
+          },
+          "ForceB": {
+            "description": "Always select SourceB",
+            "type": "integer"
+          },
+          "High": {
+            "description": "Highest Value (for digital this is an OR operation)",
+            "type": "integer"
+          },
+          "Low": {
+            "description": "Lowest Value (for digital this is an AND operation)",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetArbitrationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15075",
+          "required": [ "ArbitrationMode" ],
+          "properties": {
+            "ArbitrationMode": {
+              "title": "ArbitrationModeEnum",
+              "description": "ArbitrationMode enumeration value Variable, that defines the new arbitration mode",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/action/SetArbitrationMode",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ArbitrationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "ArbitrationModeEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/property/ArbitrationMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DiscrepancySetPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/property/DiscrepancySetPoint/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/property/DiscrepancySetPoint/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceA": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/property/SourceA/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceB": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/property/SourceB/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ArbitrationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "ArbitrationModeEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/event/ArbitrationMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SourceA": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/event/SourceA/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SourceB": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentArbitrationObjectType/event/SourceB/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISInstrumentObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=971",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISBaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "HHlimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/HHlimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HHSetPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/HHSetPoint/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/HHSetPoint/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Hlimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/Hlimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HSetPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/HSetPoint/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/HSetPoint/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Llimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/Llimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LLlimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/LLlimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LLSetPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/LLSetPoint/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/LLSetPoint/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LSetPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/LSetPoint/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/LSetPoint/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProcessVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/property/ProcessVariable/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "HHlimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/event/HHlimit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Hlimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/event/Hlimit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Llimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/event/Llimit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LLlimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/event/LLlimit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ProcessVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/event/ProcessVariable/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISInstrumentOutObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1254",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISInstrumentObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "WriteValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1278",
+          "required": [ "Value" ],
+          "properties": {
+            "Value": {
+              "description": "Float value that is being written to the object",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInstrumentOutObjectType/action/WriteValue",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISMotorObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15190",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISBaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "MotorOperationEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15013",
+        "const": {
+          "Off": 1,
+          "Auto": 2,
+          "Manual": 4
+        },
+        "properties": {
+          "Off": {
+            "description": "The Motor cannot be started either automatically or manually",
+            "type": "integer"
+          },
+          "Auto": {
+            "description": "The Motor works automatically",
+            "type": "integer"
+          },
+          "Manual": {
+            "description": "The Motor is controlled manually",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetOperation": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15210",
+          "required": [ "Mode" ],
+          "properties": {
+            "Mode": {
+              "title": "MotorOperationEnum",
+              "description": "Mode to operate in (i.e. Auto or Manual)",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15013",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/action/SetOperation",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Start": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15206",
+          "required": [ "OverrideInterlocks" ],
+          "properties": {
+            "OverrideInterlocks": {
+              "description": "Boolean indicating if the command should override any interlocks",
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/action/Start",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Stop": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15208",
+          "required": [ "OverrideInterlocks" ],
+          "properties": {
+            "OverrideInterlocks": {
+              "description": "Boolean indicating if the command should override any interlocks",
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/action/Stop",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "DefeatableStartInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/property/DefeatableStartInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefeatableStopInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/property/DefeatableStopInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NonDefeatableStartInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/property/NonDefeatableStartInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NonDefeatableStopInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/property/NonDefeatableStopInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Operation": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "MotorOperationEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15013",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/property/Operation/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Running": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/property/Running/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "DefeatableStartInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/event/DefeatableStartInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DefeatableStopInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/event/DefeatableStopInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NonDefeatableStartInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/event/NonDefeatableStartInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NonDefeatableStopInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/event/NonDefeatableStopInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Operation": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "MotorOperationEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15013",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/event/Operation/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Running": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/event/Running/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISValveObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=794",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MDIS_MDISBaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "ValveSignature",
+        "aov:refType": "HasSignature",
+        "href": "#title=OpcUaCore_FileType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "CommandEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=3",
+        "const": {
+          "Close": 1,
+          "Open": 2,
+          "None": 4
+        },
+        "properties": {
+          "Close": {
+            "description": "The last command to the valve was Close",
+            "type": "integer"
+          },
+          "Open": {
+            "description": "The last command to the valve was Open",
+            "type": "integer"
+          },
+          "None": {
+            "description": "No known command has been sent to the valve. The initial setting on start-up of a server.",
+            "type": "integer"
+          }
+        }
+      },
+      "ValvePositionEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=703",
+        "const": {
+          "Closed": 1,
+          "Open": 2,
+          "Moving": 4,
+          "Unknown": 8
+        },
+        "properties": {
+          "Closed": {
+            "description": "The Valve is Closed",
+            "type": "integer"
+          },
+          "Open": {
+            "description": "The Valve is Open",
+            "type": "integer"
+          },
+          "Moving": {
+            "description": "The Valve is Moving",
+            "type": "integer"
+          },
+          "Unknown": {
+            "description": "The Valve is in an unknown state. This value can be used when a subsea vendor does not have any last command information and does not know the state of the valve.",
+            "type": "integer"
+          }
+        }
+      },
+      "SignatureStatusEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=699",
+        "const": {
+          "NotAvailable": 1,
+          "Completed": 2,
+          "Failed": 4
+        },
+        "properties": {
+          "NotAvailable": {
+            "description": "The profile / signature is not available (in progress)",
+            "type": "integer"
+          },
+          "Completed": {
+            "description": "The profile / signature request has completed",
+            "type": "integer"
+          },
+          "Failed": {
+            "description": "The profile / signature request has failed",
+            "type": "integer"
+          }
+        }
+      },
+      "SEMEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "const": {
+          "SEM_A": 1,
+          "SEM_B": 2,
+          "Auto": 4
+        },
+        "properties": {
+          "SEM_A": {
+            "description": "Valve move command selection SEM A",
+            "type": "integer"
+          },
+          "SEM_B": {
+            "description": "Valve move command selection SEM B",
+            "type": "integer"
+          },
+          "Auto": {
+            "description": "Subsea equipment vendor decides how to send the command. In some cases, this would be both SEMs, in others it would mean a subsea system’s choice of a SEM.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Move": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=884",
+          "required": [ "Direction", "OverrideInterlock", "SEM", "Signature", "ShutdownRequest" ],
+          "properties": {
+            "Direction": {
+              "title": "CommandEnum",
+              "description": "The enumeration indicates whether the command is to open the valve or to close the valve",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=3",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "OverrideInterlock": {
+              "description": "Boolean indicating if the open or close command should override any defeat able interlocks",
+              "type": "boolean"
+            },
+            "SEM": {
+              "title": "SEMEnum",
+              "description": "The selection of which SEM to send the command to",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Signature": {
+              "description": "Boolean indicating if a profile should be generated by this move command request",
+              "type": "boolean"
+            },
+            "ShutdownRequest": {
+              "description": "Boolean indicates that this command is a shutdown move command",
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/action/Move",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "CloseTimeDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/property/CloseTimeDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CommandRejected": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/property/CommandRejected/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/property/DefeatableCloseInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/property/DefeatableOpenInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastCommand": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "CommandEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=3",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/property/LastCommand/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NonDefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/property/NonDefeatableCloseInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NonDefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/property/NonDefeatableOpenInterlock/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OpenTimeDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/property/OpenTimeDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Position": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "ValvePositionEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=703",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/property/Position/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SignatureRequestStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "SignatureStatusEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=699",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/property/SignatureRequestStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CommandRejected": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/event/CommandRejected/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/event/DefeatableCloseInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/event/DefeatableOpenInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastCommand": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "CommandEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=3",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/event/LastCommand/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NonDefeatableCloseInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/event/NonDefeatableCloseInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NonDefeatableOpenInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/event/NonDefeatableOpenInterlock/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Position": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "ValvePositionEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=703",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/event/Position/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SignatureRequestStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "SignatureStatusEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=699",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISValveObjectType/event/SignatureRequestStatus/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISInformationObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1471",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Signatures",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TimeSynchronization",
+        "href": "#title=MDIS_MDISTimeSyncObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISInformationObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MDIS/MDIS_MDISInformationObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "MDISVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "title": "MDISVersionDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1289",
+        "required": [ "MajorVersion", "MinorVersion", "Build" ],
+        "properties": {
+          "MajorVersion": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "MinorVersion": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "Build": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInformationObjectType/property/MDISVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "MDISVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "data": {
+          "title": "MDISVersionDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1289",
+          "required": [ "MajorVersion", "MinorVersion", "Build" ],
+          "properties": {
+            "MajorVersion": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "MinorVersion": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "Build": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISInformationObjectType/event/MDISVersion/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_MDISTimeSyncObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1468",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "SetTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/MDIS",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1470",
+          "required": [ "TargetTime" ],
+          "properties": {
+            "TargetTime": {
+              "description": "The UTC Time that the Server shall use to update its internal clock.",
+              "type": "string",
+              "format": "time"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MDIS/MDIS_MDISTimeSyncObjectType/action/SetTime",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FileType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Close": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
+          "required": [ "FileHandle" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Close",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetPosition": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
+          "required": [ "FileHandle" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
+          "required": [ "Position" ],
+          "properties": {
+            "Position": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/GetPosition",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Open": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
+          "required": [ "Mode" ],
+          "properties": {
+            "Mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
+          "required": [ "FileHandle" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Open",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Read": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
+          "required": [ "FileHandle", "Length" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Length": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
+          "required": [ "Data" ],
+          "properties": {
+            "Data": {
+              "type": "string",
+              "contentEncoding": "base64"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Read",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetPosition": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
+          "required": [ "FileHandle", "Position" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Position": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/SetPosition",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Write": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
+          "required": [ "FileHandle", "Data" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Data": {
+              "type": "string",
+              "contentEncoding": "base64"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Write",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "LastModifiedTime": {
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/LastModifiedTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxByteStringLength": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MaxByteStringLength/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MimeType": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MimeType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OpenCount": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/OpenCount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Size": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Size/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UserWritable": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/UserWritable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Writable": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Writable/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

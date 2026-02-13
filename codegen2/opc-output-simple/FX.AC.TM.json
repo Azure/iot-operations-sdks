@@ -1,0 +1,5049 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_AcDescriptorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1027",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DescriptorFile",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_AcDescriptorType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_AcDescriptorType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DescriptorIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AcDescriptorType/property/DescriptorIdentifier/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AcDescriptorType/property/DescriptorIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DescriptorVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "FxVersion",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=25",
+        "required": [ "Major", "Minor", "Build", "SubBuild" ],
+        "properties": {
+          "Major": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Minor": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Build": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "SubBuild": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AcDescriptorType/property/DescriptorVersion/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AcDescriptorType/property/DescriptorVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_AssetConnectorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=5",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_AssetConnectorType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_AssetConnectorType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Id": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AssetConnectorType/property/Id/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AssetConnectorType/property/Id/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AssetConnectorType/property/Name/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AssetConnectorType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_ClampBlockType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=7",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FX_AC_AssetConnectorType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Clamp",
+        "href": "#title=FX_AC_ClampType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ClampBlockType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ClampBlockType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ClampBlockType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "BlockSize": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampBlockType/property/BlockSize/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampBlockType/property/BlockSize/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Kind": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampBlockType/property/Kind/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampBlockType/property/Kind/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampBlockType/property/Name/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampBlockType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Kind": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampBlockType/event/Kind/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_ClampType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=10",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FX_AC_AssetConnectorType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ClampType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ClampType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ClampType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Kind": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampType/property/Kind/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampType/property/Kind/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampType/property/Name/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Kind": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ClampType/event/Kind/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_SlotType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FX_AC_AssetConnectorType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_SlotType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_SlotType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Id": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SlotType/property/Id/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SlotType/property/Id/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LogicalId": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SlotType/property/LogicalId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SlotType/property/LogicalId/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_SocketType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=8",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FX_AC_AssetConnectorType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_SocketType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_SocketType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_SocketType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Kind": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SocketType/property/Kind/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SocketType/property/Kind/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SocketType/property/Name/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SocketType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Kind": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SocketType/event/Kind/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_AutomationComponentType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=2",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Assets",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AutomationComponentLog",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_LogObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ComponentCapabilities",
+        "href": "#title=FX_AC_AutomationComponentCapabilitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Descriptors",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Diagnostics",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FunctionalEntities",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "PublisherCapabilities",
+        "href": "#title=FX_AC_PublisherCapabilitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "SubscriberCapabilities",
+        "href": "#title=FX_AC_SubscriberCapabilitiesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "DeviceHealthOptionSet": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3005",
+        "const": {
+          "DeviceFailure": 0,
+          "DeviceCheckFunction": 1,
+          "DeviceMaintenanceRequired": 2,
+          "DeviceOffSpec": 3
+        },
+        "properties": {
+          "DeviceFailure": {
+            "description": "At least one of the top-level Assets has its DeviceHealth set to Failure.",
+            "type": "integer"
+          },
+          "DeviceCheckFunction": {
+            "description": "At least one of the top-level Assets has its DeviceHealth set to CheckFunction.",
+            "type": "integer"
+          },
+          "DeviceMaintenanceRequired": {
+            "description": "At least one of the top-level Assets has its DeviceHealth set to MaintenanceRequired.",
+            "type": "integer"
+          },
+          "DeviceOffSpec": {
+            "description": "At least one of the top-level Assets has its DeviceHealth set to OffSpec.",
+            "type": "integer"
+          }
+        }
+      },
+      "OperationalHealthOptionSet": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "const": {
+          "OperationalWarning": 16,
+          "OperationalError": 17,
+          "SubOperationalWarning": 18,
+          "SubOperationalError": 19
+        },
+        "properties": {
+          "OperationalWarning": {
+            "description": "FunctionalEntity indicates a warning.",
+            "type": "integer"
+          },
+          "OperationalError": {
+            "description": "FunctionalEntity indicates an error.",
+            "type": "integer"
+          },
+          "SubOperationalWarning": {
+            "description": "One of the SubFunctionalEntities indicates a warning.",
+            "type": "integer"
+          },
+          "SubOperationalError": {
+            "description": "One of the SubFunctionalEntities indicates an error.",
+            "type": "integer"
+          }
+        }
+      },
+      "FxCommandMask": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1024",
+        "const": {
+          "VerifyAssetCmd": 0,
+          "VerifyFunctionalEntityCmd": 1,
+          "CreateConnectionEndpointCmd": 2,
+          "EstablishControlCmd": 3,
+          "SetConfigurationDataCmd": 4,
+          "ReassignControlCmd": 5,
+          "ReserveCommunicationIdsCmd": 6,
+          "SetCommunicationConfigurationCmd": 7,
+          "EnableCommunicationCmd": 8
+        },
+        "description": "This OptionSet defines flags indicating the commands a ConnectionManager may use in its call to the EstablishConnections Method.",
+        "properties": {
+          "VerifyAssetCmd": {
+            "description": "The addressed Server shall verify compatibility and/or identity for all requested Assets.",
+            "type": "integer"
+          },
+          "VerifyFunctionalEntityCmd": {
+            "description": "The addressed Server shall verify compatibility for all requested functional entities.",
+            "type": "integer"
+          },
+          "CreateConnectionEndpointCmd": {
+            "description": "The addressed Server shall create or modify ConnectionEndpoints. ",
+            "type": "integer"
+          },
+          "EstablishControlCmd": {
+            "description": "The addressed Server shall establish control over the requested ControlGroups.",
+            "type": "integer"
+          },
+          "SetConfigurationDataCmd": {
+            "description": "The addressed Server shall apply the supplied application configuration.",
+            "type": "integer"
+          },
+          "ReassignControlCmd": {
+            "description": "The addressed Server shall reassign the requested ControlGroups.",
+            "type": "integer"
+          },
+          "ReserveCommunicationIdsCmd": {
+            "description": "The addressed Server shall reserve identifiers for the communication model configuration.",
+            "type": "integer"
+          },
+          "SetCommunicationConfigurationCmd": {
+            "description": "The addressed Server shall apply the supplied communication model configuration.",
+            "type": "integer"
+          },
+          "EnableCommunicationCmd": {
+            "description": "The addressed Server shall enable the communication configuration.",
+            "type": "integer"
+          }
+        }
+      },
+      "AssetVerificationModeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+        "const": {
+          "AssetCompatibility": 0,
+          "AssetIdentity": 1,
+          "AssetIdentityAndCompatibility": 2
+        },
+        "properties": {
+          "AssetCompatibility": {
+            "description": "Verify whether an Asset’s functionality matches or is compatible to the expectation of system engineering.",
+            "type": "integer"
+          },
+          "AssetIdentity": {
+            "description": "Verify whether an Asset’s identity meets the expectation of system engineering.",
+            "type": "integer"
+          },
+          "AssetIdentityAndCompatibility": {
+            "description": "Verify whether an Asset’s identity meets the expectation of system engineering and whether its functionality matches or is compatible to the expectation of system engineering.",
+            "type": "integer"
+          }
+        }
+      },
+      "AssetVerificationResultEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+        "const": {
+          "NotSet": 0,
+          "Match": 1,
+          "Compatible": 2,
+          "Mismatch": 3
+        },
+        "properties": {
+          "NotSet": {
+            "description": "The verification result is not set.",
+            "type": "integer"
+          },
+          "Match": {
+            "description": "Asset matches expectation.",
+            "type": "integer"
+          },
+          "Compatible": {
+            "description": "Asset does not match expectation but is compatible.",
+            "type": "integer"
+          },
+          "Mismatch": {
+            "description": "Asset does not match expectation and is not compatible.",
+            "type": "integer"
+          }
+        }
+      },
+      "FunctionalEntityVerificationResultEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+        "const": {
+          "NotSet": 0,
+          "Match": 1,
+          "Mismatch": 2
+        },
+        "properties": {
+          "NotSet": {
+            "description": "The verification result is not set.",
+            "type": "integer"
+          },
+          "Match": {
+            "description": "FunctionalEntity matches expectation.",
+            "type": "integer"
+          },
+          "Mismatch": {
+            "description": "FunctionalEntity does not match expectation.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "CloseConnections": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1305",
+          "required": [ "ConnectionEndpoints", "Remove" ],
+          "properties": {
+            "ConnectionEndpoints": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Remove": {
+              "type": "boolean"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1306",
+          "required": [ "Results" ],
+          "properties": {
+            "Results": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/action/CloseConnections",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "EstablishConnections": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1303",
+          "required": [ "CommandMask", "AssetVerifications", "ConnectionEndpointConfigurations", "ReserveCommunicationIds", "CommunicationConfigurations" ],
+          "properties": {
+            "CommandMask": {
+              "title": "FxCommandMask",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1024",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "AssetVerifications": {
+              "type": "array",
+              "items": {
+                "title": "AssetVerificationDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1048",
+                "required": [ "AssetToVerify", "VerificationMode", "ExpectedVerificationResult", "ExpectedVerificationVariables", "ExpectedAdditionalVerificationVariables" ],
+                "properties": {
+                  "AssetToVerify": {
+                    "type": "string"
+                  },
+                  "VerificationMode": {
+                    "title": "AssetVerificationModeEnum",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "ExpectedVerificationResult": {
+                    "title": "AssetVerificationResultEnum",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "ExpectedVerificationVariables": {
+                    "type": "array",
+                    "items": {
+                      "title": "KeyValuePair",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                      "required": [ "Key", "Value" ],
+                      "properties": {
+                        "Key": {
+                          "type": "string"
+                        },
+                        "Value": {
+                          "description": "Stand-in for an unspecified data type.",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "ExpectedAdditionalVerificationVariables": {
+                    "type": "array",
+                    "items": {
+                      "title": "NodeIdValuePair",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                      "required": [ "Key", "Value" ],
+                      "properties": {
+                        "Key": {
+                          "title": "NodeIdArray",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                          "required": [ "Node", "ArrayIndex" ],
+                          "properties": {
+                            "Node": {
+                              "type": "string"
+                            },
+                            "ArrayIndex": {
+                              "type": "array",
+                              "items": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 4294967295
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "description": "Stand-in for an unspecified data type.",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "ConnectionEndpointConfigurations": {
+              "type": "array",
+              "items": {
+                "title": "ConnectionEndpointConfigurationDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1044",
+                "required": [ "FunctionalEntityNode", "ConnectionEndpoint", "ExpectedVerificationVariables", "ControlGroups", "ConfigurationData", "CommunicationLinks" ],
+                "properties": {
+                  "FunctionalEntityNode": {
+                    "type": "string"
+                  },
+                  "ConnectionEndpoint": {
+                    "title": "ConnectionEndpointDefinitionDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3011",
+                    "required": [ "Parameter", "Node" ],
+                    "properties": {
+                      "Parameter": {
+                        "title": "ConnectionEndpointParameterDataType",
+                        "type": "object",
+                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3009",
+                        "required": [ "Name", "ConnectionEndpointTypeId", "InputVariableIds", "OutputVariableIds", "IsPersistent", "CleanupTimeout", "RelatedEndpoint", "IsPreconfigured" ],
+                        "properties": {
+                          "Name": {
+                            "type": "string"
+                          },
+                          "ConnectionEndpointTypeId": {
+                            "type": "string"
+                          },
+                          "InputVariableIds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "OutputVariableIds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "IsPersistent": {
+                            "type": "boolean"
+                          },
+                          "CleanupTimeout": {
+                            "type": "string",
+                            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                          },
+                          "RelatedEndpoint": {
+                            "title": "RelatedEndpointDataType",
+                            "type": "object",
+                            "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3003",
+                            "required": [ "Address", "ConnectionEndpointPath", "ConnectionEndpointName" ],
+                            "properties": {
+                              "Address": {
+                                "type": "string"
+                              },
+                              "ConnectionEndpointPath": {
+                                "type": "array",
+                                "items": {
+                                  "title": "PortableQualifiedName",
+                                  "type": "object",
+                                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
+                                  "required": [ "NamespaceUri", "Name" ],
+                                  "properties": {
+                                    "NamespaceUri": {
+                                      "type": "string"
+                                    },
+                                    "Name": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              },
+                              "ConnectionEndpointName": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "IsPreconfigured": {
+                            "type": "boolean"
+                          }
+                        }
+                      },
+                      "Node": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "ExpectedVerificationVariables": {
+                    "type": "array",
+                    "items": {
+                      "title": "NodeIdValuePair",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                      "required": [ "Key", "Value" ],
+                      "properties": {
+                        "Key": {
+                          "title": "NodeIdArray",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                          "required": [ "Node", "ArrayIndex" ],
+                          "properties": {
+                            "Node": {
+                              "type": "string"
+                            },
+                            "ArrayIndex": {
+                              "type": "array",
+                              "items": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 4294967295
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "description": "Stand-in for an unspecified data type.",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "ControlGroups": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "ConfigurationData": {
+                    "type": "array",
+                    "items": {
+                      "title": "NodeIdValuePair",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                      "required": [ "Key", "Value" ],
+                      "properties": {
+                        "Key": {
+                          "title": "NodeIdArray",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                          "required": [ "Node", "ArrayIndex" ],
+                          "properties": {
+                            "Node": {
+                              "type": "string"
+                            },
+                            "ArrayIndex": {
+                              "type": "array",
+                              "items": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 4294967295
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "description": "Stand-in for an unspecified data type.",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "CommunicationLinks": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ReserveCommunicationIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "CommunicationConfigurations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1304",
+          "required": [ "AssetVerificationResults", "ConnectionEndpointConfigurationResults", "ReserveCommunicationIdsResults", "CommunicationConfigurationResults" ],
+          "properties": {
+            "AssetVerificationResults": {
+              "type": "array",
+              "items": {
+                "title": "AssetVerificationResultDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1038",
+                "required": [ "VerificationStatus", "VerificationResult", "VerificationVariablesErrors", "VerificationAdditionalVariablesErrors" ],
+                "properties": {
+                  "VerificationStatus": {
+                    "type": "string"
+                  },
+                  "VerificationResult": {
+                    "title": "AssetVerificationResultEnum",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "VerificationVariablesErrors": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "VerificationAdditionalVariablesErrors": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "ConnectionEndpointConfigurationResults": {
+              "type": "array",
+              "items": {
+                "title": "ConnectionEndpointConfigurationResultDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3008",
+                "required": [ "ConnectionEndpointId", "FunctionalEntityNodeResult", "ConnectionEndpointResult", "VerificationResult", "VerificationStatus", "VerificationVariablesErrors", "EstablishControlResult", "ConfigurationDataResult", "ReassignControlResult", "CommunicationLinksResult", "EnableCommunicationResult" ],
+                "properties": {
+                  "ConnectionEndpointId": {
+                    "type": "string"
+                  },
+                  "FunctionalEntityNodeResult": {
+                    "type": "string"
+                  },
+                  "ConnectionEndpointResult": {
+                    "type": "string"
+                  },
+                  "VerificationResult": {
+                    "title": "FunctionalEntityVerificationResultEnum",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "VerificationStatus": {
+                    "type": "string"
+                  },
+                  "VerificationVariablesErrors": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "EstablishControlResult": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "ConfigurationDataResult": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "ReassignControlResult": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "CommunicationLinksResult": {
+                    "type": "string"
+                  },
+                  "EnableCommunicationResult": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ReserveCommunicationIdsResults": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "CommunicationConfigurationResults": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/action/EstablishConnections",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AggregatedHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "AggregatedHealthDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3003",
+        "required": [ "AggregatedDeviceHealth", "AggregatedOperationalHealth" ],
+        "properties": {
+          "AggregatedDeviceHealth": {
+            "title": "DeviceHealthOptionSet",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3005",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "AggregatedOperationalHealth": {
+            "title": "OperationalHealthOptionSet",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/property/AggregatedHealth/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/property/AggregatedHealth/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AggregatedHealth_AggregatedDeviceHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "DeviceHealthOptionSet",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3005",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/property/AggregatedHealth_AggregatedDeviceHealth/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AggregatedHealth_AggregatedOperationalHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "OperationalHealthOptionSet",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/property/AggregatedHealth_AggregatedOperationalHealth/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConformanceName": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/property/ConformanceName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AggregatedHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "title": "AggregatedHealthDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3003",
+          "required": [ "AggregatedDeviceHealth", "AggregatedOperationalHealth" ],
+          "properties": {
+            "AggregatedDeviceHealth": {
+              "title": "DeviceHealthOptionSet",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3005",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "AggregatedOperationalHealth": {
+              "title": "OperationalHealthOptionSet",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "aov:contains": [ "AggregatedHealth_AggregatedDeviceHealth", "AggregatedHealth_AggregatedOperationalHealth" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/event/AggregatedHealth/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AggregatedHealth_AggregatedDeviceHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "title": "DeviceHealthOptionSet",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3005",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "aov:containedIn": "AggregatedHealth",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/event/AggregatedHealth_AggregatedDeviceHealth/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AggregatedHealth_AggregatedOperationalHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "title": "OperationalHealthOptionSet",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "aov:containedIn": "AggregatedHealth",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/event/AggregatedHealth_AggregatedOperationalHealth/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_AuditUaFxEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1030",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_AuditEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_AuditConnectionCleanupEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1040",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FX_AC_AuditUaFxEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_AuditConnectionCleanupEventType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_AuditConnectionCleanupEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "RelatedEndpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "RelatedEndpointDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3003",
+        "required": [ "Address", "ConnectionEndpointPath", "ConnectionEndpointName" ],
+        "properties": {
+          "Address": {
+            "type": "string"
+          },
+          "ConnectionEndpointPath": {
+            "type": "array",
+            "items": {
+              "title": "PortableQualifiedName",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
+              "required": [ "NamespaceUri", "Name" ],
+              "properties": {
+                "NamespaceUri": {
+                  "type": "string"
+                },
+                "Name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "ConnectionEndpointName": {
+            "type": "string"
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AuditConnectionCleanupEventType/property/RelatedEndpoint/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AuditConnectionCleanupEventType/property/RelatedEndpoint/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemovedEndpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AuditConnectionCleanupEventType/property/RemovedEndpoint/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_AuditConnectionCleanupEventType/property/RemovedEndpoint/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_IAssetExtensionsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Connectors",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Diagnostics",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_IAssetRevisionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=9",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "AssetVerificationModeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+        "const": {
+          "AssetCompatibility": 0,
+          "AssetIdentity": 1,
+          "AssetIdentityAndCompatibility": 2
+        },
+        "properties": {
+          "AssetCompatibility": {
+            "description": "Verify whether an Asset’s functionality matches or is compatible to the expectation of system engineering.",
+            "type": "integer"
+          },
+          "AssetIdentity": {
+            "description": "Verify whether an Asset’s identity meets the expectation of system engineering.",
+            "type": "integer"
+          },
+          "AssetIdentityAndCompatibility": {
+            "description": "Verify whether an Asset’s identity meets the expectation of system engineering and whether its functionality matches or is compatible to the expectation of system engineering.",
+            "type": "integer"
+          }
+        }
+      },
+      "AssetVerificationResultEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+        "const": {
+          "NotSet": 0,
+          "Match": 1,
+          "Compatible": 2,
+          "Mismatch": 3
+        },
+        "properties": {
+          "NotSet": {
+            "description": "The verification result is not set.",
+            "type": "integer"
+          },
+          "Match": {
+            "description": "Asset matches expectation.",
+            "type": "integer"
+          },
+          "Compatible": {
+            "description": "Asset does not match expectation but is compatible.",
+            "type": "integer"
+          },
+          "Mismatch": {
+            "description": "Asset does not match expectation and is not compatible.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_IAssetRevisionType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_IAssetRevisionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "VerifyAsset": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1422",
+          "required": [ "VerificationMode", "ExpectedVerificationVariables" ],
+          "properties": {
+            "VerificationMode": {
+              "type": "array",
+              "items": {
+                "title": "AssetVerificationModeEnum",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            },
+            "ExpectedVerificationVariables": {
+              "type": "array",
+              "items": {
+                "title": "KeyValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1423",
+          "required": [ "VerificationResult", "VerificationVariablesErrors" ],
+          "properties": {
+            "VerificationResult": {
+              "title": "AssetVerificationResultEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "VerificationVariablesErrors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IAssetRevisionType/action/VerifyAsset",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "BuildAssetNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IAssetRevisionType/property/BuildAssetNumber/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IAssetRevisionType/property/BuildAssetNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MajorAssetVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IAssetRevisionType/property/MajorAssetVersion/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IAssetRevisionType/property/MajorAssetVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MinorAssetVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IAssetRevisionType/property/MinorAssetVersion/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IAssetRevisionType/property/MinorAssetVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SubBuildAssetNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IAssetRevisionType/property/SubBuildAssetNumber/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IAssetRevisionType/property/SubBuildAssetNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_IFunctionalEntityType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=11",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Capabilities",
+        "href": "#title=FX_AC_FunctionalEntityCapabilitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ConfigurationData",
+        "href": "#title=FX_AC_ConfigurationDataFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ConnectionEndpoints",
+        "href": "#title=FX_AC_ConnectionEndpointsFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ControlGroups",
+        "href": "#title=FX_AC_ControlGroupsFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Diagnostics",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InputData",
+        "href": "#title=FX_AC_InputsFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operational",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "OperationalHealthAlarms",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OutputData",
+        "href": "#title=FX_AC_OutputsFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "PublisherCapabilities",
+        "href": "#title=FX_AC_PublisherCapabilitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Status",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "SubscriberCapabilities",
+        "href": "#title=FX_AC_SubscriberCapabilitiesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "OperationalHealthOptionSet": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "const": {
+          "OperationalWarning": 16,
+          "OperationalError": 17,
+          "SubOperationalWarning": 18,
+          "SubOperationalError": 19
+        },
+        "properties": {
+          "OperationalWarning": {
+            "description": "FunctionalEntity indicates a warning.",
+            "type": "integer"
+          },
+          "OperationalError": {
+            "description": "FunctionalEntity indicates an error.",
+            "type": "integer"
+          },
+          "SubOperationalWarning": {
+            "description": "One of the SubFunctionalEntities indicates a warning.",
+            "type": "integer"
+          },
+          "SubOperationalError": {
+            "description": "One of the SubFunctionalEntities indicates an error.",
+            "type": "integer"
+          }
+        }
+      },
+      "FunctionalEntityVerificationResultEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+        "const": {
+          "NotSet": 0,
+          "Match": 1,
+          "Mismatch": 2
+        },
+        "properties": {
+          "NotSet": {
+            "description": "The verification result is not set.",
+            "type": "integer"
+          },
+          "Match": {
+            "description": "FunctionalEntity matches expectation.",
+            "type": "integer"
+          },
+          "Mismatch": {
+            "description": "FunctionalEntity does not match expectation.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Verify": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1420",
+          "required": [ "ExpectedVerificationVariables" ],
+          "properties": {
+            "ExpectedVerificationVariables": {
+              "type": "array",
+              "items": {
+                "title": "NodeIdValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "title": "NodeIdArray",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                    "required": [ "Node", "ArrayIndex" ],
+                    "properties": {
+                      "Node": {
+                        "type": "string"
+                      },
+                      "ArrayIndex": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4294967295
+                        }
+                      }
+                    }
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1421",
+          "required": [ "VerificationResult", "VerificationVariablesErrors" ],
+          "properties": {
+            "VerificationResult": {
+              "title": "FunctionalEntityVerificationResultEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "VerificationVariablesErrors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/action/Verify",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ApplicationIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "array",
+        "items": {
+          "title": "ApplicationIdentifierDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=28",
+          "required": [ "Name", "UniqueIdentifier" ],
+          "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "UniqueIdentifier": {
+              "title": "ApplicationId",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3013",
+              "required": [ "IdNumeric", "IdString", "IdGuid", "IdByteString" ],
+              "properties": {
+                "IdNumeric": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "IdString": {
+                  "type": "string"
+                },
+                "IdGuid": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "IdByteString": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                }
+              }
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/property/ApplicationIdentifier/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/property/ApplicationIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AuthorAssignedIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/property/AuthorAssignedIdentifier/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/property/AuthorAssignedIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AuthorAssignedVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "FxVersion",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=25",
+        "required": [ "Major", "Minor", "Build", "SubBuild" ],
+        "properties": {
+          "Major": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Minor": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Build": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "SubBuild": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/property/AuthorAssignedVersion/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/property/AuthorAssignedVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AuthorUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/property/AuthorUri/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/property/AuthorUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationalHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "OperationalHealthOptionSet",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/property/OperationalHealth/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "OperationalHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "title": "OperationalHealthOptionSet",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/event/OperationalHealth/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_ConnectionEndpointType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Diagnostics",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ConnectionEndpointStatusEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3007",
+        "const": {
+          "Initial": 0,
+          "Ready": 1,
+          "PreOperational": 2,
+          "Operational": 3,
+          "Error": 4
+        },
+        "description": "This enumeration defines the values of the FlcConnectionStatus of an FlcConnectionEndpointType. ",
+        "properties": {
+          "Initial": {
+            "description": "Initial status of the logical connection. No communication-model objects referenced.",
+            "type": "integer"
+          },
+          "Ready": {
+            "description": "Logical connection is ready to operate, Communication-model objects are referenced but not enabled.",
+            "type": "integer"
+          },
+          "PreOperational": {
+            "description": "PreOperational status of the logical connection, Data output is active, but no input data received.",
+            "type": "integer"
+          },
+          "Operational": {
+            "description": "Operational status of the logical connection, Data output is active, and input data has been received.",
+            "type": "integer"
+          },
+          "Error": {
+            "description": "The logical connection has encountered an Error.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CleanupTimeout": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/CleanupTimeout/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/CleanupTimeout/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConnectionManagerApplicationUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/ConnectionManagerApplicationUri/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/ConnectionManagerApplicationUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InputVariables": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/InputVariables/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/InputVariables/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsPersistent": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/IsPersistent/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/IsPersistent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OutputVariables": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/OutputVariables/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/OutputVariables/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelatedEndpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "RelatedEndpointDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3003",
+        "required": [ "Address", "ConnectionEndpointPath", "ConnectionEndpointName" ],
+        "properties": {
+          "Address": {
+            "type": "string"
+          },
+          "ConnectionEndpointPath": {
+            "type": "array",
+            "items": {
+              "title": "PortableQualifiedName",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
+              "required": [ "NamespaceUri", "Name" ],
+              "properties": {
+                "NamespaceUri": {
+                  "type": "string"
+                },
+                "Name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "ConnectionEndpointName": {
+            "type": "string"
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/RelatedEndpoint/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/RelatedEndpoint/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "ConnectionEndpointStatusEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3007",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CleanupTimeout": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/event/CleanupTimeout/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ConnectionManagerApplicationUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/event/ConnectionManagerApplicationUri/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "InputVariables": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/event/InputVariables/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "IsPersistent": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/event/IsPersistent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OutputVariables": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/event/OutputVariables/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelatedEndpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "title": "RelatedEndpointDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3003",
+          "required": [ "Address", "ConnectionEndpointPath", "ConnectionEndpointName" ],
+          "properties": {
+            "Address": {
+              "type": "string"
+            },
+            "ConnectionEndpointPath": {
+              "type": "array",
+              "items": {
+                "title": "PortableQualifiedName",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
+                "required": [ "NamespaceUri", "Name" ],
+                "properties": {
+                  "NamespaceUri": {
+                    "type": "string"
+                  },
+                  "Name": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ConnectionEndpointName": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/event/RelatedEndpoint/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "title": "ConnectionEndpointStatusEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3007",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/event/Status/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_PubSubConnectionEndpointType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1005",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FX_AC_ConnectionEndpointType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "PubSubConnectionEndpointModeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=31",
+        "const": {
+          "PublisherSubscriber": 1,
+          "Publisher": 2,
+          "Subscriber": 3
+        },
+        "properties": {
+          "PublisherSubscriber": {
+            "description": "Reference to DataSetReader and DataSetWriter required.",
+            "type": "integer"
+          },
+          "Publisher": {
+            "description": "Reference to DataSetWriter is required.",
+            "type": "integer"
+          },
+          "Subscriber": {
+            "description": "Reference to DataSetReader is required.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_PubSubConnectionEndpointType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_PubSubConnectionEndpointType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_PubSubConnectionEndpointType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Mode": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "PubSubConnectionEndpointModeEnum",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=31",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PubSubConnectionEndpointType/property/Mode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PubSubConnectionEndpointType/property/Mode/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Mode": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "title": "PubSubConnectionEndpointModeEnum",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=31",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PubSubConnectionEndpointType/event/Mode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_ControlGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=15",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ListOfRelated",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ListToBlock",
+        "href": "#title=FX_AC_ControlItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ListToRestrict",
+        "href": "#title=FX_AC_ControlItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ControlGroup",
+        "href": "#title=FX_AC_ControlGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ControlGroupType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ControlGroupType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "EstablishControl": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6093",
+          "required": [ "LockContext" ],
+          "properties": {
+            "LockContext": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6094",
+          "required": [ "LockStatus" ],
+          "properties": {
+            "LockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ControlGroupType/action/EstablishControl",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReassignControl": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6366",
+          "required": [ "LockContext" ],
+          "properties": {
+            "LockContext": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6367",
+          "required": [ "LockStatus" ],
+          "properties": {
+            "LockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ControlGroupType/action/ReassignControl",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReleaseControl": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ControlGroupType/action/ReleaseControl",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "IsControlled": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ControlGroupType/property/IsControlled/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ControlGroupType/property/IsControlled/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_AutomationComponentCapabilitiesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1001",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_ConnectionEndpointsFolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=20",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "ConnectionEndpoint",
+        "aov:refType": "HasConnectionEndpoint",
+        "href": "#title=FX_AC_ConnectionEndpointType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "CommHealthOptionSet": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3004",
+        "const": {
+          "CommInitial": 0,
+          "CommPreOperational": 1,
+          "CommError": 2
+        },
+        "properties": {
+          "CommInitial": {
+            "description": "At least one of the ConnectionEndpoints has its Status set to Initial.",
+            "type": "integer"
+          },
+          "CommPreOperational": {
+            "description": "At least one of the ConnectionEndpoints has its Status set to PreOperational.",
+            "type": "integer"
+          },
+          "CommError": {
+            "description": "At least one of the ConnectionEndpoints has its Status set to Error.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointsFolderType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointsFolderType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CommHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "CommHealthOptionSet",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointsFolderType/property/CommHealth/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CommHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "title": "CommHealthOptionSet",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3004",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointsFolderType/event/CommHealth/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_ControlGroupsFolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1010",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "ControlGroup",
+        "aov:refType": "HasControlGroup",
+        "href": "#title=FX_AC_ControlGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_FunctionalEntityCapabilitiesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_ConfigurationDataFolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1041",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "ClearStoredVariables": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6398",
+          "required": [ "VariablesToClear" ],
+          "properties": {
+            "VariablesToClear": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6399",
+          "required": [ "Results" ],
+          "properties": {
+            "Results": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConfigurationDataFolderType/action/ClearStoredVariables",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ListStoredVariables": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6401",
+          "required": [ "StoredVariables" ],
+          "properties": {
+            "StoredVariables": {
+              "type": "array",
+              "items": {
+                "title": "NodeIdValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "title": "NodeIdArray",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                    "required": [ "Node", "ArrayIndex" ],
+                    "properties": {
+                      "Node": {
+                        "type": "string"
+                      },
+                      "ArrayIndex": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4294967295
+                        }
+                      }
+                    }
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConfigurationDataFolderType/action/ListStoredVariables",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetStoredVariables": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6396",
+          "required": [ "VariablesToStore" ],
+          "properties": {
+            "VariablesToStore": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6397",
+          "required": [ "Results" ],
+          "properties": {
+            "Results": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ConfigurationDataFolderType/action/SetStoredVariables",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_ControlItemFolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Lock",
+        "href": "./DI.TM.json#title=DI_LockingServicesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ControlItemFolderType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_ControlItemFolderType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "MaxInactiveLockTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ControlItemFolderType/property/MaxInactiveLockTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_ControlItemFolderType/property/MaxInactiveLockTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_InputsFolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1000",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "SubscriberCapabilities",
+        "href": "#title=FX_AC_SubscriberCapabilitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "InputGroup",
+        "aov:refType": "HasInputGroup",
+        "href": "#title=FX_AC_InputsFolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_OutputsFolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1019",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "PublisherCapabilities",
+        "href": "#title=FX_AC_PublisherCapabilitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "OutputGroup",
+        "aov:refType": "HasOutputGroup",
+        "href": "#title=FX_AC_OutputsFolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_FunctionalEntityType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=4",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Capabilities",
+        "href": "#title=FX_AC_FunctionalEntityCapabilitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ConfigurationData",
+        "href": "#title=FX_AC_ConfigurationDataFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ConnectionEndpoints",
+        "href": "#title=FX_AC_ConnectionEndpointsFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ControlGroups",
+        "href": "#title=FX_AC_ControlGroupsFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Diagnostics",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InputData",
+        "href": "#title=FX_AC_InputsFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operational",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "OperationalHealthAlarms",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OutputData",
+        "href": "#title=FX_AC_OutputsFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "PublisherCapabilities",
+        "href": "#title=FX_AC_PublisherCapabilitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Status",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "SubscriberCapabilities",
+        "href": "#title=FX_AC_SubscriberCapabilitiesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "SubFunctionalEntity",
+        "aov:refType": "HasSubFunctionalEntity",
+        "href": "#title=FX_AC_FunctionalEntityType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "OperationalHealthOptionSet": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "const": {
+          "OperationalWarning": 16,
+          "OperationalError": 17,
+          "SubOperationalWarning": 18,
+          "SubOperationalError": 19
+        },
+        "properties": {
+          "OperationalWarning": {
+            "description": "FunctionalEntity indicates a warning.",
+            "type": "integer"
+          },
+          "OperationalError": {
+            "description": "FunctionalEntity indicates an error.",
+            "type": "integer"
+          },
+          "SubOperationalWarning": {
+            "description": "One of the SubFunctionalEntities indicates a warning.",
+            "type": "integer"
+          },
+          "SubOperationalError": {
+            "description": "One of the SubFunctionalEntities indicates an error.",
+            "type": "integer"
+          }
+        }
+      },
+      "FunctionalEntityVerificationResultEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+        "const": {
+          "NotSet": 0,
+          "Match": 1,
+          "Mismatch": 2
+        },
+        "properties": {
+          "NotSet": {
+            "description": "The verification result is not set.",
+            "type": "integer"
+          },
+          "Match": {
+            "description": "FunctionalEntity matches expectation.",
+            "type": "integer"
+          },
+          "Mismatch": {
+            "description": "FunctionalEntity does not match expectation.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Verify": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1358",
+          "required": [ "ExpectedVerificationVariables" ],
+          "properties": {
+            "ExpectedVerificationVariables": {
+              "type": "array",
+              "items": {
+                "title": "NodeIdValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "title": "NodeIdArray",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                    "required": [ "Node", "ArrayIndex" ],
+                    "properties": {
+                      "Node": {
+                        "type": "string"
+                      },
+                      "ArrayIndex": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4294967295
+                        }
+                      }
+                    }
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1359",
+          "required": [ "VerificationResult", "VerificationVariablesErrors" ],
+          "properties": {
+            "VerificationResult": {
+              "title": "FunctionalEntityVerificationResultEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "VerificationVariablesErrors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/action/Verify",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ApplicationIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "array",
+        "items": {
+          "title": "ApplicationIdentifierDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=28",
+          "required": [ "Name", "UniqueIdentifier" ],
+          "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "UniqueIdentifier": {
+              "title": "ApplicationId",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3013",
+              "required": [ "IdNumeric", "IdString", "IdGuid", "IdByteString" ],
+              "properties": {
+                "IdNumeric": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "IdString": {
+                  "type": "string"
+                },
+                "IdGuid": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "IdByteString": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                }
+              }
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/property/ApplicationIdentifier/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/property/ApplicationIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AuthorAssignedIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/property/AuthorAssignedIdentifier/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/property/AuthorAssignedIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AuthorAssignedVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "FxVersion",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=25",
+        "required": [ "Major", "Minor", "Build", "SubBuild" ],
+        "properties": {
+          "Major": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Minor": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Build": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "SubBuild": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/property/AuthorAssignedVersion/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/property/AuthorAssignedVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AuthorUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/property/AuthorUri/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/property/AuthorUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationalHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "title": "OperationalHealthOptionSet",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/property/OperationalHealth/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "OperationalHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "title": "OperationalHealthOptionSet",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/event/OperationalHealth/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_FxAssetType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Connectors",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DeviceHealthAlarms",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Diagnostics",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "DeviceHealthEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "const": {
+          "NORMAL": 0,
+          "FAILURE": 1,
+          "CHECK_FUNCTION": 2,
+          "OFF_SPEC": 3,
+          "MAINTENANCE_REQUIRED": 4
+        },
+        "properties": {
+          "NORMAL": {
+            "description": "This device functions normally.",
+            "type": "integer"
+          },
+          "FAILURE": {
+            "description": "Malfunction of the device or any of its peripherals.",
+            "type": "integer"
+          },
+          "CHECK_FUNCTION": {
+            "description": "Functional checks are currently performed.",
+            "type": "integer"
+          },
+          "OFF_SPEC": {
+            "description": "The device is currently working outside of its specified range or that internal diagnoses indicate deviations from measured or set values.",
+            "type": "integer"
+          },
+          "MAINTENANCE_REQUIRED": {
+            "description": "This element is working, but a maintenance operation is required.",
+            "type": "integer"
+          }
+        }
+      },
+      "AssetVerificationModeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+        "const": {
+          "AssetCompatibility": 0,
+          "AssetIdentity": 1,
+          "AssetIdentityAndCompatibility": 2
+        },
+        "properties": {
+          "AssetCompatibility": {
+            "description": "Verify whether an Asset’s functionality matches or is compatible to the expectation of system engineering.",
+            "type": "integer"
+          },
+          "AssetIdentity": {
+            "description": "Verify whether an Asset’s identity meets the expectation of system engineering.",
+            "type": "integer"
+          },
+          "AssetIdentityAndCompatibility": {
+            "description": "Verify whether an Asset’s identity meets the expectation of system engineering and whether its functionality matches or is compatible to the expectation of system engineering.",
+            "type": "integer"
+          }
+        }
+      },
+      "AssetVerificationResultEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+        "const": {
+          "NotSet": 0,
+          "Match": 1,
+          "Compatible": 2,
+          "Mismatch": 3
+        },
+        "properties": {
+          "NotSet": {
+            "description": "The verification result is not set.",
+            "type": "integer"
+          },
+          "Match": {
+            "description": "Asset matches expectation.",
+            "type": "integer"
+          },
+          "Compatible": {
+            "description": "Asset does not match expectation but is compatible.",
+            "type": "integer"
+          },
+          "Mismatch": {
+            "description": "Asset does not match expectation and is not compatible.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "VerifyAsset": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1356",
+          "required": [ "VerificationMode", "ExpectedVerificationVariables", "ExpectedAdditionalVerificationVariables" ],
+          "properties": {
+            "VerificationMode": {
+              "title": "AssetVerificationModeEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ExpectedVerificationVariables": {
+              "type": "array",
+              "items": {
+                "title": "KeyValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ExpectedAdditionalVerificationVariables": {
+              "type": "array",
+              "items": {
+                "title": "NodeIdValuePair",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "title": "NodeIdArray",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                    "required": [ "Node", "ArrayIndex" ],
+                    "properties": {
+                      "Node": {
+                        "type": "string"
+                      },
+                      "ArrayIndex": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4294967295
+                        }
+                      }
+                    }
+                  },
+                  "Value": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1357",
+          "required": [ "VerificationResult", "VerificationVariablesErrors", "VerificationAdditionalVariablesErrors" ],
+          "properties": {
+            "VerificationResult": {
+              "title": "AssetVerificationResultEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "VerificationVariablesErrors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "VerificationAdditionalVariablesErrors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/action/VerifyAsset",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/AssetId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BuildAssetNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/BuildAssetNumber/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/BuildAssetNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/ComponentName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/DeviceClass/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/DeviceClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "title": "DeviceHealthEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/DeviceHealth/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/DeviceHealth/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceManual": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/DeviceManual/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/DeviceManual/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/DeviceRevision/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/DeviceRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HardwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/HardwareRevision/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/HardwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MajorAssetVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/MajorAssetVersion/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/MajorAssetVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/Manufacturer/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManufacturerUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/ManufacturerUri/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/ManufacturerUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MinorAssetVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/MinorAssetVersion/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/MinorAssetVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/Model/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/ProductCode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/ProductInstanceUri/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RevisionCounter": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/RevisionCounter/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/RevisionCounter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/SerialNumber/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SoftwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/SoftwareRevision/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/SoftwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SubBuildAssetNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/SubBuildAssetNumber/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/property/SubBuildAssetNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "DeviceHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "title": "DeviceHealthEnumeration",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_FxAssetType/event/DeviceHealth/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_PublisherCapabilitiesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "FxTimeUnitsEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+        "const": {
+          "Nanosecond": 0,
+          "Microsecond": 1,
+          "Millisecond": 2,
+          "Second": 3
+        },
+        "description": "This enumeration describes the support units of time",
+        "properties": {
+          "Nanosecond": {
+            "type": "integer"
+          },
+          "Microsecond": {
+            "type": "integer"
+          },
+          "Millisecond": {
+            "type": "integer"
+          },
+          "Second": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "PreconfiguredDataSetOnly": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/property/PreconfiguredDataSetOnly/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/property/PreconfiguredDataSetOnly/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PreconfiguredPublishedDataSets": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/property/PreconfiguredPublishedDataSets/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/property/PreconfiguredPublishedDataSets/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupportedPublishingIntervals": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "array",
+        "items": {
+          "title": "IntervalRange",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+          "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
+          "properties": {
+            "Min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Max": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Increment": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "Multiplier": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "Unit": {
+              "title": "FxTimeUnitsEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/property/SupportedPublishingIntervals/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/property/SupportedPublishingIntervals/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupportedQos": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "array",
+        "items": {
+          "title": "PublisherQosDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3011",
+          "required": [ "QosCategory", "DatagramQos" ],
+          "properties": {
+            "QosCategory": {
+              "type": "string"
+            },
+            "DatagramQos": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/property/SupportedQos/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/property/SupportedQos/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "PreconfiguredDataSetOnly": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/event/PreconfiguredDataSetOnly/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PreconfiguredPublishedDataSets": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/event/PreconfiguredPublishedDataSets/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SupportedPublishingIntervals": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "IntervalRange",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+            "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
+            "properties": {
+              "Min": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "Max": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "Increment": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "Multiplier": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "Unit": {
+                "title": "FxTimeUnitsEnum",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/event/SupportedPublishingIntervals/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SupportedQos": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "PublisherQosDataType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3011",
+            "required": [ "QosCategory", "DatagramQos" ],
+            "properties": {
+              "QosCategory": {
+                "type": "string"
+              },
+              "DatagramQos": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_PublisherCapabilitiesType/event/SupportedQos/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_SubscriberCapabilitiesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "FxTimeUnitsEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+        "const": {
+          "Nanosecond": 0,
+          "Microsecond": 1,
+          "Millisecond": 2,
+          "Second": 3
+        },
+        "description": "This enumeration describes the support units of time",
+        "properties": {
+          "Nanosecond": {
+            "type": "integer"
+          },
+          "Microsecond": {
+            "type": "integer"
+          },
+          "Millisecond": {
+            "type": "integer"
+          },
+          "Second": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "PreconfiguredDataSetOnly": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/property/PreconfiguredDataSetOnly/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/property/PreconfiguredDataSetOnly/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PreconfiguredSubscribedDataSets": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/property/PreconfiguredSubscribedDataSets/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/property/PreconfiguredSubscribedDataSets/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupportedMessageReceiveTimeouts": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "array",
+        "items": {
+          "title": "IntervalRange",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+          "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
+          "properties": {
+            "Min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Max": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Increment": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "Multiplier": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "Unit": {
+              "title": "FxTimeUnitsEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/property/SupportedMessageReceiveTimeouts/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/property/SupportedMessageReceiveTimeouts/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupportedPublishingIntervals": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "array",
+        "items": {
+          "title": "IntervalRange",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+          "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
+          "properties": {
+            "Min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Max": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Increment": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "Multiplier": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "Unit": {
+              "title": "FxTimeUnitsEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/property/SupportedPublishingIntervals/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/property/SupportedPublishingIntervals/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupportedQos": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "type": "array",
+        "items": {
+          "title": "SubscriberQosDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3012",
+          "required": [ "QosCategory", "DatagramQos" ],
+          "properties": {
+            "QosCategory": {
+              "type": "string"
+            },
+            "DatagramQos": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/property/SupportedQos/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/property/SupportedQos/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "PreconfiguredDataSetOnly": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/event/PreconfiguredDataSetOnly/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PreconfiguredSubscribedDataSets": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/event/PreconfiguredSubscribedDataSets/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SupportedMessageReceiveTimeouts": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "IntervalRange",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+            "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
+            "properties": {
+              "Min": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "Max": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "Increment": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "Multiplier": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "Unit": {
+                "title": "FxTimeUnitsEnum",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/event/SupportedMessageReceiveTimeouts/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SupportedPublishingIntervals": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "IntervalRange",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+            "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
+            "properties": {
+              "Min": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "Max": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "Increment": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "Multiplier": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "Unit": {
+                "title": "FxTimeUnitsEnum",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/event/SupportedPublishingIntervals/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SupportedQos": {
+        "aov:namespace": "http://opcfoundation.org/UA/FX/AC/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "SubscriberQosDataType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3012",
+            "required": [ "QosCategory", "DatagramQos" ],
+            "properties": {
+              "QosCategory": {
+                "type": "string"
+              },
+              "DatagramQos": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.AC/FX_AC_SubscriberCapabilitiesType/event/SupportedQos/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

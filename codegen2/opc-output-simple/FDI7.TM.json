@@ -1,0 +1,1722 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_Foundation_H1",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1371",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ProtocolType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_Foundation_HSE",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1372",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ProtocolType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_Profibus_DP",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1373",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ProtocolType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_Profibus_PA",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1374",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ProtocolType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_Profinet_IO",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1375",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ProtocolType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_HART",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1376",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ProtocolType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ISA100_Wireless",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1377",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ProtocolType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_GenericProtocol",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1378",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ProtocolType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_GenericProtocol/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ProtocolIdentifier": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_GenericProtocol/property/ProtocolIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ConnectionPoint_Foundation_H1",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1380",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ConnectionPointType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_H1/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Address": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_H1/property/Address/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OrdinalNumber": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_H1/property/OrdinalNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SIFConnection": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_H1/property/SIFConnection/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ConnectionPoint_Foundation_HSE",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1424",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ConnectionPointType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_HSE/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Address": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_HSE/property/Address/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OrdinalNumber": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_HSE/property/OrdinalNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ConnectionPoint_Profibus_DP",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1467",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ConnectionPointType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profibus_DP/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Address": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profibus_DP/property/Address/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ConnectionPoint_Profinet_IO",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1509",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ConnectionPointType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profinet_IO/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DNSNAME": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profinet_IO/property/DNSNAME/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IPv4": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profinet_IO/property/IPv4/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MAC": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profinet_IO/property/MAC/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VALID": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profinet_IO/property/VALID/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ConnectionPoint_HART_TP5",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1554",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ConnectionPointType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DevAddr": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevAddr/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevMfg": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevMfg/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevPollAddr": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevPollAddr/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevRev": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevRev/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevTag": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevTag/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevType": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevType/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ConnectionPoint_HART_TP6",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1601",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ConnectionPointType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DevAddr": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevAddr/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevMfg": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevMfg/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevPollAddr": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevPollAddr/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevRev": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevRev/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevTag": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevTag/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevType": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevType/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ConnectionPoint_HART_TP7",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1648",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ConnectionPointType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DevAddr": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevAddr/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevMfg": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevMfg/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevPollAddr": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevPollAddr/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevRev": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevRev/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevTag": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevTag/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevType": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevType/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ConnectionPoint_ISA100_Wireless",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1695",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ConnectionPointType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DevMfg": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/DevMfg/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevPollAddr": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/DevPollAddr/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevRev": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/DevRev/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevTag": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/DevTag/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DevType": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/DevType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IPAddress": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/IPAddress/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_GenericConnectionPoint",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1742",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ConnectionPointType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_GenericConnectionPoint/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Address": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_GenericConnectionPoint/property/Address/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProtocolIdentifier": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_GenericConnectionPoint/property/ProtocolIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_CommunicationServerType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=11",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_DeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "SubDevices",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationDeviceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=93",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_DeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_ServerCommunicationDeviceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ListOfCommunicationProfiles": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ServerCommunicationDeviceType/property/ListOfCommunicationProfiles/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationFFH1DeviceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=324",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ServiceProvider",
+        "href": "#title=FDI7_ServerCommunicationFFH1ServiceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationFFHSEDeviceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=452",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ServiceProvider",
+        "href": "#title=FDI7_ServerCommunicationFFHSEServiceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationPROFIBUSDeviceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=580",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ServiceProvider",
+        "href": "#title=FDI7_ServerCommunicationPROFIBUSServiceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationPROFINETDeviceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=705",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ServiceProvider",
+        "href": "#title=FDI7_ServerCommunicationPROFINETServiceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationHARType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=830",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ServiceProvider",
+        "href": "#title=FDI7_ServerCommunicationHARTServiceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationISA100_WirelessDeviceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1788",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ServiceProvider",
+        "href": "#title=FDI7_ServerCommunicationISA100_WirelessServiceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationGENERICDeviceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1913",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ServiceProvider",
+        "href": "#title=FDI7_ServerCommunicationGENERICServiceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FDI7/FDI7_ServerCommunicationGENERICDeviceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ProtocolIdentifier": {
+        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI7/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FDI7/FDI7_ServerCommunicationGENERICDeviceType/property/ProtocolIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationServiceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=233",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_DeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationFFH1ServiceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=997",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationFFHSEServiceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1073",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationPROFIBUSServiceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1149",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationPROFINETServiceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1222",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationHARTServiceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1295",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationISA100_WirelessServiceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=2057",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FDI7_ServerCommunicationGENERICServiceType",
+    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=2133",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

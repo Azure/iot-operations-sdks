@@ -1,0 +1,5513 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_WwAlarmConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1007",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_AlarmConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "WwEventCategoryEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "const": {
+          "OTHER": 0,
+          "DIAGNOSTIC": 1,
+          "INFORMATION": 2,
+          "WARNING": 3,
+          "ALARM": 4,
+          "ERROR": 5
+        },
+        "description": "This enumeration represents the category of an event.",
+        "properties": {
+          "OTHER": {
+            "description": "No other event category applies or it is unknown.",
+            "type": "integer"
+          },
+          "DIAGNOSTIC": {
+            "description": "The event is a diagnostic event.",
+            "type": "integer"
+          },
+          "INFORMATION": {
+            "description": "The event is an information event.",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The event is a warning event.",
+            "type": "integer"
+          },
+          "ALARM": {
+            "description": "The event is an alarm event.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The event is an error event.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Woodworking/Woodworking_WwAlarmConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Arguments": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Arguments Variable is an argument value array of one dimension that can be used to parameterize the message. The number of the indexing in the array corresponds to the placeholder number in the message text. This ensures that the formatting functions of the implementations enable the localized message texts to be created.",
+        "type": "array",
+        "items": {
+          "title": "WwMessageArgumentDataType",
+          "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
+          "required": [ "Value" ],
+          "properties": {
+            "Value": {
+              "title": "WwMessageArgumentValueDataType",
+              "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
+              "required": [ "Array", "Boolean", "Int16", "Int32", "Int64", "SByte", "UInt16", "UInt32", "UInt64", "Byte", "DateTime", "Guid", "LocalizedText", "Double", "Float", "String", "Other" ],
+              "properties": {
+                "Array": {
+                  "description": "The content of the value as an array of the own type",
+                  "type": "array",
+                  "items": {
+                    "description": "Stand-in for the infinite remainder of this data structure, which is recursively defined.",
+                    "type": "string"
+                  }
+                },
+                "Boolean": {
+                  "description": "The content of the value as a boolean",
+                  "type": "boolean"
+                },
+                "Int16": {
+                  "description": "The content of the value as a 16 bit integer",
+                  "type": "integer",
+                  "minimum": -32768,
+                  "maximum": 32767
+                },
+                "Int32": {
+                  "description": "The content of the value as a 32 bit integer",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Int64": {
+                  "description": "The content of the value as a 64 bit integer",
+                  "type": "integer",
+                  "minimum": -9223372036854775808,
+                  "maximum": 9223372036854775807
+                },
+                "SByte": {
+                  "description": "The content of the value as a 8 bit integer",
+                  "type": "integer",
+                  "minimum": -128,
+                  "maximum": 127
+                },
+                "UInt16": {
+                  "description": "The content of the value as a 16 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "UInt32": {
+                  "description": "The content of the value as a 32 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "UInt64": {
+                  "description": "The content of the value as a 64 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 18446744073709551615
+                },
+                "Byte": {
+                  "description": "The content of the value as a 8 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "DateTime": {
+                  "description": "The content of the value as a datetime",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Guid": {
+                  "description": "The content of the value as a GUID",
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "LocalizedText": {
+                  "description": "The content of the value as a localized text",
+                  "type": "string"
+                },
+                "Double": {
+                  "description": "The content of the value as a double",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Float": {
+                  "description": "The content of the value as a float",
+                  "type": "number",
+                  "minimum": -3.40e+38,
+                  "maximum": 3.40e+38
+                },
+                "String": {
+                  "description": "The content of the value as a string",
+                  "type": "string"
+                },
+                "Other": {
+                  "description": "The content of the value has no standard format and is instantiated as a string",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAlarmConditionType/property/Arguments/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventCategory": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "title": "WwEventCategoryEnumeration",
+        "description": "The EventCategory Variable provides the category of the event.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAlarmConditionType/property/EventCategory/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Group": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Group Variable specifies the class or group of the Message like “safety”, “emergency”, “consumable”.  See chapter “Categorizing and grouping the messages, events, alarms and conditions”.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAlarmConditionType/property/Group/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LocalizedMessages": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The LocalizedMessages Variable contains an array of localized messages corresponding to the installed server languages.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAlarmConditionType/property/LocalizedMessages/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MessageId": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MessageId Variable is a unique Identifier like a number or name of the message in the cause path (PathParts) determined Module. Example: “A4711” or “1”",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAlarmConditionType/property/MessageId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MessageName": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MessageName Variable is a short name like a number or title to reference a translation of the general message text. Example: “ID_MSG_EmergencyAlarm”.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAlarmConditionType/property/MessageName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PathParts": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The PathParts Variable is an array of Path information strings based on a server independent hierarchical structure of modules or an application specific expansion of that. It is an additional location information beside the SourceName. Example:  “Machine”, “FixedSide”, “Sizing”, “Milling1”",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAlarmConditionType/property/PathParts/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_WwAcknowledgeableConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1005",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_AcknowledgeableConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "WwEventCategoryEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "const": {
+          "OTHER": 0,
+          "DIAGNOSTIC": 1,
+          "INFORMATION": 2,
+          "WARNING": 3,
+          "ALARM": 4,
+          "ERROR": 5
+        },
+        "description": "This enumeration represents the category of an event.",
+        "properties": {
+          "OTHER": {
+            "description": "No other event category applies or it is unknown.",
+            "type": "integer"
+          },
+          "DIAGNOSTIC": {
+            "description": "The event is a diagnostic event.",
+            "type": "integer"
+          },
+          "INFORMATION": {
+            "description": "The event is an information event.",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The event is a warning event.",
+            "type": "integer"
+          },
+          "ALARM": {
+            "description": "The event is an alarm event.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The event is an error event.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Woodworking/Woodworking_WwAcknowledgeableConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Arguments": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Arguments Variable is an argument value array of one dimension that can be used to parameterize the message. The number of the indexing in the array corresponds to the placeholder number in the message text. This ensures that the formatting functions of the implementations enable the localized message texts to be created.",
+        "type": "array",
+        "items": {
+          "title": "WwMessageArgumentDataType",
+          "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
+          "required": [ "Value" ],
+          "properties": {
+            "Value": {
+              "title": "WwMessageArgumentValueDataType",
+              "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
+              "required": [ "Array", "Boolean", "Int16", "Int32", "Int64", "SByte", "UInt16", "UInt32", "UInt64", "Byte", "DateTime", "Guid", "LocalizedText", "Double", "Float", "String", "Other" ],
+              "properties": {
+                "Array": {
+                  "description": "The content of the value as an array of the own type",
+                  "type": "array",
+                  "items": {
+                    "description": "Stand-in for the infinite remainder of this data structure, which is recursively defined.",
+                    "type": "string"
+                  }
+                },
+                "Boolean": {
+                  "description": "The content of the value as a boolean",
+                  "type": "boolean"
+                },
+                "Int16": {
+                  "description": "The content of the value as a 16 bit integer",
+                  "type": "integer",
+                  "minimum": -32768,
+                  "maximum": 32767
+                },
+                "Int32": {
+                  "description": "The content of the value as a 32 bit integer",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Int64": {
+                  "description": "The content of the value as a 64 bit integer",
+                  "type": "integer",
+                  "minimum": -9223372036854775808,
+                  "maximum": 9223372036854775807
+                },
+                "SByte": {
+                  "description": "The content of the value as a 8 bit integer",
+                  "type": "integer",
+                  "minimum": -128,
+                  "maximum": 127
+                },
+                "UInt16": {
+                  "description": "The content of the value as a 16 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "UInt32": {
+                  "description": "The content of the value as a 32 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "UInt64": {
+                  "description": "The content of the value as a 64 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 18446744073709551615
+                },
+                "Byte": {
+                  "description": "The content of the value as a 8 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "DateTime": {
+                  "description": "The content of the value as a datetime",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Guid": {
+                  "description": "The content of the value as a GUID",
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "LocalizedText": {
+                  "description": "The content of the value as a localized text",
+                  "type": "string"
+                },
+                "Double": {
+                  "description": "The content of the value as a double",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Float": {
+                  "description": "The content of the value as a float",
+                  "type": "number",
+                  "minimum": -3.40e+38,
+                  "maximum": 3.40e+38
+                },
+                "String": {
+                  "description": "The content of the value as a string",
+                  "type": "string"
+                },
+                "Other": {
+                  "description": "The content of the value has no standard format and is instantiated as a string",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAcknowledgeableConditionType/property/Arguments/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventCategory": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "title": "WwEventCategoryEnumeration",
+        "description": "The EventCategory Variable provides the category of the event.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAcknowledgeableConditionType/property/EventCategory/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Group": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Group Variable specifies the class or group of the Message like “safety”, “emergency”, “consumable”.  See chapter “Categorizing and grouping the messages, events, alarms and conditions”.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAcknowledgeableConditionType/property/Group/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LocalizedMessages": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The LocalizedMessages Variable contains an array of localized messages corresponding to the installed server languages.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAcknowledgeableConditionType/property/LocalizedMessages/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MessageId": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MessageId Variable is a unique Identifier like a number or name of the message in the cause path (PathParts) determined Module. Example: “A4711” or “1”",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAcknowledgeableConditionType/property/MessageId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MessageName": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MessageName Variable is a short name like a number or title to reference a translation of the general message text. Example: “ID_MSG_EmergencyAlarm”.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAcknowledgeableConditionType/property/MessageName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PathParts": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The PathParts Variable is an array of Path information strings based on a server independent hierarchical structure of modules or an application specific expansion of that. It is an additional location information beside the SourceName. Example:  “Machine”, “FixedSide”, “Sizing”, “Milling1”",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwAcknowledgeableConditionType/property/PathParts/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_WwConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1004",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "WwEventCategoryEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "const": {
+          "OTHER": 0,
+          "DIAGNOSTIC": 1,
+          "INFORMATION": 2,
+          "WARNING": 3,
+          "ALARM": 4,
+          "ERROR": 5
+        },
+        "description": "This enumeration represents the category of an event.",
+        "properties": {
+          "OTHER": {
+            "description": "No other event category applies or it is unknown.",
+            "type": "integer"
+          },
+          "DIAGNOSTIC": {
+            "description": "The event is a diagnostic event.",
+            "type": "integer"
+          },
+          "INFORMATION": {
+            "description": "The event is an information event.",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The event is a warning event.",
+            "type": "integer"
+          },
+          "ALARM": {
+            "description": "The event is an alarm event.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The event is an error event.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Woodworking/Woodworking_WwConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Arguments": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Arguments Variable is an argument value array of one dimension that can be used to parameterize the message. The number of the indexing in the array corresponds to the placeholder number in the message text. This ensures that the formatting functions of the implementations enable the localized message texts to be created.",
+        "type": "array",
+        "items": {
+          "title": "WwMessageArgumentDataType",
+          "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
+          "required": [ "Value" ],
+          "properties": {
+            "Value": {
+              "title": "WwMessageArgumentValueDataType",
+              "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
+              "required": [ "Array", "Boolean", "Int16", "Int32", "Int64", "SByte", "UInt16", "UInt32", "UInt64", "Byte", "DateTime", "Guid", "LocalizedText", "Double", "Float", "String", "Other" ],
+              "properties": {
+                "Array": {
+                  "description": "The content of the value as an array of the own type",
+                  "type": "array",
+                  "items": {
+                    "description": "Stand-in for the infinite remainder of this data structure, which is recursively defined.",
+                    "type": "string"
+                  }
+                },
+                "Boolean": {
+                  "description": "The content of the value as a boolean",
+                  "type": "boolean"
+                },
+                "Int16": {
+                  "description": "The content of the value as a 16 bit integer",
+                  "type": "integer",
+                  "minimum": -32768,
+                  "maximum": 32767
+                },
+                "Int32": {
+                  "description": "The content of the value as a 32 bit integer",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Int64": {
+                  "description": "The content of the value as a 64 bit integer",
+                  "type": "integer",
+                  "minimum": -9223372036854775808,
+                  "maximum": 9223372036854775807
+                },
+                "SByte": {
+                  "description": "The content of the value as a 8 bit integer",
+                  "type": "integer",
+                  "minimum": -128,
+                  "maximum": 127
+                },
+                "UInt16": {
+                  "description": "The content of the value as a 16 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "UInt32": {
+                  "description": "The content of the value as a 32 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "UInt64": {
+                  "description": "The content of the value as a 64 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 18446744073709551615
+                },
+                "Byte": {
+                  "description": "The content of the value as a 8 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "DateTime": {
+                  "description": "The content of the value as a datetime",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Guid": {
+                  "description": "The content of the value as a GUID",
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "LocalizedText": {
+                  "description": "The content of the value as a localized text",
+                  "type": "string"
+                },
+                "Double": {
+                  "description": "The content of the value as a double",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Float": {
+                  "description": "The content of the value as a float",
+                  "type": "number",
+                  "minimum": -3.40e+38,
+                  "maximum": 3.40e+38
+                },
+                "String": {
+                  "description": "The content of the value as a string",
+                  "type": "string"
+                },
+                "Other": {
+                  "description": "The content of the value has no standard format and is instantiated as a string",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwConditionType/property/Arguments/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventCategory": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "title": "WwEventCategoryEnumeration",
+        "description": "The EventCategory Variable provides the category of the event.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwConditionType/property/EventCategory/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Group": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Group Variable specifies the class or group of the Message like “safety”, “emergency”, “consumable”.  See chapter “Categorizing and grouping the messages, events, alarms and conditions”.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwConditionType/property/Group/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LocalizedMessages": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The LocalizedMessages Variable contains an array of localized messages corresponding to the installed server languages.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwConditionType/property/LocalizedMessages/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MessageId": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MessageId Variable is a unique Identifier like a number or name of the message in the cause path (PathParts) determined Module. Example: “A4711” or “1”",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwConditionType/property/MessageId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MessageName": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MessageName Variable is a short name like a number or title to reference a translation of the general message text. Example: “ID_MSG_EmergencyAlarm”.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwConditionType/property/MessageName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PathParts": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The PathParts Variable is an array of Path information strings based on a server independent hierarchical structure of modules or an application specific expansion of that. It is an additional location information beside the SourceName. Example:  “Machine”, “FixedSide”, “Sizing”, “Milling1”",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwConditionType/property/PathParts/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_WwBaseEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=13",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "WwEventCategoryEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "const": {
+          "OTHER": 0,
+          "DIAGNOSTIC": 1,
+          "INFORMATION": 2,
+          "WARNING": 3,
+          "ALARM": 4,
+          "ERROR": 5
+        },
+        "description": "This enumeration represents the category of an event.",
+        "properties": {
+          "OTHER": {
+            "description": "No other event category applies or it is unknown.",
+            "type": "integer"
+          },
+          "DIAGNOSTIC": {
+            "description": "The event is a diagnostic event.",
+            "type": "integer"
+          },
+          "INFORMATION": {
+            "description": "The event is an information event.",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The event is a warning event.",
+            "type": "integer"
+          },
+          "ALARM": {
+            "description": "The event is an alarm event.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The event is an error event.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Woodworking/Woodworking_WwBaseEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Arguments": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Arguments Variable is an argument value array of one dimension that can be used to parameterize the message. The number of the indexing in the array corresponds to the placeholder number in the message text. This ensures that the formatting functions of the implementations enable the localized message texts to be created.",
+        "type": "array",
+        "items": {
+          "title": "WwMessageArgumentDataType",
+          "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
+          "required": [ "Value" ],
+          "properties": {
+            "Value": {
+              "title": "WwMessageArgumentValueDataType",
+              "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
+              "required": [ "Array", "Boolean", "Int16", "Int32", "Int64", "SByte", "UInt16", "UInt32", "UInt64", "Byte", "DateTime", "Guid", "LocalizedText", "Double", "Float", "String", "Other" ],
+              "properties": {
+                "Array": {
+                  "description": "The content of the value as an array of the own type",
+                  "type": "array",
+                  "items": {
+                    "description": "Stand-in for the infinite remainder of this data structure, which is recursively defined.",
+                    "type": "string"
+                  }
+                },
+                "Boolean": {
+                  "description": "The content of the value as a boolean",
+                  "type": "boolean"
+                },
+                "Int16": {
+                  "description": "The content of the value as a 16 bit integer",
+                  "type": "integer",
+                  "minimum": -32768,
+                  "maximum": 32767
+                },
+                "Int32": {
+                  "description": "The content of the value as a 32 bit integer",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Int64": {
+                  "description": "The content of the value as a 64 bit integer",
+                  "type": "integer",
+                  "minimum": -9223372036854775808,
+                  "maximum": 9223372036854775807
+                },
+                "SByte": {
+                  "description": "The content of the value as a 8 bit integer",
+                  "type": "integer",
+                  "minimum": -128,
+                  "maximum": 127
+                },
+                "UInt16": {
+                  "description": "The content of the value as a 16 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "UInt32": {
+                  "description": "The content of the value as a 32 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "UInt64": {
+                  "description": "The content of the value as a 64 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 18446744073709551615
+                },
+                "Byte": {
+                  "description": "The content of the value as a 8 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "DateTime": {
+                  "description": "The content of the value as a datetime",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Guid": {
+                  "description": "The content of the value as a GUID",
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "LocalizedText": {
+                  "description": "The content of the value as a localized text",
+                  "type": "string"
+                },
+                "Double": {
+                  "description": "The content of the value as a double",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Float": {
+                  "description": "The content of the value as a float",
+                  "type": "number",
+                  "minimum": -3.40e+38,
+                  "maximum": 3.40e+38
+                },
+                "String": {
+                  "description": "The content of the value as a string",
+                  "type": "string"
+                },
+                "Other": {
+                  "description": "The content of the value has no standard format and is instantiated as a string",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwBaseEventType/property/Arguments/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventCategory": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "title": "WwEventCategoryEnumeration",
+        "description": "The EventCategory Variable provides the category of the event.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwBaseEventType/property/EventCategory/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Group": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Group Variable specifies the class or group of the Message like “safety”, “emergency”, “consumable”.  See chapter “Categorizing and grouping the messages, events, alarms and conditions”.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwBaseEventType/property/Group/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LocalizedMessages": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The LocalizedMessages Variable contains an array of localized messages corresponding to the installed server languages.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwBaseEventType/property/LocalizedMessages/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MessageId": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MessageId Variable is a unique Identifier like a number or name of the message in the cause path (PathParts) determined Module. Example: “A4711” or “1”",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwBaseEventType/property/MessageId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MessageName": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MessageName Variable is a short name like a number or title to reference a translation of the general message text. Example: “ID_MSG_EmergencyAlarm”.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwBaseEventType/property/MessageName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PathParts": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The PathParts Variable is an array of Path information strings based on a server independent hierarchical structure of modules or an application specific expansion of that. It is an additional location information beside the SourceName.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_WwBaseEventType/property/PathParts/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_IWwBaseStateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=6",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Flags",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Overview",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Values",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_IWwEventMessageType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "WwEventCategoryEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "const": {
+          "OTHER": 0,
+          "DIAGNOSTIC": 1,
+          "INFORMATION": 2,
+          "WARNING": 3,
+          "ALARM": 4,
+          "ERROR": 5
+        },
+        "description": "This enumeration represents the category of an event.",
+        "properties": {
+          "OTHER": {
+            "description": "No other event category applies or it is unknown.",
+            "type": "integer"
+          },
+          "DIAGNOSTIC": {
+            "description": "The event is a diagnostic event.",
+            "type": "integer"
+          },
+          "INFORMATION": {
+            "description": "The event is an information event.",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The event is a warning event.",
+            "type": "integer"
+          },
+          "ALARM": {
+            "description": "The event is an alarm event.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The event is an error event.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Woodworking/Woodworking_IWwEventMessageType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Arguments": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Arguments Variable is an argument value array of one dimension that can be used to parameterize the message. The number of the indexing in the array corresponds to the placeholder number in the message text. This ensures that the formatting functions of the implementations enable the localized message texts to be created.",
+        "type": "array",
+        "items": {
+          "title": "WwMessageArgumentDataType",
+          "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
+          "required": [ "Value" ],
+          "properties": {
+            "Value": {
+              "title": "WwMessageArgumentValueDataType",
+              "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
+              "required": [ "Array", "Boolean", "Int16", "Int32", "Int64", "SByte", "UInt16", "UInt32", "UInt64", "Byte", "DateTime", "Guid", "LocalizedText", "Double", "Float", "String", "Other" ],
+              "properties": {
+                "Array": {
+                  "description": "The content of the value as an array of the own type",
+                  "type": "array",
+                  "items": {
+                    "description": "Stand-in for the infinite remainder of this data structure, which is recursively defined.",
+                    "type": "string"
+                  }
+                },
+                "Boolean": {
+                  "description": "The content of the value as a boolean",
+                  "type": "boolean"
+                },
+                "Int16": {
+                  "description": "The content of the value as a 16 bit integer",
+                  "type": "integer",
+                  "minimum": -32768,
+                  "maximum": 32767
+                },
+                "Int32": {
+                  "description": "The content of the value as a 32 bit integer",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Int64": {
+                  "description": "The content of the value as a 64 bit integer",
+                  "type": "integer",
+                  "minimum": -9223372036854775808,
+                  "maximum": 9223372036854775807
+                },
+                "SByte": {
+                  "description": "The content of the value as a 8 bit integer",
+                  "type": "integer",
+                  "minimum": -128,
+                  "maximum": 127
+                },
+                "UInt16": {
+                  "description": "The content of the value as a 16 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "UInt32": {
+                  "description": "The content of the value as a 32 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "UInt64": {
+                  "description": "The content of the value as a 64 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 18446744073709551615
+                },
+                "Byte": {
+                  "description": "The content of the value as a 8 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "DateTime": {
+                  "description": "The content of the value as a datetime",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Guid": {
+                  "description": "The content of the value as a GUID",
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "LocalizedText": {
+                  "description": "The content of the value as a localized text",
+                  "type": "string"
+                },
+                "Double": {
+                  "description": "The content of the value as a double",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Float": {
+                  "description": "The content of the value as a float",
+                  "type": "number",
+                  "minimum": -3.40e+38,
+                  "maximum": 3.40e+38
+                },
+                "String": {
+                  "description": "The content of the value as a string",
+                  "type": "string"
+                },
+                "Other": {
+                  "description": "The content of the value has no standard format and is instantiated as a string",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwEventMessageType/property/Arguments/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventCategory": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "title": "WwEventCategoryEnumeration",
+        "description": "The EventCategory Variable provides the category of the event.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwEventMessageType/property/EventCategory/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Group": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Group Variable specifies the class or group of the Message like “safety”, “emergency”, “consumable”.  See chapter “Categorizing and grouping the messages, events, alarms and conditions”.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwEventMessageType/property/Group/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LocalizedMessages": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The LocalizedMessages Variable contains an array of localized messages corresponding to the installed server languages.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwEventMessageType/property/LocalizedMessages/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MessageId": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MessageId Variable is a unique Identifier like a number or name of the message in the cause path (PathParts) determined Module. Example: “A4711” or “1”",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwEventMessageType/property/MessageId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MessageName": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MessageName Variable is a short name like a number or title to reference a translation of the general message text. Example: “ID_MSG_EmergencyAlarm”.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwEventMessageType/property/MessageName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PathParts": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The PathParts Variable is an array of Path information strings based on a server independent hierarchical structure of modules or an application specific expansion of that. It is an additional location information beside the SourceName. Example:  “Machine”, “FixedSide”, “Sizing”, “Milling1”",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwEventMessageType/property/PathParts/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_IWwStateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=8",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Machine",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "SubUnits",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_IWwSubUnitsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=7",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "SubUnit",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_IWwUnitFlagsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=4",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AirPresent": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AirPresent Variable is true if the air pressure is present in the machine.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/AirPresent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Alarm": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Alarm Variable is true if at least one alarm exists.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/Alarm/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Calibrated": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Calibrated Variable is true if all devices are calibrated.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/Calibrated/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DustChipSuction": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The DustChipSuction Variable is true if the dust and chip suction is ready.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/DustChipSuction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Emergency": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Emergency Variable is true if at least one emergency button is pressed.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/Emergency/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnergySaving": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The EnergySaving Variable is true if energy saving is activated on the machine.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/EnergySaving/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Error": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Error Variable is true if at least one reason exists which prevents the machine from working.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/Error/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ExternalEmergency": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The ExternalEmergency Variable is true if there is an emergency from the line controller.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/ExternalEmergency/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FeedRuns": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The FeedRuns Variable is true if the feed is running on a throughfeed machine.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/FeedRuns/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Hold": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Hold Variable is true if the movements are paused by the operator.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/Hold/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LoadingEnabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/LoadingEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MachineInitialized": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MachineInitialized Variable is true if the MachineOn is true, the PLC and the control processes are running. The machine is ready for usage for the operator.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/MachineInitialized/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MachineOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MachineOn Variable is true if the machine is switched on. If the OPC UA Server runs on the machine this value is always true.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/MachineOn/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaintenanceRequired": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The MaintenanceRequired Variable is true if maintenance is required.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/MaintenanceRequired/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManualActivityRequired": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The ManualActivityRequired Variable is true if a manual activity by the operator is required. The RecipeInRun is not affected.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/ManualActivityRequired/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Moving": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Moving Variable is true if at least one axis is moving.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/Moving/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowerPresent": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The PowerPresent Variable is true if 400V are present (the drives are ready to move).",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/PowerPresent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RecipeInHold": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RecipeInHold Variable is true if the machine is paused by the program. This is only possible if the RecipeInRun Variable is also true.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/RecipeInHold/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RecipeInRun": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RecipeInRun Variable is true if the machine runs its program. This is only possible if the Error Variable is false. However, if the machine is paused by the program, the machine is considered to still be running its program, i.e. while the RecipeInHold Variable is true, the RecipeInRun cannot be false.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/RecipeInRun/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RecipeInSetup": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RecipeInSetup Variable is true if the RecipeInRun is true and the machine is in the setup phase (example: automatic tool change).",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/RecipeInSetup/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Remote": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Remote Variable is true if the machine is working with programs sent by the supervisor or other external application.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/Remote/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Safety": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Safety Variable is true if at least one safety device (light curtain, safety mat, …) has intervened.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/Safety/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WaitLoad": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The WaitLoad Variable is true if the machine is waiting for pieces.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/WaitLoad/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WaitUnload": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The WaitUnload Variable is true if the machine is waiting to unload pieces.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/WaitUnload/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Warning": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The Warning Variable is true if at least one warning exists.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/Warning/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WorkpiecePresent": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The WorkpiecePresent Variable is true if at least one piece is inside the machine.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/property/WorkpiecePresent/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AirPresent": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AirPresent Variable is true if the air pressure is present in the machine.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/AirPresent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Alarm": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The Alarm Variable is true if at least one alarm exists.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/Alarm/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Calibrated": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The Calibrated Variable is true if all devices are calibrated.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/Calibrated/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DustChipSuction": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The DustChipSuction Variable is true if the dust and chip suction is ready.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/DustChipSuction/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Emergency": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The Emergency Variable is true if at least one emergency button is pressed.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/Emergency/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnergySaving": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The EnergySaving Variable is true if energy saving is activated on the machine.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/EnergySaving/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Error": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The Error Variable is true if at least one reason exists which prevents the machine from working.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/Error/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ExternalEmergency": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The ExternalEmergency Variable is true if there is an emergency from the line controller.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/ExternalEmergency/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FeedRuns": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The FeedRuns Variable is true if the feed is running on a throughfeed machine.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/FeedRuns/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Hold": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The Hold Variable is true if the movements are paused by the operator.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/Hold/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LoadingEnabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/LoadingEnabled/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MachineInitialized": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The MachineInitialized Variable is true if the MachineOn is true, the PLC and the control processes are running. The machine is ready for usage for the operator.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/MachineInitialized/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MachineOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The MachineOn Variable is true if the machine is switched on. If the OPC UA Server runs on the machine this value is always true.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/MachineOn/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MaintenanceRequired": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The MaintenanceRequired Variable is true if maintenance is required.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/MaintenanceRequired/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ManualActivityRequired": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The ManualActivityRequired Variable is true if a manual activity by the operator is required. The RecipeInRun is not affected.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/ManualActivityRequired/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Moving": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The Moving Variable is true if at least one axis is moving.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/Moving/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PowerPresent": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The PowerPresent Variable is true if 400V are present (the drives are ready to move).",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/PowerPresent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RecipeInHold": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RecipeInHold Variable is true if the machine is paused by the program. This is only possible if the RecipeInRun Variable is also true.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/RecipeInHold/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RecipeInRun": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RecipeInRun Variable is true if the machine runs its program. This is only possible if the Error Variable is false. However, if the machine is paused by the program, the machine is considered to still be running its program, i.e. while the RecipeInHold Variable is true, the RecipeInRun cannot be false.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/RecipeInRun/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RecipeInSetup": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RecipeInSetup Variable is true if the RecipeInRun is true and the machine is in the setup phase (example: automatic tool change).",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/RecipeInSetup/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Remote": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The Remote Variable is true if the machine is working with programs sent by the supervisor or other external application.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/Remote/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Safety": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The Safety Variable is true if at least one safety device (light curtain, safety mat, …) has intervened.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/Safety/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WaitLoad": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The WaitLoad Variable is true if the machine is waiting for pieces.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/WaitLoad/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WaitUnload": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The WaitUnload Variable is true if the machine is waiting to unload pieces.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/WaitUnload/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Warning": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The Warning Variable is true if at least one warning exists.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/Warning/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WorkpiecePresent": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The WorkpiecePresent Variable is true if at least one piece is inside the machine.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/event/WorkpiecePresent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_IWwUnitOverviewType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=5",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "WwUnitModeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=20",
+        "const": {
+          "OTHER": 0,
+          "AUTOMATIC": 1,
+          "SEMIAUTOMATIC": 2,
+          "MANUAL": 3,
+          "SETUP": 4,
+          "SLEEP": 5
+        },
+        "description": "This enumeration represents the generalized mode of a unit.",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states below applies.",
+            "type": "integer"
+          },
+          "AUTOMATIC": {
+            "description": "The unit is in automatic mode.",
+            "type": "integer"
+          },
+          "SEMIAUTOMATIC": {
+            "description": "The unit is in semi-automatic mode.",
+            "type": "integer"
+          },
+          "MANUAL": {
+            "description": "The unit is in manual mode.",
+            "type": "integer"
+          },
+          "SETUP": {
+            "description": "The unit is in setup mode.",
+            "type": "integer"
+          },
+          "SLEEP": {
+            "description": "The unit is in sleep mode. Component is still switched on, energy consumption reduced by e.g. reducing heating, switching drives off. Production is not possible.",
+            "type": "integer"
+          }
+        }
+      },
+      "WwUnitStateEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=21",
+        "const": {
+          "OFFLINE": 0,
+          "STANDBY": 1,
+          "READY": 2,
+          "WORKING": 3,
+          "ERROR": 4
+        },
+        "description": "This enumeration represents the generalized state of a unit.",
+        "properties": {
+          "OFFLINE": {
+            "description": "The component is offline.",
+            "type": "integer"
+          },
+          "STANDBY": {
+            "description": "The unit is in standby.",
+            "type": "integer"
+          },
+          "READY": {
+            "description": "The unit is ready to start working.",
+            "type": "integer"
+          },
+          "WORKING": {
+            "description": "The unit is working.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The unit is not able to start working because there is an error. The cause can be an alarm or error or user intervention.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitOverviewType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitOverviewType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CurrentMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "title": "WwUnitModeEnumeration",
+        "description": "The CurrentMode Variable provides the generalized mode of the component.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=20",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitOverviewType/property/CurrentMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CurrentState": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "title": "WwUnitStateEnumeration",
+        "description": "The CurrentState Variable provides the generalized state of the component.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=21",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitOverviewType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CurrentMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "title": "WwUnitModeEnumeration",
+          "description": "The CurrentMode Variable provides the generalized mode of the component.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=20",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitOverviewType/event/CurrentMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CurrentState": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "title": "WwUnitStateEnumeration",
+          "description": "The CurrentState Variable provides the generalized state of the component.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=21",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitOverviewType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_IWwUnitValuesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AbsoluteErrorTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteErrorTime Variable provides the absolute time in msec of the ERROR_4 state in msec.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteErrorTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteLength Variable provides the absolute produced length in mm.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteLength/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteMachineOffTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteOfflineTime can be calculated by the machine. The shutdown time and the starting time have to be stored on the machine.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteMachineOffTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteMachineOnTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteMachineOnTime Variable provides the absolute time in msec the machine is turned on based on the MachineOn state.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteMachineOnTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsolutePiecesIn": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsolutePiecesIn Variable provides the absolute count of pieces which came into the machine.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsolutePiecesIn/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsolutePiecesOut": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsolutePiecesOut Variable provides the absolute count of pieces which came out of the machine.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsolutePiecesOut/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsolutePowerPresentTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsolutePowerPresentTime Variable provides the absolute time in msec the machine has power on based on the PowerPresent state.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsolutePowerPresentTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteProductionTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteProductionTime Variable provides the absolute time in msec of the machine is working at least with one workpiece based on the RecipeInRun and PiecesPresent state.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteProductionTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteProductionWaitWorkpieceTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteProductionWaitWorkpieceTime Variable provides the absolute time in msec of the machine is in working mode, bring the consent out to insert workpiece but no workpiece incoming from the previous machine based on the ReceipeInRun and WaitLoad state.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteProductionWaitWorkpieceTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteProductionWithoutWorkpieceTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteProductionWithoutWorkpieceTime Variable provides the absolute time in msec of the machine is working but without workpieces inside based on the RecipeInRun and !PiecesPresent state.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteProductionWithoutWorkpieceTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteReadyTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteReadyTime Variable provides the absolute time in msec of the READY_2 state in msec.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteReadyTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteRunsAborted": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteRunsAborted Variable provides the absolute count of aborted runs.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteRunsAborted/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteRunsGood": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteRunsGood Variable provides the absolute count of finished runs.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteRunsGood/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteRunsTotal": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteRunsTotal Variable provides the absolute count of total runs.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteRunsTotal/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteStandbyTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteStandbyTime Variable provides the absolute time in msec of the STANDBY_1 state in msec.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteStandbyTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AbsoluteWorkingTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AbsoluteWorkingTime Variable provides the absolute time in msec of the WORKING_3 state in msec.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AbsoluteWorkingTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualCycle": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The ActualCycle Variable provides the parts per minutes.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/ActualCycle/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AxisOverride": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The AxisOverride Variable provides the override for the axis in percent.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/AxisOverride/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FeedSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The FeedSpeed Variable provides the feed speed in m/min for throughfeed machines.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/FeedSpeed/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeErrorTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeErrorTime Variable provides the relative time since startup of the ERROR_4 state in msec.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeErrorTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeLength Variable provides the relative produced length in mm since the machine has started.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeLength/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeMachineOnTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeMachineOnTime Variable provides the relative time in msec since startup the machine is turned on based on the MachineOn state.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeMachineOnTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativePiecesIn": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativePiecesIn Variable provides the relative count of pieces which came into the machine since the machine has started.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativePiecesIn/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativePiecesOut": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativePiecesOut Variable provides the relative count of pieces which came out of the machine since the machine has started.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativePiecesOut/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativePowerPresentTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativePowerPresentTime Variable provides the relative time in msec since startup the machine has power on based on the PowerPresent state.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativePowerPresentTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeProductionTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeProductionTime Variable provides the relative time in msec since startup of the machine is working at least with one workpiece based on the RecipeInRun and PiecesPresent state.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeProductionTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeProductionWaitWorkpieceTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeProductionWaitWorkpieceTime Variable provides the relative time in msec waiting for workpieces since startup of the machine is in working mode, bring the consent out to insert workpiece but no workpiece incoming from the previous machine based on the ReceipeInRun and WaitLoad state.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeProductionWaitWorkpieceTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeProductionWithoutWorkpieceTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeProductionWithoutWorkpieceTime Variable provides the relative time in msec since startup of the machine is working but without workpieces inside based on the RecipeInRun and !PiecesPresent state.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeProductionWithoutWorkpieceTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeReadyTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeReadyTime Variable provides the relative time since startup of the READY_2 state in msec.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeReadyTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeRunsAborted": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeRunsAborted Variable provides the relative count of aborted runs since the machine has started.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeRunsAborted/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeRunsGood": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeRunsGood Variable provides the relative count of finished runs since the machine has started.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeRunsGood/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeRunsTotal": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeRunsTotal Variable provides the relative count of total runs since the machine has started.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeRunsTotal/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeStandbyTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeStandbyTime Variable provides the relative time since startup of the STANDBY_1 state in msec.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeStandbyTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeWorkingTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The RelativeWorkingTime Variable provides the relative time since startup of the WORKING_3 state in msec.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/RelativeWorkingTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SpindleOverride": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "description": "The SpindleOverride Variable provides the override for the spindle in percent.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/property/SpindleOverride/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AbsoluteErrorTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteErrorTime Variable provides the absolute time in msec of the ERROR_4 state in msec.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteErrorTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteLength Variable provides the absolute produced length in mm.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteLength/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteMachineOffTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteOfflineTime can be calculated by the machine. The shutdown time and the starting time have to be stored on the machine.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteMachineOffTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteMachineOnTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteMachineOnTime Variable provides the absolute time in msec the machine is turned on based on the MachineOn state.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteMachineOnTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsolutePiecesIn": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsolutePiecesIn Variable provides the absolute count of pieces which came into the machine.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsolutePiecesIn/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsolutePiecesOut": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsolutePiecesOut Variable provides the absolute count of pieces which came out of the machine.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsolutePiecesOut/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsolutePowerPresentTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsolutePowerPresentTime Variable provides the absolute time in msec the machine has power on based on the PowerPresent state.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsolutePowerPresentTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteProductionTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteProductionTime Variable provides the absolute time in msec of the machine is working at least with one workpiece based on the RecipeInRun and PiecesPresent state.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteProductionTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteProductionWaitWorkpieceTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteProductionWaitWorkpieceTime Variable provides the absolute time in msec of the machine is in working mode, bring the consent out to insert workpiece but no workpiece incoming from the previous machine based on the ReceipeInRun and WaitLoad state.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteProductionWaitWorkpieceTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteProductionWithoutWorkpieceTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteProductionWithoutWorkpieceTime Variable provides the absolute time in msec of the machine is working but without workpieces inside based on the RecipeInRun and !PiecesPresent state.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteProductionWithoutWorkpieceTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteReadyTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteReadyTime Variable provides the absolute time in msec of the READY_2 state in msec.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteReadyTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteRunsAborted": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteRunsAborted Variable provides the absolute count of aborted runs.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteRunsAborted/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteRunsGood": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteRunsGood Variable provides the absolute count of finished runs.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteRunsGood/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteRunsTotal": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteRunsTotal Variable provides the absolute count of total runs.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteRunsTotal/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteStandbyTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteStandbyTime Variable provides the absolute time in msec of the STANDBY_1 state in msec.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteStandbyTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AbsoluteWorkingTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AbsoluteWorkingTime Variable provides the absolute time in msec of the WORKING_3 state in msec.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AbsoluteWorkingTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualCycle": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The ActualCycle Variable provides the parts per minutes.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/ActualCycle/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AxisOverride": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The AxisOverride Variable provides the override for the axis in percent.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/AxisOverride/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FeedSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The FeedSpeed Variable provides the feed speed in m/min for throughfeed machines.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/FeedSpeed/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeErrorTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeErrorTime Variable provides the relative time since startup of the ERROR_4 state in msec.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeErrorTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeLength Variable provides the relative produced length in mm since the machine has started.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeLength/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeMachineOnTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeMachineOnTime Variable provides the relative time in msec since startup the machine is turned on based on the MachineOn state.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeMachineOnTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativePiecesIn": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativePiecesIn Variable provides the relative count of pieces which came into the machine since the machine has started.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativePiecesIn/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativePiecesOut": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativePiecesOut Variable provides the relative count of pieces which came out of the machine since the machine has started.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativePiecesOut/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativePowerPresentTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativePowerPresentTime Variable provides the relative time in msec since startup the machine has power on based on the PowerPresent state.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativePowerPresentTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeProductionTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeProductionTime Variable provides the relative time in msec since startup of the machine is working at least with one workpiece based on the RecipeInRun and PiecesPresent state.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeProductionTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeProductionWaitWorkpieceTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeProductionWaitWorkpieceTime Variable provides the relative time in msec waiting for workpieces since startup of the machine is in working mode, bring the consent out to insert workpiece but no workpiece incoming from the previous machine based on the ReceipeInRun and WaitLoad state.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeProductionWaitWorkpieceTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeProductionWithoutWorkpieceTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeProductionWithoutWorkpieceTime Variable provides the relative time in msec since startup of the machine is working but without workpieces inside based on the RecipeInRun and !PiecesPresent state.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeProductionWithoutWorkpieceTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeReadyTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeReadyTime Variable provides the relative time since startup of the READY_2 state in msec.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeReadyTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeRunsAborted": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeRunsAborted Variable provides the relative count of aborted runs since the machine has started.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeRunsAborted/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeRunsGood": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeRunsGood Variable provides the relative count of finished runs since the machine has started.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeRunsGood/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeRunsTotal": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeRunsTotal Variable provides the relative count of total runs since the machine has started.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeRunsTotal/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeStandbyTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeStandbyTime Variable provides the relative time since startup of the STANDBY_1 state in msec.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeStandbyTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeWorkingTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The RelativeWorkingTime Variable provides the relative time since startup of the WORKING_3 state in msec.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/RelativeWorkingTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SpindleOverride": {
+        "aov:namespace": "http://opcfoundation.org/UA/Woodworking/",
+        "data": {
+          "description": "The SpindleOverride Variable provides the override for the spindle in percent.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/event/SpindleOverride/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_WwEventsDispatcherType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=15",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_WwMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=2",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Events",
+        "href": "#title=Woodworking_WwEventsDispatcherType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlock",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ManufacturerSpecific",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "State",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_AlarmConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2915",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_AcknowledgeableConditionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ShelvingState",
+        "href": "#title=OpcUaCore_ShelvedStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FirstInGroup",
+        "href": "#title=OpcUaCore_AlarmGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "GetGroupMemberships": {
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=25154",
+          "required": [ "Groups" ],
+          "properties": {
+            "Groups": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/GetGroupMemberships",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "PlaceInService": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/PlaceInService",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "PlaceInService2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24323",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/PlaceInService2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RemoveFromService": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/RemoveFromService",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RemoveFromService2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24321",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/RemoveFromService2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Reset": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Reset",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Reset2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24325",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Reset2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Silence": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Silence",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Suppress": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Suppress",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Suppress2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24317",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Suppress2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unsuppress": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Unsuppress",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unsuppress2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24319",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Unsuppress2",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActiveState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/ActiveState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AudibleEnabled": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/AudibleEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AudibleSound": {
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/AudibleSound/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnabledState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/EnabledState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FirstInGroupFlag": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/FirstInGroupFlag/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InputNode": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/InputNode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LatchedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/LatchedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxTimeShelved": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/MaxTimeShelved/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OffDelay": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/OffDelay/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OnDelay": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/OnDelay/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OutOfServiceState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/OutOfServiceState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReAlarmRepeatCount": {
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/ReAlarmRepeatCount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReAlarmTime": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/ReAlarmTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SilenceState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/SilenceState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SuppressedOrShelved": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/SuppressedOrShelved/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SuppressedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/SuppressedState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActiveState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/ActiveState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AudibleSound": {
+        "data": {
+          "type": "string",
+          "contentEncoding": "base64"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/AudibleSound/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnabledState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/EnabledState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FirstInGroupFlag": {
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/FirstInGroupFlag/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LatchedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/LatchedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OutOfServiceState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/OutOfServiceState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ReAlarmRepeatCount": {
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/ReAlarmRepeatCount/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SilenceState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/SilenceState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SuppressedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/SuppressedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_AcknowledgeableConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2881",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Acknowledge": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9112",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/action/Acknowledge",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Confirm": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9114",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/action/Confirm",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AckedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/AckedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConfirmedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/ConfirmedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnabledState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/EnabledState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AckedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/AckedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ConfirmedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/ConfirmedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnabledState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/EnabledState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_ConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "AddComment": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/AddComment",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ConditionRefresh": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "required": [ "SubscriptionId" ],
+          "properties": {
+            "SubscriptionId": {
+              "description": "The identifier for the subscription to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/ConditionRefresh",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ConditionRefresh2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "required": [ "SubscriptionId", "MonitoredItemId" ],
+          "properties": {
+            "SubscriptionId": {
+              "description": "The identifier for the subscription to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "MonitoredItemId": {
+              "description": "The identifier for the monitored item to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/ConditionRefresh2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Disable": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/Disable",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Enable": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/Enable",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "BranchId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/BranchId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ClientUserId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ClientUserId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Comment": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Comment/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionSubClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassName": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionSubClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnabledState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/EnabledState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastSeverity": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/LastSeverity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Quality": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Quality/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Retain": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Retain/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupportsFilteredRetain": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/SupportsFilteredRetain/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Comment": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/Comment/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnabledState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/EnabledState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastSeverity": {
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/LastSeverity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Quality": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/Quality/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ConditionClassId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassName": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventId": {
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventType": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LocalTime": {
+        "title": "TimeZoneDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "required": [ "Offset", "DaylightSavingInOffset" ],
+        "properties": {
+          "Offset": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "DaylightSavingInOffset": {
+            "type": "boolean"
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Message": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReceiveTime": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Severity": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceNode": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Time": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_ShelvedStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2929",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Unshelved",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TimedShelved",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OneShotShelved",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnshelvedToTimedShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnshelvedToOneShotShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TimedShelvedToUnshelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TimedShelvedToOneShotShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OneShotShelvedToUnshelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OneShotShelvedToTimedShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "OneShotShelve": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/OneShotShelve",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "OneShotShelve2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24761",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/OneShotShelve2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "TimedShelve": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2991",
+          "required": [ "ShelvingTime" ],
+          "properties": {
+            "ShelvingTime": {
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/TimedShelve",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "TimedShelve2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24757",
+          "required": [ "ShelvingTime", "Comment" ],
+          "properties": {
+            "ShelvingTime": {
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/TimedShelve2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unshelve": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/Unshelve",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unshelve2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24759",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/Unshelve2",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "UnshelveTime": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/property/UnshelveTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FiniteStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_StateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AvailableStates": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AvailableStates": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "StateNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_TransitionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "TransitionNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_AlarmGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16405",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseInterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

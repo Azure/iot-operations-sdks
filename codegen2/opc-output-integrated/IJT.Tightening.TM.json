@@ -1,0 +1,433 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IJT_Tightening_ITighteningToolParametersType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Tightening/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DesignType": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "description": "DesignType provides information on the design of the Tool.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/property/DesignType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DriveMethod": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "description": "DriveMethod provides information on the drive method of the motor of the Tool.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/property/DriveMethod/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DriveType": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "description": "DriveType provides information on the drive type of the Tool.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/property/DriveType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "description": "MaxSpeed is the maximum rotation speed of the driving shaft.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/property/MaxSpeed/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxSpeed_PhysicalQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Base/",
+        "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/property/MaxSpeed_PhysicalQuantity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxTorque": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "description": "MaxTorque is the maximum allowed torque for which the tool may be used for tightening processes. For Click Wrenches, it may not be available.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/property/MaxTorque/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxTorque_PhysicalQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Base/",
+        "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/property/MaxTorque_PhysicalQuantity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MinTorque": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "description": "MinTorque is the minimum allowed torque for which the tool may be used for tightening processes.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/property/MinTorque/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MinTorque_PhysicalQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Base/",
+        "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/property/MinTorque_PhysicalQuantity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MotorType": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "description": "MotorType is the type of motor in the tool.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/property/MotorType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ShutOffMethod": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "description": "ShutOffMethod provides information on the shutoff method of the tool.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/property/ShutOffMethod/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "DesignType": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "data": {
+          "description": "DesignType provides information on the design of the Tool.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/event/DesignType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DriveMethod": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "data": {
+          "description": "DriveMethod provides information on the drive method of the motor of the Tool.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/event/DriveMethod/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DriveType": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "data": {
+          "description": "DriveType provides information on the drive type of the Tool.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/event/DriveType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MaxSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "data": {
+          "description": "MaxSpeed is the maximum rotation speed of the driving shaft.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:contains": [ "MaxSpeed_PhysicalQuantity" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/event/MaxSpeed/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MaxSpeed_PhysicalQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Base/",
+        "data": {
+          "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "aov:containedIn": "MaxSpeed",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/event/MaxSpeed_PhysicalQuantity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MaxTorque": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "data": {
+          "description": "MaxTorque is the maximum allowed torque for which the tool may be used for tightening processes. For Click Wrenches, it may not be available.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:contains": [ "MaxTorque_PhysicalQuantity" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/event/MaxTorque/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MaxTorque_PhysicalQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Base/",
+        "data": {
+          "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "aov:containedIn": "MaxTorque",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/event/MaxTorque_PhysicalQuantity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MinTorque": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "data": {
+          "description": "MinTorque is the minimum allowed torque for which the tool may be used for tightening processes.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:contains": [ "MinTorque_PhysicalQuantity" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/event/MinTorque/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MinTorque_PhysicalQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Base/",
+        "data": {
+          "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "aov:containedIn": "MinTorque",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/event/MinTorque_PhysicalQuantity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MotorType": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "data": {
+          "description": "MotorType is the type of motor in the tool.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/event/MotorType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ShutOffMethod": {
+        "aov:namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
+        "data": {
+          "description": "ShutOffMethod provides information on the shutoff method of the tool.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IJT.Tightening/IJT_Tightening_ITighteningToolParametersType/event/ShutOffMethod/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseInterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

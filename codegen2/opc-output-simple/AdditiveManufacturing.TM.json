@@ -1,0 +1,586 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "AdditiveManufacturing_EquipmentAMType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./MachineTool.TM.json#title=MachineTool_EquipmentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Feedstock",
+        "href": "#title=AdditiveManufacturing_FeedstockListType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "AdditiveManufacturing_FeedstockListType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1001",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Feedstock",
+        "href": "#title=AdditiveManufacturing_FeedstockType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockListType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockListType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "AdditiveManufacturing_FeedstockType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1000",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "FeedstockFunction": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3000",
+        "const": {
+          "Undefined": 0,
+          "Main": 1,
+          "Ancillary": 2,
+          "Consumable": 3
+        },
+        "description": "This enumeration indicates the function of a specific feedstock.",
+        "properties": {
+          "Undefined": {
+            "description": "The function of the feedstock is unknown.",
+            "type": "integer"
+          },
+          "Main": {
+            "description": "The feedstock is used for production and is part of the finished part.",
+            "type": "integer"
+          },
+          "Ancillary": {
+            "description": "The feedstock is used for production but removed before the part is finished.",
+            "type": "integer"
+          },
+          "Consumable": {
+            "description": "The feedstock is consumed during the production e.g., process gas.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Cycle": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/Cycle/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/Cycle/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ExternalIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/ExternalIdentifier/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/ExternalIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Function": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "title": "FeedstockFunction",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3000",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/Function/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/Function/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Identifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/Identifier/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/Identifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/Manufacturer/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/Name/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReadyForProduction": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/ReadyForProduction/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/ReadyForProduction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "type": "number",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/RemainingQuantity/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/property/RemainingQuantity/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Cycle": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/event/Cycle/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Function": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "data": {
+          "title": "FeedstockFunction",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3000",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/event/Function/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ReadyForProduction": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/event/ReadyForProduction/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RemainingQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "data": {
+          "type": "number"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/event/RemainingQuantity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "AdditiveManufacturing_MachineIdentificationAMType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./MachineTool.TM.json#title=MachineTool_MachineToolIdentificationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_MachineIdentificationAMType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_MachineIdentificationAMType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AMTechnologyIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_MachineIdentificationAMType/property/AMTechnologyIdentifier/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_MachineIdentificationAMType/property/AMTechnologyIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "AdditiveManufacturing_AdditiveManufacturingType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1005",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./MachineTool.TM.json#title=MachineTool_MachineToolType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Equipment",
+        "href": "#title=AdditiveManufacturing_EquipmentAMType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "./MachineTool.TM.json#title=MachineTool_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "AdditiveManufacturing_ProcessValueAMType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1002",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.ProcessValues.TM.json#title=Machinery_ProcessValues_ProcessValueType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "SensorCategory": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3003",
+        "const": {
+          "MachineHealth": 0,
+          "MaintenanceTracking": 1,
+          "ProcessMonitoring": 2
+        },
+        "description": "This enumeration indicates the severity of a specific sensor.",
+        "properties": {
+          "MachineHealth": {
+            "description": "The sensor is mainly relevant to indicate the current AM machine’s health.",
+            "type": "integer"
+          },
+          "MaintenanceTracking": {
+            "description": "The sensor is mainly relevant to track serviceable components.",
+            "type": "integer"
+          },
+          "ProcessMonitoring": {
+            "description": "The sensor is mainly relevant to monitor the production operability.",
+            "type": "integer"
+          }
+        }
+      },
+      "SensorSeverity": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3002",
+        "const": {
+          "Info": 0,
+          "Critical": 1
+        },
+        "description": "This enumeration indicates the severity of a specific sensor.",
+        "properties": {
+          "Info": {
+            "description": "This sensor’s current value is not critical for the overall production.",
+            "type": "integer"
+          },
+          "Critical": {
+            "description": "This sensor’s current value is critical for the overall production.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_ProcessValueAMType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_ProcessValueAMType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Category": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "title": "SensorCategory",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3003",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_ProcessValueAMType/property/Category/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_ProcessValueAMType/property/Category/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Severity": {
+        "aov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
+        "title": "SensorSeverity",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3002",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_ProcessValueAMType/property/Severity/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_ProcessValueAMType/property/Severity/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

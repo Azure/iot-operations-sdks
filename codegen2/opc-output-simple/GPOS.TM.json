@@ -1,0 +1,403 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "GPOS_ZoneType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=1005",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/GPOS/GPOS_ZoneType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/GPOS/GPOS_ZoneType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/GPOS/GPOS_ZoneType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Building": {
+        "aov:namespace": "http://opcfoundation.org/UA/GPOS/",
+        "description": "Name of the building",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/Building/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/Building/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Floor": {
+        "aov:namespace": "http://opcfoundation.org/UA/GPOS/",
+        "description": "Name of the floor",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/Floor/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/Floor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "GroundControlPoints": {
+        "aov:namespace": "http://opcfoundation.org/UA/GPOS/",
+        "description": "Points defining the extent of the zone",
+        "type": "array",
+        "items": {
+          "title": "GroundControlPointDataType",
+          "description": "Defines a pair of coordinates - local and global - to allow geo-references from local coordinate to a global coordinate system",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3005",
+          "required": [ "GlobalPosition", "LocalPosition" ],
+          "properties": {
+            "GlobalPosition": {
+              "title": "S3DGeographicCoordinateDataType",
+              "description": "Represents a geographic coordinate",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3003",
+              "required": [ "Longitude", "Latitude" ],
+              "properties": {
+                "Longitude": {
+                  "description": "MUST be interpreted according to the CoordinateReferenceSystem",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Latitude": {
+                  "description": "MUST be interpreted according to the CoordinateReferenceSystem",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Elevation": {
+                  "description": "MUST be interpreted according to the ElevationReference. If floor, the height relative to specific floor in meter",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                }
+              }
+            },
+            "LocalPosition": {
+              "title": "ThreeDCartesianCoordinates",
+              "description": "Local position in metric coordinates (in meter)",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+              "required": [ "X", "Y", "Z" ],
+              "properties": {
+                "X": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Y": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Z": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                }
+              }
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/GroundControlPoints/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/GroundControlPoints/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IncompleteConfiguration": {
+        "aov:namespace": "http://opcfoundation.org/UA/GPOS/",
+        "description": "Indicates if the configuration is complete. FALSE if configuration is complete.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/IncompleteConfiguration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/IncompleteConfiguration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Position": {
+        "aov:namespace": "http://opcfoundation.org/UA/GPOS/",
+        "title": "S3DGeographicCoordinateDataType",
+        "description": "Represents a geographic coordinate",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3003",
+        "required": [ "Longitude", "Latitude" ],
+        "properties": {
+          "Longitude": {
+            "description": "MUST be interpreted according to the CoordinateReferenceSystem",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Latitude": {
+            "description": "MUST be interpreted according to the CoordinateReferenceSystem",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Elevation": {
+            "description": "MUST be interpreted according to the ElevationReference. If floor, the height relative to specific floor in meter",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/Position/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/Position/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Radius": {
+        "aov:namespace": "http://opcfoundation.org/UA/GPOS/",
+        "description": "For proximity-based systems. Describes the zone as a circular region with a given radius in meters around the position.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/Radius/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/Radius/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Site": {
+        "aov:namespace": "http://opcfoundation.org/UA/GPOS/",
+        "description": "Name of the site",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/Site/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/Site/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ZoneId": {
+        "aov:namespace": "http://opcfoundation.org/UA/GPOS/",
+        "description": "A unique identifier of the zone (e.g. a GUID).",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/ZoneId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/property/ZoneId/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "GroundControlPoints": {
+        "aov:namespace": "http://opcfoundation.org/UA/GPOS/",
+        "data": {
+          "description": "Points defining the extent of the zone",
+          "type": "array",
+          "items": {
+            "title": "GroundControlPointDataType",
+            "description": "Defines a pair of coordinates - local and global - to allow geo-references from local coordinate to a global coordinate system",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3005",
+            "required": [ "GlobalPosition", "LocalPosition" ],
+            "properties": {
+              "GlobalPosition": {
+                "title": "S3DGeographicCoordinateDataType",
+                "description": "Represents a geographic coordinate",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3003",
+                "required": [ "Longitude", "Latitude" ],
+                "properties": {
+                  "Longitude": {
+                    "description": "MUST be interpreted according to the CoordinateReferenceSystem",
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Latitude": {
+                    "description": "MUST be interpreted according to the CoordinateReferenceSystem",
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Elevation": {
+                    "description": "MUST be interpreted according to the ElevationReference. If floor, the height relative to specific floor in meter",
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  }
+                }
+              },
+              "LocalPosition": {
+                "title": "ThreeDCartesianCoordinates",
+                "description": "Local position in metric coordinates (in meter)",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+                "required": [ "X", "Y", "Z" ],
+                "properties": {
+                  "X": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Y": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Z": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/event/GroundControlPoints/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Position": {
+        "aov:namespace": "http://opcfoundation.org/UA/GPOS/",
+        "data": {
+          "title": "S3DGeographicCoordinateDataType",
+          "description": "Represents a geographic coordinate",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3003",
+          "required": [ "Longitude", "Latitude" ],
+          "properties": {
+            "Longitude": {
+              "description": "MUST be interpreted according to the CoordinateReferenceSystem",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Latitude": {
+              "description": "MUST be interpreted according to the CoordinateReferenceSystem",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Elevation": {
+              "description": "MUST be interpreted according to the ElevationReference. If floor, the height relative to specific floor in meter",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/event/Position/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Radius": {
+        "aov:namespace": "http://opcfoundation.org/UA/GPOS/",
+        "data": {
+          "description": "For proximity-based systems. Describes the zone as a circular region with a given radius in meters around the position.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/GPOS/GPOS_ZoneType/event/Radius/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]
