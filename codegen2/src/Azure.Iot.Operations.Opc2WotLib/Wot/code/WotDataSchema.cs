@@ -9,8 +9,6 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public abstract partial class WotDataSchema : ITemplateTransform
     {
-        private const int depthLimit = 10;
-
         private static readonly OpcUaNodeId BaseDataTypeNodeId = new OpcUaNodeId(0, 24);
         private static readonly OpcUaNodeId EnumDataTypeNodeId = new OpcUaNodeId(0, 6);
 
@@ -18,21 +16,21 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
         }
 
-        public static WotDataSchema Create(OpcUaNodeId? dataTypeNodeId, int valueRank, OpcUaNode sourceNode, int depth, string? description)
+        public static WotDataSchema Create(OpcUaNodeId? dataTypeNodeId, int valueRank, OpcUaNode sourceNode, string? description, IEnumerable<OpcUaNodeId> ancestors)
         {
-            if (depth > depthLimit)
-            {
-                return new WotDataSchemaPrimitive(BaseDataTypeNodeId, $"Stand-in for the remainder of this data structure, which is deeper than the limit of {depthLimit} levels.");
-            }
-
             if (valueRank > 0)
             {
-                return new WotDataSchemaArray(dataTypeNodeId, description, valueRank, sourceNode, depth);
+                return new WotDataSchemaArray(dataTypeNodeId, description, valueRank, sourceNode, ancestors);
             }
 
             if (dataTypeNodeId == null)
             {
                 return new WotDataSchemaPrimitive(BaseDataTypeNodeId, description ?? "Stand-in for an unspecified data type.");
+            }
+
+            if (ancestors.Contains(dataTypeNodeId))
+            {
+                return new WotDataSchemaPrimitive(BaseDataTypeNodeId, $"Stand-in for the infinite remainder of this data structure, which is recursively defined.");
             }
 
             if (WotDataSchemaPrimitive.IsPrimitive(dataTypeNodeId))
@@ -48,7 +46,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
             else if (dataTypeNode is OpcUaDataTypeObject objectNode)
             {
-                return new WotDataSchemaObject(objectNode, objectNode.Description ?? description, WotUtil.LegalizeName(objectNode.EffectiveName), objectNode.ObjectFields, depth);
+                return new WotDataSchemaObject(objectNode, objectNode.Description ?? description, WotUtil.LegalizeName(objectNode.EffectiveName), objectNode.ObjectFields, ancestors.Append(dataTypeNodeId));
             }
             else if (dataTypeNode is OpcUaDataTypeSubtype subtypeNode)
             {
@@ -58,7 +56,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     return new WotDataSchemaPrimitive(primitiveBaseTypeNodeId, description);
                 }
 
-                return Create(subtypeNode.BaseTypes.First(), 0, subtypeNode, depth, description);
+                return Create(subtypeNode.BaseTypes.First(), 0, subtypeNode, description, ancestors.Append(dataTypeNodeId));
             }
             else
             {

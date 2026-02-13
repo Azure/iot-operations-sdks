@@ -22,8 +22,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.thingModelName = thingModelName;
             this.actionName = WotUtil.LegalizeName(uaMethod.EffectiveName);
 
-            this.inputSchema = uaMethod.TryGetInputArguments(out OpcUaVariable? inputArgsVariable) ? new WotDataSchemaObject(inputArgsVariable, null, null, inputArgsVariable.Arguments, 0) : null;
-            this.outputSchema = uaMethod.TryGetOutputArguments(out OpcUaVariable? outputArgsVariable) ? new WotDataSchemaObject(outputArgsVariable, null, null, outputArgsVariable.Arguments, 0) : null;
+            this.inputSchema = uaMethod.TryGetInputArguments(out OpcUaVariable? inputArgsVariable) ? new WotDataSchemaObject(inputArgsVariable, null, null, inputArgsVariable.Arguments, Enumerable.Empty<OpcUaNodeId>()) : null;
+            this.outputSchema = uaMethod.TryGetOutputArguments(out OpcUaVariable? outputArgsVariable) ? new WotDataSchemaObject(outputArgsVariable, null, null, outputArgsVariable.Arguments, Enumerable.Empty<OpcUaNodeId>()) : null;
         }
     }
 }

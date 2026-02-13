@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private string? description;
         private WotDataSchema itemDataSchema;
 
-        public WotDataSchemaArray(OpcUaNodeId? dataTypeNodeId, string? description, int valueRank, OpcUaNode sourceNode, int depth)
+        public WotDataSchemaArray(OpcUaNodeId? dataTypeNodeId, string? description, int valueRank, OpcUaNode sourceNode, IEnumerable<OpcUaNodeId> ancestors)
         {
             if (valueRank <= 0)
             {
@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
 
             this.description = description;
-            itemDataSchema = WotDataSchema.Create(dataTypeNodeId, valueRank - 1, sourceNode, depth + 1, null);
+            itemDataSchema = WotDataSchema.Create(dataTypeNodeId, valueRank - 1, sourceNode, null, ancestors);
         }
     }
 }

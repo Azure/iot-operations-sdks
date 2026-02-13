@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private Dictionary<string, WotDataSchema> fieldDataSchemas;
         private List<string> requiredFieldNames;
 
-        public WotDataSchemaObject(OpcUaNode containingNode, string? description, string? schemaName, Dictionary<string, OpcUaObjectField> fields, int depth)
+        public WotDataSchemaObject(OpcUaNode containingNode, string? description, string? schemaName, Dictionary<string, OpcUaObjectField> fields, IEnumerable<OpcUaNodeId> ancestors)
         {
             this.description = description;
             this.schemaName = schemaName;
@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             fieldDataSchemas =  fields.ToDictionary(
                 field => field.Key,
-                field => WotDataSchema.Create(field.Value.DataType, field.Value.ValueRank, containingNode, depth + 1, field.Value.Description));
+                field => WotDataSchema.Create(field.Value.DataType, field.Value.ValueRank, containingNode, field.Value.Description, ancestors));
 
             requiredFieldNames = fields
                 .Where(field => !field.Value.IsOptional)
