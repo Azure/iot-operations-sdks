@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Azure.Iot.Operations.CodeGeneration\Azure.Iot.Operations.CodeGeneration.csproj" />
     <ProjectReference Include="..\Azure.Iot.Operations.Opc2WotLib\Azure.Iot.Operations.Opc2WotLib.csproj" />
     <ProjectReference Include="..\Azure.Iot.Operations.TDParser\Azure.Iot.Operations.TDParser.csproj" />
