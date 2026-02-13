@@ -3,9 +3,8 @@
 
 namespace Azure.Iot.Operations.Services.SchemaRegistry;
 
-using SchemaInfo = SchemaRegistry.Schema;
-using SchemaFormat = SchemaRegistry.Format;
-using SchemaType = SchemaRegistry.SchemaType;
+using SchemaInfo = Generated.Schema;
+using SchemaType = Generated.SchemaType;
 
 public interface ISchemaRegistryClient : IAsyncDisposable
 {
@@ -34,5 +33,5 @@ public interface ISchemaRegistryClient : IAsyncDisposable
     /// <param name="timeout">An optional timeout for the operation, which specifies the maximum time allowed for the request to complete.</param>
     /// <param name="cancellationToken">A token that can be used to cancel the operation before completion if needed.</param>
     /// <returns>Information about the created/updated schema</returns>
-    Task<SchemaInfo> PutAsync(string schemaContent, SchemaFormat schemaFormat, SchemaType schemaType = SchemaType.MessageSchema, string version = "1", Dictionary<string, string> tags = default!, string? displayName = null, string? description = null, TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
+    Task<SchemaInfo> PutAsync(string schemaContent, SchemaRegistry.Format schemaFormat, SchemaType schemaType = SchemaType.MessageSchema, string version = "1", Dictionary<string, string> tags = default!, string? displayName = null, string? description = null, TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
 }

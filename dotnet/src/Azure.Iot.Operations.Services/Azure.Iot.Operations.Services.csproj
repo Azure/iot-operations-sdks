@@ -40,4 +40,8 @@
     <Compile Remove="AssetAndDeviceRegistry\AdrBaseService\AssetSpecificationSchema.g.cs" />
     <Compile Remove="AssetAndDeviceRegistry\AdrBaseService\DeviceSpecificationSchema.g.cs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AssetAndDeviceRegistry\Generated\" />
+  </ItemGroup>
 </Project>
