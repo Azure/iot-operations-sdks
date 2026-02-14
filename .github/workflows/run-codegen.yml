@@ -33,7 +33,7 @@ jobs:
       
       - name: Build codegen
         run: |
-          dotnet build -c Debug codegen/codegen.sln
+          dotnet build -c Debug codegen/codegen.sln # TODO remove this once all languages use the WoT protocol compiler
           dotnet build -c Debug codegen2/codegen.sln
           echo "codegen=$(echo $(realpath codegen2/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
 
