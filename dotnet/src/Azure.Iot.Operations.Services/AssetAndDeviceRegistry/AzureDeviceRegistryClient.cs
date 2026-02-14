@@ -160,7 +160,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 NotificationPreferenceRequest = new Generated.AdrBaseService.SetNotificationPreferenceForAssetUpdatesRequestSchema
                 {
                     AssetName = assetName,
-                    NotificationPreference = notificationPreference
+                    NotificationPreference = notificationPreference == Models.NotificationPreference.On ? Generated.AdrBaseService.NotificationPreference.On : Generated.AdrBaseService.NotificationPreference.Off
                 }
             };
 

@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 
-using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Schema;
+using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.Generated.Schema;
 using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
 using System.Diagnostics;
 using Azure.Iot.Operations.Protocol;

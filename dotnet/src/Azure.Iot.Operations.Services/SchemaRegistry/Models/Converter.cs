@@ -89,5 +89,71 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Models
             };
         }
 
+        internal static SchemaRegistry.Schema toModel(Azure.Iot.Operations.Services.SchemaRegistry.Generated.Schema generated)
+        {
+            return new()
+            {
+                Description = generated.Description,
+                DisplayName = generated.DisplayName,
+                Format = toModel(generated.Format),
+                Hash = generated.Hash,
+                Name = generated.Name,
+                Namespace = generated.Namespace,
+                SchemaContent = generated.SchemaContent,
+                SchemaType = toModel(generated.SchemaType),
+                Tags = generated.Tags,
+                Version = generated.Version,
+            };
+        }
+
+        internal static SchemaRegistry.Format toModel(string generated)
+        {
+            if (generated.Equals("Delta/1.0"))
+            {
+                return SchemaRegistry.Format.Delta1;
+            }
+            else if (generated.Equals("JsonSchema/draft-07"))
+            {
+                return SchemaRegistry.Format.JsonSchemaDraft07;
+            }
+
+            throw new ArgumentException("Received unknown schema registry format: " + generated);
+        }
+
+        internal static SchemaRegistry.SchemaType toModel(Azure.Iot.Operations.Services.SchemaRegistry.Generated.SchemaType generated)
+        {
+            // This is the only value in the enum as of now
+            if (generated == Generated.SchemaType.MessageSchema)
+            {
+                return SchemaRegistry.SchemaType.MessageSchema;
+            }
+
+            throw new ArgumentException("Received unknown schema type " + generated.ToString());
+        }
+
+        internal static Azure.Iot.Operations.Services.SchemaRegistry.Generated.SchemaType fromModel(SchemaRegistry.SchemaType model)
+        {
+            // This is the only value in the enum as of now
+            if (model == SchemaRegistry.SchemaType.MessageSchema)
+            {
+                return Generated.SchemaType.MessageSchema;
+            }
+
+            throw new ArgumentException("Received unknown schema type " + model.ToString());
+        }
+
+        internal static string fromModel(SchemaRegistry.Format model)
+        {
+            if (model == SchemaRegistry.Format.Delta1)
+            {
+                return "Delta/1.0";
+            }
+            else if (model == SchemaRegistry.Format.JsonSchemaDraft07)
+            {
+                return "JsonSchema/draft-07";
+            }
+
+            throw new ArgumentException("Received unknown schema registry format: " + model);
+        }
     }
 }
