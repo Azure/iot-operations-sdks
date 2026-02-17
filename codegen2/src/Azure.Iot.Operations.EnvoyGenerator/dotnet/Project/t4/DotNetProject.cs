@@ -26,9 +26,18 @@ namespace Azure.Iot.Operations.EnvoyGenerator
  // Licensed under the MIT License 
             this.Write("<Project Sdk=\"Microsoft.NET.Sdk\">\r\n\r\n  <PropertyGroup>\r\n    <TargetFramework>");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.targetFramework));
-            this.Write("</TargetFramework>\r\n    <AnalysisLevel>latest-recommended</AnalysisLevel>\r\n    <N" +
-                    "ullable>enable</Nullable>\r\n    <NoWarn>SA0001,SA1101,SA1633</NoWarn>\r\n  </Proper" +
-                    "tyGroup>\r\n\r\n  <ItemGroup>\r\n");
+            this.Write(@"</TargetFramework>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <Nullable>enable</Nullable>
+    <NoWarn>SA0001,SA1101,SA1633</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include=""Macross.Json.Extensions"" Version=""3.0.0"" />
+  </ItemGroup>
+
+  <ItemGroup>
+");
  if (this.sdkProjPath != null) { 
             this.Write("    <ProjectReference Include=\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.sdkProjPath));

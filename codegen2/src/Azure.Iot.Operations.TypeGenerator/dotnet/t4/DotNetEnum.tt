@@ -13,15 +13,20 @@
 
 namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)#>
 {
+    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
+
 <# if (this.enumType.Description != null) { #>
     /// <summary>
     /// <#=this.enumType.Description#>
     /// </summary>
 <# } #>
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "<#=System.Reflection.Assembly.GetExecutingAssembly().GetName().Version#>")]
     public enum <#=this.enumType.SchemaName.AsGiven#>
     {
 <# foreach (var enumValue in this.enumType.EnumValues) { #>
+        [EnumMember(Value = @"<#=enumValue.AsGiven#>")]
         <#=enumValue.AsGiven#>,
 <# } #>
     }
