@@ -62,9 +62,9 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 errorLog.Phase = "Parsing";
                 List<ParsedThing> parsedThings = new();
                 HashSet<SerializationFormat> serializationFormats = new();
-                ParseThings(options.ThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, forClient: true, forServer: true);
-                ParseThings(options.ClientThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, forClient: true, forServer: false);
-                ParseThings(options.ServerThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, forClient: false, forServer: true);
+                ParseThings(options.ThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, options.PrefixSchemas, forClient: true, forServer: true);
+                ParseThings(options.ClientThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, options.PrefixSchemas, forClient: true, forServer: false);
+                ParseThings(options.ServerThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, options.PrefixSchemas, forClient: false, forServer: true);
 
                 if (errorLog.HasErrors)
                 {
@@ -184,7 +184,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             }
         }
 
-        private static void ParseThings(FileInfo[] thingFiles, ErrorLog errorLog, Action<string, bool> statusReceiver, List<ParsedThing> parsedThings, HashSet<SerializationFormat> serializationFormats, bool forClient, bool forServer)
+        private static void ParseThings(FileInfo[] thingFiles, ErrorLog errorLog, Action<string, bool> statusReceiver, List<ParsedThing> parsedThings, HashSet<SerializationFormat> serializationFormats, bool prefixSchemas, bool forClient, bool forServer)
         {
             foreach (FileInfo thingFile in thingFiles)
             {
@@ -205,7 +205,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                             if (thingValidator.TryValidateThing(thing, serializationFormats))
                             {
                                 ValueTracker<StringHolder>? schemaNamesFilename = thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationSchemaNaming)?.Value.Href;
-                                if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, out SchemaNamer? schemaNamer))
+                                if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, prefixSchemas ? thing.Title?.Value.Value : null, out SchemaNamer? schemaNamer))
                                 {
                                     thingCount++;
                                     parsedThings.Add(new ParsedThing(thing, thingFile.Name, thingFile.DirectoryName!, schemaNamer, errorReporter, forClient, forServer));
@@ -214,17 +214,19 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                             }
                         }
 
+                        thingValidator.ValidateThingCollection(things);
+
                         statusReceiver.Invoke($" {thingCount} {(thingCount == 1 ? "TD" : "TDs")} validly parsed", false);
                     }
                 }
             }
         }
 
-        private static bool TryGetSchemaNamer(ErrorReporter errorReporter, string folderPath, ValueTracker<StringHolder>? namerFilename, [NotNullWhen(true)] out SchemaNamer? schemaNamer)
+        private static bool TryGetSchemaNamer(ErrorReporter errorReporter, string folderPath, ValueTracker<StringHolder>? namerFilename, string? schemaPrefix, [NotNullWhen(true)] out SchemaNamer? schemaNamer)
         {
             if (namerFilename == null)
             {
-                schemaNamer = new SchemaNamer();
+                schemaNamer = new SchemaNamer(schemaPrefix);
                 return true;
             }
 
@@ -241,7 +243,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
             try
             {
-                schemaNamer = new SchemaNamer(schemaNameInfoText);
+                schemaNamer = new SchemaNamer(schemaPrefix, schemaNameInfoText);
                 return true;
             }
             catch (Exception ex)
