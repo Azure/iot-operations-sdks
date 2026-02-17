@@ -114,12 +114,30 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             CheckSchemaDefinitionsCoverage(thing.SchemaDefinitions, thing.Actions, thing.Properties);
 
-            if ((thing.Actions?.Entries?.Count ?? 0) == 0 && (thing.Properties?.Entries?.Count ?? 0) == 0 && (thing.Events?.Entries?.Count ?? 0) == 0)
-            {
-                errorReporter.ReportWarning("Thing Model has no actions, properties, or events defined.", -1);
-            }
-
             return !hasError;
+        }
+
+        public void ValidateThingCollection(List<TDThing> things)
+        {
+            int actionCount = things.Sum(t => t.Actions?.Entries?.Count ?? 0);
+            int propertyCount = things.Sum(t => t.Properties?.Entries?.Count ?? 0);
+            int eventCount = things.Sum(t => t.Events?.Entries?.Count ?? 0);
+
+            if (actionCount + propertyCount + eventCount == 0)
+            {
+                switch (things.Count)
+                {
+                    case 0:
+                        errorReporter.ReportWarning("Thing collection is empty.", -1);
+                        break;
+                    case 1:
+                        errorReporter.ReportWarning("Thing Model has no actions, properties, or events defined.", -1);
+                        break;
+                    default:
+                        errorReporter.ReportWarning("Collection has no actions, properties, or events defined across all Thing Models therein.", -1);
+                        break;
+                }
+            }
         }
 
         private bool TryValidateThingPropertyNames(Dictionary<string, long> propertyNames)
