@@ -216,6 +216,13 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             }
             catch (AkriServiceErrorException exception)
             {
+                // Bug in how we handle 404 errors when getting devices/assets?
+                /*
+                 *       Azure.Iot.Operations.Services.IntegrationTests.AzureDeviceRegistryClientIntegrationTests.CanGetDeviceAsync (411ms): Error Message: System.Exception : {"g
+      etDeviceError":{"code":"KubeError","message":"ApiError: devices.namespaces.deviceregistry.microsoft.com \"my-thermostat\" not found: NotFound (ErrorRespo
+      nse { status: \"Failure\", message: \"devices.namespaces.deviceregistry.microsoft.com \\\"my-thermostat\\\" not found\", reason: \"NotFound\", code: 404 
+      })","timestamp":"2026-02-17T00:51:51.557849751Z"}} 
+                 */
                 var error = exception.AkriServiceError.ToModel();
                 throw new Models.AkriServiceErrorException(error);
             }
