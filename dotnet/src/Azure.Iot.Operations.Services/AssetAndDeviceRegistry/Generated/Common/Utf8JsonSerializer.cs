@@ -64,7 +64,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.Common
             }
             catch (Exception)
             {
-                throw AkriMqttException.GetPayloadInvalidException();
+                throw;
             }
         }
 
