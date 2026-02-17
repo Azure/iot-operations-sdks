@@ -25,12 +25,29 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            return Converter.toModel((await _clientStub.GetAsync(
+            var a = await _clientStub.GetAsync(
                 new GetRequestSchema()
                 {
                     Name = schemaId,
                     Version = version,
-                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema);
+                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken);
+
+#pragma warning disable IDE0270 // Use coalesce expression
+            if (a == null)
+            {
+                throw new Exception("here");
+            }
+
+            var b = a.Schema;
+
+            if (b == null)
+            {
+                throw new Exception("b");
+            }
+
+#pragma warning restore IDE0270 // Use coalesce expression
+
+            return Converter.toModel(b);
         }
         catch (Azure.Iot.Operations.Services.SchemaRegistry.Generated.SchemaRegistryErrorException srEx)
         {
