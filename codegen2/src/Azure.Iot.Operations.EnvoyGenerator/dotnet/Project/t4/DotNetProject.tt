@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
 <# if (this.sdkProjPath != null) { #>
     <ProjectReference Include="<#=this.sdkProjPath#>" />
 <# } else { #>
