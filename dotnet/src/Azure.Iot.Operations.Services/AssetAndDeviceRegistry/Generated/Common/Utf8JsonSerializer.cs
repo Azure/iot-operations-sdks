@@ -5,7 +5,6 @@
 
 using System;
 using System.Buffers;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Azure.Iot.Operations.Protocol;
@@ -65,7 +64,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.Common
             }
             catch (Exception)
             {
-                throw new Exception(Encoding.UTF8.GetString(payload));
+                throw;
             }
         }
 
