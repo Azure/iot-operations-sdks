@@ -344,6 +344,15 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         return;
                     }
 
+                    Console.WriteLine("#######################");
+                    Console.WriteLine("#######################");
+                    Console.WriteLine("#######################");
+                    Console.WriteLine(Encoding.UTF8.GetString(args.ApplicationMessage.Payload));
+                    Console.WriteLine("#######################");
+                    Console.WriteLine("#######################");
+                    Console.WriteLine("#######################");
+
+
                     TResp response;
                     CommandResponseMetadata responseMetadata;
                     try
