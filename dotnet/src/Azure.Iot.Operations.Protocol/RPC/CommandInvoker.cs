@@ -4,7 +4,6 @@
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
-using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -353,27 +352,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     Console.WriteLine("#######################");
                     Console.WriteLine("#######################");
 
-                    string a = Encoding.UTF8.GetString(args.ApplicationMessage.Payload).Replace("\"UsernamePassword\"", "UsernamePassword");
-
-                    ReadOnlySequence<byte> changedPayload = new(Encoding.UTF8.GetBytes(a));
-
-                    if (changedPayload.Length == args.ApplicationMessage.Payload.Length)
-                    {
-                        Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!");
-                        Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!");
-                        Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!");
-                        Console.WriteLine("NO CHANGE");
-                        Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!");
-                        Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!");
-                        Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!");
-                    }
-
 
                     TResp response;
                     CommandResponseMetadata responseMetadata;
                     try
                     {
-                        response = _serializer.FromBytes<TResp>(changedPayload, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
+                        response = _serializer.FromBytes<TResp>(args.ApplicationMessage.Payload, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
                         responseMetadata = new CommandResponseMetadata(args.ApplicationMessage);
                     }
                     catch (Exception ex)
