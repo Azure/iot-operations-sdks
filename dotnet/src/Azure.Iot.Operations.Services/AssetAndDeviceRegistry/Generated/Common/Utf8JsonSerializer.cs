@@ -53,7 +53,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.Common
                 {
                     if (typeof(T) != typeof(EmptyJson))
                     {
-                        throw AkriMqttException.GetPayloadInvalidException(" no, here");
+                        throw AkriMqttException.GetPayloadInvalidException();
                     }
 
                     return (new EmptyJson() as T) !;
@@ -64,7 +64,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.Common
             }
             catch (Exception)
             {
-                throw AkriMqttException.GetPayloadInvalidException(" here");
+                throw AkriMqttException.GetPayloadInvalidException();
             }
         }
 
@@ -82,7 +82,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.Common
             }
             catch (Exception)
             {
-                throw AkriMqttException.GetPayloadInvalidException(" her?");
+                throw AkriMqttException.GetPayloadInvalidException();
             }
         }
     }

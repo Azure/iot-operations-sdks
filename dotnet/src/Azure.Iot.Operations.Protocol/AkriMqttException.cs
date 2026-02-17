@@ -126,9 +126,9 @@ namespace Azure.Iot.Operations.Protocol
                 CommandName = commandName,
             };
         }
-        public static AkriMqttException GetPayloadInvalidException(string? extra = "")
+        public static AkriMqttException GetPayloadInvalidException()
         {
-            return new AkriMqttException($"Command payload invalid" + extra)
+            return new AkriMqttException($"Command payload invalid")
             {
                 Kind = AkriMqttErrorKind.PayloadInvalid,
                 IsShallow = false,
