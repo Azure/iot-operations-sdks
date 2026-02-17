@@ -38,7 +38,8 @@ namespace Azure.Iot.Operations.TypeGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)));
-            this.Write("\r\n{\r\n");
+            this.Write("\r\n{\r\n    using System.Runtime.Serialization;\r\n    using System.Text.Json.Serializ" +
+                    "ation;\r\n\r\n");
  if (this.enumType.Description != null) { 
             this.Write("    /// <summary>\r\n    /// ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.enumType.Description));

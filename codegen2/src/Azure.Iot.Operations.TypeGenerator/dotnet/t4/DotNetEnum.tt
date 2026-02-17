@@ -13,6 +13,9 @@
 
 namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)#>
 {
+    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
+
 <# if (this.enumType.Description != null) { #>
     /// <summary>
     /// <#=this.enumType.Description#>
