@@ -196,8 +196,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             throw new ArgumentException("Inbound endpoint name cannot be null or empty", nameof(inboundEndpointName));
         }
 
-        //return await RunWithRetryAsync<Device>(async () =>
-        //{
+        return await RunWithRetryAsync<Device>(async () =>
+        {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -226,7 +226,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 var error = exception.AkriServiceError.ToModel();
                 throw new Models.AkriServiceErrorException(error);
             }
-        //}, cancellationToken);
+        }, cancellationToken);
     }
 
     /// <inheritdoc />
