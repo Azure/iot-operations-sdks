@@ -54,6 +54,7 @@ public class AzureDeviceRegistryClientIntegrationTests
     {
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
+        Console.WriteLine("client id: " + mqttClient.ClientId);
         ApplicationContext applicationContext = new();
         await using AzureDeviceRegistryClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
 
