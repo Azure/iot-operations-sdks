@@ -12,13 +12,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public enum MethodSchema
     {
-        [EnumMember(Value = @"Anonymous")]
         Anonymous,
-
-        [EnumMember(Value = @"Certificate")]
         Certificate,
-
-        [EnumMember(Value = @"UsernamePassword")]
         UsernamePassword,
     }
 }
