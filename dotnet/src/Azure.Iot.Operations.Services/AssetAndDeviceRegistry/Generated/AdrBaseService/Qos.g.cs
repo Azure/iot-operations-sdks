@@ -4,13 +4,19 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService
 {
+    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
+
     /// <summary>
     /// The MQTT QoS setting.
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public enum Qos
     {
+        [EnumMember(Value = @"Qos0")]
         Qos0,
+        [EnumMember(Value = @"Qos1")]
         Qos1,
     }
 }

@@ -4,16 +4,25 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceDiscoveryService
 {
+    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
+
     /// <summary>
     /// The error code that identifies the error.
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public enum CodeSchema
     {
+        [EnumMember(Value = @"BadRequest")]
         BadRequest,
+        [EnumMember(Value = @"InternalError")]
         InternalError,
+        [EnumMember(Value = @"KubeError")]
         KubeError,
+        [EnumMember(Value = @"SerializationError")]
         SerializationError,
+        [EnumMember(Value = @"Unauthorized")]
         Unauthorized,
     }
 }

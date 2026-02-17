@@ -4,14 +4,21 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService
 {
+    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
+
     /// <summary>
     /// The target destination.
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public enum DatasetTarget
     {
+        [EnumMember(Value = @"BrokerStateStore")]
         BrokerStateStore,
+        [EnumMember(Value = @"Mqtt")]
         Mqtt,
+        [EnumMember(Value = @"Storage")]
         Storage,
     }
 }

@@ -2,18 +2,23 @@
 
 #nullable enable
 
-using System.Runtime.Serialization;
-
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService
 {
+    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
+
     /// <summary>
     /// Defines the method to authenticate the user of the client at the server.
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public enum MethodSchema
     {
+        [EnumMember(Value = @"Anonymous")]
         Anonymous,
+        [EnumMember(Value = @"Certificate")]
         Certificate,
+        [EnumMember(Value = @"UsernamePassword")]
         UsernamePassword,
     }
 }

@@ -4,13 +4,19 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService
 {
+    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
+
     /// <summary>
     /// When set to 'Keep', messages published to an MQTT broker will have the retain flag set.
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public enum Retain
     {
+        [EnumMember(Value = @"Keep")]
         Keep,
+        [EnumMember(Value = @"Never")]
         Never,
     }
 }
