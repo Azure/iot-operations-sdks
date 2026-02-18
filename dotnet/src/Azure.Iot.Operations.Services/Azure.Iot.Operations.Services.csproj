@@ -16,7 +16,7 @@
     <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="docs\README.md" Pack="true" PackagePath="\" />
+    <None Include="./README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 	<ItemGroup>
