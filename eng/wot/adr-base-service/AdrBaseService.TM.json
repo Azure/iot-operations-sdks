@@ -814,7 +814,7 @@
                 "type": "boolean"
               },
               "eventGroups": {
-                "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+                "description": "Array of events groups that are part of the asset. Each event group can have per-event group configuration.",
                 "type": "array",
                 "items": {
                   "title": "AssetEventGroupSchemaElementSchema",
@@ -822,11 +822,11 @@
                   "required": [ "name" ],
                   "properties": {
                     "dataSource": {
-                      "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.",
+                      "description": "The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset.",
                       "type": "string"
                     },
-                    "defaultEventsDestinations": {
-                      "description": "Default destinations for an event.",
+                    "defaultDestinations": {
+                      "description": "Default destinations for an event group.",
                       "type": "array",
                       "items": {
                         "title": "EventStreamDestination",
@@ -889,11 +889,11 @@
                       }
                     },
                     "eventGroupConfiguration": {
-                      "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
+                      "description": "Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
                       "type": "string"
                     },
                     "events": {
-                      "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+                      "description": "Array of events that are part of the event group. Each event can have per-event configuration.",
                       "type": "array",
                       "items": {
                         "title": "AssetEventSchemaElementSchema",
@@ -3332,7 +3332,7 @@
                     "type": "string"
                   },
                   "eventGroups": {
-                    "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+                    "description": "Array of event groups that are part of the asset. Each event group can have per-event group configuration.",
                     "type": "array",
                     "items": {
                       "title": "DiscoveredAssetEventGroup",
@@ -3340,11 +3340,11 @@
                       "required": [ "name" ],
                       "properties": {
                         "dataSource": {
-                          "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.",
+                          "description": "The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset.",
                           "type": "string"
                         },
-                        "defaultEventsDestinations": {
-                          "description": "Default destinations for an event.",
+                        "defaultDestinations": {
+                          "description": "Default destinations for an event group.",
                           "type": "array",
                           "items": {
                             "title": "EventStreamDestination",
@@ -3407,11 +3407,11 @@
                           }
                         },
                         "eventGroupConfiguration": {
-                          "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
+                          "description": "Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
                           "type": "string"
                         },
                         "events": {
-                          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+                          "description": "Array of events that are part of the event group. Each event can have per-event configuration.",
                           "type": "array",
                           "items": {
                             "title": "DiscoveredAssetEvent",
@@ -4398,7 +4398,7 @@
                 "type": "boolean"
               },
               "eventGroups": {
-                "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+                "description": "Array of events groups that are part of the asset. Each event group can have per-event group configuration.",
                 "type": "array",
                 "items": {
                   "title": "AssetEventGroupSchemaElementSchema",
@@ -4406,11 +4406,11 @@
                   "required": [ "name" ],
                   "properties": {
                     "dataSource": {
-                      "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.",
+                      "description": "The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset.",
                       "type": "string"
                     },
-                    "defaultEventsDestinations": {
-                      "description": "Default destinations for an event.",
+                    "defaultDestinations": {
+                      "description": "Default destinations for an event group.",
                       "type": "array",
                       "items": {
                         "title": "EventStreamDestination",
@@ -4473,11 +4473,11 @@
                       }
                     },
                     "eventGroupConfiguration": {
-                      "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
+                      "description": "Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
                       "type": "string"
                     },
                     "events": {
-                      "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+                      "description": "Array of events that are part of the event group. Each event can have per-event configuration.",
                       "type": "array",
                       "items": {
                         "title": "AssetEventSchemaElementSchema",
