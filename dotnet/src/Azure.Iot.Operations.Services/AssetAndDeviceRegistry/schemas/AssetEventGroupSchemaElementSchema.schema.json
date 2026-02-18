@@ -6,19 +6,19 @@
   "required": [ "name" ],
   "properties": {
     "dataSource": {
-      "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.",
+      "description": "The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset.",
       "type": "string"
     },
-    "defaultEventsDestinations": {
-      "description": "Default destinations for an event.",
+    "defaultDestinations": {
+      "description": "Default destinations for an event group.",
       "type": "array", "items": { "$ref": "EventStreamDestination.schema.json" }
     },
     "eventGroupConfiguration": {
-      "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
+      "description": "Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.",
       "type": "string"
     },
     "events": {
-      "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+      "description": "Array of events that are part of the event group. Each event can have per-event configuration.",
       "type": "array", "items": { "$ref": "AssetEventSchemaElementSchema.schema.json" }
     },
     "name": {
