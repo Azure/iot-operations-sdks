@@ -155,55 +155,17 @@ internal static class ModelsConverter
     {
         return new Models.AkriServiceError
         {
-            Code = source.Code.ToModel(),
+            Code = (Code)(int)source.Code,
             Message = source.Message,
             Timestamp = source.Timestamp,
         };
-    }
-
-    internal static Models.Code ToModel(this Generated.AdrBaseService.CodeSchema source)
-    {
-        switch (source)
-        {
-            case Generated.AdrBaseService.CodeSchema.Unauthorized:
-                return Models.Code.Unauthorized;
-            case Generated.AdrBaseService.CodeSchema.SerializationError:
-                return Models.Code.SerializationError;
-            case Generated.AdrBaseService.CodeSchema.BadRequest:
-                return Models.Code.BadRequest;
-            case Generated.AdrBaseService.CodeSchema.KubeError:
-                return Models.Code.KubeError;
-            case Generated.AdrBaseService.CodeSchema.InternalError:
-                return Models.Code.InternalError;
-            default:
-                throw new ArgumentException("Unknown code");
-        }
-    }
-
-    internal static Models.Code ToModel(this Generated.DeviceDiscoveryService.CodeSchema source)
-    {
-        switch (source)
-        {
-            case Generated.DeviceDiscoveryService.CodeSchema.Unauthorized:
-                return Models.Code.Unauthorized;
-            case Generated.DeviceDiscoveryService.CodeSchema.SerializationError:
-                return Models.Code.SerializationError;
-            case Generated.DeviceDiscoveryService.CodeSchema.BadRequest:
-                return Models.Code.BadRequest;
-            case Generated.DeviceDiscoveryService.CodeSchema.KubeError:
-                return Models.Code.KubeError;
-            case Generated.DeviceDiscoveryService.CodeSchema.InternalError:
-                return Models.Code.InternalError;
-            default:
-                throw new ArgumentException("Unknown code");
-        }
     }
 
     internal static Models.AkriServiceError ToModel(this Generated.DeviceDiscoveryService.AkriServiceError source)
     {
         return new Models.AkriServiceError
         {
-            Code = source.Code.ToModel(),
+            Code = (Code)(int)source.Code,
             Message = source.Message,
             Timestamp = source.Timestamp,
         };
@@ -304,32 +266,12 @@ internal static class ModelsConverter
 
     internal static AssetManagementGroupActionType ToModel(this Generated.AdrBaseService.AssetManagementGroupActionType source)
     {
-        switch (source)
-        {
-            case Generated.AdrBaseService.AssetManagementGroupActionType.Read:
-                return AssetManagementGroupActionType.Read;
-            case Generated.AdrBaseService.AssetManagementGroupActionType.Call:
-                return AssetManagementGroupActionType.Call;
-            case Generated.AdrBaseService.AssetManagementGroupActionType.Write:
-                return AssetManagementGroupActionType.Write;
-            default:
-                throw new ArgumentException("Unknown management group action type");
-        }
+        return (AssetManagementGroupActionType)(int)source;
     }
 
     internal static DatasetTarget ToModel(this Generated.AdrBaseService.DatasetTarget source)
     {
-        switch (source)
-        {
-            case Generated.AdrBaseService.DatasetTarget.Storage:
-                return DatasetTarget.Storage;
-            case Generated.AdrBaseService.DatasetTarget.Mqtt:
-                return DatasetTarget.Mqtt;
-            case Generated.AdrBaseService.DatasetTarget.BrokerStateStore:
-                return DatasetTarget.BrokerStateStore;
-            default:
-                throw new ArgumentException("Unknown dataset target type");
-        }
+        return (DatasetTarget)(int)source;
     }
 
     internal static DestinationConfiguration ToModel(this Generated.AdrBaseService.DestinationConfiguration source)
@@ -347,28 +289,12 @@ internal static class ModelsConverter
 
     internal static Retain ToModel(this Generated.AdrBaseService.Retain source)
     {
-        switch (source)
-        {
-            case Generated.AdrBaseService.Retain.Keep:
-                return Retain.Keep;
-            case Generated.AdrBaseService.Retain.Never:
-                return Retain.Never;
-            default:
-                throw new ArgumentException("Unknown retain type");
-        }
+        return (Retain)(int)source;
     }
 
     internal static QoS ToModel(this Generated.AdrBaseService.Qos source)
     {
-        switch (source)
-        {
-            case Generated.AdrBaseService.Qos.Qos0:
-                return QoS.Qos0;
-            case Generated.AdrBaseService.Qos.Qos1:
-                return QoS.Qos1;
-            default:
-                throw new ArgumentException("Unknown qos");
-        }
+        return (QoS)(int)source;
     }
 
     internal static AssetDataset ToModel(this AssetDatasetSchemaElementSchema source)
@@ -418,15 +344,7 @@ internal static class ModelsConverter
 
     internal static EventStreamTarget ToModel(this Generated.AdrBaseService.EventStreamTarget source)
     {
-        switch (source)
-        {
-            case Generated.AdrBaseService.EventStreamTarget.Mqtt:
-                return EventStreamTarget.Mqtt;
-            case Generated.AdrBaseService.EventStreamTarget.Storage:
-                return EventStreamTarget.Storage;
-            default:
-                throw new ArgumentException("Unknown event stream target type");
-        }
+        return (EventStreamTarget)(int)source;
     }
 
     internal static Authentication ToModel(this AuthenticationSchema source)
@@ -441,17 +359,7 @@ internal static class ModelsConverter
 
     internal static Method ToModel(this MethodSchema source)
     {
-        switch (source)
-        {
-            case Generated.AdrBaseService.MethodSchema.UsernamePassword:
-                return Method.UsernamePassword;
-            case Generated.AdrBaseService.MethodSchema.Certificate:
-                return Method.Certificate;
-            case Generated.AdrBaseService.MethodSchema.Anonymous:
-                return Method.Anonymous;
-            default:
-                throw new ArgumentException("Unknown authentication method");
-        }
+        return (Method)(int)source;
     }
 
     internal static X509Credentials ToModel(this X509credentialsSchema source)
