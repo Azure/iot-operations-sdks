@@ -6,7 +6,10 @@
 use core::fmt::Debug;
 use std::{collections::HashMap, fmt};
 
-use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
+use azure_iot_operations_protocol::{
+    common::aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind},
+    rpc_command,
+};
 use derive_builder::Builder;
 use thiserror::Error;
 
@@ -119,12 +122,32 @@ pub struct ServiceError {
     pub target: Option<ErrorTarget>,
 }
 
-impl From<sr_client_gen::SchemaRegistryErrorCode> for ErrorCode {
-    fn from(code: sr_client_gen::SchemaRegistryErrorCode) -> Self {
+impl TryFrom<(i32, &str)> for ErrorCode {
+    type Error = AIOProtocolError;
+
+    fn try_from((code, command_name): (i32, &str)) -> Result<Self, Self::Error> {
         match code {
-            sr_client_gen::SchemaRegistryErrorCode::BadRequest => ErrorCode::BadRequest,
-            sr_client_gen::SchemaRegistryErrorCode::InternalError => ErrorCode::InternalError,
-            sr_client_gen::SchemaRegistryErrorCode::NotFound => ErrorCode::NotFound,
+            sr_client_gen::BAD_REQUEST => Ok(ErrorCode::BadRequest),
+            sr_client_gen::INTERNAL_ERROR => Ok(ErrorCode::InternalError),
+            sr_client_gen::NOT_FOUND => Ok(ErrorCode::NotFound),
+            _ => Err(AIOProtocolError {
+                message: Some(format!(
+                    "Deserialization of the MQTT payload failed. Invalid value for error field 'code': {code}"
+                )),
+                kind: AIOProtocolErrorKind::PayloadInvalid,
+                is_shallow: false,
+                is_remote: false,
+                nested_error: None,
+                header_name: None,
+                header_value: None,
+                timeout_name: None,
+                timeout_value: None,
+                property_name: None,
+                property_value: None,
+                command_name: Some(command_name.to_string()),
+                protocol_version: None,
+                supported_protocol_major_versions: None,
+            }),
         }
     }
 }
@@ -139,49 +162,61 @@ impl From<sr_client_gen::SchemaRegistryErrorDetails> for ErrorDetails {
     }
 }
 
-impl From<sr_client_gen::SchemaRegistryErrorTarget> for ErrorTarget {
-    fn from(target: sr_client_gen::SchemaRegistryErrorTarget) -> Self {
-        match target {
-            sr_client_gen::SchemaRegistryErrorTarget::DescriptionProperty => {
-                ErrorTarget::DescriptionProperty
+impl TryFrom<(String, &str)> for ErrorTarget {
+    type Error = AIOProtocolError;
+
+    fn try_from((target, command_name): (String, &str)) -> Result<Self, Self::Error> {
+        match target.as_str() {
+            sr_client_gen::DESCRIPTION_PROPERTY => Ok(ErrorTarget::DescriptionProperty),
+            sr_client_gen::DISPLAY_NAME_PROPERTY => Ok(ErrorTarget::DisplayNameProperty),
+            sr_client_gen::FORMAT_PROPERTY => Ok(ErrorTarget::FormatProperty),
+            sr_client_gen::NAME_PROPERTY => Ok(ErrorTarget::NameProperty),
+            sr_client_gen::SCHEMA_ARM_RESOURCE => Ok(ErrorTarget::SchemaArmResource),
+            sr_client_gen::SCHEMA_CONTENT_PROPERTY => Ok(ErrorTarget::SchemaContentProperty),
+            sr_client_gen::SCHEMA_REGISTRY_ARM_RESOURCE => {
+                Ok(ErrorTarget::SchemaRegistryArmResource)
             }
-            sr_client_gen::SchemaRegistryErrorTarget::DisplayNameProperty => {
-                ErrorTarget::DisplayNameProperty
-            }
-            sr_client_gen::SchemaRegistryErrorTarget::FormatProperty => ErrorTarget::FormatProperty,
-            sr_client_gen::SchemaRegistryErrorTarget::NameProperty => ErrorTarget::NameProperty,
-            sr_client_gen::SchemaRegistryErrorTarget::SchemaArmResource => {
-                ErrorTarget::SchemaArmResource
-            }
-            sr_client_gen::SchemaRegistryErrorTarget::SchemaContentProperty => {
-                ErrorTarget::SchemaContentProperty
-            }
-            sr_client_gen::SchemaRegistryErrorTarget::SchemaRegistryArmResource => {
-                ErrorTarget::SchemaRegistryArmResource
-            }
-            sr_client_gen::SchemaRegistryErrorTarget::SchemaTypeProperty => {
-                ErrorTarget::SchemaTypeProperty
-            }
-            sr_client_gen::SchemaRegistryErrorTarget::SchemaVersionArmResource => {
-                ErrorTarget::SchemaVersionArmResource
-            }
-            sr_client_gen::SchemaRegistryErrorTarget::TagsProperty => ErrorTarget::TagsProperty,
-            sr_client_gen::SchemaRegistryErrorTarget::VersionProperty => {
-                ErrorTarget::VersionProperty
-            }
+            sr_client_gen::SCHEMA_TYPE_PROPERTY => Ok(ErrorTarget::SchemaTypeProperty),
+            sr_client_gen::SCHEMA_VERSION_ARM_RESOURCE => Ok(ErrorTarget::SchemaVersionArmResource),
+            sr_client_gen::TAGS_PROPERTY => Ok(ErrorTarget::TagsProperty),
+            sr_client_gen::VERSION_PROPERTY => Ok(ErrorTarget::VersionProperty),
+            _ => Err(AIOProtocolError {
+                message: Some(format!(
+                    "Deserialization of the MQTT payload failed. Invalid value for error field 'target': {target}"
+                )),
+                kind: AIOProtocolErrorKind::PayloadInvalid,
+                is_shallow: false,
+                is_remote: false,
+                nested_error: None,
+                header_name: None,
+                header_value: None,
+                timeout_name: None,
+                timeout_value: None,
+                property_name: None,
+                property_value: None,
+                command_name: Some(command_name.to_string()),
+                protocol_version: None,
+                supported_protocol_major_versions: None,
+            }),
         }
     }
 }
 
-impl From<sr_client_gen::SchemaRegistryError> for ServiceError {
-    fn from(error: sr_client_gen::SchemaRegistryError) -> Self {
-        ServiceError {
-            code: error.code.into(),
+impl TryFrom<(sr_client_gen::SchemaRegistryError, &str)> for ServiceError {
+    type Error = AIOProtocolError;
+    fn try_from(
+        (error, command_name): (sr_client_gen::SchemaRegistryError, &str),
+    ) -> Result<Self, Self::Error> {
+        Ok(ServiceError {
+            code: (error.code, command_name).try_into()?,
             details: error.details.map(Into::into),
             inner_error: error.inner_error.map(Into::into),
             message: error.message,
-            target: error.target.map(Into::into),
-        }
+            target: error
+                .target
+                .map(|t| (t, command_name).try_into())
+                .transpose()?,
+        })
     }
 }
 
@@ -328,20 +363,39 @@ impl GetSchemaRequestBuilder {
     }
 }
 
-impl From<Format> for sr_client_gen::Format {
+impl From<Format> for String {
     fn from(format: Format) -> Self {
         match format {
-            Format::Delta1 => sr_client_gen::Format::Delta1,
-            Format::JsonSchemaDraft07 => sr_client_gen::Format::JsonSchemaDraft07,
+            Format::Delta1 => sr_client_gen::DELTA1.to_string(),
+            Format::JsonSchemaDraft07 => sr_client_gen::JSON_SCHEMA_DRAFT07.to_string(),
         }
     }
 }
 
-impl From<sr_client_gen::Format> for Format {
-    fn from(format: sr_client_gen::Format) -> Self {
-        match format {
-            sr_client_gen::Format::Delta1 => Format::Delta1,
-            sr_client_gen::Format::JsonSchemaDraft07 => Format::JsonSchemaDraft07,
+impl TryFrom<(String, &str)> for Format {
+    type Error = AIOProtocolError;
+    fn try_from((format, command_name): (String, &str)) -> Result<Self, Self::Error> {
+        match format.as_str() {
+            sr_client_gen::DELTA1 => Ok(Format::Delta1),
+            sr_client_gen::JSON_SCHEMA_DRAFT07 => Ok(Format::JsonSchemaDraft07),
+            _ => Err(AIOProtocolError {
+                message: Some(format!(
+                    "Deserialization of the MQTT payload failed. Invalid value for field 'format': {format}"
+                )),
+                kind: AIOProtocolErrorKind::PayloadInvalid,
+                is_shallow: false,
+                is_remote: false,
+                nested_error: None,
+                header_name: None,
+                header_value: None,
+                timeout_name: None,
+                timeout_value: None,
+                property_name: None,
+                property_value: None,
+                command_name: Some(command_name.to_string()),
+                protocol_version: None,
+                supported_protocol_major_versions: None,
+            }),
         }
     }
 }
@@ -361,12 +415,15 @@ impl From<sr_client_gen::SchemaType> for SchemaType {
         }
     }
 }
-impl From<sr_client_gen::Schema> for Schema {
-    fn from(schema: sr_client_gen::Schema) -> Self {
-        Schema {
+impl TryFrom<(sr_client_gen::Schema, &str)> for Schema {
+    type Error = AIOProtocolError;
+    fn try_from(
+        (schema, command_name): (sr_client_gen::Schema, &str),
+    ) -> Result<Self, Self::Error> {
+        Ok(Schema {
             description: schema.description,
             display_name: schema.display_name,
-            format: schema.format.into(),
+            format: (schema.format, command_name).try_into()?,
             hash: schema.hash,
             name: schema.name,
             namespace: schema.namespace,
@@ -374,6 +431,6 @@ impl From<sr_client_gen::Schema> for Schema {
             schema_type: schema.schema_type.into(),
             tags: schema.tags.unwrap_or_default(),
             version: schema.version,
-        }
+        })
     }
 }

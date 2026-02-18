@@ -90,9 +90,14 @@ impl Client {
             .invoke(command_request)
             .await
             .map_err(ErrorKind::from)?
-            .map_err(|e| Error(ErrorKind::from(ServiceError::from(e.payload))))?;
+            .map_err(|e| {
+                ServiceError::try_from((e.payload, "get"))
+                    .map_or_else(ErrorKind::from, ErrorKind::from)
+            })?;
 
-        Ok(response.payload.schema.into())
+        Ok((response.payload.schema, "get")
+            .try_into()
+            .map_err(ErrorKind::from)?)
     }
 
     /// Adds or updates a schema in the schema registry service.
@@ -143,9 +148,14 @@ impl Client {
             .invoke(command_request)
             .await
             .map_err(ErrorKind::from)?
-            .map_err(|e| ErrorKind::from(ServiceError::from(e.payload)))?;
+            .map_err(|e| {
+                ServiceError::try_from((e.payload, "put"))
+                    .map_or_else(ErrorKind::from, ErrorKind::from)
+            })?;
 
-        Ok(response.payload.schema.into())
+        Ok((response.payload.schema, "put")
+            .try_into()
+            .map_err(ErrorKind::from)?)
     }
 
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers for get and put operations.
