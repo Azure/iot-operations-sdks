@@ -3,7 +3,6 @@
 
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceDiscoveryService;
-using DeviceDiscoveryService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceDiscoveryService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
@@ -190,10 +189,20 @@ internal static class ProtocolConverter
     };
 }
 
-    internal static Generated.AdrBaseService. AssetManagementGroupActionType ToProtocol(this AssetManagementGroupActionType source)
-{
-    return (Generated.AdrBaseService.AssetManagementGroupActionType)(int)source;
-}
+    internal static Generated.AdrBaseService.AssetManagementGroupActionType ToProtocol(this AssetManagementGroupActionType source)
+    {
+        switch (source)
+        {
+            case AssetManagementGroupActionType.Call:
+                return Generated.AdrBaseService.AssetManagementGroupActionType.Call;
+            case AssetManagementGroupActionType.Write:
+                return Generated.AdrBaseService.AssetManagementGroupActionType.Write;
+            case AssetManagementGroupActionType.Read:
+                return Generated.AdrBaseService.AssetManagementGroupActionType.Read;
+            default:
+                throw new ArgumentException("Unknown management group action type");
+        }
+    }
 
     internal static Generated.AdrBaseService.DatasetDestination ToProtocol(this DatasetDestination source)
 {
@@ -205,9 +214,19 @@ internal static class ProtocolConverter
 }
 
     internal static Generated.AdrBaseService.DatasetTarget ToProtocol(this DatasetTarget source)
-{
-    return (Generated.AdrBaseService.DatasetTarget)(int)source;
-}
+    {
+        switch (source)
+        {
+            case DatasetTarget.Mqtt:
+                return Generated.AdrBaseService.DatasetTarget.Mqtt;
+            case DatasetTarget.Storage:
+                return Generated.AdrBaseService.DatasetTarget.Storage;
+            case DatasetTarget.BrokerStateStore:
+                return Generated.AdrBaseService.DatasetTarget.BrokerStateStore;
+            default:
+                throw new ArgumentException("Unknown dataset target");
+        }
+    }
 
     internal static Generated.AdrBaseService.EventStreamDestination ToProtocol(this EventStreamDestination source)
 {
@@ -237,9 +256,17 @@ internal static class ProtocolConverter
 }
 
     internal static Generated.AdrBaseService.Qos ToProtocol(this QoS source)
-{
-    return (Generated.AdrBaseService.Qos)(int)source;
-}
+    {
+        switch (source)
+        {
+            case QoS.Qos0:
+                return Generated.AdrBaseService.Qos.Qos0;
+            case QoS.Qos1:
+                return Generated.AdrBaseService.Qos.Qos1;
+            default:
+                throw new ArgumentException("Unknown QoS");
+        }
+    }
 
     internal static Generated.AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef source)
     {
@@ -370,7 +397,15 @@ internal static class ProtocolConverter
 
     internal static Generated.AdrBaseService.Retain ToProtocol(this Retain source)
     {
-        return (Generated.AdrBaseService.Retain)(int)source;
+        switch (source)
+        {
+            case Retain.Never:
+                return Generated.AdrBaseService.Retain.Never;
+            case Retain.Keep:
+                return Generated.AdrBaseService.Retain.Keep;
+            default:
+                throw new ArgumentException("Unknown retain value");
+        }
     }
 
     internal static DeviceStatusEndpointSchema ToProtocol(this DeviceStatusEndpoint source)
