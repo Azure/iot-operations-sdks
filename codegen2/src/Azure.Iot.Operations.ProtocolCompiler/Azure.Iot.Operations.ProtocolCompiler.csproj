@@ -8,6 +8,12 @@
     <ToolCommandName>protocolcompiler</ToolCommandName>
     <PackageId>Azure.Iot.Operations.ProtocolCompiler</PackageId>
     <PackageOutputPath>./nupkg</PackageOutputPath>
+    <PackageProjectUrl>https://github.com/Azure/iot-operations-sdks/</PackageProjectUrl>
+    <LicenseUrl>https://github.com/Azure/iot-operations-sdks/blob/main/LICENSE</LicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <Authors>Microsoft</Authors>
+    <VersionPrefix>1.0.0</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
