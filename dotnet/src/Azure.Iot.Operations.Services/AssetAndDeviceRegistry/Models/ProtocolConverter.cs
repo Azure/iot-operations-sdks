@@ -159,19 +159,6 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static Generated.AdrBaseService.NotificationPreference ToProtocol(this NotificationPreference source)
-    {
-        switch (source)
-        {
-            case NotificationPreference.On:
-                return Generated.AdrBaseService.NotificationPreference.On;
-            case NotificationPreference.Off:
-                return Generated.AdrBaseService.NotificationPreference.Off;
-            default:
-                throw new ArgumentException("Unknown notification preference type");
-        }
-    }
-
     internal static Generated.AdrBaseService.DiscoveredAssetManagementGroup ToProtocol(this DiscoveredAssetManagementGroup source)
 {
     return new Generated.AdrBaseService.DiscoveredAssetManagementGroup
@@ -251,17 +238,9 @@ internal static class ProtocolConverter
 }
 
     internal static Generated.AdrBaseService.EventStreamTarget ToProtocol(this EventStreamTarget source)
-    {
-        switch (source)
-        {
-            case EventStreamTarget.Mqtt:
-                return Generated.AdrBaseService.EventStreamTarget.Mqtt;
-            case EventStreamTarget.Storage:
-                return Generated.AdrBaseService.EventStreamTarget.Storage;
-            default:
-                throw new ArgumentException("Unknown event stream target type");
-        }
-    }
+{
+    return (Generated.AdrBaseService.EventStreamTarget)(int)source;
+}
 
     internal static Generated.AdrBaseService.DestinationConfiguration ToProtocol(this DestinationConfiguration source)
 {
