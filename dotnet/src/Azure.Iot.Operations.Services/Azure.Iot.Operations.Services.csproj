@@ -35,9 +35,4 @@
       <Link>AssetAndDeviceRegistry\device-discovery-service.json</Link>
     </Content>
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="AssetAndDeviceRegistry\AdrBaseService\AssetSpecificationSchema.g.cs" />
-    <Compile Remove="AssetAndDeviceRegistry\AdrBaseService\DeviceSpecificationSchema.g.cs" />
-  </ItemGroup>
 </Project>
