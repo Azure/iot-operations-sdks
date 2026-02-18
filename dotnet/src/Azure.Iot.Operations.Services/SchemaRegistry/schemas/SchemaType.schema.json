@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "SchemaType",
+  "type": "string",
+  "description": "Type of the schema.",
+  "enum": [
+    "MessageSchema"
+  ]
+}

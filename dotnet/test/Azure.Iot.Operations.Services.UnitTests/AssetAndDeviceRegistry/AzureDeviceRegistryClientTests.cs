@@ -5,7 +5,7 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Retry;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Moq;
 using Xunit;
@@ -76,8 +76,8 @@ public class AzureDeviceRegistryClientTests
             {
                 if (attemptCount++ == 0)
                 {
-                    throw new Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceErrorException(
-                        new Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceError()
+                    throw new Services.AssetAndDeviceRegistry.Generated.AdrBaseService.AkriServiceErrorException(
+                        new Services.AssetAndDeviceRegistry.Generated.AdrBaseService.AkriServiceError()
                         {
                             Code = CodeSchema.BadRequest,
                             Message = "mock error",
@@ -85,7 +85,7 @@ public class AzureDeviceRegistryClientTests
                         });
                 }
 
-                return new RpcCallAsync<Services.AssetAndDeviceRegistry.AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload>(Task.FromResult(new ExtendedResponse<Services.AssetAndDeviceRegistry.AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload>() { Response = new() { DiscoveredAssetResponse = new() {DiscoveryId = "discoveryId", Version = 123 } } }), new Guid());
+                return new RpcCallAsync<Services.AssetAndDeviceRegistry.Generated.AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload>(Task.FromResult(new ExtendedResponse<Services.AssetAndDeviceRegistry.Generated.AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload>() { Response = new() { DiscoveredAssetResponse = new() {DiscoveryId = "discoveryId", Version = 123 } } }), new Guid());
             });
 
         // This method should not throw even though the underlying client will throw on the first attempt
@@ -128,8 +128,8 @@ public class AzureDeviceRegistryClientTests
                 It.IsAny<CancellationToken>()))
             .Returns(() =>
             {
-                throw new Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceErrorException(
-                    new Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceError()
+                throw new Services.AssetAndDeviceRegistry.Generated.AdrBaseService.AkriServiceErrorException(
+                    new Services.AssetAndDeviceRegistry.Generated.AdrBaseService.AkriServiceError()
                     {
                         Code = CodeSchema.BadRequest,
                         Message = "mock error",

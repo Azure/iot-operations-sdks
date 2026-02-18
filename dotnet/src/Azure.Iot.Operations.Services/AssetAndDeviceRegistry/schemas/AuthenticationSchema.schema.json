@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "AuthenticationSchema",
+  "description": "Defines the client authentication mechanism to the server.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "method" ],
+  "properties": {
+    "method": {
+      "description": "Defines the method to authenticate the user of the client at the server.",
+      "$ref": "MethodSchema.schema.json"
+    },
+    "usernamePasswordCredentials": {
+      "description": "The credentials for authentication mode UsernamePassword.",
+      "$ref": "UsernamePasswordCredentialsSchema.schema.json"
+    },
+    "x509Credentials": {
+      "description": "The x509 certificate for authentication mode Certificate.",
+      "$ref": "X509CredentialsSchema.schema.json"
+    }
+  }
+}

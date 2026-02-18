@@ -1,0 +1,32 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" },
+    { "aov": "http://azure.com/IoT/operations/tm#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "links": [
+    {
+      "rel": "aov:reference",
+      "aov:refName": "MyReference",
+      "href": "http://example.com/BasicOnOffTM",
+      "type": "application/tm+json"
+    }
+  ],
+  "actions": {
+    "noop": {
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/TestThing/command/noop",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

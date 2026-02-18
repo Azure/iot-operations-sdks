@@ -38,20 +38,23 @@ namespace Azure.Iot.Operations.TypeGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
             this.Write(".");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace.GetNamespaceName(TargetLanguage.CSharp)));
-            this.Write("\r\n{\r\n");
+            this.Write("\r\n{\r\n    using System.Runtime.Serialization;\r\n    using System.Text.Json.Serializ" +
+                    "ation;\r\n\r\n");
  if (this.enumType.Description != null) { 
             this.Write("    /// <summary>\r\n    /// ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.enumType.Description));
             this.Write("\r\n    /// </summary>\r\n");
  } 
-            this.Write("    [System.CodeDom.Compiler.GeneratedCode(\"Azure.Iot.Operations.ProtocolCompiler" +
-                    "Lib\", \"");
+            this.Write("    [JsonConverter(typeof(JsonStringEnumMemberConverter))]\r\n    [System.CodeDom.C" +
+                    "ompiler.GeneratedCode(\"Azure.Iot.Operations.ProtocolCompilerLib\", \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version));
             this.Write("\")]\r\n    public enum ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.enumType.SchemaName.AsGiven));
             this.Write("\r\n    {\r\n");
  foreach (var enumValue in this.enumType.EnumValues) { 
-            this.Write("        ");
+            this.Write("        [EnumMember(Value = @\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.AsGiven));
+            this.Write("\")]\r\n        ");
             this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.AsGiven));
             this.Write(",\r\n");
  } 

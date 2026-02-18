@@ -4,9 +4,9 @@
 using System.Collections.Concurrent;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Retry;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using AkriServiceErrorException = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceErrorException;
+using AkriServiceErrorException = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService.AkriServiceErrorException;
 using Asset = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Asset;
 using AssetStatus = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.AssetStatus;
 using Device = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Device;
@@ -101,9 +101,9 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 { _deviceNameTokenKey, deviceName },
                 { _endpointNameTokenKey, inboundEndpointName }
             };
-            var notificationRequest = new AdrBaseService.SetNotificationPreferenceForDeviceUpdatesRequestPayload
+            var notificationRequest = new Generated.AdrBaseService.SetNotificationPreferenceForDeviceUpdatesRequestPayload
             {
-                NotificationPreferenceRequest = (AdrBaseService.NotificationPreference)(int)notificationPreference
+                NotificationPreferenceRequest = (Generated.AdrBaseService.NotificationPreference)(int)notificationPreference
             };
 
             try
@@ -155,12 +155,12 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 { _deviceNameTokenKey, deviceName },
                 { _endpointNameTokenKey, inboundEndpointName }
             };
-            var notificationRequest = new AdrBaseService.SetNotificationPreferenceForAssetUpdatesRequestPayload
+            var notificationRequest = new Generated.AdrBaseService.SetNotificationPreferenceForAssetUpdatesRequestPayload
             {
-                NotificationPreferenceRequest = new AdrBaseService.SetNotificationPreferenceForAssetUpdatesRequestSchema
+                NotificationPreferenceRequest = new Generated.AdrBaseService.SetNotificationPreferenceForAssetUpdatesRequestSchema
                 {
                     AssetName = assetName,
-                    NotificationPreference = (AdrBaseService.NotificationPreference)(int)notificationPreference
+                    NotificationPreference = notificationPreference == Models.NotificationPreference.On ? Generated.AdrBaseService.NotificationPreference.On : Generated.AdrBaseService.NotificationPreference.Off
                 }
             };
 
@@ -354,7 +354,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                     cancellationToken);
                 return result.Asset.ToModel();
             }
-            catch (DeviceDiscoveryService.AkriServiceErrorException exception)
+            catch (Generated.DeviceDiscoveryService.AkriServiceErrorException exception)
             {
                 var error = exception.AkriServiceError.ToModel();
                 throw new Models.AkriServiceErrorException(error);
@@ -521,9 +521,9 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                 { _inboundEpTypeTokenKey, inboundEndpointType },
             };
 
-            var req = new DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceRequestPayload
+            var req = new Generated.DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceRequestPayload
             {
-                DiscoveredDeviceRequest = new DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceRequestSchema
+                DiscoveredDeviceRequest = new Generated.DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceRequestSchema
                 {
                     DiscoveredDevice = request.DiscoveredDevice.ToProtocol(),
                     DiscoveredDeviceName = request.DiscoveredDeviceName,
@@ -540,7 +540,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                     cancellationToken);
                 return result.ToModel();
             }
-            catch (DeviceDiscoveryService.AkriServiceErrorException exception)
+            catch (Generated.DeviceDiscoveryService.AkriServiceErrorException exception)
             {
                 var error = exception.AkriServiceError.ToModel();
                 throw new Models.AkriServiceErrorException(error);
