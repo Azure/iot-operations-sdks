@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ConfigStatus",
+  "description": "The configuration status of the device.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "error": {
+      "description": "The last error that occurred while processing the configuration.",
+      "$ref": "ConfigError.schema.json"
+    },
+    "lastTransitionTime": {
+      "description": "A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.",
+      "type": "string", "format": "date-time"
+    },
+    "version": {
+      "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
+      "type": "integer", "minimum": 0, "maximum": 9223372036854775807
+    }
+  }
+}
