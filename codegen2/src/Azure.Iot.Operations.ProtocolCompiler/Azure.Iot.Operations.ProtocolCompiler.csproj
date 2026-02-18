@@ -5,7 +5,9 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>ProtocolCompiler</ToolCommandName>
+    <ToolCommandName>protocolcompiler</ToolCommandName>
+    <PackageId>Azure.Iot.Operations.ProtocolCompiler</PackageId>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
