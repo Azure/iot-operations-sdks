@@ -11,7 +11,11 @@
     <Nullable>enable</Nullable>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
+  <ItemGroup>
+    <None Include="docs\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.2" />

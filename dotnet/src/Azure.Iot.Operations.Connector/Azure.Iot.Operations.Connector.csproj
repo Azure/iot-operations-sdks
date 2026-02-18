@@ -10,7 +10,12 @@
     <VersionPrefix>1.0.1</VersionPrefix>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="docs\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
