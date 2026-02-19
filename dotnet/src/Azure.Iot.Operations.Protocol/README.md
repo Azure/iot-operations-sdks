@@ -16,7 +16,7 @@ The communication patterns defined in this package can be used with the MQTT bro
 
 ## Samples
 
-To see samples that demonstrate basic RPC + telemetry, please see here [here](https://github.com/Azure/iot-operations-sdks/tree/main/dotnet/samples/Protocol).
+To see samples that demonstrate basic RPC + telemetry, please see [here](https://github.com/Azure/iot-operations-sdks/tree/main/dotnet/samples/Protocol).
 
 ## Feedback
 
