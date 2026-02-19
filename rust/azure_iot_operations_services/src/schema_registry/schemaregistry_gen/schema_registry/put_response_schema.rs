@@ -17,10 +17,9 @@ use super::schema_registry_error::SchemaRegistryError;
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct PutResponseSchema {
     /// Read error for the 'put' Action.
-    #[serde(rename = "putError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub put_error: Option<SchemaRegistryError>,
+    pub error: Option<SchemaRegistryError>,
 
     /// Schema object that was created.
     #[serde(skip_serializing_if = "Option::is_none")]

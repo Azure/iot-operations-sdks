@@ -139,9 +139,9 @@ impl PutCommandInvoker {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
-                if let Some(put_error) = response.payload.put_error {
+                if let Some(error) = response.payload.error {
                     Ok(Err(PutResponseError {
-                        payload: put_error,
+                        payload: error,
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,

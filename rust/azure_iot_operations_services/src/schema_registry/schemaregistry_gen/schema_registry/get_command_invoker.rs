@@ -139,9 +139,9 @@ impl GetCommandInvoker {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
-                if let Some(get_error) = response.payload.get_error {
+                if let Some(error) = response.payload.error {
                     Ok(Err(GetResponseError {
-                        payload: get_error,
+                        payload: error,
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
