@@ -71,7 +71,7 @@
       "type": "boolean"
     },
     "eventGroups": {
-      "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
+      "description": "Array of events groups that are part of the asset. Each event group can have per-event group configuration.",
       "type": "array", "items": { "$ref": "AssetEventGroupSchemaElementSchema.schema.json" }
     },
     "externalAssetId": {
