@@ -134,7 +134,7 @@ internal static class ModelsConverter
         return new AssetEventGroup()
         {
             DataSource = source.DataSource,
-            DefaultEventsDestinations = source.DefaultEventsDestinations?.Select(x => x.ToModel()).ToList(),
+            DefaultDestinations = source.DefaultDestinations?.Select(x => x.ToModel()).ToList(),
             EventGroupConfiguration = source.EventGroupConfiguration,
             Events = source.Events?.Select(x => x.ToModel()).ToList(),
             Name = source.Name,

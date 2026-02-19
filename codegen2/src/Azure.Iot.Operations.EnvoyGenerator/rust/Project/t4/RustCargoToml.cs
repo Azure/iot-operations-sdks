@@ -35,7 +35,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                     "ect\'s `Cargo.toml` file:\r\n\r\n``` toml\r\n");
  } 
             this.Write("[dependencies]\r\nserde = { version = \"1.0\", features = [\"derive\"] }\r\nserde_bytes =" +
-                    " \"0.11.15\"\r\nserde_repr = \"0.1\"\r\n");
+                    " \"0.11.15\"\r\n");
  foreach (var packageVersion in this.packageVersions) { 
             this.Write(this.ToStringHelper.ToStringWithCulture(packageVersion.Item1));
             this.Write(" = \"");
