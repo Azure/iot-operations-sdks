@@ -53,6 +53,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -156,6 +157,8 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/ActualProcessPower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -171,6 +174,8 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/ActualPumpPower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -186,6 +191,8 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Frequency",
+        "aov:withUnit": "properties/ActualPumpSpeedRPM_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -201,6 +208,8 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/ActualRegulationRatio_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -216,6 +225,8 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/DelayTimeAfterCooling_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -388,6 +399,66 @@
             "op": "readproperty"
           }
         ]
+      },
+      "ActualProcessPower_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualProcessPower, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/ActualProcessPower_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPumpPower_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualPumpPower, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/ActualPumpPower_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPumpSpeedRPM_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualPumpSpeedRPM, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/ActualPumpSpeedRPM_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualRegulationRatio_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualRegulationRatio, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/ActualRegulationRatio_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DelayTimeAfterCooling_EngineeringUnits": {
+        "description": "Unit designator for property and event with name DelayTimeAfterCooling, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_DeviceZoneType/property/DelayTimeAfterCooling_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
       }
     },
     "events": {
@@ -399,6 +470,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/ActualProcessPower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -415,6 +488,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/ActualPumpPower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -431,6 +506,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Frequency",
+        "aov:withUnit": "properties/ActualPumpSpeedRPM_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -447,6 +524,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/ActualRegulationRatio_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -463,6 +542,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/DelayTimeAfterCooling_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1249,6 +1330,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -1374,6 +1456,8 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/Time_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1383,6 +1467,18 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/property/Time/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Time_EngineeringUnits": {
+        "description": "Unit designator for property and event with name Time, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_MouldEvacuationType/property/Time_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -1445,6 +1541,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/Time_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1459,6 +1557,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -1719,6 +1818,8 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/HoursOfOperation_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1740,6 +1841,18 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/property/OperatingMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HoursOfOperation_EngineeringUnits": {
+        "description": "Unit designator for property and event with name HoursOfOperation, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/property/HoursOfOperation_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -1791,6 +1904,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/HoursOfOperation_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1893,6 +2008,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -1931,6 +2047,8 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/ConnectedLoad_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1946,6 +2064,8 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/CoolingCapacity_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2003,10 +2123,48 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/PowerValue_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/property/PowerValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConnectedLoad_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ConnectedLoad, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/property/ConnectedLoad_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CoolingCapacity_EngineeringUnits": {
+        "description": "Unit designator for property and event with name CoolingCapacity, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/property/CoolingCapacity_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowerValue_EngineeringUnits": {
+        "description": "Unit designator for property and event with name PowerValue, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/property/PowerValue_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -2021,6 +2179,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/ConnectedLoad_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2037,6 +2197,8 @@
           "minimum": 0,
           "maximum": 4294967295
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/CoolingCapacity_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2085,6 +2247,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/PowerValue_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",

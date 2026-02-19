@@ -2020,6 +2020,7 @@
           }
         },
         "readOnly": true,
+        "aov:contains": [ "ProcessValue_QualifierValue" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -2032,6 +2033,7 @@
         "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
+        "aov:containedIn": "ProcessValue",
         "forms": [
           {
             "contentType": "application/json",
@@ -2393,6 +2395,7 @@
           }
         },
         "readOnly": true,
+        "aov:contains": [ "ProcessValue_QualifierValue" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -2405,6 +2408,7 @@
         "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
+        "aov:containedIn": "ProcessValue",
         "forms": [
           {
             "contentType": "application/json",
@@ -2428,6 +2432,7 @@
           }
         },
         "readOnly": true,
+        "aov:contains": [ "ProcessValueReadback_QualifierValue" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -2440,6 +2445,7 @@
         "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
+        "aov:containedIn": "ProcessValueReadback",
         "forms": [
           {
             "contentType": "application/json",

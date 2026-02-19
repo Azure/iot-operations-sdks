@@ -4047,6 +4047,7 @@
         },
         "readOnly": false,
         "dtv:placeholder": true,
+        "aov:contains": [ "ResultVariable_CreationTime", "ResultVariable_InternalConfigurationId", "ResultVariable_InternalRecipeId", "ResultVariable_IsPartial", "ResultVariable_JobId", "ResultVariable_ResultId", "ResultVariable_ResultState" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -4065,6 +4066,7 @@
         "type": "string",
         "format": "time",
         "readOnly": false,
+        "aov:containedIn": "ResultVariable",
         "forms": [
           {
             "contentType": "application/json",
@@ -4108,6 +4110,7 @@
           }
         },
         "readOnly": false,
+        "aov:containedIn": "ResultVariable",
         "forms": [
           {
             "contentType": "application/json",
@@ -4151,6 +4154,7 @@
           }
         },
         "readOnly": false,
+        "aov:containedIn": "ResultVariable",
         "forms": [
           {
             "contentType": "application/json",
@@ -4168,6 +4172,7 @@
         "aov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "type": "boolean",
         "readOnly": false,
+        "aov:containedIn": "ResultVariable",
         "forms": [
           {
             "contentType": "application/json",
@@ -4194,6 +4199,7 @@
           }
         },
         "readOnly": false,
+        "aov:containedIn": "ResultVariable",
         "forms": [
           {
             "contentType": "application/json",
@@ -4220,6 +4226,7 @@
           }
         },
         "readOnly": false,
+        "aov:containedIn": "ResultVariable",
         "forms": [
           {
             "contentType": "application/json",
@@ -4239,6 +4246,7 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": false,
+        "aov:containedIn": "ResultVariable",
         "forms": [
           {
             "contentType": "application/json",

@@ -1167,6 +1167,7 @@
         "description": "",
         "type": "string",
         "readOnly": true,
+        "aov:contains": [ "Cardinality_MinOccur", "Cardinality_MaxOccur" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -1181,6 +1182,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "Cardinality",
         "forms": [
           {
             "contentType": "application/json",
@@ -1195,6 +1197,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "Cardinality",
         "forms": [
           {
             "contentType": "application/json",

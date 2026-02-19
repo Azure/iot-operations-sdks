@@ -7,6 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="System.CodeDom" Version="10.0.2" />
+    <PackageReference Include="dotNetRdf" Version="3.5.1" />
+    <PackageReference Include="VDS.Common" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -112,6 +114,9 @@
   <ItemGroup>
     <EmbeddedResource Include="..\..\res\conversion\LinkRelRules.json">
       <Link>Resources\conversion\%(Filename)%(Extension)</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\res\qudt\*.ttl">
+      <Link>Resources\qudt\%(Filename)%(Extension)</Link>
     </EmbeddedResource>
   </ItemGroup>
 

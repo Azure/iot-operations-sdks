@@ -340,6 +340,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -462,6 +463,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualBoilerTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -477,6 +480,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualBottomTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -492,6 +497,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualChamberTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -507,6 +514,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualCoreTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -522,6 +531,8 @@
         "maximum": 2147483647,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/ActualFanSpeed_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -537,6 +548,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/ActualHumidity_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -552,6 +565,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTopTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -618,6 +633,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetBoilerTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -632,6 +649,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetBottomTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -646,6 +665,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetChamberTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -660,6 +681,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -674,6 +697,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/SetFanSpeed_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -688,6 +713,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/SetHumidity_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -702,6 +729,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTimeProgram_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -716,6 +745,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTopTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -730,10 +761,204 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/TimeRemaining/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualBoilerTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualBoilerTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/ActualBoilerTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualBottomTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualBottomTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/ActualBottomTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualChamberTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualChamberTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/ActualChamberTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualCoreTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualCoreTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/ActualCoreTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualFanSpeed_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualFanSpeed_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/ActualFanSpeed_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualHumidity_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualHumidity_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/ActualHumidity_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTopTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTopTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/ActualTopTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetBoilerTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetBoilerTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/SetBoilerTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetBottomTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetBottomTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/SetBottomTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetChamberTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetChamberTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/SetChamberTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetCoreTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/SetCoreTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetFanSpeed_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetFanSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/SetFanSpeed_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetHumidity_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/SetHumidity_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTimeProgram_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTimeProgram, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/SetProcessTimeProgram_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetTopTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetTopTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/SetTopTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeRemaining_EngineeringUnits": {
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/property/TimeRemaining_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -748,6 +973,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualBoilerTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -764,6 +991,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualBottomTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -780,6 +1009,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualChamberTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -796,6 +1027,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualCoreTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -812,6 +1045,8 @@
           "maximum": 2147483647
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/ActualFanSpeed_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -828,6 +1063,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/ActualHumidity_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -844,6 +1081,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTopTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -915,6 +1154,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetBoilerTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -930,6 +1171,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetBottomTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -945,6 +1188,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetChamberTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -960,6 +1205,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -975,6 +1222,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/SetFanSpeed_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -990,6 +1239,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/SetHumidity_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1005,6 +1256,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTimeProgram_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1020,6 +1273,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTopTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1035,6 +1290,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1049,6 +1306,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -1129,6 +1387,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/BoilerPressureWater_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1157,6 +1417,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/BoilerTempWater_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1193,6 +1455,8 @@
         "maximum": 18446744073709551615,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/GrinderRuntime_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1242,6 +1506,42 @@
             "op": "readproperty"
           }
         ]
+      },
+      "BoilerPressureWater_EngineeringUnits": {
+        "description": "Unit designator for property and event with name BoilerPressureWater, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CoffeeMachineParameterType/property/BoilerPressureWater_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BoilerTempWater_EngineeringUnits": {
+        "description": "Unit designator for property and event with name BoilerTempWater, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CoffeeMachineParameterType/property/BoilerTempWater_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "GrinderRuntime_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name GrinderRuntime_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CoffeeMachineParameterType/property/GrinderRuntime_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
       }
     },
     "events": {
@@ -1267,6 +1567,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/BoilerPressureWater_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1297,6 +1599,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/BoilerTempWater_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1330,6 +1634,8 @@
           "maximum": 18446744073709551615
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/GrinderRuntime_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1389,6 +1695,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -1455,6 +1762,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/BeverageSize_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1528,6 +1837,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Volume",
+        "aov:withUnit": "properties/FoamAmount_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1547,6 +1858,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Mass",
+        "aov:withUnit": "properties/GroundsAmount_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1566,6 +1879,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Volume",
+        "aov:withUnit": "properties/GroundsWater_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1585,6 +1900,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Volume",
+        "aov:withUnit": "properties/MilkAmount_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1604,6 +1921,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Mass",
+        "aov:withUnit": "properties/PowderAmount_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1635,6 +1954,78 @@
             "op": "readproperty"
           }
         ]
+      },
+      "BeverageSize_EngineeringUnits": {
+        "description": "Unit designator for property and event with name BeverageSize, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CoffeeMachineRecipeParameterType/property/BeverageSize_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FoamAmount_EngineeringUnits": {
+        "description": "Unit designator for property and event with name FoamAmount, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CoffeeMachineRecipeParameterType/property/FoamAmount_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "GroundsAmount_EngineeringUnits": {
+        "description": "Unit designator for property and event with name GroundsAmount, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CoffeeMachineRecipeParameterType/property/GroundsAmount_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "GroundsWater_EngineeringUnits": {
+        "description": "Unit designator for property and event with name GroundsWater, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CoffeeMachineRecipeParameterType/property/GroundsWater_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MilkAmount_EngineeringUnits": {
+        "description": "Unit designator for property and event with name MilkAmount, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CoffeeMachineRecipeParameterType/property/MilkAmount_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowderAmount_EngineeringUnits": {
+        "description": "Unit designator for property and event with name PowderAmount, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CoffeeMachineRecipeParameterType/property/PowderAmount_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
       }
     },
     "events": {
@@ -1645,6 +2036,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/BeverageSize_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1707,6 +2100,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Volume",
+        "aov:withUnit": "properties/FoamAmount_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1722,6 +2117,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Mass",
+        "aov:withUnit": "properties/GroundsAmount_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1737,6 +2134,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Volume",
+        "aov:withUnit": "properties/GroundsWater_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1752,6 +2151,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Volume",
+        "aov:withUnit": "properties/MilkAmount_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1767,6 +2168,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Mass",
+        "aov:withUnit": "properties/PowderAmount_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1796,6 +2199,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -1939,6 +2343,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualExternalCoreTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1953,6 +2359,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/ActualHumidity_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1968,6 +2376,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualInternalCoreTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1983,6 +2393,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperatureChamber_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2066,6 +2478,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetExternalCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2080,6 +2494,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/SetHumidity_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2094,6 +2510,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetInternalCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2108,6 +2526,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTimeProgram_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2122,6 +2542,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTimeStep_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2136,6 +2558,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2166,6 +2590,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemainingProgram_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2180,10 +2606,156 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemainingStep_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/TimeRemainingStep/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualExternalCoreTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualExternalCoreTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/ActualExternalCoreTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualHumidity_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/ActualHumidity_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualInternalCoreTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualInternalCoreTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/ActualInternalCoreTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTemperatureChamber_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTemperatureChamber_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/ActualTemperatureChamber_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetExternalCoreTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetExternalCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/SetExternalCoreTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetHumidity_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/SetHumidity_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetInternalCoreTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetInternalCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/SetInternalCoreTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTimeProgram_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTimeProgram, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/SetProcessTimeProgram_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTimeStep_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTimeStep, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/SetProcessTimeStep_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/SetTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeRemainingProgram_EngineeringUnits": {
+        "description": "Unit designator for property and event with name TimeRemainingProgram, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/TimeRemainingProgram_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeRemainingStep_EngineeringUnits": {
+        "description": "Unit designator for property and event with name TimeRemainingStep, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/property/TimeRemainingStep_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -2198,6 +2770,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualExternalCoreTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2213,6 +2787,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/ActualHumidity_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2229,6 +2805,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualInternalCoreTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2245,6 +2823,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperatureChamber_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2329,6 +2909,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetExternalCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2344,6 +2926,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/SetHumidity_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2359,6 +2943,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetInternalCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2374,6 +2960,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTimeProgram_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2389,6 +2977,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTimeStep_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2404,6 +2994,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2436,6 +3028,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemainingProgram_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2451,6 +3045,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemainingStep_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2465,6 +3061,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -2566,6 +3163,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2580,6 +3179,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2624,6 +3225,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2638,6 +3241,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2652,6 +3257,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2682,10 +3289,84 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingKettleParameterType/property/TimeRemaining/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualCoreTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingKettleParameterType/property/ActualCoreTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingKettleParameterType/property/ActualTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetCoreTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingKettleParameterType/property/SetCoreTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingKettleParameterType/property/SetProcessTime_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingKettleParameterType/property/SetTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeRemaining_EngineeringUnits": {
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingKettleParameterType/property/TimeRemaining_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -2699,6 +3380,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2714,6 +3397,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2761,6 +3446,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2776,6 +3463,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2791,6 +3480,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2823,6 +3514,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2837,6 +3530,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -2912,6 +3606,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/ActualProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2926,6 +3622,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2980,6 +3678,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/NominalPower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -2994,6 +3694,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/SetPowerValue_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3008,10 +3710,72 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingZoneParameterType/property/SetTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualProcessTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingZoneParameterType/property/ActualProcessTime_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingZoneParameterType/property/ActualTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NominalPower_EngineeringUnits": {
+        "description": "Unit designator for property and event with name NominalPower, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingZoneParameterType/property/NominalPower_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetPowerValue_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetPowerValue, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingZoneParameterType/property/SetPowerValue_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingZoneParameterType/property/SetTemperature_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -3040,6 +3804,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/ActualProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3055,6 +3821,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3113,6 +3881,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/NominalPower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3128,6 +3898,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/SetPowerValue_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3143,6 +3915,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3157,6 +3931,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -3347,6 +4122,8 @@
         "maximum": 65535,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualFinalRinseTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3390,6 +4167,8 @@
         "maximum": 65535,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualMainTankTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3419,6 +4198,8 @@
         "maximum": 65535,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualPreTankTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3448,6 +4229,8 @@
         "maximum": 65535,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualPumpedFinalRinseTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3477,6 +4260,8 @@
         "maximum": 65535,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/FinalRinseTemperatureSetpoint_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3536,6 +4321,8 @@
         "maximum": 65535,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/MainTankTemperatureSetpoint_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3581,6 +4368,8 @@
         "maximum": 65535,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/PreTankTemperatureSetpoint_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3652,6 +4441,8 @@
         "maximum": 65535,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/PumpedFinalRinseTemperatureSetpoint_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3673,6 +4464,102 @@
             "op": "readproperty"
           }
         ]
+      },
+      "ActualFinalRinseTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualFinalRinseTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_DishWashingMachineProgramParameterType/property/ActualFinalRinseTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualMainTankTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualMainTankTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_DishWashingMachineProgramParameterType/property/ActualMainTankTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPreTankTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualPreTankTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_DishWashingMachineProgramParameterType/property/ActualPreTankTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPumpedFinalRinseTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualPumpedFinalRinseTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_DishWashingMachineProgramParameterType/property/ActualPumpedFinalRinseTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FinalRinseTemperatureSetpoint_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name FinalRinseTemperatureSetpoint_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_DishWashingMachineProgramParameterType/property/FinalRinseTemperatureSetpoint_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MainTankTemperatureSetpoint_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name MainTankTemperatureSetpoint_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_DishWashingMachineProgramParameterType/property/MainTankTemperatureSetpoint_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PreTankTemperatureSetpoint_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name PreTankTemperatureSetpoint_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_DishWashingMachineProgramParameterType/property/PreTankTemperatureSetpoint_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PumpedFinalRinseTemperatureSetpoint_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name PumpedFinalRinseTemperatureSetpoint_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_DishWashingMachineProgramParameterType/property/PumpedFinalRinseTemperatureSetpoint_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
       }
     },
     "events": {
@@ -3684,6 +4571,8 @@
           "maximum": 65535
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualFinalRinseTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3730,6 +4619,8 @@
           "maximum": 65535
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualMainTankTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3761,6 +4652,8 @@
           "maximum": 65535
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualPreTankTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3792,6 +4685,8 @@
           "maximum": 65535
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualPumpedFinalRinseTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3823,6 +4718,8 @@
           "maximum": 65535
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/FinalRinseTemperatureSetpoint_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3886,6 +4783,8 @@
           "maximum": 65535
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/MainTankTemperatureSetpoint_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3934,6 +4833,8 @@
           "maximum": 65535
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/PreTankTemperatureSetpoint_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -3982,6 +4883,8 @@
           "maximum": 65535
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/PumpedFinalRinseTemperatureSetpoint_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4011,6 +4914,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -4104,6 +5008,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4146,6 +5052,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4160,6 +5068,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4190,10 +5100,60 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryerParameterType/property/TimeRemaining/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryerParameterType/property/ActualTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryerParameterType/property/SetProcessTime_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryerParameterType/property/SetTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeRemaining_EngineeringUnits": {
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryerParameterType/property/TimeRemaining_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -4207,6 +5167,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4252,6 +5214,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4267,6 +5231,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4299,6 +5265,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4313,6 +5281,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -4399,6 +5368,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualGrillTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4414,6 +5385,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualPlatenTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4484,6 +5457,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/RemainingProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4499,6 +5474,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetGrillTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4514,6 +5491,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetPlatenTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4528,10 +5507,84 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingAndGrillingParameterType/property/SetProcessTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualGrillTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualGrillTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingAndGrillingParameterType/property/ActualGrillTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPlatenTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualPlatenTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingAndGrillingParameterType/property/ActualPlatenTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingProcessTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name RemainingProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingAndGrillingParameterType/property/RemainingProcessTime_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetGrillTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetGrillTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingAndGrillingParameterType/property/SetGrillTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetPlatenTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetPlatenTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingAndGrillingParameterType/property/SetPlatenTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingAndGrillingParameterType/property/SetProcessTime_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -4546,6 +5599,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualGrillTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4562,6 +5617,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualPlatenTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4637,6 +5694,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/RemainingProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4653,6 +5712,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetGrillTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4669,6 +5730,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetPlatenTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4684,6 +5747,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4698,6 +5763,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -4803,6 +5869,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4817,6 +5885,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/ActualPressurePan_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4831,6 +5901,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4887,6 +5959,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4901,6 +5975,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4915,6 +5991,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4945,10 +6023,96 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingPanParameterType/property/TimeRemaining/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualCoreTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingPanParameterType/property/ActualCoreTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPressurePan_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualPressurePan, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingPanParameterType/property/ActualPressurePan_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingPanParameterType/property/ActualTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetCoreTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingPanParameterType/property/SetCoreTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingPanParameterType/property/SetProcessTime_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingPanParameterType/property/SetTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeRemaining_EngineeringUnits": {
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingPanParameterType/property/TimeRemaining_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -4962,6 +6126,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4977,6 +6143,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/ActualPressurePan_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -4992,6 +6160,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5052,6 +6222,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5067,6 +6239,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5082,6 +6256,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5114,6 +6290,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5128,6 +6306,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -5249,6 +6428,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/LastFreezeTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5263,6 +6444,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/LastHarvestTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5294,6 +6477,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/Temperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5308,10 +6493,60 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/WaterFillTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_IceMachineParameterType/property/WaterFillTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastFreezeTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name LastFreezeTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_IceMachineParameterType/property/LastFreezeTime_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastHarvestTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name LastHarvestTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_IceMachineParameterType/property/LastHarvestTime_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Temperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name Temperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_IceMachineParameterType/property/Temperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WaterFillTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name WaterFillTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_IceMachineParameterType/property/WaterFillTime_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -5325,6 +6560,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/LastFreezeTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5340,6 +6577,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/LastHarvestTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5373,6 +6612,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/Temperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5388,6 +6629,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/WaterFillTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5402,6 +6645,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -5488,6 +6732,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperatureChamber_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5516,6 +6762,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/FanSpeed_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5547,6 +6795,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/MicrowaveEnergy_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5577,6 +6827,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/RemainingProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5591,6 +6843,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/RemainingProcessTimeStep_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5605,6 +6859,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5619,10 +6875,96 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MicrowaveCombiOvenParameterType/property/SetTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTemperatureChamber_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTemperatureChamber, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MicrowaveCombiOvenParameterType/property/ActualTemperatureChamber_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FanSpeed_EngineeringUnits": {
+        "description": "Unit designator for property and event with name FanSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MicrowaveCombiOvenParameterType/property/FanSpeed_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MicrowaveEnergy_EngineeringUnits": {
+        "description": "Unit designator for property and event with name MicrowaveEnergy, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MicrowaveCombiOvenParameterType/property/MicrowaveEnergy_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingProcessTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name RemainingProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MicrowaveCombiOvenParameterType/property/RemainingProcessTime_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingProcessTimeStep_EngineeringUnits": {
+        "description": "Unit designator for property and event with name RemainingProcessTimeStep, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MicrowaveCombiOvenParameterType/property/RemainingProcessTimeStep_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MicrowaveCombiOvenParameterType/property/SetProcessTime_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MicrowaveCombiOvenParameterType/property/SetTemperature_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -5636,6 +6978,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperatureChamber_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5666,6 +7010,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/FanSpeed_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5694,6 +7040,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/MicrowaveEnergy_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5726,6 +7074,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/RemainingProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5741,6 +7091,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/RemainingProcessTimeStep_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5756,6 +7108,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5771,6 +7125,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5785,6 +7141,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -5918,6 +7275,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5932,6 +7291,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/ActualPressureAbsolute_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5946,6 +7307,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperatureBottom_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5960,6 +7323,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperatureCup_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6091,6 +7456,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6105,6 +7472,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTimeProgram_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6119,6 +7488,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTimeStep_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6133,6 +7504,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6148,6 +7521,8 @@
         "maximum": 3.40e+38,
         "readOnly": true,
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetZoneTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6178,6 +7553,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemainingProgram_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6192,10 +7569,144 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemainingStep_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/TimeRemainingStep/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualCoreTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/ActualCoreTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPressureAbsolute_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualPressureAbsolute, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/ActualPressureAbsolute_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTemperatureBottom_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTemperatureBottom, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/ActualTemperatureBottom_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTemperatureCup_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTemperatureCup, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/ActualTemperatureCup_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetCoreTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/SetCoreTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTimeProgram_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTimeProgram, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/SetProcessTimeProgram_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTimeStep_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTimeStep, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/SetProcessTimeStep_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/SetTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetZoneTemperature_No__EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetZoneTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/SetZoneTemperature_No__EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeRemainingProgram_EngineeringUnits": {
+        "description": "Unit designator for property and event with name TimeRemainingProgram, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/TimeRemainingProgram_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeRemainingStep_EngineeringUnits": {
+        "description": "Unit designator for property and event with name TimeRemainingStep, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/property/TimeRemainingStep_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -6209,6 +7720,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6224,6 +7737,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/ActualPressureAbsolute_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6239,6 +7754,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperatureBottom_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6254,6 +7771,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperatureCup_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6395,6 +7914,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6410,6 +7931,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTimeProgram_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6425,6 +7948,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTimeStep_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6440,6 +7965,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6456,6 +7983,8 @@
           "maximum": 3.40e+38
         },
         "dtv:placeholder": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetZoneTemperature_No__EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6488,6 +8017,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemainingProgram_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6503,6 +8034,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemainingStep_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6517,6 +8050,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -6614,6 +8148,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6658,6 +8194,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6672,6 +8210,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6702,10 +8242,60 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PastaCookerParameterType/property/TimeRemaining/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PastaCookerParameterType/property/ActualTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PastaCookerParameterType/property/SetProcessTime_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PastaCookerParameterType/property/SetTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeRemaining_EngineeringUnits": {
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PastaCookerParameterType/property/TimeRemaining_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -6719,6 +8309,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6766,6 +8358,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6781,6 +8375,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6813,6 +8409,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6827,6 +8425,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -6928,6 +8527,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6942,6 +8543,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/ActualPressureAbsolute_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6956,6 +8559,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/ActualPressureKettle_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -6970,6 +8575,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7050,6 +8657,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7064,6 +8673,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7078,6 +8689,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7108,10 +8721,108 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PressureCookingKettleParameterType/property/TimeRemaining/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualCoreTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PressureCookingKettleParameterType/property/ActualCoreTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPressureAbsolute_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualPressureAbsolute, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PressureCookingKettleParameterType/property/ActualPressureAbsolute_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPressureKettle_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualPressureKettle, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PressureCookingKettleParameterType/property/ActualPressureKettle_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PressureCookingKettleParameterType/property/ActualTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetCoreTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PressureCookingKettleParameterType/property/SetCoreTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetProcessTime_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PressureCookingKettleParameterType/property/SetProcessTime_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PressureCookingKettleParameterType/property/SetTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeRemaining_EngineeringUnits": {
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PressureCookingKettleParameterType/property/TimeRemaining_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -7125,6 +8836,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7140,6 +8853,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/ActualPressureAbsolute_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7155,6 +8870,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/ActualPressureKettle_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7170,6 +8887,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7256,6 +8975,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetCoreTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7271,6 +8992,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/SetProcessTime_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7286,6 +9009,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7318,6 +9043,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/TimeRemaining_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7332,6 +9059,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -7454,6 +9182,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/ActiveSince_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7468,6 +9198,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7499,6 +9231,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/OperatingCounter_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7534,6 +9268,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7562,6 +9298,54 @@
             "op": "readproperty"
           }
         ]
+      },
+      "ActiveSince_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActiveSince, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_TrayType/property/ActiveSince_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_TrayType/property/ActualTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperatingCounter_EngineeringUnits": {
+        "description": "Unit designator for property and event with name OperatingCounter, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_TrayType/property/OperatingCounter_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetTemperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_TrayType/property/SetTemperature_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
       }
     },
     "events": {
@@ -7572,6 +9356,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/ActiveSince_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7587,6 +9373,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/ActualTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7602,6 +9390,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Time",
+        "aov:withUnit": "properties/OperatingCounter_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -7634,6 +9424,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/SetTemperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -8014,6 +9806,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -8106,6 +9899,8 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/NominalVoltage_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -8127,6 +9922,18 @@
             "op": "readproperty"
           }
         ]
+      },
+      "NominalVoltage_EngineeringUnits": {
+        "description": "Unit designator for property and event with name NominalVoltage, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingZoneDeviceType/property/NominalVoltage_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
       }
     },
     "events": {
@@ -8137,6 +9944,8 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/NominalVoltage_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",

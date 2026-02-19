@@ -508,6 +508,7 @@
           }
         },
         "readOnly": true,
+        "aov:contains": [ "ServerStatus_StartTime", "ServerStatus_CurrentTime", "ServerStatus_State", "ServerStatus_BuildInfo", "ServerStatus_SecondsTillShutdown", "ServerStatus_ShutdownReason" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -543,6 +544,8 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "ServerStatus",
+        "aov:contains": [ "ServerStatus_BuildInfo_ProductUri", "ServerStatus_BuildInfo_ManufacturerName", "ServerStatus_BuildInfo_ProductName", "ServerStatus_BuildInfo_SoftwareVersion", "ServerStatus_BuildInfo_BuildNumber", "ServerStatus_BuildInfo_BuildDate" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -555,6 +558,7 @@
         "type": "string",
         "format": "time",
         "readOnly": true,
+        "aov:containedIn": "ServerStatus_BuildInfo",
         "forms": [
           {
             "contentType": "application/json",
@@ -566,6 +570,7 @@
       "ServerStatus_BuildInfo_BuildNumber": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "ServerStatus_BuildInfo",
         "forms": [
           {
             "contentType": "application/json",
@@ -577,6 +582,7 @@
       "ServerStatus_BuildInfo_ManufacturerName": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "ServerStatus_BuildInfo",
         "forms": [
           {
             "contentType": "application/json",
@@ -588,6 +594,7 @@
       "ServerStatus_BuildInfo_ProductName": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "ServerStatus_BuildInfo",
         "forms": [
           {
             "contentType": "application/json",
@@ -599,6 +606,7 @@
       "ServerStatus_BuildInfo_ProductUri": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "ServerStatus_BuildInfo",
         "forms": [
           {
             "contentType": "application/json",
@@ -610,6 +618,7 @@
       "ServerStatus_BuildInfo_SoftwareVersion": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "ServerStatus_BuildInfo",
         "forms": [
           {
             "contentType": "application/json",
@@ -622,6 +631,7 @@
         "type": "string",
         "format": "time",
         "readOnly": true,
+        "aov:containedIn": "ServerStatus",
         "forms": [
           {
             "contentType": "application/json",
@@ -635,6 +645,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerStatus",
         "forms": [
           {
             "contentType": "application/json",
@@ -646,6 +657,7 @@
       "ServerStatus_ShutdownReason": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "ServerStatus",
         "forms": [
           {
             "contentType": "application/json",
@@ -658,6 +670,7 @@
         "type": "string",
         "format": "time",
         "readOnly": true,
+        "aov:containedIn": "ServerStatus",
         "forms": [
           {
             "contentType": "application/json",
@@ -673,6 +686,7 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "aov:containedIn": "ServerStatus",
         "forms": [
           {
             "contentType": "application/json",
@@ -1503,6 +1517,7 @@
           }
         },
         "readOnly": true,
+        "aov:contains": [ "ServerDiagnosticsSummary_ServerViewCount", "ServerDiagnosticsSummary_CurrentSessionCount", "ServerDiagnosticsSummary_CumulatedSessionCount", "ServerDiagnosticsSummary_SecurityRejectedSessionCount", "ServerDiagnosticsSummary_RejectedSessionCount", "ServerDiagnosticsSummary_SessionTimeoutCount", "ServerDiagnosticsSummary_SessionAbortCount", "ServerDiagnosticsSummary_PublishingIntervalCount", "ServerDiagnosticsSummary_CurrentSubscriptionCount", "ServerDiagnosticsSummary_CumulatedSubscriptionCount", "ServerDiagnosticsSummary_SecurityRejectedRequestsCount", "ServerDiagnosticsSummary_RejectedRequestsCount" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -1516,6 +1531,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -1529,6 +1545,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -1542,6 +1559,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -1555,6 +1573,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -1568,6 +1587,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -1581,6 +1601,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -1594,6 +1615,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -1607,6 +1629,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -1620,6 +1643,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -1633,6 +1657,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -1646,6 +1671,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -1659,6 +1685,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "ServerDiagnosticsSummary",
         "forms": [
           {
             "contentType": "application/json",
@@ -4492,6 +4519,7 @@
           }
         },
         "readOnly": true,
+        "aov:contains": [ "SessionDiagnostics_SessionId", "SessionDiagnostics_SessionName", "SessionDiagnostics_ClientDescription", "SessionDiagnostics_ServerUri", "SessionDiagnostics_EndpointUrl", "SessionDiagnostics_LocaleIds", "SessionDiagnostics_ActualSessionTimeout", "SessionDiagnostics_MaxResponseMessageSize", "SessionDiagnostics_ClientConnectionTime", "SessionDiagnostics_ClientLastContactTime", "SessionDiagnostics_CurrentSubscriptionsCount", "SessionDiagnostics_CurrentMonitoredItemsCount", "SessionDiagnostics_CurrentPublishRequestsInQueue", "SessionDiagnostics_TotalRequestCount", "SessionDiagnostics_UnauthorizedRequestCount", "SessionDiagnostics_ReadCount", "SessionDiagnostics_HistoryReadCount", "SessionDiagnostics_WriteCount", "SessionDiagnostics_HistoryUpdateCount", "SessionDiagnostics_CallCount", "SessionDiagnostics_CreateMonitoredItemsCount", "SessionDiagnostics_ModifyMonitoredItemsCount", "SessionDiagnostics_SetMonitoringModeCount", "SessionDiagnostics_SetTriggeringCount", "SessionDiagnostics_DeleteMonitoredItemsCount", "SessionDiagnostics_CreateSubscriptionCount", "SessionDiagnostics_ModifySubscriptionCount", "SessionDiagnostics_SetPublishingModeCount", "SessionDiagnostics_PublishCount", "SessionDiagnostics_RepublishCount", "SessionDiagnostics_TransferSubscriptionsCount", "SessionDiagnostics_DeleteSubscriptionsCount", "SessionDiagnostics_AddNodesCount", "SessionDiagnostics_AddReferencesCount", "SessionDiagnostics_DeleteNodesCount", "SessionDiagnostics_DeleteReferencesCount", "SessionDiagnostics_BrowseCount", "SessionDiagnostics_BrowseNextCount", "SessionDiagnostics_TranslateBrowsePathsToNodeIdsCount", "SessionDiagnostics_QueryFirstCount", "SessionDiagnostics_QueryNextCount", "SessionDiagnostics_RegisterNodesCount", "SessionDiagnostics_UnregisterNodesCount" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -4504,6 +4532,7 @@
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4530,6 +4559,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4556,6 +4586,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4582,6 +4613,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4608,6 +4640,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4634,6 +4667,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4646,6 +4680,7 @@
         "type": "string",
         "format": "time",
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4690,6 +4725,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4702,6 +4738,7 @@
         "type": "string",
         "format": "time",
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4728,6 +4765,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4754,6 +4792,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4767,6 +4806,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4780,6 +4820,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4793,6 +4834,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4819,6 +4861,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4845,6 +4888,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4871,6 +4915,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4897,6 +4942,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4908,6 +4954,7 @@
       "SessionDiagnostics_EndpointUrl": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4934,6 +4981,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4960,6 +5008,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4974,6 +5023,7 @@
           "type": "string"
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -4987,6 +5037,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5013,6 +5064,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5039,6 +5091,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5065,6 +5118,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5091,6 +5145,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5117,6 +5172,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5143,6 +5199,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5169,6 +5226,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5195,6 +5253,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5206,6 +5265,7 @@
       "SessionDiagnostics_ServerUri": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5217,6 +5277,7 @@
       "SessionDiagnostics_SessionId": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5228,6 +5289,7 @@
       "SessionDiagnostics_SessionName": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5254,6 +5316,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5280,6 +5343,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5306,6 +5370,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5332,6 +5397,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5358,6 +5424,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5384,6 +5451,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5397,6 +5465,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5423,6 +5492,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5449,6 +5519,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "SessionDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5500,6 +5571,7 @@
           }
         },
         "readOnly": true,
+        "aov:contains": [ "SessionSecurityDiagnostics_SessionId", "SessionSecurityDiagnostics_ClientUserIdOfSession", "SessionSecurityDiagnostics_ClientUserIdHistory", "SessionSecurityDiagnostics_AuthenticationMechanism", "SessionSecurityDiagnostics_Encoding", "SessionSecurityDiagnostics_TransportProtocol", "SessionSecurityDiagnostics_SecurityMode", "SessionSecurityDiagnostics_SecurityPolicyUri", "SessionSecurityDiagnostics_ClientCertificate" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -5511,6 +5583,7 @@
       "SessionSecurityDiagnostics_AuthenticationMechanism": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "SessionSecurityDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5523,6 +5596,7 @@
         "type": "string",
         "contentEncoding": "base64",
         "readOnly": true,
+        "aov:containedIn": "SessionSecurityDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5537,6 +5611,7 @@
           "type": "string"
         },
         "readOnly": true,
+        "aov:containedIn": "SessionSecurityDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5548,6 +5623,7 @@
       "SessionSecurityDiagnostics_ClientUserIdOfSession": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "SessionSecurityDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5559,6 +5635,7 @@
       "SessionSecurityDiagnostics_Encoding": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "SessionSecurityDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5574,6 +5651,7 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "aov:containedIn": "SessionSecurityDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5585,6 +5663,7 @@
       "SessionSecurityDiagnostics_SecurityPolicyUri": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "SessionSecurityDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5596,6 +5675,7 @@
       "SessionSecurityDiagnostics_SessionId": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "SessionSecurityDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -5607,6 +5687,7 @@
       "SessionSecurityDiagnostics_TransportProtocol": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "SessionSecurityDiagnostics",
         "forms": [
           {
             "contentType": "application/json",
@@ -17933,6 +18014,7 @@
           }
         },
         "readOnly": true,
+        "aov:contains": [ "ProgramDiagnostic_CreateSessionId", "ProgramDiagnostic_CreateClientName", "ProgramDiagnostic_InvocationCreationTime", "ProgramDiagnostic_LastMethodCall", "ProgramDiagnostic_LastMethodSessionId", "ProgramDiagnostic_LastMethodInputArguments", "ProgramDiagnostic_LastMethodOutputArguments", "ProgramDiagnostic_LastMethodInputValues", "ProgramDiagnostic_LastMethodOutputValues", "ProgramDiagnostic_LastMethodCallTime", "ProgramDiagnostic_LastMethodReturnStatus" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -17944,6 +18026,7 @@
       "ProgramDiagnostic_CreateClientName": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "ProgramDiagnostic",
         "forms": [
           {
             "contentType": "application/json",
@@ -17955,6 +18038,7 @@
       "ProgramDiagnostic_CreateSessionId": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "ProgramDiagnostic",
         "forms": [
           {
             "contentType": "application/json",
@@ -17967,6 +18051,7 @@
         "type": "string",
         "format": "time",
         "readOnly": true,
+        "aov:containedIn": "ProgramDiagnostic",
         "forms": [
           {
             "contentType": "application/json",
@@ -17978,6 +18063,7 @@
       "ProgramDiagnostic_LastMethodCall": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "ProgramDiagnostic",
         "forms": [
           {
             "contentType": "application/json",
@@ -17990,6 +18076,7 @@
         "type": "string",
         "format": "time",
         "readOnly": true,
+        "aov:containedIn": "ProgramDiagnostic",
         "forms": [
           {
             "contentType": "application/json",
@@ -18031,6 +18118,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "ProgramDiagnostic",
         "forms": [
           {
             "contentType": "application/json",
@@ -18046,6 +18134,7 @@
           "type": "string"
         },
         "readOnly": true,
+        "aov:containedIn": "ProgramDiagnostic",
         "forms": [
           {
             "contentType": "application/json",
@@ -18087,6 +18176,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "ProgramDiagnostic",
         "forms": [
           {
             "contentType": "application/json",
@@ -18102,6 +18192,7 @@
           "type": "string"
         },
         "readOnly": true,
+        "aov:containedIn": "ProgramDiagnostic",
         "forms": [
           {
             "contentType": "application/json",
@@ -18113,6 +18204,7 @@
       "ProgramDiagnostic_LastMethodReturnStatus": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "ProgramDiagnostic",
         "forms": [
           {
             "contentType": "application/json",
@@ -18124,6 +18216,7 @@
       "ProgramDiagnostic_LastMethodSessionId": {
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "ProgramDiagnostic",
         "forms": [
           {
             "contentType": "application/json",

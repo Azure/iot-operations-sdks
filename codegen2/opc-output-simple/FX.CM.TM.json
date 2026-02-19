@@ -4233,6 +4233,7 @@
           }
         },
         "readOnly": false,
+        "aov:contains": [ "SecurityKeyServer_Address", "SecurityKeyServer_SecurityPolicyUri", "SecurityKeyServer_ServerUri", "SecurityKeyServer_UsePushModel" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -4250,6 +4251,7 @@
         "aov:namespace": "http://opcfoundation.org/UA/FX/CM/",
         "type": "string",
         "readOnly": false,
+        "aov:containedIn": "SecurityKeyServer",
         "forms": [
           {
             "contentType": "application/json",
@@ -4267,6 +4269,7 @@
         "aov:namespace": "http://opcfoundation.org/UA/FX/CM/",
         "type": "string",
         "readOnly": false,
+        "aov:containedIn": "SecurityKeyServer",
         "forms": [
           {
             "contentType": "application/json",
@@ -4284,6 +4287,7 @@
         "aov:namespace": "http://opcfoundation.org/UA/FX/CM/",
         "type": "string",
         "readOnly": false,
+        "aov:containedIn": "SecurityKeyServer",
         "forms": [
           {
             "contentType": "application/json",
@@ -4301,6 +4305,7 @@
         "aov:namespace": "http://opcfoundation.org/UA/FX/CM/",
         "type": "boolean",
         "readOnly": false,
+        "aov:containedIn": "SecurityKeyServer",
         "forms": [
           {
             "contentType": "application/json",

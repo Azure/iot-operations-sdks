@@ -1076,6 +1076,7 @@
         "description": "JoiningSystemEventContent is the common payload of the event from a joining system.",
         "type": "string",
         "readOnly": true,
+        "aov:contains": [ "JoiningSystemEventContent_AssociatedEntities", "JoiningSystemEventContent_EventCode", "JoiningSystemEventContent_EventText", "JoiningSystemEventContent_JoiningTechnology", "JoiningSystemEventContent_ReportedValues" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -1124,6 +1125,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "JoiningSystemEventContent",
         "forms": [
           {
             "contentType": "application/json",
@@ -1139,6 +1141,7 @@
         "minimum": -9223372036854775808,
         "maximum": 9223372036854775807,
         "readOnly": true,
+        "aov:containedIn": "JoiningSystemEventContent",
         "forms": [
           {
             "contentType": "application/json",
@@ -1152,6 +1155,7 @@
         "description": "EventText is a human readable text related to the context of the event.",
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "JoiningSystemEventContent",
         "forms": [
           {
             "contentType": "application/json",
@@ -1165,6 +1169,7 @@
         "description": "JoiningTechnology is a human readable text to identify the joining technology which has triggered the event. Examples: Tightening, Gluing, Riveting, Flow Drill Fastening, etc.",
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "JoiningSystemEventContent",
         "forms": [
           {
             "contentType": "application/json",
@@ -1240,6 +1245,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "JoiningSystemEventContent",
         "forms": [
           {
             "contentType": "application/json",
@@ -1482,6 +1488,7 @@
         "description": "JoiningSystemEventContent is the common payload of the event from a joining system.",
         "type": "string",
         "readOnly": true,
+        "aov:contains": [ "JoiningSystemEventContent_AssociatedEntities", "JoiningSystemEventContent_EventCode", "JoiningSystemEventContent_EventText", "JoiningSystemEventContent_JoiningTechnology", "JoiningSystemEventContent_ReportedValues" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -1530,6 +1537,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "JoiningSystemEventContent",
         "forms": [
           {
             "contentType": "application/json",
@@ -1545,6 +1553,7 @@
         "minimum": -9223372036854775808,
         "maximum": 9223372036854775807,
         "readOnly": true,
+        "aov:containedIn": "JoiningSystemEventContent",
         "forms": [
           {
             "contentType": "application/json",
@@ -1558,6 +1567,7 @@
         "description": "EventText is a human readable text related to the context of the event.",
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "JoiningSystemEventContent",
         "forms": [
           {
             "contentType": "application/json",
@@ -1571,6 +1581,7 @@
         "description": "JoiningTechnology is a human readable text to identify the joining technology which has triggered the event. Examples: Tightening, Gluing, Riveting, Flow Drill Fastening, etc.",
         "type": "string",
         "readOnly": true,
+        "aov:containedIn": "JoiningSystemEventContent",
         "forms": [
           {
             "contentType": "application/json",
@@ -1646,6 +1657,7 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "JoiningSystemEventContent",
         "forms": [
           {
             "contentType": "application/json",

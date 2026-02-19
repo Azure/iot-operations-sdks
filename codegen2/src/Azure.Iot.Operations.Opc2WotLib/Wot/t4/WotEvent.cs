@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
  // Copyright (c) Microsoft Corporation. 
  // Licensed under the MIT License 
             this.Write("\"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.eventName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EventName));
             this.Write("\": {\r\n");
  if (this.uaVariable.BrowseNamespace != null) { 
             this.Write("  \"aov:namespace\": \"");
@@ -53,13 +53,20 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(", ", this.contains.Select(c => $"\"{c}\""))));
             this.Write(" ],\r\n");
  } 
+ if (this.quantityKind != null) { 
+            this.Write("  \"qudt:hasQuantityKind\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.quantityKind));
+            this.Write("\",\r\n  \"aov:withUnit\": \"properties/");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EventName));
+            this.Write("_EngineeringUnits\",\r\n");
+ } 
             this.Write("  \"forms\": [\r\n    {\r\n      \"contentType\": \"application/json\",\r\n      \"dtv:topic\":" +
                     " \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingModelName));
             this.Write("/event/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.eventName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EventName));
             this.Write("/{senderId}\",\r\n      \"op\": \"subscribeevent\"\r\n    }\r\n  ]\r\n}");
             return this.GenerationEnvironment.ToString();
         }

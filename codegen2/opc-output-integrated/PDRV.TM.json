@@ -4698,6 +4698,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "Position_Resolution" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -4712,6 +4713,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "Position",
         "forms": [
           {
             "contentType": "application/json",
@@ -4766,6 +4768,7 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "aov:contains": [ "Velocity_Damping" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -4780,6 +4783,7 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
+        "aov:containedIn": "Velocity",
         "forms": [
           {
             "contentType": "application/json",

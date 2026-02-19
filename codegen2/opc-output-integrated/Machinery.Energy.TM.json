@@ -3,6 +3,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -45,6 +46,9 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "aov:contains": [ "Pressure_AccuracyClass", "Pressure_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/Pressure_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -64,6 +68,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "Pressure",
         "forms": [
           {
             "contentType": "application/json",
@@ -78,6 +83,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
+        "aov:containedIn": "Pressure",
         "forms": [
           {
             "contentType": "application/json",
@@ -97,6 +103,9 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "aov:contains": [ "Temperature_AccuracyClass", "Temperature_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/Temperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -116,6 +125,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "Temperature",
         "forms": [
           {
             "contentType": "application/json",
@@ -130,6 +140,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
+        "aov:containedIn": "Temperature",
         "forms": [
           {
             "contentType": "application/json",
@@ -139,6 +150,30 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Pressure_EngineeringUnits": {
+        "description": "Unit designator for property and event with name Pressure, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Temperature_EngineeringUnits": {
+        "description": "Unit designator for property and event with name Temperature, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -153,6 +188,8 @@
           "maximum": 3.40e+38
         },
         "aov:contains": [ "Pressure_AccuracyClass", "Pressure_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "aov:withUnit": "properties/Pressure_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -201,6 +238,8 @@
           "maximum": 3.40e+38
         },
         "aov:contains": [ "Temperature_AccuracyClass", "Temperature_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+        "aov:withUnit": "properties/Temperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -247,6 +286,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -289,6 +329,9 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "aov:contains": [ "Mass_AccuracyClass", "Mass_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Mass",
+        "aov:withUnit": "properties/Mass_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -308,6 +351,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "Mass",
         "forms": [
           {
             "contentType": "application/json",
@@ -322,6 +366,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
+        "aov:containedIn": "Mass",
         "forms": [
           {
             "contentType": "application/json",
@@ -341,6 +386,9 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "aov:contains": [ "MassFlowRate_AccuracyClass", "MassFlowRate_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/MassFlowRate",
+        "aov:withUnit": "properties/MassFlowRate_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -360,6 +408,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "MassFlowRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -374,6 +423,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
+        "aov:containedIn": "MassFlowRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -383,6 +433,30 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Mass_EngineeringUnits": {
+        "description": "Unit designator for property and event with name Mass, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MassFlowRate_EngineeringUnits": {
+        "description": "Unit designator for property and event with name MassFlowRate, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -397,6 +471,8 @@
           "maximum": 3.40e+38
         },
         "aov:contains": [ "Mass_AccuracyClass", "Mass_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Mass",
+        "aov:withUnit": "properties/Mass_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -445,6 +521,8 @@
           "maximum": 3.40e+38
         },
         "aov:contains": [ "MassFlowRate_AccuracyClass", "MassFlowRate_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/MassFlowRate",
+        "aov:withUnit": "properties/MassFlowRate_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -491,6 +569,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -533,6 +612,9 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "aov:contains": [ "Volume_AccuracyClass", "Volume_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Volume",
+        "aov:withUnit": "properties/Volume_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -552,6 +634,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "Volume",
         "forms": [
           {
             "contentType": "application/json",
@@ -566,6 +649,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
+        "aov:containedIn": "Volume",
         "forms": [
           {
             "contentType": "application/json",
@@ -585,6 +669,9 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "aov:contains": [ "VolumeFlowRate_AccuracyClass", "VolumeFlowRate_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VolumeFlowRate",
+        "aov:withUnit": "properties/VolumeFlowRate_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -604,6 +691,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "VolumeFlowRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -618,6 +706,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
+        "aov:containedIn": "VolumeFlowRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -627,6 +716,30 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Volume_EngineeringUnits": {
+        "description": "Unit designator for property and event with name Volume, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeFlowRate_EngineeringUnits": {
+        "description": "Unit designator for property and event with name VolumeFlowRate, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -641,6 +754,8 @@
           "maximum": 3.40e+38
         },
         "aov:contains": [ "Volume_AccuracyClass", "Volume_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Volume",
+        "aov:withUnit": "properties/Volume_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -689,6 +804,8 @@
           "maximum": 3.40e+38
         },
         "aov:contains": [ "VolumeFlowRate_AccuracyClass", "VolumeFlowRate_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VolumeFlowRate",
+        "aov:withUnit": "properties/VolumeFlowRate_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",

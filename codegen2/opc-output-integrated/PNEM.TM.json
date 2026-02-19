@@ -3,6 +3,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -45,6 +46,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -54,6 +57,18 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/property/DcCurrent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcCurrent_EngineeringUnits": {
+        "description": "Unit designator for property and event with name DcCurrent, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/property/DcCurrent_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -67,6 +82,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -81,6 +98,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -141,6 +159,8 @@
           }
         },
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/AcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -150,6 +170,18 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/property/AcCurrent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcCurrent_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcCurrent, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/property/AcCurrent_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -181,6 +213,8 @@
             }
           }
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/AcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -195,6 +229,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -237,6 +272,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -246,6 +283,18 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/property/AcActivePowerTotal/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePowerTotal_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcActivePowerTotal, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/property/AcActivePowerTotal_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -259,6 +308,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -273,6 +324,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -315,6 +367,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
+        "aov:withUnit": "properties/AcActiveEnergyTotalExportLp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -334,6 +388,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
+        "aov:withUnit": "properties/AcActiveEnergyTotalImportLp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -353,6 +409,8 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -362,6 +420,42 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActivePowerTotal/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActiveEnergyTotalExportLp_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcActiveEnergyTotalExportLp, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalExportLp_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActiveEnergyTotalImportLp_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcActiveEnergyTotalImportLp, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalImportLp_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePowerTotal_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcActivePowerTotal, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActivePowerTotal_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -375,6 +469,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
+        "aov:withUnit": "properties/AcActiveEnergyTotalExportLp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -390,6 +486,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
+        "aov:withUnit": "properties/AcActiveEnergyTotalImportLp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -405,6 +503,8 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -419,6 +519,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -461,6 +562,8 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
+        "aov:withUnit": "properties/AcActiveEnergyTotalExportHp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -480,6 +583,8 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
+        "aov:withUnit": "properties/AcActiveEnergyTotalImportHp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -517,6 +622,8 @@
           }
         },
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -554,6 +661,8 @@
           }
         },
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/AcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -666,6 +775,8 @@
           }
         },
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ReactivePower",
+        "aov:withUnit": "properties/AcReactivePower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -703,6 +814,8 @@
           }
         },
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -740,6 +853,8 @@
           }
         },
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -749,6 +864,90 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePp/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActiveEnergyTotalExportHp_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcActiveEnergyTotalExportHp, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalExportHp_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActiveEnergyTotalImportHp_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcActiveEnergyTotalImportHp, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalImportHp_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePower_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcActivePower, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActivePower_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcCurrent_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcCurrent, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcCurrent_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcReactivePower_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcReactivePower, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactivePower_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcVoltagePe_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcVoltagePe, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePe_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcVoltagePp_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcVoltagePp, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePp_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -762,6 +961,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
+        "aov:withUnit": "properties/AcActiveEnergyTotalExportHp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -777,6 +978,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
+        "aov:withUnit": "properties/AcActiveEnergyTotalImportHp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -810,6 +1013,8 @@
             }
           }
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -843,6 +1048,8 @@
             }
           }
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/AcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -939,6 +1146,8 @@
             }
           }
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ReactivePower",
+        "aov:withUnit": "properties/AcReactivePower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -972,6 +1181,8 @@
             }
           }
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1005,6 +1216,8 @@
             }
           }
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",

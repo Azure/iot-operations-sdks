@@ -2995,6 +2995,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ConsumedMaterial_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -3010,6 +3011,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ConsumedMaterial",
         "forms": [
           {
             "contentType": "application/json",
@@ -3025,6 +3027,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ConsumedMaterialTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -3040,6 +3043,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ConsumedMaterialTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -3163,6 +3167,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "DispensedMaterial_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -3178,6 +3183,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "DispensedMaterial",
         "forms": [
           {
             "contentType": "application/json",
@@ -3193,6 +3199,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "DispensedMaterialTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -3208,6 +3215,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "DispensedMaterialTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -3331,6 +3339,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ProducedMaterial_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -3346,6 +3355,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ProducedMaterial",
         "forms": [
           {
             "contentType": "application/json",
@@ -3361,6 +3371,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ProducedMaterialTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -3376,6 +3387,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ProducedMaterialTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -3499,6 +3511,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "RejectedMaterial_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -3514,6 +3527,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "RejectedMaterial",
         "forms": [
           {
             "contentType": "application/json",
@@ -3529,6 +3543,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "RejectedMaterialTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -3544,6 +3559,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "RejectedMaterialTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -22748,6 +22764,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ActualDispensingRate_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -22763,6 +22780,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ActualDispensingRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -22796,6 +22814,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ConsumedMaterialMasterTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -22811,6 +22830,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ConsumedMaterialMasterTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -22826,6 +22846,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ConsumedMaterialTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -22841,6 +22862,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ConsumedMaterialTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -22856,6 +22878,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "DispensedMaterialMasterTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -22871,6 +22894,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "DispensedMaterialMasterTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -22886,6 +22910,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "DispensedMaterialTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -22901,6 +22926,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "DispensedMaterialTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -23516,6 +23542,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "NominalDispensingRate_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -23531,6 +23558,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "NominalDispensingRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -24512,6 +24540,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ActualProductionRate_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -24527,6 +24556,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ActualProductionRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -24794,6 +24824,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "NominalProductionRate_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -24809,6 +24840,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "NominalProductionRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -25031,6 +25063,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ProducedMaterialMasterTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -25046,6 +25079,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ProducedMaterialMasterTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -25061,6 +25095,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ProducedMaterialTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -25076,6 +25111,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ProducedMaterialTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -25808,6 +25844,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "RejectedMaterialMasterTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -25823,6 +25860,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "RejectedMaterialMasterTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -25853,6 +25891,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "RejectedMaterialTotal_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -25868,6 +25907,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "RejectedMaterialTotal",
         "forms": [
           {
             "contentType": "application/json",
@@ -26175,6 +26215,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ActualLoadingRate_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -26190,6 +26231,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ActualLoadingRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -26205,6 +26247,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "ActualUnloadingRate_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -26220,6 +26263,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "ActualUnloadingRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -26441,6 +26485,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "NominalLoadingRate_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -26456,6 +26501,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "NominalLoadingRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -26470,6 +26516,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "NominalUnloadingRate_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -26485,6 +26532,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "NominalUnloadingRate",
         "forms": [
           {
             "contentType": "application/json",
@@ -26517,6 +26565,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "StoredLot_ValueInBUoM" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -26532,6 +26581,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "StoredLot",
         "forms": [
           {
             "contentType": "application/json",

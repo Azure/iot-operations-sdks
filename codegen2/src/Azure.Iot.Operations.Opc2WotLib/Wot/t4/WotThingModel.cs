@@ -26,9 +26,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
  // Copyright (c) Microsoft Corporation. 
  // Licensed under the MIT License 
-            this.Write("{\r\n  \"@context\": [\r\n    \"https://www.w3.org/2022/wot/td/v1.1\",\r\n    {\r\n      \"dtv" +
-                    "\": \"http://azure.com/DigitalTwins/dtmi#\",\r\n      \"aov\": \"http://azure.com/IoT/op" +
-                    "erations/tm#\"\r\n    }\r\n  ],\r\n  \"@type\": \"tm:ThingModel\",\r\n  \"title\": \"");
+            this.Write("{\r\n  \"@context\": [\r\n    \"https://www.w3.org/2022/wot/td/v1.1\",\r\n    {\r\n");
+ if (this.areUnitsInUse) { 
+            this.Write("      \"qudt\": \"http://qudt.org/schema/qudt/\",\r\n");
+ } 
+            this.Write("      \"dtv\": \"http://azure.com/DigitalTwins/dtmi#\",\r\n      \"aov\": \"http://azure.c" +
+                    "om/IoT/operations/tm#\"\r\n    }\r\n  ],\r\n  \"@type\": \"tm:ThingModel\",\r\n  \"title\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
             this.Write("\",\r\n  \"aov:typeRef\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));

@@ -1301,6 +1301,7 @@
           }
         },
         "readOnly": false,
+        "aov:contains": [ "AggregatedHealth_AggregatedDeviceHealth", "AggregatedHealth_AggregatedOperationalHealth" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -1322,6 +1323,7 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "aov:containedIn": "AggregatedHealth",
         "forms": [
           {
             "contentType": "application/json",
@@ -1338,6 +1340,7 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "aov:containedIn": "AggregatedHealth",
         "forms": [
           {
             "contentType": "application/json",

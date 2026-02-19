@@ -5,6 +5,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Xml;
 
@@ -23,6 +24,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             AccessLevel = int.Parse(variableNode.Attributes?["AccessLevel"]?.Value ?? "0");
             References = UaUtil.GetReferencesFromXmlNode(modelInfo, nsUriToNsInfoMap, variableNode);
             Arguments = GetArgumentsFromXmlNode(modelInfo, nsUriToNsInfoMap, variableNode);
+            UnitId = dataTypeString == "EUInformation" ? GetUnitIdFromXmlNode(variableNode) : 0;
 
             IsPlaceholder = References.Any(r => 
                 r.IsForward &&
@@ -38,7 +40,15 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public Dictionary<string, OpcUaObjectField> Arguments { get; }
 
+        public int UnitId { get; }
+
         public bool IsPlaceholder { get; }
+
+        public bool TryGetEngineeringUnits([NotNullWhen(true)] out OpcUaVariable? engUnitsVariable)
+        {
+            engUnitsVariable = Properties.OfType<OpcUaVariable>().FirstOrDefault(v => v.BrowseName.Name == "EngineeringUnits");
+            return engUnitsVariable != null;
+        }
 
         public void CollectVariableRecords(Dictionary<string, UaVariableRecord> variableRecords, bool isDataVariable, string? parentContainer = null, List<string>? parentContents = null)
         {
@@ -84,6 +94,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
 
             return arguments;
+        }
+
+        private static int GetUnitIdFromXmlNode(XmlNode xmlNode)
+        {
+            string? unitIdString = xmlNode.SelectSingleNode("descendant::uax:EUInformation/child::uax:UnitId", OpcUaGraph.NamespaceManager)?.InnerText;
+            return unitIdString != null ? int.Parse(unitIdString) : 0;
         }
     }
 }

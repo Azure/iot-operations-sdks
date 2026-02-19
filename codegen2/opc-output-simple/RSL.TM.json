@@ -78,6 +78,7 @@
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
+        "aov:contains": [ "WorldFrame_Base" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -96,6 +97,7 @@
         "description": "WorldFrame as the origin of the coordinate system has no Base i.e. it must be null.",
         "type": "string",
         "readOnly": false,
+        "aov:containedIn": "WorldFrame",
         "forms": [
           {
             "contentType": "application/json",
@@ -240,6 +242,7 @@
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
+        "aov:contains": [ "PositionFrame_Base" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -257,6 +260,7 @@
         "aov:namespace": "http://opcfoundation.org/UA/RSL/",
         "type": "string",
         "readOnly": false,
+        "aov:containedIn": "PositionFrame",
         "forms": [
           {
             "contentType": "application/json",

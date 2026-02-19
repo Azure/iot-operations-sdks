@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyWithUnitEmpty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyEmpty",
+      "filename": "PropertyWithUnitEmpty.TM.json",
+      "line": 17,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

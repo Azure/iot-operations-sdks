@@ -14,27 +14,49 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         private static readonly int writeMask = 1 << bitPosWrite;
 
-        private OpcUaVariable uaVariable;
         private WotDataSchema dataSchema;
+        private string? browseNamespace;
+        private bool isPlaceholder;
         private string specName;
         private string thingModelName;
-        private string propertyName;
         private string? containedIn;
         private List<string> contains;
+        private string? quantityKind;
 
         public WotProperty(string specName, string thingModelName, OpcUaVariable uaVariable, string variableName, string? containedIn, List<string> contains)
         {
-            this.uaVariable = uaVariable;
             this.dataSchema = WotDataSchema.Create(uaVariable.DataType, uaVariable.ValueRank, uaVariable, uaVariable.Description, Enumerable.Empty<OpcUaNodeId>());
+            this.browseNamespace = uaVariable.BrowseNamespace;
+            this.isPlaceholder = uaVariable.IsPlaceholder;
             this.specName = specName;
             this.thingModelName = thingModelName;
-            this.propertyName = WotUtil.LegalizeName(variableName);
             this.containedIn = containedIn;
             this.contains = contains;
+            this.quantityKind = uaVariable.TryGetEngineeringUnits(out OpcUaVariable? engUnitsVariable) ? UnitMapper.GetQuantityKindFromUnitId(engUnitsVariable.UnitId) : null;
 
+            PropertyName = WotUtil.LegalizeName(variableName);
             ReadOnly = (uaVariable.AccessLevel & writeMask) == 0;
         }
 
+        public WotProperty(string specName, string thingModelName, string propertyName, OpcUaNodeId dataTypeNodeId, bool readOnly, string? description)
+        {
+            this.dataSchema = new WotDataSchemaPrimitive(dataTypeNodeId, description);
+            this.browseNamespace = null;
+            this.isPlaceholder = false;
+            this.specName = specName;
+            this.thingModelName = thingModelName;
+            this.containedIn = null;
+            this.contains = new List<string>();
+            this.quantityKind = null;
+
+            PropertyName = propertyName;
+            ReadOnly = readOnly;
+        }
+
+        public string PropertyName { get; }
+
         public bool ReadOnly { get; }
+
+        public bool UsesUnits { get => quantityKind != null; }
     }
 }

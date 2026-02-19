@@ -5126,6 +5126,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -5210,6 +5211,7 @@
         "description": "The process value.",
         "type": "number",
         "readOnly": false,
+        "aov:contains": [ "AnalogSignal_HighHighLimit", "AnalogSignal_HighLimit", "AnalogSignal_LowLimit", "AnalogSignal_LowLowLimit", "AnalogSignal_PercentageValue" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -5228,6 +5230,7 @@
         "description": "Defines the absolute high high limit",
         "type": "number",
         "readOnly": false,
+        "aov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
@@ -5246,6 +5249,7 @@
         "description": "Defines the absolute high limit",
         "type": "number",
         "readOnly": false,
+        "aov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
@@ -5264,6 +5268,7 @@
         "description": "Defines the absolute low limit",
         "type": "number",
         "readOnly": false,
+        "aov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
@@ -5282,6 +5287,7 @@
         "description": "Defines the absolute low low limit",
         "type": "number",
         "readOnly": false,
+        "aov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
@@ -5302,6 +5308,9 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
+        "aov:containedIn": "AnalogSignal",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/AnalogSignal_PercentageValue_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -5349,6 +5358,18 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AnalogSignal_PercentageValue_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AnalogSignal_PercentageValue, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_PercentageValue_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -5455,6 +5476,8 @@
           "maximum": 1.80e+308
         },
         "aov:containedIn": "AnalogSignal",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/AnalogSignal_PercentageValue_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",

@@ -3,7 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <# // Copyright (c) Microsoft Corporation. #>
 <# // Licensed under the MIT License #>
-"<#=this.eventName#>": {
+"<#=this.EventName#>": {
 <# if (this.uaVariable.BrowseNamespace != null) { #>
   "aov:namespace": "<#=this.uaVariable.BrowseNamespace#>",
 <# } #>
@@ -21,10 +21,14 @@
 <# if (this.contains.Any()) { #>
   "aov:contains": [ <#=string.Join(", ", this.contains.Select(c => $"\"{c}\""))#> ],
 <# } #>
+<# if (this.quantityKind != null) { #>
+  "qudt:hasQuantityKind": "<#=this.quantityKind#>",
+  "aov:withUnit": "properties/<#=this.EventName#>_EngineeringUnits",
+<# } #>
   "forms": [
     {
       "contentType": "application/json",
-      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/event/<#=this.eventName#>/{senderId}",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/event/<#=this.EventName#>/{senderId}",
       "op": "subscribeevent"
     }
   ]

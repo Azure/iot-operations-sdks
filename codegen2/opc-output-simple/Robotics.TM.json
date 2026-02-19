@@ -229,6 +229,7 @@
           }
         },
         "readOnly": true,
+        "aov:contains": [ "CenterOfMass_CartesianCoordinates", "CenterOfMass_Orientation" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -260,6 +261,8 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "CenterOfMass",
+        "aov:contains": [ "CenterOfMass_CartesianCoordinates_X", "CenterOfMass_CartesianCoordinates_Y", "CenterOfMass_CartesianCoordinates_Z" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -273,6 +276,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "CenterOfMass_CartesianCoordinates",
         "forms": [
           {
             "contentType": "application/json",
@@ -286,6 +290,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "CenterOfMass_CartesianCoordinates",
         "forms": [
           {
             "contentType": "application/json",
@@ -299,6 +304,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "CenterOfMass_CartesianCoordinates",
         "forms": [
           {
             "contentType": "application/json",
@@ -330,6 +336,8 @@
           }
         },
         "readOnly": true,
+        "aov:containedIn": "CenterOfMass",
+        "aov:contains": [ "CenterOfMass_Orientation_A", "CenterOfMass_Orientation_B", "CenterOfMass_Orientation_C" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -343,6 +351,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "CenterOfMass_Orientation",
         "forms": [
           {
             "contentType": "application/json",
@@ -356,6 +365,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "CenterOfMass_Orientation",
         "forms": [
           {
             "contentType": "application/json",
@@ -369,6 +379,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "CenterOfMass_Orientation",
         "forms": [
           {
             "contentType": "application/json",
@@ -402,6 +413,7 @@
           }
         },
         "readOnly": true,
+        "aov:contains": [ "Inertia_X", "Inertia_Y", "Inertia_Z" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -415,6 +427,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "Inertia",
         "forms": [
           {
             "contentType": "application/json",
@@ -428,6 +441,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "Inertia",
         "forms": [
           {
             "contentType": "application/json",
@@ -441,6 +455,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:containedIn": "Inertia",
         "forms": [
           {
             "contentType": "application/json",
@@ -3158,6 +3173,7 @@
           }
         },
         "readOnly": true,
+        "aov:contains": [ "GearRatio_Denominator", "GearRatio_Numerator" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -3171,6 +3187,7 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
+        "aov:containedIn": "GearRatio",
         "forms": [
           {
             "contentType": "application/json",
@@ -3184,6 +3201,7 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
+        "aov:containedIn": "GearRatio",
         "forms": [
           {
             "contentType": "application/json",

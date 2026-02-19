@@ -3,28 +3,38 @@
 <#@ import namespace="System.Linq" #>
 <# // Copyright (c) Microsoft Corporation. #>
 <# // Licensed under the MIT License #>
-"<#=this.propertyName#>": {
-<# if (this.uaVariable.BrowseNamespace != null) { #>
-  "aov:namespace": "<#=this.uaVariable.BrowseNamespace#>",
+"<#=this.PropertyName#>": {
+<# if (this.browseNamespace != null) { #>
+  "aov:namespace": "<#=this.browseNamespace#>",
 <# } #>
 <# this.PushIndent("  "); #>
 <#=this.dataSchema.TransformText()#>,
 <# this.PopIndent(); #>
   "readOnly": <#=this.ReadOnly ? "true" : "false"#>,
-<# if (this.uaVariable.IsPlaceholder) { #>
+<# if (this.isPlaceholder) { #>
   "dtv:placeholder": true,
+<# } #>
+<# if (this.containedIn != null) { #>
+  "aov:containedIn": "<#=this.containedIn#>",
+<# } #>
+<# if (this.contains.Any()) { #>
+  "aov:contains": [ <#=string.Join(", ", this.contains.Select(c => $"\"{c}\""))#> ],
+<# } #>
+<# if (this.quantityKind != null) { #>
+  "qudt:hasQuantityKind": "<#=this.quantityKind#>",
+  "aov:withUnit": "properties/<#=this.PropertyName#>_EngineeringUnits",
 <# } #>
   "forms": [
 <# if (!this.ReadOnly) { #>
     {
       "contentType": "application/json",
-      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/property/<#=this.propertyName#>/write",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/property/<#=this.PropertyName#>/write",
       "op": "writeproperty"
     },
 <# } #>
     {
       "contentType": "application/json",
-      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/property/<#=this.propertyName#>/read",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/property/<#=this.PropertyName#>/read",
       "op": "readproperty"
     }
   ]

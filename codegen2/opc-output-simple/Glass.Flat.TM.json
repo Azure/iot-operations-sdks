@@ -978,6 +978,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -1031,6 +1032,8 @@
         "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "type": "number",
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/GasFilling_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1048,6 +1051,8 @@
         "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "type": "number",
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/MixingRatio_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1060,6 +1065,30 @@
             "op": "readproperty"
           }
         ]
+      },
+      "GasFilling_EngineeringUnits": {
+        "description": "Unit designator for property and event with name GasFilling, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat/Glass_Flat_GasMixType/property/GasFilling_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MixingRatio_EngineeringUnits": {
+        "description": "Unit designator for property and event with name MixingRatio, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat/Glass_Flat_GasMixType/property/MixingRatio_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
       }
     },
     "events": {
@@ -1068,6 +1097,8 @@
         "data": {
           "type": "number"
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/GasFilling_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1081,6 +1112,8 @@
         "data": {
           "type": "number"
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/MixingRatio_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1670,6 +1703,7 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
+        "qudt": "http://qudt.org/schema/qudt/",
         "dtv": "http://azure.com/DigitalTwins/dtmi#",
         "aov": "http://azure.com/IoT/operations/tm#"
       }
@@ -1742,6 +1776,8 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/MixingRatio_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1751,6 +1787,18 @@
           {
             "contentType": "application/json",
             "dtv:topic": "opcua/Glass.Flat/Glass_Flat_SealingMaterialType/property/MixingRatio/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MixingRatio_EngineeringUnits": {
+        "description": "Unit designator for property and event with name MixingRatio, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat/Glass_Flat_SealingMaterialType/property/MixingRatio_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -1777,6 +1825,8 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/MixingRatio_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
@@ -1860,6 +1910,7 @@
         "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "type": "string",
         "readOnly": false,
+        "aov:contains": [ "Filling_FillLevel" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -1879,6 +1930,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
+        "aov:containedIn": "Filling",
         "forms": [
           {
             "contentType": "application/json",

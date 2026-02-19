@@ -86,6 +86,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "MaxSpeed_PhysicalQuantity" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -101,6 +102,7 @@
         "minimum": 0,
         "maximum": 255,
         "readOnly": true,
+        "aov:containedIn": "MaxSpeed",
         "forms": [
           {
             "contentType": "application/json",
@@ -116,6 +118,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "MaxTorque_PhysicalQuantity" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -131,6 +134,7 @@
         "minimum": 0,
         "maximum": 255,
         "readOnly": true,
+        "aov:containedIn": "MaxTorque",
         "forms": [
           {
             "contentType": "application/json",
@@ -146,6 +150,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
+        "aov:contains": [ "MinTorque_PhysicalQuantity" ],
         "forms": [
           {
             "contentType": "application/json",
@@ -161,6 +166,7 @@
         "minimum": 0,
         "maximum": 255,
         "readOnly": true,
+        "aov:containedIn": "MinTorque",
         "forms": [
           {
             "contentType": "application/json",
