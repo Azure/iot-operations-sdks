@@ -18,9 +18,9 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
         /// <summary>
         /// Read error for the 'get' Action.
         /// </summary>
-        [JsonPropertyName("getError")]
+        [JsonPropertyName("error")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public SchemaRegistryError? GetError { get; set; } = default;
+        public SchemaRegistryError? Error { get; set; } = default;
 
         /// <summary>
         /// The requested schema object.
