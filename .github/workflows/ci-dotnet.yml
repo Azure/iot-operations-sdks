@@ -84,7 +84,6 @@ jobs:
         then
             echo "Detected changes after running code gen for one or more projects. Do not manually edit generated files."
             git diff-files
-            echo "If this gets triggered by the differences between windows and linux line endings, we may need to modify this check"
             exit 1
         fi
 
