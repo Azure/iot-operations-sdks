@@ -103,7 +103,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             };
             var notificationRequest = new Generated.AdrBaseService.SetNotificationPreferenceForDeviceUpdatesRequestPayload
             {
-                NotificationPreferenceRequest = (Generated.AdrBaseService.NotificationPreference)(int)notificationPreference
+                NotificationPreferenceRequest = ProtocolConverter.ToProtocol(notificationPreference)
             };
 
             try
