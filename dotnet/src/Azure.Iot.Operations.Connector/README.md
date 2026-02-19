@@ -10,7 +10,7 @@ Alternatively, you could listen for telemetry from a TCP server and forward them
 
 ## Samples
 
-To see sample connectors that demonstrate using this package, please see [here](https://github.com/Azure/iot-operations-sdks/tree/main/dotnet/samples/Connector)
+To see sample connectors that demonstrate using this package, please see here (TODO link)
 
 ## Feedback
 

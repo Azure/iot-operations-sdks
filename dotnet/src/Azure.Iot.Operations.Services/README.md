@@ -21,7 +21,7 @@ The clients in this package can be used even outside of the context of an AIO co
 
 ## Samples
 
-To see samples that demonstrate these clients, please see [here](https://github.com/Azure/iot-operations-sdks/tree/main/dotnet/samples/Services)
+To see samples that demonstrate these clients, please see here (TODO link)
 
 ## Feedback
 

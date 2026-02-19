@@ -14,7 +14,7 @@ The clients defined in this library can be used with the MQTT broker in an Azure
 
 ## Samples
 
-To see samples that demonstrate using these clients, please see [here](https://github.com/Azure/iot-operations-sdks/tree/main/dotnet/samples/Mqtt)
+To see samples that demonstrate using these clients, please see here (TODO link)
 
 ## Feedback
 
