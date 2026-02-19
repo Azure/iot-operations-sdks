@@ -18,9 +18,9 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
         /// <summary>
         /// Read error for the 'put' Action.
         /// </summary>
-        [JsonPropertyName("putError")]
+        [JsonPropertyName("error")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public SchemaRegistryError? PutError { get; set; } = default;
+        public SchemaRegistryError? Error { get; set; } = default;
 
         /// <summary>
         /// Schema object that was created.
