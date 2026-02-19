@@ -46,7 +46,7 @@
   },
   "actionRespErrorField": {
     "in": [ "actionName", "errorSchemaName" ],
-    "out": "{actionName}Error",
+    "out": "error",
     "capitalize": false
   }
 }
