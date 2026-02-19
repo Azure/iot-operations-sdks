@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GetDeviceStatusResponseSchema",
+  "description": "Response containing the device status or error details if the status could not be retrieved.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "deviceStatus": {
+      "description": "The device status, containing the specific inbound endpoint status as specified by the request.",
+      "$ref": "DeviceStatus.schema.json"
+    },
+    "getDeviceStatusError": {
+      "description": "Read error for the 'getDeviceStatus' Action.",
+      "$ref": "AkriServiceError.schema.json"
+    }
+  }
+}

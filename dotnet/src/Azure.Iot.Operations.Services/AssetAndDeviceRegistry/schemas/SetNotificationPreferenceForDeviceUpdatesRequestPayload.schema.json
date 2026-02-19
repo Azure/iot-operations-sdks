@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "SetNotificationPreferenceForDeviceUpdatesRequestPayload",
+  "description": "The request to set the notification preference for device updates.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "notificationPreferenceRequest" ],
+  "properties": {
+    "notificationPreferenceRequest": {
+      "description": "The 'notificationPreferenceRequest' Field.",
+      "$ref": "NotificationPreference.schema.json"
+    }
+  }
+}

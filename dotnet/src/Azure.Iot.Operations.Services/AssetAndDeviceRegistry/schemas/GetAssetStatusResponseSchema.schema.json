@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GetAssetStatusResponseSchema",
+  "description": "Response containing the asset status or error details if the status could not be retrieved.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "assetStatus": {
+      "description": "The asset status",
+      "$ref": "AssetStatus.schema.json"
+    },
+    "getAssetStatusError": {
+      "description": "Read error for the 'getAssetStatus' Action.",
+      "$ref": "AkriServiceError.schema.json"
+    }
+  }
+}
