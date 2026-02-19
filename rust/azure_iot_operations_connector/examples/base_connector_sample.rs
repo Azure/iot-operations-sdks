@@ -17,13 +17,18 @@ use azure_iot_operations_connector::{
     base_connector::{
         self, BaseConnector,
         managed_azure_device_registry::{
-            AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
-            DeviceEndpointClient, DeviceEndpointClientCreationObservation, RuntimeHealthEvent,
-            SchemaModifyResult,
+            AssetClient, AssetComponentClient, ClientNotification, DataOperationClient,
+            DataOperationNotification, DeviceEndpointClient,
+            DeviceEndpointClientCreationObservation, ManagementActionClient,
+            ManagementActionNotification, RuntimeHealthEvent, SchemaModifyResult,
         },
     },
     data_processor::derived_json,
     deployment_artifacts::connector::ConnectorArtifacts,
+    management_action_executor::{
+        ManagementActionApplicationError, ManagementActionExecutor, ManagementActionRequest,
+        ManagementActionResponseBuilder,
+    },
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
@@ -250,7 +255,10 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
                 log::warn!("{asset_log_identifier} Asset has been deleted");
                 break;
             }
-            ClientNotification::Created(data_operation_client) => {
+            ClientNotification::Created(AssetComponentClient::DataOperation((
+                data_operation_client,
+                initial_status,
+            ))) => {
                 let data_operation_log_identifier = format!(
                     "{asset_log_identifier}[{}]",
                     data_operation_client
@@ -264,6 +272,7 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
                     tokio::task::spawn(run_dataset(
                         data_operation_log_identifier,
                         data_operation_client,
+                        initial_status,
                     ));
                 } else {
                     tokio::task::spawn(handle_unsupported_data_operation(
@@ -272,53 +281,54 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
                     ));
                 }
             }
+            ClientNotification::Created(AssetComponentClient::ManagementAction((
+                management_action_client,
+                initial_executor,
+            ))) => {
+                let management_action_log_identifier = format!(
+                    "{asset_log_identifier}[Action: {}]",
+                    management_action_client
+                        .management_action_ref()
+                        .management_action_name
+                );
+                log::info!("{management_action_log_identifier} Management Action Created");
+                tokio::task::spawn(run_management_action(
+                    management_action_log_identifier,
+                    management_action_client,
+                    initial_executor,
+                ));
+            }
+            ClientNotification::Created(_) => {}
         }
     }
 }
 
 /// Note, this function takes in a `DataOperationClient`, but we know it is specifically a `Dataset`
 /// because we already filtered out non-dataset `DataOperationClient`s in the `run_asset` function.
-async fn run_dataset(log_identifier: String, mut data_operation_client: DataOperationClient) {
+async fn run_dataset(
+    log_identifier: String,
+    mut data_operation_client: DataOperationClient,
+    initial_status: Result<(), AdrConfigError>,
+) {
     // Get the status reporter for this data operation - create once and reuse
     let mut data_operation_reporter = data_operation_client.get_status_reporter();
 
-    // now we should update the status of the dataset and report the message schema
+    // now we should update the status of the dataset, using the initial_status since there's nothing else we need to validate ourselves
     if let Err(e) = data_operation_reporter
-        .report_status_if_modified(report_status_if_changed!(
-            &log_identifier,
-            Ok::<(), AdrConfigError>(())
-        ))
+        .report_status_if_modified(report_status_if_changed!(&log_identifier, initial_status))
         .await
     {
         log::error!("{log_identifier} Error reporting dataset status: {e}");
     }
 
-    let sample_data = mock_received_data(0);
-
-    let mut local_message_schema = derived_json::create_schema(&sample_data).unwrap();
-    let mut local_schema_reference = match data_operation_client
-        .report_message_schema_if_modified(|_current_schema| Some(local_message_schema.clone()))
-        .await
-    {
-        Ok(status_reported) => match status_reported {
-            SchemaModifyResult::Reported(schema_ref) => {
-                log::info!("{log_identifier} Message Schema reported successfully: {schema_ref:?}");
-                Some(schema_ref)
-            }
-            SchemaModifyResult::NotModified => {
-                log::info!("{log_identifier} Message Schema already exists, not reporting");
-                unreachable!(); // Always report the first time
-            }
-        },
-        Err(e) => {
-            log::error!("{log_identifier} Error reporting message schema: {e}");
-            None
-        }
-    };
+    let mut local_message_schema = None;
+    let mut local_schema_reference = None;
     let mut count = 0;
     // Timer will trigger the sampling of data
     let mut timer = tokio::time::interval(Duration::from_secs(10));
-    let mut dataset_valid = true;
+    let mut is_sdk_error_causing_invalid_state = initial_status.is_err();
+    let mut last_reported_dataset_status = initial_status;
+    let mut dataset_valid = last_reported_dataset_status.is_ok();
     loop {
         tokio::select! {
             biased;
@@ -327,25 +337,31 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                 // Pause reporting and refresh to the new version before processing the update
                 data_operation_reporter.pause_and_refresh_health_version();
                 match res {
-                    DataOperationNotification::Updated => {
+                    DataOperationNotification::AssetUpdated(Ok(())) => {
+                        log::info!("{log_identifier} Asset updated for {:?}", data_operation_client.data_operation_ref());
+                        // If the previous Err was detected by the SDK, then this Asset(Ok()) indicates the invalid state has been resolved
+                        if is_sdk_error_causing_invalid_state {
+                            last_reported_dataset_status = Ok(());
+                            dataset_valid = last_reported_dataset_status.is_ok();
+                            is_sdk_error_causing_invalid_state = false;
+                        }
+                        // Update the local schema reference, since it will have been cleared by the version update
+                        local_schema_reference = None;
+                    },
+                    DataOperationNotification::Updated(Ok(())) => {
                         log::info!("{log_identifier} Dataset updated: {data_operation_client:?}");
 
-                        // now we should update the status of the dataset and report the message schema
-                        if let Err(e) = data_operation_reporter
-                            .report_status_if_modified(report_status_if_changed!(&log_identifier, Ok::<(), AdrConfigError>(())))
-                            .await
-                        {
-                            log::error!("{log_identifier} Error reporting dataset status: {e}");
-                        }
-
-                        // Update the local schema reference
-                        local_schema_reference = data_operation_client.message_schema_reference().await;
-
-
-                        dataset_valid = true;
+                        is_sdk_error_causing_invalid_state = false;
+                        last_reported_dataset_status = Ok(());
+                        dataset_valid = last_reported_dataset_status.is_ok();
+                        // Update the local schema reference, since it will have been cleared by the version update
+                        local_schema_reference = None;
                     },
-                    DataOperationNotification::UpdatedInvalid => {
-                        log::warn!("{log_identifier} Dataset has invalid update. Wait for new dataset update.");
+                    DataOperationNotification::AssetUpdated(Err(e)) |
+                    DataOperationNotification::Updated(Err(e)) => {
+                        log::warn!("{log_identifier} Dataset has invalid update. Wait for new dataset update. {e}");
+                        is_sdk_error_causing_invalid_state = true;
+                        last_reported_dataset_status = Err(e);
                         dataset_valid = false;
                     },
                     DataOperationNotification::Deleted => {
@@ -353,12 +369,19 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                         break;
                     }
                 }
+                // Report the new dataset status (needed for all cases other than deletion)
+                if let Err(e) = data_operation_reporter
+                    .report_status_if_modified(report_status_if_changed!(&log_identifier, last_reported_dataset_status))
+                    .await
+                {
+                    log::error!("{log_identifier} Error reporting dataset status: {e}");
+                }
             },
             _ = timer.tick(), if dataset_valid => {
                 let sample_data = mock_received_data(count);
 
                 let current_message_schema =
-                    derived_json::create_schema(&sample_data).unwrap();
+                    derived_json::create_schema(&sample_data).ok();
                 // Report schema only if there isn't already one
                 match data_operation_client
                     .report_message_schema_if_modified(|current_schema_reference| {
@@ -368,7 +391,7 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                             || current_schema_reference != local_schema_reference.as_ref()
                             || current_message_schema != local_message_schema
                         {
-                            Some(current_message_schema.clone())
+                            current_message_schema.clone()
                         } else {
                             None
                         }
@@ -419,6 +442,179 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
     }
 }
 
+async fn run_management_action(
+    log_identifier: String,
+    mut management_action_client: ManagementActionClient,
+    initial_executor: Result<ManagementActionExecutor, AdrConfigError>,
+) {
+    // Get the status reporter for this management action
+    let mut management_action_reporter = management_action_client.get_status_reporter();
+    let (mut current_executor, mut last_reported_management_action_status) = match initial_executor
+    {
+        Ok(executor) => (Some(executor), Ok(())),
+        Err(e) => (None, Err(e)),
+    };
+    let mut stale_executor: Option<ManagementActionExecutor> = None;
+    let mut is_sdk_error_causing_invalid_state = last_reported_management_action_status.is_err();
+    let mut management_action_valid = last_reported_management_action_status.is_ok();
+    // now we should update the status of the management action, using the initial_status since there's nothing else we need to validate ourselves
+    if let Err(e) = management_action_reporter
+        .report_status_if_modified(report_status_if_changed!(
+            &log_identifier,
+            last_reported_management_action_status
+        ))
+        .await
+    {
+        log::error!("{log_identifier} Error reporting management action status: {e}");
+    }
+
+    loop {
+        tokio::select! {
+            biased;
+            // drain any pending requests from the out of date executor definition. Bias this above receiving new notifications
+            // so that we don't have to ever store more than one stale executor at a time
+            request_res = recv_request(&mut stale_executor), if stale_executor.is_some() => {
+                // TODO: this branch needs to know the old definition and the old management_action_valid value
+                // TODO: maybe draining is a rare case because usually there wouldn't be anything in this queue if commands are processed in another task as they should be
+                if let Some(request) = request_res {
+                    // WARNING: DON'T REPORT STATUS/HEALTH/MESSAGE SCHEMAS HERE - THIS IS FOR A STALE DEFINITION
+                    log::info!("{log_identifier} Management action request received: {:?}", request.raw_payload());
+
+                    let response = if management_action_valid {
+                        // Here we would process the management action request
+                        // For this example, we simply log it and respond that it succeeded
+                        ManagementActionResponseBuilder::default()
+                            .payload(vec![])
+                            .content_type("application/json".to_string())
+                            .cloud_event(None)
+                            .build().unwrap()
+                    } else {
+                        // If the management action is not valid, we respond with an application error
+                        ManagementActionResponseBuilder::default()
+                            .application_error(ManagementActionApplicationError {
+                                application_error_code: "ManagementActionInvalidState".to_string(),
+                                application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
+                            })
+                            .payload(vec![])
+                            .content_type("application/json".to_string())
+                            .cloud_event(None)
+                            .build().unwrap()
+                    };
+
+                    if let Err(e) = request.complete(response).await {
+                        log::error!("{log_identifier} Error completing management action request: {e}");
+                    } else {
+                        log::info!("{log_identifier} Management action request completed");
+                    }
+                }
+                else {
+                    log::info!("{log_identifier} Old management action executor completed");
+                    stale_executor = None;
+                }
+            },
+            // Listen for a management action update notifications
+            res = management_action_client.recv_notification() => {
+                // Pause reporting and refresh to the new version before processing the update
+                management_action_reporter.pause_and_refresh_health_version();
+                match res {
+                    ManagementActionNotification::AssetUpdated(Ok(())) => {
+                        log::info!("{log_identifier} Asset updated for {:?}", management_action_client.management_action_ref());
+                        // If the previous Err was detected by the SDK, then this Asset(Ok()) indicates the invalid state has been resolved
+                        if is_sdk_error_causing_invalid_state {
+                            last_reported_management_action_status = Ok(());
+                            management_action_valid = last_reported_management_action_status.is_ok();
+                            is_sdk_error_causing_invalid_state = false;
+                        }
+                    },
+                    ManagementActionNotification::Updated(Ok(())) => {
+                        log::info!("{log_identifier} Management action updated");
+
+                        is_sdk_error_causing_invalid_state = false;
+                        last_reported_management_action_status = Ok(());
+                        management_action_valid = last_reported_management_action_status.is_ok();
+                    },
+                    ManagementActionNotification::UpdatedWithNewExecutor(new_executor) => {
+                        log::info!("{log_identifier} Management action updated with new executor");
+
+                        is_sdk_error_causing_invalid_state = false;
+                        last_reported_management_action_status = Ok(());
+                        management_action_valid = last_reported_management_action_status.is_ok();
+                        // move the current executor to the stale marker so we can drain any pending requests
+                        // TODO: rather than having a branch for the stale executor, should we just drain it here?
+                        // If the application is executing in a separate task, there really shouldn't be a build up to drain anyways
+                        stale_executor = current_executor.take();
+                        current_executor = new_executor.ok();
+                    },
+                    ManagementActionNotification::AssetUpdated(Err(e)) |
+                    ManagementActionNotification::Updated(Err(e)) => {
+                        log::warn!("{log_identifier} Management action has invalid update. Wait for new management action update. {e}");
+                        is_sdk_error_causing_invalid_state = true;
+                        last_reported_management_action_status = Err(e);
+                        management_action_valid = false;
+                    },
+                    ManagementActionNotification::Deleted => {
+                        log::warn!("{log_identifier} Management action has been deleted. No more management action updates will be received");
+                        break;
+                    }
+                }
+                // Report the new management action status (needed for all cases other than deletion)
+                if let Err(e) = management_action_reporter
+                    .report_status_if_modified(report_status_if_changed!(&log_identifier, last_reported_management_action_status))
+                    .await
+                {
+                    log::error!("{log_identifier} Error reporting management action status: {e}");
+                }
+            },
+            request_res = recv_request(&mut current_executor), if current_executor.is_some() => {
+                if let Some(request) = request_res {
+                    log::info!("{log_identifier} Management action request received: {:?}", request.raw_payload());
+
+                    let response = if management_action_valid {
+                        // Here we would process the management action request in another task if it has any async work to do
+                        // For this example, we simply log it and respond that it succeeded
+                        ManagementActionResponseBuilder::default()
+                            .payload(vec![])
+                            .content_type("application/json".to_string())
+                            .cloud_event(None)
+                            .build().unwrap()
+                    } else {
+                        // If the management action is not valid, we respond with an application error
+                        ManagementActionResponseBuilder::default()
+                            .application_error(ManagementActionApplicationError {
+                                application_error_code: "ManagementActionInvalidState".to_string(),
+                                application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
+                            })
+                            .payload(vec![])
+                            .content_type("application/json".to_string())
+                            .cloud_event(None)
+                            .build().unwrap()
+                    };
+
+                    if let Err(e) = request.complete(response).await {
+                        log::error!("{log_identifier} Error completing management action request: {e}");
+                    } else {
+                        log::info!("{log_identifier} Management action request completed");
+                        management_action_reporter.report_health_event(RuntimeHealthEvent::Available);
+                    }
+                } else {
+                    log::warn!("{log_identifier} Management action executor closed");
+                    current_executor = None;
+                }
+            },
+        }
+    }
+}
+
+async fn recv_request(
+    executor: &mut Option<ManagementActionExecutor>,
+) -> Option<ManagementActionRequest> {
+    if let Some(ex) = executor {
+        ex.recv_request().await
+    } else {
+        None
+    }
+}
+
 /// Small handler to indicate lack of stream/event support in this connector
 async fn handle_unsupported_data_operation(
     log_identifier: String,
@@ -452,7 +648,8 @@ async fn handle_unsupported_data_operation(
     // incorrectly updated.
     loop {
         match data_operation_client.recv_notification().await {
-            DataOperationNotification::Updated => {
+            // it doesn't matter if the update is Err or Ok, we can always report unsupported
+            DataOperationNotification::AssetUpdated(_) | DataOperationNotification::Updated(_) => {
                 log::warn!(
                     "{log_identifier} update notification received. {data_operation_kind:?} is not supported for the this Connector",
                 );
@@ -473,9 +670,6 @@ async fn handle_unsupported_data_operation(
                 {
                     log::error!("{log_identifier} Error reporting status: {e}");
                 }
-            }
-            DataOperationNotification::UpdatedInvalid => {
-                log::info!("{log_identifier} update invalid notification received");
             }
             DataOperationNotification::Deleted => {
                 log::info!("{log_identifier} deleted notification received");
