@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventHasQuantityKindDataSchemaString.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "EventHasQuantityKindDataSchemaString.TM.json",
+      "line": 31,
+      "cfLine": 29,
+      "crossRef": ""
+    }
+  ]
+}

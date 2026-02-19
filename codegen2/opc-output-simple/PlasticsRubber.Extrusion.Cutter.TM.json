@@ -1,0 +1,697 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_Cutter_CutEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=1002",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CutEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CutEventType/property/ActualOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CuttingProductId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CutEventType/property/CuttingProductId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CutEventType/property/TotalOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_Cutter_CuttingProductsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CuttingProduct__Nr_",
+        "href": "#title=PlasticsRubber_Extrusion_Cutter_CuttingProductType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductsType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductsType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActualCuttingProductId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductsType/property/ActualCuttingProductId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductsType/property/ActualCuttingProductId/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualCuttingProductId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductsType/event/ActualCuttingProductId/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_Cutter_CuttingProductType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "WallThickeningEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=3002",
+        "const": {
+          "NO": 0,
+          "FRONT": 1,
+          "END": 2,
+          "BOTH": 3
+        },
+        "properties": {
+          "NO": {
+            "type": "integer"
+          },
+          "FRONT": {
+            "type": "integer"
+          },
+          "END": {
+            "type": "integer"
+          },
+          "BOTH": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ResetOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/action/ResetOutput",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/ActualOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Id": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/Id/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Length": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/Length/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/Length/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LengthCorrection": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/LengthCorrection/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/LengthCorrection/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/SetOutput/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/SetOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/TotalOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WallThickeningLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/WallThickeningLength/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/WallThickeningLength/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WallThickeningPosition": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "title": "WallThickeningEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=3002",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/WallThickeningPosition/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/property/WallThickeningPosition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/event/ActualOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Length": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/event/Length/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LengthCorrection": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/event/LengthCorrection/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/event/SetOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TotalOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/event/TotalOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WallThickeningLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_CuttingProductType/event/WallThickeningLength/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=1005",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.Extrusion.GeneralTypes.TM.json#title=PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "CuttingProducts",
+        "href": "#title=PlasticsRubber_Extrusion_Cutter_CuttingProductsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CuttingProgram",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_StartDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ProductSpeed",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ManualCut": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/action/ManualCut",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SampleCut": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/action/SampleCut",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "SampleCuttingLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/property/SampleCuttingLength/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/property/SampleCuttingLength/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SideClampClosed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/property/SideClampClosed/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalWasteLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/property/TotalWasteLength/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WasteCuttingLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/property/WasteCuttingLength/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/property/WasteCuttingLength/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WasteIndicator": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/property/WasteIndicator/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/property/WasteIndicator/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SampleCuttingLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/event/SampleCuttingLength/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SideClampClosed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/event/SideClampClosed/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TotalWasteLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/event/TotalWasteLength/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WasteCuttingLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/event/WasteCuttingLength/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WasteIndicator": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Cutter/PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType/event/WasteIndicator/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

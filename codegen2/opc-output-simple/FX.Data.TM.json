@@ -1,0 +1,63 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_Data_AuditUpdateMethodResultEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1025",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_AuditUpdateMethodEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "OutputArguments": {
+        "type": "array",
+        "items": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/property/OutputArguments/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StatusCodeId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/property/StatusCodeId/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

@@ -1,0 +1,674 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Onboarding_DeviceRegistrarAdminType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1175",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "TicketAuthorities",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TrustListType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DeviceIdentityAuthorities",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TrustListType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "RegisterTickets": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1177",
+          "required": [ "Tickets" ],
+          "properties": {
+            "Tickets": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1178",
+          "required": [ "Results" ],
+          "properties": {
+            "Results": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarAdminType/action/RegisterTickets",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "UnregisterTickets": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1180",
+          "required": [ "Tickets" ],
+          "properties": {
+            "Tickets": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1181",
+          "required": [ "Results" ],
+          "properties": {
+            "Results": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarAdminType/action/UnregisterTickets",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Onboarding_DeviceRegistrarType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1259",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Administration",
+        "href": "#title=Onboarding_DeviceRegistrarAdminType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ApplicationType": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+        "const": {
+          "Server": 0,
+          "Client": 1,
+          "ClientAndServer": 2,
+          "DiscoveryServer": 3
+        },
+        "properties": {
+          "Server": {
+            "type": "integer"
+          },
+          "Client": {
+            "type": "integer"
+          },
+          "ClientAndServer": {
+            "type": "integer"
+          },
+          "DiscoveryServer": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+      "GetManagers": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1506",
+          "required": [ "Managers" ],
+          "properties": {
+            "Managers": {
+              "type": "array",
+              "items": {
+                "title": "ManagerDescription",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1495",
+                "required": [ "Name", "IsRequired", "PurposeUri", "ProtocolUri", "EndpointUrls" ],
+                "properties": {
+                  "Name": {
+                    "type": "string"
+                  },
+                  "IsRequired": {
+                    "type": "boolean"
+                  },
+                  "PurposeUri": {
+                    "type": "string"
+                  },
+                  "ProtocolUri": {
+                    "type": "string"
+                  },
+                  "EndpointUrls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/GetManagers",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ProvideIdentities": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1261",
+          "required": [ "Identities", "Issuers", "Tickets" ],
+          "properties": {
+            "Identities": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "contentEncoding": "base64"
+              }
+            },
+            "Issuers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "contentEncoding": "base64"
+              }
+            },
+            "Tickets": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1262",
+          "required": [ "SelectedIdentity", "MatchingTicket", "ApplicationId", "SoftwareUpdateManager" ],
+          "properties": {
+            "SelectedIdentity": {
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "MatchingTicket": {
+              "title": "BaseTicketType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1165",
+              "required": [ "ManufacturerName", "ModelName", "ModelVersion", "HardwareRevision", "SoftwareRevision", "SerialNumber", "ManufactureDate", "Authorities" ],
+              "properties": {
+                "ManufacturerName": {
+                  "type": "string"
+                },
+                "ModelName": {
+                  "type": "string"
+                },
+                "ModelVersion": {
+                  "type": "string"
+                },
+                "HardwareRevision": {
+                  "type": "string"
+                },
+                "SoftwareRevision": {
+                  "type": "string"
+                },
+                "SerialNumber": {
+                  "type": "string"
+                },
+                "ManufactureDate": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Authorities": {
+                  "type": "array",
+                  "items": {
+                    "title": "CertificateAuthorityType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1164",
+                    "required": [ "AuthorityCertificate", "IssuerCertificates" ],
+                    "properties": {
+                      "AuthorityCertificate": {
+                        "type": "string",
+                        "contentEncoding": "base64"
+                      },
+                      "IssuerCertificates": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "contentEncoding": "base64"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "ApplicationId": {
+              "type": "string"
+            },
+            "SoftwareUpdateManager": {
+              "title": "ManagerDescription",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1495",
+              "required": [ "Name", "IsRequired", "PurposeUri", "ProtocolUri", "EndpointUrls" ],
+              "properties": {
+                "Name": {
+                  "type": "string"
+                },
+                "IsRequired": {
+                  "type": "boolean"
+                },
+                "PurposeUri": {
+                  "type": "string"
+                },
+                "ProtocolUri": {
+                  "type": "string"
+                },
+                "EndpointUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/ProvideIdentities",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RegisterDeviceEndpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1264",
+          "required": [ "Application" ],
+          "properties": {
+            "Application": {
+              "title": "ApplicationDescription",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=308",
+              "required": [ "ApplicationUri", "ProductUri", "ApplicationName", "ApplicationType", "GatewayServerUri", "DiscoveryProfileUri", "DiscoveryUrls" ],
+              "properties": {
+                "ApplicationUri": {
+                  "type": "string"
+                },
+                "ProductUri": {
+                  "type": "string"
+                },
+                "ApplicationName": {
+                  "type": "string"
+                },
+                "ApplicationType": {
+                  "title": "ApplicationType",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "GatewayServerUri": {
+                  "type": "string"
+                },
+                "DiscoveryProfileUri": {
+                  "type": "string"
+                },
+                "DiscoveryUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/RegisterDeviceEndpoint",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RegisterManagedApplication": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1508",
+          "required": [ "Application", "ProtocolUri" ],
+          "properties": {
+            "Application": {
+              "title": "ApplicationRecordDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+              "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
+              "properties": {
+                "ApplicationId": {
+                  "type": "string"
+                },
+                "ApplicationUri": {
+                  "type": "string"
+                },
+                "ApplicationType": {
+                  "title": "ApplicationType",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "ApplicationNames": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "ProductUri": {
+                  "type": "string"
+                },
+                "DiscoveryUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "ServerCapabilities": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ProtocolUri": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1509",
+          "required": [ "ApplicationId" ],
+          "properties": {
+            "ApplicationId": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/RegisterManagedApplication",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "UpdateSoftwareStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1504",
+          "required": [ "ProductInstanceUri", "Status", "SoftwareRevision" ],
+          "properties": {
+            "ProductInstanceUri": {
+              "type": "string"
+            },
+            "Status": {
+              "type": "boolean"
+            },
+            "SoftwareRevision": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/UpdateSoftwareStatus",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Onboarding_DeviceRegistrationAuditEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1517",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_AuditEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrationAuditEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ProductInstanceUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrationAuditEventType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Onboarding_DeviceIdentityAcceptedAuditEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1533",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Onboarding_DeviceRegistrationAuditEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Certificate": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Certificate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Composite": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Composite/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Ticket": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Ticket/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Onboarding_DeviceSoftwareUpdatedAuditEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1552",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Onboarding_DeviceRegistrationAuditEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "SoftwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/property/SoftwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

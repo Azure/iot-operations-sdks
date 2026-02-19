@@ -1,0 +1,3854 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_IVisionInfoType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_ICableType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1018",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_IComputingDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_IDisplayUnitType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_ILampType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1016",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_ILensType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1013",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_ILicenseType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1017",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_ILightingControllerType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1015",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_IPhysicalInterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1012",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionItemFolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionMachineIdentificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/AssetId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/ComponentName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConfigurationCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "provides the specific information how the machine vision system has been configured for a specific use case or application",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/ConfigurationCode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/ConfigurationCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Indicates in which domain or for what purpose the MachineryItem is used.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/DeviceClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HardwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "provides the revision level of the hardware of the machine vision system following the rules of Sematic Versioning 2.0.0",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/HardwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InitialOperationDate": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/InitialOperationDate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/Location/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManufacturerUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique identifier of the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/ManufacturerUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A human-readable, localized name of the model of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MonthOfConstruction": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/MonthOfConstruction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique resource identifier provided by the manufacturer of the machine",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SoftwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "property provides the version or revision level of the software in the machine vision system following the rules of Semantic Versioning 2.0.0.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/SoftwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "YearOfConstruction": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/property/YearOfConstruction/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionComponentIdentificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/AssetId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/ComponentName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConfigurationCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "provides the specific information how the machine vision system has been configured for a specific use case or application",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/ConfigurationCode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/ConfigurationCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Indicates in which domain or for what purpose the MachineryItem is used.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/DeviceClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string representation of the overall revision level of the component. Often, it is increased when either the SoftwareRevision and / or the HardwareRevision of the component is increased. As an example, it can be used in ERP systems together with the ProductCode.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/DeviceRevision/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/DeviceRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HardwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "provides the revision level of the hardware of the machine vision system following the rules of Sematic Versioning 2.0.0",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/HardwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InitialOperationDate": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/InitialOperationDate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManufacturerUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique identifier of the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/ManufacturerUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A human-readable, localized name of the model of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MonthOfConstruction": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/MonthOfConstruction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique resource identifier provided by the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SoftwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "property provides the version or revision level of the software in the machine vision system following the rules of Semantic Versioning 2.0.0.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/SoftwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "YearOfConstruction": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/property/YearOfConstruction/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionHealthInfoType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DeviceHealthAlarms",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "DeviceHealthEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "const": {
+          "NORMAL": 0,
+          "FAILURE": 1,
+          "CHECK_FUNCTION": 2,
+          "OFF_SPEC": 3,
+          "MAINTENANCE_REQUIRED": 4
+        },
+        "properties": {
+          "NORMAL": {
+            "description": "This device functions normally.",
+            "type": "integer"
+          },
+          "FAILURE": {
+            "description": "Malfunction of the device or any of its peripherals.",
+            "type": "integer"
+          },
+          "CHECK_FUNCTION": {
+            "description": "Functional checks are currently performed.",
+            "type": "integer"
+          },
+          "OFF_SPEC": {
+            "description": "The device is currently working outside of its specified range or that internal diagnoses indicate deviations from measured or set values.",
+            "type": "integer"
+          },
+          "MAINTENANCE_REQUIRED": {
+            "description": "This element is working, but a maintenance operation is required.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DeviceHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "title": "DeviceHealthEnumeration",
+        "description": "indicates the status as defined by NAMUR Recommendation NE107. The DeviceHealthEnumeration DataType is formally defined in OPC 10000-100 Device Model",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/DeviceHealth/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/DeviceHealth/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingLifeTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the remaining lifetime of the item. It serves as an indication to service personnel for maintenance activities",
+        "type": "number",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/RemainingLifeTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/RemainingLifeTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "State": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "title": "SEMI_E10SystemStateDataType",
+        "description": "denotes the SEMI E10 State of the item ",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=3002",
+        "required": [ "Id", "Priority" ],
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Priority": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/State/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/State/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Temperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the temperature value (along with its unit) of the item",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/Temperature/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/Temperature/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "DeviceHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "title": "DeviceHealthEnumeration",
+          "description": "indicates the status as defined by NAMUR Recommendation NE107. The DeviceHealthEnumeration DataType is formally defined in OPC 10000-100 Device Model",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/DeviceHealth/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RemainingLifeTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "data": {
+          "description": "denotes the remaining lifetime of the item. It serves as an indication to service personnel for maintenance activities",
+          "type": "number"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/RemainingLifeTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "State": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "data": {
+          "title": "SEMI_E10SystemStateDataType",
+          "description": "denotes the SEMI E10 State of the item ",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=3002",
+          "required": [ "Id", "Priority" ],
+          "properties": {
+            "Id": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Priority": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/State/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Temperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "data": {
+          "description": "denotes the temperature value (along with its unit) of the item",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/Temperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionMaintenanceInfoType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CalibrationNeeded": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "a flag that if True denotes that the item needs calibration",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/CalibrationNeeded/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/CalibrationNeeded/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FirmwareInfo": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the information about the firmware of the Item",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/FirmwareInfo/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/FirmwareInfo/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastCalibration": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the time when the previous calibration was carried out on the item",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastCalibration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastCalibration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastService": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the last moment in time when the most recent service was carried out on the item",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastService/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastService/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaintenanceRecord": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "provides the most recent note that was recorded while performing maintenance. This property can be historized if a history of previous maintenance notes is to be made available",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/MaintenanceRecord/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/MaintenanceRecord/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NextCalibration": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the planned time when the next calibration is to be carried out on the item.",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextCalibration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextCalibration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NextService": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the planned moment in time when the next service is to be carried out on the item",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextService/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextService/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ServiceClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "provides information that an item is classified as a wear and tear part, whether it is a line replaceable unit (LRU), shop replaceable unit (SRU), wear and tear part (WTP), infrastructural unit (ISU), infrastructural equipment (ISE), etc",
+        "type": "integer",
+        "minimum": 0,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/ServiceClass/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/ServiceClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StartOfWarranty": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the beginning of the warranty period of the item",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/StartOfWarranty/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/StartOfWarranty/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ServiceClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "data": {
+          "description": "provides information that an item is classified as a wear and tear part, whether it is a line replaceable unit (LRU), shop replaceable unit (SRU), wear and tear part (WTP), infrastructural unit (ISU), infrastructural equipment (ISE), etc",
+          "type": "integer",
+          "minimum": 0
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/event/ServiceClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionAcquisitionBackgroundType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1032",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionAspectImageReceiverType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1040",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionAspectImageTransceiverType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1041",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionAspectImageTransmitterType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1039",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionCableType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1038",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionClimateControllerType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1035",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionComputingDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1010",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionDisplayUnitType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1019",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionFrameGrabberType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1021",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionHousingType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1034",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionImageSensorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1020",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionLampType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1028",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionLensControllerType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1023",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionLensType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1022",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionLicenseType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1036",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionLightingControllerType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1029",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionNetworkDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1037",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionOpticalFilterType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1024",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionOtherOpticalEquipmentType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1025",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionPatternGeneratorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1030",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionPhysicalInterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1014",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionPowerSupplyType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1031",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionSurroundingEnvironmentType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1033",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionSystemAssetType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1008",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AcquisitionBackgrounds",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Cables",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CalibrationTargets",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ClimateControllers",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ComputingDevices",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "DisplayUnits",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FrameGrabbers",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Housings",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ImageHandlingAspects",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ImageSensors",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Lamps",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LensControllers",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Lenses",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Licenses",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LightingControllers",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MotionDevices",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "NetworkDevices",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OpticalFilters",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OtherOpticalEquipments",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PatternGenerators",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PhysicalInterfaces",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PowerSupplies",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SoftwareComponents",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SurroundingEnvironment",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TriggerSensors",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WayEncoders",
+        "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionTriggerSensorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1027",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionWayEncoderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1026",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseInterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineIdentificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1012",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique resource identifier provided by the manufacturer of the machine",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryItemIdentificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Indicates in which domain or for what purpose the MachineryItem is used.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DeviceClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HardwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string representation of the revision level of the hardware of a MachineryItem. Hardware is physical equipment, as opposed to programs, procedures, rules and associated documentation. Many machines will not provide such information due to the modular and configurable nature of the machine.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/HardwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InitialOperationDate": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/InitialOperationDate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManufacturerUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique identifier of the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ManufacturerUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A human-readable, localized name of the model of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MonthOfConstruction": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/MonthOfConstruction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique resource identifier provided by the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SoftwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string representation of the revision level of a MachineryItem. In most cases, MachineryItems consist of several software components. In that case, information about the software components might be provided as additional information in the address space, including individual revision information. In that case, this property is either not provided or provides an overall software revision level. The value might change during the life-cycle of a MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SoftwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "YearOfConstruction": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/YearOfConstruction/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryComponentIdentificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1005",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string representation of the overall revision level of the component. Often, it is increased when either the SoftwareRevision and / or the HardwareRevision of the component is increased. As an example, it can be used in ERP systems together with the ProductCode.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/property/DeviceRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_FunctionalGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "GroupIdentifier",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

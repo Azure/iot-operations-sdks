@@ -1,0 +1,1529 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Onboarding_DeviceRegistrarAdminType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1175",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "TicketAuthorities",
+        "href": "#title=OpcUaCore_TrustListType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DeviceIdentityAuthorities",
+        "href": "#title=OpcUaCore_TrustListType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "RegisterTickets": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1177",
+          "required": [ "Tickets" ],
+          "properties": {
+            "Tickets": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1178",
+          "required": [ "Results" ],
+          "properties": {
+            "Results": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarAdminType/action/RegisterTickets",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "UnregisterTickets": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1180",
+          "required": [ "Tickets" ],
+          "properties": {
+            "Tickets": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1181",
+          "required": [ "Results" ],
+          "properties": {
+            "Results": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarAdminType/action/UnregisterTickets",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Onboarding_DeviceRegistrarType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1259",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Administration",
+        "href": "#title=Onboarding_DeviceRegistrarAdminType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ApplicationType": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+        "const": {
+          "Server": 0,
+          "Client": 1,
+          "ClientAndServer": 2,
+          "DiscoveryServer": 3
+        },
+        "properties": {
+          "Server": {
+            "type": "integer"
+          },
+          "Client": {
+            "type": "integer"
+          },
+          "ClientAndServer": {
+            "type": "integer"
+          },
+          "DiscoveryServer": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+      "GetManagers": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1506",
+          "required": [ "Managers" ],
+          "properties": {
+            "Managers": {
+              "type": "array",
+              "items": {
+                "title": "ManagerDescription",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1495",
+                "required": [ "Name", "IsRequired", "PurposeUri", "ProtocolUri", "EndpointUrls" ],
+                "properties": {
+                  "Name": {
+                    "type": "string"
+                  },
+                  "IsRequired": {
+                    "type": "boolean"
+                  },
+                  "PurposeUri": {
+                    "type": "string"
+                  },
+                  "ProtocolUri": {
+                    "type": "string"
+                  },
+                  "EndpointUrls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/GetManagers",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ProvideIdentities": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1261",
+          "required": [ "Identities", "Issuers", "Tickets" ],
+          "properties": {
+            "Identities": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "contentEncoding": "base64"
+              }
+            },
+            "Issuers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "contentEncoding": "base64"
+              }
+            },
+            "Tickets": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1262",
+          "required": [ "SelectedIdentity", "MatchingTicket", "ApplicationId", "SoftwareUpdateManager" ],
+          "properties": {
+            "SelectedIdentity": {
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "MatchingTicket": {
+              "title": "BaseTicketType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1165",
+              "required": [ "ManufacturerName", "ModelName", "ModelVersion", "HardwareRevision", "SoftwareRevision", "SerialNumber", "ManufactureDate", "Authorities" ],
+              "properties": {
+                "ManufacturerName": {
+                  "type": "string"
+                },
+                "ModelName": {
+                  "type": "string"
+                },
+                "ModelVersion": {
+                  "type": "string"
+                },
+                "HardwareRevision": {
+                  "type": "string"
+                },
+                "SoftwareRevision": {
+                  "type": "string"
+                },
+                "SerialNumber": {
+                  "type": "string"
+                },
+                "ManufactureDate": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Authorities": {
+                  "type": "array",
+                  "items": {
+                    "title": "CertificateAuthorityType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1164",
+                    "required": [ "AuthorityCertificate", "IssuerCertificates" ],
+                    "properties": {
+                      "AuthorityCertificate": {
+                        "type": "string",
+                        "contentEncoding": "base64"
+                      },
+                      "IssuerCertificates": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "contentEncoding": "base64"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "ApplicationId": {
+              "type": "string"
+            },
+            "SoftwareUpdateManager": {
+              "title": "ManagerDescription",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1495",
+              "required": [ "Name", "IsRequired", "PurposeUri", "ProtocolUri", "EndpointUrls" ],
+              "properties": {
+                "Name": {
+                  "type": "string"
+                },
+                "IsRequired": {
+                  "type": "boolean"
+                },
+                "PurposeUri": {
+                  "type": "string"
+                },
+                "ProtocolUri": {
+                  "type": "string"
+                },
+                "EndpointUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/ProvideIdentities",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RegisterDeviceEndpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1264",
+          "required": [ "Application" ],
+          "properties": {
+            "Application": {
+              "title": "ApplicationDescription",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=308",
+              "required": [ "ApplicationUri", "ProductUri", "ApplicationName", "ApplicationType", "GatewayServerUri", "DiscoveryProfileUri", "DiscoveryUrls" ],
+              "properties": {
+                "ApplicationUri": {
+                  "type": "string"
+                },
+                "ProductUri": {
+                  "type": "string"
+                },
+                "ApplicationName": {
+                  "type": "string"
+                },
+                "ApplicationType": {
+                  "title": "ApplicationType",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "GatewayServerUri": {
+                  "type": "string"
+                },
+                "DiscoveryProfileUri": {
+                  "type": "string"
+                },
+                "DiscoveryUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/RegisterDeviceEndpoint",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RegisterManagedApplication": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1508",
+          "required": [ "Application", "ProtocolUri" ],
+          "properties": {
+            "Application": {
+              "title": "ApplicationRecordDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+              "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
+              "properties": {
+                "ApplicationId": {
+                  "type": "string"
+                },
+                "ApplicationUri": {
+                  "type": "string"
+                },
+                "ApplicationType": {
+                  "title": "ApplicationType",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "ApplicationNames": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "ProductUri": {
+                  "type": "string"
+                },
+                "DiscoveryUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "ServerCapabilities": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ProtocolUri": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1509",
+          "required": [ "ApplicationId" ],
+          "properties": {
+            "ApplicationId": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/RegisterManagedApplication",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "UpdateSoftwareStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1504",
+          "required": [ "ProductInstanceUri", "Status", "SoftwareRevision" ],
+          "properties": {
+            "ProductInstanceUri": {
+              "type": "string"
+            },
+            "Status": {
+              "type": "boolean"
+            },
+            "SoftwareRevision": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/UpdateSoftwareStatus",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Onboarding_DeviceRegistrationAuditEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1517",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_AuditEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrationAuditEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ProductInstanceUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrationAuditEventType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Onboarding_DeviceIdentityAcceptedAuditEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1533",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Onboarding_DeviceRegistrationAuditEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Certificate": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Certificate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Composite": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Composite/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Ticket": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Ticket/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Onboarding_DeviceSoftwareUpdatedAuditEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1552",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Onboarding_DeviceRegistrationAuditEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "SoftwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/property/SoftwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_TrustListType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12522",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FileType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "TrustListValidationOptions": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=23564",
+        "const": {
+          "SuppressCertificateExpired": 0,
+          "SuppressHostNameInvalid": 1,
+          "SuppressRevocationStatusUnknown": 2,
+          "SuppressIssuerCertificateExpired": 3,
+          "SuppressIssuerRevocationStatusUnknown": 4,
+          "CheckRevocationStatusOnline": 5,
+          "CheckRevocationStatusOffline": 6
+        },
+        "properties": {
+          "SuppressCertificateExpired": {
+            "description": "Ignore errors related to the validity time of the Certificate.",
+            "type": "integer"
+          },
+          "SuppressHostNameInvalid": {
+            "description": "Ignore mismatches between the host name or ApplicationUri.",
+            "type": "integer"
+          },
+          "SuppressRevocationStatusUnknown": {
+            "description": "Ignore errors if the revocation list cannot be found for the issuer of the Certificate.",
+            "type": "integer"
+          },
+          "SuppressIssuerCertificateExpired": {
+            "description": "Ignore errors if an issuer has an expired Certificate.",
+            "type": "integer"
+          },
+          "SuppressIssuerRevocationStatusUnknown": {
+            "description": "Ignore errors if the revocation list cannot be found for any issuer of issuer Certificates.",
+            "type": "integer"
+          },
+          "CheckRevocationStatusOnline": {
+            "description": "Check the revocation status online.",
+            "type": "integer"
+          },
+          "CheckRevocationStatusOffline": {
+            "description": "Check the revocation status offline.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TrustListType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "AddCertificate": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12549",
+          "required": [ "Certificate", "IsTrustedCertificate" ],
+          "properties": {
+            "Certificate": {
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "IsTrustedCertificate": {
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TrustListType/action/AddCertificate",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CloseAndUpdate": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12705",
+          "required": [ "FileHandle" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12547",
+          "required": [ "ApplyChangesRequired" ],
+          "properties": {
+            "ApplyChangesRequired": {
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TrustListType/action/CloseAndUpdate",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "OpenWithMasks": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12544",
+          "required": [ "Masks" ],
+          "properties": {
+            "Masks": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12545",
+          "required": [ "FileHandle" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TrustListType/action/OpenWithMasks",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RemoveCertificate": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12551",
+          "required": [ "Thumbprint", "IsTrustedCertificate" ],
+          "properties": {
+            "Thumbprint": {
+              "type": "string"
+            },
+            "IsTrustedCertificate": {
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TrustListType/action/RemoveCertificate",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActivityTimeout": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TrustListType/property/ActivityTimeout/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefaultValidationOptions": {
+        "title": "TrustListValidationOptions",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=23564",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TrustListType/property/DefaultValidationOptions/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastUpdateTime": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TrustListType/property/LastUpdateTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UpdateFrequency": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TrustListType/property/UpdateFrequency/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FileType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Close": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
+          "required": [ "FileHandle" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Close",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetPosition": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
+          "required": [ "FileHandle" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
+          "required": [ "Position" ],
+          "properties": {
+            "Position": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/GetPosition",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Open": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
+          "required": [ "Mode" ],
+          "properties": {
+            "Mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
+          "required": [ "FileHandle" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Open",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Read": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
+          "required": [ "FileHandle", "Length" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Length": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
+          "required": [ "Data" ],
+          "properties": {
+            "Data": {
+              "type": "string",
+              "contentEncoding": "base64"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Read",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetPosition": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
+          "required": [ "FileHandle", "Position" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Position": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/SetPosition",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Write": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
+          "required": [ "FileHandle", "Data" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Data": {
+              "type": "string",
+              "contentEncoding": "base64"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Write",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "LastModifiedTime": {
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/LastModifiedTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxByteStringLength": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MaxByteStringLength/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MimeType": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MimeType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OpenCount": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/OpenCount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Size": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Size/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UserWritable": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/UserWritable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Writable": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Writable/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_AuditEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2052",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActionTimeStamp": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ActionTimeStamp/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ClientApplicationUri": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ClientApplicationUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ClientAuditEntryId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ClientAuditEntryId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ClientUserId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ClientUserId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ServerId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ServerId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ConditionClassId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassName": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventId": {
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventType": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LocalTime": {
+        "title": "TimeZoneDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "required": [ "Offset", "DaylightSavingInOffset" ],
+        "properties": {
+          "Offset": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "DaylightSavingInOffset": {
+            "type": "boolean"
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Message": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReceiveTime": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Severity": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceNode": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Time": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

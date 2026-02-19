@@ -1,0 +1,1555 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNGSDGM_GsdGenAlarmEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1002",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "GsdGenChannelAccumulativeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3004",
+        "const": {
+          "SINGLE": 0,
+          "ACCUMULATIVE": 256
+        },
+        "properties": {
+          "SINGLE": {
+            "description": "Single channel. Diagnosis only for the reported channel",
+            "type": "integer"
+          },
+          "ACCUMULATIVE": {
+            "description": "Multiple channels. Accumulative diagnosis from more than one channel",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenChannelDirectionEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3007",
+        "const": {
+          "MANUFACTURER_SPECIFIC": 0,
+          "INPUT_CHANNEL": 8192,
+          "OUTPUT_CHANNEL": 16384,
+          "BIDIRECTIONAL_CHANNEL": 24576
+        },
+        "properties": {
+          "MANUFACTURER_SPECIFIC": {
+            "description": "Manufacturer specific",
+            "type": "integer"
+          },
+          "INPUT_CHANNEL": {
+            "description": "Input",
+            "type": "integer"
+          },
+          "OUTPUT_CHANNEL": {
+            "description": "Output",
+            "type": "integer"
+          },
+          "BIDIRECTIONAL_CHANNEL": {
+            "description": "Input/Output",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenChannelMaintenanceEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3005",
+        "const": {
+          "FAULT": 0,
+          "MAINTENANCE_REQUIRED": 512,
+          "MAINTENANCE_DEMANDED": 1024,
+          "USE_QUALIFIED_CHANNEL_QUALIFIER": 1536
+        },
+        "properties": {
+          "FAULT": {
+            "description": "Fault",
+            "type": "integer"
+          },
+          "MAINTENANCE_REQUIRED": {
+            "description": "Maintenance required",
+            "type": "integer"
+          },
+          "MAINTENANCE_DEMANDED": {
+            "description": "Maintenance demanded",
+            "type": "integer"
+          },
+          "USE_QUALIFIED_CHANNEL_QUALIFIER": {
+            "description": "Use QualifiedChannelQualifier variable",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenChannelSpecifierEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3006",
+        "const": {
+          "ALL_DISAPPEARS": 0,
+          "APPEARS": 2048,
+          "DISAPPEARS": 4096,
+          "DISAPPEARS_OTHER_REMAIN": 6144
+        },
+        "properties": {
+          "ALL_DISAPPEARS": {
+            "description": "The Diagnosis ASE contains no longer any entries (of any severity) for this channel",
+            "type": "integer"
+          },
+          "APPEARS": {
+            "description": "An event appears and/or exists further. The Diagnosis ASE contains this and possible other entries for this channel",
+            "type": "integer"
+          },
+          "DISAPPEARS": {
+            "description": "An event disappears and/or exists no longer. The Diagnosis ASE contains no longer any entries of the same severity for this channel",
+            "type": "integer"
+          },
+          "DISAPPEARS_OTHER_REMAIN": {
+            "description": "An event disappears. The Diagnosis ASE still contains other entries of the same severity for this channel",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Accumulative": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "title": "GsdGenChannelAccumulativeEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/Accumulative/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "API": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/API/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ChannelErrorType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/ChannelErrorType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ChannelNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/ChannelNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Direction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "title": "GsdGenChannelDirectionEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3007",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/Direction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ExtChannelAddValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/ExtChannelAddValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ExtChannelErrorType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/ExtChannelErrorType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HelpText": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/HelpText/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Maintenance": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "title": "GsdGenChannelMaintenanceEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3005",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/Maintenance/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManufacturerData": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/ManufacturerData/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "QualifiedChannelQualifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/QualifiedChannelQualifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Slot": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/Slot/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Specifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "title": "GsdGenChannelSpecifierEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3006",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/Specifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Subslot": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/Subslot/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UserStructureIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenAlarmEventType/property/UserStructureIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNGSDGM_GsdGenIoChannelDataType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoChannelDataType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "BitLength": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoChannelDataType/property/BitLength/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BitOffset": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoChannelDataType/property/BitOffset/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNGSDGM_GsdGenIoChannelQualityType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "GsdGenIoQualityFormatEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3003",
+        "const": {
+          "QUALIFIER": 0,
+          "EMBEDDED_STATUS": 1,
+          "STATUS": 2
+        },
+        "properties": {
+          "QUALIFIER": {
+            "description": "Bit length is 1.",
+            "type": "integer"
+          },
+          "EMBEDDED_STATUS": {
+            "description": "Bit length is 2.",
+            "type": "integer"
+          },
+          "STATUS": {
+            "description": "Bit length is 8.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoChannelQualityType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "BitOffset": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoChannelQualityType/property/BitOffset/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Format": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "title": "GsdGenIoQualityFormatEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3003",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoChannelQualityType/property/Format/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNGSDGM_GsdGenIoChannelType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Data",
+        "href": "#title=PNGSDGM_GsdGenIoChannelDataType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Quality",
+        "href": "#title=PNGSDGM_GsdGenIoChannelQualityType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoChannelType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Number": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoChannelType/property/Number/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNGSDGM_GsdGenIoDataType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "InputChannelx",
+        "href": "#title=PNGSDGM_GsdGenIoChannelType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "OutputChannelx",
+        "href": "#title=PNGSDGM_GsdGenIoChannelType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "GsdGenIoConsistencyEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3002",
+        "const": {
+          "ITEM_CONSISTENCY": 0,
+          "ALL_ITEMS_CONSISTENCY": 1
+        },
+        "properties": {
+          "ITEM_CONSISTENCY": {
+            "description": "Each data type is handled consistently.",
+            "type": "integer"
+          },
+          "ALL_ITEMS_CONSISTENCY": {
+            "description": "The Submodule requires consistency over the whole Input/Output Data.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoDataType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoDataType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Consistency": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "title": "GsdGenIoConsistencyEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3002",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoDataType/property/Consistency/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DataItemx": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoDataType/property/DataItemx/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "DataItemx": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenIoDataType/event/DataItemx/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNGSDGM_GsdGenSubmoduleApplicationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1007",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ArrayFolder",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FolderName",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Configuration",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Input",
+        "href": "#title=PNGSDGM_GsdGenIoDataType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Lock",
+        "href": "#title=DI_LockingServicesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Output",
+        "href": "#title=PNGSDGM_GsdGenIoDataType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "GsdGenIoCommunicationStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3012",
+        "const": {
+          "INDATA": 0,
+          "OFFLINE": 1
+        },
+        "properties": {
+          "INDATA": {
+            "description": "The Submodule is part of an active AR and exchanging IO Data with a Controller",
+            "type": "integer"
+          },
+          "OFFLINE": {
+            "description": "The Submodule is not part of an active AR but may allow reading data values",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenIoConfigurationStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3015",
+        "const": {
+          "OK": 0,
+          "SUBSTITUTE": 1,
+          "WRONG": 2,
+          "UNKNOWN": 3
+        },
+        "properties": {
+          "OK": {
+            "description": "Proper Submodule which works as configured",
+            "type": "integer"
+          },
+          "SUBSTITUTE": {
+            "description": "Substitute Submodule which works",
+            "type": "integer"
+          },
+          "WRONG": {
+            "description": "Wrong Submodule which does not work",
+            "type": "integer"
+          },
+          "UNKNOWN": {
+            "description": "Unknown Submodule which is plugged at Subslot not found in expected configuration",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetApplicationTag": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=6074",
+          "required": [ "ApplicationTag" ],
+          "properties": {
+            "ApplicationTag": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/action/SetApplicationTag",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ApplicationTag": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/property/ApplicationTag/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ARIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "string",
+        "format": "uuid",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/property/ARIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CommunicationStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "title": "GsdGenIoCommunicationStatusEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3012",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/property/CommunicationStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConfigurationStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "title": "GsdGenIoConfigurationStatusEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3015",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/property/ConfigurationStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ControllerName": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/property/ControllerName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnumerationVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "string",
+        "readOnly": true,
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/property/EnumerationVariable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OptionSetVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/property/OptionSetVariable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UnitRangeVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "number",
+        "readOnly": true,
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/property/UnitRangeVariable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UnitVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "type": "number",
+        "readOnly": true,
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/property/UnitVariable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ValueProperty": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/property/ValueProperty/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ValueVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/property/ValueVariable/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "EnumerationVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "data": {
+          "type": "string"
+        },
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/event/EnumerationVariable/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OptionSetVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/event/OptionSetVariable/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UnitRangeVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "data": {
+          "type": "number"
+        },
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/event/UnitRangeVariable/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UnitVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "data": {
+          "type": "number"
+        },
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/event/UnitVariable/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ValueVariable": {
+        "aov:namespace": "http://opcfoundation.org/UA/PNGSDGM/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/event/ValueVariable/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ConditionClassId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassName": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventId": {
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventType": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LocalTime": {
+        "title": "TimeZoneDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "required": [ "Offset", "DaylightSavingInOffset" ],
+        "properties": {
+          "Offset": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "DaylightSavingInOffset": {
+            "type": "boolean"
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Message": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReceiveTime": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Severity": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceNode": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Time": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_FunctionalGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "GroupIdentifier",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_LockingServicesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_LockingServicesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "BreakLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "required": [ "BreakLockStatus" ],
+          "properties": {
+            "BreakLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/BreakLock",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ExitLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "required": [ "ExitLockStatus" ],
+          "properties": {
+            "ExitLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/ExitLock",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "InitLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "required": [ "Context" ],
+          "properties": {
+            "Context": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "required": [ "InitLockStatus" ],
+          "properties": {
+            "InitLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/InitLock",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RenewLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "required": [ "RenewLockStatus" ],
+          "properties": {
+            "RenewLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/RenewLock",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Locked": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/Locked/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LockingClient": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/LockingClient/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LockingUser": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/LockingUser/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingLockTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/RemainingLockTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

@@ -1,0 +1,2220 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AnalyserDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1001",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_DeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Configuration",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Status",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "FactorySettings",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AnalyserStateMachine",
+        "href": "#title=ADI_AnalyserDeviceStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ChannelIdentifier",
+        "href": "#title=ADI_AnalyserChannelType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "AccessorySlotIdentifier",
+        "href": "#title=ADI_AccessorySlotType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AnalyserDeviceStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Powerup",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Operating",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Local",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Maintenance",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Shutdown",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PowerupToOperatingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OperatingToLocalTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OperatingToMaintenanceTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LocalToOperatingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LocalToMaintenanceTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MaintenanceToOperatingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MaintenanceToLocalTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OperatingToShutdownTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LocalToShutdownTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MaintenanceToShutdownTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AnalyserChannelType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_TopologyElementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "GroupIdentifier",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Configuration",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Status",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ChannelStateMachine",
+        "href": "#title=ADI_AnalyserChannelStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "StreamIdentifier",
+        "href": "#title=ADI_StreamType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "AccessorySlotIdentifier",
+        "href": "#title=ADI_AccessorySlotType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AnalyserChannelOperatingStateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AnalyserChannelLocalStateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AnalyserChannelMaintenanceStateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AnalyserChannelStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "OperatingSubStateMachine",
+        "href": "#title=ADI_AnalyserChannel_OperatingModeSubStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "LocalSubStateMachine",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MaintenanceSubStateMachine",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SlaveMode",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Operating",
+        "href": "#title=ADI_AnalyserChannelOperatingStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Local",
+        "href": "#title=ADI_AnalyserChannelLocalStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Maintenance",
+        "href": "#title=ADI_AnalyserChannelMaintenanceStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SlaveModeToOperatingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OperatingToLocalTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OperatingToMaintenanceTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LocalToOperatingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LocalToMaintenanceTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MaintenanceToOperatingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MaintenanceToLocalTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OperatingToSlaveModeTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LocalToSlaveModeTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MaintenanceToSlaveModeTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AnalyserChannelOperatingExecuteStateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=8964",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AnalyserChannel_OperatingModeSubStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "OperatingExecuteSubStateMachine",
+        "href": "#title=ADI_AnalyserChannel_OperatingModeExecuteSubStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Stopped",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Resetting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Idle",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Starting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Execute",
+        "href": "#title=ADI_AnalyserChannelOperatingExecuteStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Completing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Complete",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Suspending",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Suspended",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Unsuspending",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Holding",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Held",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Unholding",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Stopping",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Aborting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Aborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Clearing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StoppedToResettingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ResettingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ResettingToIdleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToStartingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StartingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StartingToExecuteTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecuteToCompletingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CompletingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CompletingToCompleteTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CompleteToStoppedTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecuteToHoldingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HoldingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HoldingToHeldTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HeldToUnholdingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnholdingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnholdingToHoldingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnholdingToExecuteTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecuteToSuspendingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendingToSuspendedTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendedToUnsuspendingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnsuspendingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnsuspendingToSuspendingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnsuspendingToExecuteTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StoppingToStoppedTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AbortingToAbortedTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AbortedToClearingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ClearingToStoppedTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ResettingToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StartingToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecuteToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CompletingToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CompleteToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendingToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendedToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnsuspendingToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HoldingToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HeldToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnholdingToStoppingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StoppedToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ResettingToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StartingToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecuteToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CompletingToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CompleteToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendingToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendedToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnsuspendingToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HoldingToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HeldToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnholdingToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StoppingToAbortingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AnalyserChannel_OperatingModeExecuteSubStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SelectExecutionCycle",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WaitForCalibrationTrigger",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExtractCalibrationSample",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PrepareCalibrationSample",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AnalyseCalibrationSample",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WaitForValidationTrigger",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExtractValidationSample",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PrepareValidationSample",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AnalyseValidationSample",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WaitForSampleTrigger",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExtractSample",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PrepareSample",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AnalyseSample",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WaitForDiagnosticTrigger",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Diagnostic",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WaitForCleaningTrigger",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Cleaning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PublishResults",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EjectGrabSample",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CleanupSamplingSystem",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SelectExecutionCycleToWaitForCalibrationTriggerTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WaitForCalibrationTriggerToExtractCalibrationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExtractCalibrationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExtractCalibrationSampleToPrepareCalibrationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PrepareCalibrationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PrepareCalibrationSampleToAnalyseCalibrationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AnalyseCalibrationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AnalyseCalibrationSampleToPublishResultsTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SelectExecutionCycleToWaitForValidationTriggerTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WaitForValidationTriggerToExtractValidationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExtractValidationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExtractValidationSampleToPrepareValidationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PrepareValidationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PrepareValidationSampleToAnalyseValidationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AnalyseValidationSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AnalyseValidationSampleToPublishResultsTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SelectExecutionCycleToWaitForSampleTriggerTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WaitForSampleTriggerToExtractSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExtractSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExtractSampleToPrepareSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PrepareSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PrepareSampleToAnalyseSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AnalyseSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AnalyseSampleToPublishResultsTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SelectExecutionCycleToWaitForDiagnosticTriggerTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WaitForDiagnosticTriggerToDiagnosticTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "DiagnosticTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "DiagnosticToPublishResultsTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SelectExecutionCycleToWaitForCleaningTriggerTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WaitForCleaningTriggerToCleaningTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CleaningTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CleaningToPublishResultsTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PublishResultsToCleanupSamplingSystemTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PublishResultsToEjectGrabSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EjectGrabSampleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EjectGrabSampleToCleanupSamplingSystemTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CleanupSamplingSystemTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CleanupSamplingSystemToSelectExecutionCycleTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_StreamType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1010",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_TopologyElementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "GroupIdentifier",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Configuration",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Status",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AcquisitionSettings",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AcquisitionStatus",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AcquisitionData",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ChemometricModelSettings",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Context",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_SpectrometerDeviceStreamType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1030",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_StreamType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Configuration",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AcquisitionSettings",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AcquisitionStatus",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AcquisitionData",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FactorySettings",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_MassSpectrometerDeviceStreamType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1031",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_StreamType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_ParticleSizeMonitorDeviceStreamType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1032",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_StreamType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AcquisitionData",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AcousticSpectrometerDeviceStreamType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1033",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_StreamType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_ChromatographDeviceStreamType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1034",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_StreamType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_MNRDeviceStreamType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1035",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_StreamType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_SpectrometerDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1011",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_AnalyserDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "FactorySettings",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_ParticleSizeMonitorDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1012",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_AnalyserDeviceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_ChromatographDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1013",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_AnalyserDeviceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_MassSpectrometerDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1014",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_AnalyserDeviceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AcousticSpectrometerDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1015",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_AnalyserDeviceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_NMRDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1016",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_AnalyserDeviceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AccessorySlotType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1017",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ConfigurableObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AccessorySlotStateMachine",
+        "href": "#title=ADI_AccessorySlotStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "AccessoryIdentifier",
+        "href": "#title=ADI_AccessoryType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ADI/ADI_AccessorySlotType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "IsEnabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/ADI/",
+        "description": "True if this accessory slot is capable of accepting an accessory in it",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ADI/ADI_AccessorySlotType/property/IsEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsHotSwappable": {
+        "aov:namespace": "http://opcfoundation.org/UA/ADI/",
+        "description": "True if an accessory can be inserted in the accessory slot while it is powered",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ADI/ADI_AccessorySlotType/property/IsHotSwappable/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AccessorySlotStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1018",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Powerup",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Empty",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Inserting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Installed",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Removing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Shutdown",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PowerupToEmptyTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EmptyToInsertingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InsertingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InsertingToRemovingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InsertingToInstalledTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InstalledToRemovingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RemovingTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RemovingToEmptyTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EmptyToShutdownTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InsertingToShutdownTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InstalledToShutdownTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RemovingToShutdownTransition",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_AccessoryType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1019",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_TopologyElementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Configuration",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Status",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "FactorySettings",
+        "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ADI/ADI_AccessoryType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "IsHotSwappable": {
+        "aov:namespace": "http://opcfoundation.org/UA/ADI/",
+        "description": "True if this accessory can be inserted in the accessory slot while it is powered",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ADI/ADI_AccessoryType/property/IsHotSwappable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsReady": {
+        "aov:namespace": "http://opcfoundation.org/UA/ADI/",
+        "description": "True if this accessory is ready for use",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ADI/ADI_AccessoryType/property/IsReady/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_DetectorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9350",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_AccessoryType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_SmartSamplingSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9359",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_AccessoryType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_SourceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9368",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_AccessoryType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_GcOvenType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1020",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=ADI_AccessoryType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

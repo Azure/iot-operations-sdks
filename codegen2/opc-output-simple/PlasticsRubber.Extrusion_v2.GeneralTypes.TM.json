@@ -1,0 +1,1140 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AdditionalMeasuringDevices",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ElectricalEnergy",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_EnergyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FluidEnergy",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_EnergyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MachineConfiguration",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Maintenance",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PressureAir",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_EnergyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ProductionDatasetManagement",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ProductionDatasetManagementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StartDevice",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_StartDeviceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "LogbookEventsEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3009",
+        "const": {
+          "PARAMETER_CHANGE": 0,
+          "USER": 1,
+          "REMOTE_ACCESS": 2,
+          "SEQUENCE_CHANGE": 3,
+          "MACHINE_MODE_CHANGE": 4,
+          "PRODUCTION_STATUS_CHANGE": 5,
+          "PRODUCTION_DATASET_CHANGE": 6,
+          "PRODUCTION_DATASET_FROZEN": 7,
+          "STANDSTILL_REASON": 8,
+          "MESSAGE": 9,
+          "USER_FEEDBACK": 10
+        },
+        "description": "Information which LogbookEvents are supported by the machine",
+        "properties": {
+          "PARAMETER_CHANGE": {
+            "description": "Support of ParameterChangeLogType",
+            "type": "integer"
+          },
+          "USER": {
+            "description": "Support of UserLogType ",
+            "type": "integer"
+          },
+          "REMOTE_ACCESS": {
+            "description": "Support of RemoteAccessLogType",
+            "type": "integer"
+          },
+          "SEQUENCE_CHANGE": {
+            "description": "Support of SequenceChangeLogType",
+            "type": "integer"
+          },
+          "MACHINE_MODE_CHANGE": {
+            "description": "Support of MachineModeChangeLogType",
+            "type": "integer"
+          },
+          "PRODUCTION_STATUS_CHANGE": {
+            "description": "Support of ProductionStatusChangeLogType",
+            "type": "integer"
+          },
+          "PRODUCTION_DATASET_CHANGE": {
+            "description": "Support of ProductionDatasetChangeLogType",
+            "type": "integer"
+          },
+          "PRODUCTION_DATASET_FROZEN": {
+            "description": "Support of ProductionDatasetFrozenLogType",
+            "type": "integer"
+          },
+          "STANDSTILL_REASON": {
+            "description": "Support of StandstillReasonLogType",
+            "type": "integer"
+          },
+          "MESSAGE": {
+            "description": "Support of MessageLogType",
+            "type": "integer"
+          },
+          "USER_FEEDBACK": {
+            "description": "Support of UserFeedbackLogType",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionDeviceType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionDeviceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "IsPresent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionDeviceType/property/IsPresent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LineId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionDeviceType/property/LineId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionDeviceType/property/LineId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Strand": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionDeviceType/property/Strand/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupportedLogbookEvents": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "array",
+        "items": {
+          "title": "LogbookEventsEnumeration",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3009",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionDeviceType/property/SupportedLogbookEvents/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Target": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionDeviceType/property/Target/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZonesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/;i=1017",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Maintenance",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StartTempering",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_StartDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "TemperatureZone__Nr_",
+        "href": "#title=PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZonesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZonesType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_GeneralTypes_GapsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/;i=1004",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Gap__Nr_",
+        "href": "#title=PlasticsRubber_Extrusion_v2_GeneralTypes_GapType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_GapsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_GapsType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_GeneralTypes_GapType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ContactForce",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "DistanceLeft",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "DistanceRight",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_GapType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_GapType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Id": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_GapType/property/Id/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsClosed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_GapType/property/IsClosed/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RollId1": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_GapType/property/RollId1/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RollId2": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_GapType/property/RollId2/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StockingGuideIsPresent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_GapType/property/StockingGuideIsPresent/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "IsClosed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_GapType/event/IsClosed/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/;i=1016",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ElectricalCurrent",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ControllerOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType/property/ControllerOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NominalCoolingPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType/property/NominalCoolingPower/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NominalHeatingPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType/property/NominalHeatingPower/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ControllerOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType/event/ControllerOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NominalCoolingPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType/event/NominalCoolingPower/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NominalHeatingPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType/event/NominalHeatingPower/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_GeneralTypes_RollBendingType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ReferencePoint__Nr_",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_RollBendingType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_RollBendingType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_GeneralTypes_RollPeripheralDevicesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CleaningSystem__Nr_",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_StartDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "InfraredHeatingSystem__Nr_",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_StartDeviceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_RollPeripheralDevicesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_RollPeripheralDevicesType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_GeneralTypes_RollsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/;i=1006",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Roll__Nr_",
+        "href": "#title=PlasticsRubber_Extrusion_v2_GeneralTypes_RollType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_RollsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_RollsType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_GeneralTypes_RollType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CrossAxisLeft",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CrossAxisRight",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Drive",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_DriveType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PeripheralDevices",
+        "href": "#title=PlasticsRubber_Extrusion_v2_GeneralTypes_RollPeripheralDevicesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RollBending",
+        "href": "#title=PlasticsRubber_Extrusion_v2_GeneralTypes_RollBendingType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Temperature",
+        "href": "#title=PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_RollType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Id": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_RollType/property/Id/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MasterRollId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_RollType/property/MasterRollId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_RollType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionExecutingSubState_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ControlledRun",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromControlledRunToManualRun",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromControlledRunToReadyToRun",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromManualRunToControlledRun",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromManualRunToReadyToRun",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromReadyToRunToControlledRun",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromReadyToRunToManualRun",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ManualRun",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadyToRun",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionMachineryItemState_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/;i=1010",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Executing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ExtrusionExecutingSubState",
+        "href": "#title=PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionExecutingSubState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromExecutingToExecuting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromExecutingToNotAvailable",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromExecutingToNotExecuting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromExecutingToOutOfService",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotAvailableToExecuting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotAvailableToNotAvailable",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotAvailableToNotExecuting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotAvailableToOutOfService",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotExecutingToExecuting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotExecutingToNotAvailable",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotExecutingToNotExecuting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotExecutingToOutOfService",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromOutOfServiceToExecuting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromOutOfServiceToNotAvailable",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromOutOfServiceToNotExecuting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromOutOfServiceToOutOfService",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "NotAvailable",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "NotExecuting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OutOfService",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionMachineryItemState_StateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionMachineryItemState_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionMachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionMachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

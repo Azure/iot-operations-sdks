@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventWithUnitEmpty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyEmpty",
+      "filename": "EventWithUnitEmpty.TM.json",
+      "line": 31,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

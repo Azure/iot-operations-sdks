@@ -1,0 +1,3323 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_AccuracyDomainType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1014",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_AccuracyDomainType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_AccuracyDomainType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "EnumValues": {
+        "type": "array",
+        "items": {
+          "title": "EnumValueType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+          "required": [ "Value", "DisplayName", "Description" ],
+          "properties": {
+            "Value": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807
+            },
+            "DisplayName": {
+              "type": "string"
+            },
+            "Description": {
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_AccuracyDomainType/property/EnumValues/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_AccuracyDomainType/property/EnumValues/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "qudt": "http://qudt.org/schema/qudt/",
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_IEnergyProfileD0Type",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DcCurrent": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "aov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcCurrent_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "DcCurrent",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcCurrent_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "DcCurrent",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcCurrent_EngineeringUnits": {
+        "description": "Unit designator for property and event with name DcCurrent, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "DcCurrent": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/event/DcCurrent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DcCurrent_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "DcCurrent",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/event/DcCurrent_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DcCurrent_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "DcCurrent",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/event/DcCurrent_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "qudt": "http://qudt.org/schema/qudt/",
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_IEnergyProfileD1Type",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1015",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DcActivePower": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "aov:contains": [ "DcActivePower_AccuracyClass", "DcActivePower_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/DcActivePower_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcActivePower_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "DcActivePower",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcActivePower_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "DcActivePower",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcCurrent": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "aov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcCurrent_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "DcCurrent",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcCurrent_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "DcCurrent",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcVoltage": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "aov:contains": [ "DcVoltage_AccuracyClass", "DcVoltage_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/DcVoltage_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcVoltage_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "DcVoltage",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcVoltage_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "DcVoltage",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcActivePower_EngineeringUnits": {
+        "description": "Unit designator for property and event with name DcActivePower, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcCurrent_EngineeringUnits": {
+        "description": "Unit designator for property and event with name DcCurrent, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DcVoltage_EngineeringUnits": {
+        "description": "Unit designator for property and event with name DcVoltage, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "DcActivePower": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "DcActivePower_AccuracyClass", "DcActivePower_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/DcActivePower_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcActivePower/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DcActivePower_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "DcActivePower",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcActivePower_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DcActivePower_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "DcActivePower",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcActivePower_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DcCurrent": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcCurrent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DcCurrent_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "DcCurrent",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcCurrent_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DcCurrent_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "DcCurrent",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcCurrent_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DcVoltage": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "DcVoltage_AccuracyClass", "DcVoltage_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/DcVoltage_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcVoltage/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DcVoltage_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "DcVoltage",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcVoltage_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DcVoltage_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "DcVoltage",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcVoltage_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "qudt": "http://qudt.org/schema/qudt/",
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_IEnergyProfileE0Type",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AcCurrentPe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "title": "AcPeDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "required": [ "L1", "L2", "L3" ],
+        "properties": {
+          "L1": {
+            "description": "Phase L1-N (or phase a-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L2": {
+            "description": "Phase L2-N (or phase b-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L3": {
+            "description": "Phase L3-N (or phase c-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        },
+        "readOnly": false,
+        "aov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcCurrentPe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "AcCurrentPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcCurrentPe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "AcCurrentPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcCurrentPe_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcCurrentPe, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AcCurrentPe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "title": "AcPeDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "required": [ "L1", "L2", "L3" ],
+          "properties": {
+            "L1": {
+              "description": "Phase L1-N (or phase a-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L2": {
+              "description": "Phase L2-N (or phase b-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L3": {
+              "description": "Phase L3-N (or phase c-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "aov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/event/AcCurrentPe/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcCurrentPe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcCurrentPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/event/AcCurrentPe_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcCurrentPe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcCurrentPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/event/AcCurrentPe_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "qudt": "http://qudt.org/schema/qudt/",
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_IEnergyProfileE1Type",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AcActivePowerTotal": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "aov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePowerTotal_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "AcActivePowerTotal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePowerTotal_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "AcActivePowerTotal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePowerTotal_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcActivePowerTotal, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AcActivePowerTotal": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/event/AcActivePowerTotal/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcActivePowerTotal_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcActivePowerTotal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/event/AcActivePowerTotal_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcActivePowerTotal_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcActivePowerTotal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/event/AcActivePowerTotal_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "qudt": "http://qudt.org/schema/qudt/",
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_IEnergyProfileE2Type",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AcActivePowerTotal": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "aov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePowerTotal_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "AcActivePowerTotal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePowerTotal_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "AcActivePowerTotal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePowerTotal_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcActivePowerTotal, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AcActivePowerTotal": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "aov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/event/AcActivePowerTotal/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcActivePowerTotal_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcActivePowerTotal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/event/AcActivePowerTotal_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcActivePowerTotal_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcActivePowerTotal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/event/AcActivePowerTotal_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "qudt": "http://qudt.org/schema/qudt/",
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_IEnergyProfileE3Type",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1010",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AcActivePowerPe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "title": "AcPeDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "required": [ "L1", "L2", "L3" ],
+        "properties": {
+          "L1": {
+            "description": "Phase L1-N (or phase a-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L2": {
+            "description": "Phase L2-N (or phase b-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L3": {
+            "description": "Phase L3-N (or phase c-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        },
+        "readOnly": false,
+        "aov:contains": [ "AcActivePowerPe_AccuracyClass", "AcActivePowerPe_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePowerPe_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePowerPe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "AcActivePowerPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePowerPe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "AcActivePowerPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcCurrentPe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "title": "AcPeDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "required": [ "L1", "L2", "L3" ],
+        "properties": {
+          "L1": {
+            "description": "Phase L1-N (or phase a-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L2": {
+            "description": "Phase L2-N (or phase b-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L3": {
+            "description": "Phase L3-N (or phase c-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        },
+        "readOnly": false,
+        "aov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcCurrentPe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "AcCurrentPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcCurrentPe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "AcCurrentPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcPowerFactorPe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "title": "AcPeDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "required": [ "L1", "L2", "L3" ],
+        "properties": {
+          "L1": {
+            "description": "Phase L1-N (or phase a-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L2": {
+            "description": "Phase L2-N (or phase b-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L3": {
+            "description": "Phase L3-N (or phase c-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        },
+        "readOnly": false,
+        "aov:contains": [ "AcPowerFactorPe_AccuracyClass", "AcPowerFactorPe_Resource" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcPowerFactorPe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "AcPowerFactorPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcPowerFactorPe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "AcPowerFactorPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcReactivePowerPe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "title": "AcPeDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "required": [ "L1", "L2", "L3" ],
+        "properties": {
+          "L1": {
+            "description": "Phase L1-N (or phase a-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L2": {
+            "description": "Phase L2-N (or phase b-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L3": {
+            "description": "Phase L3-N (or phase c-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        },
+        "readOnly": false,
+        "aov:contains": [ "AcReactivePowerPe_AccuracyClass", "AcReactivePowerPe_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ReactivePower",
+        "aov:withUnit": "properties/AcReactivePowerPe_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcReactivePowerPe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "AcReactivePowerPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcReactivePowerPe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "AcReactivePowerPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcVoltagePe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "title": "AcPeDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "required": [ "L1", "L2", "L3" ],
+        "properties": {
+          "L1": {
+            "description": "Phase L1-N (or phase a-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L2": {
+            "description": "Phase L2-N (or phase b-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L3": {
+            "description": "Phase L3-N (or phase c-n)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        },
+        "readOnly": false,
+        "aov:contains": [ "AcVoltagePe_AccuracyClass", "AcVoltagePe_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcVoltagePe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "AcVoltagePe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcVoltagePe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "AcVoltagePe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcVoltagePp": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "title": "AcPpDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3006",
+        "required": [ "L1L2", "L2L3", "L3L1" ],
+        "properties": {
+          "L1L2": {
+            "description": "Phase L1-L2 (or phase a-b)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L2L3": {
+            "description": "Phase L2-L3 (or phase b-c)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "L3L1": {
+            "description": "Phase L3-L1 (or phase c-a)",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        },
+        "readOnly": false,
+        "aov:contains": [ "AcVoltagePp_AccuracyClass", "AcVoltagePp_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcVoltagePp_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "AcVoltagePp",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcVoltagePp_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "AcVoltagePp",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcActivePowerPe_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcActivePowerPe, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcCurrentPe_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcCurrentPe, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcReactivePowerPe_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcReactivePowerPe, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcVoltagePe_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcVoltagePe, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AcVoltagePp_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AcVoltagePp, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AcActivePowerPe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "title": "AcPeDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "required": [ "L1", "L2", "L3" ],
+          "properties": {
+            "L1": {
+              "description": "Phase L1-N (or phase a-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L2": {
+              "description": "Phase L2-N (or phase b-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L3": {
+              "description": "Phase L3-N (or phase c-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "aov:contains": [ "AcActivePowerPe_AccuracyClass", "AcActivePowerPe_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
+        "aov:withUnit": "properties/AcActivePowerPe_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcActivePowerPe/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcActivePowerPe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcActivePowerPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcActivePowerPe_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcActivePowerPe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcActivePowerPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcActivePowerPe_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcCurrentPe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "title": "AcPeDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "required": [ "L1", "L2", "L3" ],
+          "properties": {
+            "L1": {
+              "description": "Phase L1-N (or phase a-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L2": {
+              "description": "Phase L2-N (or phase b-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L3": {
+              "description": "Phase L3-N (or phase c-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "aov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
+        "aov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcCurrentPe/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcCurrentPe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcCurrentPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcCurrentPe_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcCurrentPe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcCurrentPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcCurrentPe_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcPowerFactorPe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "title": "AcPeDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "required": [ "L1", "L2", "L3" ],
+          "properties": {
+            "L1": {
+              "description": "Phase L1-N (or phase a-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L2": {
+              "description": "Phase L2-N (or phase b-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L3": {
+              "description": "Phase L3-N (or phase c-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "aov:contains": [ "AcPowerFactorPe_AccuracyClass", "AcPowerFactorPe_Resource" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcPowerFactorPe/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcPowerFactorPe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcPowerFactorPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcPowerFactorPe_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcPowerFactorPe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcPowerFactorPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcPowerFactorPe_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcReactivePowerPe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "title": "AcPeDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "required": [ "L1", "L2", "L3" ],
+          "properties": {
+            "L1": {
+              "description": "Phase L1-N (or phase a-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L2": {
+              "description": "Phase L2-N (or phase b-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L3": {
+              "description": "Phase L3-N (or phase c-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "aov:contains": [ "AcReactivePowerPe_AccuracyClass", "AcReactivePowerPe_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ReactivePower",
+        "aov:withUnit": "properties/AcReactivePowerPe_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcReactivePowerPe/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcReactivePowerPe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcReactivePowerPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcReactivePowerPe_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcReactivePowerPe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcReactivePowerPe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcReactivePowerPe_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcVoltagePe": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "title": "AcPeDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "required": [ "L1", "L2", "L3" ],
+          "properties": {
+            "L1": {
+              "description": "Phase L1-N (or phase a-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L2": {
+              "description": "Phase L2-N (or phase b-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L3": {
+              "description": "Phase L3-N (or phase c-n)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "aov:contains": [ "AcVoltagePe_AccuracyClass", "AcVoltagePe_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePe/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcVoltagePe_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcVoltagePe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePe_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcVoltagePe_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcVoltagePe",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePe_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcVoltagePp": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "title": "AcPpDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3006",
+          "required": [ "L1L2", "L2L3", "L3L1" ],
+          "properties": {
+            "L1L2": {
+              "description": "Phase L1-L2 (or phase a-b)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L2L3": {
+              "description": "Phase L2-L3 (or phase b-c)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "L3L1": {
+              "description": "Phase L3-L1 (or phase c-a)",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "aov:contains": [ "AcVoltagePp_AccuracyClass", "AcVoltagePp_Resource" ],
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePp/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcVoltagePp_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcVoltagePp",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePp_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AcVoltagePp_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "AcVoltagePp",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePp_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_EnergyDevicePowerOffType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1012",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SwitchOffWOL": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6110",
+          "required": [ "ModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
+          "properties": {
+            "ModeID": {
+              "description": "ID of the destination energy saving mode (0xFE)  if successful, otherwise unchanged.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "CurrentTimeToDestination": {
+              "description": "Time needed to reach the energy saving mode if successful, otherwise unchanged.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "RegularTimeToOperate": {
+              "description": "Time needed to reach PE_ready_to_operate again if the destination energy saving mode will be regularly terminated if successful, otherwise unchanged.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "TimeMinLengthOfStay": {
+              "description": "Time of minimum stay in the destination energy saving mode if successful, otherwise unchanged.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "ReturnCode": {
+              "description": "Return code.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/action/SwitchOffWOL",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ModePowerConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/ModePowerConsumption/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RegularTimeToOperate": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/RegularTimeToOperate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeMinPause": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/TimeMinPause/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WOLMagicPacket": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/WOLMagicPacket/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ModePowerConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/event/ModePowerConsumption/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RegularTimeToOperate": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/event/RegularTimeToOperate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TimeMinPause": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/event/TimeMinPause/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_EnergyMeasurementType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1006",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ResetStatistics": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/action/ResetStatistics",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ApplicationTag": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/ApplicationTag/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/ApplicationTag/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MeasurementValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "dtv:placeholder": true,
+        "aov:contains": [ "MeasurementValue_AccuracyClass", "MeasurementValue_Resource" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MeasurementValue_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "aov:containedIn": "MeasurementValue",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue_AccuracyClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MeasurementValue_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "aov:containedIn": "MeasurementValue",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue_Resource/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue_Resource/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StartTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/StartTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/StartTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "MeasurementValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "dtv:placeholder": true,
+        "aov:contains": [ "MeasurementValue_AccuracyClass", "MeasurementValue_Resource" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/event/MeasurementValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MeasurementValue_AccuracyClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "MeasurementValue",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/event/MeasurementValue_AccuracyClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MeasurementValue_Resource": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "aov:containedIn": "MeasurementValue",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/event/MeasurementValue_Resource/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_EnergySavingModesContainerType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "EnergySavingModes",
+        "href": "#title=ECM_EnergySavingModeType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_EnergySavingModeStatusType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CurrentTransitionData": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "title": "StandbyModeTransitionDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3002",
+        "required": [ "IDDestination", "CurrentTimeToDestination", "CurrentTimeToOperate", "EnergyConsumptionToDestination" ],
+        "properties": {
+          "IDDestination": {
+            "description": "Identification of destination energy saving mode.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "CurrentTimeToDestination": {
+            "description": "Time needed to reach the mode IDDestination. Shall be a “Worst case” value if ongoing (dynamic) time value is not supported. Shall be 0 if destination energy saving mode is reached.",
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          },
+          "CurrentTimeToOperate": {
+            "description": "Time needed to reach READY_TO_OPERATE if the energy saving mode is not regularly terminated. The server might update the value after reaching the destination state as long as the TimeMinLengthOfStay of the destination state is not reached.",
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          },
+          "EnergyConsumptionToDestination": {
+            "description": "Energy consumption for actual transition. Shall be 0 if not in a transition state.",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/property/CurrentTransitionData/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StateInformation": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "title": "EnergyStateInformationDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3003",
+        "required": [ "IDSource", "IDDestination", "RegularTimeToOperate", "ModePowerConsumption" ],
+        "properties": {
+          "IDSource": {
+            "description": "PROFIenergy mode ID of current energy saving mode. Servers not implementing PROFIenergy shall always set this field to 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "IDDestination": {
+            "description": "PROFIenergy mode ID of destination energy saving mode. Servers not implementing PROFIenergy shall always set this field to 0.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "RegularTimeToOperate": {
+            "description": "Time needed to reach READY_TO_OPERATE if the energy saving mode is regularly terminated. Shall be 0 if IDSource is equal to 0xFF (The StandbyManagementStatus variable has the value READY_TO_OPERATE).",
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          },
+          "ModePowerConsumption": {
+            "description": "Power consumption in actual state.",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/property/StateInformation/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CurrentTransitionData": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "title": "StandbyModeTransitionDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3002",
+          "required": [ "IDDestination", "CurrentTimeToDestination", "CurrentTimeToOperate", "EnergyConsumptionToDestination" ],
+          "properties": {
+            "IDDestination": {
+              "description": "Identification of destination energy saving mode.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "CurrentTimeToDestination": {
+              "description": "Time needed to reach the mode IDDestination. Shall be a “Worst case” value if ongoing (dynamic) time value is not supported. Shall be 0 if destination energy saving mode is reached.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "CurrentTimeToOperate": {
+              "description": "Time needed to reach READY_TO_OPERATE if the energy saving mode is not regularly terminated. The server might update the value after reaching the destination state as long as the TimeMinLengthOfStay of the destination state is not reached.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "EnergyConsumptionToDestination": {
+              "description": "Energy consumption for actual transition. Shall be 0 if not in a transition state.",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/event/CurrentTransitionData/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "StateInformation": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "title": "EnergyStateInformationDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3003",
+          "required": [ "IDSource", "IDDestination", "RegularTimeToOperate", "ModePowerConsumption" ],
+          "properties": {
+            "IDSource": {
+              "description": "PROFIenergy mode ID of current energy saving mode. Servers not implementing PROFIenergy shall always set this field to 0.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "IDDestination": {
+              "description": "PROFIenergy mode ID of destination energy saving mode. Servers not implementing PROFIenergy shall always set this field to 0.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "RegularTimeToOperate": {
+              "description": "Time needed to reach READY_TO_OPERATE if the energy saving mode is regularly terminated. Shall be 0 if IDSource is equal to 0xFF (The StandbyManagementStatus variable has the value READY_TO_OPERATE).",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "ModePowerConsumption": {
+              "description": "Power consumption in actual state.",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/event/StateInformation/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_EnergySavingModeType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DynamicData": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/DynamicData/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnergyConsumptionToOperate": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/EnergyConsumptionToOperate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnergyConsumptionToPause": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/EnergyConsumptionToPause/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ID": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/ID/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ModePowerConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/ModePowerConsumption/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RegularTimeToOperate": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/RegularTimeToOperate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeMaxLengthOfStay": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeMaxLengthOfStay/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeMinLengthOfStay": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeMinLengthOfStay/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeMinPause": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeMinPause/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeToPause": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeToPause/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "EnergyConsumptionToOperate": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/EnergyConsumptionToOperate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnergyConsumptionToPause": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/EnergyConsumptionToPause/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ModePowerConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/ModePowerConsumption/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RegularTimeToOperate": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/RegularTimeToOperate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TimeMaxLengthOfStay": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeMaxLengthOfStay/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TimeMinLengthOfStay": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeMinLengthOfStay/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TimeMinPause": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeMinPause/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TimeToPause": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeToPause/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ECM_EnergyStandbyManagementType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1005",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EnergySavingModes",
+        "href": "#title=ECM_EnergySavingModesContainerType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "EnergySavingModeStatus",
+        "href": "#title=ECM_EnergySavingModeStatusType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Lock",
+        "href": "./DI.TM.json#title=DI_LockingServicesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "EndPause": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6054",
+          "required": [ "CurrentTimeToOperate", "ReturnCode" ],
+          "properties": {
+            "CurrentTimeToOperate": {
+              "description": "Time needed to reach PE_ready_to_operate if successful, otherwise unchanged.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "ReturnCode": {
+              "description": "Return code.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/action/EndPause",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StartPause": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6050",
+          "required": [ "PauseTime" ],
+          "properties": {
+            "PauseTime": {
+              "description": "Requested pause time.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6051",
+          "required": [ "ModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
+          "properties": {
+            "ModeID": {
+              "description": "ID of the destination energy saving mode if successful, otherwise unchanged.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "CurrentTimeToDestination": {
+              "description": "Time needed to reach the energy saving mode if successful, otherwise unchanged.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "RegularTimeToOperate": {
+              "description": "Time needed to reach PE_ready_to_operate again if the destination energy saving mode will be regularly terminated if successful, otherwise unchanged.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "TimeMinLengthOfStay": {
+              "description": "Time of minimum stay in the destination energy saving mode if successful, otherwise unchanged.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "ReturnCode": {
+              "description": "Return code.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/action/StartPause",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SwitchToEnergySavingMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6052",
+          "required": [ "ModeID" ],
+          "properties": {
+            "ModeID": {
+              "description": "ID of the requested energy saving mode.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6053",
+          "required": [ "EffectiveModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
+          "properties": {
+            "EffectiveModeID": {
+              "description": "ID of the effectively chosen destination energy saving mode if successful, otherwise current mode.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "CurrentTimeToDestination": {
+              "description": "Time needed to reach the destination energy saving mode if successful, otherwise unchanged.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "RegularTimeToOperate": {
+              "description": "Time needed to reach PE_ready_to_operate again if the destination energy saving mode will be regularly terminated if successful, otherwise unchanged.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "TimeMinLengthOfStay": {
+              "description": "Time of minimum stay in the destination energy saving mode if successful, otherwise unchanged.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "ReturnCode": {
+              "description": "Return code.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/action/SwitchToEnergySavingMode",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "PauseTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/property/PauseTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/property/PauseTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StandbyManagementStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/property/StandbyManagementStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "PauseTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/event/PauseTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "StandbyManagementStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/event/StandbyManagementStatus/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

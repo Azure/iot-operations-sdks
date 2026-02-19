@@ -10,8 +10,10 @@ namespace Azure.Iot.Operations.CodeGeneration
         public const string ContextUriWotTd = "https://www.w3.org/2022/wot/td/v1.1";
         public const string ContextUriAioProtocol = "http://azure.com/DigitalTwins/dtmi#";
         public const string ContextUriAioPlatform = "http://azure.com/IoT/operations/tm#";
+        public const string ContextUriQudt = "http://qudt.org/schema/qudt/";
         public const string ContextPrefixAioProtocol = "dtv";
         public const string ContextPrefixAioPlatform = "aov";
+        public const string ContextPrefixQudt = "qudt";
 
         public const string RelationExtends = "tm:extends";
         public const string RelationReference = "aov:reference";
