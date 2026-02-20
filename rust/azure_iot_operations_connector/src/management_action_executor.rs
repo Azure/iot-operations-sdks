@@ -420,25 +420,21 @@ mod tests {
     use azure_iot_operations_protocol::common::payload_serialize::SerializedPayload;
     use test_case::test_case;
 
-    #[test_case(Some("default/topic".to_string()); "default topic defined")]
+    #[test_case(Some(&"default/topic".to_string()); "default topic defined")]
     #[test_case(None; "default topic not defined")]
-    fn test_get_executor_topic(default_topic: Option<String>) {
+    fn test_get_executor_topic(default_topic: Option<&String>) {
         let topic = Some("test/topic".to_string());
         assert_eq!(
-            try_executor_topic_from_management_topics(topic.as_ref(), default_topic.as_ref())
-                .unwrap(),
+            try_executor_topic_from_management_topics(topic.as_ref(), default_topic).unwrap(),
             "test/topic".to_string()
         );
     }
 
-    #[test_case(Some("default/topic".to_string()); "default topic defined")]
+    #[test_case(Some(&"default/topic".to_string()); "default topic defined")]
     #[test_case(None; "default topic not defined")]
-    fn test_get_executor_topic_no_action_topic(default_topic: Option<String>) {
+    fn test_get_executor_topic_no_action_topic(default_topic: Option<&String>) {
         let topic = None;
-        assert!(
-            try_executor_topic_from_management_topics(topic.as_ref(), default_topic.as_ref())
-                .is_err()
-        );
+        assert!(try_executor_topic_from_management_topics(topic.as_ref(), default_topic).is_err());
     }
 
     #[test]
