@@ -15,6 +15,10 @@ use serde::Deserialize;
 use serde_json;
 use thiserror::Error;
 
+use crate::deployment_artifacts::filemount::FileMount;
+
+const AGGREGATION_WINDOW: Duration = Duration::from_secs(10);
+
 /// Indicates an error occurred while parsing the artifacts in an Akri deployment
 #[derive(Error, Debug)]
 #[error(transparent)]
@@ -57,17 +61,18 @@ pub struct ConnectorArtifacts {
     /// The connector configuration
     pub connector_configuration: ConnectorConfiguration,
     /// Path to directory containing metadata for connector secrets
-    pub connector_secrets_metadata_mount: Option<PathBuf>,
+    /// TODO: This is currently a placeholder
+    connector_secrets_metadata_mount: Option<FileMount>,
     /// Path to directory containing trust list certificates for the connector
-    pub connector_trust_settings_mount: Option<PathBuf>,
+    pub connector_trust_settings_mount: Option<FileMount>,
     /// Path to directory containing trust bundle for the broker
-    pub broker_trust_bundle_mount: Option<PathBuf>,
+    pub broker_trust_bundle_mount: Option<FileMount>,
     /// Path to file containing service account token for authentication with the broker
-    pub broker_sat_mount: Option<PathBuf>,
+    pub broker_sat_mount: Option<FileMount>,
     /// Path to directory containing trust bundle for device inbound endpoints
-    pub device_endpoint_trust_bundle_mount: Option<PathBuf>,
+    pub device_endpoint_trust_bundle_mount: Option<FileMount>,
     /// Path to directory containing credentials for device inbound endpoints
-    pub device_endpoint_credentials_mount: Option<PathBuf>,
+    pub device_endpoint_credentials_mount: Option<FileMount>,
 
     // TODO: The following are stopgap variables - these will change in the future
     /// OTEL grpc/grpcs metric endpoint.
@@ -77,9 +82,9 @@ pub struct ConnectorArtifacts {
     /// OTEL grpc/grpcs trace endpoint.
     pub grpc_trace_endpoint: Option<String>,
     /// Path to the directory containing trust bundle for 1P grpc metric collector.
-    pub grpc_metric_collector_1p_ca_mount: Option<PathBuf>,
+    pub grpc_metric_collector_1p_ca_mount: Option<FileMount>,
     /// Path to the directory containing trust bundle for 1P grpc log collector.
-    pub grpc_log_collector_1p_ca_mount: Option<PathBuf>,
+    pub grpc_log_collector_1p_ca_mount: Option<FileMount>,
     /// OTEL http/https metric endpoint.
     pub http_metric_endpoint: Option<String>,
     /// OTEL http/https log endpoint.
@@ -114,7 +119,7 @@ impl ConnectorArtifacts {
         // Connector Configuration
         let connector_configuration = ConnectorConfiguration::new_from_mount_path(
             string_from_environment("CONNECTOR_CONFIGURATION_MOUNT_PATH")?
-                .map(valid_mount_pathbuf_from)
+                .map(valid_filemount_from)
                 .transpose()?
                 .ok_or(DeploymentArtifactErrorRepr::EnvVarMissing(
                     "CONNECTOR_CONFIGURATION_MOUNT_PATH".to_string(),
@@ -125,36 +130,36 @@ impl ConnectorArtifacts {
         // Connector secrets metadata mount path
         let connector_secrets_metadata_mount =
             string_from_environment("CONNECTOR_SECRETS_METADATA_MOUNT_PATH")?
-                .map(valid_mount_pathbuf_from)
+                .map(valid_filemount_from)
                 .transpose()?;
 
         // Connector Trust Settings Mount Path
         let connector_trust_settings_mount =
             string_from_environment("CONNECTOR_TRUST_SETTINGS_MOUNT_PATH")?
-                .map(valid_mount_pathbuf_from)
+                .map(valid_filemount_from)
                 .transpose()?;
 
         // Broker TLS trust bundle CA cert mount path
         let broker_trust_bundle_mount =
             string_from_environment("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?
-                .map(valid_mount_pathbuf_from)
+                .map(valid_filemount_from)
                 .transpose()?;
 
         // Broker SAT token mount path
         let broker_sat_mount = string_from_environment("BROKER_SAT_MOUNT_PATH")?
-            .map(valid_mount_pathbuf_from)
+            .map(valid_filemount_from)
             .transpose()?;
 
         // Device Endpoint TLS Trust Bundle CA cert mount path
         let device_endpoint_trust_bundle_mount =
             string_from_environment("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH")?
-                .map(valid_mount_pathbuf_from)
+                .map(valid_filemount_from)
                 .transpose()?;
 
         // Device Endpoint Credentials mount path
         let device_endpoint_credentials_mount =
             string_from_environment("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH")?
-                .map(valid_mount_pathbuf_from)
+                .map(valid_filemount_from)
                 .transpose()?;
 
         // TODO: Validate that mutually required fields are present/absent in tandem.
@@ -168,11 +173,11 @@ impl ConnectorArtifacts {
 
         let grpc_metric_collector_1p_ca_mount =
             string_from_environment("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH")?
-                .map(valid_mount_pathbuf_from)
+                .map(valid_filemount_from)
                 .transpose()?;
         let grpc_log_collector_1p_ca_mount =
             string_from_environment("FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH")?
-                .map(valid_mount_pathbuf_from)
+                .map(valid_filemount_from)
                 .transpose()?;
 
         let http_metric_endpoint = string_from_environment("OTLP_HTTP_METRIC_ENDPOINT")?;
@@ -247,11 +252,12 @@ impl ConnectorArtifacts {
         );
         let sat_file = self
             .broker_sat_mount
-            .clone()
+            .as_ref()
             .map(|p| {
-                p.into_os_string()
-                    .into_string()
-                    .map_err(|_| "Cannot convert SAT file path to String".to_string())
+                p.as_path()
+                    .to_str()
+                    .ok_or_else(|| "Cannot convert SAT file path to String".to_string())
+                    .map(std::borrow::ToOwned::to_owned)
             })
             .transpose()?;
 
@@ -493,90 +499,24 @@ fn string_from_environment(key: &str) -> Result<Option<String>, DeploymentArtifa
     }
 }
 
-/// Helper function to validate a mount path and return it as a `PathBuf`.
-fn valid_mount_pathbuf_from(mount_path_s: String) -> Result<PathBuf, DeploymentArtifactErrorRepr> {
+/// Helper function to validate a mount path and return it as a `FileMount`.
+fn valid_filemount_from(mount_path_s: String) -> Result<FileMount, DeploymentArtifactErrorRepr> {
     let mount_path = PathBuf::from(mount_path_s);
     if !mount_path.exists() {
         return Err(DeploymentArtifactErrorRepr::MountPathMissing(
             mount_path.into(),
         ));
     }
-    Ok(mount_path)
+    // TODO: convert to artifact error
+    Ok(FileMount::new(mount_path, AGGREGATION_WINDOW).unwrap())
 }
 
 #[cfg(test)]
 mod tests {
+    use super::super::test_utils::{TempMount, TempPersistentVolumeManager};
     use super::*;
-    use tempfile::{NamedTempFile, TempDir};
+    use tempfile::NamedTempFile;
     use test_case::{test_case, test_matrix};
-
-    /// Simulates a file mount directory using a temporary directory.
-    struct TempMount {
-        dir: TempDir,
-    }
-
-    impl TempMount {
-        pub fn new(dir_name: &str) -> Self {
-            let dir = tempfile::TempDir::with_prefix(dir_name).unwrap();
-            Self { dir }
-            // TODO: Add symlink simulation. Currently this doesn't work, because
-            // trying to add a ".." file is interpreted as trying to go up a level
-            // in the directory structure.
-            //let ret = Self { dir };
-            // Create a ".." file to simulate a symlink in a mounted directory
-            //ret.add_file("..", "");
-            //ret
-        }
-
-        pub fn add_file(&self, file_name: &str, contents: &str) {
-            let file_path = self.dir.path().join(file_name);
-            std::fs::write(file_path, contents).unwrap();
-        }
-
-        pub fn remove_file(&self, file_name: &str) {
-            let file_path = self.dir.path().join(file_name);
-            std::fs::remove_file(file_path).unwrap();
-        }
-
-        pub fn path(&self) -> &Path {
-            self.dir.path()
-        }
-    }
-
-    /// Simulates persistent volume mounts using temporary directories.
-    /// An admittedly funny name.
-    struct TempPersistentVolumeManager {
-        volumes: Vec<TempMount>,
-    }
-
-    impl TempPersistentVolumeManager {
-        pub fn new() -> Self {
-            Self {
-                volumes: Vec::new(),
-            }
-        }
-
-        pub fn add_mount(&mut self, mount_name: &str) {
-            let mount = TempMount::new(mount_name);
-            self.volumes.push(mount);
-        }
-
-        pub fn index_file_contents(&self) -> String {
-            let mut contents = String::new();
-            for mount in &self.volumes {
-                let mount_str = format!("{}\n", mount.path().to_str().unwrap());
-                contents.push_str(&mount_str);
-            }
-            contents
-        }
-
-        pub fn volume_path_bufs(&self) -> Vec<PathBuf> {
-            self.volumes
-                .iter()
-                .map(|m| m.path().to_path_buf())
-                .collect()
-        }
-    }
 
     // Environment variable constants
     const AZURE_EXTENSION_RESOURCE_ID: &str = "/subscriptions/extension/resource/id";
@@ -1150,8 +1090,20 @@ mod tests {
             },
             connector_secrets_metadata_mount: None,
             connector_trust_settings_mount: None,
-            broker_trust_bundle_mount: Some(broker_trust_bundle_mount.path().to_path_buf()),
-            broker_sat_mount: Some(broker_sat_file_mount.path().to_path_buf()),
+            broker_trust_bundle_mount: Some(
+                FileMount::new(
+                    broker_trust_bundle_mount.path().to_path_buf(),
+                    AGGREGATION_WINDOW,
+                )
+                .unwrap(),
+            ),
+            broker_sat_mount: Some(
+                FileMount::new(
+                    broker_sat_file_mount.path().to_path_buf(),
+                    AGGREGATION_WINDOW,
+                )
+                .unwrap(),
+            ),
             device_endpoint_trust_bundle_mount: None,
             device_endpoint_credentials_mount: None,
             // stopgaps
@@ -1273,7 +1225,13 @@ mod tests {
             },
             connector_secrets_metadata_mount: None,
             connector_trust_settings_mount: None,
-            broker_trust_bundle_mount: Some(broker_trust_bundle_mount.path().to_path_buf()),
+            broker_trust_bundle_mount: Some(
+                FileMount::new(
+                    broker_trust_bundle_mount.path().to_path_buf(),
+                    AGGREGATION_WINDOW,
+                )
+                .unwrap(),
+            ),
             broker_sat_mount: None,
             device_endpoint_trust_bundle_mount: None,
             device_endpoint_credentials_mount: None,

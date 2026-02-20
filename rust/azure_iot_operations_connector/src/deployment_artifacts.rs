@@ -5,7 +5,12 @@
 
 pub mod azure_device_registry;
 pub mod connector;
-pub mod filemount;
-pub mod secrets;
+mod filemount;
+
+pub use connector::DeploymentArtifactError;
+pub use filemount::FileMount; // TODO: move implementation out here
+
+#[cfg(test)]
+mod test_utils;
 
 // TODO: Add common artifact structs and helpers here once implementation is unified
