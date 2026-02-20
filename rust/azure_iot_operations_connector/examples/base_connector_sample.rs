@@ -21,6 +21,7 @@ use azure_iot_operations_connector::{
             DataOperationNotification, DeviceEndpointClient,
             DeviceEndpointClientCreationObservation, ManagementActionClient,
             ManagementActionNotification, RuntimeHealthEvent, SchemaModifyResult,
+            UnsupportedComponentClient, UnsupportedComponentNotification,
         },
     },
     data_processor::derived_json,
@@ -275,8 +276,9 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
                         initial_status,
                     ));
                 } else {
-                    tokio::task::spawn(handle_unsupported_data_operation(
+                    tokio::task::spawn(handle_unsupported_component(
                         data_operation_log_identifier,
+                        format!("{:?}", data_operation_client.kind()),
                         data_operation_client,
                     ));
                 }
@@ -454,7 +456,6 @@ async fn run_management_action(
         Ok(executor) => (Some(executor), Ok(())),
         Err(e) => (None, Err(e)),
     };
-    let mut stale_executor: Option<ManagementActionExecutor> = None;
     let mut is_sdk_error_causing_invalid_state = last_reported_management_action_status.is_err();
     let mut management_action_valid = last_reported_management_action_status.is_ok();
     // now we should update the status of the management action, using the initial_status since there's nothing else we need to validate ourselves
@@ -471,47 +472,6 @@ async fn run_management_action(
     loop {
         tokio::select! {
             biased;
-            // drain any pending requests from the out of date executor definition. Bias this above receiving new notifications
-            // so that we don't have to ever store more than one stale executor at a time
-            request_res = recv_request(&mut stale_executor), if stale_executor.is_some() => {
-                // TODO: this branch needs to know the old definition and the old management_action_valid value
-                // TODO: maybe draining is a rare case because usually there wouldn't be anything in this queue if commands are processed in another task as they should be
-                if let Some(request) = request_res {
-                    // WARNING: DON'T REPORT STATUS/HEALTH/MESSAGE SCHEMAS HERE - THIS IS FOR A STALE DEFINITION
-                    log::info!("{log_identifier} Management action request received: {:?}", request.raw_payload());
-
-                    let response = if management_action_valid {
-                        // Here we would process the management action request
-                        // For this example, we simply log it and respond that it succeeded
-                        ManagementActionResponseBuilder::default()
-                            .payload(vec![])
-                            .content_type("application/json".to_string())
-                            .cloud_event(None)
-                            .build().unwrap()
-                    } else {
-                        // If the management action is not valid, we respond with an application error
-                        ManagementActionResponseBuilder::default()
-                            .application_error(ManagementActionApplicationError {
-                                application_error_code: "ManagementActionInvalidState".to_string(),
-                                application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
-                            })
-                            .payload(vec![])
-                            .content_type("application/json".to_string())
-                            .cloud_event(None)
-                            .build().unwrap()
-                    };
-
-                    if let Err(e) = request.complete(response).await {
-                        log::error!("{log_identifier} Error completing management action request: {e}");
-                    } else {
-                        log::info!("{log_identifier} Management action request completed");
-                    }
-                }
-                else {
-                    log::info!("{log_identifier} Old management action executor completed");
-                    stale_executor = None;
-                }
-            },
             // Listen for a management action update notifications
             res = management_action_client.recv_notification() => {
                 // Pause reporting and refresh to the new version before processing the update
@@ -539,10 +499,13 @@ async fn run_management_action(
                         is_sdk_error_causing_invalid_state = false;
                         last_reported_management_action_status = Ok(());
                         management_action_valid = last_reported_management_action_status.is_ok();
-                        // move the current executor to the stale marker so we can drain any pending requests
-                        // TODO: rather than having a branch for the stale executor, should we just drain it here?
-                        // If the application is executing in a separate task, there really shouldn't be a build up to drain anyways
-                        stale_executor = current_executor.take();
+                        // Drain any queued request from the current executor and respond with an error that this definition is no longer valid
+                        if let Some(stale_executor) = current_executor.take() {
+                            tokio::task::spawn(drain_executor(
+                                stale_executor,
+                                log_identifier.clone(),
+                            ));
+                        }
                         current_executor = new_executor.ok();
                     },
                     ManagementActionNotification::AssetUpdated(Err(e)) |
@@ -554,6 +517,13 @@ async fn run_management_action(
                     },
                     ManagementActionNotification::Deleted => {
                         log::warn!("{log_identifier} Management action has been deleted. No more management action updates will be received");
+                        // Drain any queued request from the current executor and respond with an error that this definition is no longer valid
+                        if let Some(stale_executor) = current_executor.take() {
+                            tokio::task::spawn(drain_executor(
+                                stale_executor,
+                                log_identifier.clone(),
+                            ));
+                        }
                         break;
                     }
                 }
@@ -569,33 +539,41 @@ async fn run_management_action(
                 if let Some(request) = request_res {
                     log::info!("{log_identifier} Management action request received: {:?}", request.raw_payload());
 
-                    let response = if management_action_valid {
-                        // Here we would process the management action request in another task if it has any async work to do
-                        // For this example, we simply log it and respond that it succeeded
-                        ManagementActionResponseBuilder::default()
-                            .payload(vec![])
-                            .content_type("application/json".to_string())
-                            .cloud_event(None)
-                            .build().unwrap()
-                    } else {
-                        // If the management action is not valid, we respond with an application error
-                        ManagementActionResponseBuilder::default()
-                            .application_error(ManagementActionApplicationError {
-                                application_error_code: "ManagementActionInvalidState".to_string(),
-                                application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
-                            })
-                            .payload(vec![])
-                            .content_type("application/json".to_string())
-                            .cloud_event(None)
-                            .build().unwrap()
-                    };
+                    // Process, execute, and complete the request in a spawned task so we don't block this
+                    // loop from processing other updates or requests.
+                    tokio::task::spawn({
+                        let log_identifier = log_identifier.clone();
+                        let management_action_reporter = management_action_reporter.clone();
+                        async move {
+                            let response = if management_action_valid {
+                                // Here we would execute the management action request
+                                // For this example, we simply log it and respond that it succeeded
+                                ManagementActionResponseBuilder::default()
+                                    .payload(vec![])
+                                    .content_type("application/json".to_string())
+                                    .cloud_event(None)
+                                    .build().unwrap()
+                            } else {
+                                // If the management action is not valid, we respond with an application error
+                                ManagementActionResponseBuilder::default()
+                                    .application_error(ManagementActionApplicationError {
+                                        application_error_code: "ManagementActionInvalidState".to_string(),
+                                        application_error_payload: "The management action is in an invalid state and cannot process requests.".to_string(),
+                                    })
+                                    .payload(vec![])
+                                    .content_type("application/json".to_string())
+                                    .cloud_event(None)
+                                    .build().unwrap()
+                            };
 
-                    if let Err(e) = request.complete(response).await {
-                        log::error!("{log_identifier} Error completing management action request: {e}");
-                    } else {
-                        log::info!("{log_identifier} Management action request completed");
-                        management_action_reporter.report_health_event(RuntimeHealthEvent::Available);
-                    }
+                            if let Err(e) = request.complete(response).await {
+                                log::error!("{log_identifier} Error completing management action request: {e}");
+                            } else {
+                                log::info!("{log_identifier} Management action request completed");
+                                management_action_reporter.report_health_event(RuntimeHealthEvent::Available);
+                            }
+                        }
+                    });
                 } else {
                     log::warn!("{log_identifier} Management action executor closed");
                     current_executor = None;
@@ -615,63 +593,95 @@ async fn recv_request(
     }
 }
 
-/// Small handler to indicate lack of stream/event support in this connector
-async fn handle_unsupported_data_operation(
+/// Drains all pending requests from a stale executor
+/// Intended to be spawned so the caller is not blocked.
+async fn drain_executor(mut executor: ManagementActionExecutor, log_identifier: String) {
+    while let Some(stale_request) = executor.recv_request().await {
+        log::warn!("{log_identifier} Draining stale request from executor, responding with error");
+        let response = ManagementActionResponseBuilder::default()
+            .application_error(ManagementActionApplicationError {
+                application_error_code: "ManagementActionDefinitionOutdated".to_string(),
+                application_error_payload:
+                    "Management action definition for this request is no longer valid".to_string(),
+            })
+            .payload(vec![])
+            .content_type("application/json".to_string())
+            .cloud_event(None)
+            .build()
+            .unwrap();
+        tokio::task::spawn({
+            let log_identifier = log_identifier.clone();
+            async move {
+                if let Err(e) = stale_request.complete(response).await {
+                    log::error!(
+                        "{log_identifier} Error completing stale management action request: {e}"
+                    );
+                } else {
+                    log::info!(
+                        "{log_identifier} Stale management action request completed with error response"
+                    );
+                }
+            }
+        });
+    }
+}
+
+/// Small handler to indicate lack of support for a component in this connector
+///
+/// # Arguments
+/// * `connector_context` - The connector context.
+/// * `log_identifier` - A string identifier for the component, used for logging.
+/// * `component_name` - The name of the kind of component.
+/// * `unsupported_client` - The client for the unsupported component.
+async fn handle_unsupported_component<T: UnsupportedComponentClient>(
     log_identifier: String,
-    mut data_operation_client: DataOperationClient,
+    component_name: String,
+    mut unsupported_client: T,
 ) {
-    let data_operation_kind = data_operation_client.kind();
-    log::warn!(
-        "{log_identifier} Data Operation kind {data_operation_kind:?} not supported for this connector"
-    );
+    log::warn!("{log_identifier} {component_name}s are not supported for this Connector");
 
-    // Get the status reporter for this data operation - create once and reuse
-    let data_operation_reporter = data_operation_client.get_status_reporter();
+    // Get the status reporter for the client
+    let status_reporter = unsupported_client.get_status_reporter();
 
-    // Report invalid definition to adr
-    let error_status = Err(AdrConfigError {
+    let adr_config_error = Err(AdrConfigError {
         message: Some(format!(
-            "Data Operation kind {data_operation_kind:?} not supported for this connector",
+            "{component_name}s are not supported for this Connector"
         )),
         ..Default::default()
     });
 
-    if let Err(e) = data_operation_reporter
-        .report_status_if_modified(report_status_if_changed!(&log_identifier, &error_status))
+    // Report status that we don't support this component.
+    if let Err(e) = status_reporter
+        .report_status_if_modified(report_status_if_changed!(
+            &log_identifier,
+            adr_config_error.clone()
+        ))
         .await
     {
         log::error!("{log_identifier} Error reporting status: {e}");
     }
 
-    // While the unsupported data operation client is active, we should keep polling for updates
+    // While the unsupported client is active, we should keep polling for updates
     // to handle cases where it is deleted and to continue reporting errors if it is
     // incorrectly updated.
     loop {
-        match data_operation_client.recv_notification().await {
-            // it doesn't matter if the update is Err or Ok, we can always report unsupported
-            DataOperationNotification::AssetUpdated(_) | DataOperationNotification::Updated(_) => {
+        match unsupported_client.recv_notification().await {
+            UnsupportedComponentNotification::Updated => {
                 log::warn!(
-                    "{log_identifier} update notification received. {data_operation_kind:?} is not supported for the this Connector",
+                    "{log_identifier} {component_name} update notification received. {component_name}s are not supported for this Connector"
                 );
 
-                let error_status = Err(AdrConfigError {
-                    message: Some(format!(
-                        "Data Operation kind {data_operation_kind:?} not supported for this connector",
-                    )),
-                    ..Default::default()
-                });
-
-                if let Err(e) = data_operation_reporter
+                if let Err(e) = status_reporter
                     .report_status_if_modified(report_status_if_changed!(
                         &log_identifier,
-                        error_status
+                        adr_config_error.clone()
                     ))
                     .await
                 {
                     log::error!("{log_identifier} Error reporting status: {e}");
                 }
             }
-            DataOperationNotification::Deleted => {
+            UnsupportedComponentNotification::Deleted => {
                 log::info!("{log_identifier} deleted notification received");
                 break;
             }
