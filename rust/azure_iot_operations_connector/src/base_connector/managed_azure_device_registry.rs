@@ -3,13 +3,7 @@
 
 //! Types for Azure IoT Operations Connectors.
 
-use std::{
-    borrow::Cow,
-    collections::HashMap,
-    hash::Hash,
-    path::PathBuf,
-    sync::Arc,
-};
+use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Arc};
 
 use azure_iot_operations_services::{
     azure_device_registry::{

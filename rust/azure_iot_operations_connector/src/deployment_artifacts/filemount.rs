@@ -51,15 +51,12 @@ impl FileMount {
                                 e.event.kind,
                                 EventKind::Remove(_) | EventKind::Create(_) | EventKind::Modify(_)
                             )
-                        }) {
-                            if let Err(e) = update_tx.send(()) {
-                                // NOTE: This should not happen except perhaps under extremely
-                                // tight timing circumstances, such as the contents of the mount
-                                // changing during cleanup of the struct.
-                                log::warn!(
-                                    "FileMount update notification without receivers: {e:?}"
-                                );
-                            }
+                        }) && let Err(e) = update_tx.send(())
+                        {
+                            // NOTE: This should not happen except perhaps under extremely
+                            // tight timing circumstances, such as the contents of the mount
+                            // changing during cleanup of the struct.
+                            log::warn!("FileMount update notification without receivers: {e:?}");
                         }
                     }
                     Err(err) => {
@@ -84,7 +81,7 @@ impl FileMount {
     /// Once the change notification is provided, it will be reset until another change is detected.
     pub async fn changed(&mut self) {
         match self.update_rx.changed().await {
-            Ok(()) => {},
+            Ok(()) => {}
             Err(_) => unreachable!("FileMount watch channel sender is co-owned by this struct"),
         }
     }
