@@ -45,7 +45,7 @@ enum DeploymentArtifactErrorRepr {
     /// JSON data could not be parsed
     #[error(transparent)]
     JsonParseError(#[from] serde_json::Error),
-    /// Could not monitor FileMount for changes
+    /// Could not monitor `FileMount` for changes
     #[error("Error initializing FileMount monitor: {0}")]
     MonitorError(#[from] super::filemount::Error),
 }
