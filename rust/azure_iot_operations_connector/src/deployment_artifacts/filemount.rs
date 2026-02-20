@@ -44,7 +44,7 @@ impl FileMount {
                 match res {
                     Ok(events) => {
                         if events.iter().any(|e| {
-                            // When an asset is added or removed, kubernetes does a series of events:
+                            // When a file is added or removed, kubernetes does a series of events:
                             // Create Folder, Create File and Remove Folder
                             // If any of these events are triggered, issue a notifcation.
                             matches!(
