@@ -39,23 +39,8 @@ impl ManagementActionExecutor {
         management_action_ref: &ManagementActionRef,
         connector_context: &Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
-        let topic_token_map = HashMap::from([
-            (
-                "assetName".to_string(),
-                management_action_ref.asset_name.clone(),
-            ),
-            (
-                "managementGroupName".to_string(),
-                management_action_ref.management_group_name.clone(),
-            ),
-            (
-                "managementActionName".to_string(),
-                management_action_ref.management_action_name.clone(),
-            ),
-        ]);
         let executor_options = rpc_command::executor::OptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
-            .topic_token_map(topic_token_map)
             .command_name(management_action_ref.command_name())
             .build()
             // note: no topic validation is done as part of this builder, which is why this expect is safe
@@ -177,16 +162,15 @@ impl ManagementActionExecutor {
 
 pub(crate) fn try_executor_topic_from_management_topics(
     topic: Option<&String>,
-    default_topic: Option<&String>,
+    _default_topic: Option<&String>, // keeping this in for if/when we support this field in the future
 ) -> Result<String, AdrConfigError> {
-    if let Some(topic) = topic.or(default_topic) {
-        // TODO: ensure topic has the correct tokens
+    if let Some(topic) = topic {
         Ok(topic.clone())
     } else {
         Err(AdrConfigError {
             code: None,
             details: None,
-            message: Some("Management Group must have default topic if Management Action doesn't have a topic".to_string()),
+            message: Some("Management Action topic is required".to_string()),
         })
     }
 }
