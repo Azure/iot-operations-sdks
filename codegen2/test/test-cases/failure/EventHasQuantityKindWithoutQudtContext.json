@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventHasQuantityKindWithoutQudtContext.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "EventHasQuantityKindWithoutQudtContext.TM.json",
+      "line": 27,
+      "cfLine": 2,
+      "crossRef": ""
+    }
+  ]
+}

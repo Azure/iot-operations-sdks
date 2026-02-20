@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyWithUnitNameNotFound.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "PropertyWithUnitNameNotFound.TM.json",
+      "line": 17,
+      "cfLine": 14,
+      "crossRef": ""
+    }
+  ]
+}
