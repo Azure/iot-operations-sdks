@@ -7,11 +7,17 @@
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Microsoft</Authors>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>1.0.1</VersionPrefix>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   
+  <ItemGroup>
+    <None Include="./README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+
   <!--The MQTTnet version we take a dependency on isn't strong name signed, but this library is. Ideally, MQTTnet would go back to strong name
   signing like its slightly older versions do-->
   <PropertyGroup>
