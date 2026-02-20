@@ -34,6 +34,7 @@ impl ConnectorSecrets {
         if !secret_pathbuf.exists() {
             return Err(ConnectorSecretError::SecretNotFound);
         }
+        let secret_data = std::fs::read_to_string(&secret_pathbuf).map_err(|_| ConnectorSecretError::SecretReadError)?;
 
         unimplemented!()
 
@@ -42,11 +43,18 @@ impl ConnectorSecrets {
 }
 
 
+#[derive(Clone, Debug)]
 pub struct Secret {
-    update_rx: watch::Receiver<()>, //TODO: type?
+    update_rx: watch::Receiver<String>, //TODO: type?
 }
 
 impl Secret {
+    pub fn value(&self) -> &str {
+        //self.update_rx.borrow_and_update()
+
+        unimplemented!()
+    }
+
     pub async fn changed(&self) {
         // TODO: need some kind of enum to indicate what happened?
         // e.g. Updated vs Deleted
