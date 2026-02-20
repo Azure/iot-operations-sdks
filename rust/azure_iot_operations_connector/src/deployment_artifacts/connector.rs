@@ -15,7 +15,7 @@ use serde::Deserialize;
 use serde_json;
 use thiserror::Error;
 
-use crate::deployment_artifacts::filemount::FileMount;
+use crate::deployment_artifacts::FileMount;
 
 const AGGREGATION_WINDOW: Duration = Duration::from_secs(10);
 
@@ -45,6 +45,9 @@ enum DeploymentArtifactErrorRepr {
     /// JSON data could not be parsed
     #[error(transparent)]
     JsonParseError(#[from] serde_json::Error),
+    /// Could not monitor FileMount for changes
+    #[error("Error initializing FileMount monitor: {0}")]
+    MonitorError(#[from] super::filemount::Error),
 }
 
 // TODO: Integrate ADR into this implementation
@@ -507,8 +510,7 @@ fn valid_filemount_from(mount_path_s: String) -> Result<FileMount, DeploymentArt
             mount_path.into(),
         ));
     }
-    // TODO: convert to artifact error
-    Ok(FileMount::new(mount_path, AGGREGATION_WINDOW).unwrap())
+    Ok(FileMount::new(mount_path, AGGREGATION_WINDOW)?)
 }
 
 #[cfg(test)]
