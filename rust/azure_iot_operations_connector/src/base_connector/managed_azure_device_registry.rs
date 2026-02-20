@@ -2345,6 +2345,27 @@ impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
     }
 }
 
+/// Simplified notification for unsupported components since we don't need to differentiate between update types for them
+pub enum UnsupportedComponentNotification {
+    /// The component was updated
+    Updated,
+    /// The component was deleted
+    Deleted,
+}
+
+/// A trait to support handling all unsupported components in a generic way for the Connector Application
+pub trait UnsupportedComponentClient {
+    /// The type of the status reporter associated with this unsupported component, which will be used by the Connector Application to report status for this component in a generic way
+    #[allow(private_bounds)]
+    type StatusReporterType: AssetComponentRef;
+    /// Gets a generic status reporter for this unsupported component
+    fn get_status_reporter(&self) -> AssetComponentStatusReporter<Self::StatusReporterType>;
+    /// Returns whether the notification is Deleted or Updated, since for unsupported components we don't need to differentiate between update types
+    fn recv_notification(
+        &mut self,
+    ) -> impl std::future::Future<Output = UnsupportedComponentNotification> + Send;
+}
+
 /// A cloneable status reporter for Data Operation status reporting.
 ///
 /// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
@@ -2443,6 +2464,22 @@ impl AssetComponentRef for DataOperationRef {
             log_identifier,
         )
         .await
+    }
+}
+
+impl UnsupportedComponentClient for DataOperationClient {
+    type StatusReporterType = DataOperationRef;
+    fn get_status_reporter(&self) -> AssetComponentStatusReporter<Self::StatusReporterType> {
+        self.get_status_reporter()
+    }
+
+    async fn recv_notification(&mut self) -> UnsupportedComponentNotification {
+        match self.recv_notification().await {
+            DataOperationNotification::Updated(_) | DataOperationNotification::AssetUpdated(_) => {
+                UnsupportedComponentNotification::Updated
+            }
+            DataOperationNotification::Deleted => UnsupportedComponentNotification::Deleted,
+        }
     }
 }
 
@@ -3588,6 +3625,24 @@ impl AssetComponentRef for ManagementActionRef {
             log_identifier,
         )
         .await
+    }
+}
+
+impl UnsupportedComponentClient for ManagementActionClient {
+    type StatusReporterType = ManagementActionRef;
+    fn get_status_reporter(&self) -> AssetComponentStatusReporter<Self::StatusReporterType> {
+        self.get_status_reporter()
+    }
+
+    async fn recv_notification(&mut self) -> UnsupportedComponentNotification {
+        match self.recv_notification().await {
+            ManagementActionNotification::Updated(_)
+            | ManagementActionNotification::UpdatedWithNewExecutor(_)
+            | ManagementActionNotification::AssetUpdated(_) => {
+                UnsupportedComponentNotification::Updated
+            }
+            ManagementActionNotification::Deleted => UnsupportedComponentNotification::Deleted,
+        }
     }
 }
 
