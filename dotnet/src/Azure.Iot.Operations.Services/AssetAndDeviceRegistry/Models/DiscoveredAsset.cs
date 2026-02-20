@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Text.Json.Serialization;
-
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record DiscoveredAsset
@@ -78,7 +76,7 @@ public record DiscoveredAsset
     public string? DocumentationUri { get; set; } = default;
 
     /// <summary>
-    /// Array of events that are part of the asset. Each event can have per-event configuration.
+    /// Array of event groups that are part of the asset. Each event group can have per-event group configuration.
     /// </summary>
     public List<DiscoveredAssetEventGroup>? EventGroups { get; set; } = default;
 

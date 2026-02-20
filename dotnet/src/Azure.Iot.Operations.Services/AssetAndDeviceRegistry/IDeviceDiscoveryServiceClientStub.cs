@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.RPC;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
-using static Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService.DeviceDiscoveryService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceDiscoveryService;
+using static Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceDiscoveryService.DeviceDiscoveryService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 {

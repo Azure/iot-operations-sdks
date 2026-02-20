@@ -43,6 +43,9 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         /// <summary>Gets or sets the programming language for generated code.</summary>
         public required string Language { get; set; }
 
+        /// <summary>Gets or sets an indication of whether to apply Thing Model prefixes to schema type names.</summary>
+        public bool PrefixSchemas { get; set; }
+
         /// <summary>Gets or sets an indication of whether to suppress generation of a project.</summary>
         public bool NoProj { get; set; }
 

@@ -105,7 +105,7 @@ jobs:
       #=======================================================================
       - name: Run .NET server
         if: matrix.server == 'dotnet-server'
-        run: dotnet run -c Release --project dotnet/samples/Protocol/Counter/CounterServer &
+        run: dotnet run -c Release --project dotnet/samples/Protocol/RPC/CounterServer &
         env:
           AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
 
@@ -125,7 +125,7 @@ jobs:
       # Run all the clients
       #=======================================================================
       - name: Run .NET client
-        run: dotnet run -c Release --project dotnet/samples/Protocol/Counter/CounterClient
+        run: dotnet run -c Release --project dotnet/samples/Protocol/RPC/CounterClient
         if: always()
         env:
           AIO_MQTT_CLIENT_ID: dotnet-client

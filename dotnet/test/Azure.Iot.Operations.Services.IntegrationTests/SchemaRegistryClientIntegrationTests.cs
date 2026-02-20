@@ -60,7 +60,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
 
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync(avroSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, "1", null!, null, null, TimeSpan.FromMinutes(1)));
         Assert.True(ex.IsRemote);
-        Assert.StartsWith("Invalid JsonSchemaDraft07 schema", ex.Message);
+        Assert.StartsWith("Invalid JsonSchema/draft-07 schema", ex.Message);
     }
 
     [Fact]
@@ -72,7 +72,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
 
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync("not-json}", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, "1", null!, null, null, TimeSpan.FromMinutes(1)));
         Assert.True(ex.IsRemote);
-        Assert.StartsWith("Invalid JsonSchemaDraft07 schema", ex.Message);
+        Assert.StartsWith("Invalid JsonSchema/draft-07 schema", ex.Message);
     }
 
     [Fact]

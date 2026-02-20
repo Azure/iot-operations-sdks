@@ -4,7 +4,7 @@
     { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
   ],
   "@type": "tm:ThingModel",
-  "title": "Noop",
+  "title": "No_Op",
   "actions": {
     "noop": {
       "forms": [

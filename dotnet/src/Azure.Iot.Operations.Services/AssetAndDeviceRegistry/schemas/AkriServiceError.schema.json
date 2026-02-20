@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "AkriServiceError",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "code", "message", "timestamp" ],
+  "properties": {
+    "code": {
+      "description": "The error code that identifies the error.",
+      "$ref": "CodeSchema.schema.json"
+    },
+    "message": {
+      "description": "A human-readable description of the error.",
+      "type": "string"
+    },
+    "timestamp": {
+      "description": "The timestamp (in UTC) when the error occurred.",
+      "type": "string", "format": "date-time"
+    }
+  }
+}

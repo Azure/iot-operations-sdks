@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "SetNotificationPreferenceForAssetUpdatesResponseSchema",
+  "description": "Response containing the result of setting the notification preference for asset updates or error details if the operation failed.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "responsePayload": {
+      "description": "The response payload indicating that the operation was successful.",
+      "type": "string"
+    },
+    "setNotificationPreferenceForAssetUpdatesError": {
+      "description": "Read error for the 'setNotificationPreferenceForAssetUpdates' Action.",
+      "$ref": "AkriServiceError.schema.json"
+    }
+  }
+}

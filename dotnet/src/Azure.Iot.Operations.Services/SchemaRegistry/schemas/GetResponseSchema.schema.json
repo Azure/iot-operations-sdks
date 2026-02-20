@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GetResponseSchema",
+  "description": "GET Schema response object",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "getError": {
+      "description": "Read error for the 'get' Action.",
+      "$ref": "SchemaRegistryError.schema.json"
+    },
+    "schema": {
+      "description": "The requested schema object.",
+      "$ref": "Schema.schema.json"
+    }
+  }
+}

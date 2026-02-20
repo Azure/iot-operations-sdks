@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 using System.Text.Json;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceDiscoveryService;
 using Azure.Iot.Operations.Services.StateStore;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 internal static class ModelsConverter
 {
-    internal static CreateOrUpdateDiscoveredAssetResponsePayload ToModel(this AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload source)
+    internal static CreateOrUpdateDiscoveredAssetResponsePayload ToModel(this Generated.AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload source)
     {
         return new()
         {
@@ -18,7 +18,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DiscoveredAssetResponseSchema ToModel(this AdrBaseService.DiscoveredAssetResponseSchema source)
+    internal static DiscoveredAssetResponseSchema ToModel(this Generated.AdrBaseService.DiscoveredAssetResponseSchema source)
     {
         return new()
         {
@@ -27,7 +27,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DiscoveredDeviceResponseSchema ToModel(this DeviceDiscoveryService.DiscoveredDeviceResponseSchema source)
+    internal static DiscoveredDeviceResponseSchema ToModel(this Generated.DeviceDiscoveryService.DiscoveredDeviceResponseSchema source)
     {
         return new()
         {
@@ -36,7 +36,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static CreateOrUpdateDiscoveredDeviceResponsePayload ToModel(this DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceResponsePayload source)
+    internal static CreateOrUpdateDiscoveredDeviceResponsePayload ToModel(this Generated.DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceResponsePayload source)
     {
         return new()
         {
@@ -44,7 +44,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static SetNotificationPreferenceForAssetUpdatesResponsePayload ToModel(this AdrBaseService.SetNotificationPreferenceForAssetUpdatesResponsePayload source)
+    internal static SetNotificationPreferenceForAssetUpdatesResponsePayload ToModel(this Generated.AdrBaseService.SetNotificationPreferenceForAssetUpdatesResponsePayload source)
     {
         return new()
         {
@@ -52,7 +52,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static SetNotificationPreferenceForDeviceUpdatesResponsePayload ToModel(this AdrBaseService.SetNotificationPreferenceForDeviceUpdatesResponsePayload source)
+    internal static SetNotificationPreferenceForDeviceUpdatesResponsePayload ToModel(this Generated.AdrBaseService.SetNotificationPreferenceForDeviceUpdatesResponsePayload source)
     {
         return new()
         {
@@ -60,7 +60,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static ConfigStatus ToModel(this AdrBaseService.ConfigStatus source)
+    internal static ConfigStatus ToModel(this Generated.AdrBaseService.ConfigStatus source)
     {
         return new ConfigStatus
         {
@@ -70,7 +70,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static ConfigError ToModel(this AdrBaseService.ConfigError source)
+    internal static ConfigError ToModel(this Generated.AdrBaseService.ConfigError source)
     {
         return new ConfigError
         {
@@ -80,7 +80,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetStatus ToModel(this AdrBaseService.AssetStatus source)
+    internal static AssetStatus ToModel(this Generated.AdrBaseService.AssetStatus source)
     {
         return new AssetStatus
         {
@@ -92,7 +92,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static Asset ToModel(this AdrBaseService.Asset source)
+    internal static Asset ToModel(this Generated.AdrBaseService.Asset source)
     {
         return new Asset
         {
@@ -129,12 +129,12 @@ internal static class ModelsConverter
         };
     }
 
-    internal static Models.AssetEventGroup ToModel(this AdrBaseService.AssetEventGroupSchemaElementSchema source)
+    internal static Models.AssetEventGroup ToModel(this Generated.AdrBaseService.AssetEventGroupSchemaElementSchema source)
     {
         return new AssetEventGroup()
         {
             DataSource = source.DataSource,
-            DefaultEventsDestinations = source.DefaultEventsDestinations?.Select(x => x.ToModel()).ToList(),
+            DefaultDestinations = source.DefaultDestinations?.Select(x => x.ToModel()).ToList(),
             EventGroupConfiguration = source.EventGroupConfiguration,
             Events = source.Events?.Select(x => x.ToModel()).ToList(),
             Name = source.Name,
@@ -142,7 +142,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static Models.AssetEventGroupStatus ToModel(this AdrBaseService.AssetEventGroupStatusSchemaElementSchema source)
+    internal static Models.AssetEventGroupStatus ToModel(this Generated.AdrBaseService.AssetEventGroupStatusSchemaElementSchema source)
     {
         return new AssetEventGroupStatus()
         {
@@ -151,27 +151,65 @@ internal static class ModelsConverter
         };
     }
 
-    internal static Models.AkriServiceError ToModel(this AdrBaseService.AkriServiceError source)
+    internal static Models.AkriServiceError ToModel(this Generated.AdrBaseService.AkriServiceError source)
     {
         return new Models.AkriServiceError
         {
-            Code = (Code)(int)source.Code,
+            Code = source.Code.ToModel(),
             Message = source.Message,
             Timestamp = source.Timestamp,
         };
     }
 
-    internal static Models.AkriServiceError ToModel(this DeviceDiscoveryService.AkriServiceError source)
+    internal static Models.Code ToModel(this Generated.AdrBaseService.CodeSchema source)
+    {
+        switch (source)
+        {
+            case Generated.AdrBaseService.CodeSchema.Unauthorized:
+                return Models.Code.Unauthorized;
+            case Generated.AdrBaseService.CodeSchema.SerializationError:
+                return Models.Code.SerializationError;
+            case Generated.AdrBaseService.CodeSchema.BadRequest:
+                return Models.Code.BadRequest;
+            case Generated.AdrBaseService.CodeSchema.KubeError:
+                return Models.Code.KubeError;
+            case Generated.AdrBaseService.CodeSchema.InternalError:
+                return Models.Code.InternalError;
+            default:
+                throw new ArgumentException("Unknown code");
+        }
+    }
+
+    internal static Models.Code ToModel(this Generated.DeviceDiscoveryService.CodeSchema source)
+    {
+        switch (source)
+        {
+            case Generated.DeviceDiscoveryService.CodeSchema.Unauthorized:
+                return Models.Code.Unauthorized;
+            case Generated.DeviceDiscoveryService.CodeSchema.SerializationError:
+                return Models.Code.SerializationError;
+            case Generated.DeviceDiscoveryService.CodeSchema.BadRequest:
+                return Models.Code.BadRequest;
+            case Generated.DeviceDiscoveryService.CodeSchema.KubeError:
+                return Models.Code.KubeError;
+            case Generated.DeviceDiscoveryService.CodeSchema.InternalError:
+                return Models.Code.InternalError;
+            default:
+                throw new ArgumentException("Unknown code");
+        }
+    }
+
+    internal static Models.AkriServiceError ToModel(this Generated.DeviceDiscoveryService.AkriServiceError source)
     {
         return new Models.AkriServiceError
         {
-            Code = (Code)(int)source.Code,
+            Code = source.Code.ToModel(),
             Message = source.Message,
             Timestamp = source.Timestamp,
         };
     }
 
-    public static Device ToModel(this AdrBaseService.Device source)
+    public static Device ToModel(this Generated.AdrBaseService.Device source)
     {
         return new Device
         {
@@ -206,7 +244,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static MessageSchemaReference ToModel(this AdrBaseService.MessageSchemaReference source)
+    internal static MessageSchemaReference ToModel(this Generated.AdrBaseService.MessageSchemaReference source)
     {
         return new MessageSchemaReference
         {
@@ -255,7 +293,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DatasetDestination ToModel(this AdrBaseService.DatasetDestination source)
+    internal static DatasetDestination ToModel(this Generated.AdrBaseService.DatasetDestination source)
     {
         return new DatasetDestination
         {
@@ -264,17 +302,37 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetManagementGroupActionType ToModel(this AdrBaseService.AssetManagementGroupActionType source)
+    internal static AssetManagementGroupActionType ToModel(this Generated.AdrBaseService.AssetManagementGroupActionType source)
     {
-        return (AssetManagementGroupActionType)(int)source;
+        switch (source)
+        {
+            case Generated.AdrBaseService.AssetManagementGroupActionType.Read:
+                return AssetManagementGroupActionType.Read;
+            case Generated.AdrBaseService.AssetManagementGroupActionType.Call:
+                return AssetManagementGroupActionType.Call;
+            case Generated.AdrBaseService.AssetManagementGroupActionType.Write:
+                return AssetManagementGroupActionType.Write;
+            default:
+                throw new ArgumentException("Unknown management group action type");
+        }
     }
 
-    internal static DatasetTarget ToModel(this AdrBaseService.DatasetTarget source)
+    internal static DatasetTarget ToModel(this Generated.AdrBaseService.DatasetTarget source)
     {
-        return (DatasetTarget)(int)source;
+        switch (source)
+        {
+            case Generated.AdrBaseService.DatasetTarget.Storage:
+                return DatasetTarget.Storage;
+            case Generated.AdrBaseService.DatasetTarget.Mqtt:
+                return DatasetTarget.Mqtt;
+            case Generated.AdrBaseService.DatasetTarget.BrokerStateStore:
+                return DatasetTarget.BrokerStateStore;
+            default:
+                throw new ArgumentException("Unknown dataset target type");
+        }
     }
 
-    internal static DestinationConfiguration ToModel(this AdrBaseService.DestinationConfiguration source)
+    internal static DestinationConfiguration ToModel(this Generated.AdrBaseService.DestinationConfiguration source)
     {
         return new DestinationConfiguration
         {
@@ -287,14 +345,30 @@ internal static class ModelsConverter
         };
     }
 
-    internal static Retain ToModel(this AdrBaseService.Retain source)
+    internal static Retain ToModel(this Generated.AdrBaseService.Retain source)
     {
-        return (Retain)(int)source;
+        switch (source)
+        {
+            case Generated.AdrBaseService.Retain.Keep:
+                return Retain.Keep;
+            case Generated.AdrBaseService.Retain.Never:
+                return Retain.Never;
+            default:
+                throw new ArgumentException("Unknown retain type");
+        }
     }
 
-    internal static QoS ToModel(this AdrBaseService.Qos source)
+    internal static QoS ToModel(this Generated.AdrBaseService.Qos source)
     {
-        return (QoS)(int)source;
+        switch (source)
+        {
+            case Generated.AdrBaseService.Qos.Qos0:
+                return QoS.Qos0;
+            case Generated.AdrBaseService.Qos.Qos1:
+                return QoS.Qos1;
+            default:
+                throw new ArgumentException("Unknown qos");
+        }
     }
 
     internal static AssetDataset ToModel(this AssetDatasetSchemaElementSchema source)
@@ -333,7 +407,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static EventStreamDestination ToModel(this AdrBaseService.EventStreamDestination source)
+    internal static EventStreamDestination ToModel(this Generated.AdrBaseService.EventStreamDestination source)
     {
         return new EventStreamDestination
         {
@@ -342,9 +416,17 @@ internal static class ModelsConverter
         };
     }
 
-    internal static EventStreamTarget ToModel(this AdrBaseService.EventStreamTarget source)
+    internal static EventStreamTarget ToModel(this Generated.AdrBaseService.EventStreamTarget source)
     {
-        return (EventStreamTarget)(int)source;
+        switch (source)
+        {
+            case Generated.AdrBaseService.EventStreamTarget.Mqtt:
+                return EventStreamTarget.Mqtt;
+            case Generated.AdrBaseService.EventStreamTarget.Storage:
+                return EventStreamTarget.Storage;
+            default:
+                throw new ArgumentException("Unknown event stream target type");
+        }
     }
 
     internal static Authentication ToModel(this AuthenticationSchema source)
@@ -359,7 +441,17 @@ internal static class ModelsConverter
 
     internal static Method ToModel(this MethodSchema source)
     {
-        return (Method)(int)source;
+        switch (source)
+        {
+            case Generated.AdrBaseService.MethodSchema.UsernamePassword:
+                return Method.UsernamePassword;
+            case Generated.AdrBaseService.MethodSchema.Certificate:
+                return Method.Certificate;
+            case Generated.AdrBaseService.MethodSchema.Anonymous:
+                return Method.Anonymous;
+            default:
+                throw new ArgumentException("Unknown authentication method");
+        }
     }
 
     internal static X509Credentials ToModel(this X509credentialsSchema source)
@@ -413,7 +505,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DeviceStatus ToModel(this AdrBaseService.DeviceStatus source)
+    internal static DeviceStatus ToModel(this Generated.AdrBaseService.DeviceStatus source)
     {
         return new DeviceStatus
         {
@@ -451,7 +543,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetDatasetEventStreamStatus ToModel(this AdrBaseService.AssetDatasetEventStreamStatus source)
+    internal static AssetDatasetEventStreamStatus ToModel(this Generated.AdrBaseService.AssetDatasetEventStreamStatus source)
     {
         return new AssetDatasetEventStreamStatus
         {
@@ -481,7 +573,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetDeviceRef ToModel(this AdrBaseService.AssetDeviceRef source)
+    internal static AssetDeviceRef ToModel(this Generated.AdrBaseService.AssetDeviceRef source)
     {
         return new AssetDeviceRef
         {
@@ -490,7 +582,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DeviceOutboundEndpoint ToModel(this AdrBaseService.DeviceOutboundEndpoint source)
+    internal static DeviceOutboundEndpoint ToModel(this Generated.AdrBaseService.DeviceOutboundEndpoint source)
     {
         return new DeviceOutboundEndpoint
         {
@@ -499,7 +591,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static OutboundSchema ToModel(this AdrBaseService.OutboundSchema source)
+    internal static OutboundSchema ToModel(this Generated.AdrBaseService.OutboundSchema source)
     {
         return new OutboundSchema
         {
