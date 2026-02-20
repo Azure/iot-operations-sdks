@@ -24,7 +24,7 @@ use crate::{
     MessageSchemaReference,
     base_connector::ConnectorContext,
     deployment_artifacts::{
-        self,
+        self, FileMount,
         azure_device_registry::{AssetRef, DeviceEndpointRef},
     },
     destination_endpoint,
@@ -3122,7 +3122,7 @@ pub struct DeviceSpecification {
 impl DeviceSpecification {
     pub(crate) fn new(
         device_specification: adr_models::Device,
-        device_endpoint_credentials_mount_path: Option<&PathBuf>,
+        device_endpoint_credentials_mount_path: Option<&FileMount>,
         inbound_endpoint_name: &str,
     ) -> Result<Self, String> {
         // convert the endpoints to the new format with only the one specified inbound endpoint
