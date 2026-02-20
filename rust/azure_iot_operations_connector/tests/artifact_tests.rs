@@ -60,8 +60,12 @@ fn local_connector_artifacts_tls() {
             assert_eq!(artifacts.connector_namespace, "connector_namespace");
             // NOTE: These values are paths specified in the environment variable
             assert_eq!(
-                artifacts.broker_trust_bundle_mount,
-                Some(get_broker_trust_bundle_mount_path())
+                artifacts
+                    .broker_trust_bundle_mount
+                    .as_ref()
+                    .unwrap()
+                    .as_path(),
+                get_broker_trust_bundle_mount_path().as_path(),
             );
 
             // --- Validate the ConnectorConfiguration from the ConnectorArtifacts ---
