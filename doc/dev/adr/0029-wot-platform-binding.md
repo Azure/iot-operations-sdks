@@ -255,7 +255,7 @@ Each of the properties has a type reference to an identifier in the space of OPC
 The following TM example illustrates 2 terms: `aov:withUnit` and `qudt:hasQuantityKind`.
 
 Event "HeadAtPeakPoint" indicates that its numerical schema value represents a Length quantity.
-The unit for this value is givn by the string value of property "HeadAtPeakPoint_Units", as indicated by the value of `aov:withUnit`, which is "properties/HeadAtPeakPoint_Units".
+The unit for this value is given by the string value of property "HeadAtPeakPoint_Units", as indicated by the value of `aov:withUnit`, which is "properties/HeadAtPeakPoint_Units".
 Note the "properties/" prefix in this value, which explicitly indicates that "HeadAtPeakPoint_Units" is the name of a property (and not, e.g., an event).
 This prefix is required for clarity even though no other prefix values are supported.
 
