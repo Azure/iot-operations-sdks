@@ -77,7 +77,7 @@ Generated hierarchy:
 ```
 ─ output
   └─ proj_name
-     ├─ Carge.toml
+     ├─ Cargo.toml
      ├─ working
      │  └─ (generated JSON Schema files)
      └─ src
