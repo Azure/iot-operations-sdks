@@ -126,7 +126,7 @@ The proposed AIO Platform Binding introduces 17 new RDF terms:
 * `aov:scaleFactor` &mdash; property whose value is used for scaling instance values.
 * `aov:decimalPlaces` &mdash; property whose value specifies the significant precision of a numeric value.
 * `aov:memberOf` &mdash; property whose value specifies the name of a group of which this action is a member.
-* `aov:withUnit` &mdash; property whose value specifies the name of a WoT property whose value inticates a unit.
+* `aov:withUnit` &mdash; property whose value specifies the name of a WoT property whose value indicates a unit.
 * `qudt:hasQuantityKind` &mdash; property whose value indicates a quantity kind using the [QUDT vocabulary](https://qudt.org/doc/2026/01/DOC_VOCAB-QUANTITY-KINDS-ALL.html).
 
 Use of these is illustrated in the following TM examples.
