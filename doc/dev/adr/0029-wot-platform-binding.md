@@ -109,7 +109,7 @@ The proposed RDF term prefix is "aov:", derived from the phrase "Azure Operation
 
 ### AIO Platform Binding
 
-The proposed AIO Platform Binding introduces 16 new RDF terms:
+The proposed AIO Platform Binding introduces 17 new RDF terms:
 
 * `aov:isComposite` &mdash; property whose value is `true` when a TM is not a component or capability of any other TM.
 * `aov:isEvent` &mdash; property whose value is `true` when a TM has semantics associated with an event type.
