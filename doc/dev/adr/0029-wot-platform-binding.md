@@ -315,4 +315,4 @@ The following table summarizes the mapping between DTDL extensions (AIO, Annotat
 | | Limited.maximum | maximum | |
 | | Limited.minimum | minimum | |
 | | (not supported) | | qudt:hasQuantityKind |
-| | ValueAnnotation.annototes / Override.overrides | | aov:withUnit |
+| | ValueAnnotation.annotates / Override.overrides | | aov:withUnit |
