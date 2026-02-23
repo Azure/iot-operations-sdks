@@ -113,7 +113,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
                 }
                 catch (SchemaRegistryErrorException intEx)
                 {
-                    ExtendedResponse<PutResponseSchema> extendedResponse = ExtendedResponse<PutResponseSchema>.CreateFromResponse(new PutResponseSchema { PutError = intEx.SchemaRegistryError });
+                    ExtendedResponse<PutResponseSchema> extendedResponse = ExtendedResponse<PutResponseSchema>.CreateFromResponse(new PutResponseSchema { Error = intEx.SchemaRegistryError });
                     return extendedResponse;
                 }
             }
@@ -136,7 +136,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
                 }
                 catch (SchemaRegistryErrorException intEx)
                 {
-                    ExtendedResponse<GetResponseSchema> extendedResponse = ExtendedResponse<GetResponseSchema>.CreateFromResponse(new GetResponseSchema { GetError = intEx.SchemaRegistryError });
+                    ExtendedResponse<GetResponseSchema> extendedResponse = ExtendedResponse<GetResponseSchema>.CreateFromResponse(new GetResponseSchema { Error = intEx.SchemaRegistryError });
                     return extendedResponse;
                 }
             }
@@ -264,9 +264,9 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
             {
                 ExtendedResponse<PutResponseSchema> extended = await this.putCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response.PutError != null)
+                if (extended.Response.Error != null)
                 {
-                    SchemaRegistryErrorException schemaRegistryErrorException = new SchemaRegistryErrorException(extended.Response.PutError);
+                    SchemaRegistryErrorException schemaRegistryErrorException = new SchemaRegistryErrorException(extended.Response.Error);
                     throw schemaRegistryErrorException;
                 }
                 else
@@ -286,9 +286,9 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
             {
                 ExtendedResponse<GetResponseSchema> extended = await this.getCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response.GetError != null)
+                if (extended.Response.Error != null)
                 {
-                    SchemaRegistryErrorException schemaRegistryErrorException = new SchemaRegistryErrorException(extended.Response.GetError);
+                    SchemaRegistryErrorException schemaRegistryErrorException = new SchemaRegistryErrorException(extended.Response.Error);
                     throw schemaRegistryErrorException;
                 }
                 else

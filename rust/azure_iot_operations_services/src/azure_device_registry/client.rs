@@ -13,13 +13,17 @@ use derive_builder::Builder;
 use tokio::sync::Notify;
 
 use crate::azure_device_registry::models::{
-    Asset, AssetStatus, Device, DeviceRef, DeviceStatus, DiscoveredAsset, DiscoveredDevice,
+    Asset, AssetStatus, DatasetRuntimeHealthEvent, Device, DeviceRef, DeviceStatus,
+    DiscoveredAsset, DiscoveredDevice, EventRuntimeHealthEvent, ManagementActionRuntimeHealthEvent,
+    StreamRuntimeHealthEvent,
 };
 use crate::azure_device_registry::{
-    AssetRef, AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
+    AssetRef, AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind, RuntimeHealth,
+    health_reporter,
 };
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
+    adr_base_gen::adr_base_service::service as base_service_gen,
     adr_base_gen::common_types::options as base_options_gen,
     device_discovery_gen::common_types::options as discovery_options_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
@@ -50,6 +54,8 @@ pub struct Client {
     get_device_command_invoker: Arc<base_client_gen::GetDeviceCommandInvoker>,
     get_device_status_command_invoker: Arc<base_client_gen::GetDeviceStatusCommandInvoker>,
     update_device_status_command_invoker: Arc<base_client_gen::UpdateDeviceStatusCommandInvoker>,
+    device_endpoint_health_telemetry_sender:
+        Arc<base_service_gen::DeviceEndpointRuntimeHealthEventTelemetrySender>,
     notify_on_device_update_command_invoker:
         Arc<base_client_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker>,
     create_or_update_discovered_device_command_invoker:
@@ -59,6 +65,12 @@ pub struct Client {
     get_asset_command_invoker: Arc<base_client_gen::GetAssetCommandInvoker>,
     get_asset_status_command_invoker: Arc<base_client_gen::GetAssetStatusCommandInvoker>,
     update_asset_status_command_invoker: Arc<base_client_gen::UpdateAssetStatusCommandInvoker>,
+    dataset_health_telemetry_sender:
+        Arc<base_service_gen::DatasetRuntimeHealthEventTelemetrySender>,
+    event_health_telemetry_sender: Arc<base_service_gen::EventRuntimeHealthEventTelemetrySender>,
+    stream_health_telemetry_sender: Arc<base_service_gen::StreamRuntimeHealthEventTelemetrySender>,
+    management_action_health_telemetry_sender:
+        Arc<base_service_gen::ManagementActionRuntimeHealthEventTelemetrySender>,
     notify_on_asset_update_command_invoker:
         Arc<base_client_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker>,
     create_or_update_discovered_asset_command_invoker:
@@ -107,12 +119,21 @@ impl Client {
                 .build()
                 .expect("Builder cannot fail as there is no validation function");
 
-        let telemetry_options = base_options_gen::TelemetryReceiverOptionsBuilder::default()
+        let telemetry_receiver_options =
+            base_options_gen::TelemetryReceiverOptionsBuilder::default()
+                .topic_token_map(HashMap::from([(
+                    "connectorClientId".to_string(),
+                    client.client_id().to_string(),
+                )]))
+                .auto_ack(options.notification_auto_ack)
+                .build()
+                .expect("Builder cannot fail as there is no validation function");
+
+        let telemetry_sender_options = base_options_gen::TelemetrySenderOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
                 "connectorClientId".to_string(),
                 client.client_id().to_string(),
             )]))
-            .auto_ack(options.notification_auto_ack)
             .build()
             .expect("Builder cannot fail as there is no validation function");
 
@@ -137,13 +158,13 @@ impl Client {
                 base_client_gen::DeviceUpdateEventTelemetryReceiver::new(
                     application_context.clone(),
                     client.clone(),
-                    &telemetry_options,
+                    &telemetry_receiver_options,
                 );
             let asset_update_telemetry_receiver =
                 base_client_gen::AssetUpdateEventTelemetryReceiver::new(
                     application_context.clone(),
                     client.clone(),
-                    &telemetry_options,
+                    &telemetry_receiver_options,
                 );
 
             async move {
@@ -179,6 +200,13 @@ impl Client {
                     &command_options_base,
                 ),
             ),
+            device_endpoint_health_telemetry_sender: Arc::new(
+                base_service_gen::DeviceEndpointRuntimeHealthEventTelemetrySender::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &telemetry_sender_options,
+                ),
+            ),
             notify_on_device_update_command_invoker: Arc::new(
                 base_client_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker::new(
                     application_context.clone(),
@@ -211,6 +239,34 @@ impl Client {
                     application_context.clone(),
                     client.clone(),
                     &command_options_base,
+                ),
+            ),
+            dataset_health_telemetry_sender: Arc::new(
+                base_service_gen::DatasetRuntimeHealthEventTelemetrySender::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &telemetry_sender_options,
+                ),
+            ),
+            event_health_telemetry_sender: Arc::new(
+                base_service_gen::EventRuntimeHealthEventTelemetrySender::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &telemetry_sender_options,
+                ),
+            ),
+            stream_health_telemetry_sender: Arc::new(
+                base_service_gen::StreamRuntimeHealthEventTelemetrySender::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &telemetry_sender_options,
+                ),
+            ),
+            management_action_health_telemetry_sender: Arc::new(
+                base_service_gen::ManagementActionRuntimeHealthEventTelemetrySender::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &telemetry_sender_options,
                 ),
             ),
             notify_on_asset_update_command_invoker: Arc::new(
@@ -530,8 +586,8 @@ impl Client {
     /// Returns a [`Device`] if the device was found.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -573,8 +629,8 @@ impl Client {
     /// Returns the [`DeviceStatus`] if the device was found.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -617,8 +673,8 @@ impl Client {
     /// Returns the updated [`DeviceStatus`] once updated.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -656,6 +712,45 @@ impl Client {
         Ok(response.payload.updated_device_status.into())
     }
 
+    /// Reports a Device Endpoint's runtime health status to the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `runtime_health` - A [`RuntimeHealth`] containing all runtime health information for the device endpoint.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if `message_expiry` is > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO Telemetry protocol.
+    pub async fn report_device_endpoint_runtime_health_event(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        runtime_health: RuntimeHealth,
+        message_expiry: Duration,
+    ) -> Result<(), Error> {
+        let health_status_message =
+            base_service_gen::DeviceEndpointRuntimeHealthEventTelemetryMessageBuilder::default()
+                .payload(runtime_health.into())
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_base_service_topic_tokens(
+                    device_name,
+                    inbound_endpoint_name,
+                ))
+                .message_expiry(message_expiry)
+                .build()
+                .map_err(ErrorKind::from)?;
+        self.device_endpoint_health_telemetry_sender
+            .send(health_status_message)
+            .await
+            .map_err(|e| Error::from(ErrorKind::from(e)))
+    }
+
     /// Starts observation of a [`Device`]'s updates from the Azure Device Registry service.
     ///
     /// Note: On cleanup, unobserve should always be called so that the service knows to stop sending notifications.
@@ -671,8 +766,8 @@ impl Client {
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
     /// if the [`Device`] is already being observed.
     ///
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -753,8 +848,8 @@ impl Client {
     /// Returns `Ok(())` if the device updates are no longer being observed.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -821,15 +916,12 @@ impl Client {
     /// Returns tuple containing the discovery ID and version of the discovered device.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max` or if the device name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - inbound endpoint type is invalid for the topic.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the device name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -873,6 +965,34 @@ impl Client {
         Ok((discovery_id, version))
     }
 
+    /// Creates a new background health reporter for a device endpoint.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified device endpoint.
+    ///
+    /// # Arguments
+    /// * `device_ref` - Reference to the device and endpoint.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on device endpoint deletion.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
+    #[must_use]
+    pub fn new_device_endpoint_health_reporter(
+        &self,
+        device_ref: DeviceRef,
+        message_expiry: Duration,
+        report_interval: health_reporter::ReportInterval,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::DeviceEndpointHealthReporter {
+            client: self.clone(),
+            device_ref,
+            message_expiry,
+        };
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
+    }
+
     // ~~~~~~~~~~~~~~~~~ Asset APIs ~~~~~~~~~~~~~~~~~~~~~
 
     /// Retrieves an [`Asset`] from the Azure Device Registry service.
@@ -886,15 +1006,12 @@ impl Client {
     /// Returns an [`Asset`] if the the asset was found.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -943,15 +1060,12 @@ impl Client {
     /// Returns an [`AssetStatus`] if the the asset was found.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -1002,15 +1116,12 @@ impl Client {
     /// Returns the updated [`AssetStatus`] once updated.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -1055,6 +1166,315 @@ impl Client {
         Ok(response.payload.updated_asset_status.into())
     }
 
+    /// Reports Datasets' runtime health statuses to the Azure Device Registry service.
+    /// Note: Reporting multiple dataset statuses in a single call has the same effect
+    /// as reporting them individually, but reduced network calls. Duplicate dataset names
+    /// in the `runtime_healths` vector will result in the latest (by version and timestamp) entry being used
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `runtime_healths` - A vector of [`DatasetRuntimeHealthEvent`] containing all runtime health information for the datasets.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if `message_expiry` is > `u32::max` or if the asset or any dataset name is empty.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO Telemetry protocol.
+    pub async fn report_dataset_runtime_health_events(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        runtime_healths: Vec<DatasetRuntimeHealthEvent>,
+        message_expiry: Duration,
+    ) -> Result<(), Error> {
+        if asset_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "asset_name must not be empty".to_string(),
+            )));
+        }
+        // If there are no health events to report, this is a no-op
+        if runtime_healths.is_empty() {
+            return Ok(());
+        }
+
+        let dataset_health_events = runtime_healths
+            .into_iter()
+            .map(|runtime_health_event| {
+                if runtime_health_event.dataset_name.trim().is_empty() {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "dataset_name must not be empty".to_string(),
+                    )));
+                }
+                Ok(runtime_health_event.into())
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+
+        let payload = base_service_gen::DatasetRuntimeHealthEventTelemetry {
+            dataset_runtime_health_event: base_service_gen::DatasetRuntimeHealthEventSchema {
+                asset_name,
+                datasets: dataset_health_events,
+            },
+        };
+
+        let health_status_message =
+            base_service_gen::DatasetRuntimeHealthEventTelemetryMessageBuilder::default()
+                .payload(payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_base_service_topic_tokens(
+                    device_name,
+                    inbound_endpoint_name,
+                ))
+                .message_expiry(message_expiry)
+                .build()
+                .map_err(ErrorKind::from)?;
+        self.dataset_health_telemetry_sender
+            .send(health_status_message)
+            .await
+            .map_err(|e| Error::from(ErrorKind::from(e)))
+    }
+
+    /// Reports Events' runtime health statuses to the Azure Device Registry service.
+    /// Note: Reporting multiple event statuses in a single call has the same effect
+    /// as reporting them individually, but reduced network calls. Duplicate event names
+    /// in the `runtime_healths` vector will result in the latest (by version and timestamp) entry being used
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `runtime_healths` - A vector of [`EventRuntimeHealthEvent`] containing all runtime health information for the events.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if `message_expiry` is > `u32::max` or if the asset or any event group or event name is
+    /// empty.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO Telemetry protocol.
+    pub async fn report_event_runtime_health_events(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        runtime_healths: Vec<EventRuntimeHealthEvent>,
+        message_expiry: Duration,
+    ) -> Result<(), Error> {
+        if asset_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "asset_name must not be empty".to_string(),
+            )));
+        }
+        // If there are no health events to report, this is a no-op
+        if runtime_healths.is_empty() {
+            return Ok(());
+        }
+
+        let event_health_events = runtime_healths
+            .into_iter()
+            .map(|runtime_health_event| {
+                if runtime_health_event.event_group_name.trim().is_empty() {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "event_group_name must not be empty".to_string(),
+                    )));
+                }
+                if runtime_health_event.event_name.trim().is_empty() {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "event_name must not be empty".to_string(),
+                    )));
+                }
+                Ok(runtime_health_event.into())
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+
+        let payload = base_service_gen::EventRuntimeHealthEventTelemetry {
+            event_runtime_health_event: base_service_gen::EventRuntimeHealthEventSchema {
+                asset_name,
+                events: event_health_events,
+            },
+        };
+
+        let health_status_message =
+            base_service_gen::EventRuntimeHealthEventTelemetryMessageBuilder::default()
+                .payload(payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_base_service_topic_tokens(
+                    device_name,
+                    inbound_endpoint_name,
+                ))
+                .message_expiry(message_expiry)
+                .build()
+                .map_err(ErrorKind::from)?;
+        self.event_health_telemetry_sender
+            .send(health_status_message)
+            .await
+            .map_err(|e| Error::from(ErrorKind::from(e)))
+    }
+
+    /// Reports Streams' runtime health statuses to the Azure Device Registry service.
+    /// Note: Reporting multiple stream statuses in a single call has the same effect
+    /// as reporting them individually, but reduced network calls. Duplicate stream names
+    /// in the `runtime_healths` vector will result in the latest (by version and timestamp) entry being used
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `runtime_healths` - A vector of [`StreamRuntimeHealthEvent`] containing all runtime health information for the streams.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if `message_expiry` is > `u32::max` or if the asset or any stream name is empty.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO Telemetry protocol.
+    pub async fn report_stream_runtime_health_events(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        runtime_healths: Vec<StreamRuntimeHealthEvent>,
+        message_expiry: Duration,
+    ) -> Result<(), Error> {
+        if asset_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "asset_name must not be empty".to_string(),
+            )));
+        }
+        // If there are no health events to report, this is a no-op
+        if runtime_healths.is_empty() {
+            return Ok(());
+        }
+
+        let stream_health_events = runtime_healths
+            .into_iter()
+            .map(|runtime_health_event| {
+                if runtime_health_event.stream_name.trim().is_empty() {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "stream_name must not be empty".to_string(),
+                    )));
+                }
+                Ok(runtime_health_event.into())
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+
+        let payload = base_service_gen::StreamRuntimeHealthEventTelemetry {
+            stream_runtime_health_event: base_service_gen::StreamRuntimeHealthEventSchema {
+                asset_name,
+                streams: stream_health_events,
+            },
+        };
+
+        let health_status_message =
+            base_service_gen::StreamRuntimeHealthEventTelemetryMessageBuilder::default()
+                .payload(payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_base_service_topic_tokens(
+                    device_name,
+                    inbound_endpoint_name,
+                ))
+                .message_expiry(message_expiry)
+                .build()
+                .map_err(ErrorKind::from)?;
+        self.stream_health_telemetry_sender
+            .send(health_status_message)
+            .await
+            .map_err(|e| Error::from(ErrorKind::from(e)))
+    }
+
+    /// Reports Management Actions' runtime health statuses to the Azure Device Registry service.
+    /// Note: Reporting multiple management action statuses in a single call has the same effect
+    /// as reporting them individually, but reduced network calls. Duplicate management action names
+    /// in the `runtime_healths` vector will result in the latest (by version and timestamp) entry being used
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `runtime_healths` - A vector of [`ManagementActionRuntimeHealthEvent`] containing all runtime health information for the management actions.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if `message_expiry` is > `u32::max` or if the asset or any management group or management
+    /// action name is empty.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO Telemetry protocol.
+    pub async fn report_management_action_runtime_health_events(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        runtime_healths: Vec<ManagementActionRuntimeHealthEvent>,
+        message_expiry: Duration,
+    ) -> Result<(), Error> {
+        if asset_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "asset_name must not be empty".to_string(),
+            )));
+        }
+        // If there are no health events to report, this is a no-op
+        if runtime_healths.is_empty() {
+            return Ok(());
+        }
+
+        let management_action_health_events = runtime_healths
+            .into_iter()
+            .map(|runtime_health_event| {
+                if runtime_health_event.management_group_name.trim().is_empty() {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "management_group_name must not be empty".to_string(),
+                    )));
+                }
+                if runtime_health_event
+                    .management_action_name
+                    .trim()
+                    .is_empty()
+                {
+                    return Err(Error(ErrorKind::ValidationError(
+                        "management_action_name must not be empty".to_string(),
+                    )));
+                }
+                Ok(runtime_health_event.into())
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+
+        let payload = base_service_gen::ManagementActionRuntimeHealthEventTelemetry {
+            management_action_runtime_health_event:
+                base_service_gen::ManagementActionRuntimeHealthEventSchema {
+                    asset_name,
+                    management_actions: management_action_health_events,
+                },
+        };
+
+        let health_status_message =
+            base_service_gen::ManagementActionRuntimeHealthEventTelemetryMessageBuilder::default()
+                .payload(payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_base_service_topic_tokens(
+                    device_name,
+                    inbound_endpoint_name,
+                ))
+                .message_expiry(message_expiry)
+                .build()
+                .map_err(ErrorKind::from)?;
+        self.management_action_health_telemetry_sender
+            .send(health_status_message)
+            .await
+            .map_err(|e| Error::from(ErrorKind::from(e)))
+    }
+
     /// Starts observation of an [`Asset`]'s updates from the Azure Device Registry service.
     ///
     /// Note: On cleanup, unobserve should always be called so that the service knows to stop sending notifications.
@@ -1071,15 +1491,12 @@ impl Client {
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
     /// if the [`Asset`] is already being observed.
     ///
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -1172,15 +1589,12 @@ impl Client {
     /// Returns `Ok(())` if the asset updates are no longer being observed.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -1261,15 +1675,12 @@ impl Client {
     /// Returns a tuple containing the discovery ID and version of the discovered asset.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0 or > `u32::max`.
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if timeout is 0
+    /// or > `u32::max` or if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    ///
-    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
-    /// if the asset name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -1314,6 +1725,136 @@ impl Client {
         let discovery_id = response.payload.discovered_asset_response.discovery_id;
         let version = response.payload.discovered_asset_response.version;
         Ok((discovery_id, version))
+    }
+
+    /// Creates a new background health reporter for a dataset.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified dataset within an asset.
+    ///
+    /// # Arguments
+    /// * `asset_ref` - Reference to the asset containing the dataset.
+    /// * `dataset_name` - The name of the dataset.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on dataset deletion.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
+    #[must_use]
+    pub fn new_dataset_health_reporter(
+        &self,
+        asset_ref: AssetRef,
+        dataset_name: String,
+        message_expiry: Duration,
+        report_interval: health_reporter::ReportInterval,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::DatasetHealthReporter {
+            client: self.clone(),
+            asset_ref,
+            dataset_name,
+            message_expiry,
+        };
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
+    }
+
+    /// Creates a new background health reporter for an event.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified event within an asset.
+    ///
+    /// # Arguments
+    /// * `asset_ref` - Reference to the asset containing the event.
+    /// * `event_group_name` - The name of the event group.
+    /// * `event_name` - The name of the event.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on event deletion.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
+    #[must_use]
+    pub fn new_event_health_reporter(
+        &self,
+        asset_ref: AssetRef,
+        event_group_name: String,
+        event_name: String,
+        message_expiry: Duration,
+        report_interval: health_reporter::ReportInterval,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::EventHealthReporter {
+            client: self.clone(),
+            asset_ref,
+            event_group_name,
+            event_name,
+            message_expiry,
+        };
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
+    }
+
+    /// Creates a new background health reporter for a stream.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified stream within an asset.
+    ///
+    /// # Arguments
+    /// * `asset_ref` - Reference to the asset containing the stream.
+    /// * `stream_name` - The name of the stream.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on stream deletion.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
+    #[must_use]
+    pub fn new_stream_health_reporter(
+        &self,
+        asset_ref: AssetRef,
+        stream_name: String,
+        message_expiry: Duration,
+        report_interval: health_reporter::ReportInterval,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::StreamHealthReporter {
+            client: self.clone(),
+            asset_ref,
+            stream_name,
+            message_expiry,
+        };
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
+    }
+
+    /// Creates a new background health reporter for a management action.
+    ///
+    /// Spawns a background task that handles deduplication and periodic re-reporting
+    /// of health status for the specified management action within an asset.
+    ///
+    /// # Arguments
+    /// * `asset_ref` - Reference to the asset containing the management action.
+    /// * `management_group_name` - The name of the management group.
+    /// * `management_action_name` - The name of the management action.
+    /// * `message_expiry` - The duration for which the message will be attempted to be given to the service, it is rounded up to the nearest second.
+    /// * `report_interval` - Interval for re-reporting steady-state health when no changes occur.
+    /// * `cancellation_token` - Token to signal cancellation of the background task. Should be triggered on management action deletion.
+    ///
+    /// Returns a [`HealthReporterSender`](health_reporter::HealthReporterSender) that can be used to send health events.
+    #[must_use]
+    pub fn new_management_action_health_reporter(
+        &self,
+        asset_ref: AssetRef,
+        management_group_name: String,
+        management_action_name: String,
+        message_expiry: Duration,
+        report_interval: health_reporter::ReportInterval,
+        cancellation_token: tokio_util::sync::CancellationToken,
+    ) -> health_reporter::HealthReporterSender {
+        let reporter = health_reporter::ManagementActionHealthReporter {
+            client: self.clone(),
+            asset_ref,
+            management_group_name,
+            management_action_name,
+            message_expiry,
+        };
+        health_reporter::new_health_reporter(reporter, report_interval, cancellation_token)
     }
 }
 
@@ -1480,7 +2021,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err(),
-            Error(ErrorKind::InvalidRequestArgument(_))
+            Error(ErrorKind::ValidationError(_))
         ));
     }
 
@@ -1535,7 +2076,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err(),
-            Error(ErrorKind::InvalidRequestArgument(_))
+            Error(ErrorKind::ValidationError(_))
         ));
     }
 
@@ -1593,7 +2134,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -1651,7 +2192,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -1709,7 +2250,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -1771,7 +2312,7 @@ mod tests {
 
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -1803,7 +2344,7 @@ mod tests {
 
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -1835,7 +2376,7 @@ mod tests {
 
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -1876,7 +2417,7 @@ mod tests {
 
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -1911,7 +2452,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -1946,7 +2487,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 
@@ -2000,7 +2541,7 @@ mod tests {
             .await;
         assert!(matches!(
             result.unwrap_err().kind(),
-            ErrorKind::InvalidRequestArgument(_)
+            ErrorKind::ValidationError(_)
         ));
     }
 

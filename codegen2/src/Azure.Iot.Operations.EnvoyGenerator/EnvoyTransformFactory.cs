@@ -518,7 +518,10 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             switch (targetLanguage)
             {
                 case TargetLanguage.CSharp:
-                    yield return new DotNetProject(projectName, sdkPath);
+                    if (generateProject)
+                    {
+                        yield return new DotNetProject(projectName, sdkPath);
+                    }
                     break;
                 case TargetLanguage.Rust:
                     yield return new RustIndex(genNamespace, commonNs, clientFilenames, serverFilenames, sharedFilenames, hiddenFilenames, srcSubdir);
