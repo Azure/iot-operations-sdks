@@ -413,3 +413,191 @@ impl ManagementActionResponseBuilder {
         inner_builder.build()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use azure_iot_operations_protocol::common::payload_serialize::SerializedPayload;
+    use test_case::test_case;
+
+    #[test_case(Some(&"default/topic".to_string()); "default topic defined")]
+    #[test_case(None; "default topic not defined")]
+    fn test_get_executor_topic(default_topic: Option<&String>) {
+        let topic = Some("test/topic".to_string());
+        assert_eq!(
+            try_executor_topic_from_management_topics(topic.as_ref(), default_topic).unwrap(),
+            "test/topic".to_string()
+        );
+    }
+
+    #[test_case(Some(&"default/topic".to_string()); "default topic defined")]
+    #[test_case(None; "default topic not defined")]
+    fn test_get_executor_topic_no_action_topic(default_topic: Option<&String>) {
+        let topic = None;
+        assert!(try_executor_topic_from_management_topics(topic.as_ref(), default_topic).is_err());
+    }
+
+    #[test]
+    fn action_response_uninitialized_fields() {
+        let full_default = ManagementActionResponseBuilder::default().build();
+        assert!(matches!(
+            full_default,
+            Err(ResponseBuilderError::UninitializedField(_))
+        ));
+
+        let missing_payload = ManagementActionResponseBuilder::default()
+            .content_type("application/json".to_string())
+            .cloud_event(None)
+            .build();
+        assert!(matches!(
+            missing_payload,
+            Err(ResponseBuilderError::UninitializedField(_))
+        ));
+
+        let missing_content_type = ManagementActionResponseBuilder::default()
+            .payload(vec![])
+            .cloud_event(None)
+            .build();
+        assert!(matches!(
+            missing_content_type,
+            Err(ResponseBuilderError::UninitializedField(_))
+        ));
+
+        let missing_cloud_event = ManagementActionResponseBuilder::default()
+            .payload(vec![])
+            .content_type("application/json".to_string())
+            .build();
+        assert!(matches!(
+            missing_cloud_event,
+            Err(ResponseBuilderError::UninitializedField(_))
+        ));
+    }
+
+    #[test]
+    fn action_response_minimum_fields() {
+        let _ = ManagementActionResponseBuilder::default()
+            .payload(vec![])
+            .content_type("application/octet-stream".to_string())
+            .cloud_event(None)
+            .build()
+            .unwrap();
+    }
+
+    #[test]
+    fn action_response_maximum_fields() {
+        let cloud_event = rpc_command::executor::ResponseCloudEventBuilder::default()
+            .source("aio://test/action")
+            .build()
+            .unwrap();
+        let _ = ManagementActionResponseBuilder::default()
+            .payload("test payload".as_bytes().to_vec())
+            .content_type("application/json".to_string())
+            .format_indicator(FormatIndicator::Utf8EncodedCharacterData)
+            .custom_user_data(vec![("key".to_string(), "value".to_string())])
+            .cloud_event(Some(cloud_event))
+            .application_error(ManagementActionApplicationError {
+                application_error_code: "ManagementActionInvalidState".to_string(),
+                application_error_payload:
+                    "The management action is in an invalid state and cannot process requests."
+                        .to_string(),
+            })
+            .build()
+            .unwrap();
+    }
+
+    #[test]
+    fn action_response_maximum_ok() {
+        let cloud_event = rpc_command::executor::ResponseCloudEventBuilder::default()
+            .source("aio://test/action")
+            .build()
+            .unwrap();
+        let _ = ManagementActionResponseBuilder::default()
+            .payload("test payload".as_bytes().to_vec())
+            .content_type("application/json".to_string())
+            .format_indicator(FormatIndicator::Utf8EncodedCharacterData)
+            .custom_user_data(vec![("key".to_string(), "value".to_string())])
+            .cloud_event(Some(cloud_event))
+            .build()
+            .unwrap();
+    }
+
+    #[test]
+    fn action_response_maximum_ok_serialized() {
+        let cloud_event = rpc_command::executor::ResponseCloudEventBuilder::default()
+            .source("aio://test/action")
+            .build()
+            .unwrap();
+        let serialized_payload = SerializedPayload {
+            payload: "test payload".as_bytes().to_vec(),
+            content_type: "application/json".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
+        let _ = ManagementActionResponseBuilder::default()
+            .serialized_payload(serialized_payload)
+            .custom_user_data(vec![("key".to_string(), "value".to_string())])
+            .cloud_event(Some(cloud_event))
+            .build()
+            .unwrap();
+    }
+
+    #[test]
+    fn action_response_invalid_error() {
+        let invalid_error = ManagementActionResponseBuilder::default()
+            .payload(vec![])
+            .content_type("application/octet-stream".to_string())
+            .cloud_event(None)
+            .application_error(ManagementActionApplicationError {
+                application_error_code: String::new(),
+                application_error_payload: String::new(),
+            })
+            .build();
+        assert!(matches!(
+            invalid_error,
+            Err(ResponseBuilderError::ValidationError(_))
+        ));
+    }
+
+    #[test]
+    fn action_response_valid_minimal_error() {
+        let _ = ManagementActionResponseBuilder::default()
+            .payload(vec![])
+            .content_type("application/octet-stream".to_string())
+            .cloud_event(None)
+            .application_error(ManagementActionApplicationError {
+                application_error_code: "ManagementActionInvalidState".to_string(),
+                application_error_payload: String::new(),
+            })
+            .build()
+            .unwrap();
+    }
+
+    #[test]
+    fn action_response_invalid_content_type() {
+        let invalid_error = ManagementActionResponseBuilder::default()
+            .payload(vec![])
+            .content_type("application/json\u{0000}".to_string())
+            .cloud_event(None)
+            .build();
+        assert!(matches!(
+            invalid_error,
+            Err(ResponseBuilderError::ValidationError(_))
+        ));
+    }
+
+    #[test]
+    fn action_response_invalid_cloud_event_content_type() {
+        let cloud_event = rpc_command::executor::ResponseCloudEventBuilder::default()
+            .source("aio://test/action")
+            .build()
+            .unwrap();
+        let invalid_error = ManagementActionResponseBuilder::default()
+            .payload(vec![])
+            .content_type("not a valid content type".to_string())
+            .cloud_event(Some(cloud_event))
+            .build();
+        assert!(matches!(
+            invalid_error,
+            Err(ResponseBuilderError::ValidationError(_))
+        ));
+    }
+}
