@@ -48,7 +48,7 @@ The repo contains [a small collection of valid Thing Models](./test/thing-models
 
 ## Generation hierarchy
 
-The `---outDir`, `--workingDir`, `--namespace`, and `--common` options work together to control the generated hierarchy of folders and namespaces, as can be seen in the following examples.
+The `--outDir`, `--workingDir`, `--namespace`, and `--common` options work together to control the generated hierarchy of folders and namespaces, as can be seen in the following examples.
 
 ### Generated C# hierarchy
 
