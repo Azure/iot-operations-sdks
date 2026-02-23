@@ -6,7 +6,7 @@
 use std::{sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::session::{
-    SessionError, SessionManagedClient, {Session, SessionOptionsBuilder},
+    SessionError, SessionExitErrorKind, SessionManagedClient, {Session, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::{azure_device_registry, schema_registry, state_store};
@@ -148,14 +148,60 @@ impl BaseConnector {
     }
 
     /// Runs the MQTT Session that allows all Connector Operations to be performed.
-    /// Returns if the session ends. If this happens, the base connector will need to be recreated
+    /// Returns if the session is ended by the broker, or if the broker trust bundle is updated.
+    /// If this happens, the base connector will need to be recreated.
     ///
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
     pub async fn run(self) -> Result<(), SessionError> {
+        // If using a broker trust bundle, monitor for changes to the filemount, triggering a
+        // session exit if a change is detected so that the base connector can be restarted and
+        // pick up the updated trust bundle.
+        let exit_on_tb_update_handle = self
+            .connector_context
+            .connector_artifacts
+            .broker_trust_bundle_mount
+            .clone()
+            .map(|mut tb_mount| {
+                let exit_handle = self.session.create_exit_handle();
+                tokio::task::spawn(async move {
+                    tb_mount.changed().await;
+                    log::info!("Broker trust bundle filemount change detected, exiting session");
+
+                    if let Err(e) = exit_handle.try_exit() {
+                        match e.kind() {
+                            SessionExitErrorKind::Detached => {
+                                unreachable!("Session exit handle detached from session");
+                            }
+                            SessionExitErrorKind::ServerUnavailable => {
+                                log::warn!(
+                                    "Server unavailable when trying to exit session, forcing exit"
+                                );
+                                exit_handle.force_exit();
+                            }
+                            _ => {
+                                log::warn!(
+                                    "Unknown error kind on session exit: {:?}, forcing exit",
+                                    e.kind()
+                                );
+                                exit_handle.force_exit();
+                            }
+                        }
+                    }
+                })
+            });
+
         // Run the Session and Connector Operations
         // TODO: make this a part of operation_with_retries to restart the connector if anything fails?
-        self.session.run().await
+        let result = self.session.run().await;
+
+        // If the session exited for a reason other than a trust bundle change,
+        // abort the watcher task so it doesn't linger.
+        if let Some(handle) = exit_on_tb_update_handle {
+            handle.abort();
+        }
+
+        result
     }
 
     /// Creates a new [`DeviceEndpointClientCreationObservation`] to allow for Azure Device Registry operations
