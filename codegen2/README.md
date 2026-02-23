@@ -178,5 +178,5 @@ The usage of the WoT ProtocolCompiler differs from that of the [DTDL ProtocolCom
   * `--clientThings Foo.json --serverThings Bar.json` was not expressible using the old CLI options.
 * JSON Schema definitions are now accepted as first-class input; consequently:
   * `--schemas` specifies JSON Schema files as input.
-  * `--typeNamer` specifies ruls for naming types generated from JSON Schema definitions.
+  * `--typeNamer` specifies rules for naming types generated from JSON Schema definitions.
 * `--common` is new; previously, common code was placed in a fixed location with a fixed name.
