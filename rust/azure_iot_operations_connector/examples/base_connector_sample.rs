@@ -629,7 +629,6 @@ async fn drain_executor(mut executor: ManagementActionExecutor, log_identifier: 
 /// Small handler to indicate lack of support for a component in this connector
 ///
 /// # Arguments
-/// * `connector_context` - The connector context.
 /// * `log_identifier` - A string identifier for the component, used for logging.
 /// * `component_name` - The name of the kind of component.
 /// * `unsupported_client` - The client for the unsupported component.
