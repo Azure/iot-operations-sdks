@@ -399,7 +399,7 @@
         "maximum": 3.40e+38,
         "readOnly": false,
         "aov:contains": [ "DcVoltage_AccuracyClass", "DcVoltage_Resource" ],
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/DcVoltage_EngineeringUnits",
         "forms": [
           {
@@ -595,7 +595,7 @@
           "maximum": 3.40e+38
         },
         "aov:contains": [ "DcVoltage_AccuracyClass", "DcVoltage_Resource" ],
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/DcVoltage_EngineeringUnits",
         "forms": [
           {
@@ -1552,7 +1552,7 @@
         },
         "readOnly": false,
         "aov:contains": [ "AcVoltagePe_AccuracyClass", "AcVoltagePe_Resource" ],
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
         "forms": [
           {
@@ -1630,7 +1630,7 @@
         },
         "readOnly": false,
         "aov:contains": [ "AcVoltagePp_AccuracyClass", "AcVoltagePp_Resource" ],
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
         "forms": [
           {
@@ -2053,7 +2053,7 @@
           }
         },
         "aov:contains": [ "AcVoltagePe_AccuracyClass", "AcVoltagePe_Resource" ],
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
         "forms": [
           {
@@ -2124,7 +2124,7 @@
           }
         },
         "aov:contains": [ "AcVoltagePp_AccuracyClass", "AcVoltagePp_Resource" ],
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
         "forms": [
           {

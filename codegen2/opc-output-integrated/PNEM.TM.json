@@ -814,7 +814,7 @@
           }
         },
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
         "forms": [
           {
@@ -853,7 +853,7 @@
           }
         },
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
         "forms": [
           {
@@ -1181,7 +1181,7 @@
             }
           }
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
         "forms": [
           {
@@ -1216,7 +1216,7 @@
             }
           }
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
         "forms": [
           {

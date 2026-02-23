@@ -1387,7 +1387,7 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/BoilerPressureWater_EngineeringUnits",
         "forms": [
           {
@@ -1567,7 +1567,7 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/BoilerPressureWater_EngineeringUnits",
         "forms": [
           {
@@ -5885,7 +5885,7 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ActualPressurePan_EngineeringUnits",
         "forms": [
           {
@@ -6143,7 +6143,7 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ActualPressurePan_EngineeringUnits",
         "forms": [
           {
@@ -7291,7 +7291,7 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ActualPressureAbsolute_EngineeringUnits",
         "forms": [
           {
@@ -7737,7 +7737,7 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ActualPressureAbsolute_EngineeringUnits",
         "forms": [
           {
@@ -8543,7 +8543,7 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ActualPressureAbsolute_EngineeringUnits",
         "forms": [
           {
@@ -8559,7 +8559,7 @@
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ActualPressureKettle_EngineeringUnits",
         "forms": [
           {
@@ -8853,7 +8853,7 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ActualPressureAbsolute_EngineeringUnits",
         "forms": [
           {
@@ -8870,7 +8870,7 @@
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ActualPressureKettle_EngineeringUnits",
         "forms": [
           {
@@ -9899,7 +9899,7 @@
         "minimum": -2147483648,
         "maximum": 2147483647,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/NominalVoltage_EngineeringUnits",
         "forms": [
           {
@@ -9944,7 +9944,7 @@
           "minimum": -2147483648,
           "maximum": 2147483647
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/NominalVoltage_EngineeringUnits",
         "forms": [
           {

@@ -2428,7 +2428,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/CriticalBackingPressure_EngineeringUnits",
         "forms": [
           {
@@ -2462,7 +2462,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumAllowableInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -2479,7 +2479,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumTolerableWaterVaporInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -2496,7 +2496,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumWorkingPressure_EngineeringUnits",
         "forms": [
           {
@@ -2513,7 +2513,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MinimumAllowableInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -2530,7 +2530,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/NetPositiveInletPressureRequired_EngineeringUnits",
         "forms": [
           {
@@ -2663,7 +2663,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/CriticalBackingPressure_EngineeringUnits",
         "forms": [
           {
@@ -2699,7 +2699,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumAllowableInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -2717,7 +2717,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumTolerableWaterVaporInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -2735,7 +2735,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumWorkingPressure_EngineeringUnits",
         "forms": [
           {
@@ -2753,7 +2753,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MinimumAllowableInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -2771,7 +2771,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/NetPositiveInletPressureRequired_EngineeringUnits",
         "forms": [
           {
@@ -2844,7 +2844,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumAllowableOutletPressure_EngineeringUnits",
         "forms": [
           {
@@ -2861,7 +2861,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MinimumAllowableOutetPressure_EngineeringUnits",
         "forms": [
           {
@@ -2895,7 +2895,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ReliefValveAccumulationPressure_EngineeringUnits",
         "forms": [
           {
@@ -2912,7 +2912,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ReliefValveBackPressure_EngineeringUnits",
         "forms": [
           {
@@ -2929,7 +2929,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ReliefValveReseatPressure_EngineeringUnits",
         "forms": [
           {
@@ -2946,7 +2946,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ReliefValveSetPressure_EngineeringUnits",
         "forms": [
           {
@@ -3050,7 +3050,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumAllowableOutletPressure_EngineeringUnits",
         "forms": [
           {
@@ -3068,7 +3068,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MinimumAllowableOutetPressure_EngineeringUnits",
         "forms": [
           {
@@ -3104,7 +3104,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ReliefValveAccumulationPressure_EngineeringUnits",
         "forms": [
           {
@@ -3122,7 +3122,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ReliefValveBackPressure_EngineeringUnits",
         "forms": [
           {
@@ -3140,7 +3140,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ReliefValveReseatPressure_EngineeringUnits",
         "forms": [
           {
@@ -3158,7 +3158,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ReliefValveSetPressure_EngineeringUnits",
         "forms": [
           {
@@ -3316,7 +3316,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanRatedVelocityAtInlet_EngineeringUnits",
         "forms": [
           {
@@ -3338,7 +3338,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/RatedInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -3451,7 +3451,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanRatedVelocityAtInlet_EngineeringUnits",
         "forms": [
           {
@@ -3469,7 +3469,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/RatedInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -3569,7 +3569,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanRatedVelocityAtOutlet_EngineeringUnits",
         "forms": [
           {
@@ -3591,7 +3591,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/RatedOutletPressure_EngineeringUnits",
         "forms": [
           {
@@ -3704,7 +3704,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanRatedVelocityAtOutlet_EngineeringUnits",
         "forms": [
           {
@@ -3722,7 +3722,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/RatedOutletPressure_EngineeringUnits",
         "forms": [
           {
@@ -4845,7 +4845,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/BasePressure_EngineeringUnits",
         "forms": [
           {
@@ -5148,7 +5148,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumAllowableCasingWorkingPressure_EngineeringUnits",
         "forms": [
           {
@@ -5250,7 +5250,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumAllowableWorkingPressure_EngineeringUnits",
         "forms": [
           {
@@ -5318,7 +5318,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumStaticSealingPressure_EngineeringUnits",
         "forms": [
           {
@@ -5607,7 +5607,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/PistonVelocity_EngineeringUnits",
         "forms": [
           {
@@ -5640,7 +5640,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/Pre_ChargePressure_EngineeringUnits",
         "forms": [
           {
@@ -5793,7 +5793,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/SoundPressure_EngineeringUnits",
         "forms": [
           {
@@ -5861,7 +5861,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/StartingPressure_EngineeringUnits",
         "forms": [
           {
@@ -6787,7 +6787,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/BasePressure_EngineeringUnits",
         "forms": [
           {
@@ -7109,7 +7109,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumAllowableCasingWorkingPressure_EngineeringUnits",
         "forms": [
           {
@@ -7217,7 +7217,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumAllowableWorkingPressure_EngineeringUnits",
         "forms": [
           {
@@ -7289,7 +7289,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumStaticSealingPressure_EngineeringUnits",
         "forms": [
           {
@@ -7595,7 +7595,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/PistonVelocity_EngineeringUnits",
         "forms": [
           {
@@ -7630,7 +7630,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/Pre_ChargePressure_EngineeringUnits",
         "forms": [
           {
@@ -7792,7 +7792,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/SoundPressure_EngineeringUnits",
         "forms": [
           {
@@ -7864,7 +7864,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/StartingPressure_EngineeringUnits",
         "forms": [
           {
@@ -8942,7 +8942,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/NominalVoltage_EngineeringUnits",
         "forms": [
           {
@@ -9267,7 +9267,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/NominalVoltage_EngineeringUnits",
         "forms": [
           {
@@ -9442,7 +9442,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/DCLinkVoltage_EngineeringUnits",
         "forms": [
           {
@@ -9561,7 +9561,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/MotorVoltage_EngineeringUnits",
         "forms": [
           {
@@ -9593,7 +9593,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Torque",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/MomentOfForce",
         "aov:withUnit": "properties/Torque_EngineeringUnits",
         "forms": [
           {
@@ -9610,7 +9610,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/Voltage_EngineeringUnits",
         "forms": [
           {
@@ -9810,7 +9810,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/DCLinkVoltage_EngineeringUnits",
         "forms": [
           {
@@ -9936,7 +9936,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/MotorVoltage_EngineeringUnits",
         "forms": [
           {
@@ -9970,7 +9970,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Torque",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/MomentOfForce",
         "aov:withUnit": "properties/Torque_EngineeringUnits",
         "forms": [
           {
@@ -9988,7 +9988,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/Voltage_EngineeringUnits",
         "forms": [
           {
@@ -11052,7 +11052,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/AtmosphericPressure_EngineeringUnits",
         "forms": [
           {
@@ -11096,7 +11096,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Viscosity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DynamicViscosity",
         "aov:withUnit": "properties/DynamicViscosity_EngineeringUnits",
         "forms": [
           {
@@ -11272,7 +11272,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumDynamicSealingPressure_EngineeringUnits",
         "forms": [
           {
@@ -11294,7 +11294,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanRatedVelocityAtInletAreaOfTheInstallation_EngineeringUnits",
         "forms": [
           {
@@ -11316,7 +11316,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanRatedVelocityAtOutletAreaOfTheInstallation_EngineeringUnits",
         "forms": [
           {
@@ -11558,7 +11558,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/RatedDifferentialPressure_EngineeringUnits",
         "forms": [
           {
@@ -11690,7 +11690,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/ValveSeatVelocity_EngineeringUnits",
         "forms": [
           {
@@ -11712,7 +11712,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/ValveSpillVelocity_EngineeringUnits",
         "forms": [
           {
@@ -11734,7 +11734,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/VaporPressureOfThePumpedLiquid_EngineeringUnits",
         "forms": [
           {
@@ -12177,7 +12177,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/AtmosphericPressure_EngineeringUnits",
         "forms": [
           {
@@ -12213,7 +12213,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Viscosity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DynamicViscosity",
         "aov:withUnit": "properties/DynamicViscosity_EngineeringUnits",
         "forms": [
           {
@@ -12357,7 +12357,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumDynamicSealingPressure_EngineeringUnits",
         "forms": [
           {
@@ -12375,7 +12375,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanRatedVelocityAtInletAreaOfTheInstallation_EngineeringUnits",
         "forms": [
           {
@@ -12393,7 +12393,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanRatedVelocityAtOutletAreaOfTheInstallation_EngineeringUnits",
         "forms": [
           {
@@ -12591,7 +12591,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/RatedDifferentialPressure_EngineeringUnits",
         "forms": [
           {
@@ -12699,7 +12699,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/ValveSeatVelocity_EngineeringUnits",
         "forms": [
           {
@@ -12717,7 +12717,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/ValveSpillVelocity_EngineeringUnits",
         "forms": [
           {
@@ -12735,7 +12735,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/VaporPressureOfThePumpedLiquid_EngineeringUnits",
         "forms": [
           {
@@ -12825,7 +12825,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanVelocityAtInlet_EngineeringUnits",
         "forms": [
           {
@@ -12887,7 +12887,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanVelocityAtInlet_EngineeringUnits",
         "forms": [
           {
@@ -12947,7 +12947,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/InletPressure_EngineeringUnits",
         "forms": [
           {
@@ -12984,7 +12984,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/InletPressure_EngineeringUnits",
         "forms": [
           {
@@ -13375,7 +13375,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/BackPressure_EngineeringUnits",
         "forms": [
           {
@@ -13460,7 +13460,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/DifferentialPressure_EngineeringUnits",
         "forms": [
           {
@@ -13562,7 +13562,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/InletPressureOfTheInstallation_EngineeringUnits",
         "forms": [
           {
@@ -13664,7 +13664,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/LubricatingOilPressure_EngineeringUnits",
         "forms": [
           {
@@ -13698,7 +13698,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanVelocityAtThroat_EngineeringUnits",
         "forms": [
           {
@@ -13732,7 +13732,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/NetPositiveInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -13781,7 +13781,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/OutletPressureOfTheInstallation_EngineeringUnits",
         "forms": [
           {
@@ -13832,7 +13832,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ProcessPressure_EngineeringUnits",
         "forms": [
           {
@@ -14036,7 +14036,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/SoundPressure_EngineeringUnits",
         "forms": [
           {
@@ -14804,7 +14804,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/BackPressure_EngineeringUnits",
         "forms": [
           {
@@ -14894,7 +14894,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/DifferentialPressure_EngineeringUnits",
         "forms": [
           {
@@ -15002,7 +15002,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/InletPressureOfTheInstallation_EngineeringUnits",
         "forms": [
           {
@@ -15110,7 +15110,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/LubricatingOilPressure_EngineeringUnits",
         "forms": [
           {
@@ -15146,7 +15146,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanVelocityAtThroat_EngineeringUnits",
         "forms": [
           {
@@ -15182,7 +15182,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/NetPositiveInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -15234,7 +15234,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/OutletPressureOfTheInstallation_EngineeringUnits",
         "forms": [
           {
@@ -15288,7 +15288,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/ProcessPressure_EngineeringUnits",
         "forms": [
           {
@@ -15504,7 +15504,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/SoundPressure_EngineeringUnits",
         "forms": [
           {
@@ -16319,7 +16319,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanVelocityAtOutlet_EngineeringUnits",
         "forms": [
           {
@@ -16380,7 +16380,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/MeanVelocityAtOutlet_EngineeringUnits",
         "forms": [
           {
@@ -16458,7 +16458,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/BackingPressure_EngineeringUnits",
         "forms": [
           {
@@ -16495,7 +16495,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/BackingPressure_EngineeringUnits",
         "forms": [
           {
@@ -21848,7 +21848,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -21870,7 +21870,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumOutletPressure_EngineeringUnits",
         "forms": [
           {
@@ -22024,7 +22024,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MinimumInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -22046,7 +22046,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MinimumOutletPressure_EngineeringUnits",
         "forms": [
           {
@@ -22130,7 +22130,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/NetPositiveInletPressureAvailable_EngineeringUnits",
         "forms": [
           {
@@ -22218,7 +22218,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/RatedInletPressureOfTheInstallation_EngineeringUnits",
         "forms": [
           {
@@ -22372,7 +22372,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/UltimatePressureOfAVacuumPump_EngineeringUnits",
         "forms": [
           {
@@ -22971,7 +22971,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -22989,7 +22989,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MaximumOutletPressure_EngineeringUnits",
         "forms": [
           {
@@ -23115,7 +23115,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MinimumInletPressure_EngineeringUnits",
         "forms": [
           {
@@ -23133,7 +23133,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/MinimumOutletPressure_EngineeringUnits",
         "forms": [
           {
@@ -23201,7 +23201,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/NetPositiveInletPressureAvailable_EngineeringUnits",
         "forms": [
           {
@@ -23273,7 +23273,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/RatedInletPressureOfTheInstallation_EngineeringUnits",
         "forms": [
           {
@@ -23399,7 +23399,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/UltimatePressureOfAVacuumPump_EngineeringUnits",
         "forms": [
           {
@@ -23536,7 +23536,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/GapVoltage_EngineeringUnits",
         "forms": [
           {
@@ -23700,7 +23700,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/OverallVibrationVelocity0_P_EngineeringUnits",
         "forms": [
           {
@@ -23717,7 +23717,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/OverallVibrationVelocityP_P_EngineeringUnits",
         "forms": [
           {
@@ -23734,7 +23734,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/OverallVibrationVelocityRMS_EngineeringUnits",
         "forms": [
           {
@@ -23932,7 +23932,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/VibrationAmplitudeAtTheBladePassFrequency_EngineeringUnits",
         "forms": [
           {
@@ -23949,7 +23949,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/VibrationAmplitudeAtTheFirstHarmonicOfTheRotationFrequency2X_EngineeringUnits",
         "forms": [
           {
@@ -23998,7 +23998,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/VibrationAmplitudeAtTheHarmonicsOfTheRotationFrequencyNx_EngineeringUnits",
         "forms": [
           {
@@ -24015,7 +24015,7 @@
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": true,
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/VibrationAmplitudeAtTheRotationFrequency1X_EngineeringUnits",
         "forms": [
           {
@@ -24459,7 +24459,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Voltage",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
         "aov:withUnit": "properties/GapVoltage_EngineeringUnits",
         "forms": [
           {
@@ -24633,7 +24633,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/OverallVibrationVelocity0_P_EngineeringUnits",
         "forms": [
           {
@@ -24651,7 +24651,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/OverallVibrationVelocityP_P_EngineeringUnits",
         "forms": [
           {
@@ -24669,7 +24669,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/OverallVibrationVelocityRMS_EngineeringUnits",
         "forms": [
           {
@@ -24879,7 +24879,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/VibrationAmplitudeAtTheBladePassFrequency_EngineeringUnits",
         "forms": [
           {
@@ -24897,7 +24897,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/VibrationAmplitudeAtTheFirstHarmonicOfTheRotationFrequency2X_EngineeringUnits",
         "forms": [
           {
@@ -24949,7 +24949,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/VibrationAmplitudeAtTheHarmonicsOfTheRotationFrequencyNx_EngineeringUnits",
         "forms": [
           {
@@ -24967,7 +24967,7 @@
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Velocity",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/LinearVelocity",
         "aov:withUnit": "properties/VibrationAmplitudeAtTheRotationFrequency1X_EngineeringUnits",
         "forms": [
           {

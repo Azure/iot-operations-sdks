@@ -13,27 +13,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public static class UnitMapper
     {
-        private static readonly HashSet<Uri> preferredKinds;
-
         private static readonly Dictionary<string, Uri> uneceCodeToUnit;
         private static readonly Dictionary<Uri, List<Uri>> unitToQuantityKinds;
 
         static UnitMapper()
         {
-            preferredKinds = new HashSet<Uri>()
-            {
-                new Uri("http://qudt.org/vocab/quantitykind/DimensionlessRatio"),
-                new Uri("http://qudt.org/vocab/quantitykind/ElectricCurrent"),
-                new Uri("http://qudt.org/vocab/quantitykind/Frequency"),
-                new Uri("http://qudt.org/vocab/quantitykind/MassFlowRate"),
-                new Uri("http://qudt.org/vocab/quantitykind/SoundPressureLevel"),
-                new Uri("http://qudt.org/vocab/quantitykind/Temperature"),
-                new Uri("http://qudt.org/vocab/quantitykind/Torque"),
-                new Uri("http://qudt.org/vocab/quantitykind/VaporPressure"),
-                new Uri("http://qudt.org/vocab/quantitykind/Velocity"),
-                new Uri("http://qudt.org/vocab/quantitykind/VolumeFlowRate"),
-            };
-
             uneceCodeToUnit = new Dictionary<string, Uri>();
             unitToQuantityKinds = new Dictionary<Uri, List<Uri>>();
 
@@ -46,6 +30,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             IUriNode uneceCommonCodePred = graph.CreateUriNode("qudt:uneceCommonCode");
             IUriNode hasQuantityKindPred = graph.CreateUriNode("qudt:hasQuantityKind");
+
+            Dictionary<Uri, int> quantityKindToUnitCount = new Dictionary<Uri, int>();
 
             foreach (Triple triple in graph.Triples)
             {
@@ -64,13 +50,19 @@ namespace Azure.Iot.Operations.Opc2WotLib
                             unitToQuantityKinds[unitNode.Uri] = quantityKinds;
                         }
                         quantityKinds.Add(quantityKindNode.Uri);
+
+                        if (!quantityKindToUnitCount.ContainsKey(quantityKindNode.Uri))
+                        {
+                            quantityKindToUnitCount[quantityKindNode.Uri] = 0;
+                        }
+                        quantityKindToUnitCount[quantityKindNode.Uri] += 1;
                     }
                 }
             }
 
             foreach (KeyValuePair<Uri, List<Uri>> unitAndQuantityKinds in unitToQuantityKinds)
             {
-                unitAndQuantityKinds.Value.Sort((x, y) => x.AbsoluteUri.Length.CompareTo(y.AbsoluteUri.Length));
+                unitAndQuantityKinds.Value.Sort((x, y) => quantityKindToUnitCount[y].CompareTo(quantityKindToUnitCount[x]));
             }
         }
 
@@ -85,12 +77,6 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     if (quantityKinds.Count == 1)
                     {
                         return quantityKinds[0].ToString();
-                    }
-
-                    Uri? preferredKind = quantityKinds.FirstOrDefault(qk => preferredKinds.Contains(qk));
-                    if (preferredKind != null)
-                    {
-                        return preferredKind.ToString();
                     }
 
                     return quantityKinds[0].ToString();

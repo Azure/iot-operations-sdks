@@ -47,7 +47,7 @@
         "maximum": 3.40e+38,
         "readOnly": false,
         "aov:contains": [ "Pressure_AccuracyClass", "Pressure_Resource" ],
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/Pressure_EngineeringUnits",
         "forms": [
           {
@@ -188,7 +188,7 @@
           "maximum": 3.40e+38
         },
         "aov:contains": [ "Pressure_AccuracyClass", "Pressure_Resource" ],
-        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VaporPressure",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
         "aov:withUnit": "properties/Pressure_EngineeringUnits",
         "forms": [
           {
