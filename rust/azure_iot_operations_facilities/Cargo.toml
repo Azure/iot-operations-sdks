@@ -9,4 +9,6 @@ license = "MIT"
 description = "Azure IoT Operations Facilities"
 repository = "https://github.com/Azure/iot-operations-sdks"
 
+[lints]
+workspace = true
 [dependencies]
