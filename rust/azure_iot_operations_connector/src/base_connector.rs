@@ -126,7 +126,7 @@ impl BaseConnector {
             session.create_managed_client(),
             azure_device_registry::ClientOptionsBuilder::default()
                 .build()
-                .unwrap(),
+                .map_err(|e| e.to_string())?,
         )
         .map_err(|e| e.to_string())?;
 
