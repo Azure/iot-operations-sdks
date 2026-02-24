@@ -45,6 +45,15 @@ pub struct ClientOptions {
     notification_auto_ack: bool,
 }
 
+// default impl to avoid breaking change. Can be removed in the future with other breaking changes
+impl Default for ClientOptions {
+    fn default() -> Self {
+        Self {
+            notification_auto_ack: true,
+        }
+    }
+}
+
 /// Azure Device Registry client implementation.
 #[derive(Clone)]
 pub struct Client {
