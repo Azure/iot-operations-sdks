@@ -4,17 +4,15 @@
 
 namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
 {
-    using System.Runtime.Serialization;
     using System.Text.Json.Serialization;
 
     /// <summary>
     /// Type of the schema.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public enum SchemaType
     {
-        [EnumMember(Value = @"MessageSchema")]
         MessageSchema,
     }
 }
