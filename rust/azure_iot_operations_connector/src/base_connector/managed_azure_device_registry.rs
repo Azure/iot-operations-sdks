@@ -3682,6 +3682,7 @@ pub enum ManagementActionNotification {
 }
 
 /// Enum to indicate whether the schema being reported is for a request or response
+#[derive(Debug)]
 enum ActionSchema {
     Request,
     Response,
@@ -4301,7 +4302,7 @@ impl ManagementActionClient {
             &mut status_write_guard,
             &new_message_schema_reference,
             &schema_side,
-            "ManagementActionClient::report_message_schema_reference_if_modified",
+            &format!("ManagementActionClient::report_{schema_side:?}_message_schema_reference_if_modified"),
         )
         .await?;
 
@@ -4395,7 +4396,7 @@ impl ManagementActionClient {
                             // network/retriable
                             schema_registry::ErrorKind::AIOProtocolError(_) => {
                                 log::warn!(
-                                    "Reporting message schema failed for {:?}. Retrying: {e}",
+                                    "Reporting {schema_side:?} message schema failed for {:?}. Retrying: {e}",
                                     self.management_action_ref
                                 );
                                 RetryError::transient(e)
@@ -4405,7 +4406,7 @@ impl ManagementActionClient {
                                     service_error.code
                                 {
                                     log::warn!(
-                                        "Reporting message schema failed for {:?}. Retrying: {e}",
+                                        "Reporting {schema_side:?} message schema failed for {:?}. Retrying: {e}",
                                         self.management_action_ref
                                     );
                                     RetryError::transient(e)
@@ -4437,7 +4438,7 @@ impl ManagementActionClient {
             &mut status_write_guard,
             &message_schema_reference,
             &schema_side,
-            "ManagementActionClient::report_message_schema_if_modified",
+            &format!("ManagementActionClient::report_{schema_side:?}_message_schema_if_modified"),
         )
         .await?;
 
@@ -4533,7 +4534,7 @@ impl ManagementActionClient {
 
         // send status update to the service
         log::debug!(
-            "Reporting management action {management_action_ref:?} message schema from app"
+            "Reporting management action {management_action_ref:?} {schema_side:?} message schema from app"
         );
         AssetStatusReporter::internal_report_status(
             new_status,
