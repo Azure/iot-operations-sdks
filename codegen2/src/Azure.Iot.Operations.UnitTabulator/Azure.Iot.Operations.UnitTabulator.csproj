@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="10.0.2" />
+    <PackageReference Include="dotNetRdf" Version="3.5.1" />
+    <PackageReference Include="VDS.Common" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\res\qudt\*.ttl">
+      <Link>Resources\qudt\%(Filename)%(Extension)</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="t4\EceCodes.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>EceCodes.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.UnitTabulator</CustomToolNamespace>
+    </None>
+    <None Update="t4\UnitInfos.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>UnitInfos.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.UnitTabulator</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="t4\EceCodes.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EceCodes.tt</DependentUpon>
+    </Compile>
+    <Compile Update="t4\UnitInfos.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UnitInfos.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
