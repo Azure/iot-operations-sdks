@@ -22,7 +22,7 @@ pub(crate) struct Error(#[from] notify::Error);
 
 /// A path to a file mount that is being monitored for changes.
 /// When a change is detected, it will be reported.
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub struct FileMount {
     pathbuf: PathBuf,
     #[allow(dead_code)]
@@ -67,7 +67,7 @@ impl FileMount {
                 }
             })?;
         // Begin watching the filepath
-        debouncer.watch(pathbuf.clone(), notify::RecursiveMode::NonRecursive)?;
+        debouncer.watch(pathbuf.clone(), notify::RecursiveMode::Recursive)?;
 
         Ok(Self {
             pathbuf,
@@ -103,10 +103,29 @@ impl FileMount {
         self.update_rx.mark_unchanged();
     }
 
+    pub fn monitor_specific(&mut self, path: &Path) {}
+
     /// Coerces to a [`Path`] slice.
     #[must_use]
     pub fn as_path(&self) -> &Path {
         self
+    }
+}
+
+/// Note that when cloning FileMount any pending changes that are unseen are discarded from the
+/// clone, although they persist on the original.
+impl Clone for FileMount {
+    fn clone(&self) -> Self {
+        // Clone the Receiver and mark as unchanged to discard any debounce notifications.
+        // This is preferable to using `subscribe()` on the Sender, since we passed the Sender to
+        // the debouncer closure, and this allows us to avoid having to put it in an Arc.
+        let mut update_rx = self.update_rx.clone();
+        update_rx.mark_unchanged();
+        Self {
+            pathbuf: self.pathbuf.clone(),
+            debouncer: Arc::clone(&self.debouncer),
+            update_rx,
+        }
     }
 }
 

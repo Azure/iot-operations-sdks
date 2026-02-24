@@ -44,6 +44,18 @@ pub enum ClientNotification<T> {
     Created(T),
 }
 
+/// Notifications that can be received for a Device Endpoint Client
+pub enum DeviceEndpointNotification {
+    /// Indicates that the Device Endpoint specification has been updated in place
+    Updated,
+    /// Indicates that the Device Endpoint has been deleted.
+    Deleted,
+    /// Indicates that there is a new Asset for this Device Endpoint, which is included in the notification
+    AssetCreated(AssetClient),
+    /// Indicates that at least one of the device endpoint credential file(s) has been updated
+    AuthenticationFileUpdated,
+}
+
 /// Represents the result of a network modification
 pub enum ModifyResult {
     /// Indicates that the modification was reported
@@ -567,6 +579,9 @@ pub struct DeviceEndpointClient {
     /// Flag to track if asset creation is in progress
     #[getter(skip)]
     pending_asset_creation: bool,
+    /// Mount for device endpoint credential files, if specified. This is used to watch for updates to the credential files.
+    #[getter(skip)]
+    device_endpoint_credentials_mount: Option<FileMount>,
     /// Channels for sending and receiving completed asset clients.
     /// This is used to ensure that we only process one asset creation at a time
     #[getter(skip)]
@@ -605,30 +620,40 @@ impl DeviceEndpointClient {
             device_update_observation,
             asset_create_observation,
             pending_asset_creation: false,
+            device_endpoint_credentials_mount: connector_context
+                .connector_artifacts
+                .device_endpoint_credentials_mount
+                .clone(), // Clone this so we can have a mutable version that also discards prior change notifications
             asset_completion_rx,
             asset_completion_tx,
             connector_context,
         })
     }
 
+    // CT-TODO: add notification for file updates here
+
     /// Used to receive notifications related to the Device/Inbound Endpoint
     /// from the Azure Device Registry Service.
     ///
-    /// Returns [`ClientNotification::Updated`] if the Device Endpoint
+    /// Returns [`DeviceEndpointNotification::Updated`] if the Device Endpoint
     /// Specification has been updated in place.
     ///
-    /// Returns [`ClientNotification::Deleted`] if the Device Endpoint has been
+    /// Returns [`DeviceEndpointNotification::Deleted`] if the Device Endpoint has been
     /// deleted. The [`DeviceEndpointClient`] should not be used after this
     /// point, and no more notifications will be received.
     ///
-    /// Returns [`ClientNotification::Created`] with a new [`AssetClient`] if a new
+    /// Returns [`DeviceEndpointNotification::AssetCreated`] with a new [`AssetClient`] if a new
     /// Asset has been created.
+    ///
+    /// Returns [`DeviceEndpointNotification::AuthenticationFileUpdated`] if at least one of the
+    /// device endpoint credential files has been updated.
+    /// The device endpoint specification should be re-read to get the updated file information.
     ///
     /// # Panics
     /// If the Azure Device Registry Service provides a notification that isn't for this Device Endpoint. This should not be possible.
     ///
     /// If the specification mutex has been poisoned, which should not be possible
-    pub async fn recv_notification(&mut self) -> ClientNotification<AssetClient> {
+    pub async fn recv_notification(&mut self) -> DeviceEndpointNotification {
         loop {
             tokio::select! {
                 biased;
@@ -651,7 +676,7 @@ impl DeviceEndpointClient {
                                 }
                             }
                         );
-                        return ClientNotification::Deleted;
+                        return DeviceEndpointNotification::Deleted;
                     };
                     // update self with updated specification
                     let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
@@ -664,13 +689,13 @@ impl DeviceEndpointClient {
                         &self.device_endpoint_ref.inbound_endpoint_name,
                     ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
 
-                    return ClientNotification::Updated;
+                    return DeviceEndpointNotification::Updated;
                 },
                 // Check for completed asset creation
                 Some(asset_client_option) = self.asset_completion_rx.recv() => {
                     self.pending_asset_creation = false;
                     if let Some(asset_client) = asset_client_option {
-                        return ClientNotification::Created(asset_client);
+                        return DeviceEndpointNotification::AssetCreated(asset_client);
                     }
                     // If asset_client_option is None, creation failed, continue loop
                 },
@@ -690,7 +715,7 @@ impl DeviceEndpointClient {
                                 }
                             }
                         );
-                        return ClientNotification::Deleted;
+                        return DeviceEndpointNotification::Deleted;
                     };
 
                     // Start asset creation task
@@ -712,7 +737,17 @@ impl DeviceEndpointClient {
                         // Always send the result (Some or None) to unblock the receiver
                         let _ = asset_completion_tx.send(asset_client);
                     });
-                }
+                },
+                // Listen for device endpoint credential file updates if a mount is specified
+                _ = async {
+                    match self.device_endpoint_credentials_mount.as_mut() {
+                        Some(mount) => mount.changed().await,
+                        None => std::future::pending().await,
+                    }
+                } => {
+                    return DeviceEndpointNotification::AuthenticationFileUpdated;
+                },
+
             }
         }
     }

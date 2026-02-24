@@ -18,7 +18,8 @@ use azure_iot_operations_connector::{
         self, BaseConnector,
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
-            DeviceEndpointClient, DeviceEndpointClientCreationObservation, SchemaModifyResult,
+            DeviceEndpointClient, DeviceEndpointClientCreationObservation,
+            DeviceEndpointNotification, SchemaModifyResult,
         },
     },
     data_processor::derived_json,
@@ -166,11 +167,11 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
 
     loop {
         match device_endpoint_client.recv_notification().await {
-            ClientNotification::Deleted => {
+            DeviceEndpointNotification::Deleted => {
                 log::warn!("{log_identifier} Device Endpoint deleted");
                 break;
             }
-            ClientNotification::Updated => {
+            DeviceEndpointNotification::Updated => {
                 log::info!("{log_identifier} Device updated: {device_endpoint_client:?}");
 
                 // Update device status - usually only on first report or error changes
@@ -195,7 +196,7 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                     log::error!("{log_identifier} Error reporting endpoint status: {e}");
                 }
             }
-            ClientNotification::Created(asset_client) => {
+            DeviceEndpointNotification::AssetCreated(asset_client) => {
                 let asset_log_identifier =
                     format!("{log_identifier}[{}]", asset_client.asset_ref().name);
                 log::info!("{asset_log_identifier} Asset created: {asset_client:?}");
@@ -203,6 +204,10 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                 // Start handling the datasets for this asset
                 // if we didn't accept the asset, then we still want to run this to wait for updates
                 tokio::task::spawn(run_asset(asset_log_identifier, asset_client));
+            }
+            DeviceEndpointNotification::AuthenticationFileUpdated => {
+                // CT-TODO: add handling
+                unimplemented!()
             }
         }
     }
