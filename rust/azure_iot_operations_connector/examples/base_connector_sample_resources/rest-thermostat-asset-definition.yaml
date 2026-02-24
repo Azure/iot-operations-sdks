@@ -24,6 +24,17 @@ spec:
    {
       "samplingInterval": 4000,
    }
+  managementGroups:
+    - name: temperature_controls
+      actions:
+        - name: setTemp
+          targetUri: /setTemperature
+          topic: thermostat/temperature/set
+          actionType: Write
+        - name: readHumidity
+          targetUri: /readHumidity
+          topic: thermostat/humidity/read
+          actionType: Read
   deviceRef:
     deviceName: my-thermostat
     endpointName: my-rest-endpoint
