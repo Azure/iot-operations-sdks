@@ -175,6 +175,7 @@ mod tests {
     }
 
     #[test]
+    #[allow(clippy::float_cmp)]
     fn test_get_unit_info_from_ece_code() {
         let info = get_unit_info("CEL").unwrap();
         assert_eq!(info.kind, "Temperature");
@@ -183,6 +184,7 @@ mod tests {
     }
 
     #[test]
+    #[allow(clippy::float_cmp)]
     fn test_get_unit_info_from_unit_term() {
         let info = get_unit_info("unit:DEG_F").unwrap();
         assert_eq!(info.kind, "Temperature");
@@ -191,6 +193,7 @@ mod tests {
     }
 
     #[test]
+    #[allow(clippy::float_cmp)]
     fn test_get_unit_info_from_unit_uri() {
         let info = get_unit_info("http://qudt.org/vocab/unit/K").unwrap();
         assert_eq!(info.kind, "Temperature");
