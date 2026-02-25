@@ -29,6 +29,17 @@ pub enum ConvertError {
 }
 
 impl UnitConverter {
+    /// Converts a value using this converter.
+    ///
+    /// # Arguments
+    /// * `val` - The value to convert from source units.
+    ///
+    /// # Returns
+    /// The converted value in target units.
+    ///
+    /// # Errors
+    ///
+    /// [`ConvertError`] of kind [`UnrepresentableValue`] if the converted value is infinity or NaN.
     pub fn convert(&self, val: f64) -> Result<f64, ConvertError> {
         let converted = val * self.multiplier + self.offset;
         if !converted.is_finite() {
@@ -66,11 +77,26 @@ impl fmt::Display for ConvertError {
 
 impl std::error::Error for ConvertError {}
 
+/// Gets a [`UnitConverter`] for converting between two units.
+///
+/// # Arguments
+/// * `source_unit` - The unit to convert from.
+/// * `target_unit` - The unit to convert to.
+///
+/// # Returns
+/// A [`UnitConverter`] if the units are compatible, otherwise an error.
+///
+/// # Errors
+///
+/// [`ConvertError`] of kind [`SourceUnitUnrecognized`] if the source unit is not recognized.
+/// [`ConvertError`] of kind [`TargetUnitUnrecognized`] if the target unit is not recognized.
+/// [`ConvertError`] of kind [`UnitsOfDifferentKinds`] if the units are of different kinds.
+/// [`ConvertError`] of kind [`UnrepresentableValue`] if either conversion coefficient is infinity or NaN.
 pub fn get_converter(source_unit: &str, target_unit: &str) -> Result<UnitConverter, ConvertError> {
     let source_info = get_unit_info(source_unit)
-        .map_err(|_| ConvertError::SourceUnitUnrecognized(source_unit.to_string()))?;
+        .map_err(|()| ConvertError::SourceUnitUnrecognized(source_unit.to_string()))?;
     let target_info = get_unit_info(target_unit)
-        .map_err(|_| ConvertError::TargetUnitUnrecognized(target_unit.to_string()))?;
+        .map_err(|()| ConvertError::TargetUnitUnrecognized(target_unit.to_string()))?;
 
     if source_info.kind != target_info.kind {
         return Err(ConvertError::UnitsOfDifferentKinds {
