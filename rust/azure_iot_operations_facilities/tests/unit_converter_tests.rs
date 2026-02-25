@@ -8,9 +8,9 @@ fn test_ece_to_ece_integration() {
     let converter = get_converter("FAH", "CEL");
     assert!(converter.is_ok());
 
-    let converted = converter.unwrap().convert(212.0);
-    assert!(converted.is_ok());
-    assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+    let converted_value = converter.unwrap().convert(212.0);
+    assert!(converted_value.is_ok());
+    assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
 }
 
 #[test]
@@ -18,9 +18,9 @@ fn test_term_to_term_integration() {
     let converter = get_converter("unit:DEG_F", "unit:DEG_C");
     assert!(converter.is_ok());
 
-    let converted = converter.unwrap().convert(212.0);
-    assert!(converted.is_ok());
-    assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+    let converted_value = converter.unwrap().convert(212.0);
+    assert!(converted_value.is_ok());
+    assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
 }
 
 #[test]
@@ -31,9 +31,9 @@ fn test_uri_to_uri_integration() {
     );
     assert!(converter.is_ok());
 
-    let converted = converter.unwrap().convert(212.0);
-    assert!(converted.is_ok());
-    assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+    let converted_value = converter.unwrap().convert(212.0);
+    assert!(converted_value.is_ok());
+    assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
 }
 
 #[test]
