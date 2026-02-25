@@ -24,7 +24,7 @@ pub enum ConvertError {
         source_kind: String,
         target_kind: String,
     },
-    /// The converted value is infinity or NaN.
+    /// The converted_value value is infinity or NaN.
     UnrepresentableValue,
 }
 
@@ -35,18 +35,18 @@ impl UnitConverter {
     /// * `val` - The value to convert from source units.
     ///
     /// # Returns
-    /// The converted value in target units.
+    /// The converted_value value in target units.
     ///
     /// # Errors
     ///
-    /// [`ConvertError`] of kind [`UnrepresentableValue`] if the converted value is infinity or NaN.
+    /// [`ConvertError`] of kind [`UnrepresentableValue`] if the converted_value value is infinity or NaN.
     pub fn convert(&self, val: f64) -> Result<f64, ConvertError> {
-        let converted = val * self.multiplier + self.offset;
-        if !converted.is_finite() {
+        let converted_value = val * self.multiplier + self.offset;
+        if !converted_value.is_finite() {
             return Err(ConvertError::UnrepresentableValue);
         }
 
-        Ok(converted)
+        Ok(converted_value)
     }
 }
 
@@ -69,7 +69,7 @@ impl fmt::Display for ConvertError {
                 )
             }
             Self::UnrepresentableValue => {
-                write!(f, "converted value is infinity or NaN")
+                write!(f, "converted_value value is infinity or NaN")
             }
         }
     }
@@ -225,9 +225,9 @@ mod tests {
         let converter = get_converter("FAH", "CEL");
         assert!(converter.is_ok());
 
-        let converted = converter.unwrap().convert(212.0);
-        assert!(converted.is_ok());
-        assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+        let converted_value = converter.unwrap().convert(212.0);
+        assert!(converted_value.is_ok());
+        assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
     }
 
     #[test]
@@ -235,9 +235,9 @@ mod tests {
         let converter = get_converter("unit:DEG_F", "unit:DEG_C");
         assert!(converter.is_ok());
 
-        let converted = converter.unwrap().convert(212.0);
-        assert!(converted.is_ok());
-        assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+        let converted_value = converter.unwrap().convert(212.0);
+        assert!(converted_value.is_ok());
+        assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
     }
 
     #[test]
@@ -248,9 +248,9 @@ mod tests {
         );
         assert!(converter.is_ok());
 
-        let converted = converter.unwrap().convert(212.0);
-        assert!(converted.is_ok());
-        assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+        let converted_value = converter.unwrap().convert(212.0);
+        assert!(converted_value.is_ok());
+        assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
     }
 
     #[test]
@@ -258,9 +258,9 @@ mod tests {
         let converter = get_converter("FAH", "unit:DEG_C");
         assert!(converter.is_ok());
 
-        let converted = converter.unwrap().convert(212.0);
-        assert!(converted.is_ok());
-        assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+        let converted_value = converter.unwrap().convert(212.0);
+        assert!(converted_value.is_ok());
+        assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
     }
 
     #[test]
@@ -268,9 +268,9 @@ mod tests {
         let converter = get_converter("FAH", "http://qudt.org/vocab/unit/DEG_C");
         assert!(converter.is_ok());
 
-        let converted = converter.unwrap().convert(212.0);
-        assert!(converted.is_ok());
-        assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+        let converted_value = converter.unwrap().convert(212.0);
+        assert!(converted_value.is_ok());
+        assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
     }
 
     #[test]
@@ -278,9 +278,9 @@ mod tests {
         let converter = get_converter("unit:DEG_F", "CEL");
         assert!(converter.is_ok());
 
-        let converted = converter.unwrap().convert(212.0);
-        assert!(converted.is_ok());
-        assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+        let converted_value = converter.unwrap().convert(212.0);
+        assert!(converted_value.is_ok());
+        assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
     }
 
     #[test]
@@ -288,9 +288,9 @@ mod tests {
         let converter = get_converter("unit:DEG_F", "http://qudt.org/vocab/unit/DEG_C");
         assert!(converter.is_ok());
 
-        let converted = converter.unwrap().convert(212.0);
-        assert!(converted.is_ok());
-        assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+        let converted_value = converter.unwrap().convert(212.0);
+        assert!(converted_value.is_ok());
+        assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
     }
 
     #[test]
@@ -298,9 +298,9 @@ mod tests {
         let converter = get_converter("http://qudt.org/vocab/unit/DEG_F", "CEL");
         assert!(converter.is_ok());
 
-        let converted = converter.unwrap().convert(212.0);
-        assert!(converted.is_ok());
-        assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+        let converted_value = converter.unwrap().convert(212.0);
+        assert!(converted_value.is_ok());
+        assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
     }
 
     #[test]
@@ -308,8 +308,8 @@ mod tests {
         let converter = get_converter("http://qudt.org/vocab/unit/DEG_F", "unit:DEG_C");
         assert!(converter.is_ok());
 
-        let converted = converter.unwrap().convert(212.0);
-        assert!(converted.is_ok());
-        assert!((converted.unwrap() - 100.0).abs() < 1e-9);
+        let converted_value = converter.unwrap().convert(212.0);
+        assert!(converted_value.is_ok());
+        assert!((converted_value.unwrap() - 100.0).abs() < 1e-9);
     }
 }
