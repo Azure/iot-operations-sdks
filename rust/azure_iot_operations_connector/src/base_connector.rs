@@ -124,7 +124,9 @@ impl BaseConnector {
         let azure_device_registry_client = azure_device_registry::Client::new(
             application_context.clone(),
             session.create_managed_client(),
-            azure_device_registry::ClientOptions::default(),
+            azure_device_registry::ClientOptionsBuilder::default()
+                .build()
+                .map_err(|e| e.to_string())?,
         )
         .map_err(|e| e.to_string())?;
 

@@ -37,12 +37,21 @@ const INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN: &str = "ex:inboundEndpointName
 const INBOUND_ENDPOINT_TYPE_TOPIC_TOKEN: &str = "inboundEndpointType";
 
 /// Options for the Azure Device Registry client.
-#[derive(Builder, Clone, Default)]
+#[derive(Builder, Clone)]
 #[builder(setter(into))]
 pub struct ClientOptions {
     /// If true, update notifications are auto-acknowledged
     #[builder(default = "true")]
     notification_auto_ack: bool,
+}
+
+// default impl to avoid breaking change. Can be removed in the future with other breaking changes
+impl Default for ClientOptions {
+    fn default() -> Self {
+        Self {
+            notification_auto_ack: true,
+        }
+    }
 }
 
 /// Azure Device Registry client implementation.
