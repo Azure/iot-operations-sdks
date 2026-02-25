@@ -12,10 +12,10 @@ namespace Azure.Iot.Operations.Opc2WotLib
         public OpcUaObject(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, XmlNode objectNode)
             : base(modelInfo, nsUriToNsInfoMap, objectNode)
         {
-            XmlNode? referencesNode = objectNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "References");
+            XmlNode? referencesNode = objectNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "References" && node.Attributes?["ReleaseStatus"]?.Value != "Deprecated");
             if (referencesNode != null)
             {
-                XmlNode? hasTypeDefinitionNode = referencesNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "Reference" && node.Attributes?["ReferenceType"]?.Value == "HasTypeDefinition");
+                XmlNode? hasTypeDefinitionNode = referencesNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "Reference" && node.Attributes?["ReferenceType"]?.Value == "HasTypeDefinition" && node.Attributes?["ReleaseStatus"]?.Value != "Deprecated");
                 if (hasTypeDefinitionNode != null)
                 {
                     string? hasTypeDefinitionNodeIdString = hasTypeDefinitionNode.InnerText;
@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     }
                 }
 
-                XmlNode? hasModellingRuleNode = referencesNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "Reference" && node.Attributes?["ReferenceType"]?.Value == "HasModellingRule");
+                XmlNode? hasModellingRuleNode = referencesNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "Reference" && node.Attributes?["ReferenceType"]?.Value == "HasModellingRule" && node.Attributes?["ReleaseStatus"]?.Value != "Deprecated");
                 if (hasModellingRuleNode != null)
                 {
                     string? hasModellingRuleNodeIdString = hasModellingRuleNode.InnerText;

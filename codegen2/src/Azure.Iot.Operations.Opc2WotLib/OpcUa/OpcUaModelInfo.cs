@@ -35,13 +35,16 @@ namespace Azure.Iot.Operations.Opc2WotLib
             AliasMap = new Dictionary<string, OpcUaNodeId>(HardCodedAliases);
             foreach (XmlNode node in aliasNodes)
             {
-                string? alias = node.Attributes?["Alias"]?.Value;
-                string? nodeId = node.InnerText;
+                if (node.Attributes?["ReleaseStatus"]?.Value != "Deprecated")
+                {
+                    string? alias = node.Attributes?["Alias"]?.Value;
+                    string? nodeId = node.InnerText;
 
-                ArgumentNullException.ThrowIfNullOrEmpty(alias, nameof(alias));
-                ArgumentNullException.ThrowIfNullOrEmpty(nodeId, nameof(nodeId));
+                    ArgumentNullException.ThrowIfNullOrEmpty(alias, nameof(alias));
+                    ArgumentNullException.ThrowIfNullOrEmpty(nodeId, nameof(nodeId));
 
-                AliasMap[alias] = new OpcUaNodeId(nodeId, null, null);
+                    AliasMap[alias] = new OpcUaNodeId(nodeId, null, null);
+                }
             }
 
             NodeIdToObjectTypeMap = new Dictionary<OpcUaNodeId, OpcUaObjectType>();

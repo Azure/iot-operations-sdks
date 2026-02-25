@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             foreach (XmlNode childNode in definitionNode.ChildNodes)
             {
-                if (childNode.Name == "Field")
+                if (childNode.Name == "Field" && childNode.Attributes?["ReleaseStatus"]?.Value != "Deprecated")
                 {
                     string? name = childNode.Attributes?["Name"]?.Value;
                     ArgumentNullException.ThrowIfNullOrEmpty(name, nameof(name));

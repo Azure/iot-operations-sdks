@@ -100,12 +100,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             List<OpcUaReference>  references = new List<OpcUaReference>();
 
-            XmlNode? referencesNode = xmlNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "References");
+            XmlNode? referencesNode = xmlNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "References" && node.Attributes?["ReleaseStatus"]?.Value != "Deprecated");
             if (referencesNode != null)
             {
                 foreach (XmlNode childNode in referencesNode.ChildNodes)
                 {
-                    if (childNode.Name == "Reference")
+                    if (childNode.Name == "Reference" && childNode.Attributes?["ReleaseStatus"]?.Value != "Deprecated")
                     {
                         string? referenceTypeString = childNode.Attributes?["ReferenceType"]?.Value;
                         bool isForward = childNode.Attributes?["IsForward"]?.Value != "false";

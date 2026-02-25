@@ -22,6 +22,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             NodeId = new OpcUaNodeId(nodeIdString, modelInfo, nsUriToNsInfoMap);
             BrowseName = new OpcUaName(browseNameString);
             SymbolicName = xmlNode.Attributes?["SymbolicName"]?.Value;
+            IsDeprecated = xmlNode.Attributes?["ReleaseStatus"]?.Value == "Deprecated";
             Description = xmlNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "Description")?.InnerText.CleanText();
             References = new List<OpcUaReference>();
             NsUriToNsInfoMap = nsUriToNsInfoMap;
@@ -34,6 +35,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
         public OpcUaName BrowseName { get; }
 
         public string? SymbolicName { get; }
+
+        public bool IsDeprecated { get; }
 
         public string? Description { get; }
 
@@ -49,14 +52,16 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             get => References
                 .Where(r => r.IsForward && r.ReferenceType.IsPropertyReference)
-                .Select(r => GetReferencedOpcUaNode(r.Target));
+                .Select(r => GetReferencedOpcUaNode(r.Target))
+                .Where(n => !n.IsDeprecated);
         }
 
         public IEnumerable<OpcUaNode> Components
         {
             get => References
                 .Where(r => r.IsForward && r.ReferenceType.IsComponentReference)
-                .Select(r => GetReferencedOpcUaNode(r.Target));
+                .Select(r => GetReferencedOpcUaNode(r.Target))
+                .Where(n => !n.IsDeprecated);
         }
 
         public OpcUaNode GetReferencedOpcUaNode(OpcUaNodeId nodeId) =>

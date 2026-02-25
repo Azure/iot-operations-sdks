@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             foreach (XmlNode childNode in referencesNode.ChildNodes)
             {
-                if (childNode.Name == "Reference")
+                if (childNode.Name == "Reference" && childNode.Attributes?["ReleaseStatus"]?.Value != "Deprecated")
                 {
                     string? referenceType = childNode.Attributes?["ReferenceType"]?.Value;
                     string? isForward = childNode.Attributes?["IsForward"]?.Value;
