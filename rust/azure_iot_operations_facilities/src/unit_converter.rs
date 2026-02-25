@@ -24,7 +24,7 @@ pub enum ConvertError {
         source_kind: String,
         target_kind: String,
     },
-    /// The converted_value value is infinity or NaN.
+    /// The value is infinity or NaN.
     UnrepresentableValue,
 }
 
@@ -35,11 +35,11 @@ impl UnitConverter {
     /// * `val` - The value to convert from source units.
     ///
     /// # Returns
-    /// The converted_value value in target units.
+    /// The converted value in target units.
     ///
     /// # Errors
     ///
-    /// [`ConvertError`] of kind [`UnrepresentableValue`] if the converted_value value is infinity or NaN.
+    /// [`ConvertError`] of kind [`UnrepresentableValue`] if the converted value is infinity or NaN.
     pub fn convert(&self, val: f64) -> Result<f64, ConvertError> {
         let converted_value = val * self.multiplier + self.offset;
         if !converted_value.is_finite() {
@@ -69,7 +69,7 @@ impl fmt::Display for ConvertError {
                 )
             }
             Self::UnrepresentableValue => {
-                write!(f, "converted_value value is infinity or NaN")
+                write!(f, "converted value is infinity or NaN")
             }
         }
     }
