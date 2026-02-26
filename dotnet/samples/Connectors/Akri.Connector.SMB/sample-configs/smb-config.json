@@ -1,0 +1,85 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information",
+      "Akri.Connector.SMB": "Debug"
+    }
+  },
+  "SMBConnector": {
+    "InstanceId": "smb-connector-sample",
+    "Host": "smb-server.example.com",
+    "Port": 445,
+    "ShareName": "HistorianData",
+    "Username": "domain\\historian-reader",
+    "Password": "",
+    "UseKeyVault": false,
+    "KeyVaultUrl": "",
+    "KeyVaultSecretName": "smb-password",
+    "BasePath": "/data/historians",
+    "FilePattern": "*.csv",
+    "ConnectionTimeoutSeconds": 30,
+    "MaxConcurrentConnections": 10,
+    "MaxFileSizeBytes": 10485760,
+    "EnableLeaderElection": false,
+    "TaskType": "Parse",
+    "DestinationPath": ""
+  },
+  "HistorianConnector": {
+    "Queries": [
+      {
+        "QueryId": "historical-data-parse",
+        "DeviceName": "smb-device",
+        "InboundEndpointName": "smb-endpoint",
+        "AssetName": "historian-asset",
+        "DatasetName": "time-series-data",
+        "CronExpression": "0 * * * *",
+        "WatermarkKind": "Time",
+        "LookbackDuration": "01:00:00",
+        "WindowDuration": "01:00:00",
+        "MaxWindowsPerTick": 5,
+        "DataPoints": [
+          {
+            "Name": "Temperature.Sensor1",
+            "DataSource": "Temperature.Sensor1"
+          },
+          {
+            "Name": "Pressure.Sensor1",
+            "DataSource": "Pressure.Sensor1"
+          },
+          {
+            "Name": "Humidity.Sensor1",
+            "DataSource": "Humidity.Sensor1"
+          }
+        ]
+      },
+      {
+        "QueryId": "reference-docs-copy",
+        "DeviceName": "smb-device",
+        "InboundEndpointName": "smb-endpoint",
+        "AssetName": "historian-asset",
+        "DatasetName": "reference-documents",
+        "CronExpression": "0 */6 * * *",
+        "WatermarkKind": "Time",
+        "LookbackDuration": "24:00:00",
+        "WindowDuration": "06:00:00",
+        "MaxWindowsPerTick": 3,
+        "TaskType": "Copy",
+        "SourceDirectoryPath": "/docs",
+        "FileFilter": "*.pdf",
+        "DestinationPath": "/mnt/pv/reference-docs",
+        "DataPoints": []
+      }
+    ]
+  },
+  "AzureIoTOperations": {
+    "MqttBroker": {
+      "Endpoint": "aio-mqtt-broker:1883",
+      "UseTls": false
+    },
+    "StateStore": {
+      "Endpoint": "aio-state-store:50051"
+    }
+  }
+}

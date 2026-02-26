@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smb-connector-metadata
+  labels:
+    app: smb-connector
+data:
+  connector-metadata.json: |
+    {
+        "$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/refs/heads/master/src/schemas/json/aio-connector-metadata-9.0-preview.json",
+        "name": "Mesh.Akri.SMBConnector",
+        "description": "Connector for polling an SMB Historian",
+        "version": "1.0.0",
+        "imageConfigurationSettings": {
+            "imageName": "npdrtishracr.azurecr.io/akri-connector-smb",
+            "tag": "latest"
+        },
+        "supportedArchitectures": [
+            "linux/amd64"
+        ],
+        "inboundEndpoints": [
+            {
+                "name": "smb-endpoint",
+                "endpointType": "MeshSystems.SMB",
+                "version": 2,
+                "fields": {
+                    "address": {
+                        "input": "required",
+                        "exampleValue": "smb-server.local:445/HistorianData",
+                        "description": "SMB server address in the format host:port/share (e.g. smb-server.local:445/HistorianData). Port defaults to 445 if omitted."
+                    }
+                },
+                "supportedAuthenticationTypes": [
+                    "usernamePassword",
+                    "anonymous"
+                ],
+                "supportedAssetEventDestinations": [
+                    "Mqtt"
+                ],
+                "datasets": {
+                    "limits": { "minimum": 0 },
+                    "fields": {
+                        "dataSource": { "input": "required", "exampleValue": "/data/historians" },
+                        "typeRef": { "input": "unsupported" }
+                    },
+                    "datasetConfigurationSchema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "type": "object",
+                        "properties": {
+                            "defaultSourcePath": {
+                                "type": "string",
+                                "description": "Default source path on the SMB share"
+                            },
+                            "defaultGlob": {
+                                "type": "string",
+                                "description": "Default glob pattern (e.g. *.csv)"
+                            }
+                        }
+                    },
+                    "dataPoints": {
+                        "limits": { "minimum": 0 },
+                        "fields": {
+                            "name": { "input": "required", "exampleValue": "sensor-tag" },
+                            "dataSource": { "input": "optional", "exampleValue": "csv_column_or_tag" },
+                            "typeRef": { "input": "optional" }
+                        },
+                        "dataPointConfigurationSchema": {
+                            "$schema": "http://json-schema.org/draft-07/schema#",
+                            "type": "object",
+                            "properties": {
+                                "timestampColumn": { "type": "string", "description": "CSV column name for timestamp" },
+                                "tagColumn": { "type": "string", "description": "CSV column name for tag/id" },
+                                "valueColumn": { "type": "string", "description": "CSV column name for value" },
+                                "qualityColumn": { "type": "string", "description": "CSV column name for quality (optional)" },
+                                "delimiter": { "type": "string", "description": "CSV delimiter (default ,)" },
+                                "timestampFormat": { "type": "string", "description": "Optional timestamp format" }
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    }

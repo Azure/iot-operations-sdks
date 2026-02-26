@@ -1,0 +1,151 @@
+{
+    "$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/refs/heads/master/src/schemas/json/aio-connector-metadata-9.0-preview.json",
+    "name": "Mesh.Akri.SMBConnector.Dev",
+    "description": "Connector for polling an SMB Historian",
+    "version": "0.3.4",
+    "imageConfigurationSettings": {
+        "imageName": "akri-connector-smb",
+        "tag": "latest"
+    },
+    "supportedArchitectures": [
+        "linux/amd64"
+    ],
+    "endpointsEnabledByDefault": true,
+    "inboundEndpoints": [
+        {
+            "endpointType": "MeshSystems.SMB",
+            "version": "0.3.4",
+            "supportedAuthenticationTypes": [
+                "usernamePassword",
+                "anonymous"
+            ],
+            "description": "An SMB/CIFS file share endpoint for polling historian data",
+            "assetsEnabledByDefault": true,
+            "fields": {
+                "address": {
+                    "input": "required",
+                    "exampleValue": "smb://smb-server.local/HistorianData",
+                    "regex": [
+                        "^smb:\\/\\/[\\w.-]+(:\\d+)?\\/.+"
+                    ],
+                    "description": "SMB server address in the format smb://host/share or smb://host:port/share (e.g. smb://smb-server.local/HistorianData). Do not use http:// health endpoints. Port defaults to 445 if omitted."
+                }
+            },
+            "datasets": {
+                "limits": {
+                    "minimum": 0
+                },
+                "datasetConfigurationSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "title": "SMB Dataset Config Schema",
+                    "description": "Per-dataset overrides for SMB connection and scheduling. All keys are optional; values set here take precedence over the same keys on the parent Asset.",
+                    "type": "object",
+                    "properties": {
+                        "basePath": {
+                            "type": "string",
+                            "description": "Directory on the SMB share to scan for files (e.g. 'production' or '/sensors/temperature/'). Overrides the asset-level basePath attribute."
+                        },
+                        "filePattern": {
+                            "type": "string",
+                            "description": "Glob pattern for filtering files (e.g. '*.csv', 'data_*.txt'). Overrides the asset-level filePattern attribute.",
+                            "default": "*.csv"
+                        },
+                        "cronExpression": {
+                            "type": "string",
+                            "description": "Cron expression for scheduling this dataset's query (e.g. '*/5 * * * *' for every 5 minutes). Overrides the asset-level cronExpression attribute.",
+                            "default": "*/5 * * * *"
+                        },
+                        "windowDurationSeconds": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Time window duration in seconds for each query execution. Overrides the asset-level windowDurationSeconds attribute.",
+                            "default": 60
+                        },
+                        "availabilityDelaySeconds": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "Seconds to wait after a window closes before querying, to allow data to become stable. Overrides the asset-level availabilityDelaySeconds attribute.",
+                            "default": 0
+                        },
+                        "overlapSeconds": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "Seconds of lookback overlap added to each window to catch late-arriving data. Overrides the asset-level overlapSeconds attribute.",
+                            "default": 0
+                        },
+                        "watermarkKind": {
+                            "type": "string",
+                            "enum": [ "Time", "Sequence" ],
+                            "description": "Watermark tracking strategy: 'Time' (file modification timestamp) or 'Sequence'. Overrides the asset-level watermarkKind attribute.",
+                            "default": "Time"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "fields": {
+                    "dataSource": {
+                        "input": "required",
+                        "exampleValue": "/data/historians",
+                        "description": "The path on the SMB share to poll for data files"
+                    },
+                    "typeRef": {
+                        "input": "unsupported"
+                    }
+                },
+                "dataPoints": {
+                    "limits": {
+                        "minimum": 0
+                    },
+                    "fields": {
+                        "dataSource": {
+                            "input": "optional",
+                            "exampleValue": "csv_column_or_tag",
+                            "description": "Column name or tag identifier in the data file"
+                        },
+                        "typeRef": {
+                            "input": "optional"
+                        }
+                    },
+                    "dataPointConfigurationSchema": {
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "title": "SMB DataPoint Config Schema",
+                        "description": "Configuration for individual data points parsed from SMB files",
+                        "type": "object",
+                        "properties": {
+                            "timestampColumn": {
+                                "type": "string",
+                                "description": "CSV column name for timestamp"
+                            },
+                            "tagColumn": {
+                                "type": "string",
+                                "description": "CSV column name for tag/id"
+                            },
+                            "valueColumn": {
+                                "type": "string",
+                                "description": "CSV column name for value"
+                            },
+                            "qualityColumn": {
+                                "type": "string",
+                                "description": "CSV column name for quality (optional)"
+                            },
+                            "delimiter": {
+                                "type": "string",
+                                "description": "CSV delimiter (default ,)"
+                            },
+                            "timestampFormat": {
+                                "type": "string",
+                                "description": "Optional timestamp format string"
+                            }
+                        }
+                    }
+                },
+                "destinations": {
+                    "supportedDestinations": [
+                        "Mqtt",
+                        "BrokerStateStore"
+                    ]
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smb-connector
+  labels:
+    app: smb-connector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smb-connector
+  template:
+    metadata:
+      labels:
+        app: smb-connector
+    spec:
+      serviceAccountName: smb-connector
+      containers:
+        - name: smb-connector
+          image: npdrtishracr.azurecr.io/akri-connector-smb:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: AIO__MqttBroker__Endpoint
+              value: "aio-mqtt-broker:1883"
+            - name: AIO__MqttBroker__UseTls
+              value: "false"
+            - name: AIO__StateStore__Endpoint
+              value: "aio-state-store:50051"
+            - name: SMBConnector__UseKeyVault
+              value: "false"
+            - name: SMBConnector__EnableLeaderElection
+              value: "false"
+          volumeMounts:
+            - name: connector-metadata
+              mountPath: /app/connector-metadata
+              readOnly: true
+            # Using AIO StateStore for watermark persistence; no local PVC mounted
+      volumes:
+        - name: connector-metadata
+          configMap:
+            name: smb-connector-metadata
+            items:
+              - key: connector-metadata.json
+                path: connector-metadata.json
+      tolerations:
+        - key: ""
+          operator: "Exists"
