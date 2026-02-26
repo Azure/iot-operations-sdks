@@ -1,0 +1,3732 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OPENSCS_SER_OPENSCSAggregationManagerObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15094",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "OPENSCSReturnEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+        "const": {
+          "Undefined0": 0,
+          "NoError1": 1,
+          "InvalidSerialNumberCollection2": 2,
+          "InsufficientSerialNumbers3": 3,
+          "InvalidSerialNumbersFormat4": 4,
+          "InvalidRequestToken5": 5,
+          "InvalidSelectionCriteria6": 6,
+          "UnableToAcceptSerialNumberEvents7": 7,
+          "UnableToAcceptLabelEvents8": 8,
+          "UnableToAcceptSIDEvents9": 9,
+          "UnknownAggregationSID10": 10,
+          "InsufficientPrivilegeToExecute11": 11
+        },
+        "properties": {
+          "Undefined0": {
+            "description": "Undefined value, should never be seen.",
+            "type": "integer"
+          },
+          "NoError1": {
+            "description": "There were no errors in processing the method.  ",
+            "type": "integer"
+          },
+          "InvalidSerialNumberCollection2": {
+            "description": "The Serial Number Collection ID does not match a Serial Number Collection managed by the server.",
+            "type": "integer"
+          },
+          "InsufficientSerialNumbers3": {
+            "description": "Fewer Serial Numbers are available from the pool, then are requested.",
+            "type": "integer"
+          },
+          "InvalidSerialNumbersFormat4": {
+            "description": "The serial number format is not known or defined in the server",
+            "type": "integer"
+          },
+          "InvalidRequestToken5": {
+            "description": "The Request Token has a value not understood by the server.",
+            "type": "integer"
+          },
+          "InvalidSelectionCriteria6": {
+            "description": "The Selection Criteria is not known or defined in the server.",
+            "type": "integer"
+          },
+          "UnableToAcceptSerialNumberEvents7": {
+            "description": "The server cannot accept Serial Number events.",
+            "type": "integer"
+          },
+          "UnableToAcceptLabelEvents8": {
+            "description": "The server cannot accept Label events.",
+            "type": "integer"
+          },
+          "UnableToAcceptSIDEvents9": {
+            "description": "The server cannot accept SID events.",
+            "type": "integer"
+          },
+          "UnknownAggregationSID10": {
+            "description": "The SID of the aggregation for packing or unpacking is unknown.",
+            "type": "integer"
+          },
+          "InsufficientPrivilegeToExecute11": {
+            "description": " The server has determined that the client does not have sufficient privilege for the method to execute.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "AggregationPackingEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15100",
+          "required": [ "AggregationElement", "ParentSNFormat", "PackedElementSNFormat", "AggregationContext" ],
+          "properties": {
+            "AggregationElement": {
+              "type": "array",
+              "items": {
+                "title": "OPENSCSAggregationDataType",
+                "description": "Iidentifies a parent element and a collection of packed elements. This is used in the aggregation packing and unpacking methods.",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3002",
+                "required": [ "ParentElement", "ParentElementCollection" ],
+                "properties": {
+                  "ParentElement": {
+                    "title": "OPENSCSLabelDataType",
+                    "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "required": [ "ID", "LabelProperties" ],
+                    "properties": {
+                      "ID": {
+                        "description": "The serial number of the label in the SID or EPC format. ",
+                        "type": "string"
+                      },
+                      "LabelProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "ParentElementCollection": {
+                    "title": "OPENSCSLabelCollectionDataType",
+                    "description": "Identifies the Serial Number Collection that was added to, or removed from, the parent element.",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+                    "required": [ "LabelCollection" ],
+                    "properties": {
+                      "LabelCollection": {
+                        "description": "The collections of labels with serial numbers.",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSLabelDataType",
+                          "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                          "required": [ "ID", "LabelProperties" ],
+                          "properties": {
+                            "ID": {
+                              "description": "The serial number of the label in the SID or EPC format. ",
+                              "type": "string"
+                            },
+                            "LabelProperties": {
+                              "description": "An optional array of additional properties in the form of Key/Value pairs",
+                              "type": "array",
+                              "items": {
+                                "title": "OPENSCSKeyValueDataType",
+                                "type": "object",
+                                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                                "required": [ "Key", "Value" ],
+                                "properties": {
+                                  "Key": {
+                                    "description": "A string defining the key for the pair",
+                                    "type": "string"
+                                  },
+                                  "Value": {
+                                    "description": "A variant for the value of the pair structure",
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "LabelCollectionProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "ParentSNFormat": {
+              "type": "string"
+            },
+            "PackedElementSNFormat": {
+              "type": "string"
+            },
+            "AggregationContext": {
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15101",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/action/AggregationPackingEvent",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "AggregationUnpackingEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=6011",
+          "required": [ "AggregationElement", "ParentSNFormat", "PackedElementSNFormat", "AggregationContext" ],
+          "properties": {
+            "AggregationElement": {
+              "type": "array",
+              "items": {
+                "title": "OPENSCSAggregationDataType",
+                "description": "Iidentifies a parent element and a collection of packed elements. This is used in the aggregation packing and unpacking methods.",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3002",
+                "required": [ "ParentElement", "ParentElementCollection" ],
+                "properties": {
+                  "ParentElement": {
+                    "title": "OPENSCSLabelDataType",
+                    "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "required": [ "ID", "LabelProperties" ],
+                    "properties": {
+                      "ID": {
+                        "description": "The serial number of the label in the SID or EPC format. ",
+                        "type": "string"
+                      },
+                      "LabelProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "ParentElementCollection": {
+                    "title": "OPENSCSLabelCollectionDataType",
+                    "description": "Identifies the Serial Number Collection that was added to, or removed from, the parent element.",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+                    "required": [ "LabelCollection" ],
+                    "properties": {
+                      "LabelCollection": {
+                        "description": "The collections of labels with serial numbers.",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSLabelDataType",
+                          "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                          "required": [ "ID", "LabelProperties" ],
+                          "properties": {
+                            "ID": {
+                              "description": "The serial number of the label in the SID or EPC format. ",
+                              "type": "string"
+                            },
+                            "LabelProperties": {
+                              "description": "An optional array of additional properties in the form of Key/Value pairs",
+                              "type": "array",
+                              "items": {
+                                "title": "OPENSCSKeyValueDataType",
+                                "type": "object",
+                                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                                "required": [ "Key", "Value" ],
+                                "properties": {
+                                  "Key": {
+                                    "description": "A string defining the key for the pair",
+                                    "type": "string"
+                                  },
+                                  "Value": {
+                                    "description": "A variant for the value of the pair structure",
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "LabelCollectionProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "ParentSNFormat": {
+              "type": "string"
+            },
+            "PackedElementSNFormat": {
+              "type": "string"
+            },
+            "AggregationContext": {
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=6013",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/action/AggregationUnpackingEvent",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "MaxAggregationEvents": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/property/MaxAggregationEvents/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OPENSCS_SER_OPENSCSEventManagerObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15062",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "EPCISStream",
+        "href": "#title=OpcUaCore_TemporaryFileTransferType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "OPENSCSReturnEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+        "const": {
+          "Undefined0": 0,
+          "NoError1": 1,
+          "InvalidSerialNumberCollection2": 2,
+          "InsufficientSerialNumbers3": 3,
+          "InvalidSerialNumbersFormat4": 4,
+          "InvalidRequestToken5": 5,
+          "InvalidSelectionCriteria6": 6,
+          "UnableToAcceptSerialNumberEvents7": 7,
+          "UnableToAcceptLabelEvents8": 8,
+          "UnableToAcceptSIDEvents9": 9,
+          "UnknownAggregationSID10": 10,
+          "InsufficientPrivilegeToExecute11": 11
+        },
+        "properties": {
+          "Undefined0": {
+            "description": "Undefined value, should never be seen.",
+            "type": "integer"
+          },
+          "NoError1": {
+            "description": "There were no errors in processing the method.  ",
+            "type": "integer"
+          },
+          "InvalidSerialNumberCollection2": {
+            "description": "The Serial Number Collection ID does not match a Serial Number Collection managed by the server.",
+            "type": "integer"
+          },
+          "InsufficientSerialNumbers3": {
+            "description": "Fewer Serial Numbers are available from the pool, then are requested.",
+            "type": "integer"
+          },
+          "InvalidSerialNumbersFormat4": {
+            "description": "The serial number format is not known or defined in the server",
+            "type": "integer"
+          },
+          "InvalidRequestToken5": {
+            "description": "The Request Token has a value not understood by the server.",
+            "type": "integer"
+          },
+          "InvalidSelectionCriteria6": {
+            "description": "The Selection Criteria is not known or defined in the server.",
+            "type": "integer"
+          },
+          "UnableToAcceptSerialNumberEvents7": {
+            "description": "The server cannot accept Serial Number events.",
+            "type": "integer"
+          },
+          "UnableToAcceptLabelEvents8": {
+            "description": "The server cannot accept Label events.",
+            "type": "integer"
+          },
+          "UnableToAcceptSIDEvents9": {
+            "description": "The server cannot accept SID events.",
+            "type": "integer"
+          },
+          "UnknownAggregationSID10": {
+            "description": "The SID of the aggregation for packing or unpacking is unknown.",
+            "type": "integer"
+          },
+          "InsufficientPrivilegeToExecute11": {
+            "description": " The server has determined that the client does not have sufficient privilege for the method to execute.",
+            "type": "integer"
+          }
+        }
+      },
+      "OPENSCSSerialNumberStateEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+        "const": {
+          "Unassigned0": 0,
+          "Unallocated1": 1,
+          "Allocated2": 2,
+          "SNInvalid3": 3,
+          "Encoded4": 4,
+          "LabelSampled5": 5,
+          "LabelScrapped6": 6,
+          "Commissioned7": 7,
+          "Sampled8": 8,
+          "Inactive9": 9,
+          "Destroyed10": 10,
+          "Released11": 11
+        },
+        "properties": {
+          "Unassigned0": {
+            "description": "The Serial Number has not been assigned to production or a packaging run.",
+            "type": "integer"
+          },
+          "Unallocated1": {
+            "description": "As Serial Number has been assigned to production or a packaging run, but it has not yet been allocated for use a specific production run of a product or aggregation.",
+            "type": "integer"
+          },
+          "Allocated2": {
+            "description": "The Serial Number has been assigned to a specific product or aggregation production run. ",
+            "type": "integer"
+          },
+          "SNInvalid3": {
+            "description": "The Serial Number is no longer viable, and the related serial number is no longer defined. ",
+            "type": "integer"
+          },
+          "Encoded4": {
+            "description": "The Serial Number has been written to a barcode or RFID tag, but not yet commissioned.",
+            "type": "integer"
+          },
+          "LabelSampled5": {
+            "description": "The printed label has been retained and is not associated with a physical product or aggregation.",
+            "type": "integer"
+          },
+          "LabelScrapped6": {
+            "description": "A label was encoded with a Serial Number, but was made unusable before being applied to a product or aggregation.",
+            "type": "integer"
+          },
+          "Commissioned7": {
+            "description": "The Serial Number has been associated with a physical product or aggregation, but has not yet left the responsibility of production",
+            "type": "integer"
+          },
+          "Sampled8": {
+            "description": "The product or aggregation is to be used as a sample for testing or other use, not to be made active.",
+            "type": "integer"
+          },
+          "Inactive9": {
+            "description": "The product or aggregation is no longer active, but may not have been destroyed.",
+            "type": "integer"
+          },
+          "Destroyed10": {
+            "description": "The product or aggregation was has been fully rendered non-usable.",
+            "type": "integer"
+          },
+          "Released11": {
+            "description": "The Serial Number has been associated with a physical product or aggregation, and has left the responsibility of production.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "LabelsEncodingEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15089",
+          "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
+          "properties": {
+            "LabelCollection": {
+              "title": "OPENSCSLabelCollectionDataType",
+              "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "required": [ "LabelCollection" ],
+              "properties": {
+                "LabelCollection": {
+                  "description": "The collections of labels with serial numbers.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSLabelDataType",
+                    "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "required": [ "ID", "LabelProperties" ],
+                    "properties": {
+                      "ID": {
+                        "description": "The serial number of the label in the SID or EPC format. ",
+                        "type": "string"
+                      },
+                      "LabelProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "LabelCollectionProperties": {
+                  "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSKeyValueDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "required": [ "Key", "Value" ],
+                    "properties": {
+                      "Key": {
+                        "description": "A string defining the key for the pair",
+                        "type": "string"
+                      },
+                      "Value": {
+                        "description": "A variant for the value of the pair structure",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "Defines the format of the serial numbers associated to the event.",
+              "type": "string"
+            },
+            "OPENSCSEventContext": {
+              "description": "Zero or mode key value pairs that define additional context information for the event, such as order number or lot number.",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15090",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsEncodingEvent",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "LabelsInspectingEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15083",
+          "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
+          "properties": {
+            "LabelCollection": {
+              "title": "OPENSCSLabelCollectionDataType",
+              "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "required": [ "LabelCollection" ],
+              "properties": {
+                "LabelCollection": {
+                  "description": "The collections of labels with serial numbers.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSLabelDataType",
+                    "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "required": [ "ID", "LabelProperties" ],
+                    "properties": {
+                      "ID": {
+                        "description": "The serial number of the label in the SID or EPC format. ",
+                        "type": "string"
+                      },
+                      "LabelProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "LabelCollectionProperties": {
+                  "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSKeyValueDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "required": [ "Key", "Value" ],
+                    "properties": {
+                      "Key": {
+                        "description": "A string defining the key for the pair",
+                        "type": "string"
+                      },
+                      "Value": {
+                        "description": "A variant for the value of the pair structure",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "Defines the format of the serial numbers associated to the event.",
+              "type": "string"
+            },
+            "OPENSCSEventContext": {
+              "description": "Zero or mode key value pairs that define additional context information for the event, such as order number or lot number.",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15084",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsInspectingEvent",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "LabelsSamplingEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15080",
+          "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
+          "properties": {
+            "LabelCollection": {
+              "title": "OPENSCSLabelCollectionDataType",
+              "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "required": [ "LabelCollection" ],
+              "properties": {
+                "LabelCollection": {
+                  "description": "The collections of labels with serial numbers.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSLabelDataType",
+                    "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "required": [ "ID", "LabelProperties" ],
+                    "properties": {
+                      "ID": {
+                        "description": "The serial number of the label in the SID or EPC format. ",
+                        "type": "string"
+                      },
+                      "LabelProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "LabelCollectionProperties": {
+                  "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSKeyValueDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "required": [ "Key", "Value" ],
+                    "properties": {
+                      "Key": {
+                        "description": "A string defining the key for the pair",
+                        "type": "string"
+                      },
+                      "Value": {
+                        "description": "A variant for the value of the pair structure",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "Defines the format of the serial numbers associated to the event.",
+              "type": "string"
+            },
+            "OPENSCSEventContext": {
+              "description": "Zero or mode key value pairs that define additional context information for the event, such as order number or lot number.",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15081",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsSamplingEvent",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "LabelsScrappingEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15086",
+          "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
+          "properties": {
+            "LabelCollection": {
+              "title": "OPENSCSLabelCollectionDataType",
+              "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "required": [ "LabelCollection" ],
+              "properties": {
+                "LabelCollection": {
+                  "description": "The collections of labels with serial numbers.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSLabelDataType",
+                    "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "required": [ "ID", "LabelProperties" ],
+                    "properties": {
+                      "ID": {
+                        "description": "The serial number of the label in the SID or EPC format. ",
+                        "type": "string"
+                      },
+                      "LabelProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "LabelCollectionProperties": {
+                  "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSKeyValueDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "required": [ "Key", "Value" ],
+                    "properties": {
+                      "Key": {
+                        "description": "A string defining the key for the pair",
+                        "type": "string"
+                      },
+                      "Value": {
+                        "description": "A variant for the value of the pair structure",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "Defines the format of the serial numbers associated to the event.",
+              "type": "string"
+            },
+            "OPENSCSEventContext": {
+              "description": "Zero or mode key value pairs that define additional context information for the event, such as order number or lot number.",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15087",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsScrappingEvent",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SIDCommissioningEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15077",
+          "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
+          "properties": {
+            "LabelCollection": {
+              "title": "OPENSCSLabelCollectionDataType",
+              "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "required": [ "LabelCollection" ],
+              "properties": {
+                "LabelCollection": {
+                  "description": "The collections of labels with serial numbers.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSLabelDataType",
+                    "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "required": [ "ID", "LabelProperties" ],
+                    "properties": {
+                      "ID": {
+                        "description": "The serial number of the label in the SID or EPC format. ",
+                        "type": "string"
+                      },
+                      "LabelProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "LabelCollectionProperties": {
+                  "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSKeyValueDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "required": [ "Key", "Value" ],
+                    "properties": {
+                      "Key": {
+                        "description": "A string defining the key for the pair",
+                        "type": "string"
+                      },
+                      "Value": {
+                        "description": "A variant for the value of the pair structure",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "Defines the format of the serial numbers associated to the event.",
+              "type": "string"
+            },
+            "OPENSCSEventContext": {
+              "description": "Zero or mode key value pairs that define additional context information for the event, such as order number or lot number.",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15078",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDCommissioningEvent",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SIDDecommissioningEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15065",
+          "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
+          "properties": {
+            "LabelCollection": {
+              "title": "OPENSCSLabelCollectionDataType",
+              "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "required": [ "LabelCollection" ],
+              "properties": {
+                "LabelCollection": {
+                  "description": "The collections of labels with serial numbers.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSLabelDataType",
+                    "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "required": [ "ID", "LabelProperties" ],
+                    "properties": {
+                      "ID": {
+                        "description": "The serial number of the label in the SID or EPC format. ",
+                        "type": "string"
+                      },
+                      "LabelProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "LabelCollectionProperties": {
+                  "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSKeyValueDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "required": [ "Key", "Value" ],
+                    "properties": {
+                      "Key": {
+                        "description": "A string defining the key for the pair",
+                        "type": "string"
+                      },
+                      "Value": {
+                        "description": "A variant for the value of the pair structure",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "Defines the format of the serial numbers associated to the event.",
+              "type": "string"
+            },
+            "OPENSCSEventContext": {
+              "description": "Zero or mode key value pairs that define additional context information for the event, such as order number or lot number.",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15066",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDDecommissioningEvent",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SIDDestroyingEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15074",
+          "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
+          "properties": {
+            "LabelCollection": {
+              "title": "OPENSCSLabelCollectionDataType",
+              "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "required": [ "LabelCollection" ],
+              "properties": {
+                "LabelCollection": {
+                  "description": "The collections of labels with serial numbers.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSLabelDataType",
+                    "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "required": [ "ID", "LabelProperties" ],
+                    "properties": {
+                      "ID": {
+                        "description": "The serial number of the label in the SID or EPC format. ",
+                        "type": "string"
+                      },
+                      "LabelProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "LabelCollectionProperties": {
+                  "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSKeyValueDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "required": [ "Key", "Value" ],
+                    "properties": {
+                      "Key": {
+                        "description": "A string defining the key for the pair",
+                        "type": "string"
+                      },
+                      "Value": {
+                        "description": "A variant for the value of the pair structure",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "Defines the format of the serial numbers associated to the event.",
+              "type": "string"
+            },
+            "OPENSCSEventContext": {
+              "description": "Zero or mode key value pairs that define additional context information for the event, such as order number or lot number.",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15075",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDDestroyingEvent",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SIDInspectingEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15068",
+          "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
+          "properties": {
+            "LabelCollection": {
+              "title": "OPENSCSLabelCollectionDataType",
+              "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "required": [ "LabelCollection" ],
+              "properties": {
+                "LabelCollection": {
+                  "description": "The collections of labels with serial numbers.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSLabelDataType",
+                    "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "required": [ "ID", "LabelProperties" ],
+                    "properties": {
+                      "ID": {
+                        "description": "The serial number of the label in the SID or EPC format. ",
+                        "type": "string"
+                      },
+                      "LabelProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "LabelCollectionProperties": {
+                  "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSKeyValueDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "required": [ "Key", "Value" ],
+                    "properties": {
+                      "Key": {
+                        "description": "A string defining the key for the pair",
+                        "type": "string"
+                      },
+                      "Value": {
+                        "description": "A variant for the value of the pair structure",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "Defines the format of the serial numbers associated to the event.",
+              "type": "string"
+            },
+            "OPENSCSEventContext": {
+              "description": "Zero or mode key value pairs that define additional context information for the event, such as order number or lot number.",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15069",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDInspectingEvent",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SIDShippingEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15071",
+          "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
+          "properties": {
+            "LabelCollection": {
+              "title": "OPENSCSLabelCollectionDataType",
+              "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "required": [ "LabelCollection" ],
+              "properties": {
+                "LabelCollection": {
+                  "description": "The collections of labels with serial numbers.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSLabelDataType",
+                    "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "required": [ "ID", "LabelProperties" ],
+                    "properties": {
+                      "ID": {
+                        "description": "The serial number of the label in the SID or EPC format. ",
+                        "type": "string"
+                      },
+                      "LabelProperties": {
+                        "description": "An optional array of additional properties in the form of Key/Value pairs",
+                        "type": "array",
+                        "items": {
+                          "title": "OPENSCSKeyValueDataType",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "required": [ "Key", "Value" ],
+                          "properties": {
+                            "Key": {
+                              "description": "A string defining the key for the pair",
+                              "type": "string"
+                            },
+                            "Value": {
+                              "description": "A variant for the value of the pair structure",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "LabelCollectionProperties": {
+                  "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSKeyValueDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "required": [ "Key", "Value" ],
+                    "properties": {
+                      "Key": {
+                        "description": "A string defining the key for the pair",
+                        "type": "string"
+                      },
+                      "Value": {
+                        "description": "A variant for the value of the pair structure",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "Defines the format of the serial numbers associated to the event.",
+              "type": "string"
+            },
+            "OPENSCSEventContext": {
+              "description": "Zero or mode key value pairs that define additional context information for the event, such as order number or lot number.",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15072",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDShippingEvent",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SNInvalidatingEvent": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15092",
+          "required": [ "SNCollection", "SNFormat", "OPENSCSEventContext" ],
+          "properties": {
+            "SNCollection": {
+              "title": "OPENSCSCollectionDataType",
+              "description": "Identifies the Serial Number Collection.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
+              "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "Defines the format of the serial numbers associated to the event.",
+              "type": "string"
+            },
+            "OPENSCSEventContext": {
+              "description": "Zero or mode key value pairs that define additional context information for the event, such as order number or lot number.",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15093",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SNInvalidatingEvent",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "MaxEPCISaggregationEvents": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISaggregationEvents/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISaggregationEvents/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxEPCISObjectEventSIDs": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISObjectEventSIDs/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISObjectEventSIDs/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxEvents": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEvents/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OPENSCS_SER_OPENSCSPoolManagerObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15032",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "OPENSCSReturnEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+        "const": {
+          "Undefined0": 0,
+          "NoError1": 1,
+          "InvalidSerialNumberCollection2": 2,
+          "InsufficientSerialNumbers3": 3,
+          "InvalidSerialNumbersFormat4": 4,
+          "InvalidRequestToken5": 5,
+          "InvalidSelectionCriteria6": 6,
+          "UnableToAcceptSerialNumberEvents7": 7,
+          "UnableToAcceptLabelEvents8": 8,
+          "UnableToAcceptSIDEvents9": 9,
+          "UnknownAggregationSID10": 10,
+          "InsufficientPrivilegeToExecute11": 11
+        },
+        "properties": {
+          "Undefined0": {
+            "description": "Undefined value, should never be seen.",
+            "type": "integer"
+          },
+          "NoError1": {
+            "description": "There were no errors in processing the method.  ",
+            "type": "integer"
+          },
+          "InvalidSerialNumberCollection2": {
+            "description": "The Serial Number Collection ID does not match a Serial Number Collection managed by the server.",
+            "type": "integer"
+          },
+          "InsufficientSerialNumbers3": {
+            "description": "Fewer Serial Numbers are available from the pool, then are requested.",
+            "type": "integer"
+          },
+          "InvalidSerialNumbersFormat4": {
+            "description": "The serial number format is not known or defined in the server",
+            "type": "integer"
+          },
+          "InvalidRequestToken5": {
+            "description": "The Request Token has a value not understood by the server.",
+            "type": "integer"
+          },
+          "InvalidSelectionCriteria6": {
+            "description": "The Selection Criteria is not known or defined in the server.",
+            "type": "integer"
+          },
+          "UnableToAcceptSerialNumberEvents7": {
+            "description": "The server cannot accept Serial Number events.",
+            "type": "integer"
+          },
+          "UnableToAcceptLabelEvents8": {
+            "description": "The server cannot accept Label events.",
+            "type": "integer"
+          },
+          "UnableToAcceptSIDEvents9": {
+            "description": "The server cannot accept SID events.",
+            "type": "integer"
+          },
+          "UnknownAggregationSID10": {
+            "description": "The SID of the aggregation for packing or unpacking is unknown.",
+            "type": "integer"
+          },
+          "InsufficientPrivilegeToExecute11": {
+            "description": " The server has determined that the client does not have sufficient privilege for the method to execute.",
+            "type": "integer"
+          }
+        }
+      },
+      "OPENSCSSerialNumberStateEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+        "const": {
+          "Unassigned0": 0,
+          "Unallocated1": 1,
+          "Allocated2": 2,
+          "SNInvalid3": 3,
+          "Encoded4": 4,
+          "LabelSampled5": 5,
+          "LabelScrapped6": 6,
+          "Commissioned7": 7,
+          "Sampled8": 8,
+          "Inactive9": 9,
+          "Destroyed10": 10,
+          "Released11": 11
+        },
+        "properties": {
+          "Unassigned0": {
+            "description": "The Serial Number has not been assigned to production or a packaging run.",
+            "type": "integer"
+          },
+          "Unallocated1": {
+            "description": "As Serial Number has been assigned to production or a packaging run, but it has not yet been allocated for use a specific production run of a product or aggregation.",
+            "type": "integer"
+          },
+          "Allocated2": {
+            "description": "The Serial Number has been assigned to a specific product or aggregation production run. ",
+            "type": "integer"
+          },
+          "SNInvalid3": {
+            "description": "The Serial Number is no longer viable, and the related serial number is no longer defined. ",
+            "type": "integer"
+          },
+          "Encoded4": {
+            "description": "The Serial Number has been written to a barcode or RFID tag, but not yet commissioned.",
+            "type": "integer"
+          },
+          "LabelSampled5": {
+            "description": "The printed label has been retained and is not associated with a physical product or aggregation.",
+            "type": "integer"
+          },
+          "LabelScrapped6": {
+            "description": "A label was encoded with a Serial Number, but was made unusable before being applied to a product or aggregation.",
+            "type": "integer"
+          },
+          "Commissioned7": {
+            "description": "The Serial Number has been associated with a physical product or aggregation, but has not yet left the responsibility of production",
+            "type": "integer"
+          },
+          "Sampled8": {
+            "description": "The product or aggregation is to be used as a sample for testing or other use, not to be made active.",
+            "type": "integer"
+          },
+          "Inactive9": {
+            "description": "The product or aggregation is no longer active, but may not have been destroyed.",
+            "type": "integer"
+          },
+          "Destroyed10": {
+            "description": "The product or aggregation was has been fully rendered non-usable.",
+            "type": "integer"
+          },
+          "Released11": {
+            "description": "The Serial Number has been associated with a physical product or aggregation, and has left the responsibility of production.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SNRequestAllocated": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15054",
+          "required": [ "SNCollectionID", "Count", "SNFormat", "PoolSelectionCriteria", "RequestToken" ],
+          "properties": {
+            "SNCollectionID": {
+              "description": "Identifies the Serial Number Collection from which unassigned Serial Numbers are to be provided.",
+              "type": "string"
+            },
+            "Count": {
+              "description": "Identifies the number of Serial Numbers requested.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "SNFormat": {
+              "description": "Defines the desired serial number format for the requested serial numbers. ",
+              "type": "string"
+            },
+            "PoolSelectionCriteria": {
+              "description": "Identified value to be used by the method provider to determine which Serial Numbers to return. ",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "RequestToken": {
+              "description": "If it has a value of null or an empty string, then this is the initial request for Serial Numbers. ",
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15055",
+          "required": [ "ReturnStatus", "SNCollection", "ReturnedRequestToken" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution. ",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "SNCollection": {
+              "title": "OPENSCSCollectionDataType",
+              "description": "Contains requested Serial Number collection with Serial Numbers of the specified state. ",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
+              "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ReturnedRequestToken": {
+              "description": "If non null or an empty string, then there are more serial numbers to be returned and the returned Request Token is to be passed as an input parameter on a subsequent call.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNRequestAllocated",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SNRequestUnallocated": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15057",
+          "required": [ "SNCollectionID", "Count", "SNFormat", "PoolSelectionCriteria", "RequestToken" ],
+          "properties": {
+            "SNCollectionID": {
+              "description": "Identifies the Serial Number Collection from which unassigned Serial Numbers are to be provided.",
+              "type": "string"
+            },
+            "Count": {
+              "description": "Identifies the number of Serial Numbers requested.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "SNFormat": {
+              "description": "Defines the desired serial number format for the requested serial numbers. ",
+              "type": "string"
+            },
+            "PoolSelectionCriteria": {
+              "description": "Identified value to be used by the method provider to determine which Serial Numbers to return. ",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "RequestToken": {
+              "description": "If it has a value of null or an empty string, then this is the initial request for Serial Numbers. ",
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15058",
+          "required": [ "ReturnStatus", "SNCollection", "ReturnedRequestToken" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution. ",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "SNCollection": {
+              "title": "OPENSCSCollectionDataType",
+              "description": "Contains requested Serial Number collection with Serial Numbers of the specified state. ",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
+              "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ReturnedRequestToken": {
+              "description": "If non null or an empty string, then there are more serial numbers to be returned and the returned Request Token is to be passed as an input parameter on a subsequent call.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNRequestUnallocated",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SNRequestUnassigned": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15060",
+          "required": [ "SNCollectionID", "Count", "SNFormat", "PoolSelectionCriteria", "RequestToken" ],
+          "properties": {
+            "SNCollectionID": {
+              "description": "Identifies the Serial Number Collection from which unassigned Serial Numbers are to be provided.",
+              "type": "string"
+            },
+            "Count": {
+              "description": "Identifies the number of Serial Numbers requested.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "SNFormat": {
+              "description": "Defines the desired serial number format for the requested serial numbers. ",
+              "type": "string"
+            },
+            "PoolSelectionCriteria": {
+              "description": "Identified value to be used by the method provider to determine which Serial Numbers to return. ",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "RequestToken": {
+              "description": "If it has a value of null or an empty string, then this is the initial request for Serial Numbers. ",
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15061",
+          "required": [ "ReturnStatus", "SNCollection", "ReturnedRequestToken" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution. ",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "SNCollection": {
+              "title": "OPENSCSCollectionDataType",
+              "description": "Contains requested Serial Number collection with Serial Numbers of the specified state. ",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
+              "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ReturnedRequestToken": {
+              "description": "If non null or an empty string, then there are more serial numbers to be returned and the returned Request Token is to be passed as an input parameter on a subsequent call.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNRequestUnassigned",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SNReturnAllocated": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15048",
+          "required": [ "SNCollection", "PoolSelectionCriteria", "SNFormat" ],
+          "properties": {
+            "SNCollection": {
+              "title": "OPENSCSCollectionDataType",
+              "description": "Contains a Serial Number Collection from which Serial Numbers were originally provided.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
+              "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "PoolSelectionCriteria": {
+              "description": "Identified value to be used by the method provider to determine which pool to return the Serial Numbers to",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "The serial number format of the serial numbers being returned. ",
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15049",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNReturnAllocated",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SNReturnUnallocated": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15051",
+          "required": [ "SNCollection", "PoolSelectionCriteria", "SNFormat" ],
+          "properties": {
+            "SNCollection": {
+              "title": "OPENSCSCollectionDataType",
+              "description": "Contains a Serial Number Collection from which Serial Numbers were originally provided.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
+              "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "PoolSelectionCriteria": {
+              "description": "Identified value to be used by the method provider to determine which pool to return the Serial Numbers to",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "description": "The serial number format of the serial numbers being returned. ",
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15052",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "description": "Returns the status of the method execution.",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNReturnUnallocated",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SNtoAllocated": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15111",
+          "required": [ "SNCollection", "PoolSelectionCriteria", "SNFormat" ],
+          "properties": {
+            "SNCollection": {
+              "title": "OPENSCSCollectionDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
+              "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "PoolSelectionCriteria": {
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15112",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNtoAllocated",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SNtoEncoded": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15039",
+          "required": [ "SNCollection", "PoolSelectionCriteria", "SNFormat" ],
+          "properties": {
+            "SNCollection": {
+              "title": "OPENSCSCollectionDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
+              "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "PoolSelectionCriteria": {
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15040",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNtoEncoded",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SNtoUnallocated": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15045",
+          "required": [ "SNCollection", "PoolSelectionCriteria", "SNFormat" ],
+          "properties": {
+            "SNCollection": {
+              "title": "OPENSCSCollectionDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
+              "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "PoolSelectionCriteria": {
+              "type": "array",
+              "items": {
+                "title": "OPENSCSKeyValueDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "required": [ "Key", "Value" ],
+                "properties": {
+                  "Key": {
+                    "description": "A string defining the key for the pair",
+                    "type": "string"
+                  },
+                  "Value": {
+                    "description": "A variant for the value of the pair structure",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "SNFormat": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15046",
+          "required": [ "ReturnStatus" ],
+          "properties": {
+            "ReturnStatus": {
+              "title": "OPENSCSReturnEnum",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNtoUnallocated",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "MaxSNPushable": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/MaxSNPushable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxSNRequestable": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/MaxSNRequestable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxSNReturnable": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/MaxSNReturnable/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PoolSelectionCriteria": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "array",
+        "items": {
+          "title": "OPENSCSKeyValueDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+          "required": [ "Key", "Value" ],
+          "properties": {
+            "Key": {
+              "description": "A string defining the key for the pair",
+              "type": "string"
+            },
+            "Value": {
+              "description": "A variant for the value of the pair structure",
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/PoolSelectionCriteria/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SNFormat": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/SNFormat/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OPENSCS_SER_OPENSCSSIDClassObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15102",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AllowedCharacterSet": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/AllowedCharacterSet/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IntendedUse": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/IntendedUse/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SIDClassDescription": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassDescription/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SIDClassID": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassID/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SIDClassOwner": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassOwner/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SIDClassProperty": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "array",
+        "items": {
+          "title": "OPENSCSSIDClassPropertyDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15009",
+          "required": [ "PropertyID", "PropertyDescription", "PropertyValue", "LabelProperty" ],
+          "properties": {
+            "PropertyID": {
+              "description": "An identification of the SID Class Property.",
+              "type": "string"
+            },
+            "PropertyDescription": {
+              "description": "Additional information and description about the SID Class Property.",
+              "type": "string"
+            },
+            "PropertyValue": {
+              "description": "Defines value for the specific SID Class Property. The format is not defined in this specification and must be negotiated between Information Providers and Information Requesters during design or change management of a system.",
+              "type": "string"
+            },
+            "LabelProperty": {
+              "description": "An array of property elements, each of which may have associated label property definitions.",
+              "type": "array",
+              "items": {
+                "title": "OPENSCSLabelPropertyDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15007",
+                "required": [ "PropertyID", "PropertyDescription", "PropertyValue" ],
+                "properties": {
+                  "PropertyID": {
+                    "description": "The identification of a property associated with a label.",
+                    "type": "string"
+                  },
+                  "PropertyDescription": {
+                    "description": "An optional description of the property associated with the label",
+                    "type": "string"
+                  },
+                  "PropertyValue": {
+                    "description": "A value for the property, if defined this may be considered a default property value.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassProperty/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassProperty/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SyntaxSpecification": {
+        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SyntaxSpecification/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_TemporaryFileTransferType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15744",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "TransferState_Placeholder",
+        "href": "#title=OpcUaCore_FileTransferStateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "CloseAndCommit": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15752",
+          "required": [ "FileHandle" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15753",
+          "required": [ "CompletionStateMachine" ],
+          "properties": {
+            "CompletionStateMachine": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/CloseAndCommit",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GenerateFileForRead": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15747",
+          "required": [ "GenerateOptions" ],
+          "properties": {
+            "GenerateOptions": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15748",
+          "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
+          "properties": {
+            "FileNodeId": {
+              "type": "string"
+            },
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "CompletionStateMachine": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForRead",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GenerateFileForWrite": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16359",
+          "required": [ "GenerateOptions" ],
+          "properties": {
+            "GenerateOptions": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15750",
+          "required": [ "FileNodeId", "FileHandle" ],
+          "properties": {
+            "FileNodeId": {
+              "type": "string"
+            },
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForWrite",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ClientProcessingTimeout": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/property/ClientProcessingTimeout/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FileTransferStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15803",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Idle",
+        "href": "#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadPrepare",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadTransfer",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ApplyWrite",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Error",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToReadPrepare",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadPrepareToReadTransfer",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadTransferToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToApplyWrite",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ApplyWriteToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadPrepareToError",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReadTransferToError",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ApplyWriteToError",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ErrorToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "Reset": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileTransferStateMachineType/action/Reset",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FiniteStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_StateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AvailableStates": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AvailableStates": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_InitialStateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2309",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "StateNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_TransitionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "TransitionNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

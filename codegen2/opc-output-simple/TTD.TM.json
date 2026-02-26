@@ -1,0 +1,1627 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "TTD_TTDResultReadyEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1006",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.Result.TM.json#title=Machinery_Result_ResultReadyEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ResultEvaluationEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "const": {
+          "Undefined": 0,
+          "OK": 1,
+          "NotOK": 2,
+          "NotDecidable": 3
+        },
+        "description": "Indicates whether a result was in tolerance",
+        "properties": {
+          "Undefined": {
+            "description": "The evaluation of the result is unknown, for example because it failed",
+            "type": "integer"
+          },
+          "OK": {
+            "description": "The result is in tolerance",
+            "type": "integer"
+          },
+          "NotOK": {
+            "description": "The result is out of tolerance",
+            "type": "integer"
+          },
+          "NotDecidable": {
+            "description": "The decision is not possible due to measurement uncertainty.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Result": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "title": "ResultDataType",
+        "description": "Contains fields that were created during the execution of a recipe.",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+        "required": [ "ResultMetaData", "ResultContent" ],
+        "properties": {
+          "ResultMetaData": {
+            "title": "ResultMetaDataType",
+            "description": "Meta data of a result, describing the result.",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+            "required": [ "ResultId" ],
+            "properties": {
+              "ResultId": {
+                "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the method GetResultById and it is identical to the ResultId of the ResultReadyEventType.  If the system does not manage resultIds, it should always be set to “NA”.  ",
+                "type": "string"
+              },
+              "HasTransferableDataOnFile": {
+                "description": "Indicates that additional data for this result can be retrieved by temporary file transfer.  If not provided, it is assumed that no file is available.  ",
+                "type": "boolean"
+              },
+              "IsPartial": {
+                "description": "Indicates whether the result is the partial result of a total result. When not all samples are finished yet the result is 'partial'.  If not provided, it is assumed to be a total result.  ",
+                "type": "boolean"
+              },
+              "IsSimulated": {
+                "description": "Indicates whether the result was created in simulation mode.  Simulation mode implies that the result is only generated for testing purposes and not based on real production data.  If not provided, it is assumed to not be simulated.  ",
+                "type": "boolean"
+              },
+              "ResultState": {
+                "description": "ResultState provides information about the current state of the process or measurement creating a result.  Applications may use negative values for application-specific states. All other values shall only be used as defined in the following:  0 – Undefined initial value  1 – Completed: Processing was carried out completely  2 – Processing: Processing has not been finished yet  3 – Aborted: Processing was stopped at some point before completion  4 – Failed: Processing failed in some way  ",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "StepId": {
+                "description": "Identifies the step which produced the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the stepId is transmitted to the system. Typically, it is provided by the client when starting an execution.",
+                "type": "string"
+              },
+              "PartId": {
+                "description": "Identifies the part used to produce the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the partId is transmitted to the system. Typically, it is provided by the client when starting the job.",
+                "type": "string"
+              },
+              "ExternalRecipeId": {
+                "description": "External ID of the recipe in use which produced the result. The External ID is managed by the environment.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                "type": "string"
+              },
+              "InternalRecipeId": {
+                "description": "Internal ID of the recipe in use which produced the result. This ID is system-wide unique and it is assigned by the system.",
+                "type": "string"
+              },
+              "ProductId": {
+                "description": "Identifies the product used to produce the result.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                "type": "string"
+              },
+              "ExternalConfigurationId": {
+                "description": "External ID of the Configuration in use while the result was produced.  It is managed by the Environment.  This specification does not define how the externalConfigurationId is transmitted to the system. Typically, it is provided by the client.",
+                "type": "string"
+              },
+              "InternalConfigurationId": {
+                "description": "Internal ID of the Configuration in use while the result was produced. This ID is system-wide unique and it is assigned by the system.",
+                "type": "string"
+              },
+              "JobId": {
+                "description": "Identifies the job which produced the result.  This ID is system-wide unique and it is assigned by the system.  ",
+                "type": "string"
+              },
+              "CreationTime": {
+                "description": "CreationTime indicates the time when the result was created. Creation time on the measurement system (not the receive time of the server).  It is recommended to always provide the creationTime.  ",
+                "type": "string",
+                "format": "time"
+              },
+              "ProcessingTimes": {
+                "title": "ProcessingTimesDataType",
+                "description": "Contains measured times that were generated during the execution of a recipe.",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                "required": [ "StartTime", "EndTime" ],
+                "properties": {
+                  "StartTime": {
+                    "description": "Contains the time when the system started execution of the recipe.",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "EndTime": {
+                    "description": "Contains the time when the system finished (or stopped/aborted) execution of the recipe.",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "AcquisitionDuration": {
+                    "description": "Time spent by the system acquiring data.",
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  },
+                  "ProcessingDuration": {
+                    "description": "Time spent by the system processing data.",
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  }
+                }
+              },
+              "ResultUri": {
+                "description": "Path to the actual measured result, managed external to the server.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "ResultEvaluation": {
+                "title": "ResultEvaluationEnum",
+                "description": "The ResultEvaluation indicates whether the result was in tolerance.",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "ResultEvaluationCode": {
+                "description": "Vendor-specific code describing more details on resultEvaluation.",
+                "type": "integer",
+                "minimum": -9223372036854775808,
+                "maximum": 9223372036854775807
+              },
+              "ResultEvaluationDetails": {
+                "description": "The optional EvaluationDetails provides high level status information in a user-friendly text. This can be left empty for successful operations.",
+                "type": "string"
+              },
+              "FileFormat": {
+                "description": "The format in which the measurement results are available (e.g. QDAS, CSV, …) using the ResultTransfer Object. If multiple file formats are provided, the GenerateFileForRead of ResultTransfer should contain corresponding transferOptions, to select the file format. This specification does not define those transferOptions.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "ResultContent": {
+            "description": "Abstract data type to be subtyped from to hold result data created by the selected recipe.",
+            "type": "array",
+            "items": {
+              "description": "Stand-in for an unspecified data type.",
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/property/Result/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/property/Result/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Result": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "data": {
+          "title": "ResultDataType",
+          "description": "Contains fields that were created during the execution of a recipe.",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+          "required": [ "ResultMetaData", "ResultContent" ],
+          "properties": {
+            "ResultMetaData": {
+              "title": "ResultMetaDataType",
+              "description": "Meta data of a result, describing the result.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+              "required": [ "ResultId" ],
+              "properties": {
+                "ResultId": {
+                  "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the method GetResultById and it is identical to the ResultId of the ResultReadyEventType.  If the system does not manage resultIds, it should always be set to “NA”.  ",
+                  "type": "string"
+                },
+                "HasTransferableDataOnFile": {
+                  "description": "Indicates that additional data for this result can be retrieved by temporary file transfer.  If not provided, it is assumed that no file is available.  ",
+                  "type": "boolean"
+                },
+                "IsPartial": {
+                  "description": "Indicates whether the result is the partial result of a total result. When not all samples are finished yet the result is 'partial'.  If not provided, it is assumed to be a total result.  ",
+                  "type": "boolean"
+                },
+                "IsSimulated": {
+                  "description": "Indicates whether the result was created in simulation mode.  Simulation mode implies that the result is only generated for testing purposes and not based on real production data.  If not provided, it is assumed to not be simulated.  ",
+                  "type": "boolean"
+                },
+                "ResultState": {
+                  "description": "ResultState provides information about the current state of the process or measurement creating a result.  Applications may use negative values for application-specific states. All other values shall only be used as defined in the following:  0 – Undefined initial value  1 – Completed: Processing was carried out completely  2 – Processing: Processing has not been finished yet  3 – Aborted: Processing was stopped at some point before completion  4 – Failed: Processing failed in some way  ",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "StepId": {
+                  "description": "Identifies the step which produced the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the stepId is transmitted to the system. Typically, it is provided by the client when starting an execution.",
+                  "type": "string"
+                },
+                "PartId": {
+                  "description": "Identifies the part used to produce the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the partId is transmitted to the system. Typically, it is provided by the client when starting the job.",
+                  "type": "string"
+                },
+                "ExternalRecipeId": {
+                  "description": "External ID of the recipe in use which produced the result. The External ID is managed by the environment.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                  "type": "string"
+                },
+                "InternalRecipeId": {
+                  "description": "Internal ID of the recipe in use which produced the result. This ID is system-wide unique and it is assigned by the system.",
+                  "type": "string"
+                },
+                "ProductId": {
+                  "description": "Identifies the product used to produce the result.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                  "type": "string"
+                },
+                "ExternalConfigurationId": {
+                  "description": "External ID of the Configuration in use while the result was produced.  It is managed by the Environment.  This specification does not define how the externalConfigurationId is transmitted to the system. Typically, it is provided by the client.",
+                  "type": "string"
+                },
+                "InternalConfigurationId": {
+                  "description": "Internal ID of the Configuration in use while the result was produced. This ID is system-wide unique and it is assigned by the system.",
+                  "type": "string"
+                },
+                "JobId": {
+                  "description": "Identifies the job which produced the result.  This ID is system-wide unique and it is assigned by the system.  ",
+                  "type": "string"
+                },
+                "CreationTime": {
+                  "description": "CreationTime indicates the time when the result was created. Creation time on the measurement system (not the receive time of the server).  It is recommended to always provide the creationTime.  ",
+                  "type": "string",
+                  "format": "time"
+                },
+                "ProcessingTimes": {
+                  "title": "ProcessingTimesDataType",
+                  "description": "Contains measured times that were generated during the execution of a recipe.",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                  "required": [ "StartTime", "EndTime" ],
+                  "properties": {
+                    "StartTime": {
+                      "description": "Contains the time when the system started execution of the recipe.",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "EndTime": {
+                      "description": "Contains the time when the system finished (or stopped/aborted) execution of the recipe.",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "AcquisitionDuration": {
+                      "description": "Time spent by the system acquiring data.",
+                      "type": "string",
+                      "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                    },
+                    "ProcessingDuration": {
+                      "description": "Time spent by the system processing data.",
+                      "type": "string",
+                      "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                    }
+                  }
+                },
+                "ResultUri": {
+                  "description": "Path to the actual measured result, managed external to the server.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "ResultEvaluation": {
+                  "title": "ResultEvaluationEnum",
+                  "description": "The ResultEvaluation indicates whether the result was in tolerance.",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "ResultEvaluationCode": {
+                  "description": "Vendor-specific code describing more details on resultEvaluation.",
+                  "type": "integer",
+                  "minimum": -9223372036854775808,
+                  "maximum": 9223372036854775807
+                },
+                "ResultEvaluationDetails": {
+                  "description": "The optional EvaluationDetails provides high level status information in a user-friendly text. This can be left empty for successful operations.",
+                  "type": "string"
+                },
+                "FileFormat": {
+                  "description": "The format in which the measurement results are available (e.g. QDAS, CSV, …) using the ResultTransfer Object. If multiple file formats are provided, the GenerateFileForRead of ResultTransfer should contain corresponding transferOptions, to select the file format. This specification does not define those transferOptions.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ResultContent": {
+              "description": "Abstract data type to be subtyped from to hold result data created by the selected recipe.",
+              "type": "array",
+              "items": {
+                "description": "Stand-in for an unspecified data type.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/event/Result/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "TTD_JobStatisticsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1009",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "EndTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/property/EndTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StartTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/property/StartTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalInitializingTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/property/TotalInitializingTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalInterruptedTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/property/TotalInterruptedTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalRunningTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/property/TotalRunningTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "TTD_MachineStatisticsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1012",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_MachineStatisticsType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_MachineStatisticsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ResetStatistics": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_MachineStatisticsType/action/ResetStatistics",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "StartTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_MachineStatisticsType/property/StartTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_MachineStatisticsType/property/StartTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "TTD_RecurrentPrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1004",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./MachineTool.TM.json#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Activity": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Activity/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Activity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Interval": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Interval/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Interval/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastExecutionTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/LastExecutionTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/LastExecutionTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Activity": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/event/Activity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "TTD_RecipeManagementType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "DeleteRecipe": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6053",
+          "required": [ "RecipeId" ],
+          "properties": {
+            "RecipeId": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/DeleteRecipe",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetRecipe": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6050",
+          "required": [ "RecipeId" ],
+          "properties": {
+            "RecipeId": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6051",
+          "required": [ "Recipe" ],
+          "properties": {
+            "Recipe": {
+              "title": "RecipeDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3018",
+              "required": [ "RecipeId", "RecipeContent", "ContentEncoding" ],
+              "properties": {
+                "RecipeId": {
+                  "title": "RecipeIdDataType",
+                  "description": "RecipeId meta data describing this recipe.",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+                  "required": [ "Id" ],
+                  "properties": {
+                    "Name": {
+                      "description": "Human readable name for the recipe.",
+                      "type": "string"
+                    },
+                    "Id": {
+                      "description": "System wide unique id for the file content. (E.g. Hash of file content is possible)",
+                      "type": "string"
+                    },
+                    "Type": {
+                      "description": "The type of the textile testing device for which the recipe is applicable.",
+                      "type": "string"
+                    },
+                    "Description": {
+                      "description": "Description of the recipe.",
+                      "type": "string"
+                    },
+                    "Comment": {
+                      "description": "Comment on the recipe.",
+                      "type": "string"
+                    },
+                    "ModifiedDate": {
+                      "description": "The date of the last modification to the recipe file.",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "Version": {
+                      "description": "Version of the recipe.",
+                      "type": "string"
+                    },
+                    "Validated": {
+                      "description": "Flag that indicates if the recipe was successfully validated on the textile testing device. Null if the validation was not performed.",
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "RecipeContent": {
+                  "description": "The content of this recipe as ByteString.",
+                  "type": "string",
+                  "contentEncoding": "base64"
+                },
+                "ContentEncoding": {
+                  "description": "The encoding of the content. E.g. UTF-8 or ASCII",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/GetRecipe",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetRecipeIds": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6049",
+          "required": [ "RecipeIds" ],
+          "properties": {
+            "RecipeIds": {
+              "type": "array",
+              "items": {
+                "title": "RecipeIdDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+                "required": [ "Id" ],
+                "properties": {
+                  "Name": {
+                    "description": "Human readable name for the recipe.",
+                    "type": "string"
+                  },
+                  "Id": {
+                    "description": "System wide unique id for the file content. (E.g. Hash of file content is possible)",
+                    "type": "string"
+                  },
+                  "Type": {
+                    "description": "The type of the textile testing device for which the recipe is applicable.",
+                    "type": "string"
+                  },
+                  "Description": {
+                    "description": "Description of the recipe.",
+                    "type": "string"
+                  },
+                  "Comment": {
+                    "description": "Comment on the recipe.",
+                    "type": "string"
+                  },
+                  "ModifiedDate": {
+                    "description": "The date of the last modification to the recipe file.",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "Version": {
+                    "description": "Version of the recipe.",
+                    "type": "string"
+                  },
+                  "Validated": {
+                    "description": "Flag that indicates if the recipe was successfully validated on the textile testing device. Null if the validation was not performed.",
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/GetRecipeIds",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetRecipes": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6054",
+          "required": [ "Recipes" ],
+          "properties": {
+            "Recipes": {
+              "type": "array",
+              "items": {
+                "title": "RecipeDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3018",
+                "required": [ "RecipeId", "RecipeContent", "ContentEncoding" ],
+                "properties": {
+                  "RecipeId": {
+                    "title": "RecipeIdDataType",
+                    "description": "RecipeId meta data describing this recipe.",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+                    "required": [ "Id" ],
+                    "properties": {
+                      "Name": {
+                        "description": "Human readable name for the recipe.",
+                        "type": "string"
+                      },
+                      "Id": {
+                        "description": "System wide unique id for the file content. (E.g. Hash of file content is possible)",
+                        "type": "string"
+                      },
+                      "Type": {
+                        "description": "The type of the textile testing device for which the recipe is applicable.",
+                        "type": "string"
+                      },
+                      "Description": {
+                        "description": "Description of the recipe.",
+                        "type": "string"
+                      },
+                      "Comment": {
+                        "description": "Comment on the recipe.",
+                        "type": "string"
+                      },
+                      "ModifiedDate": {
+                        "description": "The date of the last modification to the recipe file.",
+                        "type": "string",
+                        "format": "time"
+                      },
+                      "Version": {
+                        "description": "Version of the recipe.",
+                        "type": "string"
+                      },
+                      "Validated": {
+                        "description": "Flag that indicates if the recipe was successfully validated on the textile testing device. Null if the validation was not performed.",
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "RecipeContent": {
+                    "description": "The content of this recipe as ByteString.",
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  },
+                  "ContentEncoding": {
+                    "description": "The encoding of the content. E.g. UTF-8 or ASCII",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/GetRecipes",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetRecipe": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6052",
+          "required": [ "Recipe", "Overwrite" ],
+          "properties": {
+            "Recipe": {
+              "title": "RecipeDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3018",
+              "required": [ "RecipeId", "RecipeContent", "ContentEncoding" ],
+              "properties": {
+                "RecipeId": {
+                  "title": "RecipeIdDataType",
+                  "description": "RecipeId meta data describing this recipe.",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+                  "required": [ "Id" ],
+                  "properties": {
+                    "Name": {
+                      "description": "Human readable name for the recipe.",
+                      "type": "string"
+                    },
+                    "Id": {
+                      "description": "System wide unique id for the file content. (E.g. Hash of file content is possible)",
+                      "type": "string"
+                    },
+                    "Type": {
+                      "description": "The type of the textile testing device for which the recipe is applicable.",
+                      "type": "string"
+                    },
+                    "Description": {
+                      "description": "Description of the recipe.",
+                      "type": "string"
+                    },
+                    "Comment": {
+                      "description": "Comment on the recipe.",
+                      "type": "string"
+                    },
+                    "ModifiedDate": {
+                      "description": "The date of the last modification to the recipe file.",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "Version": {
+                      "description": "Version of the recipe.",
+                      "type": "string"
+                    },
+                    "Validated": {
+                      "description": "Flag that indicates if the recipe was successfully validated on the textile testing device. Null if the validation was not performed.",
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "RecipeContent": {
+                  "description": "The content of this recipe as ByteString.",
+                  "type": "string",
+                  "contentEncoding": "base64"
+                },
+                "ContentEncoding": {
+                  "description": "The encoding of the content. E.g. UTF-8 or ASCII",
+                  "type": "string"
+                }
+              }
+            },
+            "Overwrite": {
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/SetRecipe",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetRecipes": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6055",
+          "required": [ "Recipes", "Overwrite" ],
+          "properties": {
+            "Recipes": {
+              "type": "array",
+              "items": {
+                "title": "RecipeDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3018",
+                "required": [ "RecipeId", "RecipeContent", "ContentEncoding" ],
+                "properties": {
+                  "RecipeId": {
+                    "title": "RecipeIdDataType",
+                    "description": "RecipeId meta data describing this recipe.",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+                    "required": [ "Id" ],
+                    "properties": {
+                      "Name": {
+                        "description": "Human readable name for the recipe.",
+                        "type": "string"
+                      },
+                      "Id": {
+                        "description": "System wide unique id for the file content. (E.g. Hash of file content is possible)",
+                        "type": "string"
+                      },
+                      "Type": {
+                        "description": "The type of the textile testing device for which the recipe is applicable.",
+                        "type": "string"
+                      },
+                      "Description": {
+                        "description": "Description of the recipe.",
+                        "type": "string"
+                      },
+                      "Comment": {
+                        "description": "Comment on the recipe.",
+                        "type": "string"
+                      },
+                      "ModifiedDate": {
+                        "description": "The date of the last modification to the recipe file.",
+                        "type": "string",
+                        "format": "time"
+                      },
+                      "Version": {
+                        "description": "Version of the recipe.",
+                        "type": "string"
+                      },
+                      "Validated": {
+                        "description": "Flag that indicates if the recipe was successfully validated on the textile testing device. Null if the validation was not performed.",
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "RecipeContent": {
+                    "description": "The content of this recipe as ByteString.",
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  },
+                  "ContentEncoding": {
+                    "description": "The encoding of the content. E.g. UTF-8 or ASCII",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Overwrite": {
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/SetRecipes",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "RecipeIds": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "array",
+        "items": {
+          "title": "RecipeIdDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+          "required": [ "Id" ],
+          "properties": {
+            "Name": {
+              "description": "Human readable name for the recipe.",
+              "type": "string"
+            },
+            "Id": {
+              "description": "System wide unique id for the file content. (E.g. Hash of file content is possible)",
+              "type": "string"
+            },
+            "Type": {
+              "description": "The type of the textile testing device for which the recipe is applicable.",
+              "type": "string"
+            },
+            "Description": {
+              "description": "Description of the recipe.",
+              "type": "string"
+            },
+            "Comment": {
+              "description": "Comment on the recipe.",
+              "type": "string"
+            },
+            "ModifiedDate": {
+              "description": "The date of the last modification to the recipe file.",
+              "type": "string",
+              "format": "time"
+            },
+            "Version": {
+              "description": "Version of the recipe.",
+              "type": "string"
+            },
+            "Validated": {
+              "description": "Flag that indicates if the recipe was successfully validated on the textile testing device. Null if the validation was not performed.",
+              "type": "boolean"
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/property/RecipeIds/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/property/RecipeIds/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "TTD_TTDResultManagementType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.Result.TM.json#title=Machinery_Result_ResultManagementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Results",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ResultTransfer",
+        "href": "./Machinery.Result.TM.json#title=Machinery_Result_ResultTransferType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ResultEvaluationEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "const": {
+          "Undefined": 0,
+          "OK": 1,
+          "NotOK": 2,
+          "NotDecidable": 3
+        },
+        "description": "Indicates whether a result was in tolerance",
+        "properties": {
+          "Undefined": {
+            "description": "The evaluation of the result is unknown, for example because it failed",
+            "type": "integer"
+          },
+          "OK": {
+            "description": "The result is in tolerance",
+            "type": "integer"
+          },
+          "NotOK": {
+            "description": "The result is out of tolerance",
+            "type": "integer"
+          },
+          "NotDecidable": {
+            "description": "The decision is not possible due to measurement uncertainty.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+      "GetResultById": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6111",
+          "required": [ "ResultId", "Timeout" ],
+          "properties": {
+            "ResultId": {
+              "description": "System-wide unique identifier for the result.",
+              "type": "string"
+            },
+            "Timeout": {
+              "description": "With this argument the client can give a hint to the server how long it will need access to the result data.  A value > 0 indicates an estimated maximum time for processing the data in milliseconds.   A value = 0 indicates that the client will not need anything besides the data returned by the method call.  A value < 0 indicates that the client cannot give an estimate.  The client cannot rely on the data being available during the indicated time period. The argument is merely a hint allowing the server to optimize its resource management.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6112",
+          "required": [ "ResultHandle", "Result", "Error" ],
+          "properties": {
+            "ResultHandle": {
+              "description": "The server shall return to each client requesting result data a system-wide unique handle identifying the result set / client combination. This handle should be used by the client to indicate to the server that the result data is no longer needed, allowing the server to optimize its resource handling.  If the instance of ResultManagementType does not support the ReleaseResultHandle Method, the resultHandle should always be set to 0.  If the error is set to a value other than 0, the resultHandle may be set to 0.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Result": {
+              "title": "ResultDataType",
+              "description": "Contains fields that were created during the execution of a recipe.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+              "required": [ "ResultMetaData", "ResultContent" ],
+              "properties": {
+                "ResultMetaData": {
+                  "title": "ResultMetaDataType",
+                  "description": "Meta data of a result, describing the result.",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+                  "required": [ "ResultId" ],
+                  "properties": {
+                    "ResultId": {
+                      "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the method GetResultById and it is identical to the ResultId of the ResultReadyEventType.  If the system does not manage resultIds, it should always be set to “NA”.  ",
+                      "type": "string"
+                    },
+                    "HasTransferableDataOnFile": {
+                      "description": "Indicates that additional data for this result can be retrieved by temporary file transfer.  If not provided, it is assumed that no file is available.  ",
+                      "type": "boolean"
+                    },
+                    "IsPartial": {
+                      "description": "Indicates whether the result is the partial result of a total result. When not all samples are finished yet the result is 'partial'.  If not provided, it is assumed to be a total result.  ",
+                      "type": "boolean"
+                    },
+                    "IsSimulated": {
+                      "description": "Indicates whether the result was created in simulation mode.  Simulation mode implies that the result is only generated for testing purposes and not based on real production data.  If not provided, it is assumed to not be simulated.  ",
+                      "type": "boolean"
+                    },
+                    "ResultState": {
+                      "description": "ResultState provides information about the current state of the process or measurement creating a result.  Applications may use negative values for application-specific states. All other values shall only be used as defined in the following:  0 – Undefined initial value  1 – Completed: Processing was carried out completely  2 – Processing: Processing has not been finished yet  3 – Aborted: Processing was stopped at some point before completion  4 – Failed: Processing failed in some way  ",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "StepId": {
+                      "description": "Identifies the step which produced the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the stepId is transmitted to the system. Typically, it is provided by the client when starting an execution.",
+                      "type": "string"
+                    },
+                    "PartId": {
+                      "description": "Identifies the part used to produce the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the partId is transmitted to the system. Typically, it is provided by the client when starting the job.",
+                      "type": "string"
+                    },
+                    "ExternalRecipeId": {
+                      "description": "External ID of the recipe in use which produced the result. The External ID is managed by the environment.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                      "type": "string"
+                    },
+                    "InternalRecipeId": {
+                      "description": "Internal ID of the recipe in use which produced the result. This ID is system-wide unique and it is assigned by the system.",
+                      "type": "string"
+                    },
+                    "ProductId": {
+                      "description": "Identifies the product used to produce the result.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                      "type": "string"
+                    },
+                    "ExternalConfigurationId": {
+                      "description": "External ID of the Configuration in use while the result was produced.  It is managed by the Environment.  This specification does not define how the externalConfigurationId is transmitted to the system. Typically, it is provided by the client.",
+                      "type": "string"
+                    },
+                    "InternalConfigurationId": {
+                      "description": "Internal ID of the Configuration in use while the result was produced. This ID is system-wide unique and it is assigned by the system.",
+                      "type": "string"
+                    },
+                    "JobId": {
+                      "description": "Identifies the job which produced the result.  This ID is system-wide unique and it is assigned by the system.  ",
+                      "type": "string"
+                    },
+                    "CreationTime": {
+                      "description": "CreationTime indicates the time when the result was created. Creation time on the measurement system (not the receive time of the server).  It is recommended to always provide the creationTime.  ",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "ProcessingTimes": {
+                      "title": "ProcessingTimesDataType",
+                      "description": "Contains measured times that were generated during the execution of a recipe.",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                      "required": [ "StartTime", "EndTime" ],
+                      "properties": {
+                        "StartTime": {
+                          "description": "Contains the time when the system started execution of the recipe.",
+                          "type": "string",
+                          "format": "time"
+                        },
+                        "EndTime": {
+                          "description": "Contains the time when the system finished (or stopped/aborted) execution of the recipe.",
+                          "type": "string",
+                          "format": "time"
+                        },
+                        "AcquisitionDuration": {
+                          "description": "Time spent by the system acquiring data.",
+                          "type": "string",
+                          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                        },
+                        "ProcessingDuration": {
+                          "description": "Time spent by the system processing data.",
+                          "type": "string",
+                          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                        }
+                      }
+                    },
+                    "ResultUri": {
+                      "description": "Path to the actual measured result, managed external to the server.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "ResultEvaluation": {
+                      "title": "ResultEvaluationEnum",
+                      "description": "The ResultEvaluation indicates whether the result was in tolerance.",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "ResultEvaluationCode": {
+                      "description": "Vendor-specific code describing more details on resultEvaluation.",
+                      "type": "integer",
+                      "minimum": -9223372036854775808,
+                      "maximum": 9223372036854775807
+                    },
+                    "ResultEvaluationDetails": {
+                      "description": "The optional EvaluationDetails provides high level status information in a user-friendly text. This can be left empty for successful operations.",
+                      "type": "string"
+                    },
+                    "FileFormat": {
+                      "description": "The format in which the measurement results are available (e.g. QDAS, CSV, …) using the ResultTransfer Object. If multiple file formats are provided, the GenerateFileForRead of ResultTransfer should contain corresponding transferOptions, to select the file format. This specification does not define those transferOptions.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "ResultContent": {
+                  "description": "Abstract data type to be subtyped from to hold result data created by the selected recipe.",
+                  "type": "array",
+                  "items": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Error": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_TTDResultManagementType/action/GetResultById",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "TTD_TextileTestingDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1010",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MachineStatistics",
+        "href": "#title=TTD_MachineStatisticsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Notification",
+        "href": "./MachineTool.TM.json#title=MachineTool_NotificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "RecipeManagement",
+        "href": "#title=TTD_RecipeManagementType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AvailableExchangeableParts": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "array",
+        "items": {
+          "title": "ExchangeablePartDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3006",
+          "required": [ "PartType", "Mounted" ],
+          "properties": {
+            "PartType": {
+              "description": "Name of the machine part.",
+              "type": "string"
+            },
+            "Mounted": {
+              "description": "Flag stating if the part is currently mounted or not.",
+              "type": "boolean"
+            },
+            "Traceable": {
+              "description": "Flag stating if the part is traceable (e.g. has an id or serial number).",
+              "type": "boolean"
+            },
+            "PartId": {
+              "description": "Id or serial number of the part.",
+              "type": "string"
+            },
+            "MachineReadable": {
+              "description": "Flag stating if the PartId is machine readable.",
+              "type": "boolean"
+            },
+            "LastCalibrationDate": {
+              "description": "Date of the last calibration of this part if available.",
+              "type": "string",
+              "format": "time"
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/AvailableExchangeableParts/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/AvailableExchangeableParts/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InstalledTesterModules": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "array",
+        "items": {
+          "title": "OptionalModuleDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3009",
+          "required": [ "ModuleName", "ModuleType", "IsInstalled" ],
+          "properties": {
+            "ModuleName": {
+              "description": "The name of the module.",
+              "type": "string"
+            },
+            "ModuleType": {
+              "description": "The type of the module. E.g. hardware/software.",
+              "type": "string"
+            },
+            "IsInstalled": {
+              "description": "Flag that indicates if the module is installed.",
+              "type": "boolean"
+            },
+            "Version": {
+              "description": "Version of the soft-/hardware module.",
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/InstalledTesterModules/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/InstalledTesterModules/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TestProcedureIds": {
+        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "type": "array",
+        "items": {
+          "title": "TestProcedureIdDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3034",
+          "required": [ "TestProcedureId" ],
+          "properties": {
+            "TestProcedureId": {
+              "description": "The available test procedures are stored on the testing device and referenced by name (TestProcedureId).",
+              "type": "string"
+            },
+            "Description": {
+              "description": "Description of the test procedure.",
+              "type": "string"
+            },
+            "ProcedureReferences": {
+              "description": "An array of references to standards.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "IsProcedureLicensed": {
+              "description": "Flag to define the availability on the server.",
+              "type": "boolean"
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/TestProcedureIds/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/TestProcedureIds/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

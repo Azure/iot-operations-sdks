@@ -1,0 +1,2312 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_LDS_AdditiveType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AdditiveFraction",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AdditiveStrokeVolume",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "AdditiveStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3002",
+        "const": {
+          "GOOD": 0,
+          "WARNING": 1,
+          "ADVANCE_WARNING_ADDITIVE_CHANGE": 2,
+          "ERROR_EMPTY": 3,
+          "ERROR": 4
+        },
+        "description": "Actual status of the additive provides a minimal error handling for devices without event support.",
+        "properties": {
+          "GOOD": {
+            "description": "Component has no error or warning.",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The component has an undefined warning, but no need to stop the production.",
+            "type": "integer"
+          },
+          "ADVANCE_WARNING_ADDITIVE_CHANGE": {
+            "description": "Warning, additive change is imminent. No need to stop the process.",
+            "type": "integer"
+          },
+          "ERROR_EMPTY": {
+            "description": "Error, the additive is empty. Production needs to be stopped.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The additive has an error and process needs to be stopped.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_AdditiveType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_AdditiveType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActivateAdditive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Set value to activate the additive",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_AdditiveType/property/ActivateAdditive/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_AdditiveType/property/ActivateAdditive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActivateClosedLoopControl": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Activate the closed loop control of the additive",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_AdditiveType/property/ActivateClosedLoopControl/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_AdditiveType/property/ActivateClosedLoopControl/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AdditiveActivated": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Is true if the additive is activated.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_AdditiveType/property/AdditiveActivated/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ClosedLoopControlActivated": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Is true if the closed loop control of the additive is activated",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_AdditiveType/property/ClosedLoopControlActivated/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsPresent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Informs the client if the additive is physically present.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_AdditiveType/property/IsPresent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "title": "AdditiveStatusEnumeration",
+        "description": "Actual status of the additive provides a minimal error handling for devices without event support.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3002",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_AdditiveType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_LDS_AdditiveAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1002",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_HelpOffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_LDS_ComponentAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1003",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_HelpOffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_LDS_LDSCycleParametersEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1008",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AdditivesPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Average pressure of the additive during the last cycle at the measuring point",
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/AdditivesPressure/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AdditivesRatioActual": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Actual ratios of additive in percentage",
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/AdditivesRatioActual/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AdditivesRatioTarget": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Target ratios of additives in percentage which are set in AdditiveFraction of AdditiveType",
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/AdditivesRatioTarget/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CycleNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Number of the dosing cycle",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/CycleNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DosingTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Duration of the dosing cycle",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/DosingTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FilterPressurePrimary": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Average material pressure during the last cycle before the filter",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/FilterPressurePrimary/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FilterPressureSecondary": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Average material pressure during the last cycle after the filter",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/FilterPressureSecondary/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MixingPointPressureA": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Average pressure of component A during the last cycle at the blender",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/MixingPointPressureA/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MixingPointPressureB": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Average pressure of component B during the last cycle at the blender",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/MixingPointPressureB/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MixingPointPressureBlender": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Average pressure of components A and B during the last cycle at the blender",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/MixingPointPressureBlender/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MixingRatioActual": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Actual mixing ratio of the components",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/MixingRatioActual/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MixingRatioTarget": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Target mixing ratio of the last cycle (includes ratio change when MaterialBalanceSystem is active)",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/MixingRatioTarget/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ResidualAmountA": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Residual weight amount of component A at the end of the dosing cycle",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/ResidualAmountA/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ResidualAmountB": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Residual weight amount of component B at the end of the dosing cycle",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/ResidualAmountB/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeA": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Volume of component A that was added to the process in the last cycle",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/VolumeA/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeAB": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Volume of components A + B that was added to the process in the last cycle",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/VolumeAB/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeAdditives": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Volumes of the additives that were added to the process in the last cycle",
+        "type": "array",
+        "items": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/VolumeAdditives/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeB": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Volume of component B that was added to the process in the last cycle",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/VolumeB/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "VolumeTotal": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Volume of all components (A + B + all additives)",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/property/VolumeTotal/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AdditivesPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Average pressure of the additive during the last cycle at the measuring point",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/AdditivesPressure/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AdditivesRatioActual": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Actual ratios of additive in percentage",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/AdditivesRatioActual/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AdditivesRatioTarget": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Target ratios of additives in percentage which are set in AdditiveFraction of AdditiveType",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/AdditivesRatioTarget/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FilterPressurePrimary": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Average material pressure during the last cycle before the filter",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/FilterPressurePrimary/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FilterPressureSecondary": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Average material pressure during the last cycle after the filter",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/FilterPressureSecondary/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MixingPointPressureA": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Average pressure of component A during the last cycle at the blender",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/MixingPointPressureA/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MixingPointPressureB": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Average pressure of component B during the last cycle at the blender",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/MixingPointPressureB/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MixingPointPressureBlender": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Average pressure of components A and B during the last cycle at the blender",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/MixingPointPressureBlender/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MixingRatioActual": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Actual mixing ratio of the components",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/MixingRatioActual/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MixingRatioTarget": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Target mixing ratio of the last cycle (includes ratio change when MaterialBalanceSystem is active)",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/MixingRatioTarget/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ResidualAmountA": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Residual weight amount of component A at the end of the dosing cycle",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/ResidualAmountA/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ResidualAmountB": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Residual weight amount of component B at the end of the dosing cycle",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/ResidualAmountB/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VolumeA": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Volume of component A that was added to the process in the last cycle",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/VolumeA/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VolumeAB": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Volume of components A + B that was added to the process in the last cycle",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/VolumeAB/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VolumeAdditives": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Volumes of the additives that were added to the process in the last cycle",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/VolumeAdditives/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VolumeB": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Volume of component B that was added to the process in the last cycle",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/VolumeB/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "VolumeTotal": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Volume of all components (A + B + all additives)",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/event/VolumeTotal/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_LDS_ComponentType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ComponentStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3003",
+        "const": {
+          "GOOD": 0,
+          "WARNING": 1,
+          "WARNING_PRESSURE_TOO_HIGH": 2,
+          "WARNING_PRESSURE_TOO_LOW": 3,
+          "ADVANCE_WARNING_DRUM_CHANGE": 4,
+          "ERROR_DRUM_EMPTY": 5,
+          "ERROR": 6
+        },
+        "description": "Actual status of the component provides a minimal error handling for devices without event support.",
+        "properties": {
+          "GOOD": {
+            "description": "Component has no error or warning.",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The component has an undefined warning, but no need to stop the production.",
+            "type": "integer"
+          },
+          "WARNING_PRESSURE_TOO_HIGH": {
+            "description": "Pressure is too high. No need to stop the process but influence to the part quality.",
+            "type": "integer"
+          },
+          "WARNING_PRESSURE_TOO_LOW": {
+            "description": "Pressure is too low. No need to stop the process but influence to the part quality.",
+            "type": "integer"
+          },
+          "ADVANCE_WARNING_DRUM_CHANGE": {
+            "description": "Warning, barrel change is imminent. No need to stop the process.",
+            "type": "integer"
+          },
+          "ERROR_DRUM_EMPTY": {
+            "description": "Drum of the component is empty. Production needs to be stopped.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The component has an error and process needs to be stopped.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetSetValueDensity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "This optional method is used to modify SetValueDensity if allowed by the device.",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=6448",
+          "required": [ "Density" ],
+          "properties": {
+            "Density": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/action/SetSetValueDensity",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActualFollowerPlatePressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Actual material pressure under the follower plate",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/property/ActualFollowerPlatePressure/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Actual pressure of the component",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/property/ActualPressure/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AllowsCycles": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Expected number of remaining cycles with the current drum",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/property/AllowsCycles/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DrumCapacity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Maximum capacity of the drum",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/property/DrumCapacity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingMaterialTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Time until the material of the component is empty",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/property/RemainingMaterialTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ResidualAmount": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Residual amount of the material",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/property/ResidualAmount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetFollowerPlatePressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Set value for material pressure under the follower plate",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/property/SetFollowerPlatePressure/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/property/SetFollowerPlatePressure/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueDensity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Set point material density",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/property/SetValueDensity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "title": "ComponentStatusEnumeration",
+        "description": "Actual status of the component provides a minimal error handling for devices without event support.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3003",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualFollowerPlatePressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Actual material pressure under the follower plate",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/event/ActualFollowerPlatePressure/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualPressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Actual pressure of the component",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/event/ActualPressure/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DrumCapacity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Maximum capacity of the drum",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/event/DrumCapacity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RemainingMaterialTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Time until the material of the component is empty",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/event/RemainingMaterialTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ResidualAmount": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Residual amount of the material",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/event/ResidualAmount/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetFollowerPlatePressure": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Set value for material pressure under the follower plate",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/event/SetFollowerPlatePressure/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetValueDensity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Set point material density",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_ComponentType/event/SetValueDensity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_LDS_LDS_InterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1007",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_IdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MachineConfiguration",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operation",
+        "href": "#title=PlasticsRubber_LDS_OperationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDS_InterfaceType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDS_InterfaceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DeviceEnabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "This variable is used to release the drives of the dosing system. If the value is FALSE, the LDS shall not be able to start ist drives.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDS_InterfaceType/property/DeviceEnabled/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDS_InterfaceType/property/DeviceEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DisplayLanguage": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "With this Property the client can set the desired language on the user interface at the LDS",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDS_InterfaceType/property/DisplayLanguage/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDS_InterfaceType/property/DisplayLanguage/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_LDS_OperationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Additive__Y_",
+        "href": "#title=PlasticsRubber_LDS_AdditiveType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Component_A",
+        "href": "#title=PlasticsRubber_LDS_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Component_B",
+        "href": "#title=PlasticsRubber_LDS_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "DeliveryFlowrate",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "DeliveryPressure",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "MaterialBalanceSystemTypeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3005",
+        "const": {
+          "NOT_AVAILABLE": 0,
+          "ALWAYS_ACTIVE": 1,
+          "SELECTABLE": 2
+        },
+        "properties": {
+          "NOT_AVAILABLE": {
+            "type": "integer"
+          },
+          "ALWAYS_ACTIVE": {
+            "type": "integer"
+          },
+          "SELECTABLE": {
+            "type": "integer"
+          }
+        }
+      },
+      "PurgeStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3004",
+        "const": {
+          "OFF": 0,
+          "COMPONENT_A": 1,
+          "COMPONENT_B": 2,
+          "COMPONENT_A_AND_B": 3,
+          "COMPONENT_A_AND_B_CYCLIC": 4
+        },
+        "properties": {
+          "OFF": {
+            "type": "integer"
+          },
+          "COMPONENT_A": {
+            "type": "integer"
+          },
+          "COMPONENT_B": {
+            "type": "integer"
+          },
+          "COMPONENT_A_AND_B": {
+            "type": "integer"
+          },
+          "COMPONENT_A_AND_B_CYCLIC": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "IdentifyDevice": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "The peripheral device on which this method is called shows itself by e.g. activation of a LED.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/action/IdentifyDevice",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ResetAllErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Method to reset all errors of the device",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/action/ResetAllErrors",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ResetErrorById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Method to reset one error of the device",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=6059",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/action/ResetErrorById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetCycleNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Method to set the cycle number of the LDS to synchronize it with the cycle number of the injection moulding machine",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=6039",
+          "required": [ "CycleNumber" ],
+          "properties": {
+            "CycleNumber": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/action/SetCycleNumber",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StartDosing": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "If RemoteControlActivated = 2, this Method (without arguments) is used to start the dosing",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/action/StartDosing",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StopDosing": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/action/StopDosing",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActivateMaterialBalanceSystem": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "If the value is true, the material balance system is activated",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/ActivateMaterialBalanceSystem/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/ActivateMaterialBalanceSystem/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActivateRemoteControl": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "With this variable the client selects the method of remote control",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/ActivateRemoteControl/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/ActivateRemoteControl/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActiveErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "List of the active errors of the device",
+        "type": "array",
+        "items": {
+          "title": "ClassifiedActiveErrorDataType",
+          "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3003",
+          "required": [ "SourceNodes", "Classification" ],
+          "properties": {
+            "SourceNodes": {
+              "description": "NodeIds of the Nodes which cause the error",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Classification": {
+              "description": "Classification of the error, if a process parameter expressed as MonitoredParameterType is the cause of the error",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/ActiveErrors/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualDeviationMixingRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Actual deviation of the mixing ratio (in percent)",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/ActualDeviationMixingRatio/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualShotWeight": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Specifies the value determined by the feeder as the shot weight",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/ActualShotWeight/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeliveryPressureMeasuringPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Position of the pressure sensor used for the DeliveryPressure",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/DeliveryPressureMeasuringPoint/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/DeliveryPressureMeasuringPoint/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeliveryType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Indication if the dosing system works with delivery pressure or volumetric flow",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/DeliveryType/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/DeliveryType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceMappingNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/DeviceMappingNumber/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/DeviceMappingNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DosingActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/DosingActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HighestActiveAlarmSeverity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Indication of the severity of the highest active alarm",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/HighestActiveAlarmSeverity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaterialBalanceSystemType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "title": "MaterialBalanceSystemTypeEnumeration",
+        "description": "Type of the material balance system",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3005",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/MaterialBalanceSystemType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxDeviationMixingRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Used to limit the maximum deviation in percent",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/MaxDeviationMixingRatio/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/MaxDeviationMixingRatio/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MixingRatioTarget": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Target of the mixing ratio (includes ratio change when MaterialBalanceSystem is active)",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/MixingRatioTarget/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/MixingRatioTarget/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PurgeCyclicActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Difference between purging (true) and waiting (false)",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeCyclicActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PurgeCyclicIdleTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Time until the next purge cycle starts",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeCyclicIdleTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeCyclicIdleTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PurgeCyclicQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Amount of material during a purge ccle as the sum of both components",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeCyclicQuantity/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeCyclicQuantity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PurgeMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Depending on this preselected PurgeMode, various purge function can be activated via the dosing signal of the IMM",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PurgeQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Amount of material during the active purge mode",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeQuantity/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeQuantity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PurgeStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "title": "PurgeStatusEnumeration",
+        "description": "Actual status of the purge function",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PurgeTimeout": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Maximum time of the active PurgeMode",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeTimeout/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/PurgeTimeout/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingMaterialTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Remaining time until first material is empty",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/RemainingMaterialTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemoteControlActivated": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "With this signal, the LDS signalizes, if it is ready to be controlled via this or a separate interface",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/RemoteControlActivated/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetShotWeight": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "Reference value determined by the IMM or defined by the user on the IMM side",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/SetShotWeight/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/SetShotWeight/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueCompositeDensity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "The composite set point of density",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/SetValueCompositeDensity/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/SetValueCompositeDensity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TargetDeviationMixingRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "description": "This deviation (in percent) is set/used by the material balance system",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/property/TargetDeviationMixingRatio/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActivateRemoteControl": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "With this variable the client selects the method of remote control",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/ActivateRemoteControl/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActiveErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "List of the active errors of the device",
+          "type": "array",
+          "items": {
+            "title": "ClassifiedActiveErrorDataType",
+            "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3003",
+            "required": [ "SourceNodes", "Classification" ],
+            "properties": {
+              "SourceNodes": {
+                "description": "NodeIds of the Nodes which cause the error",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "Classification": {
+                "description": "Classification of the error, if a process parameter expressed as MonitoredParameterType is the cause of the error",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/ActiveErrors/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualDeviationMixingRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Actual deviation of the mixing ratio (in percent)",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/ActualDeviationMixingRatio/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActualShotWeight": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Specifies the value determined by the feeder as the shot weight",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/ActualShotWeight/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DeliveryPressureMeasuringPoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Position of the pressure sensor used for the DeliveryPressure",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/DeliveryPressureMeasuringPoint/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DeliveryType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Indication if the dosing system works with delivery pressure or volumetric flow",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/DeliveryType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DosingActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/DosingActive/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MaxDeviationMixingRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Used to limit the maximum deviation in percent",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/MaxDeviationMixingRatio/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MixingRatioTarget": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Target of the mixing ratio (includes ratio change when MaterialBalanceSystem is active)",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/MixingRatioTarget/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PurgeCyclicActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Difference between purging (true) and waiting (false)",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/PurgeCyclicActive/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PurgeCyclicIdleTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Time until the next purge cycle starts",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/PurgeCyclicIdleTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PurgeCyclicQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Amount of material during a purge ccle as the sum of both components",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/PurgeCyclicQuantity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PurgeMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Depending on this preselected PurgeMode, various purge function can be activated via the dosing signal of the IMM",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/PurgeMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PurgeQuantity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Amount of material during the active purge mode",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/PurgeQuantity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PurgeTimeout": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Maximum time of the active PurgeMode",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/PurgeTimeout/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RemainingMaterialTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Remaining time until first material is empty",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/RemainingMaterialTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RemoteControlActivated": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "With this signal, the LDS signalizes, if it is ready to be controlled via this or a separate interface",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/RemoteControlActivated/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetShotWeight": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "Reference value determined by the IMM or defined by the user on the IMM side",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/SetShotWeight/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetValueCompositeDensity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "The composite set point of density",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/SetValueCompositeDensity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TargetDeviationMixingRatio": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
+        "data": {
+          "description": "This deviation (in percent) is set/used by the material balance system",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/event/TargetDeviationMixingRatio/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

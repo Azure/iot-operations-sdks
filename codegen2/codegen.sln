@@ -1,7 +1,6 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11415.280
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.TDParser", "src\Azure.Iot.Operations.TDParser\Azure.Iot.Operations.TDParser.csproj", "{D100A0D2-9E52-4FF4-8964-C4DE816DC0D5}"
 EndProject
@@ -24,6 +23,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.ProtocolCompiler.UnitTests", "test\Azure.Iot.Operations.ProtocolCompiler.UnitTests\Azure.Iot.Operations.ProtocolCompiler.UnitTests.csproj", "{24D55C64-5869-C81B-611B-A84AB1D357C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Opc2Wot", "src\Azure.Iot.Operations.Opc2Wot\Azure.Iot.Operations.Opc2Wot.csproj", "{B8B94E09-1490-4468-BF7D-F5F90E89377A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Opc2WotLib", "src\Azure.Iot.Operations.Opc2WotLib\Azure.Iot.Operations.Opc2WotLib.csproj", "{74E990F9-34DD-4A53-B23E-F2B7FB42C6E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +74,14 @@ Global
 		{24D55C64-5869-C81B-611B-A84AB1D357C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24D55C64-5869-C81B-611B-A84AB1D357C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24D55C64-5869-C81B-611B-A84AB1D357C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B94E09-1490-4468-BF7D-F5F90E89377A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B94E09-1490-4468-BF7D-F5F90E89377A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B94E09-1490-4468-BF7D-F5F90E89377A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B94E09-1490-4468-BF7D-F5F90E89377A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74E990F9-34DD-4A53-B23E-F2B7FB42C6E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74E990F9-34DD-4A53-B23E-F2B7FB42C6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74E990F9-34DD-4A53-B23E-F2B7FB42C6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74E990F9-34DD-4A53-B23E-F2B7FB42C6E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
