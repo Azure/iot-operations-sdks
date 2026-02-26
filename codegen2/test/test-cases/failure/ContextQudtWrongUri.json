@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ContextQudtWrongUri.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "ContextQudtWrongUri.TM.json",
+      "line": 5,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

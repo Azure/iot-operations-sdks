@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/EventWithUnitDataSchemaArrayNumber.TM.json" ],
+    "lang": "none"
+  }
+}

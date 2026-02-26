@@ -16,6 +16,8 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string ContainsName = TDCommon.ContainsName;
         public const string ContainedInName = TDCommon.ContainedInName;
         public const string NamespaceName = TDCommon.NamespaceName;
+        public const string WithUnitName = TDCommon.WithUnitName;
+        public const string HasQuantityKindName = TDCommon.HasQuantityKindName;
 
         public ValueTracker<StringHolder>? Description { get; set; }
 
@@ -33,6 +35,10 @@ namespace Azure.Iot.Operations.TDParser.Model
 
         public ValueTracker<StringHolder>? Namespace { get; set; }
 
+        public ValueTracker<StringHolder>? WithUnit { get; set; }
+
+        public ValueTracker<StringHolder>? HasQuantityKind { get; set; }
+
         public virtual bool Equals(TDEvent? other)
         {
             if (other == null)
@@ -47,13 +53,15 @@ namespace Azure.Iot.Operations.TDParser.Model
                        Forms == other.Forms &&
                        Contains == other.Contains &&
                        ContainedIn == other.ContainedIn &&
-                       Namespace == other.Namespace;
+                       Namespace == other.Namespace &&
+                       WithUnit == other.WithUnit &&
+                       HasQuantityKind == other.HasQuantityKind;
             }
         }
 
         public override int GetHashCode()
         {
-            return (Description, Data, Placeholder, Forms, Contains, ContainedIn, Namespace).GetHashCode();
+            return (Description, Data, Placeholder, Forms, Contains, ContainedIn, Namespace, WithUnit, HasQuantityKind).GetHashCode();
         }
 
         public static bool operator ==(TDEvent? left, TDEvent? right)
@@ -144,6 +152,20 @@ namespace Azure.Iot.Operations.TDParser.Model
                     yield return item;
                 }
             }
+            if (WithUnit != null)
+            {
+                foreach (ITraversable item in WithUnit.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (HasQuantityKind != null)
+            {
+                foreach (ITraversable item in HasQuantityKind.Traverse())
+                {
+                    yield return item;
+                }
+            }
         }
 
         public static TDEvent Deserialize(ref Utf8JsonReader reader)
@@ -185,6 +207,12 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case NamespaceName:
                         evt.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
+                        break;
+                    case WithUnitName:
+                        evt.WithUnit = ValueTracker<StringHolder>.Deserialize(ref reader, WithUnitName);
+                        break;
+                    case HasQuantityKindName:
+                        evt.HasQuantityKind = ValueTracker<StringHolder>.Deserialize(ref reader, HasQuantityKindName);
                         break;
                     default:
                         reader.Skip();

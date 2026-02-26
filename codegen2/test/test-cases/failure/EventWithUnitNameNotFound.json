@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventWithUnitNameNotFound.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "EventWithUnitNameNotFound.TM.json",
+      "line": 31,
+      "cfLine": 14,
+      "crossRef": ""
+    }
+  ]
+}
