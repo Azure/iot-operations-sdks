@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>ResilientQueryRunner</RootNamespace>
+
+        <!-- NuGet Package Properties -->
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <PackageId>ResilientQueryRunner</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Mesh Systems LLC</Authors>
+        <Company>Mesh Systems LLC</Company>
+        <Product>Resilient Query Runner</Product>
+        <Description>A .NET 9 library that provides resilient, scheduled execution of time-series data queries from industrial data sources (historians, SCADA systems, databases) with automatic watermark tracking, retry logic, and delivery guarantees.</Description>
+        <Copyright>Copyright (c) 2026 Mesh Systems</Copyright>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/uriel-kluk/ResilientQueryRunner</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/uriel-kluk/ResilientQueryRunner</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>timeseries;historian;industrial;watermark;resilient;etl;data-extraction</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageReleaseNotes>
+            Initial release with core functionality:
+            - Resilient query execution with automatic retries
+            - Watermark-based progress tracking
+            - Configurable scheduling with Cron expressions
+            - OpenTelemetry metrics and tracing
+            - Concurrent query execution with limits
+        </PackageReleaseNotes>
+
+        <!-- Documentation -->
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <!-- Suppress missing XML comment warnings -->
+
+        <!-- Source Link (for debugging) -->
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+
+    <!-- Include README in package -->
+    <ItemGroup>
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <!-- Dependencies -->
+    <ItemGroup>
+        <PackageReference Include="Cronos" Version="0.11.1" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" Version="10.0.103" />
+    </ItemGroup>
+
+</Project>
