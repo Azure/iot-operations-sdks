@@ -50,4 +50,29 @@ internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, I
             await OnReceiveAssetUpdateEventTelemetry.Invoke(assetName, asset);
         }
     }
+
+    public override Task ReceiveTelemetry(string senderId, DeviceEndpointRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Task ReceiveTelemetry(string senderId, DatasetRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Task ReceiveTelemetry(string senderId, EventRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Task ReceiveTelemetry(string senderId, ManagementActionRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Task ReceiveTelemetry(string senderId, StreamRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    {
+        throw new NotImplementedException();
+    }
 }
