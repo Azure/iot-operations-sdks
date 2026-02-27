@@ -1,0 +1,115 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    {
+<# if (this.areUnitsInUse) { #>
+      "qudt": "http://qudt.org/schema/qudt/",
+<# } #>
+      "dtv": "http://azure.com/DigitalTwins/dtmi#",
+      "aov": "http://azure.com/IoT/operations/tm#"
+    }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "<#=this.thingName#>",
+  "aov:typeRef": "<#=this.typeRef#>",
+<# if (this.isEvent) { #>
+  "aov:isEvent": true,
+<# } #>
+<# if (this.isComposite) { #>
+  "aov:isComposite": true,
+<# } #>
+  "links": [
+<# int ix1 = 1; foreach (string baseModelRef in this.baseModelRefs) { #>
+    {
+      "rel": "tm:extends",
+      "href": "<#=baseModelRef#>",
+      "type": "application/tm+json"
+    }<#=ix1 < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""#>
+<# ix1++; } #>
+<# foreach (LinkInfo linkInfo in this.linkInfos) { #>
+    {
+      "rel": "<#=linkInfo.Rel#>",
+      "aov:refName": "<#=linkInfo.RefName#>",
+<# if (linkInfo.RefType != null) { #>
+      "aov:refType": "<#=linkInfo.RefType#>",
+<# } #>
+      "href": "<#=linkInfo.Href#>",
+      "type": "application/tm+json"
+    }<#=ix1 < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""#>
+<# ix1++; } #>
+  ],
+  "schemaDefinitions": {
+<# ix1 = 1; foreach (OpcUaDataTypeEnum dataTypeEnum in this.dataTypeEnums) { #>
+    "<#=dataTypeEnum.EffectiveName#>": {
+      "type": "object",
+      "aov:typeRef": "nsu=<#=dataTypeEnum.NodeIdNamespace#>;i=<#=dataTypeEnum.NodeId.NodeIndex#>",
+      "const": {
+<# int ix2 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in dataTypeEnum.EnumValues) { #>
+        "<#=enumValue.Value.SymbolicName ?? enumValue.Key#>": <#=enumValue.Value.Value#><#=ix2 < dataTypeEnum.EnumValues.Count ? "," : ""#>
+<# ix2++; } #>
+      },
+<# if (dataTypeEnum.Description != null) { #>
+      "description": "<#=dataTypeEnum.Description#>",
+<# } #>
+      "properties": {
+<# ix2 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in dataTypeEnum.EnumValues) { #>
+        "<#=enumValue.Value.SymbolicName ?? enumValue.Key#>": {
+<# if (enumValue.Value.Description != null) { #>
+          "description": "<#=enumValue.Value.Description#>",
+<# } #>
+          "type": "integer"
+        }<#=ix2 < dataTypeEnum.EnumValues.Count ? "," : ""#>
+<# ix2++; } #>
+      }
+    }<#=ix1 < this.dataTypeEnums.Count ? "," : ""#>
+<# ix1++; } #>
+  },
+<# if (this.properties.Any() || this.events.Any()) { #>
+  "forms": [
+<# if (this.events.Any()) { #>
+    {
+      "contentType": "application/json",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/events/{senderId}",
+      "op": "subscribeallevents"
+    }<#=this.properties.Any() ? "," : ""#>
+<# } #>
+<# if (this.properties.Any()) { #>
+<# if (this.properties.Any(p => !p.ReadOnly)) { #>
+    {
+      "contentType": "application/json",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/write",
+      "op": "writemultipleproperties"
+    },
+<# } #>
+    {
+      "contentType": "application/json",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/read",
+      "op": "readallproperties"
+    }
+<# } #>
+  ],
+<# } #>
+  "actions": {
+<# this.PushIndent("    "); #>
+<# ix1 = 1; foreach (WotAction action in this.actions) { #>
+<#=action.TransformText()#><#=ix1 < this.actions.Count ? "," : ""#>
+<# ix1++; } this.PopIndent(); #>
+  },
+  "properties": {
+<# this.PushIndent("    "); #>
+<# ix1 = 1; foreach (WotProperty property in this.properties) { #>
+<#=property.TransformText()#><#=ix1 < this.properties.Count ? "," : ""#>
+<# ix1++; } this.PopIndent(); #>
+  },
+  "events": {
+<# this.PushIndent("    "); #>
+<# ix1 = 1; foreach (WotEvent evt in this.events) { #>
+<#=evt.TransformText()#><#=ix1 < this.events.Count ? "," : ""#>
+<# ix1++; } this.PopIndent(); #>
+  }
+}

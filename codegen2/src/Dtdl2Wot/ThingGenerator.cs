@@ -11,33 +11,25 @@ namespace Dtdl2Wot
 
     public class ThingGenerator
     {
-        private readonly IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict;
-        private readonly Dtmi interfaceId;
-        private readonly int mqttVersion;
+        private readonly ITemplateTransform transform;
+        private readonly DirectoryInfo outDir;
 
-        public ThingGenerator(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion)
+        public ThingGenerator(ITemplateTransform transform, DirectoryInfo outDir)
         {
-            this.modelDict = modelDict;
-            this.interfaceId = interfaceId;
-            this.mqttVersion = mqttVersion;
+            this.transform = transform;
+            this.outDir = outDir;
         }
 
-        public bool GenerateThing(DirectoryInfo outDir, FileInfo schemaNamesFile)
+        public bool GenerateThing()
         {
-            string schemaNamesPath = Path.GetRelativePath(outDir.FullName, schemaNamesFile.FullName).Replace('\\', '/');
-
-            DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[interfaceId];
-
-            ITemplateTransform interfaceThingTransform = new InterfaceThing(modelDict, interfaceId, this.mqttVersion, schemaNamesPath);
-
-            string interfaceThingText;
+            string outputText;
             try
             {
-                interfaceThingText = interfaceThingTransform.TransformText();
+                outputText = transform.TransformText();
             }
             catch (RecursionException rex)
             {
-                Console.WriteLine($"Unable to generate Thing Description {interfaceThingTransform.FileName} because {rex.SchemaName.AsDtmi} has a self-referential definition");
+                Console.WriteLine($"Unable to generate Thing Description {transform.FileName} because {rex.SchemaName.AsDtmi} has a self-referential definition");
                 return false;
             }
 
@@ -46,8 +38,8 @@ namespace Dtdl2Wot
                 outDir.Create();
             }
 
-            string filePath = Path.Combine(outDir.FullName, interfaceThingTransform.FileName);
-            File.WriteAllText(filePath, interfaceThingText);
+            string filePath = Path.Combine(outDir.FullName, transform.FileName);
+            File.WriteAllText(filePath, outputText);
 
             Console.WriteLine($"  generated {filePath}");
 
