@@ -80,16 +80,16 @@ The following environment variables are set up for the connector by the operator
 
     - Optionally, a file named `PERSISTENT_VOLUME_MOUNT_PATH` that contains a list of PV mount paths, (separated by a newline). This is based on how the `ConnectorTemplate.spec.runtimeConfiguration.managedConfigurationSettings.persistentVolumeClaims[x].mountPath` and/or `ConnectorTemplate.spec.runtimeConfiguration.managedConfigurationSettings.persistentVolumeClaimTemplates[x].mountPath` are set up on the connector template. If there are no PVCs set up, this file will not be available.
 
-- The `CONNECTOR_SECRETS_METADATA_MOUNT_PATH` env variable points to the `/etc/akri/config/connector_secrets_metadata` folder, which contains the mapping of each application-defined secret alias to the relative path where the secret is available on the file system. The connector is expected to:
+- The `CONNECTOR_SECRETS_METADATA_MOUNT_PATH` env variable points to the `/etc/akri/config/connector_secrets_metadata` folder, which contains the mapping of each application-defined secret alias to the relative path where the secret content is available on the file system. The connector is expected to:
     - Locate the file whose name matches the application-defined secret alias `{secret_alias}`.
-    - Read the file’s content to obtain the relative path.
-    - Concatenate the relative path to path from the env variable `CONNECTOR_SECRETS_MOUNT_PATH` to get the full path to the secret.
+    - Read the file’s content to obtain the relative path to the secret content.
+    - Concatenate the relative path to path from the env variable `CONNECTOR_SECRETS_MOUNT_PATH` to get the full path to the secret content.
 
-- The `CONNECTOR_SECRETS_MOUNT_PATH` env variable points to the `/etc/akri/secrets/connector_secrets` folder. This folder contains multiple subfolders that hold secrets required for the connector for authentication with external components.
+- The `CONNECTOR_SECRETS_MOUNT_PATH` env variable points to the `/etc/akri/secrets/connector_secrets` folder. This folder contains multiple subfolders that hold the secrets required for the connector for authentication with external components.
     - The subfolders under `/etc/akri/secrets/connector_secrets` differ slightly based on whether unified `secretsync` is used or not.
-        - If unified `secretsync` is used, all the secrets are available under a subfolder, assigned by Akri, with each secret in seperate files named using the `{secret_name}_{secret_key}` naming convention.
-        - If unified `secretsync` is not used, each secret is avaialable under a `{secret_name}` subfolder, with each key in seperate files named after the `{secret_key}`.
-    - Note: the connector developer doesn't need to worry the details of this structure. They should use the details from the alias metadata file in `/etc/akri/secrets/connector_secrets/secret_metadata/<secret_alias>` to get to the path to the secret as needed.
+        - If unified `secretsync` is used, each secret content is available under a subfolder, assigned by Akri, with a file named using the `{secret_name}_{secret_key}` naming convention.
+        - If unified `secretsync` is not used, each secret content is available under the path `{secret_name}/{secret_key}`.
+    - Note: the values for `{secret_name}` and `secret_key` come from the `ConnectorTemplate` instance. The connector developer doesn't need to worry the details of this structure. They should use the details from the alias metadata file in `/etc/akri/config/connector_secrets_metadata/<secret_alias>` to get to the path to the secret content as needed.
 
 - The `CONNECTOR_TRUST_SETTINGS_MOUNT_PATH` env variable points to the `/etc/akri/secrets/connector_trust_settings` folder. This folder containes the certificates that all connector instances should trust.
 
