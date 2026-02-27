@@ -87,7 +87,7 @@ The following environment variables are set up for the connector by the operator
 
 - The `CONNECTOR_SECRETS_MOUNT_PATH` env variable points to the `/etc/akri/secrets/connector_secrets` folder. This folder contains multiple subfolders that hold the secrets required for the connector for authentication with external components.
     - The subfolders under `/etc/akri/secrets/connector_secrets` differ slightly based on whether unified `secretsync` is used or not.
-        - If unified `secretsync` is used, each secret content is available under a subfolder, assigned by Akri, with a file named using the `{secret_name}_{secret_key}` naming convention.
+        - If unified `secretsync` is used, each secret content is available under a subfolder, assigned by Akri, in a file named using the `{secret_name}_{secret_key}` naming convention.
         - If unified `secretsync` is not used, each secret content is available under the path `{secret_name}/{secret_key}`.
     - Note: the values for `{secret_name}` and `secret_key` come from the `ConnectorTemplate` instance. The connector developer doesn't need to worry the details of this structure. They should use the details from the alias metadata file in `/etc/akri/config/connector_secrets_metadata/<secret_alias>` to get to the path to the secret content as needed.
 
