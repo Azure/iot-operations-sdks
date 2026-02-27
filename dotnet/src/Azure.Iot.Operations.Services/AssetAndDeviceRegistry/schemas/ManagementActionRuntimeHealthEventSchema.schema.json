@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ManagementActionRuntimeHealthEventSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "assetName", "managementActions" ],
+  "properties": {
+    "assetName": {
+      "description": "The name of the asset containing the management actions for which the runtime health is being reported.",
+      "type": "string"
+    },
+    "managementActions": {
+      "description": "Array of management action runtime health information.",
+      "type": "array", "items": { "$ref": "ManagementActionsSchemaElementSchema.schema.json" }
+    }
+  }
+}

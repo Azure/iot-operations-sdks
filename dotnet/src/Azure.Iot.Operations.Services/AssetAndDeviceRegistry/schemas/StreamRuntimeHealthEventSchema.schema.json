@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "StreamRuntimeHealthEventSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "assetName", "streams" ],
+  "properties": {
+    "assetName": {
+      "description": "The name of the asset containing the streams for which the runtime health is being reported.",
+      "type": "string"
+    },
+    "streams": {
+      "description": "Array of stream runtime health information.",
+      "type": "array", "items": { "$ref": "StreamsSchemaElementSchema.schema.json" }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ManagementActionRuntimeHealthEventTelemetry",
+  "description": "Telemetry event emitted for reporting the runtime health of management actions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "managementActionRuntimeHealthEvent" ],
+  "properties": {
+    "managementActionRuntimeHealthEvent": {
+      "description": "Telemetry event emitted for reporting the runtime health of management actions.",
+      "$ref": "ManagementActionRuntimeHealthEventSchema.schema.json"
+    }
+  }
+}
