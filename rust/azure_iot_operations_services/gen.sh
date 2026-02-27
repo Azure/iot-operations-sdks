@@ -6,7 +6,7 @@ rm -r ./src/schema_registry/schemaregistry_gen
 
 rm -r ./src/azure_device_registry/adr_base_gen
 ../../codegen2/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler \
- --clientThings ../../eng/wot/adr-base-service/AdrBaseService.TM.json --outDir src/azure_device_registry/adr_base_gen --lang rust \
+ --clientThings ../../eng/wot/adr-base-service/AdrBaseServiceClientSide.TM.json --serverThings ../../eng/wot/adr-base-service/AdrBaseServiceServerSide.TM.json --outDir src/azure_device_registry/adr_base_gen --lang rust \
  --namespace adr_base_service --workingDir target/akri/AdrBaseService --sdkPath ../ --noProj
 
 rm -r ./src/azure_device_registry/device_discovery_gen
