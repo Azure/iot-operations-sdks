@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.UnitTabulator
     /// Class to produce the template output
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "18.0.0.0")]
-    public partial class UnitInfos : UnitInfosBase
+    public partial class RustUnitInfos : RustUnitInfosBase
     {
         /// <summary>
         /// Create the template output
@@ -61,7 +61,7 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "18.0.0.0")]
-    public class UnitInfosBase
+    public class RustUnitInfosBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

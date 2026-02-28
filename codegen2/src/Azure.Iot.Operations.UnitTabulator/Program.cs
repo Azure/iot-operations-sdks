@@ -4,34 +4,51 @@
 namespace Azure.Iot.Operations.UnitTabulator
 {
     using System;
+    using System.CommandLine;
     using System.IO;
-    using System.Reflection;
 
     internal class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            if (args.Length < 1)
+            var outDirOption = new Option<DirectoryInfo>("--outDir")
             {
-                Console.WriteLine($"Usage: {Assembly.GetExecutingAssembly().GetName().Name} OUTPUT_DIR");
-                return;
-            }
+                Description = "Directory for receiving generated code",
+                HelpName = "DIRPATH",
+                Required = true,
+            };
 
-            DirectoryInfo outDir = new DirectoryInfo(args[0]);
-            if (!outDir.Exists)
+            var langOption = new Option<string>("--lang")
             {
-                outDir.Create();
-            }
+                Description = $"Programming language for generated code",
+                HelpName = string.Join('|', CommandHandler.SupportedLanguages),
+                Required = true,
+            };
 
-            UnitReader unitReader = new UnitReader();
+            var tableKindOption = new Option<TableKind>("--kind")
+            {
+                Description = "Kind of tables to generate",
+                HelpName = string.Join('|', Enum.GetNames<TableKind>()),
+                Required = true,
+            };
 
-            EceCodes eceCodes = new EceCodes(unitReader.EceCodesMap);
-            string eceCodesFilePath = Path.Combine(outDir.FullName, eceCodes.FileName);
-            File.WriteAllText(eceCodesFilePath, eceCodes.TransformText());
+            var rootCommand = new RootCommand("Tool for generating programming-language-specific unit tables from the QUDT unit ontology");
+            rootCommand.Add(outDirOption);
+            rootCommand.Add(langOption);
+            rootCommand.Add(tableKindOption);
 
-            UnitInfos unitInfos = new UnitInfos(unitReader.UnitInfosMap);
-            string unitInfosFilePath = Path.Combine(outDir.FullName, unitInfos.FileName);
-            File.WriteAllText(unitInfosFilePath, unitInfos.TransformText());
+            rootCommand.SetAction(parseResult =>
+            {
+                Environment.ExitCode = CommandHandler.PopulateTables(new OptionContainer
+                {
+                    OutputDir = parseResult.GetValue(outDirOption)!,
+                    Language = parseResult.GetValue(langOption)!,
+                    TableKind = parseResult.GetValue(tableKindOption)!,
+                });
+            });
+
+            ParseResult parseResult = rootCommand.Parse(args);
+            return parseResult.Invoke();
         }
     }
 }

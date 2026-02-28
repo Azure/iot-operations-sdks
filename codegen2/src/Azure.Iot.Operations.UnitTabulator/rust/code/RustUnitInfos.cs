@@ -5,11 +5,11 @@ namespace Azure.Iot.Operations.UnitTabulator
 {
     using System.Collections.Generic;
 
-    public partial class UnitInfos : ITemplateTransform
+    public partial class RustUnitInfos : ITemplateTransform
     {
         private readonly Dictionary<string, UnitInfo> unitInfosMap;
 
-        public UnitInfos(Dictionary<string, UnitInfo> unitInfosMap)
+        public RustUnitInfos(Dictionary<string, UnitInfo> unitInfosMap)
         {
             this.unitInfosMap = unitInfosMap;
         }

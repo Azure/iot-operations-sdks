@@ -5,11 +5,11 @@ namespace Azure.Iot.Operations.UnitTabulator
 {
     using System.Collections.Generic;
 
-    public partial class EceCodes : ITemplateTransform
+    public partial class RustEceCodes : ITemplateTransform
     {
         private readonly Dictionary<string, string> eceCodesMap;
 
-        public EceCodes(Dictionary<string, string> eceCodesMap)
+        public RustEceCodes(Dictionary<string, string> eceCodesMap)
         {
             this.eceCodesMap = eceCodesMap;
         }

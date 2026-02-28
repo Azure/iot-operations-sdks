@@ -27,15 +27,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Ampere Hour per Degree Celsius
-            "A-HR-PER-DEG_C",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3600.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Ampere Hour per Cubic Decimetre
             "A-HR-PER-DeciM3",
             UnitInfo {
@@ -95,15 +86,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "BatteryCapacity",
                 multiplier: 60.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ampere per Ampere Hour
-            "A-PER-A-HR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0002777777777777778,
                 offset: 0.0,
             },
         ),
@@ -216,15 +198,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Ampere per Pascal
-            "A-PER-PA",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Ampere per Radian
             "A-PER-RAD",
             UnitInfo {
@@ -238,24 +211,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "A-SEC",
             UnitInfo {
                 kind: "ElectricCharge",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ampere Square Second
-            "A-SEC2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Ampere Second
-            "A2-SEC",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -419,15 +374,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Length",
                 multiplier: 149597870691.6,
-                offset: 0.0,
-            },
-        ),
-        (
-            // American Wire Gage
-            "AWG",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0,
                 offset: 0.0,
             },
         ),
@@ -626,33 +572,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Area",
                 multiplier: 1e-28,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Barn per Electron Volt
-            "BARN-PER-EV",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 6.241509074460762e-10,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Barn per Steradian
-            "BARN-PER-SR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-28,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Barn per Steradian Electron Volt
-            "BARN-PER-SR-EV",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 6.241509074460762e-10,
                 offset: 0.0,
             },
         ),
@@ -1660,15 +1579,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "C-M2",
             UnitInfo {
                 kind: "ElectricQuadrupoleMoment",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Coulomb Square Metre per Kilogram
-            "C-M2-PER-KiloGM",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -4113,15 +4023,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Centimetre per Bar
-            "CentiM-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-07,
-                offset: 0.0,
-            },
-        ),
-        (
             // Centimetre per Hour
             "CentiM-PER-HR",
             UnitInfo {
@@ -4153,24 +4054,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "CentiM-PER-SEC",
             UnitInfo {
                 kind: "LinearVelocity",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Centimetre per Second Bar
-            "CentiM-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-07,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Centimetre per Second Kelvin
-            "CentiM-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 0.01,
                 offset: 0.0,
             },
@@ -4217,15 +4100,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "AreaTime",
                 multiplier: 0.006,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Centimetre per Cubic Centimetre
-            "CentiM2-PER-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 100.0,
                 offset: 0.0,
             },
         ),
@@ -4293,15 +4167,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Cubic Centimetre per Bar
-            "CentiM3-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-11,
-                offset: 0.0,
-            },
-        ),
-        (
             // Cubic Centimetre per Cubic Centimetre
             "CentiM3-PER-CentiM3",
             UnitInfo {
@@ -4320,24 +4185,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Cubic Centimetre per Day Bar
-            "CentiM3-PER-DAY-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074073e-16,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Centimetre per Day Kelvin
-            "CentiM3-PER-DAY-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074074e-11,
-                offset: 0.0,
-            },
-        ),
-        (
             // Cubic Centimetre per Gram
             "CentiM3-PER-GM",
             UnitInfo {
@@ -4351,24 +4198,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "CentiM3-PER-HR",
             UnitInfo {
                 kind: "VolumeFlowRate",
-                multiplier: 2.7777777777777777e-10,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Centimetre per Hour Bar
-            "CentiM3-PER-HR-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.7777777777777776e-15,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Centimetre per Hour Kelvin
-            "CentiM3-PER-HR-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 2.7777777777777777e-10,
                 offset: 0.0,
             },
@@ -4401,24 +4230,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Cubic Centimetre per Minute Bar
-            "CentiM3-PER-MIN-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.6666666666666667e-13,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Centimetre per Minute Kelvin
-            "CentiM3-PER-MIN-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.6666666666666667e-08,
-                offset: 0.0,
-            },
-        ),
-        (
             // Cubic Centimetre per Mole
             "CentiM3-PER-MOL",
             UnitInfo {
@@ -4441,24 +4252,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "CentiM3-PER-SEC",
             UnitInfo {
                 kind: "VolumeFlowRate",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Centimetre per Second Bar
-            "CentiM3-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-11,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Centimetre per Second Kelvin
-            "CentiM3-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1e-06,
                 offset: 0.0,
             },
@@ -4586,15 +4379,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Time",
                 multiplier: 1e-08,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Centipoise per Kelvin
-            "CentiPOISE-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
                 offset: 0.0,
             },
         ),
@@ -4878,24 +4662,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Degree Celsius Kilogram per Square Metre
-            "DEG_C-KiloGM-PER-M2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Degree Celsius per Bar
-            "DEG_C-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
             // Degree Celsius per Hour
             "DEG_C-PER-HR",
             UnitInfo {
@@ -4963,15 +4729,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "DEG_C2",
             UnitInfo {
                 kind: "TemperatureVariance",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Degree Celsius per Second
-            "DEG_C2-PER-SEC",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -5072,15 +4829,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "ThermalResistance",
                 multiplier: 1.8969028294866046,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Degree Fahrenheit per Bar
-            "DEG_F-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 5.555555555555556e-06,
                 offset: 0.0,
             },
         ),
@@ -5400,24 +5148,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Decibel Milliwatt
-            "DeciB-MilliW",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Decibel Milliwatt per Megahertz
-            "DeciB-MilliW-PER-MegaHZ",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Decibel per Kilometre
             "DeciB-PER-KiloM",
             UnitInfo {
@@ -5431,15 +5161,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "DeciB-PER-M",
             UnitInfo {
                 kind: "LinearLogarithmicRatio",
-                multiplier: 0.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Decibel Watt
-            "DeciB-W",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 0.0,
                 offset: 0.0,
             },
@@ -6237,33 +5958,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Foot Hour per Gallon (UK)
-            "FT-HR-PER-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 241367.85677362306,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Foot Hour per Us Gallon
-            "FT-HR-PER-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 289870.7096115491,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Foot Hour per Cubic Inch
-            "FT-HR-PER-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 66960133.92026784,
-                offset: 0.0,
-            },
-        ),
-        (
             // Foot Pound Force
             "FT-LB_F",
             UnitInfo {
@@ -6381,15 +6075,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Foot per Psi
-            "FT-PER-PSI",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 4.420750047668715e-05,
-                offset: 0.0,
-            },
-        ),
-        (
             // Foot per Second
             "FT-PER-SEC",
             UnitInfo {
@@ -6399,56 +6084,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Foot per Second Degree Fahrenheit
-            "FT-PER-SEC-DEG_F",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.54864,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Foot per Second Psi
-            "FT-PER-SEC-PSI",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 4.420750047668715e-05,
-                offset: 0.0,
-            },
-        ),
-        (
             // Foot per Square Second
             "FT-PER-SEC2",
             UnitInfo {
                 kind: "Acceleration",
                 multiplier: 0.3048,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Foot Second per Gallon (UK)
-            "FT-SEC-PER-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 67.04662688156196,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Foot Second per Us Gallon
-            "FT-SEC-PER-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 80.51964155876364,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Foot Second per Cubic Inch
-            "FT-SEC-PER-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 18600.0372000744,
                 offset: 0.0,
             },
         ),
@@ -6485,15 +6125,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "ThermalInsulance",
                 multiplier: 0.17611018368230585,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Foot per British Thermal Unit (international Definition) Inch
-            "FT2-PER-BTU_IT-IN",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.003466735899257989,
                 offset: 0.0,
             },
         ),
@@ -6584,15 +6215,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Speed",
                 multiplier: 0.00508,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Foot per Psi
-            "FT3-PER-PSI",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 4.107011185085685e-06,
                 offset: 0.0,
             },
         ),
@@ -7065,128 +6687,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Gram Hour per Litre Cubic Centimetre
-            "GM-HR-PER-L-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3600000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Hour per Litre Cubic Metre
-            "GM-HR-PER-L-M3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3600.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Hour per Square Litre
-            "GM-HR-PER-L2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3600000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Hour per Cubic Metre Cubic Centimetre
-            "GM-HR-PER-M3-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3600000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Hour per Cubic Metre Litre
-            "GM-HR-PER-M3-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3600.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Hour per Sextic Metre
-            "GM-HR-PER-M6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3.6,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Minute per Litre Cubic Centimetre
-            "GM-MIN-PER-L-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 60000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Minute per Litre Cubic Metre
-            "GM-MIN-PER-L-M3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 60.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Minute per Square Litre
-            "GM-MIN-PER-L2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 60000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Minute per Cubic Metre Cubic Centimetre
-            "GM-MIN-PER-M3-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 60000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Minute per Cubic Metre Litre
-            "GM-MIN-PER-M3-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 60.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Minute per Sextic Metre
-            "GM-MIN-PER-M6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.06,
-                offset: 0.0,
-            },
-        ),
-        (
             // Gram Millimetre
             "GM-MilliM",
             UnitInfo {
                 kind: "LengthMass",
                 multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Bar
-            "GM-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-08,
                 offset: 0.0,
             },
         ),
@@ -7245,47 +6750,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Gram per Cubic Centimetre Kelvin
-            "GM-PER-CentiM3-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Gram per Day
             "GM-PER-DAY",
             UnitInfo {
                 kind: "MassFlowRate",
                 multiplier: 1.1574074074074074e-08,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Day Bar
-            "GM-PER-DAY-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074073e-13,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Day Kelvin
-            "GM-PER-DAY-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074074e-08,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Degree Celsius
-            "GM-PER-DEG_C",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
                 offset: 0.0,
             },
         ),
@@ -7317,15 +6786,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Gram per Cubic Decimetre Kelvin
-            "GM-PER-DeciM3-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Gram per Gram
             "GM-PER-GM",
             UnitInfo {
@@ -7353,47 +6813,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Gram per Hour Bar
-            "GM-PER-HR-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.7777777777777777e-12,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Hour Kelvin
-            "GM-PER-HR-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.7777777777777776e-07,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Hertz
-            "GM-PER-HZ",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
             // Gram per Hectogram
             "GM-PER-HectoGM",
             UnitInfo {
                 kind: "MassRatio",
                 multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Kelvin
-            "GM-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
                 offset: 0.0,
             },
         ),
@@ -7430,51 +6854,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "MassPerEnergy",
                 multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Litre Centipoise
-            "GM-PER-L-CentiPOISE",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Litre Kelvin
-            "GM-PER-L-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Litre Millipascal Second
-            "GM-PER-L-MilliPA-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Litre Pascal Second
-            "GM-PER-L-PA-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Litre Poise
-            "GM-PER-L-POISE",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 10.0,
                 offset: 0.0,
             },
         ),
@@ -7542,73 +6921,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Gram per Cubic Metre Centipoise
-            "GM-PER-M3-CentiPOISE",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Cubic Metre Kelvin
-            "GM-PER-M3-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Cubic Metre Millipascal Second
-            "GM-PER-M3-MilliPA-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Cubic Metre Pascal Second
-            "GM-PER-M3-PA-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Cubic Metre Poise
-            "GM-PER-M3-POISE",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
             // Gram per Minute
             "GM-PER-MIN",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 1.6666666666666667e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Minute Bar
-            "GM-PER-MIN-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.6666666666666666e-10,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Minute Kelvin
-            "GM-PER-MIN-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.6666666666666667e-05,
                 offset: 0.0,
             },
@@ -7637,15 +6953,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "MassPerEnergy",
                 multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Millilitre Kelvin
-            "GM-PER-MilliL-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
                 offset: 0.0,
             },
         ),
@@ -7681,78 +6988,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "GM-PER-SEC",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Second Bar
-            "GM-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-08,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram per Second Kelvin
-            "GM-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Second per Litre Cubic Centimetre
-            "GM-SEC-PER-L-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Second per Litre Cubic Metre
-            "GM-SEC-PER-L-M3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Second per Square Litre
-            "GM-SEC-PER-L2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Second per Cubic Metre Cubic Centimetre
-            "GM-SEC-PER-M3-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Second per Cubic Metre Litre
-            "GM-SEC-PER-M3-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Gram Second per Sextic Metre
-            "GM-SEC-PER-M6",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 0.001,
                 offset: 0.0,
             },
@@ -8388,15 +7623,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Hour per Square Foot
-            "HR-PER-FT2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 38750.077500155,
-                offset: 0.0,
-            },
-        ),
-        (
             // Hour per Number
             "HR-PER-NUM",
             UnitInfo {
@@ -8667,15 +7893,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Inch per Psi
-            "IN-PER-PSI",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3.6839583730572627e-06,
-                offset: 0.0,
-            },
-        ),
-        (
             // Inch per Revolution
             "IN-PER-REV",
             UnitInfo {
@@ -8690,24 +7907,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "LinearVelocity",
                 multiplier: 0.0254,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Inch per Second Degree Fahrenheit
-            "IN-PER-SEC-DEG_F",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.04572,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Inch per Second Psi
-            "IN-PER-SEC-PSI",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3.6839583730572627e-06,
                 offset: 0.0,
             },
         ),
@@ -9207,47 +8406,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Kelvin Metre per Second
-            "K-M-PER-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Kelvin Metre per Watt
             "K-M-PER-W",
             UnitInfo {
                 kind: "ThermalResistivity",
                 multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kelvin Square Metre per Kilogram Second
-            "K-M2-PER-KiloGM-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kelvin Pascal per Second
-            "K-PA-PER-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kelvin per Bar
-            "K-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
                 offset: 0.0,
             },
         ),
@@ -9284,15 +8447,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "TemperaturePerTime",
                 multiplier: 0.016666666666666666,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kelvin per Pascal
-            "K-PER-PA",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
                 offset: 0.0,
             },
         ),
@@ -9337,15 +8491,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "K-SEC",
             UnitInfo {
                 kind: "TimeTemperature",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Kelvin
-            "K2",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -9990,15 +9135,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Kilogram per Bar
-            "KiloGM-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
             // Kilogram per Square Centimetre
             "KiloGM-PER-CentiM2",
             UnitInfo {
@@ -10026,37 +9162,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Kilogram per Cubic Centimetre Kelvin
-            "KiloGM-PER-CentiM3-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Kilogram per Day
             "KiloGM-PER-DAY",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 1.1574074074074073e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilogram per Day Bar
-            "KiloGM-PER-DAY-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074074e-10,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilogram per Day Kelvin
-            "KiloGM-PER-DAY-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.1574074074074073e-05,
                 offset: 0.0,
             },
@@ -10076,15 +9185,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "MassPerEnergy",
                 multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilogram per Cubic Decimetre Kelvin
-            "KiloGM-PER-DeciM3-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
                 offset: 0.0,
             },
         ),
@@ -10134,37 +9234,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Kilogram per Hour Bar
-            "KiloGM-PER-HR-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.777777777777778e-09,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilogram per Hour Kelvin
-            "KiloGM-PER-HR-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0002777777777777778,
-                offset: 0.0,
-            },
-        ),
-        (
             // Kilogram per Joule
             "KiloGM-PER-J",
             UnitInfo {
                 kind: "MassPerEnergy",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilogram per Kelvin
-            "KiloGM-PER-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -10220,15 +9293,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "MassPerEnergy",
                 multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilogram per Litre Kelvin
-            "KiloGM-PER-L-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
                 offset: 0.0,
             },
         ),
@@ -10350,15 +9414,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Kilogram per Cubic Metre Kelvin
-            "KiloGM-PER-M3-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Kilogram per Cubic Metre Pascal
             "KiloGM-PER-M3-PA",
             UnitInfo {
@@ -10368,37 +9423,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Kilogram per Cubic Metre Second
-            "KiloGM-PER-M3-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Kilogram per Minute
             "KiloGM-PER-MIN",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 0.016666666666666666,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilogram per Minute Bar
-            "KiloGM-PER-MIN-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.6666666666666668e-07,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilogram per Minute Kelvin
-            "KiloGM-PER-MIN-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 0.016666666666666666,
                 offset: 0.0,
             },
@@ -10431,15 +9459,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Kilogram per Pascal
-            "KiloGM-PER-PA",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Kilogram per Pascal Second Metre
             "KiloGM-PER-PA-SEC-M",
             UnitInfo {
@@ -10458,37 +9477,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Kilogram per Second Bar
-            "KiloGM-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilogram per Second Kelvin
-            "KiloGM-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Kilogram per Second Square Metre
             "KiloGM-PER-SEC-M2",
             UnitInfo {
                 kind: "MassPerAreaTime",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilogram per Second Pascal
-            "KiloGM-PER-SEC-PA",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -10517,24 +9509,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "MassFlowRate",
                 multiplier: 3.168808781402895e-08,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilogram Square Second
-            "KiloGM-SEC2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Kilogram per Square Second
-            "KiloGM2-PER-SEC2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
                 offset: 0.0,
             },
         ),
@@ -10863,15 +9837,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Kilometre per Second Bar
-            "KiloM-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
             // Kilometre per Square Second
             "KiloM-PER-SEC2",
             UnitInfo {
@@ -10948,24 +9913,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "KiloMOL-PER-M3",
             UnitInfo {
                 kind: "Concentration",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilomole per Cubic Metre Bar
-            "KiloMOL-PER-M3-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kilomole per Cubic Metre Kelvin
-            "KiloMOL-PER-M3-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1000.0,
                 offset: 0.0,
             },
@@ -11110,24 +10057,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "KiloOHM-M",
             UnitInfo {
                 kind: "Resistivity",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kiloohm per Bar
-            "KiloOHM-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Kiloohm per Kelvin
-            "KiloOHM-PER-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1000.0,
                 offset: 0.0,
             },
@@ -11358,15 +10287,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Kilo Volt Ampere Reactive per Kelvin
-            "KiloVAR-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Kilowatt
             "KiloW",
             UnitInfo {
@@ -11475,37 +10395,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Litre per Bar
-            "L-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-08,
-                offset: 0.0,
-            },
-        ),
-        (
             // Litre per Day
             "L-PER-DAY",
             UnitInfo {
                 kind: "VolumeFlowRate",
-                multiplier: 1.1574074074074074e-08,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Litre per Day Bar
-            "L-PER-DAY-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074073e-13,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Litre per Day Kelvin
-            "L-PER-DAY-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.1574074074074074e-08,
                 offset: 0.0,
             },
@@ -11524,24 +10417,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "L-PER-HR",
             UnitInfo {
                 kind: "VolumeFlowRate",
-                multiplier: 2.7777777777777776e-07,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Litre per Hour Bar
-            "L-PER-HR-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.7777777777777777e-12,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Litre per Hour Kelvin
-            "L-PER-HR-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 2.7777777777777776e-07,
                 offset: 0.0,
             },
@@ -11583,24 +10458,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Litre per Minute Bar
-            "L-PER-MIN-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.6666666666666666e-10,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Litre per Minute Kelvin
-            "L-PER-MIN-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.6666666666666667e-05,
-                offset: 0.0,
-            },
-        ),
-        (
             // Litre per Mole
             "L-PER-MOL",
             UnitInfo {
@@ -11632,24 +10489,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "L-PER-SEC",
             UnitInfo {
                 kind: "VolumeFlowRate",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Litre per Second Bar
-            "L-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-08,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Litre per Second Kelvin
-            "L-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 0.001,
                 offset: 0.0,
             },
@@ -11736,195 +10575,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Pound Mass Square Foot per Gallon (UK) Pound Force Second
-            "LB-FT2-PER-GAL_UK-LB_F-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.083872775779299,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Square Foot per Us Gallon Pound Force Second
-            "LB-FT2-PER-GAL_US-LB_F-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.5026268548337445,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Square Foot per Cubic Inch Pound Force Second
-            "LB-FT2-PER-IN3-LB_F-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 578.106803466595,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Cubic Foot Gallon (UK)
-            "LB-HR-PER-FT3-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 12684849.650195334,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Cubic Foot Us Gallon
-            "LB-HR-PER-FT3-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 15233869.242442371,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Cubic Foot Cubic Inch
-            "LB-HR-PER-FT3-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3519023795.0041876,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Cubic Foot Cubic Yard
-            "LB-HR-PER-FT3-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 75424.89272556987,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Sextic Foot
-            "LB-HR-PER-FT6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2036472.1035903865,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Gallon (UK) Cubic Foot
-            "LB-HR-PER-GAL_UK-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 12684849.650195334,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Gallon (UK) Cubic Inch
-            "LB-HR-PER-GAL_UK-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 21919420195.537537,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Gallon (UK) Cubic Yard
-            "LB-HR-PER-GAL_UK-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 469809.2463035309,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Square Gallon (UK)
-            "LB-HR-PER-GAL_UK2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 79011841.29376368,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Us Gallon Cubic Foot
-            "LB-HR-PER-GAL_US-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 15233869.242442371,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Us Gallon Cubic Inch
-            "LB-HR-PER-GAL_US-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 26324126050.94042,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Us Gallon Cubic Yard
-            "LB-HR-PER-GAL_US-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 564217.3793497174,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Square Us Gallon
-            "LB-HR-PER-GAL_US2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 113957255.63177669,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Cubic Inch Cubic Foot
-            "LB-HR-PER-IN3-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3519023795.0041876,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Cubic Inch Gallon (UK)
-            "LB-HR-PER-IN3-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 21919420195.537537,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Cubic Inch Us Gallon
-            "LB-HR-PER-IN3-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 26324126050.94042,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Cubic Inch Cubic Yard
-            "LB-HR-PER-IN3-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 130334214.62978473,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Hour per Sextic Inch
-            "LB-HR-PER-IN6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 6080873117767.236,
-                offset: 0.0,
-            },
-        ),
-        (
             // Pound Mass Inch
             "LB-IN",
             UnitInfo {
@@ -11952,204 +10602,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Pound Mass Square Inch per Cubic Foot Pound Force Second
-            "LB-IN2-PER-FT3-LB_F-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0023232815854335254,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Square Inch per Gallon (UK) Pound Force Second
-            "LB-IN2-PER-GAL_UK-LB_F-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.014471338720689578,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Square Inch per Us Gallon Pound Force Second
-            "LB-IN2-PER-GAL_US-LB_F-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01737935315856767,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Square Inch per Cubic Inch Pound Force Second
-            "LB-IN2-PER-IN3-LB_F-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 4.014630579629132,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Cubic Foot Gallon (UK)
-            "LB-MIN-PER-FT3-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 211414.16083658888,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Cubic Foot Us Gallon
-            "LB-MIN-PER-FT3-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 253897.82070737286,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Cubic Foot Cubic Inch
-            "LB-MIN-PER-FT3-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 58650396.583403125,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Cubic Foot Cubic Yard
-            "LB-MIN-PER-FT3-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1257.0815454261644,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Sextic Foot
-            "LB-MIN-PER-FT6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 33941.20172650644,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Gallon (UK) Cubic Foot
-            "LB-MIN-PER-GAL_UK-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 211414.16083658888,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Gallon (UK) Cubic Inch
-            "LB-MIN-PER-GAL_UK-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 365323669.9256256,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Gallon (UK) Cubic Yard
-            "LB-MIN-PER-GAL_UK-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 7830.154105058848,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Square Gallon (UK)
-            "LB-MIN-PER-GAL_UK2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1316864.0215627279,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Us Gallon Cubic Foot
-            "LB-MIN-PER-GAL_US-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 253897.82070737286,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Us Gallon Cubic Inch
-            "LB-MIN-PER-GAL_US-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 438735434.18234026,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Us Gallon Cubic Yard
-            "LB-MIN-PER-GAL_US-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 9403.622989161957,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Square Us Gallon
-            "LB-MIN-PER-GAL_US2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1899287.593862945,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Cubic Inch Cubic Foot
-            "LB-MIN-PER-IN3-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 58650396.583403125,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Cubic Inch Gallon (UK)
-            "LB-MIN-PER-IN3-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 365323669.9256256,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Cubic Inch Us Gallon
-            "LB-MIN-PER-IN3-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 438735434.18234026,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Cubic Inch Cubic Yard
-            "LB-MIN-PER-IN3-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2172236.9104964123,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Minute per Sextic Inch
-            "LB-MIN-PER-IN6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 101347885296.1206,
-                offset: 0.0,
-            },
-        ),
-        (
             // Pound Mass per Acre
             "LB-PER-AC",
             UnitInfo {
@@ -12164,15 +10616,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "MassFlowRate",
                 multiplier: 5.249911689814815e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass per Degree Fahrenheit
-            "LB-PER-DEG_F",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.816466266,
                 offset: 0.0,
             },
         ),
@@ -12200,15 +10643,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "DynamicViscosity",
                 multiplier: 0.00041337887321376497,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass per Foot Pound Force Second
-            "LB-PER-FT-LB_F-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.33455254830242764,
                 offset: 0.0,
             },
         ),
@@ -12245,15 +10679,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Density",
                 multiplier: 16.018463373960138,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass per Cubic Foot Degree Fahrenheit
-            "LB-PER-FT3-DEG_F",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 28.833234073128253,
                 offset: 0.0,
             },
         ),
@@ -12303,15 +10728,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Pound Mass per Hour Degree Fahrenheit
-            "LB-PER-HR-DEG_F",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.000226796185,
-                offset: 0.0,
-            },
-        ),
-        (
             // Pound Mass per Hour Psi
             "LB-PER-HR-PSI",
             UnitInfo {
@@ -12344,15 +10760,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Density",
                 multiplier: 27679.90471020312,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass per Cubic Inch Degree Fahrenheit
-            "LB-PER-IN3-DEG_F",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 49823.82847836562,
                 offset: 0.0,
             },
         ),
@@ -12393,15 +10800,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Pound Mass per Minute Degree Fahrenheit
-            "LB-PER-MIN-DEG_F",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0136077711,
-                offset: 0.0,
-            },
-        ),
-        (
             // Pound Mass per Minute Psi
             "LB-PER-MIN-PSI",
             UnitInfo {
@@ -12411,29 +10809,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Pound Mass per Psi
-            "LB-PER-PSI",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 6.578800824473968e-05,
-                offset: 0.0,
-            },
-        ),
-        (
             // Pound Mass per Second
             "LB-PER-SEC",
             UnitInfo {
                 kind: "MassFlowRate",
                 multiplier: 0.45359237,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass per Second Degree Fahrenheit
-            "LB-PER-SEC-DEG_F",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.816466266,
                 offset: 0.0,
             },
         ),
@@ -12470,168 +10850,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Density",
                 multiplier: 0.5932764212577829,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Cubic Foot Gallon (UK)
-            "LB-SEC-PER-FT3-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3523.5693472764815,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Cubic Foot Us Gallon
-            "LB-SEC-PER-FT3-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 4231.6303451228805,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Cubic Foot Cubic Inch
-            "LB-SEC-PER-FT3-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 977506.6097233854,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Cubic Foot Cubic Yard
-            "LB-SEC-PER-FT3-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 20.951359090436075,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Sextic Foot
-            "LB-SEC-PER-FT6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 565.686695441774,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Gallon (UK) Cubic Foot
-            "LB-SEC-PER-GAL_UK-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3523.5693472764815,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Gallon (UK) Cubic Inch
-            "LB-SEC-PER-GAL_UK-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 6088727.83209376,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Gallon (UK) Cubic Yard
-            "LB-SEC-PER-GAL_UK-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 130.50256841764747,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Square Gallon (UK)
-            "LB-SEC-PER-GAL_UK2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 21947.733692712132,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Us Gallon Cubic Foot
-            "LB-SEC-PER-GAL_US-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 4231.6303451228805,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Us Gallon Cubic Inch
-            "LB-SEC-PER-GAL_US-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 7312257.236372338,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Us Gallon Cubic Yard
-            "LB-SEC-PER-GAL_US-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 156.72704981936596,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Square Us Gallon
-            "LB-SEC-PER-GAL_US2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 31654.793231049083,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Cubic Inch Cubic Foot
-            "LB-SEC-PER-IN3-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 977506.6097233854,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Cubic Inch Gallon (UK)
-            "LB-SEC-PER-IN3-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 6088727.83209376,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Cubic Inch Us Gallon
-            "LB-SEC-PER-IN3-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 7312257.236372338,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Cubic Inch Cubic Yard
-            "LB-SEC-PER-IN3-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 36203.948508273534,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pound Mass Second per Sextic Inch
-            "LB-SEC-PER-IN6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1689131421.60201,
                 offset: 0.0,
             },
         ),
@@ -12933,15 +11151,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Metre per Bar
-            "M-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
             // Metre per Day
             "M-PER-DAY",
             UnitInfo {
@@ -13014,15 +11223,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Metre per Pascal
-            "M-PER-PA",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Metre per Radian
             "M-PER-RAD",
             UnitInfo {
@@ -13036,33 +11236,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "M-PER-SEC",
             UnitInfo {
                 kind: "LinearVelocity",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metre per Second Bar
-            "M-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metre per Second Kelvin
-            "M-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metre per Second Pascal
-            "M-PER-SEC-PA",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -13095,24 +11268,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Metre Second
-            "M-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metre Square Second
-            "M-SEC2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Square Metre
             "M2",
             UnitInfo {
@@ -13135,33 +11290,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "M2-HZ",
             UnitInfo {
                 kind: "AreaPerTime",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Metre Square Hertz
-            "M2-HZ2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Metre Cubic Hertz
-            "M2-HZ3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Metre Quartic Hertz
-            "M2-HZ4",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -13212,47 +11340,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Square Metre per Hectare Year
-            "M2-PER-HA-YR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3.168808781402895e-12,
-                offset: 0.0,
-            },
-        ),
-        (
             // Square Metre per Hour
             "M2-PER-HR",
             UnitInfo {
                 kind: "AreaPerTime",
                 multiplier: 0.0002777777777777778,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Metre per Hertz
-            "M2-PER-HZ",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Metre per Hertz Degree
-            "M2-PER-HZ-DEG",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 57.29577951308232,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Metre per Square Hertz
-            "M2-PER-HZ2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
                 offset: 0.0,
             },
         ),
@@ -13338,33 +11430,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Square Metre per Second Bar
-            "M2-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Metre per Second Kelvin
-            "M2-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Metre per Second Pascal
-            "M2-PER-SEC-PA",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Square Metre per Square Second
             "M2-PER-SEC2",
             UnitInfo {
@@ -13419,15 +11484,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Square Metre Second per Radian
-            "M2-SEC-PER-RAD",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Square Metre Steradian
             "M2-SR",
             UnitInfo {
@@ -13446,15 +11502,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Cubic Metre per Bar
-            "M3-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
             // Cubic Metre per Coulomb
             "M3-PER-C",
             UnitInfo {
@@ -13468,24 +11515,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "M3-PER-DAY",
             UnitInfo {
                 kind: "VolumeFlowRate",
-                multiplier: 1.1574074074074073e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Metre per Day Bar
-            "M3-PER-DAY-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074074e-10,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Metre per Day Kelvin
-            "M3-PER-DAY-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.1574074074074073e-05,
                 offset: 0.0,
             },
@@ -13518,24 +11547,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Cubic Metre per Hour Bar
-            "M3-PER-HR-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.777777777777778e-09,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Metre per Hour Kelvin
-            "M3-PER-HR-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0002777777777777778,
-                offset: 0.0,
-            },
-        ),
-        (
             // Cubic Metre per Kelvin
             "M3-PER-K",
             UnitInfo {
@@ -13549,15 +11560,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "M3-PER-KiloGM",
             UnitInfo {
                 kind: "SpecificVolume",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Metre per Kilogram Square Second
-            "M3-PER-KiloGM-SEC2",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -13590,24 +11592,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Cubic Metre per Minute Bar
-            "M3-PER-MIN-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.6666666666666668e-07,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Metre per Minute Kelvin
-            "M3-PER-MIN-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.016666666666666666,
-                offset: 0.0,
-            },
-        ),
-        (
             // Cubic Metre per Mole
             "M3-PER-MOL",
             UnitInfo {
@@ -13626,15 +11610,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Cubic Metre per Pascal
-            "M3-PER-PA",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Cubic Metre per Second
             "M3-PER-SEC",
             UnitInfo {
@@ -13644,37 +11619,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Cubic Metre per Second Bar
-            "M3-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Metre per Second Kelvin
-            "M3-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Cubic Metre per Second Square Metre
             "M3-PER-SEC-M2",
             UnitInfo {
                 kind: "SurfaceRelatedVolumeFlowRate",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Metre per Second Pascal
-            "M3-PER-SEC-PA",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -13702,15 +11650,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "M4",
             UnitInfo {
                 kind: "SecondAxialMomentOfArea",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Quartic Metre per Second
-            "M4-PER-SEC",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -14085,15 +12024,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Mole per Kilogram Kelvin
-            "MOL-PER-KiloGM-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Mole per Kilogram Pascal
             "MOL-PER-KiloGM-PA",
             UnitInfo {
@@ -14108,33 +12038,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Concentration",
                 multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Mole per Litre Bar
-            "MOL-PER-L-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Mole per Litre Kelvin
-            "MOL-PER-L-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Mole per Square Metre
-            "MOL-PER-M2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
                 offset: 0.0,
             },
         ),
@@ -14166,55 +12069,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Mole per Square Metre Second Metre Steradian
-            "MOL-PER-M2-SEC-M-SR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Mole per Square Metre Second Steradian
-            "MOL-PER-M2-SEC-SR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Mole per Cubic Metre
             "MOL-PER-M3",
             UnitInfo {
                 kind: "Concentration",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Mole per Cubic Metre Bar
-            "MOL-PER-M3-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Mole per Cubic Metre Kelvin
-            "MOL-PER-M3-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Mole per Cubic Metre Pascal
-            "MOL-PER-M3-PA",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -14234,15 +12092,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "MolarFlowRate",
                 multiplier: 0.016666666666666666,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Mole per Mole
-            "MOL-PER-MOL",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
                 offset: 0.0,
             },
         ),
@@ -14571,15 +12420,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Mega Us Dollar per Year
-            "MegaCCY_USD-PER-YR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.03168808781402895,
-                offset: 0.0,
-            },
-        ),
-        (
             // Mega Electron Volt
             "MegaEV",
             UnitInfo {
@@ -14675,15 +12515,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Frequency",
                 multiplier: 1000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Megahertz Kilometre
-            "MegaHZ-KiloM",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000000000.0,
                 offset: 0.0,
             },
         ),
@@ -14890,24 +12721,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "MegaOHM-M",
             UnitInfo {
                 kind: "Resistivity",
-                multiplier: 1000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Megaohm per Bar
-            "MegaOHM-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 10.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Megaohm per Kelvin
-            "MegaOHM-PER-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1000000.0,
                 offset: 0.0,
             },
@@ -15281,15 +13094,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Microgalileo per Metre
-            "MicroGALILEO-PER-M",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-08,
-                offset: 0.0,
-            },
-        ),
-        (
             // Microgram
             "MicroGM",
             UnitInfo {
@@ -15389,15 +13193,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Microgram per Litre Hour
-            "MicroGM-PER-L-HR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.7777777777777777e-10,
-                offset: 0.0,
-            },
-        ),
-        (
             // Microgram per Square Metre Day
             "MicroGM-PER-M2-DAY",
             UnitInfo {
@@ -15421,24 +13216,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "MassPerEnergy",
                 multiplier: 1e-14,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Microgram per Cubic Metre Hour
-            "MicroGM-PER-M3-HR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.777777777777778e-13,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Microgram per Cubic Metre Kelvin
-            "MicroGM-PER-M3-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-09,
                 offset: 0.0,
             },
         ),
@@ -15641,15 +13418,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Micrometre per Millilitre
-            "MicroM-PER-MilliL",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Micrometre per Newton
             "MicroM-PER-N",
             UnitInfo {
@@ -15794,15 +13562,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Micromole per Square Metre
-            "MicroMOL-PER-M2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
             // Micromole per Square Metre Day
             "MicroMOL-PER-M2-DAY",
             UnitInfo {
@@ -15826,33 +13585,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "PhotosyntheticPhotonFluxDensity",
                 multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Micromole per Square Metre Square Second
-            "MicroMOL-PER-M2-SEC2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Micromole per Mole
-            "MicroMOL-PER-MOL",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Micromole per Micromole Day
-            "MicroMOL-PER-MicroMOL-DAY",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074073e-05,
                 offset: 0.0,
             },
         ),
@@ -16091,15 +13823,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Micro Volt Ampere Reactive per Kelvin
-            "MicroVAR-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
             // Microwatt
             "MicroW",
             UnitInfo {
@@ -16163,24 +13886,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Milliampere Square Inch per Pound Force
-            "MilliA-IN2-PER-LB_F",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.4503773122272687e-07,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milliampere per Bar
-            "MilliA-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-08,
-                offset: 0.0,
-            },
-        ),
-        (
             // Milliampere per Inch
             "MilliA-PER-IN",
             UnitInfo {
@@ -16195,24 +13900,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "ElectricCurrentPerTemperature",
                 multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milliampere per Litre Minute
-            "MilliA-PER-L-MIN",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.016666666666666666,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milliampere per Pound Force Square Inch
-            "MilliA-PER-LB_F-IN2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.3484545430793798,
                 offset: 0.0,
             },
         ),
@@ -16334,15 +14021,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Millibecquerel per Square Metre Day
-            "MilliBQ-PER-M2-DAY",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074074e-08,
-                offset: 0.0,
-            },
-        ),
-        (
             // Millicoulomb
             "MilliC",
             UnitInfo {
@@ -16460,137 +14138,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Milligalileo per Month
-            "MilliGALILEO-PER-MO",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3.919350772901616e-12,
-                offset: 0.0,
-            },
-        ),
-        (
             // Milligram
             "MilliGM",
             UnitInfo {
                 kind: "Mass",
                 multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Hour per Litre Cubic Centimetre
-            "MilliGM-HR-PER-L-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3600000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Hour per Litre Cubic Metre
-            "MilliGM-HR-PER-L-M3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3.6,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Hour per Square Litre
-            "MilliGM-HR-PER-L2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3600.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Hour per Cubic Metre Cubic Centimetre
-            "MilliGM-HR-PER-M3-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3600.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Hour per Cubic Metre Litre
-            "MilliGM-HR-PER-M3-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3.6,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Hour per Sextic Metre
-            "MilliGM-HR-PER-M6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0036,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Minute per Litre Cubic Centimetre
-            "MilliGM-MIN-PER-L-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 60000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Minute per Litre Cubic Metre
-            "MilliGM-MIN-PER-L-M3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Minute per Square Litre
-            "MilliGM-MIN-PER-L2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 60.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Minute per Cubic Metre Cubic Centimetre
-            "MilliGM-MIN-PER-M3-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 60.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Minute per Cubic Metre Litre
-            "MilliGM-MIN-PER-M3-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Minute per Sextic Metre
-            "MilliGM-MIN-PER-M6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 6e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Bar
-            "MilliGM-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-11,
                 offset: 0.0,
             },
         ),
@@ -16608,24 +14160,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "MilliGM-PER-DAY",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 1.1574074074074074e-11,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Day Bar
-            "MilliGM-PER-DAY-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074073e-16,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Day Kelvin
-            "MilliGM-PER-DAY-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.1574074074074074e-11,
                 offset: 0.0,
             },
@@ -16685,33 +14219,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Milligram per Hour Bar
-            "MilliGM-PER-HR-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.7777777777777776e-15,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Hour Kelvin
-            "MilliGM-PER-HR-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.7777777777777777e-10,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Kelvin
-            "MilliGM-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
             // Milligram per Kilogram
             "MilliGM-PER-KiloGM",
             UnitInfo {
@@ -16735,42 +14242,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Density",
                 multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Litre Centipoise
-            "MilliGM-PER-L-CentiPOISE",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Litre Millipascal Second
-            "MilliGM-PER-L-MilliPA-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Litre Pascal Second
-            "MilliGM-PER-L-PA-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Litre Poise
-            "MilliGM-PER-L-POISE",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
                 offset: 0.0,
             },
         ),
@@ -16838,100 +14309,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Milligram per Cubic Metre Centipoise
-            "MilliGM-PER-M3-CentiPOISE",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Cubic Metre Day
-            "MilliGM-PER-M3-DAY",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074074e-11,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Cubic Metre Hour
-            "MilliGM-PER-M3-HR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.7777777777777777e-10,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Cubic Metre Kelvin
-            "MilliGM-PER-M3-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Cubic Metre Millipascal Second
-            "MilliGM-PER-M3-MilliPA-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Cubic Metre Pascal Second
-            "MilliGM-PER-M3-PA-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Cubic Metre Poise
-            "MilliGM-PER-M3-POISE",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Cubic Metre Second
-            "MilliGM-PER-M3-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
             // Milligram per Minute
             "MilliGM-PER-MIN",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 1.6666666666666667e-08,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Minute Bar
-            "MilliGM-PER-MIN-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.6666666666666667e-13,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Minute Kelvin
-            "MilliGM-PER-MIN-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.6666666666666667e-08,
                 offset: 0.0,
             },
@@ -16950,78 +14331,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "MilliGM-PER-SEC",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Second Bar
-            "MilliGM-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-11,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram per Second Kelvin
-            "MilliGM-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Second per Litre Cubic Centimetre
-            "MilliGM-SEC-PER-L-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Second per Litre Cubic Metre
-            "MilliGM-SEC-PER-L-M3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Second per Square Litre
-            "MilliGM-SEC-PER-L2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Second per Cubic Metre Cubic Centimetre
-            "MilliGM-SEC-PER-M3-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Second per Cubic Metre Litre
-            "MilliGM-SEC-PER-M3-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milligram Second per Sextic Metre
-            "MilliGM-SEC-PER-M6",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1e-06,
                 offset: 0.0,
             },
@@ -17153,15 +14462,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Millikelvin per Bar
-            "MilliK-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-08,
-                offset: 0.0,
-            },
-        ),
-        (
             // Millikelvin per Kelvin
             "MilliK-PER-K",
             UnitInfo {
@@ -17198,15 +14498,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Millilitre per Bar
-            "MilliL-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-11,
-                offset: 0.0,
-            },
-        ),
-        (
             // Millilitre per Square Centimetre Minute
             "MilliL-PER-CentiM2-MIN",
             UnitInfo {
@@ -17234,24 +14525,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Millilitre per Day Bar
-            "MilliL-PER-DAY-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074073e-16,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Millilitre per Day Kelvin
-            "MilliL-PER-DAY-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074074e-11,
-                offset: 0.0,
-            },
-        ),
-        (
             // Millilitre per Gram
             "MilliL-PER-GM",
             UnitInfo {
@@ -17265,24 +14538,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "MilliL-PER-HR",
             UnitInfo {
                 kind: "VolumeFlowRate",
-                multiplier: 2.7777777777777777e-10,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Millilitre per Hour Bar
-            "MilliL-PER-HR-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.7777777777777776e-15,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Millilitre per Hour Kelvin
-            "MilliL-PER-HR-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 2.7777777777777777e-10,
                 offset: 0.0,
             },
@@ -17315,15 +14570,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Millilitre per Square Metre Day
-            "MilliL-PER-M2-DAY",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074074e-11,
-                offset: 0.0,
-            },
-        ),
-        (
             // Millilitre per Cubic Metre
             "MilliL-PER-M3",
             UnitInfo {
@@ -17342,46 +14588,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Millilitre per Minute Bar
-            "MilliL-PER-MIN-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.6666666666666667e-13,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Millilitre per Minute Kelvin
-            "MilliL-PER-MIN-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.6666666666666667e-08,
-                offset: 0.0,
-            },
-        ),
-        (
             // Millilitre per Second
             "MilliL-PER-SEC",
             UnitInfo {
                 kind: "VolumeFlowRate",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Millilitre per Second Bar
-            "MilliL-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-11,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Millilitre per Second Kelvin
-            "MilliL-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1e-06,
                 offset: 0.0,
             },
@@ -17392,15 +14602,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Length",
                 multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Millimetre per Bar
-            "MilliM-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-08,
                 offset: 0.0,
             },
         ),
@@ -17445,15 +14646,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "MilliM-PER-M",
             UnitInfo {
                 kind: "Gradient",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Millimetre per Square Metre
-            "MilliM-PER-M2",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 0.001,
                 offset: 0.0,
             },
@@ -17594,15 +14786,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Millimole per Square Metre
-            "MilliMOL-PER-M2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
             // Millimole per Square Metre Day
             "MilliMOL-PER-M2-DAY",
             UnitInfo {
@@ -17644,15 +14827,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "CatalyticActivityConcentration",
                 multiplier: 1.1574074074074074e-08,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Millimole per Mole
-            "MilliMOL-PER-MOL",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
                 offset: 0.0,
             },
         ),
@@ -17738,24 +14912,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Milliohm per Bar
-            "MilliOHM-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-08,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milliohm per Kelvin
-            "MilliOHM-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
             // Milliohm per Metre
             "MilliOHM-PER-M",
             UnitInfo {
@@ -17815,15 +14971,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Time",
                 multiplier: 1e-08,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Millipascal Second per Kelvin
-            "MilliPA-SEC-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
                 offset: 0.0,
             },
         ),
@@ -17990,15 +15137,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Millivolt per Volt
-            "MilliV-PER-V",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
             // Milli Volt Ampere
             "MilliVA",
             UnitInfo {
@@ -18026,29 +15164,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Milli Volt Ampere Reactive per Kelvin
-            "MilliVAR-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
             // Milliwatt
             "MilliW",
             UnitInfo {
                 kind: "Power",
                 multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Milliwatt per Square Centimetre Micrometre Steradian
-            "MilliW-PER-CentiM2-MicroM-SR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 10000000.0,
                 offset: 0.0,
             },
         ),
@@ -18215,15 +15335,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Newton Metre per Square Root Watt
-            "N-M-PER-W0dot5",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Newton Metre Second
             "N-M-SEC",
             UnitInfo {
@@ -18264,15 +15375,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "N-M2-PER-A",
             UnitInfo {
                 kind: "MagneticDipoleMoment",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Newton Square Metre per Square Kilogram
-            "N-M2-PER-KiloGM2",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -18467,15 +15569,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Neper per Second
-            "NP-PER-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Net Tonnage
             "NT",
             UnitInfo {
@@ -18503,24 +15596,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Number per Centimetre Kiloyear
-            "NUM-PER-CentiM-KiloYR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3.168808781402895e-09,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Number per Gram
-            "NUM-PER-GM",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Number per Hectare
             "NUM-PER-HA",
             UnitInfo {
@@ -18544,24 +15619,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Frequency",
                 multiplier: 0.0002777777777777778,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Number per Hectogram
-            "NUM-PER-HectoGM",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 10.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Number per Kilogram
-            "NUM-PER-KiloGM",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
                 offset: 0.0,
             },
         ),
@@ -18634,15 +15691,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "NumberDensity",
                 multiplier: 1000000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Number per Milligram
-            "NUM-PER-MilliGM",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000000.0,
                 offset: 0.0,
             },
         ),
@@ -19124,24 +16172,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Nanomole per Micromole
-            "NanoMOL-PER-MicroMOL",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Nanomole per Micromole Day
-            "NanoMOL-PER-MicroMOL-DAY",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074074e-08,
-                offset: 0.0,
-            },
-        ),
-        (
             // Nanonewton
             "NanoN",
             UnitInfo {
@@ -19403,24 +16433,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Ohm per Bar
-            "OHM-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ohm per Kelvin
-            "OHM-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Ohm per Kilometre
             "OHM-PER-KiloM",
             UnitInfo {
@@ -19520,137 +16532,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Ounce Mass Foot Hour per Cubic Inch Pound Mass
-            "OZ-FT-HR-PER-IN3-LB",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 4185008.37001674,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Foot Second per Cubic Inch Pound Mass
-            "OZ-FT-SEC-PER-IN3-LB",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1162.50232500465,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Square Foot per Cubic Inch Pound Force Second
-            "OZ-FT2-PER-IN3-LB_F-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 36.13167521666219,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Hour per Cubic Inch Cubic Foot
-            "OZ-HR-PER-IN3-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 219938987.18776172,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Hour per Cubic Inch Gallon (UK)
-            "OZ-HR-PER-IN3-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1369963762.221096,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Hour per Cubic Inch Us Gallon
-            "OZ-HR-PER-IN3-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1645257878.1837761,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Hour per Cubic Inch Cubic Yard
-            "OZ-HR-PER-IN3-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 8145888.414361546,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Hour per Sextic Inch
-            "OZ-HR-PER-IN6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 380054569860.4523,
-                offset: 0.0,
-            },
-        ),
-        (
             // Ounce Mass Inch
             "OZ-IN",
             UnitInfo {
                 kind: "LengthMass",
                 multiplier: 0.000720077887375,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Square Inch per Cubic Inch Pound Force Second
-            "OZ-IN2-PER-IN3-LB_F-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.25091441122682073,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Minute per Cubic Inch Cubic Foot
-            "OZ-MIN-PER-IN3-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3665649.7864626953,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Minute per Cubic Inch Gallon (UK)
-            "OZ-MIN-PER-IN3-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 22832729.3703516,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Minute per Cubic Inch Us Gallon
-            "OZ-MIN-PER-IN3-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 27420964.636396267,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Minute per Cubic Inch Cubic Yard
-            "OZ-MIN-PER-IN3-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 135764.80690602577,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Minute per Sextic Inch
-            "OZ-MIN-PER-IN6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 6334242831.007538,
                 offset: 0.0,
             },
         ),
@@ -19759,51 +16645,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Density",
                 multiplier: 0.03707977632861143,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Second per Cubic Inch Cubic Foot
-            "OZ-SEC-PER-IN3-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 61094.16310771159,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Second per Cubic Inch Gallon (UK)
-            "OZ-SEC-PER-IN3-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 380545.48950586,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Second per Cubic Inch Us Gallon
-            "OZ-SEC-PER-IN3-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 457016.0772732711,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Second per Cubic Inch Cubic Yard
-            "OZ-SEC-PER-IN3-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2262.746781767096,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Ounce Mass Second per Sextic Inch
-            "OZ-SEC-PER-IN6",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 105570713.85012563,
                 offset: 0.0,
             },
         ),
@@ -19961,33 +16802,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Pascal Metre
-            "PA-M",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pascal Metre per Second
-            "PA-M-PER-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Pascal Metre per Square Second
-            "PA-M-PER-SEC2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             "PA-M0dot5",
             UnitInfo {
                 kind: "StressIntensityFactor",
@@ -20086,15 +16900,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Pascal Second per Kelvin
-            "PA-SEC-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Pascal Second per Litre
             "PA-SEC-PER-L",
             UnitInfo {
@@ -20117,15 +16922,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "PA-SEC-PER-M3",
             UnitInfo {
                 kind: "PressureInRelationToVolumeFlowRate",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Square Pascal per Square Second
-            "PA2-PER-SEC2",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -20437,15 +17233,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Reciprocal Kilogram Second
-            "PER-KiloGM-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Reciprocal Square Kilogram
             "PER-KiloGM2",
             UnitInfo {
@@ -20514,33 +17301,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "ParticleFluence",
                 multiplier: 1000000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Reciprocal Metre Nanometre Steradian
-            "PER-M-NanoM-SR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Reciprocal Metre Second
-            "PER-M-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Reciprocal Metre Steradian
-            "PER-M-SR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
                 offset: 0.0,
             },
         ),
@@ -20635,15 +17395,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Reciprocal Micromole Litre
-            "PER-MicroMOL-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Reciprocal Milligram
             "PER-MilliGM",
             UnitInfo {
@@ -20716,24 +17467,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Reciprocal Pascal Second
-            "PER-PA-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Reciprocal Percent
-            "PER-PERCENT",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 100.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Reciprocal Psi
             "PER-PSI",
             UnitInfo {
@@ -20757,15 +17490,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "InverseSquareMass",
                 multiplier: 2111089287176721.8,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Reciprocal Radian
-            "PER-RAD",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
                 offset: 0.0,
             },
         ),
@@ -20815,28 +17539,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Reciprocal Second Steradian Square Metre
-            "PER-SEC-SR-M2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Reciprocal Square Second
             "PER-SEC2",
             UnitInfo {
                 kind: "InverseSquareTime",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Reciprocal Steradian
-            "PER-SR",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -20941,101 +17647,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Percent Foot Hour per Pound Mass
-            "PERCENT-FT-HR-PER-LB",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 24.190883105022248,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Foot Second per Pound Mass
-            "PERCENT-FT-SEC-PER-LB",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.006719689751395069,
-                offset: 0.0,
-            },
-        ),
-        (
             // Percent Square Foot per Pound Force Second
             "PERCENT-FT2-PER-LB_F-SEC",
             UnitInfo {
                 kind: "Fluidity",
                 multiplier: 0.0002088543329607267,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Hour per Cubic Centimetre
-            "PERCENT-HR-PER-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 36000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Hour per Cubic Foot
-            "PERCENT-HR-PER-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1271.3280019735892,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Hour per Gallon (UK)
-            "PERCENT-HR-PER-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 7918.892938767161,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Hour per Us Gallon
-            "PERCENT-HR-PER-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 9510.193884893342,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Hour per Cubic Inch
-            "PERCENT-HR-PER-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2196854.787410362,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Hour per Litre
-            "PERCENT-HR-PER-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 36000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Hour per Cubic Metre
-            "PERCENT-HR-PER-M3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 36.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Hour per Cubic Yard
-            "PERCENT-HR-PER-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 47.08622229531812,
                 offset: 0.0,
             },
         ),
@@ -21049,78 +17665,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Percent Minute per Cubic Centimetre
-            "PERCENT-MIN-PER-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 600000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Minute per Cubic Foot
-            "PERCENT-MIN-PER-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 21.188800032893155,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Minute per Gallon (UK)
-            "PERCENT-MIN-PER-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 131.98154897945267,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Minute per Us Gallon
-            "PERCENT-MIN-PER-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 158.50323141488906,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Minute per Cubic Inch
-            "PERCENT-MIN-PER-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 36614.24645683937,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Minute per Litre
-            "PERCENT-MIN-PER-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 600.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Minute per Cubic Metre
-            "PERCENT-MIN-PER-M3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.6,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Minute per Cubic Yard
-            "PERCENT-MIN-PER-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.7847703715886354,
-                offset: 0.0,
-            },
-        ),
-        (
             // Percent per Bar
             "PERCENT-PER-BAR",
             UnitInfo {
@@ -21130,29 +17674,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Percent per Centipoise
-            "PERCENT-PER-CentiPOISE",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 10.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Percent per Day
             "PERCENT-PER-DAY",
             UnitInfo {
                 kind: "Frequency",
                 multiplier: 1.1574074074074074e-07,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent per Degree
-            "PERCENT-PER-DEG",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.5729577951308232,
                 offset: 0.0,
             },
         ),
@@ -21180,24 +17706,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Frequency",
                 multiplier: 2.777777777777778e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent per Hundred
-            "PERCENT-PER-HUNDRED",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent per Hundred Thousand
-            "PERCENT-PER-HUNDRED-THOUSAND",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-07,
                 offset: 0.0,
             },
         ),
@@ -21256,82 +17764,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Percent per Millipascal Second
-            "PERCENT-PER-MilliPA-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 10.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent per Ohm
-            "PERCENT-PER-OHM",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent per Pascal Second
-            "PERCENT-PER-PA-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent per Percent
-            "PERCENT-PER-PERCENT",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent per Poise
-            "PERCENT-PER-POISE",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.1,
-                offset: 0.0,
-            },
-        ),
-        (
             // Percent per Second
             "PERCENT-PER-SEC",
             UnitInfo {
                 kind: "RateOfChange",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent per Ten Thousand
-            "PERCENT-PER-TEN-THOUSAND",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent per Thousand
-            "PERCENT-PER-THOUSAND",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent per Volt
-            "PERCENT-PER-V",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 0.01,
                 offset: 0.0,
             },
@@ -21351,78 +17787,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "RateOfChange",
                 multiplier: 3.168808781402895e-10,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Second per Cubic Centimetre
-            "PERCENT-SEC-PER-CentiM3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 10000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Second per Cubic Foot
-            "PERCENT-SEC-PER-FT3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.3531466672148859,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Second per Gallon (UK)
-            "PERCENT-SEC-PER-GAL_UK",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.1996924829908777,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Second per Us Gallon
-            "PERCENT-SEC-PER-GAL_US",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.6417205235814842,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Second per Cubic Inch
-            "PERCENT-SEC-PER-IN3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 610.2374409473229,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Second per Litre
-            "PERCENT-SEC-PER-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 10.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Second per Cubic Metre
-            "PERCENT-SEC-PER-M3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Percent Second per Cubic Yard
-            "PERCENT-SEC-PER-YD3",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.013079506193143922,
                 offset: 0.0,
             },
         ),
@@ -21778,15 +18142,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Poise per Kelvin
-            "POISE-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.1,
-                offset: 0.0,
-            },
-        ),
-        (
             // Poise per Pascal
             "POISE-PER-PA",
             UnitInfo {
@@ -21882,15 +18237,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "ThermalExpansionCoefficient",
                 multiplier: 1e-07,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Parts per Trillion by Volume
-            "PPT_VOL",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-12,
                 offset: 0.0,
             },
         ),
@@ -22156,24 +18502,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Picoampere per Hectopascal
-            "PicoA-PER-HectoPA",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-14,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Picoampere per Micromole Litre
-            "PicoA-PER-MicroMOL-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.001,
-                offset: 0.0,
-            },
-        ),
-        (
             // Picocoulomb
             "PicoC",
             UnitInfo {
@@ -22363,15 +18691,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Picomole per Metre Watt Second
-            "PicoMOL-PER-M-W-SEC",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-12,
-                offset: 0.0,
-            },
-        ),
-        (
             // Picomole per Square Metre Day
             "PicoMOL-PER-M2-DAY",
             UnitInfo {
@@ -22476,15 +18795,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Power",
                 multiplier: 1e-12,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Picowatt per Square Centimetre Litre
-            "PicoW-PER-CentiM2-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-05,
                 offset: 0.0,
             },
         ),
@@ -23182,28 +19492,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Second per Square Foot
-            "SEC-PER-FT2",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 10.763910416709722,
-                offset: 0.0,
-            },
-        ),
-        (
             // Second per Kilogram
             "SEC-PER-KiloGM",
             UnitInfo {
                 kind: "EinsteinCoefficients",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Second per Metre
-            "SEC-PER-M",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -23353,28 +19645,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Sone
-            "SON",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Sun Protection Factor
             "SPF",
             UnitInfo {
                 kind: "SunProtectionFactorOfAProduct",
-                multiplier: 0.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Spin Quantum Number
-            "SPIN_QUANTUM_NUMBER",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 0.0,
                 offset: 0.0,
             },
@@ -23393,33 +19667,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "ST",
             UnitInfo {
                 kind: "KinematicViscosity",
-                multiplier: 0.0001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Stokes per Bar
-            "ST-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1e-09,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Stokes per Kelvin
-            "ST-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0001,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Stokes per Pascal
-            "ST-PER-PA",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 0.0001,
                 offset: 0.0,
             },
@@ -23686,37 +19933,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Tonne per Bar
-            "TONNE-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
             // Tonne per Day
             "TONNE-PER-DAY",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 0.011574074074074073,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Tonne per Day Bar
-            "TONNE-PER-DAY-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074074e-07,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Tonne per Day Kelvin
-            "TONNE-PER-DAY-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 0.011574074074074073,
                 offset: 0.0,
             },
@@ -23749,33 +19969,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Tonne per Hour Bar
-            "TONNE-PER-HR-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.777777777777778e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Tonne per Hour Kelvin
-            "TONNE-PER-HR-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.2777777777777778,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Tonne per Kelvin
-            "TONNE-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Tonne per Cubic Metre
             "TONNE-PER-M3",
             UnitInfo {
@@ -23794,37 +19987,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Tonne per Cubic Metre Kelvin
-            "TONNE-PER-M3-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Tonne per Minute
             "TONNE-PER-MIN",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 16.666666666666668,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Tonne per Minute Bar
-            "TONNE-PER-MIN-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.00016666666666666666,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Tonne per Minute Kelvin
-            "TONNE-PER-MIN-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 16.666666666666668,
                 offset: 0.0,
             },
@@ -23843,24 +20009,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "TONNE-PER-SEC",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Tonne per Second Bar
-            "TONNE-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Tonne per Second Kelvin
-            "TONNE-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1000.0,
                 offset: 0.0,
             },
@@ -23938,37 +20086,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Metric Ton per Bar
-            "TON_Metric-PER-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
             // Metric Ton per Day
             "TON_Metric-PER-DAY",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 0.011574074074074073,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metric Ton per Day Bar
-            "TON_Metric-PER-DAY-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.1574074074074074e-07,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metric Ton per Day Kelvin
-            "TON_Metric-PER-DAY-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 0.011574074074074073,
                 offset: 0.0,
             },
@@ -23992,46 +20113,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Metric Ton per Hour Bar
-            "TON_Metric-PER-HR-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 2.777777777777778e-06,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metric Ton per Hour Kelvin
-            "TON_Metric-PER-HR-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.2777777777777778,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metric Ton per Kelvin
-            "TON_Metric-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Metric Ton per Cubic Metre
             "TON_Metric-PER-M3",
             UnitInfo {
                 kind: "Density",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metric Ton per Cubic Metre Kelvin
-            "TON_Metric-PER-M3-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1000.0,
                 offset: 0.0,
             },
@@ -24046,46 +20131,10 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Metric Ton per Minute Bar
-            "TON_Metric-PER-MIN-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.00016666666666666666,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metric Ton per Minute Kelvin
-            "TON_Metric-PER-MIN-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 16.666666666666668,
-                offset: 0.0,
-            },
-        ),
-        (
             // Metric Ton per Second
             "TON_Metric-PER-SEC",
             UnitInfo {
                 kind: "MassFlowRate",
-                multiplier: 1000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metric Ton per Second Bar
-            "TON_Metric-PER-SEC-BAR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.01,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Metric Ton per Second Kelvin
-            "TON_Metric-PER-SEC-K",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1000.0,
                 offset: 0.0,
             },
@@ -24127,47 +20176,11 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Short Ton per Degree Fahrenheit
-            "TON_SHORT-PER-DEG_F",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1632.932532,
-                offset: 0.0,
-            },
-        ),
-        (
             // Short Ton per Hour
             "TON_SHORT-PER-HR",
             UnitInfo {
                 kind: "MassFlowRate",
                 multiplier: 0.2519957611111111,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Short Ton per Hour Degree Fahrenheit
-            "TON_SHORT-PER-HR-DEG_F",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.45359237,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Short Ton per Hour Psi
-            "TON_SHORT-PER-HR-PSI",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3.654889346929982e-05,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Short Ton per Psi
-            "TON_SHORT-PER-PSI",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.13157601648947936,
                 offset: 0.0,
             },
         ),
@@ -24514,15 +20527,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Unknown
-            "UNKNOWN",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Unit Pole
             "UnitPole",
             UnitInfo {
@@ -24595,15 +20599,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Volt per Litre Minute
-            "V-PER-L-MIN",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 16.666666666666668,
-                offset: 0.0,
-            },
-        ),
-        (
             // Volt per Metre
             "V-PER-M",
             UnitInfo {
@@ -24653,15 +20648,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             "V-PER-SEC",
             UnitInfo {
                 kind: "PowerPerElectricCharge",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Volt per Volt
-            "V-PER-V",
-            UnitInfo {
-                kind: "Unknown",
                 multiplier: 1.0,
                 offset: 0.0,
             },
@@ -24726,15 +20712,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "Energy",
                 multiplier: 3600.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Volt Ampere Reactive per Kelvin
-            "VAR-PER-K",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
                 offset: 0.0,
             },
         ),
@@ -24820,15 +20797,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Watt Hour per Litre
-            "W-HR-PER-L",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 3600000.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Watt Hour per Square Metre
             "W-HR-PER-M2",
             UnitInfo {
@@ -24843,15 +20811,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "EnergyDensity",
                 multiplier: 3600.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Watt Metre per Square Metre Steradian
-            "W-M-PER-M2-SR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
                 offset: 0.0,
             },
         ),
@@ -24982,24 +20941,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Watt per Square Metre Metre
-            "W-PER-M2-M",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Watt per Square Metre Metre Steradian
-            "W-PER-M2-M-SR",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1.0,
-                offset: 0.0,
-            },
-        ),
-        (
             // Watt per Square Metre Micrometre
             "W-PER-M2-MicroM",
             UnitInfo {
@@ -25014,15 +20955,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "SpectralRadiance",
                 multiplier: 1000000.0,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Watt per Square Metre Nanometre
-            "W-PER-M2-NanoM",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 1000000000.0,
                 offset: 0.0,
             },
         ),
@@ -25180,15 +21112,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             },
         ),
         (
-            // Yard per Psi
-            "YD-PER-PSI",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.00013262250143006145,
-                offset: 0.0,
-            },
-        ),
-        (
             // Yard per Second
             "YD-PER-SEC",
             UnitInfo {
@@ -25257,15 +21180,6 @@ pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLo
             UnitInfo {
                 kind: "VolumeFlowRate",
                 multiplier: 0.0127425809664,
-                offset: 0.0,
-            },
-        ),
-        (
-            // Cubic Yard per Psi
-            "YD3-PER-PSI",
-            UnitInfo {
-                kind: "Unknown",
-                multiplier: 0.00011088930199731351,
                 offset: 0.0,
             },
         ),

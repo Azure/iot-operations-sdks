@@ -1,0 +1,17 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+use std::collections::HashMap;
+use std::sync::LazyLock;
+
+pub(super) static KIND_SYSTEM_UNITS: LazyLock<HashMap<(&'static str, &'static str), &'static str>> =
+    LazyLock::new(|| {
+        HashMap::from([
+<# foreach (KeyValuePair<(string, string), string> kindSystemUnit in this.kindSystemUnitsMap.OrderBy(k => k.Key)) { #>
+            (("<#=kindSystemUnit.Key.Item1#>", "<#=kindSystemUnit.Key.Item2#>"), "unit:<#=kindSystemUnit.Value#>"),
+<# } #>
+        ])
+    });

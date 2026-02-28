@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.UnitTabulator
     /// Class to produce the template output
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "18.0.0.0")]
-    public partial class EceCodes : EceCodesBase
+    public partial class RustEceCodes : RustEceCodesBase
     {
         /// <summary>
         /// Create the template output
@@ -44,7 +44,7 @@ namespace Azure.Iot.Operations.UnitTabulator
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "18.0.0.0")]
-    public class EceCodesBase
+    public class RustEceCodesBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

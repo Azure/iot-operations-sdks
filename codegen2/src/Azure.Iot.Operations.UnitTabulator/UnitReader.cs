@@ -24,35 +24,45 @@ namespace Azure.Iot.Operations.UnitTabulator
 
             EceCodesMap = new Dictionary<string, string>();
             UnitInfosMap = new Dictionary<string, UnitInfo>();
+            KindLabeledUnitsMap = new Dictionary<string, List<(string, string)>>();
+            KindSystemUnitsMap = new Dictionary<(string, string), string>();
+            LabeledSystemsOfUnits = new List<(string, string)>();
 
-            IGraph graph = new Graph();
+            Dictionary<(string, string), List<string>> kindSystemApplicableUnits = new Dictionary<(string, string), List<string>>();
 
             TurtleParser parser = new TurtleParser();
+
+            IGraph unitGraph = new Graph();
             string unitResourceName = $"{Assembly.GetExecutingAssembly().GetName().Name}.Resources.qudt.unit.ttl";
             Stream unitStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(unitResourceName)!;
-            parser.Load(graph, new StreamReader(unitStream));
+            parser.Load(unitGraph, new StreamReader(unitStream));
 
-            IUriNode uneceCommonCodePred = graph.CreateUriNode("qudt:uneceCommonCode");
-            IUriNode hasQuantityKindPred = graph.CreateUriNode("qudt:hasQuantityKind");
-            IUriNode conversionMultiplierPred = graph.CreateUriNode("qudt:conversionMultiplierSN");
-            IUriNode conversionOffsetPred = graph.CreateUriNode("qudt:conversionOffsetSN");
-            IUriNode typePred = graph.CreateUriNode("rdf:type");
-            IUriNode deprecatedPred = graph.CreateUriNode("qudt:deprecated");
-            IUriNode labelPred = graph.CreateUriNode("rdfs:label");
+            IGraph souGraph = new Graph();
+            string souResourceName = $"{Assembly.GetExecutingAssembly().GetName().Name}.Resources.qudt.sou.ttl";
+            Stream souStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(souResourceName)!;
+            parser.Load(souGraph, new StreamReader(souStream));
 
-            IUriNode unitObject = graph.GetUriNode("qudt:Unit");
+            IUriNode uneceCommonCodePred = unitGraph.CreateUriNode("qudt:uneceCommonCode");
+            IUriNode hasQuantityKindPred = unitGraph.CreateUriNode("qudt:hasQuantityKind");
+            IUriNode conversionMultiplierPred = unitGraph.CreateUriNode("qudt:conversionMultiplierSN");
+            IUriNode conversionOffsetPred = unitGraph.CreateUriNode("qudt:conversionOffsetSN");
+            IUriNode typePred = unitGraph.CreateUriNode("rdf:type");
+            IUriNode deprecatedPred = unitGraph.CreateUriNode("qudt:deprecated");
+            IUriNode labelPred = unitGraph.CreateUriNode("rdfs:label");
+            IUriNode applicableSystemPred = unitGraph.CreateUriNode("qudt:applicableSystem");
 
-            foreach (Triple unitTriple in graph.GetTriplesWithPredicateObject(typePred, unitObject))
+            IUriNode unitObject = unitGraph.GetUriNode("qudt:Unit");
+            foreach (Triple unitTriple in unitGraph.GetTriplesWithPredicateObject(typePred, unitObject))
             {
                 IUriNode unitSubject = (IUriNode)unitTriple.Subject;
-                if (graph.GetTriplesWithSubjectPredicate(unitSubject, deprecatedPred).Any())
+                if (unitGraph.GetTriplesWithSubjectPredicate(unitSubject, deprecatedPred).Any())
                 {
                     continue;
                 }
 
                 string unitName = UriTail(unitSubject.Uri);
 
-                foreach (Triple eceCodeTriple in graph.GetTriplesWithSubjectPredicate(unitSubject, uneceCommonCodePred))
+                foreach (Triple eceCodeTriple in unitGraph.GetTriplesWithSubjectPredicate(unitSubject, uneceCommonCodePred))
                 {
                     if (eceCodeTriple.Object is ILiteralNode uneceCommonCode)
                     {
@@ -60,36 +70,106 @@ namespace Azure.Iot.Operations.UnitTabulator
                     }
                 }
 
-                IEnumerable<Triple> unitHasQuantityKindTriple = graph.GetTriplesWithSubjectPredicate(unitSubject, hasQuantityKindPred);
-                int maxUnitCount = unitHasQuantityKindTriple.Max(t => quantityKindToUnitCount[((IUriNode)t.Object).Uri]);
-                Uri quantityKindUri = ((IUriNode)unitHasQuantityKindTriple.First(t => quantityKindToUnitCount[((IUriNode)t.Object).Uri] == maxUnitCount).Object).Uri;
+                IEnumerable<Triple> unitHasQuantityKindTriples = unitGraph.GetTriplesWithSubjectPredicate(unitSubject, hasQuantityKindPred).Where(t => t.Object is IUriNode objUriNode && objUriNode.Uri.AbsoluteUri != "http://qudt.org/vocab/quantitykind/Unknown");
+                if (!unitHasQuantityKindTriples.Any())
+                {
+                    continue;
+                }
+
+                int maxUnitCount = unitHasQuantityKindTriples.Max(t => quantityKindToUnitCount[((IUriNode)t.Object).Uri]);
+                INode quantityKindNode = unitHasQuantityKindTriples.First(t => quantityKindToUnitCount[((IUriNode)t.Object).Uri] == maxUnitCount).Object;
+                string quantityKindName = UriTail(((IUriNode)quantityKindNode).Uri);
 
                 double multiplier = 1.0;
-                if (graph.GetTriplesWithSubjectPredicate(unitSubject, conversionMultiplierPred).FirstOrDefault()?.Object is ILiteralNode multiplierNode)
+                if (unitGraph.GetTriplesWithSubjectPredicate(unitSubject, conversionMultiplierPred).FirstOrDefault()?.Object is ILiteralNode multiplierNode)
                 {
                     multiplier = double.Parse(multiplierNode.Value, System.Globalization.CultureInfo.InvariantCulture);
                 }
 
                 double offset = 0.0;
-                if (graph.GetTriplesWithSubjectPredicate(unitSubject, conversionOffsetPred).FirstOrDefault()?.Object is ILiteralNode offsetNode)
+                if (unitGraph.GetTriplesWithSubjectPredicate(unitSubject, conversionOffsetPred).FirstOrDefault()?.Object is ILiteralNode offsetNode)
                 {
                     offset = double.Parse(offsetNode.Value, System.Globalization.CultureInfo.InvariantCulture);
                 }
 
-                IEnumerable<Triple> unitLabelTriples = graph.GetTriplesWithSubjectPredicate(unitSubject, labelPred);
+                IEnumerable<Triple> unitLabelTriples = unitGraph.GetTriplesWithSubjectPredicate(unitSubject, labelPred);
                 Triple? labelTriple =
                     unitLabelTriples.FirstOrDefault(t => t.Object is ILiteralNode l && l.Language == "en-US") ??
                     unitLabelTriples.FirstOrDefault(t => t.Object is ILiteralNode l && l.Language == "en") ??
                     unitLabelTriples.FirstOrDefault(t => t.Object is ILiteralNode l && l.Language == string.Empty);
                 string? label = labelTriple != null ? ((ILiteralNode)labelTriple.Object).Value : null;
 
-                UnitInfosMap[unitName] = new UnitInfo(UriTail(quantityKindUri), multiplier, offset, label);
+                UnitInfosMap[unitName] = new UnitInfo(quantityKindName, multiplier, offset, label);
+
+                if (!KindLabeledUnitsMap.TryGetValue(quantityKindName, out List<(string, string)>? labeledUnits))
+                {
+                    labeledUnits = new List<(string, string)>();
+                    KindLabeledUnitsMap[quantityKindName] = labeledUnits;
+                }
+                labeledUnits.Add((unitName, label ?? unitName));
+
+                foreach (var unitSystemTriple in unitGraph.GetTriplesWithSubjectPredicate(unitSubject, applicableSystemPred))
+                {
+                    if (unitSystemTriple.Object is IUriNode systemNode)
+                    {
+                        string systemName = UriTail(systemNode.Uri);
+                        if (!kindSystemApplicableUnits.TryGetValue((quantityKindName, systemName), out List<string>? applicableUnits))
+                        {
+                            applicableUnits = new List<string>();
+                            kindSystemApplicableUnits[(quantityKindName, systemName)] = applicableUnits;
+                        }
+
+                        kindSystemApplicableUnits[(quantityKindName, systemName)].Add(unitName);
+                    }
+                }
+            }
+
+            IUriNode hasBaseUnitPred = souGraph.CreateUriNode("qudt:hasBaseUnit");
+
+            IUriNode souObject = souGraph.GetUriNode("qudt:SystemOfUnits");
+            foreach (Triple souTriple in souGraph.GetTriplesWithPredicateObject(typePred, souObject))
+            {
+                IUriNode souSubject = (IUriNode)souTriple.Subject;
+                string souName = UriTail(souSubject.Uri);
+
+                IEnumerable<Triple> souLabelTriples = souGraph.GetTriplesWithSubjectPredicate(souSubject, labelPred);
+                Triple labelTriple = souLabelTriples.First(t => t.Object is ILiteralNode l && l.Language == "en");
+                string? label = ((ILiteralNode)labelTriple.Object).Value;
+
+                LabeledSystemsOfUnits.Add((souName, label));
+
+                foreach (var systemUnitTriple in souGraph.GetTriplesWithSubjectPredicate(souSubject, hasBaseUnitPred))
+                {
+                    if (systemUnitTriple.Object is IUriNode unitNode)
+                    {
+                        string unitName = UriTail(unitNode.Uri);
+                        KindSystemUnitsMap[(UnitInfosMap[unitName].Kind, souName)] = unitName;
+                    }
+                }
+            }
+
+            foreach (KeyValuePair<(string, string), List<string>> kindSystemApplicableUnitsEntry in kindSystemApplicableUnits)
+            {
+                string quantityKindName = kindSystemApplicableUnitsEntry.Key.Item1;
+                string systemName = kindSystemApplicableUnitsEntry.Key.Item2;
+
+                if (!KindSystemUnitsMap.ContainsKey((quantityKindName, systemName)))
+                {
+                    List<string> applicableUnits = kindSystemApplicableUnitsEntry.Value.OrderBy(u => u.Length).ToList();
+                    KindSystemUnitsMap[(quantityKindName, systemName)] = applicableUnits[0];
+                }
             }
         }
 
         public Dictionary<string, string> EceCodesMap { get; }
 
         public Dictionary<string, UnitInfo> UnitInfosMap { get; }
+
+        public Dictionary<string, List<(string, string)>> KindLabeledUnitsMap { get; }
+
+        public Dictionary<(string, string), string> KindSystemUnitsMap { get; }
+
+        public List<(string, string)> LabeledSystemsOfUnits {  get; }
 
         private string UriTail(Uri uri) => uri.AbsoluteUri.Substring(uri.AbsoluteUri.LastIndexOf('/') + 1);
     }

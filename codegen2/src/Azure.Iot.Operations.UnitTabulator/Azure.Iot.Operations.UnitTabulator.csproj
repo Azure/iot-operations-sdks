@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.CodeDom" Version="10.0.2" />
+    <PackageReference Include="System.CommandLine" Version="2.0.2" />
     <PackageReference Include="dotNetRdf" Version="3.5.1" />
     <PackageReference Include="VDS.Common" Version="3.0.0" />
   </ItemGroup>
@@ -19,14 +20,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="t4\EceCodes.tt">
+    <None Update="rust\t4\RustEceCodes.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>EceCodes.cs</LastGenOutput>
+      <LastGenOutput>RustEceCodes.cs</LastGenOutput>
       <CustomToolNamespace>Azure.Iot.Operations.UnitTabulator</CustomToolNamespace>
     </None>
-    <None Update="t4\UnitInfos.tt">
+    <None Update="rust\t4\RustKindLabeledUnits.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>UnitInfos.cs</LastGenOutput>
+      <LastGenOutput>RustKindLabeledUnits.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.UnitTabulator</CustomToolNamespace>
+    </None>
+    <None Update="rust\t4\RustKindSystemUnits.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustKindSystemUnits.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.UnitTabulator</CustomToolNamespace>
+    </None>
+    <None Update="rust\t4\RustLabeledSystemsOfUnits.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustLabeledSystemsOfUnits.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.UnitTabulator</CustomToolNamespace>
+    </None>
+    <None Update="rust\t4\RustUnitInfos.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustUnitInfos.cs</LastGenOutput>
       <CustomToolNamespace>Azure.Iot.Operations.UnitTabulator</CustomToolNamespace>
     </None>
   </ItemGroup>
@@ -36,15 +52,30 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="t4\EceCodes.cs">
+    <Compile Update="rust\t4\RustEceCodes.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>EceCodes.tt</DependentUpon>
+      <DependentUpon>RustEceCodes.tt</DependentUpon>
     </Compile>
-    <Compile Update="t4\UnitInfos.cs">
+    <Compile Update="rust\t4\RustKindLabeledUnits.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>UnitInfos.tt</DependentUpon>
+      <DependentUpon>RustKindLabeledUnits.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustKindSystemUnits.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustKindSystemUnits.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustLabeledSystemsOfUnits.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustLabeledSystemsOfUnits.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustUnitInfos.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustUnitInfos.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
