@@ -7,18 +7,35 @@ mod kind_labeled_units;
 mod kind_system_units;
 mod labeled_systems_of_units;
 
+/// Canonical list of recognized systems of units as `(code, display_name)` tuples.
 pub use labeled_systems_of_units::LABELED_SYSTEMS_OF_UNITS;
 
+/// Canonical error type for unit selection operations in this library.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SelectError {
+    /// The quantity kind is not recognized.
     QuantityKindUnrecognized(String),
+    /// The system of units is not recognized.
     UnitSystemUnrecognized(String),
+    /// No default unit exists for the given quantity kind and system of units.
     NoUnitForKindAndSystem {
         quantity_kind: String,
         unit_system: String,
     },
 }
 
+/// Gets all known unit terms for a quantity kind.
+///
+/// # Arguments
+/// * `quantity_kind` - Quantity kind key in bare form (`Temperature`), prefixed form
+///   (`quantitykind:Temperature`), or QUDT URI form.
+///
+/// # Returns
+/// A vector of unit terms such as `unit:DEG_C`.
+///
+/// # Errors
+///
+/// [`SelectError`] of kind [`SelectError::QuantityKindUnrecognized`] if `quantity_kind` is not recognized.
 pub fn get_units_for_kind(quantity_kind: &str) -> Result<Vec<&'static str>, SelectError> {
     let lookup_key = normalize_quantity_kind(quantity_kind);
 
@@ -28,6 +45,18 @@ pub fn get_units_for_kind(quantity_kind: &str) -> Result<Vec<&'static str>, Sele
         .ok_or_else(|| SelectError::QuantityKindUnrecognized(quantity_kind.to_string()))
 }
 
+/// Gets all known `(unit_term, label)` pairs for a quantity kind.
+///
+/// # Arguments
+/// * `quantity_kind` - Quantity kind key in bare form (`Temperature`), prefixed form
+///   (`quantitykind:Temperature`), or QUDT URI form.
+///
+/// # Returns
+/// A vector of tuples where the first value is the unit term and the second value is the display label.
+///
+/// # Errors
+///
+/// [`SelectError`] of kind [`SelectError::QuantityKindUnrecognized`] if `quantity_kind` is not recognized.
 pub fn get_labeled_units_for_kind(
     quantity_kind: &str,
 ) -> Result<Vec<(&'static str, &'static str)>, SelectError> {
@@ -39,6 +68,23 @@ pub fn get_labeled_units_for_kind(
         .ok_or_else(|| SelectError::QuantityKindUnrecognized(quantity_kind.to_string()))
 }
 
+/// Gets the default unit term for a quantity kind in a given system of units.
+///
+/// # Arguments
+/// * `quantity_kind` - Quantity kind key in bare form (`Temperature`), prefixed form
+///   (`quantitykind:Temperature`), or QUDT URI form.
+/// * `unit_system` - System of units code in bare form (`SI`), prefixed form (`sou:SI`),
+///   or QUDT URI form.
+///
+/// # Returns
+/// The selected unit term such as `unit:K`.
+///
+/// # Errors
+///
+/// [`SelectError`] of kind [`SelectError::QuantityKindUnrecognized`] if `quantity_kind` is not recognized.
+/// [`SelectError`] of kind [`SelectError::UnitSystemUnrecognized`] if `unit_system` is not recognized.
+/// [`SelectError`] of kind [`SelectError::NoUnitForKindAndSystem`] if both inputs are recognized but
+/// no mapped unit exists for the pair.
 pub fn get_unit_for_kind_and_system(
     quantity_kind: &str,
     unit_system: &str,
