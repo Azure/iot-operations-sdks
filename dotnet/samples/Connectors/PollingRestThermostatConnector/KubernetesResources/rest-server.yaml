@@ -25,8 +25,8 @@ spec:
     spec:
       containers:
         - name: rest-server-deployment
-          image: ${SERVER_IMAGE_NAME}
-          imagePullPolicy: Never # This forces docker to use the locally built image
+          image: mcr.microsoft.com/azureiotoperations/rest-test-server:0.4.0
+          imagePullPolicy: Always
           env:
             - name: SERVICE_USERNAME
               valueFrom:

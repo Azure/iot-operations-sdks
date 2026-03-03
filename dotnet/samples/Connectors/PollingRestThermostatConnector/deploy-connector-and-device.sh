@@ -2,22 +2,12 @@
 
 set -e
 
-# Configuration
-SERVER_IMAGE_NAME=${1:-"rest-server:latest"}
-
-if [ -z "$1" ]; then
-    echo "Usage: $0 <server-image-name>"
-    echo "Using default image name: $SERVER_IMAGE_NAME"
-fi
-
 # Build connector sample image
 dotnet publish /t:PublishContainer
 k3d image import pollingrestthermostatconnector:latest -c k3s-default
 
 # Build REST server docker image
-docker build -t "$SERVER_IMAGE_NAME" ./SampleRestServer
-docker tag "$SERVER_IMAGE_NAME" "$SERVER_IMAGE_NAME"
-k3d image import "$SERVER_IMAGE_NAME" -c k3s-default
+k3d image import mcr.microsoft.com/azureiotoperations/rest-test-server:0.4.0 -c k3s-default
 
 # Deploy connector config
 kubectl apply -f ./KubernetesResources/connector-template.yaml
