@@ -23,7 +23,6 @@ spec:
            {
               "HttpRequestMethod": "GET",
            }
-      dataSource: /thermostat
       destinations:
         - configuration:
             topic: mqtt/machine/asset1/status
