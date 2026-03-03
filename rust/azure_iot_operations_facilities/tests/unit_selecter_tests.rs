@@ -9,7 +9,11 @@ use azure_iot_operations_facilities::{
 #[test]
 fn labeled_systems_of_units_is_publicly_accessible() {
     assert!(!LABELED_SYSTEMS_OF_UNITS.is_empty());
-    assert!(LABELED_SYSTEMS_OF_UNITS.iter().any(|(code, _)| *code == "CGS"));
+    assert!(
+        LABELED_SYSTEMS_OF_UNITS
+            .iter()
+            .any(|(code, _)| *code == "CGS")
+    );
 }
 
 #[test]
