@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "IncrementInputArguments",
+  "description": "Input arguments for action 'increment'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "incrementValue" ],
+  "properties": {
+    "incrementValue": {
+      "description": "The 'incrementValue' Field.",
+      "type": "integer", "minimum": -2147483648, "maximum": 2147483647
+    }
+  }
+}
